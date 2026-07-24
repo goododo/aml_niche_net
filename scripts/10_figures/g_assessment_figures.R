@@ -362,7 +362,7 @@ p5 <- p5a / p5b + plot_layout(heights = c(1, 1)) +
     subtitle = paste0(
       "WARNING: every conclusion here rests on the timepoint (Dx/MRD/Relapse) and patient-pairing fields,\n",
       "both known to disagree with the source papers in several datasets (the reconciliation table does not\n",
-      "exist yet; 87 more samples have an empty timepoint field). Until verified, the V-shape can be neither confirmed nor denied."),
+      "exist yet). The Dx/MRD/Relapse comparison rests almost entirely on one dataset (GSE227903). Until verified, the V-shape can be neither confirmed nor denied."),
     caption = "Source: 03_malignant_distribution_shift.R / 04_stemness_score.R / malignant_distribution.csv",
     theme = theme_a() + theme(plot.subtitle = element_text(colour = CRIT)))
 
