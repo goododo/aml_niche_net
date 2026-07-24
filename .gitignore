@@ -51,3 +51,6 @@ __pycache__/
 
 # ── agent 本地配置（个人权限设置，不共享）─────────────────
 .claude/settings.local.json
+
+# ── 自动提交脚本自身的日志（否则会自触发无限提交）──────────
+/00_project/git_autocommit.log
