@@ -15,10 +15,12 @@
 
 ## 既定前提（不要重新论证）
 
-### 1. 恶性标注以 inferCNV 为主线；Numbat 因数据问题不作为依据
+### 1. 恶性标注以 inferCNV 为主线；Numbat 只覆盖少数数据集
 
-**决策**：Numbat 的等位基因 CNV 分支因数据本身的问题（FASTQ/BAM 可得性与质量）不可靠，
-恶性标注的主线是 inferCNV：
+**决策**：Numbat 需要 FASTQ/BAM 才能跑，而队列里**只有两三套数据满足条件**。
+它因此天然只能覆盖一小部分样本，**不能作为全队列的证据来源**——
+这是数据可得性的限制，不是 Numbat 本身不可靠。
+恶性标注的主线是 inferCNV（唯一能覆盖全队列的臂）：
 
 ```
 20_refnorm_identify.R → 44_infercnv_run_one.R (+45 array) → 41_infercnv_to_percell.R → 50_consensus_malignancy.R
@@ -39,10 +41,17 @@
   GSE289435 已产出 5 个 `__numbat_percell.csv`（07-16 ~ 07-23），
   **但从未合入 consensus** —— 该数据集 12 个样本的标签仍全是 07-14 的 `arms=infercnv`。
 
-> ⚠️ **待决**：如果 Numbat 确定不用，需要 (a) 停掉在跑的 bamchain array，
-> (b) 决定那 5 个已含 Numbat 证据的 GSE227903 样本是否重跑成纯 inferCNV。
-> 反之若要采纳新证据，重跑 `50_consensus` 会改变 GSE289435 的标签并使全部下游失效。
-> **在此之前不要动。**
+> **已决（2026-07-24）**：bamchain array **不终止**，让它跑完——多几个样本有等位基因
+> 证据是净收益。但 Numbat 不作为全队列策略。
+>
+> ⚠️ **仍待决**：GSE289435 那 5 个已产出的 Numbat 结果何时合入。
+> 重跑 `50_consensus` 会改变该数据集标签并使全部下游（03–08）失效，
+> 因此必须与 metadata 修复后的重跑**合并成一次**，不要单独触发。
+
+**提升标签质量的下一步（已定，组会后执行）**：跑 `42_exprcnv_run.R`（CopyKAT/SCEVAN）。
+它直接读 per-sample QC 的 `.rds`，**不需要 FASTQ/BAM**，因此是唯一能覆盖全队列的第二条
+独立证据臂——可把大批样本从 `tier=C_single` 抬到多证据，直接针对 HSC_MPP 的高假阳性率。
+这是 blueprint Phase 1「≥2/3 三方共识」在当前数据条件下最现实的近似。
 
 其他臂的状态：
 - `42_exprcnv_run.R`（CopyKAT/SCEVAN）：从未运行。
