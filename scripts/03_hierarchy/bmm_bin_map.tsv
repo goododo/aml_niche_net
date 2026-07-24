@@ -1,0 +1,25 @@
+CellType_Broad	hierarchy_bin	in_ccc_graph	note
+HSC MPP	HSC_MPP	TRUE	
+Cycling Progenitor	HSC_MPP	TRUE	AMBIGUOUS: lineage-agnostic cycling cells; review placement
+LMPP	LMPP_GMP	TRUE	
+Early GMP	LMPP_GMP	TRUE	
+Late GMP	LMPP_GMP	TRUE	
+EoBasoMast Precursor	LMPP_GMP	TRUE	granulocyte/baso/mast branch, downstream of GMP
+Monocyte	Mono_DC	TRUE	
+Pro-Monocyte	Mono_DC	TRUE	
+cDC	Mono_DC	TRUE	
+pDC	Mono_DC	TRUE	AMBIGUOUS: pDC ontogeny debated (some lymphoid origin); review
+Early Erythroid	Erythroid	TRUE	
+Late Erythroid	Erythroid	TRUE	
+MEP	Erythroid	TRUE	AMBIGUOUS: Ery/Mega bipotent progenitor; review (could be Megakaryocyte)
+Megakaryocyte Precursor	Megakaryocyte	TRUE	
+CD4 Memory T	T_NK	TRUE	
+CD8 Memory T	T_NK	TRUE	
+Naive T	T_NK	TRUE	
+NK	T_NK	TRUE	
+Early Lymphoid	T_NK	TRUE	AMBIGUOUS: CLP-like, upstream of BOTH T_NK & B_Plasma; review
+B	B_Plasma	TRUE	
+Pre-B	B_Plasma	TRUE	
+Pro-B	B_Plasma	TRUE	
+Plasma Cell	B_Plasma	TRUE	
+Stromal	Stromal	FALSE	non-hematopoietic; NOT a CCC-graph node (B-layer add-on, Chen2023 later)

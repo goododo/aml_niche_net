@@ -1,0 +1,3 @@
+dataset,Sample,n_raw,n_after_mad,n_doublet,n_final,status,reason,ncount_lo,ncount_hi,nfeat_lo,mt_hi,hb_hi,med_ncount_final,med_nfeat_final,lowcomplexity_flag,dbl_method
+E-MTAB-11536,621B-BLD,105,89,0,89,P2-exclude,n_final=89 < 500,1294.11357219269,18311.7034773449,820.700719486323,7.06893081260365,0.319591173207206,4847,1689,FALSE,skipped_lowN
+E-MTAB-11536,A31-BMA,363,284,0,284,P2-exclude,n_final=284 < 500,932.632291414324,31812.9763178221,489.235365006653,12.7720204682582,0.788417279647115,5612,1888.5,FALSE,consensus_intersection

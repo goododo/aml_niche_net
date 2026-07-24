@@ -1,0 +1,143 @@
+# Stemness signatures for d25_stemness.R. One row per (signature, gene).
+# weight: numeric -> weighted scaled score; blank/NA for ALL genes -> unweighted mean z-score.
+# Aliases resolved in d25 (KIAA0125<->FAM30A, NGFRAP1<->BEX3, GPR56<->ADGRG1, SMIM24<->C19orf77).
+#
+# DESIGN (pilot decision, three+ cross-validating signatures):
+#  - vanGalen_HSC_Prog     : PRIMARY normal-HSC stemness. van Galen 2019 Table S3
+#                            "Normal-derived combined / HSC/Prog" (full list, citable).
+#  - HSPC_core             : compact canonical HSC apex markers (fast sanity vs vanGalen_HSC_Prog).
+#  - vanGalen_HSCprog_like : MALIGNANT HSC/Prog-like PROGRAM (van Galen Table S3 tumor-derived).
+#                            Not "normal stemness" -- an LSC-state readout for the LSC definition.
+#  - LSC17                 : BULK CONTROL ONLY (Ng 2016, weighted); biased on single cells.
+signature	gene	weight
+HSPC_core	CD34	
+HSPC_core	CRHBP	
+HSPC_core	AVP	
+HSPC_core	HLF	
+HSPC_core	HOPX	
+HSPC_core	MEIS1	
+HSPC_core	MLLT3	
+HSPC_core	MECOM	
+HSPC_core	PRSS57	
+HSPC_core	SPINK2	
+HSPC_core	GATA2	
+HSPC_core	KIT	
+HSPC_core	NPR3	
+HSPC_core	FAM30A	
+vanGalen_HSC_Prog	SPINK2	
+vanGalen_HSC_Prog	ZFAS1	
+vanGalen_HSC_Prog	NRIP1	
+vanGalen_HSC_Prog	GAS5	
+vanGalen_HSC_Prog	JUN	
+vanGalen_HSC_Prog	MEIS1	
+vanGalen_HSC_Prog	HLF	
+vanGalen_HSC_Prog	EGR1	
+vanGalen_HSC_Prog	CRHBP	
+vanGalen_HSC_Prog	NPR3	
+vanGalen_HSC_Prog	FAM30A	
+vanGalen_HSC_Prog	MMRN1	
+vanGalen_HSC_Prog	MSI2	
+vanGalen_HSC_Prog	ANGPT1	
+vanGalen_HSC_Prog	EIF4A2	
+vanGalen_HSC_Prog	TPT1	
+vanGalen_HSC_Prog	COMMD6	
+vanGalen_HSC_Prog	EEF1A1	
+vanGalen_HSC_Prog	SNORD13	
+vanGalen_HSC_Prog	FAU	
+vanGalen_HSC_Prog	FOS	
+vanGalen_HSC_Prog	PHLDB2	
+vanGalen_HSC_Prog	MSRB3	
+vanGalen_HSC_Prog	GUCY1A3	
+vanGalen_HSC_Prog	C6orf48	
+vanGalen_HSC_Prog	GBP4	
+vanGalen_HSC_Prog	PCDH9	
+vanGalen_HSC_Prog	SNHG6	
+vanGalen_HSC_Prog	RACK1	
+vanGalen_HSC_Prog	ADGRG6	
+vanGalen_HSC_Prog	PREX2	
+vanGalen_HSC_Prog	PRKG2	
+vanGalen_HSC_Prog	HINT1	
+vanGalen_HSC_Prog	RNA5-8S	
+vanGalen_HSC_Prog	NFKBIZ	
+vanGalen_HSC_Prog	MYCT1	
+vanGalen_HSC_Prog	TUBA1A	
+vanGalen_HSC_Prog	CD34	
+vanGalen_HSC_Prog	ZBTB20	
+vanGalen_HSC_Prog	TFPI	
+vanGalen_HSC_Prog	SNHG8	
+vanGalen_HSC_Prog	AVP	
+vanGalen_HSC_Prog	CEP70	
+vanGalen_HSC_Prog	H3F3B	
+vanGalen_HSC_Prog	RNU4-2	
+vanGalen_HSC_Prog	HIST1H2BG	
+vanGalen_HSC_Prog	HOPX	
+vanGalen_HSC_Prog	TSC22D1	
+vanGalen_HSC_Prog	LRRC70	
+vanGalen_HSC_Prog	PBX1	
+vanGalen_HSCprog_like	SPINK2	
+vanGalen_HSCprog_like	ANGPT1	
+vanGalen_HSCprog_like	GUCY1A3	
+vanGalen_HSCprog_like	FAM30A	
+vanGalen_HSCprog_like	MMRN1	
+vanGalen_HSCprog_like	TPT1	
+vanGalen_HSCprog_like	GAS5	
+vanGalen_HSCprog_like	RAB27B	
+vanGalen_HSCprog_like	TPM4	
+vanGalen_HSCprog_like	MSI2	
+vanGalen_HSCprog_like	GCSAML	
+vanGalen_HSCprog_like	SOCS2	
+vanGalen_HSCprog_like	EEF1A1	
+vanGalen_HSCprog_like	NRIP1	
+vanGalen_HSCprog_like	HOPX	
+vanGalen_HSCprog_like	CD34	
+vanGalen_HSCprog_like	TFPI	
+vanGalen_HSCprog_like	TPSD1	
+vanGalen_HSCprog_like	PDZRN4	
+vanGalen_HSCprog_like	PCNP	
+vanGalen_HSCprog_like	PTPRCAP	
+vanGalen_HSCprog_like	FLT3	
+vanGalen_HSCprog_like	SMIM24	
+vanGalen_HSCprog_like	SELENOP	
+vanGalen_HSCprog_like	DAPK1	
+vanGalen_HSCprog_like	SMYD3	
+vanGalen_HSCprog_like	ADGRG6	
+vanGalen_HSCprog_like	PIM1	
+vanGalen_HSCprog_like	MECOM	
+vanGalen_HSCprog_like	CEP70	
+vanGalen_HSCprog_like	XIRP2	
+vanGalen_HSCprog_like	SPAG6	
+vanGalen_HSCprog_like	TAPT1-AS1	
+vanGalen_HSCprog_like	GNA15	
+vanGalen_HSCprog_like	DSE	
+vanGalen_HSCprog_like	TPSAB1	
+vanGalen_HSCprog_like	TPSB2	
+vanGalen_HSCprog_like	H2AFY	
+vanGalen_HSCprog_like	SCHIP1	
+vanGalen_HSCprog_like	LINC02470	
+vanGalen_HSCprog_like	NPR3	
+vanGalen_HSCprog_like	KMT2A	
+vanGalen_HSCprog_like	CD200	
+vanGalen_HSCprog_like	MACF1	
+vanGalen_HSCprog_like	GBP4	
+vanGalen_HSCprog_like	ABCC1	
+vanGalen_HSCprog_like	PROM1	
+vanGalen_HSCprog_like	TMEM70	
+vanGalen_HSCprog_like	FAM110A	
+vanGalen_HSCprog_like	TMEM123	
+LSC17	DNMT3B	0.0874
+LSC17	ZBTB46	-0.0347
+LSC17	NYNRIN	0.00865
+LSC17	ARHGAP22	-0.0138
+LSC17	LAPTM4B	0.00582
+LSC17	MMRN1	0.0258
+LSC17	DPYSL3	0.0284
+LSC17	KIAA0125	0.0196
+LSC17	CDK6	-0.0704
+LSC17	CPXM1	-0.0258
+LSC17	SOCS2	0.0271
+LSC17	SMIM24	-0.0226
+LSC17	EMP1	0.0146
+LSC17	NGFRAP1	0.0465
+LSC17	CD34	0.0338
+LSC17	AKR1C3	-0.0498
+LSC17	GPR56	0.0901

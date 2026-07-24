@@ -1,0 +1,14 @@
+dataset,study_role,is_longitudinal,discovery_candidate,subtype_stratum,n_discovery_samples,split
+Chen2023,Discovery-AML+AuxStroma,FALSE,TRUE,NPM1,20,Discovery
+GSE185381,Discovery-AML-immuneReceiver,FALSE,TRUE,other,46,Discovery
+GSE239721,Discovery-AML,FALSE,TRUE,other,20,Discovery
+Petti2019,Discovery-AML,FALSE,TRUE,other,5,Discovery
+GSE207356,Exploratory,TRUE,FALSE,"",0,Exploratory
+E-MTAB-11536,Healthy-control,FALSE,FALSE,"",0,Healthy
+GSE253355,Reference-scaffold+AuxStroma,FALSE,FALSE,"",0,Reference
+GSE116256,Treatment-axis,TRUE,FALSE,mixed,0,Validation
+GSE147989,Treatment-axis-L1only,TRUE,FALSE,mixed,0,Validation
+GSE185991,Treatment-axis-L1only,TRUE,FALSE,NPM1,0,Validation
+GSE201966,Validation-relapse,TRUE,FALSE,monocytic,0,Validation
+GSE227903,Validation-relapse+treatment,TRUE,FALSE,mixed,0,Validation
+GSE289435,Discovery-AML,FALSE,TRUE,other,12,Validation

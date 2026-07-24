@@ -1,0 +1,25 @@
+[0] POT (ot) version: 0.9.7
+[0] numpy version: 2.4.6
+[1] ot.gromov.fused_gromov_wasserstein :: (M, C1, C2, p=None, q=None, loss_fun='square_loss', symmetric=None, alpha=0.5, armijo=False, G0=None, log=False, max_iter=10000.0, tol_rel=1e-09, tol_abs=1e-09, **kwargs)
+[1] ot.gromov.fused_gromov_wasserstein2 :: (M, C1, C2, p=None, q=None, loss_fun='square_loss', symmetric=None, alpha=0.5, armijo=False, G0=None, log=False, max_iter=10000.0, tol_rel=1e-09, tol_abs=1e-09, **kwargs)
+[1] ot.gromov.gromov_wasserstein :: (C1, C2, p=None, q=None, loss_fun='square_loss', symmetric=None, log=False, armijo=False, G0=None, max_iter=10000.0, tol_rel=1e-09, tol_abs=1e-09, **kwargs)
+[1] ot.gromov.gromov_wasserstein2 :: (C1, C2, p=None, q=None, loss_fun='square_loss', symmetric=None, log=False, armijo=False, G0=None, max_iter=10000.0, tol_rel=1e-09, tol_abs=1e-09, **kwargs)
+[1] ot.gromov.fgw_barycenters :: (N, Ys, Cs, ps=None, lambdas=None, alpha=0.5, fixed_structure=False, fixed_features=False, p=None, loss_fun='square_loss', armijo=False, symmetric=True, max_iter=100, tol=1e-09, stop_criterion='barycenter', warmstartT=False, verbose=False, log=False, init_C=None, init_X=None, random_state=None, **kwargs)
+[1] ot.gromov.gromov_barycenters :: (N, Cs, ps=None, p=None, lambdas=None, loss_fun='square_loss', symmetric=True, armijo=False, max_iter=1000, tol=1e-09, stop_criterion='barycenter', warmstartT=False, verbose=False, log=False, init_C=None, random_state=None, **kwargs)
+[1] ot.gromov.entropic_fused_gromov_wasserstein :: (M, C1, C2, p=None, q=None, loss_fun='square_loss', epsilon=0.1, symmetric=None, alpha=0.5, G0=None, max_iter=1000, tol=1e-09, solver='PGD', warmstart=False, verbose=False, log=False, **kwargs)
+[1] ot.gromov.entropic_gromov_wasserstein :: (C1, C2, p=None, q=None, loss_fun='square_loss', epsilon=0.1, symmetric=None, G0=None, max_iter=1000, tol=1e-09, solver='PGD', warmstart=False, verbose=False, log=False, **kwargs)
+[1] ot.gromov.fused_unbalanced_gromov_wasserstein :: (Cx, Cy, wx=None, wy=None, reg_marginals=10, epsilon=0, divergence='kl', unbalanced_solver='mm', alpha=0, M=None, init_duals=None, init_pi=None, max_iter=100, tol=1e-07, max_iter_ot=500, tol_ot=1e-07, log=False, verbose=False, **kwargs_solve)
+[1] ot.gromov.fused_unbalanced_gromov_wasserstein2 :: (Cx, Cy, wx=None, wy=None, reg_marginals=10, epsilon=0, divergence='kl', unbalanced_solver='mm', alpha=0, M=None, init_duals=None, init_pi=None, max_iter=100, tol=1e-07, max_iter_ot=500, tol_ot=1e-07, log=False, verbose=False, **kwargs_solve)
+[1] ot.gromov.unbalanced_gromov_wasserstein :: NOT FOUND (AttributeError("module 'ot.gromov' has no attribute 'unbalanced_gromov_wasserstein'"))
+[1] ot.gromov.entropic_fused_unbalanced_gromov_wasserstein :: NOT FOUND (AttributeError("module 'ot.gromov' has no attribute 'entropic_fused_unbalanced_gromov_wasserstein'"))
+[1] ot.dist :: (x1, x2=None, metric='sqeuclidean', p=2, w=None, backend='auto', nx=None, use_tensor=False)
+[1] ot.gromov 'unbalanc' functions: ['_unbalanced', 'fused_unbalanced_across_spaces_cost', 'fused_unbalanced_across_spaces_divergence', 'fused_unbalanced_gromov_wasserstein', 'fused_unbalanced_gromov_wasserstein2', 'unbalanced_co_optimal_transport', 'unbalanced_co_optimal_transport2']
+[1] ot.gromov 'barycenter' functions: ['entropic_fused_gromov_barycenters', 'entropic_gromov_barycenters', 'fgw_barycenters', 'gromov_barycenters', 'semirelaxed_fgw_barycenters', 'semirelaxed_gromov_barycenters', 'update_barycenter_feature', 'update_barycenter_structure']
+
+[2] toy FGW (7 nodes, 3 features)
+[2] FGW plan shape: (7, 7) | total mass: 1.0
+[2] FGW2 distance (scalar): 0.110639
+
+[3] toy FGW barycenter (3 graphs -> N=7 nodes)
+[3] fgw_barycenters return type: tuple | len: 2
+[3] barycenter feature shape: (7, 3) | structure shape: (7, 7)

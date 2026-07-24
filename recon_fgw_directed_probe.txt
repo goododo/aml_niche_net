@@ -1,0 +1,14 @@
+[0] POT 0.9.7 | numpy 2.4.6
+
+[A] pairwise FGW on DIRECTED C (symmetric=False)
+[A] C1 asymmetric? True
+[A] plan sum: 1.0 | FGW2 dist: 0.148112 | NaN in plan: False
+
+[B] DIRECTED FGW barycenter (symmetric=False), 4 directed graphs
+[B] barycenter feature shape: (7, 3) | structure shape: (7, 7)
+[B] barycenter structure ASYMMETRIC (direction kept)? True | NaN: False
+[B] (symmetric=True barycenter asymmetric?) True -- expect False; confirms symmetric flag actually matters
+
+[C] eps-mass robustness (fixed 7-node vocab; some graphs miss node 4)
+[C] barycenter w/ eps-mass nodes | NaN: False | Inf: False
+[C] pairwise FGW2 with eps node: 0.120071 | NaN: False

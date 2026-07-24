@@ -1,0 +1,11 @@
+MP	biological_label	confidence	note
+MP1	filler_cluster	drop	single-gene (JUN) fallback cluster; not a real program
+MP2	Classical monocyte / neutrophil	normal	S100A8/12, VCAN, FCN1, CD14
+MP3	NK / cytotoxic T	normal	GNLY, GZMB, NKG7, PRF1 (lymphoid)
+MP4	Cell cycle / proliferation	normal	MKI67, TOP2A, TYMS, BIRC5 (generic)
+MP5	Antigen presentation / HLA-II (monocytic AML)	robust_tumor	HLA-DQ/DP/DR, CIITA, CD74; 91% Mono_DC bin
+MP6	Non-classical monocyte / IFN response	robust_tumor	FCGR3A, MS4A7, IFITM3, LILRB1/2; 95% Mono_DC bin
+MP7	Granulocytic progenitor (GMP-like)	normal	ELANE, MPO, PRTN3, AZU1
+MP8	Plasma / B (Ig)	likely_contaminant	JCHAIN, MZB1, CD79; diffuse across bins, no dominant bin -> ambient/misassigned
+MP9	Stress / immediate-early genes	normal	JUN, FOS, EGR1, HSPA1A (technical IEG)
+MP10	Inflammatory / myeloid secretory	robust_tumor	IL1B, CXCL2, CCL3/4, IL1RN; 97% Mono_DC bin; niche-inflammation program

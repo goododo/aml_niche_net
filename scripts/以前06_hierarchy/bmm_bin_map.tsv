@@ -1,0 +1,25 @@
+celltype_broad	hierarchy_bin	in_ccc_graph
+HSC MPP	HSC_MPP	TRUE
+Cycling Progenitor	HSC_MPP	TRUE
+LMPP	LMPP_GMP	TRUE
+Early GMP	LMPP_GMP	TRUE
+Late GMP	LMPP_GMP	TRUE
+EoBasoMast Precursor	LMPP_GMP	TRUE
+Monocyte	Mono_DC	TRUE
+Pro-Monocyte	Mono_DC	TRUE
+cDC	Mono_DC	TRUE
+pDC	Mono_DC	TRUE
+MEP	Erythroid	TRUE
+Early Erythroid	Erythroid	TRUE
+Late Erythroid	Erythroid	TRUE
+Megakaryocyte Precursor	Megakaryocyte	TRUE
+CD4 Memory T	T_NK	TRUE
+CD8 Memory T	T_NK	TRUE
+Naive T	T_NK	TRUE
+NK	T_NK	TRUE
+Early Lymphoid	B_Plasma	TRUE
+Pre-B	B_Plasma	TRUE
+Pro-B	B_Plasma	TRUE
+B	B_Plasma	TRUE
+Plasma Cell	B_Plasma	TRUE
+Stromal	Stromal	FALSE

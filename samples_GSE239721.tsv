@@ -1,0 +1,21 @@
+# sample_id	srr_list   <-- VERIFY/RENAME col1 to match your QC RDS basenames
+Patient20_scRNA-seq	SRR25468532
+Patient19_scRNA-seq	SRR25468533
+Patient18_scRNA-seq	SRR25468534
+Patient17_scRNA-seq	SRR25468535
+Patient16_scRNA-seq	SRR25468536
+Patient15_scRNA-seq	SRR25468537
+Patient14_scRNA-seq	SRR25468538
+Patient13_scRNA-seq	SRR25468539
+Patient12_scRNA-seq	SRR25468540
+Patient11_scRNA-seq	SRR25468541
+Patient10_scRNA-seq	SRR25468542
+Patient9_scRNA-seq	SRR25468543
+Patient8_scRNA-seq	SRR25468544
+Patient7_scRNA-seq	SRR25468545
+Patient6_scRNA-seq	SRR25468546
+Patient5_scRNA-seq	SRR25468547
+Patient4_scRNA-seq	SRR25468548
+Patient3_scRNA-seq	SRR25468549
+Patient2_scRNA-seq	SRR25468550
+Patient1_scRNA-seq	SRR25468551

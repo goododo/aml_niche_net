@@ -1,0 +1,13 @@
+dataset	platform	note
+E-MTAB-11536	10x_5p	healthy anchor; 10x 5' + VDJ (Dominguez-Conde)
+GSE253355	10x_3p	healthy/stromal anchor; 10x 3' v3.1 (Bandyopadhyay)
+GSE227903	10x_3p	Ennis primary treatment-axis; 3' v3.1
+GSE239721	10x_5p	IFNg-AML; 5' V5.1
+GSE289435	10x_5p	Zeng BMMC; 5' v1.1
+GSE185991	10x_3p	Naldini; 3' v2/v3
+GSE201966	10x_3p	relapse validation; 10x NovaSeq
+GSE185381	10x_3p	Lasry receiver-only; MIXED 3p+5p (dominant 3p) -- VERIFY/refine
+GSE147989	10x_3p	Riether; 3' v2
+Chen2023	10x_3p	VERIFY dir name (inventory id = 10.17632/gwjh3w6ztm.2); 10x Chromium
+Petti2019	10x_5p	VERIFY dir name (inventory id = 10.5281/zenodo.3345981); 10x 5'
+GSE116256	SeqWell	van Galen; Seq-Well -- NO same-platform healthy anchor -> BMM fallback

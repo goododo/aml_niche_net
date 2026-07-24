@@ -1,0 +1,221 @@
+dataset,sample,ccc_eligible,exclude_reason,Timepoint,study_role,sample_role,l2_capable,sorted_sublib,total_cells,n_nodes_present,lymphoid_cells,immune_recv,Study,Patient_ID,uid_patient,is_longitudinal,subtype_stratum,l2_val,l2_flag
+Chen2023,AML103_Niche_Immune,TRUE,"",Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,FALSE,736,2,719,724,Chen 2023 Blood Cancer Discovery,AML103,Chen2023:AML103,FALSE,NPM1,TRUE,TRUE
+Chen2023,AML162_niche_immune,TRUE,"",Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,FALSE,1767,4,1604,1684,Chen 2023 Blood Cancer Discovery,AML162,Chen2023:AML162,FALSE,NPM1,TRUE,TRUE
+Chen2023,AML24_Niche_Immune,TRUE,"",Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,FALSE,1652,4,1589,1594,Chen 2023 Blood Cancer Discovery,AML24,Chen2023:AML24,FALSE,NPM1,TRUE,TRUE
+Chen2023,AML304_Niche_Immune,TRUE,"",Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,FALSE,3214,7,2839,3053,Chen 2023 Blood Cancer Discovery,AML304,Chen2023:AML304,FALSE,NPM1,TRUE,TRUE
+Chen2023,AML320_NICHE_IMMUNE,TRUE,"",Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,FALSE,4896,7,4393,4407,Chen 2023 Blood Cancer Discovery,AML320,Chen2023:AML320,FALSE,NPM1,TRUE,TRUE
+Chen2023,NBM1_Niche_Immune,TRUE,"",Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,FALSE,3976,3,3927,3966,Chen 2023 Blood Cancer Discovery,NBM1,Chen2023:NBM1,FALSE,NPM1,TRUE,TRUE
+Chen2023,NBM2_Niche_Immune,TRUE,"",Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,FALSE,1681,3,1654,1672,Chen 2023 Blood Cancer Discovery,NBM2,Chen2023:NBM2,FALSE,NPM1,TRUE,TRUE
+Chen2023,NBM3_Niche_immune,TRUE,"",Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,FALSE,2946,3,2919,2934,Chen 2023 Blood Cancer Discovery,NBM3,Chen2023:NBM3,FALSE,NPM1,TRUE,TRUE
+Chen2023,NBM4_Niche_Immune,TRUE,"",Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,FALSE,2822,3,2796,2817,Chen 2023 Blood Cancer Discovery,NBM4,Chen2023:NBM4,FALSE,NPM1,TRUE,TRUE
+E-MTAB-11536,621B-BMA,TRUE,"",Healthy,Healthy-control,Healthy-control,TRUE,FALSE,536,3,515,535,Dominguez Conde 2022 Science,621B,E-MTAB-11536:621B,FALSE,"",TRUE,TRUE
+E-MTAB-11536,637C-BLD,TRUE,"",Healthy,Healthy-control,Healthy-control,TRUE,FALSE,629,3,598,628,Dominguez Conde 2022 Science,637C,E-MTAB-11536:637C,FALSE,"",TRUE,TRUE
+E-MTAB-11536,637C-BMA,TRUE,"",Healthy,Healthy-control,Healthy-control,TRUE,FALSE,1273,3,1166,1267,Dominguez Conde 2022 Science,637C,E-MTAB-11536:637C,FALSE,"",TRUE,TRUE
+E-MTAB-11536,640C-BMA,TRUE,"",Healthy,Healthy-control,Healthy-control,TRUE,FALSE,1579,5,1276,1533,Dominguez Conde 2022 Science,640C,E-MTAB-11536:640C,FALSE,"",TRUE,TRUE
+E-MTAB-11536,A29-BMA,TRUE,"",Healthy,Healthy-control,Healthy-control,TRUE,FALSE,1102,4,969,1078,Dominguez Conde 2022 Science,A29,E-MTAB-11536:A29,FALSE,"",TRUE,TRUE
+E-MTAB-11536,A35-BLD,TRUE,"",Healthy,Healthy-control,Healthy-control,TRUE,FALSE,1166,3,739,1162,Dominguez Conde 2022 Science,A35,E-MTAB-11536:A35,FALSE,"",TRUE,TRUE
+E-MTAB-11536,A35-BMA,TRUE,"",Healthy,Healthy-control,Healthy-control,TRUE,FALSE,1077,4,838,1052,Dominguez Conde 2022 Science,A35,E-MTAB-11536:A35,FALSE,"",TRUE,TRUE
+E-MTAB-11536,A36-BLD,TRUE,"",Healthy,Healthy-control,Healthy-control,TRUE,FALSE,2419,4,1829,2399,Dominguez Conde 2022 Science,A36,E-MTAB-11536:A36,FALSE,"",TRUE,TRUE
+E-MTAB-11536,A36-BMA,TRUE,"",Healthy,Healthy-control,Healthy-control,TRUE,FALSE,1011,5,612,984,Dominguez Conde 2022 Science,A36,E-MTAB-11536:A36,FALSE,"",TRUE,TRUE
+E-MTAB-11536,A37-BMA,TRUE,"",Healthy,Healthy-control,Healthy-control,TRUE,FALSE,598,4,512,574,Dominguez Conde 2022 Science,A37,E-MTAB-11536:A37,FALSE,"",TRUE,TRUE
+GSE116256,AML1012-D0,TRUE,"",Diagnosis,Treatment-axis,Treatment-axis,TRUE,FALSE,846,4,7,327,van Galen 2019 Cell,AML1012,GSE116256:AML1012,TRUE,mixed,TRUE,TRUE
+GSE116256,AML210A-D0,TRUE,"",Diagnosis,Treatment-axis,Treatment-axis,TRUE,FALSE,507,6,176,434,van Galen 2019 Cell,AML210A,GSE116256:AML210A,TRUE,mixed,TRUE,TRUE
+GSE116256,AML328-D113,TRUE,"",Post_treatment,Treatment-axis,Treatment-axis,TRUE,FALSE,1458,4,1396,1444,van Galen 2019 Cell,AML328,GSE116256:AML328,TRUE,mixed,TRUE,TRUE
+GSE116256,AML328-D171,TRUE,"",Post_treatment,Treatment-axis,Treatment-axis,TRUE,FALSE,821,4,766,772,van Galen 2019 Cell,AML328,GSE116256:AML328,TRUE,mixed,TRUE,TRUE
+GSE116256,AML328-D29,TRUE,"",Post_treatment,Treatment-axis,Treatment-axis,TRUE,FALSE,947,7,281,297,van Galen 2019 Cell,AML328,GSE116256:AML328,TRUE,mixed,TRUE,TRUE
+GSE116256,AML329-D20,TRUE,"",Post_treatment,Treatment-axis,Treatment-axis,TRUE,FALSE,526,5,113,456,van Galen 2019 Cell,AML329,GSE116256:AML329,TRUE,mixed,TRUE,TRUE
+GSE116256,AML419A-D0,TRUE,"",Diagnosis,Treatment-axis,Treatment-axis,TRUE,FALSE,763,6,46,609,van Galen 2019 Cell,AML419A,GSE116256:AML419A,TRUE,mixed,TRUE,TRUE
+GSE116256,AML420B-D14,TRUE,"",Post_treatment,Treatment-axis,Treatment-axis,TRUE,FALSE,787,2,787,787,van Galen 2019 Cell,AML420B,GSE116256:AML420B,TRUE,mixed,TRUE,TRUE
+GSE116256,AML556-D0,TRUE,"",Diagnosis,Treatment-axis,Treatment-axis,TRUE,FALSE,1483,4,127,1352,van Galen 2019 Cell,AML556,GSE116256:AML556,TRUE,mixed,TRUE,TRUE
+GSE116256,AML556-D15,TRUE,"",Post_treatment,Treatment-axis,Treatment-axis,TRUE,FALSE,812,2,807,807,van Galen 2019 Cell,AML556,GSE116256:AML556,TRUE,mixed,TRUE,TRUE
+GSE116256,AML556-D31,TRUE,"",Post_treatment,Treatment-axis,Treatment-axis,TRUE,FALSE,983,6,311,865,van Galen 2019 Cell,AML556,GSE116256:AML556,TRUE,mixed,TRUE,TRUE
+GSE116256,AML707B-D0,TRUE,"",Diagnosis,Treatment-axis,Treatment-axis,TRUE,FALSE,1091,6,38,56,van Galen 2019 Cell,AML707B,GSE116256:AML707B,TRUE,mixed,TRUE,TRUE
+GSE116256,AML707B-D113,TRUE,"",Post_treatment,Treatment-axis,Treatment-axis,TRUE,FALSE,501,4,379,475,van Galen 2019 Cell,AML707B,GSE116256:AML707B,TRUE,mixed,TRUE,TRUE
+GSE116256,AML707B-D18,TRUE,"",Post_treatment,Treatment-axis,Treatment-axis,TRUE,FALSE,1234,3,1196,1197,van Galen 2019 Cell,AML707B,GSE116256:AML707B,TRUE,mixed,TRUE,TRUE
+GSE116256,AML916-D0,TRUE,"",Diagnosis,Treatment-axis,Treatment-axis,TRUE,FALSE,566,6,81,95,van Galen 2019 Cell,AML916,GSE116256:AML916,TRUE,mixed,TRUE,TRUE
+GSE116256,AML921A-D0,TRUE,"",Diagnosis,Treatment-axis,Treatment-axis,TRUE,FALSE,2411,6,372,1537,van Galen 2019 Cell,AML921A,GSE116256:AML921A,TRUE,mixed,TRUE,TRUE
+GSE116256,BM4,TRUE,"",Healthy,Treatment-axis,Treatment-axis,TRUE,FALSE,2630,7,1003,1903,van Galen 2019 Cell,BM4,GSE116256:BM4,TRUE,mixed,TRUE,TRUE
+GSE116256,BM5-34p,TRUE,"",Healthy,Treatment-axis,Treatment-axis,TRUE,FALSE,784,5,77,86,van Galen 2019 Cell,BM5,GSE116256:BM5,TRUE,mixed,TRUE,TRUE
+GSE116256,BM5-34p38n,TRUE,"",Healthy,Treatment-axis,Treatment-axis,TRUE,FALSE,912,4,24,26,van Galen 2019 Cell,BM5,GSE116256:BM5,TRUE,mixed,TRUE,TRUE
+GSE185381,GSM5613744_2019-07-01-count-1,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,6505,7,1331,3360,Lasry 2023 Nat Cancer,AML0612_AML3762_AML0160_AML0310_AML3133a,GSE185381:AML0612_AML3762_AML0160_AML0310_AML3133a,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613745_2019-07-01-count-2,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,7102,7,1355,3513,Lasry 2023 Nat Cancer,AML0612_AML3762_AML0160_AML0310_AML3134b,GSE185381:AML0612_AML3762_AML0160_AML0310_AML3134b,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613746_2019-07-01-count-3,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,7187,7,1230,3417,Lasry 2023 Nat Cancer,AML3762,GSE185381:AML3762,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613748_2019-08-01-count-2,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,4854,6,2560,4700,Lasry 2023 Nat Cancer,Control1_Control2_Control3_Control4b,GSE185381:Control1_Control2_Control3_Control4b,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613749_2019-08-01-count-3,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,4184,6,2094,4038,Lasry 2023 Nat Cancer,Control1_Control2_Control3_Control4c,GSE185381:Control1_Control2_Control3_Control4c,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613750_2019-08-01-count-4,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,4285,6,2007,4183,Lasry 2023 Nat Cancer,Control1_Control2_Control3_Control4d,GSE185381:Control1_Control2_Control3_Control4d,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613751_2019-08-29-count-1,TRUE,"",Unknown,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,4448,6,774,3834,Lasry 2023 Nat Cancer,Control5_AML2910_AML3050_AML0361a,GSE185381:Control5_AML2910_AML3050_AML0361a,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613752_2019-08-29-count-2,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,4449,6,769,3868,Lasry 2023 Nat Cancer,Control5,GSE185381:Control5,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613756_2019-10-25-count-5,TRUE,"",Unknown,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,4565,6,1331,4309,Lasry 2023 Nat Cancer,AML2451_Control0004,GSE185381:AML2451_Control0004,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613757_2019-11-04-count-1,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,3708,6,1890,2773,Lasry 2023 Nat Cancer,Control0058_PAXMIJ_PAUMTZa,GSE185381:Control0058_PAXMIJ_PAUMTZa,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613758_2019-11-04-count-2,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,2680,6,1258,1917,Lasry 2023 Nat Cancer,Control0058_PAXMIJ_PAUMTZb,GSE185381:Control0058_PAXMIJ_PAUMTZb,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613759_2019-11-04-count-3,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,3152,6,1028,2118,Lasry 2023 Nat Cancer,Control0058_PAXMIJ_PAUMTZc,GSE185381:Control0058_PAXMIJ_PAUMTZc,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613760_2019-11-19-count-1,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,6897,6,1204,6495,Lasry 2023 Nat Cancer,AML038,GSE185381:AML038,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613761_2019-11-19-count-2,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,6778,6,1157,6360,Lasry 2023 Nat Cancer,AML028,GSE185381:AML028,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613762_2019-11-26-count-1,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,7784,7,2498,5779,Lasry 2023 Nat Cancer,AML073_AML006_AML025_AML003a,GSE185381:AML073_AML006_AML025_AML003a,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613763_2019-11-26-count-2,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,7300,6,2277,5493,Lasry 2023 Nat Cancer,AML073_AML006_AML025_AML003b,GSE185381:AML073_AML006_AML025_AML003b,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613764_2020-01-03-count-1,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,6592,6,1292,3463,Lasry 2023 Nat Cancer,AML012_AML005_AML055_AML048a,GSE185381:AML012_AML005_AML055_AML048a,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613765_2020-01-03-count-2,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,7219,6,1390,3837,Lasry 2023 Nat Cancer,AML055,GSE185381:AML055,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613766_2020-03-18-AML0048-c1,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,1752,7,217,1477,Lasry 2023 Nat Cancer,AML0048-c1,GSE185381:AML0048-c1,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613767_2020-03-18-AML0048-c2,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,1851,7,229,1519,Lasry 2023 Nat Cancer,AML0048-c2,GSE185381:AML0048-c2,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613768_2020-03-18-AML3266,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,1206,4,437,942,Lasry 2023 Nat Cancer,AML3266,GSE185381:AML3266,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613769_2020-03-18-count-1,TRUE,"",Unknown,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,5293,6,1686,3102,Lasry 2023 Nat Cancer,Control0082_AML052_AML022a,GSE185381:Control0082_AML052_AML022a,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613770_2020-03-18-count-2,TRUE,"",Unknown,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,4911,6,1434,2841,Lasry 2023 Nat Cancer,Control0082_AML052_AML022b,GSE185381:Control0082_AML052_AML022b,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613771_2020-03-18-count-3,TRUE,"",Unknown,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,4741,6,1583,2960,Lasry 2023 Nat Cancer,Control0082_AML052_AML022c,GSE185381:Control0082_AML052_AML022c,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613774_2020-08-26-Control4003-c1,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,942,3,608,922,Lasry 2023 Nat Cancer,Control4003a,GSE185381:Control4003a,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613775_2020-08-26-Control4003-c2,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,2078,5,984,2050,Lasry 2023 Nat Cancer,Control4003b,GSE185381:Control4003b,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613776_2020-08-26-Control4003-c3,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,1844,3,870,1822,Lasry 2023 Nat Cancer,Control4003c,GSE185381:Control4003c,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613777_2020-09-11-AML4340_AML1371-c1,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,2314,5,1940,2228,Lasry 2023 Nat Cancer,AML1371_AML4340a,GSE185381:AML1371_AML4340a,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613778_2020-09-11-AML4340_AML1371-c2,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,2396,5,2032,2349,Lasry 2023 Nat Cancer,AML1371_AML4340b,GSE185381:AML1371_AML4340b,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613779_2020-09-15-AML0024,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,4847,1,12,4838,Lasry 2023 Nat Cancer,AML0024,GSE185381:AML0024,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613780_2020-10-06-AML4897,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,2231,5,1980,2196,Lasry 2023 Nat Cancer,AML4897,GSE185381:AML4897,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613781_2020-10-06-count2,TRUE,"",Unknown,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,3389,6,2145,2916,Lasry 2023 Nat Cancer,Control0005_AML009a,GSE185381:Control0005_AML009a,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613782_2020-10-06-count4_0.95,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,2287,6,1279,2041,Lasry 2023 Nat Cancer,AML026_AML051,GSE185381:AML026_AML051,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613784_2021-03-09-AML0693,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,2374,7,1192,1556,Lasry 2023 Nat Cancer,AML0693,GSE185381:AML0693,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613785_2021-03-09-AML3948,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,6179,6,387,1371,Lasry 2023 Nat Cancer,AML3948,GSE185381:AML3948,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613786_2021-03-09-AMLMS3730,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,4292,5,367,3847,Lasry 2023 Nat Cancer,AML3730,GSE185381:AML3730,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613787_2021-03-09-count1_0.95,TRUE,"",Unknown,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,2185,5,1164,2035,Lasry 2023 Nat Cancer,Control0005_AML009b,GSE185381:Control0005_AML009b,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613788_2021-03-09-Z-1-1,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,716,7,400,478,Lasry 2023 Nat Cancer,AML0114a,GSE185381:AML0114a,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613789_2021-03-09-Z-1-2,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,820,7,462,533,Lasry 2023 Nat Cancer,AML0114b,GSE185381:AML0114b,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613790_2021-03-09-Z-1-3,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,1456,7,558,661,Lasry 2023 Nat Cancer,AML0114c,GSE185381:AML0114c,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613791_2019-10-21-1-Control0004,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,10690,1,10690,10690,Lasry 2023 Nat Cancer,Control0004,GSE185381:Control0004,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613793_2020-03-18-82,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,942,1,942,942,Lasry 2023 Nat Cancer,Control0082,GSE185381:Control0082,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613795_2020-05-22-5prime_2,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,1165,1,1165,1165,Lasry 2023 Nat Cancer,Control0182,GSE185381:Control0182,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613796_2020-08-07-MDS-AML_cDNA1,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,1292,1,1292,1292,Lasry 2023 Nat Cancer,Control4003a,GSE185381:Control4003a,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613797_2020-08-07-MDS-AML_cDNA2,TRUE,"",Healthy,Discovery-AML-immuneReceiver,Healthy-control,TRUE,FALSE,988,1,988,988,Lasry 2023 Nat Cancer,Control4003,GSE185381:Control4003,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613800_2021-04-29-0102_cDNA,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,1394,1,1394,1394,Lasry 2023 Nat Cancer,AML0102,GSE185381:AML0102,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613801_2021-04-29-0134_cDNA,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,1197,1,1197,1197,Lasry 2023 Nat Cancer,AML0134,GSE185381:AML0134,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613804_2021-04-29-2910_cDNA,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,2009,1,2009,2009,Lasry 2023 Nat Cancer,AML2910,GSE185381:AML2910,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613805_2021-04-29-2975_cDNA,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,726,1,726,726,Lasry 2023 Nat Cancer,AML2975,GSE185381:AML2975,FALSE,other,TRUE,TRUE
+GSE185381,GSM5613806_2021-04-29-3948_cDNA,TRUE,"",Diagnosis,Discovery-AML-immuneReceiver,Discovery-AML-immuneReceiver,TRUE,FALSE,2019,1,2019,2019,Lasry 2023 Nat Cancer,AML3948,GSE185381:AML3948,FALSE,other,TRUE,TRUE
+GSE201966,GSM6085176_AML01M4_CR,TRUE,"",Post_treatment,Validation-relapse,Validation-relapse,TRUE,FALSE,2224,6,872,893,GSE201966 (acute monocytic AML relapse),AML01M4,GSE201966:AML01M4,TRUE,monocytic,TRUE,TRUE
+GSE201966,GSM6085177_AML01M4_P,TRUE,"",Diagnosis,Validation-relapse,Validation-relapse,TRUE,FALSE,4199,6,88,1368,GSE201966 (acute monocytic AML relapse),AML01M4,GSE201966:AML01M4,TRUE,monocytic,TRUE,TRUE
+GSE201966,GSM6085178_AML01M4_RE,TRUE,"",Relapse,Validation-relapse,Validation-relapse,TRUE,FALSE,6028,7,2075,4045,GSE201966 (acute monocytic AML relapse),AML01M4,GSE201966:AML01M4,TRUE,monocytic,TRUE,TRUE
+GSE201966,GSM6085179_AML02M5_P,TRUE,"",Diagnosis,Validation-relapse,Validation-relapse,TRUE,FALSE,2597,6,39,2373,GSE201966 (acute monocytic AML relapse),AML02M5,GSE201966:AML02M5,TRUE,monocytic,TRUE,TRUE
+GSE201966,GSM6085180_AML02M5_RE,TRUE,"",Relapse,Validation-relapse,Validation-relapse,TRUE,FALSE,9137,5,33,41,GSE201966 (acute monocytic AML relapse),AML02M5,GSE201966:AML02M5,TRUE,monocytic,TRUE,TRUE
+GSE201966,GSM6085181_AML03M5_P,TRUE,"",Diagnosis,Validation-relapse,Validation-relapse,TRUE,FALSE,7031,4,198,6926,GSE201966 (acute monocytic AML relapse),AML03M5,GSE201966:AML03M5,TRUE,monocytic,TRUE,TRUE
+GSE201966,GSM6085182_AML03M5_RE,TRUE,"",Relapse,Validation-relapse,Validation-relapse,TRUE,FALSE,2386,6,2185,2245,GSE201966 (acute monocytic AML relapse),AML03M5,GSE201966:AML03M5,TRUE,monocytic,TRUE,TRUE
+GSE207356,GSM6284912_TS173_04_Sample_D,TRUE,"",Diagnosis,Exploratory,Exploratory,TRUE,FALSE,7832,6,4319,4368,Nicosia 2023 Cancer Cell,TS173,GSE207356:TS173,TRUE,"",TRUE,TRUE
+GSE207356,GSM6284913_TS173_05_Sample_E,TRUE,"",Post_treatment,Exploratory,Exploratory,TRUE,FALSE,4861,7,433,2380,Nicosia 2023 Cancer Cell,TS173,GSE207356:TS173,TRUE,"",TRUE,TRUE
+GSE207356,GSM6284914_TS173_06_Sample_F,TRUE,"",Post_treatment,Exploratory,Exploratory,TRUE,FALSE,6239,7,689,3538,Nicosia 2023 Cancer Cell,TS173,GSE207356:TS173,TRUE,"",TRUE,TRUE
+GSE227903,1216_Dg,TRUE,"",Diagnosis,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,1929,6,385,1150,Ennis 2023 iScience,1216,GSE227903:1216,TRUE,mixed,TRUE,TRUE
+GSE227903,1216_MRD,TRUE,"",MRD,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,1726,6,632,1557,Ennis 2023 iScience,1216,GSE227903:1216,TRUE,mixed,TRUE,TRUE
+GSE227903,1216_R,TRUE,"",Relapse,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,4831,6,783,1616,Ennis 2023 iScience,1216,GSE227903:1216,TRUE,mixed,TRUE,TRUE
+GSE227903,1886_Dg,TRUE,"",Diagnosis,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,2504,6,142,1524,Ennis 2023 iScience,1886,GSE227903:1886,TRUE,mixed,TRUE,TRUE
+GSE227903,1886_MRD,TRUE,"",MRD,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,2745,6,349,2524,Ennis 2023 iScience,1886,GSE227903:1886,TRUE,mixed,TRUE,TRUE
+GSE227903,1886_R,TRUE,"",Relapse,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,965,7,178,240,Ennis 2023 iScience,1886,GSE227903:1886,TRUE,mixed,TRUE,TRUE
+GSE227903,3853_Dg,TRUE,"",Diagnosis,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,1167,4,43,155,Ennis 2023 iScience,3853,GSE227903:3853,TRUE,mixed,TRUE,TRUE
+GSE227903,3904_Dg,TRUE,"",Diagnosis,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,2571,6,168,223,Ennis 2023 iScience,3904,GSE227903:3904,TRUE,mixed,TRUE,TRUE
+GSE227903,3904_MRD,TRUE,"",MRD,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,2188,6,176,1888,Ennis 2023 iScience,3904,GSE227903:3904,TRUE,mixed,TRUE,TRUE
+GSE227903,3904_R,TRUE,"",Relapse,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,8332,6,215,253,Ennis 2023 iScience,3904,GSE227903:3904,TRUE,mixed,TRUE,TRUE
+GSE227903,40389_Dg,TRUE,"",Diagnosis,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,2898,6,828,2369,Ennis 2023 iScience,40389,GSE227903:40389,TRUE,mixed,TRUE,TRUE
+GSE227903,40389_MRD,TRUE,"",MRD,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,3448,5,2270,3323,Ennis 2023 iScience,40389,GSE227903:40389,TRUE,mixed,TRUE,TRUE
+GSE227903,40389_R,TRUE,"",Relapse,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,4892,7,3200,4389,Ennis 2023 iScience,40389,GSE227903:40389,TRUE,mixed,TRUE,TRUE
+GSE227903,4978_Dg,TRUE,"",Diagnosis,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,2315,6,259,379,Ennis 2023 iScience,4978,GSE227903:4978,TRUE,mixed,TRUE,TRUE
+GSE227903,4978_MRD,TRUE,"",MRD,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,1622,5,362,764,Ennis 2023 iScience,4978,GSE227903:4978,TRUE,mixed,TRUE,TRUE
+GSE227903,4978_R,TRUE,"",Relapse,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,1252,3,7,13,Ennis 2023 iScience,4978,GSE227903:4978,TRUE,mixed,TRUE,TRUE
+GSE227903,5143_Dg,TRUE,"",Diagnosis,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,1025,4,301,737,Ennis 2023 iScience,5143,GSE227903:5143,TRUE,mixed,TRUE,TRUE
+GSE227903,5143_R,TRUE,"",Relapse,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,1960,4,457,997,Ennis 2023 iScience,5143,GSE227903:5143,TRUE,mixed,TRUE,TRUE
+GSE227903,5750_Dg,TRUE,"",Diagnosis,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,3910,6,61,458,Ennis 2023 iScience,5750,GSE227903:5750,TRUE,mixed,TRUE,TRUE
+GSE227903,5750_MRD,TRUE,"",MRD,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,2069,6,168,1790,Ennis 2023 iScience,5750,GSE227903:5750,TRUE,mixed,TRUE,TRUE
+GSE227903,5750_R,TRUE,"",Relapse,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,4841,6,1462,2012,Ennis 2023 iScience,5750,GSE227903:5750,TRUE,mixed,TRUE,TRUE
+GSE227903,6323_Dg,TRUE,"",Diagnosis,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,561,4,51,287,Ennis 2023 iScience,6323,GSE227903:6323,TRUE,mixed,TRUE,TRUE
+GSE227903,6323_MRD,TRUE,"",MRD,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,9888,6,846,9634,Ennis 2023 iScience,6323,GSE227903:6323,TRUE,mixed,TRUE,TRUE
+GSE227903,6323_R,TRUE,"",Relapse,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,808,5,104,317,Ennis 2023 iScience,6323,GSE227903:6323,TRUE,mixed,TRUE,TRUE
+GSE227903,6323_R2,TRUE,"",Relapse2,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,3280,6,1324,1489,Ennis 2023 iScience,6323,GSE227903:6323,TRUE,mixed,TRUE,TRUE
+GSE239721,PT10A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,1008,3,1,3,GSE239721 (IFN-gamma AML),PT10A,GSE239721:PT10A,FALSE,other,TRUE,TRUE
+GSE239721,PT14A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,585,3,0,3,GSE239721 (IFN-gamma AML),PT14A,GSE239721:PT14A,FALSE,other,TRUE,TRUE
+GSE239721,PT15A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,3298,3,0,0,GSE239721 (IFN-gamma AML),PT15A,GSE239721:PT15A,FALSE,other,TRUE,TRUE
+GSE239721,PT16A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,1156,4,22,24,GSE239721 (IFN-gamma AML),PT16A,GSE239721:PT16A,FALSE,other,TRUE,TRUE
+GSE239721,PT17A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,2117,4,3,45,GSE239721 (IFN-gamma AML),PT17A,GSE239721:PT17A,FALSE,other,TRUE,TRUE
+GSE239721,PT20A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,863,4,2,13,GSE239721 (IFN-gamma AML),PT20A,GSE239721:PT20A,FALSE,other,TRUE,TRUE
+GSE239721,PT21A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,3020,5,103,582,GSE239721 (IFN-gamma AML),PT21A,GSE239721:PT21A,FALSE,other,TRUE,TRUE
+GSE239721,PT22A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,1381,5,49,77,GSE239721 (IFN-gamma AML),PT22A,GSE239721:PT22A,FALSE,other,TRUE,TRUE
+GSE239721,PT23A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,3705,4,14,263,GSE239721 (IFN-gamma AML),PT23A,GSE239721:PT23A,FALSE,other,TRUE,TRUE
+GSE239721,PT26A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,1037,4,10,47,GSE239721 (IFN-gamma AML),PT26A,GSE239721:PT26A,FALSE,other,TRUE,TRUE
+GSE239721,PT27A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,4306,3,1,6,GSE239721 (IFN-gamma AML),PT27A,GSE239721:PT27A,FALSE,other,TRUE,TRUE
+GSE239721,PT28A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,6546,4,6,73,GSE239721 (IFN-gamma AML),PT28A,GSE239721:PT28A,FALSE,other,TRUE,TRUE
+GSE239721,PT29A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,1556,3,28,34,GSE239721 (IFN-gamma AML),PT29A,GSE239721:PT29A,FALSE,other,TRUE,TRUE
+GSE239721,PT30A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,525,3,1,242,GSE239721 (IFN-gamma AML),PT30A,GSE239721:PT30A,FALSE,other,TRUE,TRUE
+GSE239721,PT32A,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,1635,2,0,1475,GSE239721 (IFN-gamma AML),PT32A,GSE239721:PT32A,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791432_MLL_14666,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,8307,5,1092,6051,Zeng 2025 BCD,MLL_14666,GSE289435:MLL_14666,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791433_MLL_16703,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,6491,6,884,884,Zeng 2025 BCD,MLL_16703,GSE289435:MLL_16703,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791434_MLL_17746,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,4504,5,99,491,Zeng 2025 BCD,MLL_17746,GSE289435:MLL_17746,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791435_MLL_17843,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,10339,5,506,507,Zeng 2025 BCD,MLL_17843,GSE289435:MLL_17843,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791436_MLL_17844,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,11912,3,10,10556,Zeng 2025 BCD,MLL_17844,GSE289435:MLL_17844,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791437_MLL_28824,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,3984,7,1017,1032,Zeng 2025 BCD,MLL_28824,GSE289435:MLL_28824,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791438_MLL_28830,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,4668,6,364,3671,Zeng 2025 BCD,MLL_28830,GSE289435:MLL_28830,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791439_MLL_28855,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,4454,7,270,1904,Zeng 2025 BCD,MLL_28855,GSE289435:MLL_28855,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791441_MLL_29532,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,4645,5,4469,4473,Zeng 2025 BCD,MLL_29532,GSE289435:MLL_29532,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791442_MLL_29538,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,4179,7,416,3817,Zeng 2025 BCD,MLL_29538,GSE289435:MLL_29538,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791443_MLL_30862,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,2959,4,16,2905,Zeng 2025 BCD,MLL_30862,GSE289435:MLL_30862,FALSE,other,TRUE,TRUE
+GSE289435,GSM8791444_MLL_30886,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,10575,7,1004,2491,Zeng 2025 BCD,MLL_30886,GSE289435:MLL_30886,FALSE,other,TRUE,TRUE
+Petti2019,508084,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,8405,6,428,4454,Petti 2019 Nat Commun,508084,Petti2019:508084,FALSE,other,TRUE,TRUE
+Petti2019,548327,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,7744,6,1399,1743,Petti 2019 Nat Commun,548327,Petti2019:548327,FALSE,other,TRUE,TRUE
+Petti2019,721214,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,10502,7,122,149,Petti 2019 Nat Commun,721214,Petti2019:721214,FALSE,other,TRUE,TRUE
+Petti2019,782328,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,14180,6,423,12481,Petti 2019 Nat Commun,782328,Petti2019:782328,FALSE,other,TRUE,TRUE
+Petti2019,809653,TRUE,"",Diagnosis,Discovery-AML,Discovery-AML,TRUE,FALSE,13189,7,9503,10930,Petti 2019 Nat Commun,809653,Petti2019:809653,FALSE,other,TRUE,TRUE
+Petti2019,ND_083017,TRUE,"",Healthy,Discovery-AML,Healthy-control,TRUE,FALSE,4165,6,3221,3976,Petti 2019 Nat Commun,ND_083017,Petti2019:ND_083017,FALSE,other,TRUE,TRUE
+Petti2019,ND_090617,TRUE,"",Healthy,Discovery-AML,Healthy-control,TRUE,FALSE,5038,5,3847,4968,Petti 2019 Nat Commun,ND_090617,Petti2019:ND_090617,FALSE,other,TRUE,TRUE
+Petti2019,Normal_sorted_170531,TRUE,"",Healthy,Discovery-AML,Healthy-control,TRUE,FALSE,2350,6,1534,2136,Petti 2019 Nat Commun,Normal_sorted_170531,Petti2019:Normal_sorted_170531,FALSE,other,TRUE,TRUE
+Petti2019,Normal_sorted_170607,TRUE,"",Healthy,Discovery-AML,Healthy-control,TRUE,FALSE,1776,5,1048,1665,Petti 2019 Nat Commun,Normal_sorted_170607,Petti2019:Normal_sorted_170607,FALSE,other,TRUE,TRUE
+Chen2023,AML103_CD34,FALSE,sorted_sublibrary,Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,TRUE,734,2,3,693,Chen 2023 Blood Cancer Discovery,AML103,Chen2023:AML103,FALSE,NPM1,TRUE,TRUE
+Chen2023,AML162_CD34,FALSE,sorted_sublibrary,Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,TRUE,1988,5,1,1304,Chen 2023 Blood Cancer Discovery,AML162,Chen2023:AML162,FALSE,NPM1,TRUE,TRUE
+Chen2023,AML24_CD34,FALSE,sorted_sublibrary,Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,TRUE,9173,3,3,9130,Chen 2023 Blood Cancer Discovery,AML24,Chen2023:AML24,FALSE,NPM1,TRUE,TRUE
+Chen2023,AML304_CD34,FALSE,sorted_sublibrary,Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,TRUE,2449,4,39,1570,Chen 2023 Blood Cancer Discovery,AML304,Chen2023:AML304,FALSE,NPM1,TRUE,TRUE
+Chen2023,AML320_CD34,FALSE,sorted_sublibrary,Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,TRUE,2703,6,139,163,Chen 2023 Blood Cancer Discovery,AML320,Chen2023:AML320,FALSE,NPM1,TRUE,TRUE
+Chen2023,AML469_CD34,FALSE,sorted_sublibrary,Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,TRUE,2966,3,5,6,Chen 2023 Blood Cancer Discovery,AML469,Chen2023:AML469,FALSE,NPM1,TRUE,TRUE
+Chen2023,NBM1_CD34,FALSE,sorted_sublibrary,Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,TRUE,7606,7,848,4728,Chen 2023 Blood Cancer Discovery,NBM1,Chen2023:NBM1,FALSE,NPM1,TRUE,TRUE
+Chen2023,NBM2_CD34,FALSE,sorted_sublibrary,Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,TRUE,2478,6,140,1550,Chen 2023 Blood Cancer Discovery,NBM2,Chen2023:NBM2,FALSE,NPM1,TRUE,TRUE
+Chen2023,NBM3_CD34,FALSE,sorted_sublibrary,Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,TRUE,7712,7,1420,4362,Chen 2023 Blood Cancer Discovery,NBM3,Chen2023:NBM3,FALSE,NPM1,TRUE,TRUE
+Chen2023,NBM4_CD34,FALSE,sorted_sublibrary,Diagnosis,Discovery-AML+AuxStroma,Discovery-AML+AuxStroma,TRUE,TRUE,4595,7,901,2756,Chen 2023 Blood Cancer Discovery,NBM4,Chen2023:NBM4,FALSE,NPM1,TRUE,TRUE
+GSE116256,AML328-D0,FALSE,below_min_cells,Diagnosis,Treatment-axis,Treatment-axis,TRUE,FALSE,483,6,133,342,van Galen 2019 Cell,AML328,GSE116256:AML328,TRUE,mixed,TRUE,TRUE
+GSE116256,AML371-D0,FALSE,below_min_cells,Diagnosis,Treatment-axis,Treatment-axis,TRUE,FALSE,420,4,3,306,van Galen 2019 Cell,AML371,GSE116256:AML371,TRUE,mixed,TRUE,TRUE
+GSE147989,007C1D1BL,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,2058,4,5,59,Riether 2020 Nat Med,007,GSE147989:007,TRUE,mixed,FALSE,FALSE
+GSE147989,007SCRBL,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,1171,4,4,25,Riether 2020 Nat Med,007,GSE147989:007,TRUE,mixed,FALSE,FALSE
+GSE147989,009C1D1BL,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,587,3,0,0,Riether 2020 Nat Med,009,GSE147989:009,TRUE,mixed,FALSE,FALSE
+GSE147989,009SCRBL,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,778,3,1,1,Riether 2020 Nat Med,009,GSE147989:009,TRUE,mixed,FALSE,FALSE
+GSE185991,GSM5628163_M03,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,1024,5,15,240,Naldini 2023 Nat Commun,PT01,GSE185991:PT01,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628164_M04,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,981,4,174,198,Naldini 2023 Nat Commun,PT01,GSE185991:PT01,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628167_M07,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,1086,4,10,30,Naldini 2023 Nat Commun,PT06,GSE185991:PT06,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628168_M08,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,1136,3,4,4,Naldini 2023 Nat Commun,PT06,GSE185991:PT06,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628172_M22,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,4017,4,260,3815,Naldini 2023 Nat Commun,PT07,GSE185991:PT07,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628174_M24,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,4897,2,4897,4897,Naldini 2023 Nat Commun,PT07,GSE185991:PT07,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628175_M25,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,804,6,96,163,Naldini 2023 Nat Commun,PT02,GSE185991:PT02,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628176_M26,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,1387,5,84,578,Naldini 2023 Nat Commun,PT02,GSE185991:PT02,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628177_M27,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,901,2,818,818,Naldini 2023 Nat Commun,PT01,GSE185991:PT01,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628178_M28,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,2956,6,118,591,Naldini 2023 Nat Commun,PT08,GSE185991:PT08,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628180_M30,FALSE,not_l2_capable,Relapse,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,2630,6,903,1386,Naldini 2023 Nat Commun,PT08,GSE185991:PT08,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628181_M31,FALSE,not_l2_capable,Relapse,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,2776,5,363,378,Naldini 2023 Nat Commun,PT08,GSE185991:PT08,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628182_M32,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,3825,6,286,1728,Naldini 2023 Nat Commun,PT09,GSE185991:PT09,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628183_M33,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,2236,6,96,986,Naldini 2023 Nat Commun,PT10,GSE185991:PT10,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628186_M39,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,1211,5,1051,1153,Naldini 2023 Nat Commun,PT08,GSE185991:PT08,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628187_M40,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,1822,4,1,591,Naldini 2023 Nat Commun,PT12,GSE185991:PT12,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628188_M41,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,1857,5,52,114,Naldini 2023 Nat Commun,PT13,GSE185991:PT13,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628189_M42,FALSE,not_l2_capable,Relapse,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,3290,4,381,629,Naldini 2023 Nat Commun,PT10,GSE185991:PT10,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628190_M43,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,436,6,99,226,Naldini 2023 Nat Commun,PT01_PT10,GSE185991:PT01_PT10,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628191_M44,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,526,7,177,198,Naldini 2023 Nat Commun,PT12_PT13,GSE185991:PT12_PT13,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628192_M45,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,976,7,373,491,Naldini 2023 Nat Commun,PT12,GSE185991:PT12,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628195_M48,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,2578,5,45,1482,Naldini 2023 Nat Commun,PT15,GSE185991:PT15,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM5628196_M49,FALSE,not_l2_capable,Relapse,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,2476,6,51,87,Naldini 2023 Nat Commun,PT15,GSE185991:PT15,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM6412447_M36,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,2451,3,32,40,Naldini 2023 Nat Commun,PT11,GSE185991:PT11,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM6412448_M38,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,5011,7,804,2028,Naldini 2023 Nat Commun,PT11,GSE185991:PT11,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM6412449_M84,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,4730,5,14,291,Naldini 2023 Nat Commun,PT17,GSE185991:PT17,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM6412450_M85,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,5602,7,362,887,Naldini 2023 Nat Commun,PT17,GSE185991:PT17,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM6412451_M88,FALSE,not_l2_capable,Diagnosis,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,3026,5,867,873,Naldini 2023 Nat Commun,PT18,GSE185991:PT18,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM6412452_M89,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,2835,6,493,521,Naldini 2023 Nat Commun,PT18,GSE185991:PT18,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM6412453_M92,FALSE,not_l2_capable,Post_treatment,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,2275,5,18,2081,Naldini 2023 Nat Commun,PT17,GSE185991:PT17,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM6412454_M93,FALSE,not_l2_capable,Relapse,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,1730,5,71,156,Naldini 2023 Nat Commun,PT19,GSE185991:PT19,TRUE,NPM1,FALSE,FALSE
+GSE185991,GSM6412455_M95,FALSE,not_l2_capable,Relapse,Treatment-axis-L1only,Treatment-axis-L1only,FALSE,FALSE,2378,5,49,94,Naldini 2023 Nat Commun,PT20,GSE185991:PT20,TRUE,NPM1,FALSE,FALSE
+GSE227903,3853_R,FALSE,below_min_cells,Relapse,Validation-relapse+treatment,Validation-relapse+treatment,TRUE,FALSE,458,4,31,82,Ennis 2023 iScience,3853,GSE227903:3853,TRUE,mixed,TRUE,TRUE
+GSE253355,GSM8019212_H14_MACS,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,1910,6,1650,1778,Bandyopadhyay 2024 Cell,H14_MACS,GSE253355:H14_MACS,FALSE,"",FALSE,FALSE
+GSE253355,GSM8019213_H21,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,2063,7,1032,1612,Bandyopadhyay 2024 Cell,H21,GSE253355:H21,FALSE,"",FALSE,FALSE
+GSE253355,GSM8019214_H23,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,1328,6,852,1235,Bandyopadhyay 2024 Cell,H23,GSE253355:H23,FALSE,"",FALSE,FALSE
+GSE253355,GSM8019215_H24,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,2630,7,1583,2494,Bandyopadhyay 2024 Cell,H24,GSE253355:H24,FALSE,"",FALSE,FALSE
+GSE253355,GSM8019216_H32,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,2402,7,1084,1645,Bandyopadhyay 2024 Cell,H32,GSE253355:H32,FALSE,"",FALSE,FALSE
+GSE253355,GSM8019217_H33,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,4763,7,1347,2963,Bandyopadhyay 2024 Cell,H33,GSE253355:H33,FALSE,"",FALSE,FALSE
+GSE253355,GSM8019218_H34,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,2224,6,858,2073,Bandyopadhyay 2024 Cell,H34,GSE253355:H34,FALSE,"",FALSE,FALSE
+GSE253355,GSM8019219_H35,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,4160,7,1943,3660,Bandyopadhyay 2024 Cell,H35,GSE253355:H35,FALSE,"",FALSE,FALSE
+GSE253355,GSM8019220_H36,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,4258,7,2732,3384,Bandyopadhyay 2024 Cell,H36,GSE253355:H36,FALSE,"",FALSE,FALSE
+GSE253355,GSM8019221_H38,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,4558,7,2927,3749,Bandyopadhyay 2024 Cell,H38,GSE253355:H38,FALSE,"",FALSE,FALSE
+GSE253355,GSM8019222_H39,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,5287,7,3449,4260,Bandyopadhyay 2024 Cell,H39,GSE253355:H39,FALSE,"",FALSE,FALSE
+GSE253355,GSM8019223_H41,FALSE,not_l2_capable,Healthy,Reference-scaffold+AuxStroma,Reference-scaffold+AuxStroma,FALSE,FALSE,3409,7,2225,2659,Bandyopadhyay 2024 Cell,H41,GSE253355:H41,FALSE,"",FALSE,FALSE

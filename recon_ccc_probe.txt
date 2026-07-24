@@ -1,0 +1,69 @@
+[0] SEED = 491638 (expect 491638) 
+[0] CCC_QC_OBJ_DIR = /LARGE1/gr10634/gaozy/aml_niche_net/02_seurat_objects/01_per_sample_qc 
+[0] CCC_BMM_DIR    = /LARGE1/gr10634/gaozy/aml_niche_net/02_seurat_objects/03_bmm_projected 
+[0] DIR_MALIGNANCY = /FAST/gr10634/gaozy/aml_niche_net/results/tables/02_malignancy 
+[0] DIR_CCC        = /FAST/gr10634/gaozy/aml_niche_net/results/tables/05_ccc 
+
+[1] QC objects in GSE227903 : 26 at /LARGE1/gr10634/gaozy/aml_niche_net/02_seurat_objects/01_per_sample_qc/GSE227903 
+[1] picked sample: 3904_R 
+[1] dim(genes x cells): 36601 x 9837 
+[1] assays: RNA | default: RNA 
+[1] layers: counts 
+[1] meta cols: orig.ident,nCount_RNA,nFeature_RNA,Dataset,Study,Sample,Patient_ID,uid_patient,Disease_state,Timepoint_detail,Timepoint,anno_donor,anno_timepoint,anno_celltype,percent.mt,percent.ribo,percent.hb 
+[1] barcode head: 3904_R_AAACCCAAGAGAGAAC-1 | 3904_R_AAACCCAAGCCTCACG-1 | 3904_R_AAACCCAAGCCTGAGA-1 
+
+[2] bmm exists: TRUE | consensus exists: TRUE 
+[2] BMM join rate (obj cells found in bmm): 1 
+[2] consensus join rate: 1 
+
+[3] per-bin node sizes (in_ccc_graph & !high_error) -> what actually seeds CCC: 
+   hierarchy_bin     N
+          <char> <int>
+1:      LMPP_GMP  5981
+2:     Erythroid  1294
+3:       HSC_MPP   804
+4:          T_NK   194
+5:       Mono_DC    38
+6:      B_Plasma    21 
+[3] malignant x bin (post-QC): 
+    hierarchy_bin malignant     N
+           <char>     <int> <int>
+ 1:      B_Plasma         0    12
+ 2:      B_Plasma         1     9
+ 3:     Erythroid         0  1259
+ 4:     Erythroid         1    35
+ 5:       HSC_MPP         0   784
+ 6:       HSC_MPP         1    20
+ 7:      LMPP_GMP         0  5775
+ 8:      LMPP_GMP         1   206
+ 9:       Mono_DC         0    31
+10:       Mono_DC         1     7
+11:          T_NK         0   158
+12:          T_NK         1    36 
+
+[4] CellChat version: 2.2.0.9001 
+[4] CellChatDB.human names: interaction,complex,cofactor,geneInfo 
+[4] interaction cols: interaction_name,pathway_name,ligand,receptor,agonist,antagonist,co_A_receptor,co_I_receptor,annotation,interaction_name_2,evidence,is_neurotransmitter,ligand.symbol,ligand.family,ligand.location,ligand.keyword,ligand.secreted_type,ligand.transmembrane,receptor.symbol,receptor.family,receptor.location,receptor.keyword,receptor.surfaceome_main,receptor.surfaceome_sub,receptor.adhesome,receptor.secreted_type,receptor.transmembrane,version 
+[4] categories (annotation):
+               annotation     N
+                  <char> <int>
+1:    Secreted Signaling  1280
+2: Non-protein Signaling   994
+3:     Cell-Cell Contact   535
+4:          ECM-Receptor   424 
+[4] n interactions total: 3233 
+[4] args createCellChat :: function (object, meta = NULL, group.by = NULL, datatype = c("RNA",      "spatial"), coordinates = NULL, spatial.factors = NULL, assay = NULL,      do.sparse = T)  NULL 
+[4] args computeCommunProb :: function (object, type = c("triMean", "truncatedMean", "thresholdedMean",      "median"), trim = 0.1, LR.use = NULL, raw.use = TRUE, population.size = FALSE,      distance.use = TRUE, interaction.range = 250, scale.distance = 0.01,      k.min = 10, contact.dependent = TRUE, contact.range = NULL,      contact.knn.k = NULL, contact.dependent.forced = FALSE, do.symmetric = TRUE,      nboot = 100, seed.use = 1L, Kh = 0.5, n = 1)  NULL 
+[4] args filterCommunication :: function (object, min.cells = 10, min.samples = NULL, rare.keep = FALSE,      nonFilter.keep = FALSE)  NULL 
+[4] args subsetCommunication :: function (object = NULL, net = NULL, slot.name = "net", sources.use = NULL,      targets.use = NULL, signaling = NULL, pairLR.use = NULL,      thresh = 0.05, datasets = NULL, ligand.pvalues = NULL, ligand.logFC = NULL,      ligand.pct.1 = NULL, ligand.pct.2 = NULL, receptor.pvalues = NULL,      receptor.logFC = NULL, receptor.pct.1 = NULL, receptor.pct.2 = NULL)  NULL 
+[4] args identifyOverExpressedGenes :: function (object, data.use = NULL, group.by = NULL, idents.use = NULL,      invert = FALSE, group.dataset = NULL, pos.dataset = NULL,      group.DE.combined = FALSE, features.name = "features", only.pos = TRUE,      features = NULL, return.object = TRUE, thresh.pc = 0, thresh.fc = 0,      thresh.p = 0.05, do.DE = TRUE, do.fast = TRUE, min.cells = 10)  NULL 
+[4] args identifyOverExpressedInteractions :: function (object, features.name = "features", variable.both = TRUE,      features = NULL, return.object = TRUE)  NULL 
+[4] args projectData :: NOT FOUND 
+[4] args aggregateNet :: function (object, sources.use = NULL, targets.use = NULL, signaling = NULL,      pairLR.use = NULL, remove.isolate = TRUE, thresh = 0.05,      return.object = TRUE)  NULL 
+[4] args netAnalysis_computeCentrality :: function (object = NULL, slot.name = "netP", net = NULL, net.name = NULL,      thresh = 0.05)  NULL 
+
+[5] package load check (liana / nichenetr / igraph install status) 
+[5] liana      loadable=TRUE version=0.1.14 
+[5] nichenetr  loadable=TRUE version=2.2.1.1 
+[5] igraph     loadable=TRUE version=2.2.2 
+[5] CellChat   loadable=TRUE version=2.2.0.9001 
