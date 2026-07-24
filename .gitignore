@@ -1,9 +1,9 @@
 # ════════════════════════════════════════════════════════════════
-# aml_niche_net — 只 track 代码、小汇总表、图、文档
-# 大对象一律留在磁盘上，不进版本库（/LARGE1 本来就在仓库外）
+# aml_niche_net — track only code, small summary tables, figures, docs.
+# Large objects stay on disk, never in version control (/LARGE1 is outside the repo).
 # ════════════════════════════════════════════════════════════════
 
-# ── 大数据：按扩展名一律排除 ──────────────────────────────
+# ── Large data: exclude by extension ──────────────────────────────
 *.rds
 *.RDS
 *.h5ad
@@ -18,28 +18,28 @@
 *.fq.gz
 *.csv.gz
 
-# ── 遗留下载 / 一次性临时产物 ─────────────────────────────
+# ── Leftover downloads / one-off scratch ──────────────────────────
 /SRR*/
 /Rplots.pdf
 /omnipathr-log/
 /00_project/tmp/
 
-# ── 日志：全部排除（370 个 + 归档 85 个）──────────────────
+# ── Logs: exclude all (370 active + 85 archived) ──────────────────
 /logs/
 /00_project/logs/
 scripts/以前06_hierarchy/logs/
 *.out
 *.err
 
-# ── results：保留小汇总表，排除 per-sample 逐样本产物 ──────
-# 02_malignancy 的 9 个数据集子目录（265 个文件 / 49M）
+# ── results: keep small summary tables, drop per-sample outputs ────
+# 02_malignancy: 9 per-dataset subdirs (265 files / 49M)
 /results/tables/02_malignancy/*/
-# 05_ccc 的 148 个 CellChat LR 张量
+# 05_ccc: 148 per-sample CellChat LR tensors
 /results/tables/05_ccc/tensors/
-# 置换零分布（401K 二进制，每次重跑都会重新生成）
+# permutation null (401K binary, regenerated on every rerun)
 /results/tables/08_scoring/block_null.npz
 
-# ── 编辑器 / 运行时 ───────────────────────────────────────
+# ── Editor / runtime ──────────────────────────────────────────────
 .Rhistory
 .RData
 .Rproj.user/
@@ -49,8 +49,8 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 
-# ── agent 本地配置（个人权限设置，不共享）─────────────────
+# ── Agent local config (personal permission settings, not shared) ──
 .claude/settings.local.json
 
-# ── 自动提交脚本自身的日志（否则会自触发无限提交）──────────
+# ── Auto-commit script's own log (else it self-triggers infinitely) ──
 /00_project/git_autocommit.log
