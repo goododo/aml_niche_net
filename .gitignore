@@ -40,7 +40,7 @@ scripts/以前06_hierarchy/logs/
 /results/tables/08_scoring/block_null.npz
 # generated lab-meeting deck (~1.3M base64-embedded HTML; rebuild via
 # scripts/10_figures/build_lab_meeting_deck.py from the tracked template + figures)
-/results/figures/11_assessment/lab_meeting_deck.html
+/results/figures/12_deck/lab_meeting_deck.html
 
 # ── Editor / runtime ──────────────────────────────────────────────
 .Rhistory

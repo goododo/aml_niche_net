@@ -5,32 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AML Niche-Topology — Phase-1 Progress & Stress-Test</title>
 <!--
-  Self-contained lab-meeting deck. Figures g01-g05 are embedded as base64 by
+  Self-contained lab-meeting deck. Figures d01-d06 are embedded as base64 by
   build_lab_meeting_deck.py (their placeholders are filled at build time). Open in any browser.
   Nav: arrow keys / space / Home / End; on-screen arrows; T toggles theme.
-  Palette is inherited from g_assessment_figures.R so the deck and the figures
-  read as one system (BLUE #2a78d6 / ORANGE #eb6834 / status #d03b3b/#0ca30c/#fab219).
+  Palette matches the figures (BLUE #2a78d6 / ORANGE #eb6834 / status #d03b3b/#0ca30c/#fab219).
+  The figures show only the visualization; the conclusions live in the slide text.
 -->
 <style>
-/* ---- tokens: light (default) ------------------------------------------------ */
 :root{
-  --bg:#eef0f3;            /* behind slides, cool grey */
-  --paper:#ffffff;         /* slide surface */
-  --ink:#0b0b0b;           /* primary text (figure INK) */
-  --ink2:#4d4c49;          /* secondary text (figure INK2) */
-  --muted:#83837e;         /* captions (figure GREY) */
-  --line:#e2e4e8;          /* hairlines */
-  --line2:#eceef1;         /* faint fills */
-  --accent:#2a78d6;        /* BLUE — primary */
-  --accent-soft:#eaf1fb;   /* accent tint */
-  --accent2:#eb6834;       /* ORANGE — secondary */
-  --crit:#d03b3b;          /* status */
-  --good:#0ca30c;
-  --warn:#c8860a;          /* darkened amber for text-on-white contrast */
-  --warn-dot:#fab219;
-  --grey-st:#8a8a85;       /* not-run */
-  --shadow:0 1px 2px rgba(16,20,28,.04),0 8px 30px rgba(16,20,28,.08);
-  --plate-bg:#ffffff;      /* figures are white-bg; keep a light plate in both themes */
+  --bg:#eef0f3; --paper:#ffffff; --ink:#0b0b0b; --ink2:#4d4c49; --muted:#83837e;
+  --line:#e2e4e8; --line2:#eceef1; --accent:#2a78d6; --accent-soft:#eaf1fb; --accent2:#eb6834;
+  --crit:#d03b3b; --good:#0ca30c; --warn:#c8860a; --warn-dot:#fab219; --grey-st:#8a8a85;
+  --shadow:0 1px 2px rgba(16,20,28,.04),0 8px 30px rgba(16,20,28,.08); --plate-bg:#ffffff;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace;
 }
@@ -39,8 +25,7 @@
     --bg:#0d0e10; --paper:#181a1d; --ink:#f1f2f4; --ink2:#bcc0c6; --muted:#8b8f96;
     --line:#2a2d31; --line2:#212327; --accent:#5b9be8; --accent-soft:#182636;
     --accent2:#f0824e; --crit:#e8615f; --good:#37c23c; --warn:#f2b23a; --warn-dot:#f2b23a;
-    --grey-st:#9a9ea5; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 34px rgba(0,0,0,.45);
-    --plate-bg:#ffffff;
+    --grey-st:#9a9ea5; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 34px rgba(0,0,0,.45); --plate-bg:#ffffff;
   }
 }
 :root[data-theme="light"]{
@@ -66,7 +51,6 @@ code,.m{font-family:var(--mono); font-size:.88em; letter-spacing:-.01em}
 .deck code{background:var(--line2); border:1px solid var(--line); border-radius:5px;
   padding:.04em .34em; color:var(--ink); white-space:nowrap}
 
-/* ---- deck / slides ---------------------------------------------------------- */
 .deck{position:fixed; inset:0}
 .slide{
   position:absolute; inset:0; opacity:0; pointer-events:none;
@@ -76,60 +60,41 @@ code,.m{font-family:var(--mono); font-size:.88em; letter-spacing:-.01em}
 .slide.active{opacity:1; pointer-events:auto; transform:none}
 .slide.prev{transform:translateY(-8px)}
 @media (prefers-reduced-motion:reduce){.slide{transition:opacity .001s}}
-.wrap{
-  width:100%; max-width:1180px; margin:auto; padding:clamp(28px,5vh,72px) clamp(24px,5vw,80px);
-}
+.wrap{width:100%; max-width:1180px; margin:auto; padding:clamp(28px,5vh,72px) clamp(24px,5vw,80px);}
 
-/* ---- type ------------------------------------------------------------------- */
-.eyebrow{
-  font-family:var(--mono); font-size:.74rem; letter-spacing:.16em; text-transform:uppercase;
-  color:var(--accent); font-weight:600; margin:0 0 14px;
-}
-h1.title{
-  font-size:clamp(1.7rem,3.9vw,3.15rem); line-height:1.05; letter-spacing:-.02em;
-  font-weight:750; margin:0; text-wrap:balance; color:var(--ink);
-}
-h2.title{
-  font-size:clamp(1.45rem,3.1vw,2.35rem); line-height:1.1; letter-spacing:-.018em;
-  font-weight:730; margin:0 0 6px; text-wrap:balance; color:var(--ink);
-}
+.eyebrow{font-family:var(--mono); font-size:.74rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--accent); font-weight:600; margin:0 0 14px;}
+h1.title{font-size:clamp(1.7rem,3.9vw,3.15rem); line-height:1.05; letter-spacing:-.02em;
+  font-weight:750; margin:0; text-wrap:balance; color:var(--ink);}
+h2.title{font-size:clamp(1.45rem,3.1vw,2.35rem); line-height:1.1; letter-spacing:-.018em;
+  font-weight:730; margin:0 0 6px; text-wrap:balance; color:var(--ink);}
 .lede{font-size:clamp(1.02rem,1.55vw,1.24rem); line-height:1.5; color:var(--ink2); margin:18px 0 0; max-width:62ch}
 .slide p{margin:0}
 strong{color:var(--ink); font-weight:680}
-.accent{color:var(--accent)}
-.accent2{color:var(--accent2)}
+.accent{color:var(--accent)} .accent2{color:var(--accent2)}
 
 ul.pts{list-style:none; margin:22px 0 0; padding:0; display:flex; flex-direction:column; gap:13px}
 ul.pts li{position:relative; padding-left:22px; color:var(--ink2); font-size:clamp(.96rem,1.4vw,1.1rem); line-height:1.46}
-ul.pts li::before{content:""; position:absolute; left:2px; top:.62em; width:7px; height:7px;
-  border-radius:2px; background:var(--accent)}
+ul.pts li::before{content:""; position:absolute; left:2px; top:.62em; width:7px; height:7px; border-radius:2px; background:var(--accent)}
 ul.pts li.warn::before{background:var(--accent2)}
 ul.pts li.mut{color:var(--muted); font-size:.95em}
 ul.pts li.mut::before{background:var(--muted)}
 
-/* ---- figure slides ---------------------------------------------------------- */
-.cols{display:grid; grid-template-columns:0.9fr 1.1fr; gap:clamp(24px,3.4vw,52px); align-items:center; margin-top:10px}
+.cols{display:grid; grid-template-columns:0.92fr 1.08fr; gap:clamp(24px,3.4vw,52px); align-items:center; margin-top:10px}
 .fig{margin:0}
-.plate{background:var(--plate-bg); border:1px solid var(--line); border-radius:10px;
-  padding:10px; box-shadow:var(--shadow)}
+.plate{background:var(--plate-bg); border:1px solid var(--line); border-radius:10px; padding:10px; box-shadow:var(--shadow)}
 .plate img{display:block; width:100%; height:auto; border-radius:4px}
 .figcap{font-family:var(--mono); font-size:.72rem; color:var(--muted); margin:9px 2px 0; letter-spacing:.01em}
-@media (max-width:920px){
-  .cols{grid-template-columns:1fr; gap:22px}
-  .cols .txt{order:1} .cols .fig{order:2}
-}
+@media (max-width:920px){.cols{grid-template-columns:1fr; gap:22px} .cols .txt{order:1} .cols .fig{order:2}}
 
-/* ---- hypothesis cards ------------------------------------------------------- */
 .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:26px}
 .card{background:var(--paper); border:1px solid var(--line); border-left:3px solid var(--accent);
   border-radius:10px; padding:18px 18px 20px; box-shadow:var(--shadow)}
-.card .k{font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
-  color:var(--accent); font-weight:600}
+.card .k{font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:600}
 .card h3{margin:6px 0 8px; font-size:1.06rem; letter-spacing:-.01em; color:var(--ink)}
 .card p{font-size:.92rem; line-height:1.45; color:var(--ink2)}
 @media (max-width:820px){.cards{grid-template-columns:1fr}}
 
-/* ---- verdict table ---------------------------------------------------------- */
 .tbl-wrap{margin-top:22px; overflow-x:auto}
 table.verdict{width:100%; border-collapse:collapse; font-size:clamp(.86rem,1.25vw,1rem)}
 table.verdict th,table.verdict td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); vertical-align:top}
@@ -143,49 +108,38 @@ table.verdict td.reason{color:var(--ink2); line-height:1.4}
 .pill.warn{color:var(--warn)} .pill.warn::before{background:var(--warn-dot)}
 .pill.na{color:var(--grey-st)} .pill.na::before{background:var(--grey-st)}
 
-/* ---- title slide ------------------------------------------------------------ */
 .title-slide .wrap{max-width:960px}
 .kicker-big{font-family:var(--mono); font-size:.82rem; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:22px}
-.title-slide h1{font-size:clamp(2rem,5.4vw,4rem); font-weight:780}
 .meta-row{display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:34px; font-family:var(--mono); font-size:.8rem; color:var(--muted); letter-spacing:.02em}
 .meta-row .sep{color:var(--line)}
 .rule{height:2px; width:64px; background:var(--accent); border-radius:2px; margin:26px 0 0}
 
-/* ---- take-home -------------------------------------------------------------- */
 .takeaways{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:28px}
 .ta{background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:20px; box-shadow:var(--shadow)}
 .ta .n{font-family:var(--mono); font-size:1.4rem; font-weight:700; color:var(--accent); line-height:1}
 .ta p{margin-top:10px; font-size:.96rem; line-height:1.45; color:var(--ink2)}
 @media (max-width:820px){.takeaways{grid-template-columns:1fr}}
 
-/* ---- chrome: progress, nav, controls --------------------------------------- */
-.progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0;
-  transition:width .34s ease; z-index:30}
+.progress{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0; transition:width .34s ease; z-index:30}
 @media (prefers-reduced-motion:reduce){.progress{transition:none}}
-.nav{position:fixed; right:clamp(16px,3vw,34px); bottom:clamp(14px,3vh,26px); z-index:30;
-  display:flex; align-items:center; gap:12px}
+.nav{position:fixed; right:clamp(16px,3vw,34px); bottom:clamp(14px,3vh,26px); z-index:30; display:flex; align-items:center; gap:12px}
 .counter{font-family:var(--mono); font-size:.82rem; color:var(--muted); font-variant-numeric:tabular-nums; letter-spacing:.04em}
 .counter b{color:var(--ink); font-weight:680}
-.navbtn{appearance:none; border:1px solid var(--line); background:var(--paper); color:var(--ink);
-  width:38px; height:38px; border-radius:9px; cursor:pointer; font-size:1.05rem; line-height:1;
-  display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow); transition:border-color .15s, color .15s}
+.navbtn{appearance:none; border:1px solid var(--line); background:var(--paper); color:var(--ink); width:38px; height:38px; border-radius:9px; cursor:pointer; font-size:1.05rem; line-height:1; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow); transition:border-color .15s, color .15s}
 .navbtn:hover{border-color:var(--accent); color:var(--accent)}
 .navbtn:disabled{opacity:.35; cursor:default}
 .navbtn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
 .topright{position:fixed; top:clamp(12px,2.4vh,22px); right:clamp(16px,3vw,34px); z-index:30; display:flex; gap:10px; align-items:center}
-.chip{font-family:var(--mono); font-size:.7rem; letter-spacing:.04em; color:var(--muted); border:1px solid var(--line);
-  background:var(--paper); border-radius:20px; padding:5px 11px; box-shadow:var(--shadow)}
+.chip{font-family:var(--mono); font-size:.7rem; letter-spacing:.04em; color:var(--muted); border:1px solid var(--line); background:var(--paper); border-radius:20px; padding:5px 11px; box-shadow:var(--shadow)}
 .chip.btn{cursor:pointer} .chip.btn:hover{color:var(--accent); border-color:var(--accent)}
 .chip.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
-.brand{position:fixed; left:clamp(16px,3vw,34px); bottom:clamp(14px,3vh,26px); z-index:20;
-  font-family:var(--mono); font-size:.72rem; color:var(--muted); letter-spacing:.03em}
+.brand{position:fixed; left:clamp(16px,3vw,34px); bottom:clamp(14px,3vh,26px); z-index:20; font-family:var(--mono); font-size:.72rem; color:var(--muted); letter-spacing:.03em}
 .brand b{color:var(--ink2); font-weight:600}
 @media (max-width:640px){.brand{display:none}}
 </style>
 </head>
 <body>
 <div class="progress" id="progress"></div>
-
 <div class="topright">
   <span class="chip">← → to move</span>
   <button class="chip btn" id="themeBtn" aria-label="Toggle light / dark theme">◑ theme</button>
@@ -199,7 +153,7 @@ table.verdict td.reason{color:var(--ink2); line-height:1.4}
       <div class="kicker-big">AML Niche-Topology Pipeline</div>
       <h1 class="title">Phase&nbsp;1 — Progress<br>&amp; Stress-Test</h1>
       <div class="rule"></div>
-      <p class="lede">The pipeline is <strong>preliminarily built</strong> end-to-end, and we ran the falsification tests most groups skip. They gave us one <strong>label-independent null (H1)</strong> and localized a <strong>fixable problem in the malignant-labelling layer</strong> — before any niche claim went out. The fix is scoped.</p>
+      <p class="lede">The pipeline is <strong>built end-to-end (first pass)</strong>, and we ran the checks most groups skip. They gave us one result that stands on its own — a clean "no signal" for H1 — and, before any biological claim went out, pointed to <strong>one fixable weak spot: how we label which cells are cancerous.</strong> The fix is planned.</p>
       <div class="meta-row">
         <span>2026-07-24</span><span class="sep">/</span>
         <span>Phase-1 foundation assessment</span><span class="sep">/</span>
@@ -212,45 +166,45 @@ table.verdict td.reason{color:var(--ink2); line-height:1.4}
   <section class="slide" aria-label="The question and three hypotheses">
     <div class="wrap">
       <div class="eyebrow">The question</div>
-      <h2 class="title">Does the <span class="accent">communication network</span> — not the blast count — carry AML disease information?</h2>
-      <p class="lede">Three pre-registered, falsifiable hypotheses (as of blueprint v1.1):</p>
+      <h2 class="title">Does the <span class="accent">communication network</span> between bone-marrow cells — not just the blast count — carry information about AML?</h2>
+      <p class="lede">Three pre-registered predictions we set out to test (and could be proven wrong):</p>
       <div class="cards">
         <div class="card">
           <div class="k">H1 · Convergence</div>
-          <h3>A conserved LSC→niche axis</h3>
-          <p>A set of LSC-like → microenvironment axes reproduces in <strong>≥60% of studies</strong>, enriched across three orthogonal strata: genetic, epigenetic (ATAC), transcriptional state.</p>
+          <h3>A shared LSC→niche signal</h3>
+          <p>The same leukemic-stem-cell → microenvironment signals recur in <strong>most independent studies</strong> and across genetic, epigenetic, and cell-state groupings.</p>
         </div>
         <div class="card">
           <div class="k">H2 · Topology</div>
-          <h3>Structure &gt; any single pair</h3>
-          <p>Network topology (with its <strong>direction</strong> of deviation) discriminates AML vs healthy better than the best single L–R, a composition-only, and a node-feature-only model.</p>
+          <h3>The wiring, not one pair</h3>
+          <p>The <strong>shape of the network</strong> separates AML from healthy better than any single ligand-receptor pair, or than simply counting cell types.</p>
         </div>
         <div class="card">
           <div class="k">H3 · Trajectory</div>
-          <h3>How it moves under treatment</h3>
-          <p>Dx → MRD → Relapse as a <strong>competition of three models</strong> — monotone / V-rebound / hysteresis — <em>not</em> assumed monotone.</p>
+          <h3>How it changes with treatment</h3>
+          <p>From diagnosis → residual disease → relapse, the network follows <strong>one of three possible patterns</strong> — steady rise, dip-and-rebound, or a turn in a new direction.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 3 · DESIGN + g01 -->
+  <!-- 3 · DESIGN + d01 -->
   <section class="slide" aria-label="Design and cohort">
     <div class="wrap">
       <div class="eyebrow">Design</div>
       <div class="cols">
         <div class="txt">
-          <h2 class="title">From 13 datasets to an optimal-transport comparison of niche graphs</h2>
+          <h2 class="title">From 13 datasets to a fair comparison of niche networks</h2>
           <ul class="pts">
-            <li>13 public AML + healthy marrow scRNA-seq datasets → <strong>consensus malignant labels</strong></li>
-            <li>Projection onto a frozen <strong>7-node hematopoietic-immune niche</strong> (HSC_MPP, LMPP_GMP, Mono_DC, Erythroid, Megakaryocyte, T_NK, B_Plasma)</li>
-            <li>Per-sample <strong>cell–cell communication graphs</strong> → Fused Gromov-Wasserstein alignment → permutation tests</li>
-            <li class="mut">The platform-controlled test ultimately rests on <strong>3 datasets / 60 samples</strong> — not a nested funnel</li>
+            <li>13 public AML + healthy bone-marrow datasets → label which cells are <strong>cancerous</strong></li>
+            <li>Place every cell on a fixed <strong>7-type map</strong> of blood-cell development (stem/progenitor → mature)</li>
+            <li>Build one <strong>communication network per patient</strong>, then compare their shapes with optimal transport</li>
+            <li class="mut">Samples drop off at each step; the strictest test rests on <strong>60 samples from 3 datasets</strong></li>
           </ul>
         </div>
         <figure class="fig">
-          <div class="plate"><img src="__G01__" alt="Sample count at each pipeline stage"></div>
-          <figcaption class="figcap">g01 · sample count at each stage</figcaption>
+          <div class="plate"><img src="__D01__" alt="Number of samples surviving each pipeline stage"></div>
+          <figcaption class="figcap">d01 · samples remaining at each step</figcaption>
         </figure>
       </div>
     </div>
@@ -260,152 +214,171 @@ table.verdict td.reason{color:var(--ink2); line-height:1.4}
   <section class="slide" aria-label="Status">
     <div class="wrap">
       <div class="eyebrow">Status</div>
-      <h2 class="title">Preliminarily built — and deliberately self-critical</h2>
+      <h2 class="title">The machine is built — and it is built to try to disprove itself</h2>
       <ul class="pts">
-        <li><strong>Running end-to-end (first pass):</strong> 148 CellChat graphs, FGW barycenter alignment, and an adversarial test layer — per-edge/block permutation nulls, a pre-registered α-sweep, a platform control, feature decomposition.</li>
-        <li><strong>Phase 2 (hierarchy projection) passes clean:</strong> 220/220 coverage, malignant identity kept orthogonal to the projection, 7-node vocabulary frozen.</li>
-        <li class="warn"><strong>Caveat — single method:</strong> the communication layer is <strong>CellChat only</strong> so far; the blueprint's primary engine is LIANA+ (plus a two-method gate and NicheNet). An implementation gap, not a design gap.</li>
-        <li class="mut">These results are the <strong>un-amended v1.0 pipeline</strong>; the v1.1 patch (two days ago) already scopes the fixes for most of what they show.</li>
+        <li><strong>Running end-to-end:</strong> 148 patient communication networks, aligned and compared, with the safeguards most papers skip — shuffle-based significance tests, a control for sequencing platform, and a breakdown of which feature carries any signal.</li>
+        <li><strong>One step is clean today — placing cells on the developmental map:</strong> full coverage, and the cancer labels are kept completely separate from where a cell sits on the map.</li>
+        <li class="warn"><strong>One caveat to say up front:</strong> the communication step so far uses only one tool (CellChat). The plan calls for a second (LIANA+), so every network result — including H1 — is still preliminary until we repeat it.</li>
+        <li class="mut">These results are the <strong>first-pass pipeline</strong>; the design was updated two days ago (v1.1) and already anticipates most of what we see here.</li>
       </ul>
     </div>
   </section>
 
-  <!-- 5 · H1 + g03 -->
+  <!-- 5 · CCC CONTENT + d06  (NEW) -->
+  <section class="slide" aria-label="What the communication graphs contain">
+    <div class="wrap">
+      <div class="eyebrow">What the networks contain</div>
+      <div class="cols">
+        <div class="txt">
+          <h2 class="title">Who signals to whom, and with which molecules</h2>
+          <ul class="pts">
+            <li>Before asking what is <em>different</em> in AML, here is what the networks actually contain.</li>
+            <li><strong>Who talks (left):</strong> the immature stem/progenitor cells and the monocytes/dendritic cells are the busiest senders and receivers.</li>
+            <li><strong>Which molecules (right):</strong> a few pairs dominate — <strong>MIF</strong> and <strong>Galectin-9</strong> lead, both known immune-dampening signals in AML, alongside CD99 and PECAM1.</li>
+            <li>On the stem→immune route specifically, MIF and Galectin-9 are again the leads — a plausible immune-evasion channel, and exactly what H1 tests next.</li>
+          </ul>
+        </div>
+        <figure class="fig">
+          <div class="plate"><img src="__D06__" alt="Communication strength between cell types, and top ligand-receptor pairs"></div>
+          <figcaption class="figcap">d06 · who-signals-to-whom · top ligand-receptor pairs</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · H1 + d03 -->
   <section class="slide" aria-label="H1 result">
     <div class="wrap">
       <div class="eyebrow">H1 · Convergence</div>
       <div class="cols">
         <div class="txt">
-          <h2 class="title">The network null is clean — and it never touches the labels</h2>
+          <h2 class="title">No communication link is reliably different in AML — a clean "no"</h2>
           <ul class="pts">
-            <li><strong>0 of 49</strong> directed edges pass permutation (best: HSC_MPP→T_NK, <code>p=0.052</code>); all 5 blocks <code>q=0.93</code>.</li>
-            <li>The primary <strong>SCS axis</strong> (LSC → immune) is nominally stronger in AML but <code>p=0.86</code> — a hint in the predicted direction, drowned in noise.</li>
-            <li><strong>Why it matters:</strong> H1's edges come straight from CellChat and never pass through the malignant labels — so this null is <strong>immune to the label problem</strong> on the next slide.</li>
-            <li class="mut">Two honest limits: CellChat-only, and v1.1's triple stratification not yet run.</li>
+            <li><strong>0 of 49</strong> sender→receiver links stand out from chance; grouped into 5 families, all sit far from significance.</li>
+            <li>The stem→immune route (our main hypothesis) leans slightly stronger in AML, but <strong>not significantly</strong> (<code>p=0.86</code>).</li>
+            <li><strong>Why we trust this one:</strong> it never uses the cancer-cell labels — so the labelling problem on the next slide cannot distort it.</li>
+            <li class="mut">Caveat: so far this is CellChat only. We still need to repeat it with LIANA+/NicheNet before calling it final.</li>
           </ul>
         </div>
         <figure class="fig">
-          <div class="plate"><img src="__G03__" alt="H1: 49 edges and 5 blocks, none significant"></div>
-          <figcaption class="figcap">g03 · H1 null (edges + blocks)</figcaption>
+          <div class="plate"><img src="__D03__" alt="AML minus healthy difference per link, and per family"></div>
+          <figcaption class="figcap">d03 · AML−healthy per link · per family</figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- 6 · LABEL CRACK + g02 -->
+  <!-- 7 · LABEL CRACK + d02 -->
   <section class="slide" aria-label="Label quality">
     <div class="wrap">
-      <div class="eyebrow">The foundation</div>
+      <div class="eyebrow">The weak spot</div>
       <div class="cols">
         <div class="txt">
-          <h2 class="title">The label layer is the crack: the LSC bin is ~40% false positives</h2>
+          <h2 class="title">The weak spot is deciding which cells are cancerous</h2>
           <ul class="pts">
-            <li><strong>125 / 130</strong> samples are single-arm inferCNV; <strong>0</strong> reach the specified 3-way consensus.</li>
-            <li>Healthy-marrow control: <strong>HSC_MPP ≈ 40% false-positive</strong> — the exact node the LSC hypothesis leans on, and the dirtiest in the graph.</li>
-            <li>Lymphoid clean (<code>T_NK 3.6%</code>), primitive/myeloid dirty — the signature of a <strong>method artifact</strong>, not rare clones.</li>
-            <li class="mut">Stroma's 90% FP is <em>why</em> stroma is excluded — a diagnostic, never shipped into the graph.</li>
+            <li>The plan was <strong>three methods agreeing</strong>; in practice <strong>125 of 130</strong> samples rest on just one (inferCNV).</li>
+            <li>Tested on <strong>healthy</strong> marrow (where any "cancer" call is wrong by definition): the <strong>stem-cell type — the one our hypothesis needs most — is mislabelled ~40% of the time.</strong></li>
+            <li>Immune cells are clean (3–8%); stem and myeloid cells are not — a known blind spot of the method, not real disease.</li>
+            <li class="mut">Stroma is 90% wrong — which is exactly why we exclude it from the networks. It never enters the analysis.</li>
           </ul>
         </div>
         <figure class="fig">
-          <div class="plate"><img src="__G02__" alt="False-positive rate by bin and evidence-tier composition"></div>
-          <figcaption class="figcap">g02 · label quality (FPR by bin · evidence tier)</figcaption>
+          <div class="plate"><img src="__D02__" alt="False-positive rate per cell type, and how samples were labelled"></div>
+          <figcaption class="figcap">d02 · false positives per cell type · label evidence</figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- 7 · H2 + g04 -->
+  <!-- 8 · H2 + d04 -->
   <section class="slide" aria-label="H2 result">
     <div class="wrap">
       <div class="eyebrow">H2 · Topology</div>
       <div class="cols">
         <div class="txt">
-          <h2 class="title">The signal is composition, not topology — on the pre-registered control arm</h2>
+          <h2 class="title">Today the signal comes from cell counts, not network shape</h2>
           <ul class="pts">
-            <li>At pure topology (<code>α=1</code>) the effect is <strong>null</strong> (<code>p=0.11</code>); the discrimination lives entirely at the feature end (<code>α=0: p=0.0009</code>).</li>
-            <li>v1.1 makes that <code>α=0</code> endpoint H2's <strong>formal control arm (c)</strong> — so topology currently adds no increment over features.</li>
-            <li class="warn">But the winner is the <strong>circular</strong> <code>frac_malignant</code> (forced to 0 in healthy); and stemness — the intended biology — is null (<code>β=−0.015</code>).</li>
-            <li class="mut">Not yet the decisive test: M8 honest features + M6 direction (cosθ, HDS⊥) are not built.</li>
+            <li>When we rely on the <strong>network shape alone</strong> (left panel, right-hand edge), the signal disappears — not significant.</li>
+            <li>All of it comes from the <strong>cell features</strong>, and mostly from the blast-fraction feature — which we hard-set to 0 in healthy samples, so it just re-states "AML vs healthy." Stemness, the feature we care about, does nothing.</li>
+            <li><strong>So shape adds nothing yet.</strong> The fair test needs the planned upgrades (honest, richer features; a "direction" score) — not yet built.</li>
           </ul>
         </div>
         <figure class="fig">
-          <div class="plate"><img src="__G04__" alt="Alpha sweep and feature decomposition"></div>
-          <figcaption class="figcap">g04 · H2 decisive (α-sweep · feature decomposition)</figcaption>
+          <div class="plate"><img src="__D04__" alt="Significance across shape-vs-features weight, and effect size by feature"></div>
+          <figcaption class="figcap">d04 · shape-vs-features · effect size by feature</figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- 8 · H3 + g05 -->
+  <!-- 9 · H3 + d05 -->
   <section class="slide" aria-label="H3 result">
     <div class="wrap">
       <div class="eyebrow">H3 · Trajectory</div>
       <div class="cols">
         <div class="txt">
-          <h2 class="title">The V-shape is a pre-registered model, not a failure — but the test is un-run</h2>
+          <h2 class="title">The dip-and-rebound is expected — but we can't judge it yet</h2>
           <ul class="pts">
-            <li>Stemness dips at MRD, rebounds at Relapse — a <strong>V-shape</strong>. Under v1.1's M6 this is the pre-registered <strong>Model B (rebound)</strong>, not a broken monotone prediction.</li>
-            <li>The A/B/C competition <strong>can't be run yet</strong>: it needs the M6 direction scores (HDS∥, HDS⊥, cosθ) — placeholder scripts only.</li>
-            <li class="warn">And it's <strong>patient-confounded</strong>: 62% of MRD malignant cells come from one sample (<code>6323_MRD</code>); metadata unverified.</li>
-            <li class="mut">Net: H3 blocked on the M6 machinery + metadata — not on the shape of the trend.</li>
+            <li>Stemness <strong>dips at residual disease and rebounds at relapse</strong> — a V-shape.</li>
+            <li>This is <strong>not a failure</strong>: the updated plan pre-registered this V as one of three allowed patterns, and it is the one expected at residual disease.</li>
+            <li class="warn">But we can't judge it: the scores that tell the three patterns apart <strong>aren't built yet</strong>, one patient contributes 62% of the residual-disease cells, and the timepoint labels still need checking against the papers.</li>
           </ul>
         </div>
         <figure class="fig">
-          <div class="plate"><img src="__G05__" alt="Stemness along the treatment axis and within-pair change"></div>
-          <figcaption class="figcap">g05 · H3 blocked (stemness axis · within-pair Δ)</figcaption>
+          <div class="plate"><img src="__D05__" alt="Stemness by timepoint, and change within paired patients"></div>
+          <figcaption class="figcap">d05 · stemness by timepoint · paired-patient change</figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- 9 · THE FIX -->
+  <!-- 10 · THE FIX -->
   <section class="slide" aria-label="The fix">
     <div class="wrap">
       <div class="eyebrow">The fix</div>
-      <h2 class="title">Harden the label layer first, then implement v1.1</h2>
+      <h2 class="title">Fix the labels first, then run the richer tests</h2>
       <ul class="pts">
-        <li><strong>Second, cohort-wide evidence arm — CopyKAT / SCEVAN</strong> (read the QC object directly, <strong>no BAM</strong>). They define "who is normal" differently from inferCNV, so agreement cuts method-specific false positives.</li>
-        <li><strong>Measure, don't assert:</strong> re-run the healthy-marrow FPR control on them — if HSC_MPP stays ~40%, the confounder is biological and consensus won't fix it.</li>
-        <li class="warn"><strong>Honest limits:</strong> same modality (not orthogonal like Numbat/VarTrix); copy-neutral clones (NPM1) stay invisible — that's the SNV arm's job, currently a stub.</li>
-        <li><strong>Sequence:</strong> reconcile metadata → add the arm → re-run <strong>Phase 6–8 only</strong> (CellChat needn't re-run — edges are label-independent) → then the v1.1 backlog: <strong>M8</strong> features &amp; <strong>M6</strong> direction (these unlock the real H2/H3 tests) → LIANA+/NicheNet gate → Phase 8 robustness.</li>
+        <li><strong>Add a second labelling method (CopyKAT / SCEVAN)</strong> that runs on every sample with no extra sequencing, and decides "which cells are normal" differently from the first — so agreement removes method-specific mistakes.</li>
+        <li><strong>Measure the gain, don't assume it:</strong> re-run the healthy-marrow check on the new method — if the stem-cell error stays near 40%, both methods share the same blind spot and we need a different fix.</li>
+        <li class="warn"><strong>Honest limits:</strong> both read gene activity, so they can miss the same things; and mutation-only leukemias (e.g. NPM1) need a DNA-based method we haven't switched on yet.</li>
+        <li><strong>Then:</strong> re-run only the downstream steps (the communication networks don't need rebuilding), and add the planned upgrades that finally make the real network and trajectory tests possible.</li>
       </ul>
     </div>
   </section>
 
-  <!-- 10 · VERDICT TABLE -->
+  <!-- 11 · VERDICT TABLE -->
   <section class="slide" aria-label="Verdict table">
     <div class="wrap">
-      <div class="eyebrow">Verdicts</div>
-      <h2 class="title">Where each piece stands</h2>
+      <div class="eyebrow">Where each piece stands</div>
+      <h2 class="title">Scorecard</h2>
       <div class="tbl-wrap">
         <table class="verdict">
-          <thead><tr><th>Phase / hypothesis</th><th>Verdict</th><th>One-line reason</th></tr></thead>
+          <thead><tr><th>Step / prediction</th><th>Verdict</th><th>In one line</th></tr></thead>
           <tbody>
-            <tr><td>Phase 1 · consensus malignancy</td><td><span class="pill crit">does-not-stand</span></td><td class="reason">125/130 single-arm inferCNV; HSC_MPP FPR ≈ 40%</td></tr>
-            <tr><td>Phase 2 · hierarchy projection</td><td><span class="pill good">stands</span></td><td class="reason">clean reference-only projection, orthogonal labels</td></tr>
-            <tr><td>Phase 3 · meta-programs / SRRS</td><td><span class="pill warn">partial</span></td><td class="reason">programs extracted; reproducibility screen not computed</td></tr>
-            <tr><td>Phase 4 · CCC graphs</td><td><span class="pill warn">partial</span></td><td class="reason">148 graphs; single-method (CellChat); two-method gate absent</td></tr>
-            <tr><td>Phase 5–6 · distance + FGW</td><td><span class="pill warn">partial</span></td><td class="reason">runs; un-amended v1.0 features + circular healthy frac_malignant</td></tr>
-            <tr><td>Phase 7 · emergent edges + scoring</td><td><span class="pill warn">partial</span></td><td class="reason">machinery correct; result strongly negative</td></tr>
-            <tr><td>Phase 8 · robustness</td><td><span class="pill na">not-run</span></td><td class="reason">no code yet</td></tr>
-            <tr><td><strong>H1</strong> · convergence</td><td><span class="pill crit">null</span></td><td class="reason">0/49 edges, blocks q=0.93, SCS axis p=0.86 — label-independent, CellChat-only</td></tr>
-            <tr><td><strong>H2</strong> · topology + direction</td><td><span class="pill crit">not topological</span></td><td class="reason">α=1 null; signal = circular composition; M8/M6 test pending</td></tr>
-            <tr><td><strong>H3</strong> · trajectory model</td><td><span class="pill na">blocked / un-run</span></td><td class="reason">V-shape = pre-registered Model B; needs M6 direction + verified metadata</td></tr>
+            <tr><td>Labelling cancer cells</td><td><span class="pill crit">weak</span></td><td class="reason">125/130 on a single method; ~40% wrong on the key stem-cell type</td></tr>
+            <tr><td>Placing cells on the map</td><td><span class="pill good">solid</span></td><td class="reason">full coverage; cancer labels kept separate from the map</td></tr>
+            <tr><td>Cell-state programs</td><td><span class="pill warn">partial</span></td><td class="reason">programs found; the reproducibility screen isn't computed yet</td></tr>
+            <tr><td>Communication networks</td><td><span class="pill warn">partial</span></td><td class="reason">148 built, but only one tool so far (need LIANA+/NicheNet)</td></tr>
+            <tr><td>Network comparison</td><td><span class="pill warn">partial</span></td><td class="reason">runs; still on the first-pass features</td></tr>
+            <tr><td>Robustness checks</td><td><span class="pill na">not run</span></td><td class="reason">no code yet</td></tr>
+            <tr><td><strong>H1</strong> · shared LSC→niche signal</td><td><span class="pill crit">no signal</span></td><td class="reason">0/49 links; label-independent, so trustworthy — but CellChat only</td></tr>
+            <tr><td><strong>H2</strong> · network shape matters</td><td><span class="pill crit">not yet</span></td><td class="reason">shape alone is null; signal is cell counts; real test still pending</td></tr>
+            <tr><td><strong>H3</strong> · treatment trajectory</td><td><span class="pill na">on hold</span></td><td class="reason">dip-rebound is expected, but the deciding scores + metadata aren't ready</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <!-- 11 · TAKE-HOME -->
+  <!-- 12 · TAKE-HOME -->
   <section class="slide" aria-label="Take-home">
     <div class="wrap">
       <div class="eyebrow">Take-home</div>
-      <h2 class="title">Design is sound and self-correcting; results are early; fix the labels first</h2>
+      <h2 class="title">The design is sound; the results are early; fix the labels first</h2>
       <div class="takeaways">
-        <div class="ta"><div class="n">1</div><p>We used the falsification tests most groups skip and <strong>localized a foundation problem</strong> before it could produce a false-positive niche claim.</p></div>
-        <div class="ta"><div class="n">2</div><p>The one result that stands on its own is a <strong>clean, label-independent H1 null</strong> (in CellChat) — a genuine negative, not a borderline miss.</p></div>
-        <div class="ta"><div class="n">3</div><p>The fix is scoped: a <strong>second evidence arm</strong> for the labels, then implement v1.1 (M8 / M6) to run the real H2 and H3 tests.</p></div>
+        <div class="ta"><div class="n">1</div><p>We built the checks most groups skip, and they caught a <strong>foundation problem early</strong> — before it could produce a false result.</p></div>
+        <div class="ta"><div class="n">2</div><p>Our one self-standing result is a <strong>clean "no signal" for H1</strong> — it doesn't depend on the cancer labels, so it holds.</p></div>
+        <div class="ta"><div class="n">3</div><p>The path is clear: <strong>fix the labels first</strong>, then run the richer tests the design already specifies.</p></div>
       </div>
     </div>
   </section>
@@ -413,7 +386,7 @@ table.verdict td.reason{color:var(--ink2); line-height:1.4}
 </main>
 
 <div class="nav">
-  <span class="counter"><b id="cur">1</b> / <span id="tot">11</span></span>
+  <span class="counter"><b id="cur">1</b> / <span id="tot">12</span></span>
   <button class="navbtn" id="prev" aria-label="Previous slide">‹</button>
   <button class="navbtn" id="next" aria-label="Next slide">›</button>
 </div>
@@ -427,23 +400,19 @@ table.verdict td.reason{color:var(--ink2); line-height:1.4}
   var cur = document.getElementById('cur'), tot = document.getElementById('tot');
   var prev = document.getElementById('prev'), next = document.getElementById('next');
   tot.textContent = n;
-
   function show(k){
     k = Math.max(0, Math.min(n-1, k));
     slides.forEach(function(s, idx){
       s.classList.toggle('active', idx===k);
       s.classList.toggle('prev', idx<k);
     });
-    i = k;
-    cur.textContent = k+1;
+    i = k; cur.textContent = k+1;
     progress.style.width = ((k+1)/n*100) + '%';
     prev.disabled = (k===0); next.disabled = (k===n-1);
-    // reset scroll of the freshly shown slide
     slides[k].scrollTop = 0;
     location.hash = 's' + (k+1);
   }
   function go(d){ show(i+d); }
-
   document.addEventListener('keydown', function(e){
     if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){ go(1); e.preventDefault(); }
     else if(e.key==='ArrowLeft'||e.key==='PageUp'){ go(-1); e.preventDefault(); }
@@ -453,20 +422,15 @@ table.verdict td.reason{color:var(--ink2); line-height:1.4}
   });
   next.addEventListener('click', function(){ go(1); });
   prev.addEventListener('click', function(){ go(-1); });
-
-  // theme toggle (respects OS default until first click)
   function currentTheme(){
     var t = document.documentElement.getAttribute('data-theme');
     if(t) return t;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
   function toggleTheme(){
-    var nextT = currentTheme()==='dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', nextT);
+    document.documentElement.setAttribute('data-theme', currentTheme()==='dark' ? 'light' : 'dark');
   }
   document.getElementById('themeBtn').addEventListener('click', toggleTheme);
-
-  // deep-link support (#s3)
   var m = /^#s(\d+)$/.exec(location.hash);
   show(m ? (parseInt(m[1],10)-1) : 0);
 })();

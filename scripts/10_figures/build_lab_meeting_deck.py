@@ -2,9 +2,9 @@
 """build_lab_meeting_deck.py ----
 Assemble the self-contained lab-meeting HTML deck.
 
-INPUT  : scripts/10_figures/lab_meeting_deck_template.html  (with __G01__..__G05__ placeholders)
-         results/figures/11_assessment/g0{1..5}_*.png
-OUTPUT : results/figures/11_assessment/lab_meeting_deck.html  (figures embedded as base64 data URIs)
+INPUT  : scripts/10_figures/lab_meeting_deck_template.html  (with __D01__..__D06__ placeholders)
+         results/figures/12_deck/d0{1..6}_*.png
+OUTPUT : results/figures/12_deck/lab_meeting_deck.html  (figures embedded as base64 data URIs)
 Usage  : python3 scripts/10_figures/build_lab_meeting_deck.py
 
 The output is a single file that opens in any browser with no external dependency
@@ -17,16 +17,17 @@ import sys
 
 ROOT = pathlib.Path("/FAST/gr10634/gaozy/aml_niche_net")
 TEMPLATE = ROOT / "scripts" / "10_figures" / "lab_meeting_deck_template.html"
-FIGDIR = ROOT / "results" / "figures" / "11_assessment"
+FIGDIR = ROOT / "results" / "figures" / "12_deck"
 OUT = FIGDIR / "lab_meeting_deck.html"
 
-# placeholder -> figure file (stable, matches g_assessment_figures.R outputs)
+# placeholder -> figure file (stable, matches d_deck_figures.R outputs)
 FIGURES = {
-    "__G01__": "g01_cohort_counts.png",
-    "__G02__": "g02_label_quality.png",
-    "__G03__": "g03_h1_null.png",
-    "__G04__": "g04_h2_decisive.png",
-    "__G05__": "g05_h3_blocked.png",
+    "__D01__": "d01_cohort.png",
+    "__D02__": "d02_label_quality.png",
+    "__D03__": "d03_h1_null.png",
+    "__D04__": "d04_h2.png",
+    "__D05__": "d05_h3.png",
+    "__D06__": "d06_ccc_content.png",
 }
 
 
