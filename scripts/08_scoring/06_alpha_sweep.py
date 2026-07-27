@@ -42,7 +42,13 @@ ap.add_argument("--root",default=DEFAULT_ROOT)
 ap.add_argument("--n_perm",type=int,default=10000)
 ap.add_argument("--alphas",default="0,0.25,0.5,0.75,1")
 ap.add_argument("--max_iter",type=int,default=1000)
+# node MASS mode. "ncells" = p_i proportional to cell count (canonical, feeds alpha_sweep.csv).
+# "uniform" = equal mass on every present node -- removes the cell-count channel that even alpha=1
+# retains through the masses, so alpha=1 + uniform is the fully cell-count-free topology test.
+ap.add_argument("--mass_mode",choices=["ncells","uniform"],default="ncells")
+ap.add_argument("--out",default="alpha_sweep.csv")
 args=ap.parse_args(); rng=np.random.default_rng(SEED)
+MASS_MODE=args.mass_mode; EPS_MASS=1e-6
 ALPHAS=[float(x) for x in args.alphas.split(",")]
 D_FGW=os.path.join(args.root,"07_fgw"); D_OUT=os.path.join(args.root,"08_scoring"); os.makedirs(D_OUT,exist_ok=True)
 
@@ -60,7 +66,12 @@ def build_one(ds,smp):
     C=np.nan_to_num(C,nan=1.0)
     nd=nodes[(nodes["dataset"]==ds)&(nodes["sample"]==smp)].set_index("hierarchy_bin").reindex(FGW_NODES)
     F=np.nan_to_num(nd[FGW_FEATURES].to_numpy(float),nan=0.0)
-    p=np.nan_to_num(nd["mass"].to_numpy(float),nan=1e-6); p=p/p.sum()
+    if MASS_MODE=="uniform":                       # equal mass on present nodes (cell count removed)
+        present=nd["present"].fillna(False).to_numpy(bool)
+        p=np.where(present,1.0,EPS_MASS)
+    else:                                          # canonical: p_i proportional to cell count
+        p=np.nan_to_num(nd["mass"].to_numpy(float),nan=EPS_MASS)
+    p=p/p.sum()
     _cache[k]=(C,F,p); return _cache[k]
 
 def barycenter(keys,alpha):
@@ -150,7 +161,7 @@ for alpha in ALPHAS:
           f"| global beta={bA:+.5f} p={pA:.5f} | within-dataset beta={bB:+.5f} p={pB:.5f}",flush=True)
 
 res=pd.DataFrame(rows)
-res.to_csv(os.path.join(D_OUT,"alpha_sweep.csv"),index=False)
+res.to_csv(os.path.join(D_OUT,args.out),index=False)
 print("\n[3] ALPHA SWEEP (alpha=1 -> pure topology, features ignored; alpha=0 -> pure features):")
 show=[c for c in ["alpha","mean_healthy","mean_aml","beta_global","p_global","beta_strat","p_strat"] if c in res.columns]
 print(res[show].round(5).to_string(index=False))
@@ -172,4 +183,4 @@ r0=ok[ok.alpha==0.0]
 if len(r0):
     print(f"    alpha=0 (pure features) for contrast: within-dataset beta={float(r0.beta_strat.iloc[0]):+.5f} "
           f"p={float(r0.p_strat.iloc[0]):.5f}")
-print(f"\n[done] wrote {os.path.join(D_OUT,'alpha_sweep.csv')}")
+print(f"\n[done] wrote {os.path.join(D_OUT,args.out)}  (mass_mode={MASS_MODE})")
