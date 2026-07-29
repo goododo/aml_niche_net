@@ -1,6 +1,8 @@
 # Candidate revision — M10: co-option lens at the communication layer (L3)
 
-> **状态：CANDIDATE（草稿，待 review）。** 本文件**不修改** blueprint 本体，也不改 v1.1 patch；它是一条待评估的补丁提案，计划在**组会之后 + Phase-1 标注/元数据修复之后**再决定是否并入 `AML_niche_CCC_OT_blueprint_zh.md`。在此之前，H1 的正式结论仍以现有 emergent-edge 检验为准。
+> **状态：已升为正式模块(2026-07-27)。** 本候选已通过组会审阅并**正式并入 `BLUEPRINT_v1.2_PATCH.md`**(M10 = L3 co-option/convergence lens,并扩展出 receiver + autocrine 度量、下游汇聚 M11、同一 LSC/代偿 M12)。本文件保留为 M10 的**详细论证与设计记录**;正式定义、判据与先导证据以 v1.2 patch 为准。
+>
+> *(以下为最初的候选提案原文,供追溯。)*
 >
 > 建议合入位置：`[AMEND H1]`（v1.1 patch §2）+ `[INSERT Phase 7–8]`（新增模块 **M10**）+ `[AMEND §9]` 判据。
 > 模块号 **M10** 当前未被占用（v1.1 patch 中的 "M10" 是 ADAM10 子串，非模块）。

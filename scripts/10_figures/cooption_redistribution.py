@@ -25,6 +25,11 @@ We then ask two things per pathway:
   (2) SHIFTED?    is the composition share distribution different AML vs healthy (Mann-Whitney U)?
                   A conserved-but-shifted pathway = high prevalence in both + a significant
                   share shift toward the primitive/LSC compartment in AML = candidate co-option.
+  (3) CONVERGE?   does the LSC/primitive compartment both SEND and RECEIVE the pathway in AML?
+                  primitive_sender_share, primitive_receiver_share, and especially
+                  primitive_autocrine_share (LSC->LSC) test whether a conserved ligand collapses
+                  into an autocrine LSC loop in AML -- the receiver-side evidence for the
+                  "convergence onto the same LSC" hypothesis (M10 / blueprint v1.2).
 
 Because healthy and AML samples come from different studies, a pooled test is confounded
 by study. We therefore also report the test restricted to datasets that contain BOTH
@@ -99,6 +104,7 @@ def per_sample_shares(ccc: pd.DataFrame, idx: pd.DataFrame) -> pd.DataFrame:
         if total <= 0:
             continue
         is_prim_send = g["sender_bin"].isin(PRIMITIVE)
+        is_prim_recv = g["receiver_bin"].isin(PRIMITIVE)
         is_imm_recv = g["receiver_bin"].isin(IMMUNE)
         rows.append({
             "dataset": dataset,
@@ -106,7 +112,9 @@ def per_sample_shares(ccc: pd.DataFrame, idx: pd.DataFrame) -> pd.DataFrame:
             "ligand": ligand,
             "n_edges": len(g),
             "total_prob": total,
-            "primitive_sender_share": g.loc[is_prim_send, "prob"].sum() / total,
+            "primitive_sender_share": g.loc[is_prim_send, "prob"].sum() / total,       # who SENDS it
+            "primitive_receiver_share": g.loc[is_prim_recv, "prob"].sum() / total,      # who RECEIVES it
+            "primitive_autocrine_share": g.loc[is_prim_send & is_prim_recv, "prob"].sum() / total,  # LSC->LSC loop
             "immune_receiver_share": g.loc[is_imm_recv, "prob"].sum() / total,
             "prim_to_immune_share": g.loc[is_prim_send & is_imm_recv, "prob"].sum() / total,
         })
@@ -136,7 +144,8 @@ def summarize(ps: pd.DataFrame, idx: pd.DataFrame) -> pd.DataFrame:
     both_ds = (idx.groupby("dataset")["group"].nunique() == 2)
     both_datasets = sorted(both_ds[both_ds].index)                    # within-study contrast pool
 
-    metrics = ["primitive_sender_share", "prim_to_immune_share", "immune_receiver_share"]
+    metrics = ["primitive_sender_share", "primitive_receiver_share", "primitive_autocrine_share",
+               "prim_to_immune_share", "immune_receiver_share"]
     out = []
     for lig in TARGET_LIGANDS:
         sub = ps[ps["ligand"] == lig]
@@ -251,10 +260,16 @@ def main() -> int:
     print("\n=== SHIFTED? (composition share: median AML vs healthy, Mann-Whitney) ===")
     for _, r in summ.iterrows():
         print(f"  {r['label']}")
-        for m in ("primitive_sender_share", "prim_to_immune_share", "immune_receiver_share"):
-            print(f"    {m:<24} AML {r[m+'__median_AML']:.3f}  healthy {r[m+'__median_healthy']:.3f}"
+        for m in ("primitive_sender_share", "primitive_receiver_share",
+                  "primitive_autocrine_share", "prim_to_immune_share", "immune_receiver_share"):
+            print(f"    {m:<26} AML {r[m+'__median_AML']:.3f}  healthy {r[m+'__median_healthy']:.3f}"
                   f"  p_pooled={r[m+'__p_pooled']:.3g}  p_bothDS={r[m+'__p_bothDS']:.3g}"
                   f"  [{r[m+'__shift']}]")
+    print("\n=== CONVERGENCE onto the LSC (autocrine LSC->LSC share): the M10 headline ===")
+    for _, r in summ.iterrows():
+        m = "primitive_autocrine_share"
+        print(f"  {r['label']:<22} AML {r[m+'__median_AML']:.3f}  healthy {r[m+'__median_healthy']:.3f}"
+              f"  p_pooled={r[m+'__p_pooled']:.3g}")
     print(f"\n[cooption] wrote 4 tables to {OUTDIR}")
     return 0
 
