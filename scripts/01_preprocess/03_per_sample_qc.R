@@ -93,23 +93,41 @@ mad_keep <- function(md) {
     out_hb <- isOutlier(hb, nmads = MAD_NMADS, log = FALSE, type = MAD_HB_TAIL)
     hb_hi  <- attr(out_hb, "thresholds")[["higher"]]
   }
-  keep <- !(out_nc | out_nf | out_mt | out_hb)
+  # ABSOLUTE floors/caps, applied IN ADDITION to the per-sample MAD. isOutlier alone is purely
+  # RELATIVE, so the worse a sample is the looser its own thresholds become (observed nfeat_lo
+  # down to 0.08 genes, percent.mt cutoffs computed above 100%) -- filter strength ended up
+  # inversely proportional to sample quality. A cell must clear BOTH gates.
+  # NA-safe: a missing metric must not silently propagate into the keep vector.
+  na0 <- function(x, fill) { x[is.na(x)] <- fill; x }
+  abs_fail <- (na0(nf, Inf) < ABS_MIN_NFEAT) |
+              (na0(nc, Inf) < ABS_MIN_NCOUNT) |
+              (na0(mt, -Inf) > ABS_MAX_MT)
+
+  out_mad <- out_nc | out_nf | out_mt | out_hb
+  keep <- !(out_mad | abs_fail)
   attr(keep, "thresh") <- list(
-    ncount_lo = attr(out_nc, "thresholds")[["lower"]],
+    # EFFECTIVE thresholds (MAD combined with the absolute bound), so the report shows the
+    # bound that actually applied rather than the relative one that was overridden.
+    ncount_lo = max(attr(out_nc, "thresholds")[["lower"]],  ABS_MIN_NCOUNT),
     ncount_hi = attr(out_nc, "thresholds")[["higher"]],
-    nfeat_lo  = attr(out_nf, "thresholds")[["lower"]],
+    nfeat_lo  = max(attr(out_nf, "thresholds")[["lower"]],  ABS_MIN_NFEAT),
     nfeat_hi  = attr(out_nf, "thresholds")[["higher"]],
-    mt_hi     = attr(out_mt, "thresholds")[["higher"]],
-    hb_hi     = hb_hi)
+    mt_hi     = min(attr(out_mt, "thresholds")[["higher"]], ABS_MAX_MT),
+    hb_hi     = hb_hi,
+    # provenance: how much of the filtering each gate is responsible for (QC-covariate table)
+    ncount_lo_mad = attr(out_nc, "thresholds")[["lower"]],
+    nfeat_lo_mad  = attr(out_nf, "thresholds")[["lower"]],
+    mt_hi_mad     = attr(out_mt, "thresholds")[["higher"]],
+    n_fail_mad    = sum(out_mad, na.rm = TRUE),
+    n_fail_abs    = sum(abs_fail & !out_mad, na.rm = TRUE))
   keep
 }
 
 # ----------------------------------------------------------------------------
 # Helper: scDblFinder doublet calls on a (QC-passed) Seurat object.
 # ----------------------------------------------------------------------------
-call_scdblfinder <- function(obj) {
+call_scdblfinder <- function(obj, rate) {
   sce <- as.SingleCellExperiment(obj)
-  rate <- expected_dbl_rate(ncol(sce))
   sce <- scDblFinder(sce, dbr = rate)
   cls <- as.character(sce$scDblFinder.class)
   setNames(cls == "doublet", colnames(sce))
@@ -119,7 +137,7 @@ call_scdblfinder <- function(obj) {
 # Helper: DoubletFinder doublet calls. Standard pipeline + pK sweep + homotypic
 # adjustment. Handles both old (_v3 suffix) and new DoubletFinder APIs.
 # ----------------------------------------------------------------------------
-call_doubletfinder <- function(obj) {
+call_doubletfinder <- function(obj, rate) {
   suppressPackageStartupMessages(library(DoubletFinder))
   obj <- NormalizeData(obj, verbose = FALSE)
   obj <- FindVariableFeatures(obj, verbose = FALSE)
@@ -135,7 +153,6 @@ call_doubletfinder <- function(obj) {
   bcmvn <- find.pK(sw)
   pK <- as.numeric(as.character(bcmvn$pK[which.max(bcmvn$BCmetric)]))
 
-  rate    <- expected_dbl_rate(ncol(obj))
   homo    <- modelHomotypic(Idents(obj))
   nExp    <- round(rate * ncol(obj))
   nExp.adj<- max(0, round(nExp * (1 - homo)))
@@ -165,9 +182,20 @@ qc_one_sample <- function(obj, ds, samp, integrity_fail) {
                     n_final = NA_integer_, status = NA_character_,
                     reason = NA_character_,
                     ncount_lo = NA_real_, ncount_hi = NA_real_,
-                    nfeat_lo = NA_real_, mt_hi = NA_real_, hb_hi = NA_real_,
+                    nfeat_lo = NA_real_, nfeat_hi = NA_real_,
+                    mt_hi = NA_real_, hb_hi = NA_real_,
                     med_ncount_final = NA_real_, med_nfeat_final = NA_real_,
-                    lowcomplexity_flag = FALSE, dbl_method = NA_character_)
+                    lowcomplexity_flag = FALSE, dbl_method = NA_character_,
+                    # -- sample-level QC-STRENGTH covariates (Phase 8 confounding check) --
+                    # Per-sample filter strength varies 10-100x across this cohort, and the whole
+                    # project compares networks BETWEEN samples: if "what counts as a cell" differs
+                    # by 10x, that difference propagates straight into the edge weights. These are
+                    # carried forward so HDS/ATS/RLS/SCS can be regressed on them; a score that
+                    # tracks mad_loss or nfeat_lo is a QC artefact, not biology.
+                    ncount_lo_mad = NA_real_, nfeat_lo_mad = NA_real_, mt_hi_mad = NA_real_,
+                    n_fail_mad = NA_integer_, n_fail_abs = NA_integer_,
+                    mad_loss = NA_real_, dbl_rate_exp = NA_real_, dbl_rate_obs = NA_real_,
+                    platform = NA_character_, upstream_filtered = NA)
 
   # --- integrity short-circuit (e.g. GSE227903 counts not loaded) ---
   if (isTRUE(integrity_fail)) {
@@ -180,14 +208,28 @@ qc_one_sample <- function(obj, ds, samp, integrity_fail) {
   obj  <- obj[, keep]
   rep[, `:=`(n_after_mad = ncol(obj),
              ncount_lo = th$ncount_lo, ncount_hi = th$ncount_hi,
-             nfeat_lo = th$nfeat_lo, mt_hi = th$mt_hi, hb_hi = th$hb_hi)]
+             nfeat_lo = th$nfeat_lo, nfeat_hi = th$nfeat_hi,
+             mt_hi = th$mt_hi, hb_hi = th$hb_hi,
+             ncount_lo_mad = th$ncount_lo_mad, nfeat_lo_mad = th$nfeat_lo_mad,
+             mt_hi_mad = th$mt_hi_mad,
+             n_fail_mad = th$n_fail_mad, n_fail_abs = th$n_fail_abs,
+             mad_loss = if (n0 > 0) 1 - ncol(obj) / n0 else NA_real_)]
 
   # --- 2. doublet consensus (skip if too few cells) ---
+  # Expected rate is driven by how many barcodes were LOADED, so it is computed on n_raw, not on
+  # the MAD-survivors: MAD removes ~24% of cells on average, which systematically deflated the
+  # expected rate (and therefore the callers' dbr prior) in the previous run.
+  # Platform matters here: the 0.8%/1k law is a 10x droplet model and is wrong for Seq-Well.
+  plat     <- platform_of(ds)$platform
+  rate_exp <- expected_dbl_rate(n0, plat)
+  rep[, `:=`(dbl_rate_exp = rate_exp, platform = plat,
+             upstream_filtered = is_upstream_filtered(ds))]
+
   if (ncol(obj) < DOUBLET_MIN_CELLS) {
     rep[, `:=`(n_doublet = 0L, dbl_method = "skipped_lowN")]
   } else {
-    sc <- tryCatch(call_scdblfinder(obj),   error = function(e) { message_ts("scDblFinder fail ", samp, ": ", conditionMessage(e)); NULL })
-    df <- tryCatch(call_doubletfinder(obj), error = function(e) { message_ts("DoubletFinder fail ", samp, ": ", conditionMessage(e)); NULL })
+    sc <- tryCatch(call_scdblfinder(obj, rate_exp),   error = function(e) { message_ts("scDblFinder fail ", samp, ": ", conditionMessage(e)); NULL })
+    df <- tryCatch(call_doubletfinder(obj, rate_exp), error = function(e) { message_ts("DoubletFinder fail ", samp, ": ", conditionMessage(e)); NULL })
     if (is.null(sc) && is.null(df)) {
       is_dbl <- rep(FALSE, ncol(obj)); rep[, dbl_method := "both_failed"]
     } else if (is.null(df)) {
@@ -200,6 +242,7 @@ qc_one_sample <- function(obj, ds, samp, integrity_fail) {
       rep[, dbl_method := paste0("consensus_", DOUBLET_CONSENSUS)]
     }
     rep[, n_doublet := sum(is_dbl, na.rm = TRUE)]
+    rep[, dbl_rate_obs := n_doublet / n_after_mad]
     obj <- obj[, !is_dbl]
   }
 

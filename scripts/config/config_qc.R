@@ -129,23 +129,120 @@ canonicalize_timepoint <- function(ds_id, raw_tp = NA_character_, dis = NA_chara
   "Unknown"
 }
 
+# WHAT `Timepoint` IS: a NOMINAL label, i.e. what the depositing author called the draw. It is
+# NOT a statement about residual disease. Two known conflations survive canonicalisation and
+# cannot be fixed at this stage, because fixing them needs a malignancy estimate that does not
+# exist until 02_malignancy:
+#   - GSE201966 "Complete_remission" -> Post_treatment, though clinically CR *is* an MRD timepoint
+#   - GSE116256 "^D[0-9]+$"          -> Post_treatment regardless of day, so AML328-D171 and
+#                                       AML707B-D113 (long past induction) sit in the same class
+#                                       as a D14 draw
+# That is why only GSE227903 lands in MRD -- its authors happened to write "MRD" -- which made
+# MRD look like a 7-sample / 1-study class. H3 therefore does NOT stratify on this column: the
+# treatment-pressure stratum is derived from residual disease burden in 03.5_residual_stratum.R
+# and reported alongside the nominal label, never instead of it.
+
+# Days since treatment start, parsed from the RAW label where the deposit encodes it. This is
+# the only quantitative treatment-axis covariate several datasets carry and canonicalisation
+# discards it (D0/D14/D31/D97/D113/D171 all collapse into one class):
+#   GSE116256  D0 / D14 / D31 / D97 / D113 / D171   (van Galen)
+#   GSE185991  DX / D14 / D30                       (Naldini)
+# NA where the deposit gives no day. Kept as a COVARIATE, not as a class boundary -- any day
+# threshold would be as arbitrary as the author labels it replaces.
+timepoint_days <- function(raw_tp) {
+  x <- toupper(trimws(as.character(raw_tp)))
+  ok <- grepl("^D[0-9]+$", x)
+  d  <- rep(NA_integer_, length(x))
+  d[ok] <- as.integer(sub("^D([0-9]+)$", "\\1", x[ok]))
+  d
+}
+
 ## -- study-level role table (curated; drives split + L2 capability) ----
+# l2_capable is CURATED, not QC-derived, and the reason is now recorded in l2_reason so the
+# decision is auditable instead of looking arbitrary. The exclusions are PROTOCOL exclusions,
+# not quality judgements: a CD34/CD117-sorted library contains no stromal/immune compartment,
+# so a whole-marrow CCC graph cannot be built from it at all -- the missing nodes are technical,
+# not biological, which is exactly the case unbalanced FGW must NOT be asked to absorb.
+# Do NOT "unlock" these to gain sample size (GSE185991's 42-sample NPM1 treatment axis is
+# tempting and wrong): they remain fully usable at L1, where sorted blasts are an advantage.
 ROLE_TABLE <- data.table::fread(text = '
-dataset|study_role|is_longitudinal|discovery_candidate|subtype_stratum|l2_capable|integrity_flag
-Chen2023|Discovery-AML+AuxStroma|FALSE|TRUE|NPM1|TRUE|OK
-GSE239721|Discovery-AML|FALSE|TRUE|other|TRUE|OK
-GSE289435|Discovery-AML|FALSE|TRUE|other|TRUE|OK
-Petti2019|Discovery-AML|FALSE|TRUE|other|TRUE|OK
-GSE185381|Discovery-AML-immuneReceiver|FALSE|TRUE|other|TRUE|OK
-E-MTAB-11536|Healthy-control|FALSE|FALSE|NA|TRUE|OK
-GSE253355|Reference-scaffold+AuxStroma|FALSE|FALSE|NA|FALSE|OK
-GSE116256|Treatment-axis|TRUE|FALSE|mixed|TRUE|OK
-GSE185991|Treatment-axis-L1only|TRUE|FALSE|NPM1|FALSE|OK
-GSE147989|Treatment-axis-L1only|TRUE|FALSE|mixed|FALSE|OK
-GSE227903|Validation-relapse+treatment|TRUE|FALSE|mixed|TRUE|OK
-GSE201966|Validation-relapse|TRUE|FALSE|monocytic|TRUE|OK
-GSE207356|Exploratory|TRUE|FALSE|NA|TRUE|OK
+dataset|study_role|is_longitudinal|discovery_candidate|subtype_stratum|l2_capable|integrity_flag|l2_reason
+Chen2023|Discovery-AML+AuxStroma|FALSE|TRUE|NPM1|TRUE|OK|whole-marrow niche+immune libraries (CD34 sublibs excluded separately by CCC_SORTED_SUBLIB_PATTERN)
+GSE239721|Discovery-AML|FALSE|TRUE|other|TRUE|OK|whole-marrow MNC
+GSE289435|Discovery-AML|FALSE|TRUE|other|TRUE|OK|whole-marrow MNC
+Petti2019|Discovery-AML|FALSE|TRUE|other|TRUE|OK|whole-marrow MNC
+GSE185381|Discovery-AML-immuneReceiver|FALSE|TRUE|other|TRUE|OK|whole-marrow CITE-seq; immune receiver compartment present
+E-MTAB-11536|Healthy-control|FALSE|FALSE|NA|TRUE|OK|healthy cross-tissue immune atlas; BMA compartment used as healthy reference
+GSE253355|Reference-scaffold+AuxStroma|FALSE|FALSE|NA|FALSE|OK|projection scaffold (BoneMarrowMap) not a patient cohort; used as reference, never as an L2 sample
+GSE116256|Treatment-axis|TRUE|FALSE|mixed|TRUE|OK|whole-marrow MNC (Seq-Well; see PLATFORM_TABLE for the doublet-rate consequence)
+GSE185991|Treatment-axis-L1only|TRUE|FALSE|NPM1|FALSE|OK|CD34/CD117 SORTED -- no stroma/immune compartment exists in the library; L1 only
+GSE147989|Treatment-axis-L1only|TRUE|FALSE|mixed|FALSE|OK|CD34 SORTED LSC (Riether) -- no stroma/immune compartment; L1 only
+GSE227903|Validation-relapse+treatment|TRUE|FALSE|mixed|TRUE|OK|whole-marrow BM niche interactome (Dx/MRD/R)
+GSE201966|Validation-relapse|TRUE|FALSE|monocytic|TRUE|OK|whole-marrow MNC
+GSE207356|Exploratory|TRUE|FALSE|NA|TRUE|OK|whole-marrow MNC
 ', sep = "|")
+
+## -- platform / chemistry (D2 covariate; also drives the doublet-rate model) ----
+# A DATASET CANNOT PROXY FOR PLATFORM. GSE185381 ships 3' and 5' libraries in one deposit
+# (GSM5613794/5 = "2020-05-22-5prime_*"), so the covariate has to resolve at LIBRARY level.
+# Verified for GSE185381: no donor spans both chemistries, so the donor-level Sample built in
+# ingest_GSE185381.R stays chemistry-pure -- but D2 still needs the field, and the doublet
+# model below needs `platform`, not `chemistry`.
+#
+# HONESTY NOTE: `platform` is verified from each ingest reader / the source publication.
+# `chemistry` is only filled where the repo actually evidences it; everything else is
+# "unknown" ON PURPOSE rather than guessed 3prime. Fill from GEO characteristics before using
+# chemistry as a stratum; using it while unknown-heavy would silently confound D2.
+PLATFORM_TABLE <- data.table::fread(text = '
+dataset|platform|chemistry
+Chen2023|10x|unknown
+GSE239721|10x|unknown
+GSE289435|10x|unknown
+Petti2019|10x|unknown
+GSE185381|10x|3prime
+E-MTAB-11536|10x|unknown
+GSE253355|10x|unknown
+GSE116256|SeqWell|NA
+GSE185991|10x|unknown
+GSE147989|10x|unknown
+GSE227903|10x|unknown
+GSE201966|10x|unknown
+GSE207356|10x|unknown
+', sep = "|")
+
+# LIBRARY-level overrides, matched as a regex against the raw library/prefix id.
+PLATFORM_LIBRARY_OVERRIDE <- data.table::fread(text = '
+dataset|library_regex|platform|chemistry
+GSE185381|5prime|10x|5prime
+', sep = "|")
+
+# Resolve (dataset, library) -> list(platform, chemistry). library may be NA.
+platform_of <- function(ds_id, library_id = NA_character_) {
+  ds_id <- as.character(ds_id); library_id <- as.character(library_id)
+  ov <- PLATFORM_LIBRARY_OVERRIDE[PLATFORM_LIBRARY_OVERRIDE$dataset == ds_id, ]
+  if (nrow(ov) && !is.na(library_id) && nzchar(library_id)) {
+    for (i in seq_len(nrow(ov))) {
+      if (grepl(ov$library_regex[i], library_id, ignore.case = TRUE))
+        return(list(platform = ov$platform[i], chemistry = ov$chemistry[i]))
+    }
+  }
+  hit <- PLATFORM_TABLE[PLATFORM_TABLE$dataset == ds_id, ]
+  if (nrow(hit) == 1L) return(list(platform = hit$platform[1], chemistry = hit$chemistry[1]))
+  list(platform = "unknown", chemistry = "unknown")
+}
+
+## -- upstream-processed deposits (doublet-recovery interpretation, NOT a behaviour change) ----
+# These datasets are ingested from AUTHOR-PROCESSED objects, not from raw CellRanger output, so
+# the authors' own QC (including doublet removal) has already been applied. A low doublet yield
+# in these samples is EXPECTED and must not be read as a failure of the callers. The v1 headline
+# "37% of expected doublets recovered" pooled these with raw-matrix datasets, which makes the
+# number uninterpretable; group by this flag before judging recovery.
+#   GSE116256   author .dem/.anno matrices (van Galen)   -- also Seq-Well, see below
+#   GSE227903   author count_mat + meta (Ennis)
+#   GSE239721   a single author Seurat .RDS
+#   E-MTAB-11536 curated cross-tissue immune atlas (Dominguez Conde)
+DATASETS_UPSTREAM_FILTERED <- c("GSE116256", "GSE227903", "GSE239721", "E-MTAB-11536")
+is_upstream_filtered <- function(ds_id) as.character(ds_id) %in% DATASETS_UPSTREAM_FILTERED
 
 ## -- sample-level role refinement regex ----
 HEALTHY_REGEX  <- "healthy|normal|control|donor"
@@ -195,7 +292,18 @@ INTEGRITY_MIN_MED_NCOUNT <- 100   # hard integrity floor -> flag + skip doublet
 # Union is less conservative on real cells; that trade is deliberate.
 DOUBLET_CONSENSUS <- "union"
 DOUBLET_MIN_CELLS <- 100L
-DBL_RATE_PER_1K   <- 0.008           # ~0.8% per 1000 cells (10x)
+DBL_RATE_PER_1K   <- 0.008           # ~0.8% per 1000 cells -- a 10x DROPLET-loading model
 DBL_RATE_CAP      <- 0.10
+# Non-droplet platforms do not follow the linear-in-n droplet law. Seq-Well is a nanowell method
+# loaded at high dilution, so its multiplet rate is ~flat in n and much lower. Applying the 10x
+# law to GSE116256 (Seq-Well, up to ~10k cells/sample) inflated its expected count several-fold
+# and made that dataset the main driver of the "only 37% recovered" headline.
+# The 0.02 is a literature-typical Seq-Well figure, not something derived from this cohort --
+# it sets the callers' prior only, and n_doublet/dbl_rate_obs are reported regardless.
+DBL_RATE_FLAT     <- c(SeqWell = 0.02)
 
-expected_dbl_rate <- function(n_cells) min(DBL_RATE_PER_1K * (n_cells / 1000), DBL_RATE_CAP)
+expected_dbl_rate <- function(n_cells, platform = "10x") {
+  platform <- as.character(platform)[1]
+  if (!is.na(platform) && platform %in% names(DBL_RATE_FLAT)) return(unname(DBL_RATE_FLAT[platform]))
+  min(DBL_RATE_PER_1K * (n_cells / 1000), DBL_RATE_CAP)
+}

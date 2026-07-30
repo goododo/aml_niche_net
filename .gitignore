@@ -42,6 +42,11 @@ scripts/以前06_hierarchy/logs/
 # scripts/10_figures/build_lab_meeting_deck.py from the tracked template + figures)
 /results/figures/12_deck/lab_meeting_deck.html
 
+# ── Frozen v1 run (2026-07-15 pipeline output, kept for the v1-vs-v2 comparison) ──
+# 161M / 581 files. Regenerable only by re-running the OLD config, so it lives on disk, not in
+# git. The LARGE1 side of the same snapshot is 99_archive/v1_2026-07-29 (22G).
+/results_v1/
+
 # ── Editor / runtime ──────────────────────────────────────────────
 .Rhistory
 .RData

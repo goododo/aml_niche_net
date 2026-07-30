@@ -33,13 +33,36 @@ CCC_RECV_IMMUNE <- c("T_NK","B_Plasma","Mono_DC")    # immune/paracrine receiver
 # missing nodes biological; sorted CD34 missingness is technical -> exclude). -> gate on protocol only.
 CCC_ELIGIBLE_REQUIRES_L2  <- TRUE
 CCC_SORTED_SUBLIB_PATTERN <- list(Chen2023 = "CD34") # dataset -> regex (case-insensitive) of sorted sublibs
-CCC_MIN_TOTAL_CELLS       <- 500L                    # sample-level floor (blueprint Phase 1)
-# Result: 159 eligible / 220 projected (48 not_l2_capable + 10 sorted_sublibrary + 3 below_min_cells).
+# MUST track MIN_CELLS_SAMPLE in config_qc.R. These are two independent gates on the same
+# quantity: while this one sat at 500 and MIN_CELLS_SAMPLE was lowered to 300, every sample in
+# the 300-499 band was re-admitted at 01_preprocess only to be cut again here as
+# "below_min_cells" -- i.e. the MIN_CELLS_SAMPLE change was a no-op end-to-end. Quality is
+# enforced by FLAG_LOWCOMPLEXITY_DROP (median nFeature >= 500) plus the occupancy gate below
+# (>= CCC_MIN_OCCUPIED_BINS nodes holding >= CCC_MIN_CELLS_PER_OCCUPIED_BIN cells), which is the
+# constraint that actually matters for a 7-node graph.
+CCC_MIN_TOTAL_CELLS       <- 300L                    # == MIN_CELLS_SAMPLE (config_qc.R)
+# v1 result (stale, MIN_CELLS=500 + intersection doublets + NBM mislabelled as Diagnosis):
+#   159 eligible / 220 projected (48 not_l2_capable + 10 sorted_sublibrary + 3 below_min_cells).
+#   Recomputed in v2; do not quote the v1 numbers.
 
 ## -- Per-node presence threshold (WITHIN a sample's graph) ----
 # Below this a node is 'missing' in that sample (NOT dropped) -> unbalanced FGW. Also = CellChat
 # filterCommunication(min.cells=) floor (aligned: groups < min.cells are auto-excluded by CellChat).
 CCC_MIN_CELLS_PER_NODE <- 10L
+
+## -- Per-sample OCCUPANCY gate (the constraint that actually binds for a 7-node graph) ----
+# A total-cell floor is the wrong instrument for CCC. 300 cells spread over 7 nodes can leave
+# several nodes with a handful of cells each; CellChat then estimates each group's mean
+# expression from almost nothing, so the graph exists but its edge weights are noise. What must
+# be guaranteed is OCCUPANCY: enough nodes carrying enough cells to support a comparable
+# topology. This can only be evaluated after BMM projection, which is why it lives here and not
+# as a cell-count floor in 01_preprocess.
+# Distinct from CCC_MIN_CELLS_PER_NODE (=10), which decides whether a node is PRESENT in a
+# sample's graph (absent -> unbalanced FGW handles it); this decides whether the SAMPLE gets a
+# graph at all. A sample failing it is excluded rather than contributing a 2-node graph whose
+# topology distance is meaningless.
+CCC_MIN_OCCUPIED_BINS          <- 3L
+CCC_MIN_CELLS_PER_OCCUPIED_BIN <- 30L
 
 ## -- CellChat engine parameters (ALL verified against installed 2.2.0.9001 via probe [4]) ----
 CCC_ENGINE_DEFAULT <- "cellchat"     # liana arm = 02b (schema-compatible; R3 two-method gate). liana 0.1.14 installed.

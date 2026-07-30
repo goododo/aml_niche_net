@@ -11,6 +11,9 @@
 # Patient (strategy C): per-cell donor column is "samples".
 #           assigned cell -> Patient_ID = donor, Demuxed = TRUE
 #           unassigned    -> Patient_ID = library composition string (fallback)
+# Sample  : the DONOR, not the library. Libraries pool up to 5 donors and mix AML with Healthy,
+#           so the library is not a biological sample; Library/GSM/Platform keep the provenance.
+#           50 libraries -> 53 donors (42 AML Diagnosis + 11 Healthy); 41 donors span >1 library.
 # Guard  : if a library's metadata barcodes barely map to its matrix
 #          (source-file mismatch, e.g. GSM5613798), warn and use fallback.
 # ============================================================================
@@ -180,15 +183,21 @@ for (prefix in prefixes) {
 
   s <- make_seurat(
     counts     = counts,
-    sample     = prefix,
+    sample     = prefix,        # PROVISIONAL: replaced by the donor id below
     dataset    = DATASET,
     patient    = comp_label,    # fallback default; overridden per cell below
     timepoint  = NA_character_, # cross-sectional
     study      = STUDY,
     extra_meta = aligned
   )
-  s$GSM    <- gsm
-  s$Pooled <- is_pooled
+  # Library provenance moves into its own column now that Sample is the DONOR. A donor spans up
+  # to 5 libraries in this deposit, so Library/GSM are the only remaining handle on batch.
+  s$Library <- prefix
+  s$GSM     <- gsm
+  s$Pooled  <- is_pooled
+  .plat       <- platform_of(DATASET, prefix)
+  s$Platform  <- .plat$platform
+  s$Chemistry <- .plat$chemistry     # 3prime vs 5prime: resolved per LIBRARY, not per dataset
 
   # Strategy C: per-cell demux on the donor column when available.
   if (!is.na(donor_col)) {
@@ -199,13 +208,25 @@ for (prefix in prefixes) {
     s$orig.ident    <- pid
     s$Demuxed       <- has_call
     s$Disease_state <- vapply(pid, state_of, character(1), USE.NAMES = FALSE)
+    # THE SAMPLE IS THE DONOR, NOT THE LIBRARY. A library here pools up to 5 donors and mixes
+    # AML with Healthy in one barcode set, so splitting on the library key (03_per_sample_qc.R
+    # splits by Sample) yielded "samples" that are not biological samples: one QC unit, one CNV
+    # run and one CCC graph per POOL. 50 libraries -> 53 donors (42 AML Diagnosis + 11 Healthy),
+    # all 53 clearing the cell-count and complexity gates. Un-demuxed cells get a marked id so
+    # they can never be mistaken for a donor; DEMUX_PREFILTER drops them before the split anyway.
+    s$Sample <- ifelse(has_call, donor_vals, paste0("UNDEMUX__", prefix))
     message("        demuxed on '", donor_col, "': ",
-            sum(has_call), "/", length(has_call), " cells assigned")
+            sum(has_call), "/", length(has_call), " cells assigned -> ",
+            length(unique(donor_vals[has_call])), " donor-level samples")
   } else {
     s$Demuxed       <- FALSE
     s$Disease_state <- state_of(comp_label)
+    s$Sample        <- paste0("UNDEMUX__", prefix)
     message("        no donor column -> fallback to composition label")
   }
+  # make_seurat stamped uid_patient from the SCALAR fallback label, so it must be rebuilt per
+  # cell after demux; otherwise every cell in a pooled library keeps the composition string.
+  s$uid_patient <- paste0(DATASET, ":", s$Patient_ID)
 
   # C1: GSE185381 is disease-driven AND per-cell (a library pools AML+Healthy donors), so
   # canonical Timepoint must be set per cell from Disease_state, not via the sample-level

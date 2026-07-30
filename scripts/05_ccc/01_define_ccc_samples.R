@@ -49,12 +49,17 @@ grid <- cbind(smp_keys[grid$idx], hierarchy_bin = grid$hierarchy_bin)
 presence <- merge(grid, node_counts, by = c("dataset","sample","hierarchy_bin"), all.x = TRUE)
 presence[is.na(n_cells), n_cells := 0L]
 presence[, present := n_cells >= CCC_MIN_CELLS_PER_NODE]
+# OCCUPIED is a stricter bar than PRESENT: present (>=10 cells) means the node appears in the
+# graph, occupied (>=30) means its mean expression is estimated from enough cells to be worth
+# comparing across samples. The eligibility gate counts occupied nodes.
+presence[, occupied := n_cells >= CCC_MIN_CELLS_PER_OCCUPIED_BIN]
 setorder(presence, dataset, sample, hierarchy_bin)
 
 ## -- Step 3. per-sample rollups (total cells, nodes present, lymphoid count for eyeball) ----
 wide <- dcast(presence, dataset + sample ~ hierarchy_bin, value.var = "n_cells", fill = 0)
-roll <- presence[, .(total_cells    = sum(n_cells),
-                     n_nodes_present = sum(present)),
+roll <- presence[, .(total_cells     = sum(n_cells),
+                     n_nodes_present = sum(present),
+                     n_bins_occupied = sum(occupied)),
                  by = .(dataset, sample)]
 roll <- merge(roll, wide[, .(dataset, sample,
                              lymphoid_cells = T_NK + B_Plasma,
@@ -85,16 +90,19 @@ for (ds in names(CCC_SORTED_SUBLIB_PATTERN)) {
 m[, l2_val := as.logical(as.character(l2_capable))]
 m[is.na(l2_val), l2_val := FALSE]
 m[, l2_flag := (!CCC_ELIGIBLE_REQUIRES_L2) | l2_val]
-m[, ccc_eligible := l2_flag & !sorted_sublib & (total_cells >= CCC_MIN_TOTAL_CELLS)]
+m[, occupancy_ok := n_bins_occupied >= CCC_MIN_OCCUPIED_BINS]
+m[, ccc_eligible := l2_flag & !sorted_sublib &
+                    (total_cells >= CCC_MIN_TOTAL_CELLS) & occupancy_ok]
 # human-readable exclusion reason (first failing rule)
 m[, exclude_reason := fifelse(ccc_eligible, "",
                        fifelse(!l2_flag,                       "not_l2_capable",
                        fifelse(sorted_sublib,                  "sorted_sublibrary",
-                       fifelse(total_cells < CCC_MIN_TOTAL_CELLS, "below_min_cells", "other"))))]
+                       fifelse(total_cells < CCC_MIN_TOTAL_CELLS, "below_min_cells",
+                       fifelse(!occupancy_ok,                  "below_min_occupied_bins", "other")))))]
 
 setcolorder(m, c("dataset","sample","ccc_eligible","exclude_reason",
                  "Timepoint","study_role","sample_role","l2_capable","sorted_sublib",
-                 "total_cells","n_nodes_present","lymphoid_cells"))
+                 "total_cells","n_nodes_present","n_bins_occupied","lymphoid_cells"))
 setorder(m, -ccc_eligible, dataset, sample)
 
 ## -- Step 5. write + report ----

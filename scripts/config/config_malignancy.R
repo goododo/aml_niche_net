@@ -45,7 +45,33 @@ SINGLER_FINE_TUNE <- TRUE
 
 # Mature-lymphocyte labels (from CellType_Broad) kept as the autologous normal reference.
 # NK deliberately held back as optional backup (add if too many samples fall to fallback).
+# This restriction is CORRECT and stays: in AML the myeloid/progenitor compartment may itself be
+# malignant, so autologous myeloid cells cannot serve as normals. What is NOT correct is letting
+# a lymphoid-only reference be the ONLY reference -- see INFERCNV_REF_PER_LINEAGE below.
 REF_KEEP_LABELS <- c("CD4 Memory T", "CD8 Memory T", "Naive T", "B")
+
+## -- LINEAGE-MATCHED REFERENCE GROUPS ----
+# THE DOMINANT FALSE-POSITIVE MODE. On the v1 calls the per-bin healthy false-positive rate rose
+# monotonically with transcriptional distance from the lymphoid reference:
+#     T_NK 0.036 | B_Plasma 0.077 | LMPP_GMP 0.143 | Mono_DC 0.234 | Megakaryocyte 0.243
+#     Erythroid 0.267 | HSC_MPP 0.398 | Stromal 0.903
+# That ordering is lineage, not copy number. It made healthy marrow score as malignant as AML
+# marrow (healthy median frac_malignant 0.135 vs diagnosis 0.115; healthy-vs-diagnosis AUC 0.546)
+# and it is worst in HSC_MPP -- the bin H1's LSC-like sender axis depends on.
+#
+# MECHANISM: infercnv::run(ref_subtract_use_mean_bounds = TRUE, the package default) zeroes a
+# gene only when it falls outside [min, max] of the PER-REFERENCE-GROUP means. With ONE reference
+# group that interval collapses to a point and the step degenerates into plain mean subtraction,
+# so a gene that is merely high in myeloid cells reads as amplification against a lymphoid
+# reference. Splitting the reference into one group per lineage restores a real interval and the
+# lineage component cancels. No other inferCNV parameter needs to change.
+#
+# TRADE: a wider reference interval is strictly more conservative -- it costs sensitivity to
+# genuine small CNVs in exchange for removing the lineage artefact. With a healthy FPR of 0.4 in
+# HSC_MPP, that is the right direction. Verified against 96_malignancy_fpr_healthy after the run.
+INFERCNV_REF_PER_LINEAGE   <- TRUE
+INFERCNV_REF_MIN_PER_GROUP <- 20L   # a lineage with fewer reference cells is dropped rather than
+                                    # kept as a noisy group that would widen the interval by luck
 
 ## -- reference adequacy & fallback ----
 REFNORM_MIN_NORMAL_CELLS <- 50L   # need at least this many autologous normals, else fall back.
@@ -134,3 +160,37 @@ NUMBAT_DEGRADED_NOTE <- "no_CNV_detected"
 # tier logic does NOT require SNV; when absent, evidence is expr(+allele) only. 48_vartrix_run.R
 # is a placeholder until a dataset with usable SNV data is added.
 SNV_ARM_ACTIVE <- FALSE
+
+## -- RESIDUAL-DISEASE STRATUM (H3 treatment-pressure axis) ----
+# WHY this exists: the nominal Timepoint is the depositing author's word for the draw, and it
+# conflates two different things -- GSE201966 "Complete_remission" is clinically an MRD draw,
+# and GSE116256 maps every "D<n>" to Post_treatment whether n is 14 or 171. Only GSE227903 ever
+# lands in MRD, purely because its authors wrote "MRD". So H3's stratum is derived from residual
+# disease BURDEN instead of from the label. Applied ONLY to post-treatment draws: a low-blast
+# diagnosis marrow is not an MRD sample.
+RESIDUAL_NOMINAL_SCOPE <- c("MRD", "Post_treatment")
+RESIDUAL_CUTS   <- c(deep = 0.05, residual = 0.20)   # frac_malignant boundaries
+RESIDUAL_LABELS <- c("Deep_response", "Residual", "Active_disease")
+# Sensitivity sweep: the cut points are a clinical convention (CR is <5% blasts by morphology),
+# not a property of this cohort, so every H3 result must be shown to survive moving them.
+RESIDUAL_SWEEP_DEEP     <- c(0.02, 0.03, 0.05, 0.08, 0.10)
+RESIDUAL_SWEEP_RESIDUAL <- c(0.15, 0.20, 0.25, 0.30)
+
+## -- CALIBRATION GATE: frac_malignant must actually separate healthy from AML ----
+# BLOCKING PRECONDITION, checked before any stratum is emitted. On the v1 (2026-07-15) calls the
+# consensus did NOT separate disease state at all:
+#     Healthy   n=22  median frac_malignant 0.135   <- HIGHER than diagnosis
+#     Diagnosis n=77  median 0.115
+#     Relapse   n=10  median 0.048
+#     MRD       n= 6  median 0.351
+# with per-sample healthy FPR up to 0.756 (GSE116256 BM5-34p38n, a CD34-sorted healthy fraction)
+# and per-bin FPR of 0.398 in HSC_MPP / 0.903 in Stromal. 125/130 samples carried single-arm
+# (inferCNV-only) evidence. Stratifying treatment pressure on a score with that behaviour would
+# manufacture an H3 result out of caller noise, so 70_residual_stratum.R refuses to write.
+# Part of the v1 signal is a labelling artefact this refactor fixes: several GSE185381 "healthy"
+# entries were POOLED LIBRARIES containing AML donors (GSM5613770 = Control0082_AML052_AML022b),
+# so their "false positives" were real AML cells. Donor-level Sample (ingest_GSE185381.R) removes
+# that class. GSE116256's sorted healthy fractions and Chen2023 NBM are NOT explained by it.
+RESIDUAL_CALIB_MAX_HEALTHY_MEDIAN <- 0.05  # healthy median frac_malignant must sit below the deep cut
+RESIDUAL_CALIB_MIN_AUC            <- 0.70  # healthy vs diagnosis separation (Mann-Whitney AUC)
+RESIDUAL_CALIB_MAX_HEALTHY_FPR    <- 0.20  # per-sample healthy FPR ceiling (median across healthy)

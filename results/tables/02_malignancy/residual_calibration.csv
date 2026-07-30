@@ -1,0 +1,8 @@
+check,value,bound,rule,pass
+healthy_median_below_deep_cut,0.13495,0.05,value <= bound,FALSE
+healthy_vs_diagnosis_auc,0.546340023612751,0.7,value >= bound,FALSE
+healthy_fpr_median,0.0877,0.2,value <= bound,TRUE
+n_healthy,22,,reported only,
+n_diagnosis,77,,reported only,
+diagnosis_median,0.1145,,reported only,
+frac_single_arm_evidence,0.961538461538461,,reported only,

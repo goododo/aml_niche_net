@@ -70,6 +70,12 @@ make_seurat <- function(counts, sample, dataset, patient, timepoint,
   # label those "Diagnosis", which put normal marrow into every AML comparison.
   seu$Timepoint        <- canonicalize_timepoint(dataset, timepoint, disease,
                                                  sample_id = sample, patient_id = patient)  # C1 canonical
+  # NOMINAL, not a residual-disease statement -- see the note above timepoint_days() in
+  # config_qc.R. The H3 stratum is derived in 03.5_residual_stratum.R from frac_malignant.
+  seu$Timepoint_days   <- timepoint_days(timepoint) # D<n> where the deposit encodes it, else NA
+  .plat                <- platform_of(dataset)      # library-level override applied by the ingest
+  seu$Platform         <- .plat$platform            # if the dataset is not platform-homogeneous
+  seu$Chemistry        <- .plat$chemistry
   seu$orig.ident       <- as.character(patient)     # merge unit is the patient
 
   if (!is.null(extra_meta)) {

@@ -31,58 +31,20 @@ opt <- parse_args(OptionParser(option_list = list(
 
 ## ---- config (here-anchored; zero hard-coded paths) ----
 suppressPackageStartupMessages({ library(here) })
-source(here::here("scripts", "config", "config_paths.R"))
-source(here::here("scripts", "config", "config_malignancy.R"))
-source(here::here("scripts", "config", "utils.R"))
+# Helpers (.get_counts / get_external_ref / .ext_ref_lineage_block / build_infercnv_input /
+# run_one / burden_from_obj / infercnv_routes) are SHARED with 40_infercnv_run.R. They used to
+# be duplicated here, which meant a fix applied to 40 silently left this array runner -- the one
+# that actually produces the cohort -- on the old behaviour.
+source(here::here("scripts", "02_malignancy", "00_infercnv_common.R"))
 stopifnot(file.exists(INFERCNV_GENE_ORDER))
-
-.get_counts <- function(seu)
-  tryCatch(SeuratObject::LayerData(seu, assay = "RNA", layer = "counts"),
-           error = function(e) Seurat::GetAssayData(seu, assay = "RNA", slot = "counts"))
-
-get_external_ref <- function() {
-  if (file.exists(INFERCNV_EXT_REF_CACHE)) return(readRDS(INFERCNV_EXT_REF_CACHE))
-  message("[ext-ref] building BoneMarrowMap subsample (one-time) ...")
-  stopifnot(file.exists(INFERCNV_EXT_REF_RDS))
-  bbm <- readRDS(INFERCNV_EXT_REF_RDS)
-  lab <- as.character(bbm@meta.data[[INFERCNV_EXT_REF_LABELCOL]])
-  set.seed(INFERCNV_EXT_REF_SEED)
-  idx <- unlist(lapply(split(seq_along(lab), lab), function(ii)
-    if (length(ii) <= INFERCNV_EXT_REF_PER_TYPE) ii else sample(ii, INFERCNV_EXT_REF_PER_TYPE)))
-  cnt <- .get_counts(bbm)[, idx, drop = FALSE]
-  colnames(cnt) <- paste0("EXTREF_", colnames(cnt))
-  ext <- list(counts = cnt, cells = colnames(cnt))
-  dir.create(dirname(INFERCNV_EXT_REF_CACHE), recursive = TRUE, showWarnings = FALSE)
-  saveRDS(ext, INFERCNV_EXT_REF_CACHE)
-  rm(bbm); gc(verbose = FALSE)
-  message(sprintf("[ext-ref] %d external reference cells cached.", ncol(cnt)))
-  ext
-}
-
-run_one <- function(counts, anno_dt, ref_groups, out_dir) {
-  dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
-  anno_file <- file.path(out_dir, "annotations.tsv")
-  fwrite_safe(anno_dt, anno_file, sep = "\t", col.names = FALSE)
-  obj <- infercnv::CreateInfercnvObject(
-    raw_counts_matrix = counts, annotations_file = anno_file,
-    gene_order_file = INFERCNV_GENE_ORDER, ref_group_names = ref_groups)
-  infercnv::run(obj, cutoff = INFERCNV_CUTOFF, out_dir = out_dir,
-    cluster_by_groups = TRUE, analysis_mode = INFERCNV_ANALYSIS,
-    denoise = INFERCNV_DENOISE, HMM = INFERCNV_HMM,
-    num_threads = INFERCNV_THREADS, no_plot = FALSE, save_rds = TRUE)
-}
-burden_from_obj <- function(obj) colMeans((obj@expr.data - 1)^2)
 
 ## -- prebuild mode: build the external ref cache and exit ----
 if (opt$prebuild_ext_ref) { invisible(get_external_ref()); message("[prebuild] external ref ready."); quit(save = "no") }
 
 stopifnot(!is.na(opt$dataset), !is.na(opt$sample))
 
-## -- route this sample from the summary (same derivation as 40) ----
-stopifnot(file.exists(REFNORM_SUMMARY_CSV))
-summ <- fread(REFNORM_SUMMARY_CSV)
-summ[, route := fifelse(decision == "autologous_ok", "autologous",
-              fifelse(method == "sorted_guard", "skip", "external"))]
+## -- route this sample from the summary (shared derivation with 40) ----
+summ <- infercnv_routes()
 row <- summ[dataset == opt$dataset & sample_id == opt$sample]
 if (!nrow(row)) stop("sample not in summary: ", opt$dataset, "::", opt$sample)
 route <- row$route[1]
@@ -97,23 +59,8 @@ stopifnot(file.exists(rds_in))
 message(sprintf("[run] %s::%s route=%s", opt$dataset, opt$sample, route))
 seu <- readRDS(rds_in); s_cnt <- .get_counts(seu)
 
-if (route == "autologous") {
-  ref_txt <- file.path(REFNORM_REF_CELL_DIR, opt$dataset, paste0(opt$sample, "_ref_norm_cells.txt"))
-  stopifnot(file.exists(ref_txt))
-  ref_cells <- intersect(readLines(ref_txt), colnames(s_cnt))
-  grp <- ifelse(colnames(s_cnt) %in% ref_cells, "reference_normal", "observation")
-  counts <- s_cnt
-  anno   <- data.table(cell = colnames(s_cnt), group = grp)
-  ref_groups <- "reference_normal"
-} else {
-  ext <- get_external_ref()
-  common <- intersect(rownames(s_cnt), rownames(ext$counts)); stopifnot(length(common) > 1000)
-  counts <- cbind(s_cnt[common, , drop = FALSE], ext$counts[common, , drop = FALSE])
-  anno   <- data.table(cell = colnames(counts),
-                       group = c(rep("observation", ncol(s_cnt)),
-                                 rep("reference_external", ncol(ext$counts))))
-  ref_groups <- "reference_external"
-}
+inp <- build_infercnv_input(s_cnt, route, opt$dataset, opt$sample)
+counts <- inp$counts; anno <- inp$anno; ref_groups <- inp$ref_groups
 
 obj <- {
   n_obs <- sum(anno$group == "observation")

@@ -3,13 +3,21 @@
 # Extracted from legacy d00_config.R (Phase 2 portion).
 suppressPackageStartupMessages({ library(here) })
 source(here::here("scripts", "config", "config_paths.R"))
+# PLATFORM_TABLE / platform_of() live in config_qc.R and are the single source of truth for the
+# platform stratum. Sourcing is safe: config_qc.R only pulls config_paths.R.
+source(here::here("scripts", "config", "config_qc.R"))
 suppressPackageStartupMessages({ library(data.table) })
 
 ## -- reference tables (live beside the hierarchy scripts) ----
 HIER_SCRIPT_DIR  <- file.path(SCRIPTS_DIR, "03_hierarchy")
 BIN_MAP_TSV      <- file.path(HIER_SCRIPT_DIR, "bmm_bin_map.tsv")       # broad(24) -> hierarchy_bin(8) + in_ccc_graph
-DATASET_PLAT_TSV <- file.path(HIER_SCRIPT_DIR, "dataset_platform.tsv")  # dataset -> platform (threshold stratum)
 STEMNESS_TSV     <- file.path(HIER_SCRIPT_DIR, "stemness_signatures.tsv")
+# REMOVED: DATASET_PLAT_TSV pointed at scripts/03_hierarchy/dataset_platform.tsv, which DOES NOT
+# EXIST -- a dangling constant left behind by the refactor out of scripts/以前06_hierarchy/ (the
+# only consumers, d15/d20, still live there and carry their own copy of the path). Consequence:
+# the per-platform stratification that STRATA_KEY/MAPPING_QC_QUANTILE describe below was silently
+# dropped in the current pipeline. Platform now comes from PLATFORM_TABLE (config_qc.R), resolved
+# at LIBRARY level because GSE185381 mixes 3'/5' inside one dataset.
 
 ## -- BoneMarrowMap projection scaffold (added: needed by 01_bmm_project.R) ----
 # Symphony reference + its uwot UMAP model, both from the BMM Zenodo deposit. The scaffold path is
