@@ -1,0 +1,13 @@
+dataset	sample	patient_id	timepoint	timepoint_v1	changed_vs_v1	timepoint_detail	timepoint_days	disease_state	subtype	subtype_dataset_level	karyotype	mutations	compartment	platform	chemistry	upstream_doublet_removed	n_cells_ingest	med_nFeature	n_libraries	study_role	notes	review_flag	rule0_healthy
+GSE289435	GSM8791432_MLL_14666	MLL_14666	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	12060	1733		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE289435	GSM8791433_MLL_16703	MLL_16703	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	14986	1585		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE289435	GSM8791434_MLL_17746	MLL_17746	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	9848	1361		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE289435	GSM8791435_MLL_17843	MLL_17843	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	19508	885		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE289435	GSM8791436_MLL_17844	MLL_17844	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	25922	1558.5		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE289435	GSM8791437_MLL_28824	MLL_28824	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	8719	1443		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE289435	GSM8791438_MLL_28830	MLL_28830	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	10017	920		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE289435	GSM8791439_MLL_28855	MLL_28855	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	8059	939		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE289435	GSM8791441_MLL_29532	MLL_29532	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	8475	787		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE289435	GSM8791442_MLL_29538	MLL_29538	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	6342	923.5		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE289435	GSM8791443_MLL_30862	MLL_30862	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	4600	1001		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE289435	GSM8791444_MLL_30886	MLL_30886	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	15745	1130		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE

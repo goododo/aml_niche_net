@@ -1,0 +1,21 @@
+dataset	sample	patient_id	timepoint	timepoint_v1	changed_vs_v1	timepoint_detail	timepoint_days	disease_state	subtype	subtype_dataset_level	karyotype	mutations	compartment	platform	chemistry	upstream_doublet_removed	n_cells_ingest	med_nFeature	n_libraries	study_role	notes	review_flag	rule0_healthy
+Chen2023	AML103_CD34	AML103	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	1001	2709		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	AML103_Niche_Immune	AML103	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	1622	1707		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	AML162_CD34	AML162	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	3381	1194		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	AML162_niche_immune	AML162	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	3267	1421		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	AML24_CD34	AML24	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	14405	605		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	AML24_Niche_Immune	AML24	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	4054	1422		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	AML304_CD34	AML304	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	4866	1762		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	AML304_Niche_Immune	AML304	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	10070	974		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	AML320_CD34	AML320	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	5091	1580		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	AML320_NICHE_IMMUNE	AML320	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	8393	1065		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	AML469_CD34	AML469	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	6283	2476		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	AML469_Niche_Immune	AML469	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	552	1408.5		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
+Chen2023	NBM1_CD34	NBM1	Healthy	Diagnosis	TRUE					NPM1			CD34_sorted	10x	unknown	FALSE	10128	1504		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
+Chen2023	NBM1_Niche_Immune	NBM1	Healthy	Diagnosis	TRUE					NPM1			niche_immune	10x	unknown	FALSE	8512	965.5		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
+Chen2023	NBM2_CD34	NBM2	Healthy	Diagnosis	TRUE					NPM1			CD34_sorted	10x	unknown	FALSE	3345	2199		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
+Chen2023	NBM2_Niche_Immune	NBM2	Healthy	Diagnosis	TRUE					NPM1			niche_immune	10x	unknown	FALSE	4149	1576		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
+Chen2023	NBM3_CD34	NBM3	Healthy	Diagnosis	TRUE					NPM1			CD34_sorted	10x	unknown	FALSE	12528	1104.5		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
+Chen2023	NBM3_Niche_immune	NBM3	Healthy	Diagnosis	TRUE					NPM1			niche_immune	10x	unknown	FALSE	6978	1194		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
+Chen2023	NBM4_CD34	NBM4	Healthy	Diagnosis	TRUE					NPM1			CD34_sorted	10x	unknown	FALSE	6945	1572		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
+Chen2023	NBM4_Niche_Immune	NBM4	Healthy	Diagnosis	TRUE					NPM1			niche_immune	10x	unknown	FALSE	5165	1306		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE

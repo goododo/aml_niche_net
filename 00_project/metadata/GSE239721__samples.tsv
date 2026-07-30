@@ -1,0 +1,21 @@
+dataset	sample	patient_id	timepoint	timepoint_v1	changed_vs_v1	timepoint_detail	timepoint_days	disease_state	subtype	subtype_dataset_level	karyotype	mutations	compartment	platform	chemistry	upstream_doublet_removed	n_cells_ingest	med_nFeature	n_libraries	study_role	notes	review_flag	rule0_healthy
+GSE239721	PT10A	PT10A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	1327	3305		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT12A	PT12A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	584	2106		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT13A	PT13A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	885	2315		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT14A	PT14A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	684	3700		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT15A	PT15A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	4549	3061		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT16A	PT16A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	1671	2906		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT17A	PT17A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	5207	3113		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT19A	PT19A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	476	1484		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT20A	PT20A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	1894	1983		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT21A	PT21A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	3910	2874		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT22A	PT22A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	1786	3227.5		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT23A	PT23A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	9781	1937		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT25A	PT25A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	364	1730		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT26A	PT26A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	1331	3424		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT27A	PT27A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	6372	2322		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT28A	PT28A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	9477	3091		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT29A	PT29A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	2509	3039		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT30A	PT30A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	1196	2584		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT32A	PT32A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	1872	2068.5		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
+GSE239721	PT9A	PT9A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	293	3243		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE

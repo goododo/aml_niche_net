@@ -1,0 +1,4 @@
+dataset	sample	patient_id	timepoint	timepoint_v1	changed_vs_v1	timepoint_detail	timepoint_days	disease_state	subtype	subtype_dataset_level	karyotype	mutations	compartment	platform	chemistry	upstream_doublet_removed	n_cells_ingest	med_nFeature	n_libraries	study_role	notes	review_flag	rule0_healthy
+GSE207356	GSM6284912_TS173_04_Sample_D	TS173	Diagnosis	Diagnosis	FALSE								unknown	10x	unknown	FALSE	12942	1750.5		Exploratory		disease_state;compartment;chemistry;subtype;	FALSE
+GSE207356	GSM6284913_TS173_05_Sample_E	TS173	Post_treatment	Post_treatment	FALSE								unknown	10x	unknown	FALSE	9551	1280		Exploratory		disease_state;compartment;chemistry;subtype;	FALSE
+GSE207356	GSM6284914_TS173_06_Sample_F	TS173	Post_treatment	Post_treatment	FALSE								unknown	10x	unknown	FALSE	12178	1866.5		Exploratory		disease_state;compartment;chemistry;subtype;	FALSE

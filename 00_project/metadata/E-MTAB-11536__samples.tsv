@@ -1,0 +1,13 @@
+dataset	sample	patient_id	timepoint	timepoint_v1	changed_vs_v1	timepoint_detail	timepoint_days	disease_state	subtype	subtype_dataset_level	karyotype	mutations	compartment	platform	chemistry	upstream_doublet_removed	n_cells_ingest	med_nFeature	n_libraries	study_role	notes	review_flag	rule0_healthy
+E-MTAB-11536	621B-BLD	621B	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	105	1690		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+E-MTAB-11536	621B-BMA	621B	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	711	1639		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+E-MTAB-11536	637C-BLD	637C	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	779	1862		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+E-MTAB-11536	637C-BMA	637C	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	1616	1927.5		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+E-MTAB-11536	640C-BMA	640C	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	2048	1981.5		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+E-MTAB-11536	A29-BMA	A29	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	1410	1367.5		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+E-MTAB-11536	A31-BMA	A31	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	363	1841		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+E-MTAB-11536	A35-BLD	A35	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	1411	1676		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+E-MTAB-11536	A35-BMA	A35	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	1399	2019		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+E-MTAB-11536	A36-BLD	A36	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	3360	1960		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+E-MTAB-11536	A36-BMA	A36	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	1333	1764		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+E-MTAB-11536	A37-BMA	A37	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	821	1448		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE

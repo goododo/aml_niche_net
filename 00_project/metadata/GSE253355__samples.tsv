@@ -1,0 +1,13 @@
+dataset	sample	patient_id	timepoint	timepoint_v1	changed_vs_v1	timepoint_detail	timepoint_days	disease_state	subtype	subtype_dataset_level	karyotype	mutations	compartment	platform	chemistry	upstream_doublet_removed	n_cells_ingest	med_nFeature	n_libraries	study_role	notes	review_flag	rule0_healthy
+GSE253355	GSM8019212_H14_MACS	H14_MACS	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	7796	2315.5		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+GSE253355	GSM8019213_H21	H21	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	8993	2859		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+GSE253355	GSM8019214_H23	H23	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	12425	2615		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+GSE253355	GSM8019215_H24	H24	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	9460	2514.5		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+GSE253355	GSM8019216_H32	H32	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	4917	2922		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+GSE253355	GSM8019217_H33	H33	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	8661	2102		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+GSE253355	GSM8019218_H34	H34	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	7246	2193		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+GSE253355	GSM8019219_H35	H35	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	8556	2151.5		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+GSE253355	GSM8019220_H36	H36	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	11326	3045		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+GSE253355	GSM8019221_H38	H38	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	8594	2867		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+GSE253355	GSM8019222_H39	H39	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	10307	2963		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+GSE253355	GSM8019223_H41	H41	Healthy	Healthy	FALSE								unknown	10x	unknown	FALSE	9361	3360		Reference-scaffold+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE

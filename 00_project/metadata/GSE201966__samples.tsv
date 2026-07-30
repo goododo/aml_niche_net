@@ -1,0 +1,8 @@
+dataset	sample	patient_id	timepoint	timepoint_v1	changed_vs_v1	timepoint_detail	timepoint_days	disease_state	subtype	subtype_dataset_level	karyotype	mutations	compartment	platform	chemistry	upstream_doublet_removed	n_cells_ingest	med_nFeature	n_libraries	study_role	notes	review_flag	rule0_healthy
+GSE201966	GSM6085176_AML01M4_CR	AML01M4	Post_treatment	Post_treatment	FALSE					monocytic			unknown	10x	unknown	FALSE	3500	214.5		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
+GSE201966	GSM6085177_AML01M4_P	AML01M4	Diagnosis	Diagnosis	FALSE					monocytic			unknown	10x	unknown	FALSE	6000	182.5		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
+GSE201966	GSM6085178_AML01M4_RE	AML01M4	Relapse	Relapse	FALSE					monocytic			unknown	10x	unknown	FALSE	9000	820		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
+GSE201966	GSM6085179_AML02M5_P	AML02M5	Diagnosis	Diagnosis	FALSE					monocytic			unknown	10x	unknown	FALSE	5520	1300		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
+GSE201966	GSM6085180_AML02M5_RE	AML02M5	Relapse	Relapse	FALSE					monocytic			unknown	10x	unknown	FALSE	13619	2399		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
+GSE201966	GSM6085181_AML03M5_P	AML03M5	Diagnosis	Diagnosis	FALSE					monocytic			unknown	10x	unknown	FALSE	9196	1024		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
+GSE201966	GSM6085182_AML03M5_RE	AML03M5	Relapse	Relapse	FALSE					monocytic			unknown	10x	unknown	FALSE	5000	685		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
