@@ -52,10 +52,17 @@ get_external_ref <- function() {
   colnames(cnt) <- paste0("EXTREF_", colnames(cnt))   # namespace to avoid id collisions
   lab_kept <- lab[idx]                                 # aligned to cnt columns via idx
   bmap <- load_bin_map()
-  bins <- bmap$hierarchy_bin[match(lab_kept, bmap$CellType_Broad)]
+  # Label conventions differ between the two BMM artefacts: the ANNOTATED dataset writes
+  # "Plasma_Cell" while bmm_bin_map.tsv (and the Symphony projection output) write "Plasma Cell".
+  # Matching raw dropped 150 plasma cells from the reference silently -- and plasma cells are
+  # transcriptionally extreme (Ig-dominated), so leaving them out of the reference is exactly how
+  # plasma cells in an observation sample come to read as aberrant. Normalise both sides.
+  .norm_label <- function(x) trimws(gsub("[_[:space:]]+", " ", as.character(x)))
+  bins <- bmap$hierarchy_bin[match(.norm_label(lab_kept), .norm_label(bmap$CellType_Broad))]
   if (sum(is.na(bins)) > 0)
-    message(sprintf("[ext-ref] %d reference cells have no bin-map entry -> excluded from grouping",
-                    sum(is.na(bins))))
+    warning(sprintf("[ext-ref] %d reference cells have no bin-map entry -> EXCLUDED from grouping. Unmapped labels: %s",
+                    sum(is.na(bins)),
+                    paste(sort(unique(lab_kept[is.na(bins)])), collapse = ", ")))
   ext <- list(counts = cnt, cells = colnames(cnt), label = lab_kept, bin = bins)
   dir.create(dirname(INFERCNV_EXT_REF_CACHE), recursive = TRUE, showWarnings = FALSE)
   saveRDS(ext, INFERCNV_EXT_REF_CACHE)
