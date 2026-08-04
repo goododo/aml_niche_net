@@ -39,11 +39,30 @@ suppressPackageStartupMessages({library(here);library(data.table)})
 source(here::here("scripts","config","config_paths.R"))
 source(here::here("scripts","config","config_qc.R"))
 source(here::here("scripts","config","utils.R"))
-f <- list.files(DIR_PREPROCESS, "^03_qc_report__(?!ALL).*csv$", full.names=TRUE, perl=TRUE)
+f <- list.files(DIR_PREPROCESS, "^03_qc_report__", full.names=TRUE)
+f <- f[!grepl("__ALL", f)]
 if (!length(f)) stop("no per-dataset 03_qc_report__*.csv found")
+
+# FRESHNESS INVARIANT: every QC report must POSTDATE the ingest RDS it was computed from.
+# Without this, combining the directory silently mixes vintages -- and that is not
+# hypothetical: this re-run spent a cycle reasoning about a "500-cell gate bug" that was
+# simply a July-15 v1 report sitting in the same folder as twelve August-4 ones.
+stale <- rbindlist(lapply(f, function(x) {
+  ds  <- sub("^03_qc_report__(.*)\\.csv$", "\\1", basename(x))
+  rds <- file.path(RDS_INGEST_DIR, paste0(ds, ".rds"))
+  if (!file.exists(rds)) return(data.table(dataset=ds, why="ingest RDS missing"))
+  if (file.mtime(x) < file.mtime(rds))
+    return(data.table(dataset=ds, why=sprintf("report %s older than ingest %s",
+                                              format(file.mtime(x), "%m-%d %H:%M"),
+                                              format(file.mtime(rds), "%m-%d %H:%M"))))
+  NULL
+}), fill=TRUE)
+if (nrow(stale)) { print(stale); stop("stale QC report(s) -- re-run 03_per_sample_qc.R for these") }
+
 a <- rbindlist(lapply(f, fread), fill=TRUE)
 fwrite_safe(a, file.path(DIR_PREPROCESS,"03_qc_report__ALL.csv"))
-cat(sprintf("combined %d dataset reports -> %d samples\n", length(f), nrow(a)))
+cat(sprintf("combined %d dataset reports -> %d samples (all postdate their ingest)\n",
+            length(f), nrow(a)))
 print(a[, .(samples=.N, pass=sum(status=="PASS", na.rm=TRUE),
             cells_final=sum(n_final, na.rm=TRUE)), by=dataset][order(dataset)])
 if (length(f) != 13) stop(sprintf("expected 13 dataset reports, got %d -- an array task failed", length(f)))'
