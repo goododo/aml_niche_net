@@ -55,6 +55,21 @@ seu$Patient_ID <- pid
 seu$Timepoint  <- "Diagnosis"
 seu$orig.ident <- pid
 
+# This ingest builds its metadata by hand (the input is an author Seurat object, not a count
+# matrix), so it never calls make_seurat() and therefore never got make_seurat's standard
+# columns. That is invisible until something downstream filters on one of them -- Tissue came
+# through blank for all 20 samples. Set the same defaults here, explicitly.
+seu$uid_patient         <- paste0(DATASET, ":", pid)
+seu$Disease_state       <- "AML"
+seu$Timepoint_detail    <- "Diagnosis"
+seu$Timepoint_days      <- NA_integer_
+.plat                   <- platform_of(DATASET)
+seu$Platform            <- .plat$platform
+seu$Chemistry           <- .plat$chemistry
+seu$Tissue              <- TISSUE_DEFAULT     # all 20 curated rows are BM
+seu$N_donors_in_library <- 1L
+seu$Patient_resolved    <- TRUE
+
 # ----------------------------------------------------------------------------
 # [4] Recompute QC metrics with the shared rules ----
 # ----------------------------------------------------------------------------

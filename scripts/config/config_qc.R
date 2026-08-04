@@ -111,6 +111,38 @@ is_healthy_sample <- function(sample_id, patient_id = NA_character_) {
   length(x) > 0 && any(grepl(TP_HEALTHY_SAMPLE_REGEX, x, ignore.case = TRUE))
 }
 
+# SAMPLE-level canonical timepoints, taken verbatim from the curated metadata.
+# WHY A SAMPLE MAP AND NOT A RULE: GSE116256's raw label is a day number, and the day does not
+# determine the phase. D113 is On_treatment for AML328 (cycle 4 day 23 of an ongoing regimen) and
+# Post_consolidation for AML707B (cycle 1 day 54). D29 is On_treatment for AML328 and
+# Post_induction for AML475. No threshold on `days_from_diagnosis` can separate those, because
+# what differs is the treatment CONTEXT, which only the curation carries. v1 mapped all 19 to a
+# single "Post_treatment" bucket, which is precisely the conflation H3 cannot tolerate.
+# This map has the HIGHEST precedence in canonicalize_timepoint(): a curated per-sample value
+# beats every dataset-level rule and every name heuristic.
+TIMEPOINT_SAMPLE_MAP <- data.table::fread(text = '
+dataset|sample|canonical
+GSE116256|AML314-D31|Post_induction
+GSE116256|AML328-D29|On_treatment
+GSE116256|AML328-D113|On_treatment
+GSE116256|AML328-D171|On_treatment
+GSE116256|AML329-D20|Post_induction
+GSE116256|AML329-D37|Post_induction
+GSE116256|AML371-D34|Post_induction
+GSE116256|AML420B-D14|Post_induction
+GSE116256|AML420B-D35|Post_induction
+GSE116256|AML475-D29|Post_induction
+GSE116256|AML556-D15|Post_induction
+GSE116256|AML556-D31|Post_induction
+GSE116256|AML707B-D18|Post_induction
+GSE116256|AML707B-D41|Post_induction
+GSE116256|AML707B-D97|Post_consolidation
+GSE116256|AML707B-D113|Post_consolidation
+GSE116256|AML722B-D49|Post_induction
+GSE116256|AML870-D14|Post_induction
+GSE116256|AML997-D35|Post_induction
+', sep = "|")
+
 # explicit raw -> canonical, keyed per dataset (only datasets needing a lookup)
 TIMEPOINT_MAP <- data.table::fread(text = '
 dataset|raw|canonical
@@ -163,6 +195,23 @@ DISEASE_TO_TP <- c(Healthy = "Healthy", AML = "Diagnosis", Mixed = "Unknown")
 canonicalize_timepoint <- function(ds_id, raw_tp = NA_character_, dis = NA_character_,
                                    sample_id = NA_character_, patient_id = NA_character_) {
   ds_id <- as.character(ds_id); raw_tp <- as.character(raw_tp); dis <- as.character(dis)
+  # GUARD: every branch below must return a value that is IN the vocabulary. This wrapper exists
+  # because it silently was not: when "Post_treatment" was retired, TIMEPOINT_MAP was updated but
+  # the hardcoded GSE116256 branch was not, and 19 samples came out carrying a canonical value
+  # that no longer existed -- invisible until a manifest was eyeballed. Now it errors at source.
+  .ret <- function(x) {
+    if (!x %in% CANONICAL_TIMEPOINTS)
+      stop(sprintf("canonicalize_timepoint(%s, raw='%s'): returned '%s', which is not in %s",
+                   ds_id, raw_tp, x, "CANONICAL_TIMEPOINTS"), call. = FALSE)
+    x
+  }
+  # -1. CURATED per-sample value. Highest precedence: an explicit curation beats every dataset
+  #     rule and every name heuristic, including the healthy override below.
+  if (!is.na(sample_id)) {
+    hit <- TIMEPOINT_SAMPLE_MAP$canonical[TIMEPOINT_SAMPLE_MAP$dataset == ds_id &
+                                          TIMEPOINT_SAMPLE_MAP$sample  == sample_id]
+    if (length(hit) == 1L) return(.ret(hit))
+  }
   # 0. sample-level healthy donor inside an AML dataset (highest priority: a normal marrow is
   #    normal regardless of what the dataset-level rule would say). Logged, because overriding a
   #    dataset rule from a NAME is exactly the kind of decision that must stay visible.
@@ -171,25 +220,34 @@ canonicalize_timepoint <- function(ds_id, raw_tp = NA_character_, dis = NA_chara
     if (!identical(would_be, "Healthy"))
       message(sprintf("[tp] rule0 healthy sample: %s::%s (raw='%s', disease='%s') -> Healthy",
                       ds_id, sample_id, raw_tp, dis))
-    return("Healthy")
+    return(.ret("Healthy"))
   }
   # 1. whole-healthy datasets
-  if (ds_id %in% TP_HEALTHY_DATASETS) return("Healthy")
+  if (ds_id %in% TP_HEALTHY_DATASETS) return(.ret("Healthy"))
   # 2. disease-state-driven
   if (ds_id %in% TP_DISEASE_DRIVEN) {
     d <- DISEASE_TO_TP[dis]
-    return(if (!is.na(d)) unname(d) else "Unknown")
+    return(.ret(if (!is.na(d)) unname(d) else "Unknown"))
   }
-  # 3. GSE116256 day-codes
+  # 3. GSE116256 day-codes. The post-treatment phases come from TIMEPOINT_SAMPLE_MAP above,
+  #    because the day number alone cannot separate On_treatment / Post_induction /
+  #    Post_consolidation (see the note there). Reaching the D<n> branch here means a sample the
+  #    curation does not cover, so it lands in the honest bucket and says so.
   if (ds_id == "GSE116256") {
-    if (grepl("^Baseline$", raw_tp, ignore.case = TRUE)) return("Healthy")   # van Galen healthy BM
-    if (grepl("^D0$", raw_tp))                           return("Diagnosis")
-    if (grepl("^D[0-9]+$", raw_tp))                      return("Post_treatment")
-    return("Unknown")
+    if (grepl("^Baseline$", raw_tp, ignore.case = TRUE)) return(.ret("Healthy"))  # van Galen healthy BM
+    if (grepl("^D0$", raw_tp))                           return(.ret("Diagnosis"))
+    if (grepl("^D[0-9]+$", raw_tp)) {
+      warning(sprintf("GSE116256 sample '%s' (raw '%s') is not in TIMEPOINT_SAMPLE_MAP; ",
+                      sample_id, raw_tp),
+              "falling back to Post_treatment_unspecified. Add it from the curated metadata.",
+              call. = FALSE)
+      return(.ret("Post_treatment_unspecified"))
+    }
+    return(.ret("Unknown"))
   }
   # 4. explicit table (plain vector match; no data.table subset to avoid name/scoping issues)
   hit <- TIMEPOINT_MAP$canonical[TIMEPOINT_MAP$dataset == ds_id & TIMEPOINT_MAP$raw == raw_tp]
-  if (length(hit) == 1L) return(hit)
+  if (length(hit) == 1L) return(.ret(hit))
   # 5. fallback
   warning(sprintf("canonicalize_timepoint: no mapping for dataset=%s raw=%s ds=%s -> Unknown",
                   ds_id, raw_tp, dis))
@@ -298,10 +356,14 @@ GSE185381|^GSM561380[0-6][_-]|10x|5prime
 # Built with data.table() rather than fread(text=): the GSE147989 regex needs alternation, and
 # "|" is the separator every other config table uses.
 TISSUE_DEFAULT  <- "BM"
+# The regex must match the PIPELINE sample id, not the curated one. GSE185991's curated row is
+# "PT06_DX" but its pipeline samples are GSM-prefixed M-numbers (GSM5628167_M07 / GSM5628168_M08,
+# both PT06 DX per the depositor's GSM list), so a "^PT06_DX$" pattern silently matched nothing
+# and that blood draw stayed labelled marrow.
 TISSUE_OVERRIDE <- data.table::data.table(
-  dataset      = c("GSE147989",              "GSE185991",  "GSE207356"),
-  sample_regex = c("^00[79](SCR|C1D1)BL$",   "^PT06_DX$",  "Sample_D"),
-  tissue       = c("PB",                     "PB",         "PB"))
+  dataset      = c("GSE147989",            "GSE185991",         "GSE207356"),
+  sample_regex = c("^00[79](SCR|C1D1)BL$", "^GSM562816[78]_",   "Sample_D"),
+  tissue       = c("PB",                   "PB",                "PB"))
 
 tissue_of <- function(ds_id, sample_id = NA_character_) {
   ds_id <- as.character(ds_id); sample_id <- as.character(sample_id)[1]

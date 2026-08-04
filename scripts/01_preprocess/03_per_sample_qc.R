@@ -288,12 +288,27 @@ process_dataset <- function(ds) {
 
   # Demux pre-filter (Lasry GSE185381): keep only successfully demultiplexed
   # cells. Drops the un-demuxed composite/fallback libraries before splitting,
-  # so they never become per-sample objects and fail the >=500 gate naturally.
+  # so they never become per-sample objects and fail the cell-count gate naturally.
+  #
+  # GUARD: fire ONLY where demultiplexing was actually ATTEMPTED, i.e. at least one
+  # cell carries a donor call. "Demuxed == FALSE everywhere" does not mean every cell
+  # failed demux -- it means the deposit ships no per-cell donor call at all, which is
+  # true of GSE185991 (3 two-patient libraries, curated demux_method = "unknown"). The
+  # unguarded version read that as "0/159183 cells kept" and killed the whole dataset.
+  # The distinction matters: an un-demuxed cell in a demuxed library belongs to an
+  # unknown one of 5 donors and is junk; a cell in a never-demuxed library still belongs
+  # to a known library whose donor composition is recorded in N_donors_in_library.
   if (isTRUE(DEMUX_PREFILTER) && COL_DEMUXED %in% colnames(seu@meta.data)) {
-    dmx <- seu@meta.data[[COL_DEMUXED]]
+    dmx      <- seu@meta.data[[COL_DEMUXED]]
     keep_dmx <- dmx %in% c(TRUE, "TRUE", "True", "true", 1, "1")
-    message_ts(ds, ": Demuxed pre-filter ", sum(keep_dmx), "/", length(keep_dmx), " cells kept")
-    seu <- seu[, keep_dmx]
+    if (!any(keep_dmx)) {
+      message_ts(ds, ": Demuxed pre-filter SKIPPED -- no cell carries a donor call, so ",
+                 "demultiplexing was never attempted for this deposit. ",
+                 "Multi-donor libraries stay flagged via Patient_resolved instead.")
+    } else {
+      message_ts(ds, ": Demuxed pre-filter ", sum(keep_dmx), "/", length(keep_dmx), " cells kept")
+      seu <- seu[, keep_dmx]
+    }
   }
 
   # Dataset-level integrity floor (auto-detect broken counts even if not flagged).
