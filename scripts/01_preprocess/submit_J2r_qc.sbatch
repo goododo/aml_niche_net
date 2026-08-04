@@ -12,7 +12,7 @@
 # =============================================================================
 #SBATCH --job-name=J2r_qc
 #SBATCH -p gr10634c
-#SBATCH --array=1-2
+#SBATCH --array=1-1
 #SBATCH --rsc p=1:t=1:c=4:m=512G
 #SBATCH --time=72:00:00
 #SBATCH --output=/FAST/gr10634/gaozy/aml_niche_net/00_project/logs/J2r_qc_%A_%a.out
@@ -22,7 +22,7 @@ module load miniforge3
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate /FAST/gr10634/gaozy/general_env
 cd /FAST/gr10634/gaozy/aml_niche_net
-DATASETS=(GSE185991 GSE239721)
+DATASETS=(GSE185991)
 DS="${DATASETS[$((SLURM_ARRAY_TASK_ID - 1))]}"
 echo "=== per-sample QC $DS  (array id ${SLURM_ARRAY_TASK_ID})  $(date -Is)"
 Rscript scripts/01_preprocess/03_per_sample_qc.R --dataset "$DS"
