@@ -31,22 +31,30 @@ manifest_raw_path <- file.path(DIR_PREPROCESS, "01_sample_metadata_raw.csv")
 extract_sample_meta <- function() {
   datasets <- list_datasets()
   out <- vector("list", length(datasets))
+  # COL_TISSUE / COL_NDONOR / COL_PATRES are carried because filtering on them happens far
+  # downstream (paired tests, per-sample CNV, barycenter membership) where the Seurat objects
+  # are no longer in hand. A flag that stops at the ingest object is a flag nobody can honour.
   need <- c(COL_SAMPLE, COL_DATASET, COL_STUDY,
-            COL_PATIENT, COL_TP, COL_DISEASE)
+            COL_PATIENT, COL_TP, COL_DISEASE,
+            COL_TISSUE, COL_NDONOR, COL_PATRES)
   for (i in seq_along(datasets)) {
     ds   <- datasets[i]
     message_ts("reading metadata: ", ds)
     seu  <- readRDS(file.path(RDS_INGEST_DIR, paste0(ds, ".rds")))
     md   <- as.data.table(seu@meta.data)
     # Guard: ensure expected columns exist; fill missing with NA.
-    for (cn in need) if (!cn %in% names(md)) md[[cn]] <- NA_character_
+    for (cn in need) if (!cn %in% names(md)) md[[cn]] <- NA
     md   <- md[, ..need]
     # Collapse to one row per Sample; n_cells from object (raw, pre-QC).
+    # Patient_resolved uses all(): a sample counts as resolved only if EVERY cell in it is.
     smry <- md[, .(.n_cells_obj = .N,
                    Disease_state = data.table::first(get(COL_DISEASE)),
                    Patient_ID    = data.table::first(get(COL_PATIENT)),
                    Timepoint     = data.table::first(get(COL_TP)),
-                   Study         = data.table::first(get(COL_STUDY))),
+                   Study         = data.table::first(get(COL_STUDY)),
+                   Tissue        = data.table::first(get(COL_TISSUE)),
+                   n_donors_in_library = max(as.integer(get(COL_NDONOR)), na.rm = TRUE),
+                   patient_resolved    = all(as.logical(get(COL_PATRES)))),
                 by = c(Sample = COL_SAMPLE)]
     smry[, dataset := ds]
     out[[i]] <- smry
@@ -107,7 +115,8 @@ m[, uid_patient := paste(dataset, Patient_ID, sep = ":")]
 # Step 4. Write manifest + a compact study x role summary.
 # ----------------------------------------------------------------------------
 keep <- c("dataset","Study","Sample","Patient_ID","uid_patient","Timepoint",
-          "Disease_state",".n_cells_obj","study_role","sample_role",
+          "Disease_state","Tissue","n_donors_in_library","patient_resolved",
+          ".n_cells_obj","study_role","sample_role",
           "is_longitudinal","discovery_candidate","in_discovery_pool",
           "subtype_stratum","l2_capable","integrity_flag")
 manifest <- m[, ..keep]

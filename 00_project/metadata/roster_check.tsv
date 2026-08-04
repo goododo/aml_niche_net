@@ -12,7 +12,7 @@ GSE185381	AML2123	curated_only	Sample=donor + MIN_CELLS at donor level (v1 lost 
 GSE185381	AML2975	pipeline_only	INGEST_EXCLUDE 5prime arm
 GSE185381	Control0182	pipeline_only	INGEST_EXCLUDE 5prime arm
 GSE185381	PAWWEE	curated_only	Sample=donor + MIN_CELLS at donor level (v1 lost these to a library-level gate)
-GSE185991	PT18_D30	curated_only	OPEN: curated gsm_id is 'unknown' -- the curator could not identify which GSM this draw is. Unjoinable until resolved. GSE185991 is l2_capable=FALSE (sorted blast libraries), so this affects L1 only.
+GSE185991	PT18_D30	curated_only	RESOLVED not_deposited: checked against the PI's GSM list -- all 42 deposited libraries are claimed by other curated rows, leaving none for PT18_D30. The draw exists in the clinical table and was never sequenced or deposited. Not a join failure; curated row should get data_available=FALSE.
 GSE289435	MLL_29512	curated_only	INGEST_EXCLUDE xenograft (intentional; was an undocumented grepl in the ingest)
 Petti2019	ND_083017	pipeline_only	INGEST_EXCLUDE uncurated_healthy
 Petti2019	ND_090617	pipeline_only	INGEST_EXCLUDE uncurated_healthy

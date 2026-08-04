@@ -1,0 +1,178 @@
+[1] building the matched design
+    TP53-mut: 9 samples / 6 patients
+    TP53-WT pool: 96 samples / 77 patients
+   pair_id   dataset      timepoint           mut_sample mut_n_cells
+     <int>    <char>         <char>               <char>       <int>
+1:       1 GSE116256      Diagnosis            AML328-D0         597
+2:       2 GSE116256      Diagnosis            AML916-D0         658
+3:       3 GSE116256 Post_treatment          AML328-D113        1647
+4:       4 GSE116256 Post_treatment          AML328-D171         961
+5:       5 GSE116256 Post_treatment           AML328-D29        1250
+6:       6 Petti2019      Diagnosis               809653       15194
+7:       7 GSE227903        Relapse               1886_R        1743
+8:       8 GSE227903        Relapse               6323_R         892
+9:       9 GSE289435      Diagnosis GSM8791438_MLL_28830        5502
+              wt_sample wt_n_cells      match_strata
+                 <char>      <int>            <char>
+1:           AML707B-D0       1215 dataset+timepoint
+2:            AML556-D0       1554 dataset+timepoint
+3:          AML707B-D18       1413 dataset+timepoint
+4:          AML420B-D14        938 dataset+timepoint
+5:           AML556-D31       1104 dataset+timepoint
+6:               782328      15148 dataset+timepoint
+7:               4978_R       2035 dataset+timepoint
+8:               3853_R        528 dataset+timepoint
+9: GSM8791434_MLL_17746       5273 dataset+timepoint
+[2] gene panel
+[3] pathway scores
+[4] composition: macrophage, stromal niche, stemness
+
+-- composition, matched pairs --
+            variable n_pairs median_delta p_sample_higher    mean_mut
+              <char>   <int>        <num>           <num>       <num>
+1:    pct_macrophage       9  0.221804611       0.3203125 0.360269453
+2:       pct_stromal       9  0.011194386       0.2500000 0.008809153
+3:             LSC17       5  0.043510649       0.0625000 0.111255800
+4:         HSPC_core       5 -0.029272162       0.8437500 0.153365546
+5: vanGalen_HSC_like       5  0.015366183       0.4062500 0.110497963
+6: vanGalen_HSC_Prog       5  0.003489617       0.5000000 0.549466618
+       mean_WT
+         <num>
+1: 0.460640290
+2: 0.006321512
+3: 0.070440718
+4: 0.232282469
+5: 0.097948995
+6: 0.525782702
+[5] NECTIN4 / PVRL4
+      gene n_cells_mut n_pos_mut    pct_mut n_cells_WT n_pos_WT     pct_WT
+    <char>       <int>     <int>      <num>      <int>    <int>      <num>
+1: NECTIN2       28444      3379 11.8794825      29208     3609 12.3562038
+2:     PVR       28444      1011  3.5543524      29208     1225  4.1940564
+3: NECTIN1       28444       469  1.6488539      29208     1047  3.5846343
+4:   CD226       28444      1345  4.7285895      29208      441  1.5098603
+5:   TIGIT       28444      1244  4.3735058      29208      337  1.1537935
+6: NECTIN4       28444        41  0.1441429      29208       94  0.3218296
+7: NECTIN3       28444       106  0.3726621      29208       83  0.2841687
+   odds_ratio p_cell_two_sided p_sample_higher interpretable
+        <num>            <num>           <num>        <lgcl>
+1:  0.9562259     7.958424e-02      0.58984375          TRUE
+2:  0.8419250     7.134990e-05      0.89843750          TRUE
+3:  0.4511900     1.462698e-45      0.75195312          TRUE
+4:  3.2351457     2.443536e-99      0.06445312          TRUE
+5:  3.9139348    1.614005e-107      0.09765625          TRUE
+6:  0.4501464     1.852956e-05      0.28515625         FALSE
+7:  1.3108701     6.447508e-02      0.87500000         FALSE
+[6] summary
+
+== stratum: all -- genes ranked by the SAMPLE-level paired test ==
+      gene                    category pct_mut pct_WT    OR d_log2cpm n_pairs
+    <char>                      <char>   <num>  <num> <num>     <num>   <int>
+ 1:    GP9 megakaryocyte_fibrosis_axis    0.71   0.29  2.44     0.006       9
+ 2: SLC2A1                     hypoxia    7.93   2.90  2.88     0.015       9
+ 3:   C1QB           macrophage_marker    0.67   0.13  5.24     0.006       9
+ 4:   SPP1     profibrotic_cytokine_gf    0.46   0.07  6.56     0.004       9
+ 5: ANGPT1                   msc_niche   15.63   4.45  3.97     0.162       9
+ 6:   IFNG       inflammatory_cytokine    2.46   0.27  9.15     0.016       9
+ 7:    OSM     profibrotic_cytokine_gf    5.78   2.69  2.22     0.016       9
+ 8:   PGK1                     hypoxia   58.20  58.50  0.99     0.034       9
+ 9:  PDGFB     profibrotic_cytokine_gf    0.80   0.31  2.55     0.003       9
+10:    MAF           macrophage_marker    5.38   2.70  2.04     0.045       9
+11:   CDH5                   msc_niche    0.48   0.03 13.51     0.001       9
+12:  LYVE1           macrophage_marker    0.15   0.04  3.89     0.003       9
+     p_samp    fdr
+      <num>  <num>
+ 1: 0.00391 0.0391
+ 2: 0.00391 0.0352
+ 3: 0.00781 0.0488
+ 4: 0.00781 0.0703
+ 5: 0.00977 0.1640
+ 6: 0.00977 0.1460
+ 7: 0.00977 0.0703
+ 8: 0.00977 0.0439
+ 9: 0.01170 0.0703
+10: 0.01370 0.0488
+11: 0.01560 0.1640
+12: 0.01560 0.0488
+
+== stratum: malignant -- genes ranked by the SAMPLE-level paired test ==
+      gene                    category pct_mut pct_WT    OR d_log2cpm n_pairs
+    <char>                      <char>   <num>  <num> <num>     <num>   <int>
+ 1:  ACTA2                   msc_niche    5.19   2.49  2.14     0.011       4
+ 2:  BGLAP                   msc_niche    1.27   0.59  2.16     0.004       4
+ 3:    OSM     profibrotic_cytokine_gf   11.02   1.19 10.27     0.065       4
+ 4: SLC2A1                     hypoxia    8.66   0.71 13.07     0.031       4
+ 5: ANGPT1                   msc_niche   23.48   1.62 18.58     0.191       4
+ 6:  BNIP3                     hypoxia    4.50   1.90  2.43     0.015       4
+ 7:   C1QB           macrophage_marker    1.93   0.12 15.48     0.013       4
+ 8:   CCL3       inflammatory_cytokine   14.02   7.74  1.94     0.153       4
+ 9:   CCL4       inflammatory_cytokine    8.96   1.58  6.12     0.163       4
+10: COL5A2     collagen_ecm_structural    0.11   0.03  3.54     0.003       4
+11:    ELN     collagen_ecm_structural    0.29   0.01 15.11     0.007       4
+12:    GP9 megakaryocyte_fibrosis_axis    0.77   0.08  8.98     0.007       4
+    p_samp   fdr
+     <num> <num>
+ 1: 0.0625 0.656
+ 2: 0.0625 0.656
+ 3: 0.0625 0.562
+ 4: 0.0625 0.375
+ 5: 0.1250 0.656
+ 6: 0.1250 0.375
+ 7: 0.1250 0.625
+ 8: 0.1250 0.625
+ 9: 0.1250 0.625
+10: 0.1250 0.955
+11: 0.1250 0.955
+12: 0.1250 0.625
+
+== pathways, stratum=all ==
+                                       pathway auc_cell n_cells_mut n_cells_WT
+                                        <char>    <num>       <int>      <int>
+ 1:             HALLMARK_INFLAMMATORY_RESPONSE    0.512       28444      29208
+ 2:           HALLMARK_IL6_JAK_STAT3_SIGNALING    0.486       28444      29208
+ 3:            KEGG_TGF_BETA_SIGNALING_PATHWAY    0.478       28444      29208
+ 4:  REACTOME_SIGNALING_BY_TGFB_FAMILY_MEMBERS    0.435       28444      29208
+ 5:           HALLMARK_TNFA_SIGNALING_VIA_NFKB    0.422       28444      29208
+ 6:                      HALLMARK_ANGIOGENESIS    0.356       28444      29208
+ 7:                       HALLMARK_COAGULATION    0.321       28444      29208
+ 8:                       HALLMARK_P53_PATHWAY    0.442       28444      29208
+ 9:              KEGG_ECM_RECEPTOR_INTERACTION    0.469       28444      29208
+10: REACTOME_EXTRACELLULAR_MATRIX_ORGANIZATION    0.351       28444      29208
+11:                REACTOME_COLLAGEN_FORMATION    0.362       28444      29208
+12:                           HALLMARK_HYPOXIA    0.431       28444      29208
+13: HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION    0.337       28444      29208
+14:                HALLMARK_TGF_BETA_SIGNALING    0.414       28444      29208
+          d n_pairs p_samp   fdr
+      <num>   <int>  <num> <num>
+ 1:  0.0052       9  0.248 0.918
+ 2:  0.0004       9  0.500 0.918
+ 3: -0.0001       9  0.545 0.918
+ 4:  0.0011       9  0.590 0.918
+ 5:  0.0029       9  0.590 0.918
+ 6: -0.0012       9  0.633 0.918
+ 7:  0.0008       9  0.674 0.918
+ 8: -0.0039       9  0.752 0.918
+ 9: -0.0007       9  0.787 0.918
+10: -0.0013       9  0.820 0.918
+11: -0.0005       9  0.820 0.918
+12:  0.0005       9  0.820 0.918
+13: -0.0031       9  0.875 0.918
+14: -0.0040       9  0.918 0.918
+
+== anything passing FDR 0.10 at the SAMPLE level ==
+    stratum   gene                    category    OR       p    fdr
+     <char> <char>                      <char> <num>   <num>  <num>
+ 1:     all SLC2A1                     hypoxia  2.88 0.00391 0.0352
+ 2:     all    GP9 megakaryocyte_fibrosis_axis  2.44 0.00391 0.0391
+ 3:     all   PGK1                     hypoxia  0.99 0.00977 0.0439
+ 4:     all   C1QB           macrophage_marker  5.24 0.00781 0.0488
+ 5:     all    MAF           macrophage_marker  2.04 0.01370 0.0488
+ 6:     all  LYVE1           macrophage_marker  3.89 0.01560 0.0488
+ 7:     all   C1QC           macrophage_marker  3.21 0.01950 0.0488
+ 8:     all   SPP1     profibrotic_cytokine_gf  6.56 0.00781 0.0703
+ 9:     all    OSM     profibrotic_cytokine_gf  2.22 0.00977 0.0703
+10:     all  PDGFB     profibrotic_cytokine_gf  2.55 0.01170 0.0703
+11:     all   IL11     profibrotic_cytokine_gf  4.44 0.01950 0.0703
+12:     all PDGFRB     profibrotic_cytokine_gf  8.45 0.01950 0.0703
+13:     all   C1QA           macrophage_marker  1.25 0.03910 0.0781
+[done] 11_compare_groups

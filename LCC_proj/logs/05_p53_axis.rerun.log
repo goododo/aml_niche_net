@@ -1,0 +1,43 @@
+[1] scoring canonical p53 targets from pseudobulk
+    scored 78/78 samples
+[2] anchor validation (exact permutation on the anchor rank sum)
+                         anchor_set                  score anchor_percentiles
+                             <char>                 <char>             <char>
+ 1:              A4 (17p-loss only)                  p53_z               3,97
+ 2: A5 (+ held-out genotype anchor)                  p53_z            3,51,97
+ 3:              A4 (17p-loss only)           p53_hallmark              11,43
+ 4:              A4 (17p-loss only)         p53_hallmark_z              11,32
+ 5:              A4 (17p-loss only)         p53_target_all               3,95
+ 6:              A4 (17p-loss only)   p53_target_malignant             14,100
+ 7:              A4 (17p-loss only) p53_target_malignant_z              19,95
+ 8:              A4 (17p-loss only)          p53_z_primary               3,97
+ 9: A5 (+ held-out genotype anchor)           p53_hallmark           11,30,43
+10: A5 (+ held-out genotype anchor)         p53_hallmark_z           11,32,46
+11: A5 (+ held-out genotype anchor)         p53_target_all            3,22,95
+12: A5 (+ held-out genotype anchor)   p53_target_malignant          14,19,100
+13: A5 (+ held-out genotype anchor) p53_target_malignant_z           16,19,95
+14: A5 (+ held-out genotype anchor)          p53_z_primary             3,8,97
+         p                              verdict
+     <num>                               <char>
+ 1: 0.4850                                 FAIL
+ 2: 0.4870                                 FAIL
+ 3: 0.1357 WEAK (direction right, underpowered)
+ 4: 0.0822 WEAK (direction right, underpowered)
+ 5: 0.4576                                 FAIL
+ 6: 0.6157                                 FAIL
+ 7: 0.6193                                 FAIL
+ 8: 0.4903                                 FAIL
+ 9: 0.0832 WEAK (direction right, underpowered)
+10: 0.1029 WEAK (direction right, underpowered)
+11: 0.2559                                 FAIL
+12: 0.3495                                 FAIL
+13: 0.3256                                 FAIL
+14: 0.1881 WEAK (direction right, underpowered)
+[3] axis availability by timepoint
+   timepoint     n n_patients
+      <char> <int>      <int>
+1: Diagnosis    44         38
+2:   Healthy    27         22
+3:   Unknown     7          7
+    primary set (Diagnosis, one per patient) with a usable axis: 37
+[done] 05_p53_axis

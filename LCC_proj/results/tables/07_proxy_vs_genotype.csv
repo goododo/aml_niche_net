@@ -1,0 +1,2 @@
+n_evaluable,true_pos,false_neg,false_pos,true_neg,sensitivity,specificity,ppv,detail
+3,0,2,1,0,0,0,0,AML420B-D14:wildtype/17p=TRUE; AML916-D0:mutant/17p=FALSE; 809653:mutant/17p=FALSE

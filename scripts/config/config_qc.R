@@ -12,6 +12,26 @@ COL_PATIENT <- "Patient_ID"; COL_TP      <- "Timepoint"; COL_DISEASE <- "Disease
 COL_NCOUNT  <- "nCount_RNA"; COL_NFEAT   <- "nFeature_RNA"
 COL_MT      <- "percent.mt"; COL_HB      <- "percent.hb"; COL_RIBO <- "percent.ribo"
 COL_DEMUXED <- "Demuxed"
+COL_NDONOR  <- "N_donors_in_library";  COL_PATRES <- "Patient_resolved"
+COL_TISSUE  <- "Tissue"
+
+## -- PATIENT RESOLUTION (can this sample's cells be attributed to ONE person?) ----
+# Two deposits multiplex donors into one library, and they do it differently:
+#   GSE185381  pools up to 5 donors but ships a per-cell donor call, so the library is
+#              DEMUXED and each donor becomes its own Sample. Resolved.
+#   GSE185991  pools 2 patients into 3 libraries (GEO titles say so outright:
+#              PT01_PT10D30, PT12_PT13D14, PT09_PT13D30) and ships NO demux -- curated
+#              demux_method = "unknown". Those cells cannot be attributed. NOT resolved.
+# A sample that is not patient-resolved must be kept out of anything that assumes one
+# person per sample. Two places matter and neither is obvious:
+#   1. within-patient paired tests -- a 2-patient composite is a phantom third patient
+#   2. per-sample CNV (inferCNV / numbat) -- reference subtraction assumes ONE genome;
+#      run on a chimera it does not fail loudly, it returns a plausible chimeric profile
+# It is NOT a quality problem, so it is not a QC gate and the rows stay in the cohort.
+patient_resolved <- function(n_donors, demuxed = NA) {
+  n <- suppressWarnings(as.integer(n_donors)); d <- as.logical(demuxed)
+  ifelse(is.na(n) | n <= 1L, TRUE, !is.na(d) & d)
+}
 
 ## -- gene patterns (also the ingest QC metrics) ----
 PAT_MITO <- "^MT[-.]"       # + MITO_SHORT fallback for prefix-stripped datasets

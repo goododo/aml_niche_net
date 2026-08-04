@@ -1,0 +1,76 @@
+[1] loading timepoint-corrected sample metadata
+    220 samples; timepoint corrected for 8 (Chen2023 NBM normal-marrow donors stored as Diagnosis on disk)
+[2] assembling the scorecard
+         dataset     dataset_role aml_dg_patients healthy_patients
+          <char>           <char>           <int>            <int>
+ 1:    GSE185381             core              27               14
+ 2:    GSE239721         excluded              15                0
+ 3:    GSE185991         excluded              13                0
+ 4:    GSE289435         excluded              12                0
+ 5:    GSE116256         excluded               9                2
+ 6:    GSE227903         excluded               9                0
+ 7:     Chen2023             core               6                4
+ 8:    Petti2019             core               5                4
+ 9:    GSE201966         excluded               3                0
+10:    GSE147989         excluded               2                0
+11:    GSE207356         excluded               1                0
+12: E-MTAB-11536         excluded               0                7
+13:    GSE253355 stroma_reference               0               12
+    icnv_labelled_med n_usable_ref_baseline healthy_fpr_max n_ccc_ready
+                <num>                 <int>           <num>       <int>
+ 1:              1.00                    48           0.282          28
+ 2:              0.38                     0              NA           5
+ 3:                NA                     0              NA           0
+ 4:              1.00                     9              NA           5
+ 5:              1.00                     6           0.755           3
+ 6:              1.00                    10              NA          21
+ 7:              1.00                     9           0.274           1
+ 8:              1.00                     9           0.338           7
+ 9:              1.00                     2              NA           2
+10:                NA                     0              NA           0
+11:              1.00                     2              NA           3
+12:                NA                     0              NA           0
+13:                NA                     0              NA           0
+    stromal_cells n_17p_anchors
+            <int>         <int>
+ 1:            64             2
+ 2:            23             0
+ 3:           198             0
+ 4:           104             0
+ 5:             8             0
+ 6:           964             0
+ 7:          6284             0
+ 8:            18             0
+ 9:             5             0
+10:             0             0
+11:             6             0
+12:             0             0
+13:         25370             0
+[3] within-study complex-karyotype re-test (methods evidence)
+      dataset arm_frac_min  n_dg n_healthy median_dg median_healthy   auc
+       <char>        <num> <int>     <int>     <num>          <num> <num>
+ 1: GSE185381          0.5    27        15         9            8.0 0.556
+ 2: GSE185381          0.8    27        15         3            4.0 0.520
+ 3: Petti2019          0.5     5         4         5           13.0 0.100
+ 4: Petti2019          0.8     5         4         2            9.0 0.075
+ 5:  Chen2023          0.5     5         4        14           15.0 0.575
+ 6:  Chen2023          0.8     5         4        10            8.5 0.725
+ 7: GSE116256          0.5     4         3        13           18.0 0.333
+ 8: GSE116256          0.8     4         3         9           11.0 0.542
+ 9:       ALL          0.5    73        26         9            9.5 0.463
+10:       ALL          0.8    73        26         4            5.5 0.455
+         p                  verdict
+     <num>                   <char>
+ 1: 0.5610            no separation
+ 2: 0.8430            no separation
+ 3: 0.0651 INVERTED (healthy > AML)
+ 4: 0.0453 INVERTED (healthy > AML)
+ 5: 0.8050            no separation
+ 6: 0.3210                separates
+ 7: 0.5820            no separation
+ 8: 1.0000            no separation
+ 9: 0.5800            no separation
+10: 0.5000            no separation
+[4] writing the analysis manifest
+    90 samples selected; primary contrast = 38 AML-Dg vs 22 healthy patients
+[done] 06_select_datasets

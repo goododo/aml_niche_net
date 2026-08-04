@@ -1,0 +1,8 @@
+gene,role,n_pairs,n_up,p_higher,med_mut,med_wt
+NECTIN4,ligand side (nectins / PVR),9,6,0.150390625,0.1999,0.1066
+NECTIN1,ligand side (nectins / PVR),9,4,0.8203125,0.48,0.7246
+NECTIN3,ligand side (nectins / PVR),9,3,0.849609375,0.425,0.4246
+NECTIN2,ligand side (nectins / PVR),9,6,0.41015625,2.16,2.6384
+PVR,ligand side (nectins / PVR),9,4,0.875,1.675,2.9971
+CD226,receptor side (TIGIT / CD226),9,5,0.326171875,3.4997,1.1364
+TIGIT,receptor side (TIGIT / CD226),9,6,0.09765625,3.3501,0.4753

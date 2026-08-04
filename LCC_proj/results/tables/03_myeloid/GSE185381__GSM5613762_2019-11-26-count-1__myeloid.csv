@@ -1,0 +1,2 @@
+dataset,sample,n_cells_total,n_mono_dc,n_macrophage_like,n_monocyte_like,mac_score_p50,mac_score_p90,n_mac_markers_present
+GSE185381,GSM5613762_2019-11-26-count-1,8406,3367,7,3359,0.0928584721541267,0.280593509246582,10

@@ -1,0 +1,34 @@
+[1] loading 01 output + sample metadata
+    restricted to the selected datasets: 67 of 130 samples
+    67 samples with at least one evaluable subclone
+[2] internal reference baseline (the per-sample noise floor)
+[3] sweeping the threshold grid (both tracks, with the healthy FPR at every cell)
+There were 50 or more warnings (use warnings() to see the first 50)
+[4] per-arm Diagnosis-vs-Healthy specificity
+[5] primary calls
+[6] validation verdicts
+                         track                                       metric
+                        <char>                                       <char>
+1: CK (complex-karyotype-like)                                  healthy FPR
+2: CK (complex-karyotype-like)        AUC Diagnosis vs Healthy (arm burden)
+3: CK (complex-karyotype-like)           positive control 809653 called CK+
+4:                    17p loss                                  healthy FPR
+5:                    17p loss                             positive control
+6:                    17p loss primary-set positives (Diagnosis, 1/patient)
+                                                                 value
+                                                                <char>
+1:                                                       0.565 (13/23)
+2:                                                               0.497
+3:                                                                TRUE
+4:                                                        0.000 (0/23)
+5: none exists (809653 is TP53 E286G missense + del(17q), no 17p loss)
+6:                                           2 positive vs 35 negative
+        verdict
+         <char>
+1:         FAIL
+2:         FAIL
+3:         PASS
+4:         PASS
+5: NOT TESTABLE
+6: UNDERPOWERED
+[done] 02_define_cnv_proxy

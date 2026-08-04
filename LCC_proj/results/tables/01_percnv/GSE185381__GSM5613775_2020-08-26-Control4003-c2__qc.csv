@@ -1,0 +1,2 @@
+dataset,sample,status,n_genes_used,tp53_in_universe,n_subclone_obs,n_subclone_ref,n_cells_grouped,n_cells_consensus,icnv_labelled_frac,cons_covered_frac,frac_genes_nonneutral
+GSE185381,GSM5613775_2020-08-26-Control4003-c2,ok,3450,FALSE,30,27,2197,2197,1,1,0.176483456385015

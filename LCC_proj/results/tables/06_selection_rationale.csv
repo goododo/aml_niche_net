@@ -1,0 +1,14 @@
+dataset,dataset_role,aml_dg_patients,healthy_patients,reason
+GSE185381,core,27,14,KEEP: within-study contrast 27 AML-Dg vs 14 healthy patients
+Chen2023,core,6,4,KEEP: within-study contrast 6 AML-Dg vs 4 healthy patients
+Petti2019,core,5,4,KEEP: within-study contrast 5 AML-Dg vs 4 healthy patients
+GSE239721,excluded,15,0,icnv_labelled_frac 0.38; 11/15 samples < 0.90; ZERO usable inferCNV reference baselines
+GSE185991,excluded,13,0,no malignancy consensus on disk
+GSE289435,excluded,12,0,no within-study healthy control
+GSE116256,excluded,9,2,healthy-donor malignancy FPR up to 0.755 (BM5-34p38n) -- healthy arm unusable as control
+GSE227903,excluded,9,0,no within-study healthy control
+GSE201966,excluded,3,0,no within-study healthy control
+GSE147989,excluded,2,0,no malignancy consensus on disk
+GSE207356,excluded,1,0,no within-study healthy control
+E-MTAB-11536,excluded,0,7,no malignancy consensus on disk; all healthy
+GSE253355,stroma_reference,0,12,"KEEP as MSC reference only (healthy donors, no AML)"

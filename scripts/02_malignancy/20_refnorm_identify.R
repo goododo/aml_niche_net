@@ -179,6 +179,22 @@ if (length(REFNORM_SKIP_DATASETS)) {
   message(sprintf("[0] skipped %d sample(s) from healthy-only datasets: %s",
                   n0 - nrow(man), paste(REFNORM_SKIP_DATASETS, collapse = ", ")))
 }
+# Samples whose cells belong to TWO patients cannot get a per-sample CNV profile. inferCNV's
+# reference subtraction assumes one genome; on a 2-donor chimera it does not error -- it returns
+# a smooth, plausible-looking profile that is the average of two people. That is the worst
+# possible failure mode here, because nothing downstream can detect it.
+.rman <- file.path(DIR_PREPROCESS, "01_sample_role_manifest.csv")
+if (file.exists(.rman)) {
+  .m <- fread(.rman)
+  if ("patient_resolved" %in% names(.m)) {
+    .un <- .m[patient_resolved == FALSE, .(dataset, sample_id = Sample)]
+    if (nrow(.un)) {
+      n0 <- nrow(man); man <- man[!.un, on = .(dataset, sample_id)]
+      message(sprintf("[0] skipped %d unresolved multi-patient sample(s): %s",
+                      n0 - nrow(man), paste(.un$sample_id, collapse = ", ")))
+    }
+  }
+}
 man[, ref_txt := file.path(REFNORM_REF_CELL_DIR, dataset, paste0(sample_id, "_ref_norm_cells.txt"))]
 man[, rds_out := file.path(REFNORM_OUT_OBJ_DIR,  dataset, paste0(sample_id, "_refnorm.rds"))]
 message(sprintf("[0] %d sample(s) across %d dataset(s) queued", nrow(man), uniqueN(man$dataset)))

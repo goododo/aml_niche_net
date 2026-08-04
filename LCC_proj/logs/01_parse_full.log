@@ -1,0 +1,136 @@
+[1] loading GRCh38 arm boundaries
+[2] 131 sample dirs found
+[3] parsing (resume-safe; per-sample outputs under /FAST/gr10634/gaozy/aml_niche_net/LCC_proj/results/tables/01_percnv)
+    [write] Chen2023       AML103_Niche_Immune          subclones= 17(ref  11)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] Chen2023       AML162_niche_immune          subclones= 18(ref  32)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] Chen2023       AML24_Niche_Immune           subclones= 11(ref  42)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] Chen2023       AML304_Niche_Immune          subclones= 48(ref  43)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] Chen2023       AML320_NICHE_IMMUNE          subclones= 56(ref  55)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] Chen2023       NBM1_Niche_Immune            subclones= 30(ref  56)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] Chen2023       NBM2_Niche_Immune            subclones= 17(ref  36)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] Chen2023       NBM3_Niche_immune            subclones= 15(ref  50)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] Chen2023       NBM4_Niche_Immune            subclones= 10(ref  55)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE116256      AML420B-D14                  subclones=  8(ref  23)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE116256      AML556-D0                    subclones= 78(ref   0)  labelled=0.30  covered=1.00  TP53gene=TRUE
+    [write] GSE116256      AML556-D15                   subclones=  4(ref  26)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE116256      AML556-D31                   subclones= 24(ref   5)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE116256      AML707B-D0                   subclones= 83(ref   0)  labelled=0.25  covered=1.00  TP53gene=TRUE
+    [write] GSE116256      AML707B-D113                 subclones=  8(ref  12)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE116256      AML707B-D18                  subclones=  6(ref  29)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE116256      AML916-D0                    subclones= 65(ref   0)  labelled=0.15  covered=1.00  TP53gene=TRUE
+    [write] GSE116256      AML921A-D0                   subclones= 50(ref   8)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE116256      BM4                          subclones= 37(ref  27)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE116256      BM5-34p                      subclones= 72(ref   0)  labelled=0.21  covered=1.00  TP53gene=TRUE
+    [write] GSE116256      BM5-34p38n                   subclones= 74(ref   0)  labelled=0.25  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613744_2019-07-01-count-1 subclones= 57(ref  31)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613745_2019-07-01-count-2 subclones= 69(ref  34)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613746_2019-07-01-count-3 subclones= 63(ref  31)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613748_2019-08-01-count-2 subclones= 40(ref  45)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613749_2019-08-01-count-3 subclones= 36(ref  42)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613750_2019-08-01-count-4 subclones= 40(ref  40)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613751_2019-08-29-count-1 subclones= 52(ref  19)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613752_2019-08-29-count-2 subclones= 51(ref  19)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613756_2019-10-25-count-5 subclones= 56(ref  21)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613757_2019-11-04-count-1 subclones= 38(ref  47)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613758_2019-11-04-count-2 subclones= 31(ref  30)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613759_2019-11-04-count-3 subclones= 44(ref  27)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613760_2019-11-19-count-1 subclones= 63(ref  29)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613761_2019-11-19-count-2 subclones= 56(ref  29)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613762_2019-11-26-count-1 subclones= 63(ref  48)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613763_2019-11-26-count-2 subclones= 62(ref  46)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613764_2020-01-03-count-1 subclones= 57(ref  32)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613765_2020-01-03-count-2 subclones= 66(ref  37)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613766_2020-03-18-AML0048-c1 subclones= 32(ref   6)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613767_2020-03-18-AML0048-c2 subclones= 34(ref   7)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613768_2020-03-18-AML3266 subclones= 21(ref  15)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613769_2020-03-18-count-1 subclones= 59(ref  38)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613770_2020-03-18-count-2 subclones= 54(ref  34)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613771_2020-03-18-count-3 subclones= 50(ref  33)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613774_2020-08-26-Control4003-c1 subclones= 11(ref  16)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613775_2020-08-26-Control4003-c2 subclones= 30(ref  27)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613776_2020-08-26-Control4003-c3 subclones= 26(ref  24)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613777_2020-09-11-AML4340_AML1371-c1 subclones= 12(ref  39)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613778_2020-09-11-AML4340_AML1371-c2 subclones= 12(ref  39)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613779_2020-09-15-AML0024 subclones=116(ref   0)  labelled=0.58  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613780_2020-10-06-AML4897 subclones= 16(ref  40)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613781_2020-10-06-count2 subclones= 33(ref  27)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613782_2020-10-06-count4_0.95 subclones= 32(ref  32)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613784_2021-03-09-AML0693 subclones= 21(ref  28)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613785_2021-03-09-AML3948 subclones= 77(ref  13)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613786_2021-03-09-AMLMS3730 subclones= 49(ref   8)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613787_2021-03-09-count1_0.95 subclones= 26(ref  24)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613788_2021-03-09-Z-1-1  subclones= 12(ref  14)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613789_2021-03-09-Z-1-2  subclones= 18(ref  15)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613790_2021-03-09-Z-1-3  subclones= 22(ref  16)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE185381      GSM5613791_2019-10-21-1-Control0004 subclones=  4(ref 133)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613793_2020-03-18-82     subclones=  3(ref  31)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613795_2020-05-22-5prime_2 subclones=  1(ref  40)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613796_2020-08-07-MDS-AML_cDNA1 subclones=  1(ref  37)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613797_2020-08-07-MDS-AML_cDNA2 subclones=  1(ref  30)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613800_2021-04-29-0102_cDNA subclones=  1(ref  32)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613801_2021-04-29-0134_cDNA subclones=  1(ref  32)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613804_2021-04-29-2910_cDNA subclones=  1(ref  49)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE185381      GSM5613805_2021-04-29-2975_cDNA subclones=  1(ref  24)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [skip] GSE185381/GSM5613806_2021-04-29-3948_cDNA -- missing:HMM_CNV_predictions.HMMi6.leiden.hmm_mode-subclusters.Pnorm_0.5.pred_cnv_genes.dat
+    [write] GSE201966      GSM6085180_AML02M5_RE        subclones=145(ref   0)  labelled=0.73  covered=1.00  TP53gene=TRUE
+    [write] GSE201966      GSM6085181_AML03M5_P         subclones= 99(ref   6)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE201966      GSM6085182_AML03M5_RE        subclones= 18(ref  44)  labelled=1.00  covered=0.98  TP53gene=TRUE
+    [write] GSE207356      GSM6284913_TS173_05_Sample_E subclones= 53(ref  16)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE207356      GSM6284914_TS173_06_Sample_F subclones= 59(ref  17)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      1886_Dg                      subclones= 43(ref   3)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      1886_MRD                     subclones= 35(ref  12)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      1886_R                       subclones= 25(ref   4)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      3853_Dg                      subclones= 83(ref   0)  labelled=0.27  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      3853_R                       subclones= 66(ref   0)  labelled=0.13  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      3904_Dg                      subclones= 45(ref   6)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      3904_MRD                     subclones= 31(ref   6)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      3904_R                       subclones=101(ref   2)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      40389_Dg                     subclones= 31(ref  14)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      40389_MRD                    subclones= 25(ref  43)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      40389_R                      subclones= 23(ref  55)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      4978_Dg                      subclones= 41(ref  10)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      4978_MRD                     subclones= 17(ref  11)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      4978_R                       subclones= 82(ref   0)  labelled=0.36  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      5143_Dg                      subclones= 19(ref   4)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      5143_R                       subclones= 33(ref  13)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      5750_Dg                      subclones=118(ref   0)  labelled=0.54  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      5750_MRD                     subclones= 28(ref   6)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      5750_R                       subclones= 47(ref  32)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      6323_Dg                      subclones= 61(ref   0)  labelled=0.14  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      6323_MRD                     subclones= 79(ref  25)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE227903      6323_R                       subclones= 17(ref   4)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE227903      6323_R2                      subclones= 38(ref  32)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE239721      PT17A                        subclones= 88(ref   0)  labelled=0.41  covered=1.00  TP53gene=TRUE
+    [write] GSE239721      PT20A                        subclones= 68(ref   0)  labelled=0.22  covered=1.00  TP53gene=TRUE
+    [write] GSE239721      PT21A                        subclones=106(ref   0)  labelled=0.49  covered=1.00  TP53gene=TRUE
+    [write] GSE239721      PT22A                        subclones= 81(ref   0)  labelled=0.32  covered=1.00  TP53gene=TRUE
+    [write] GSE239721      PT23A                        subclones=118(ref   0)  labelled=0.55  covered=1.00  TP53gene=TRUE
+    [write] GSE239721      PT26A                        subclones= 77(ref   0)  labelled=0.25  covered=1.00  TP53gene=TRUE
+    [write] GSE239721      PT27A                        subclones=120(ref   0)  labelled=0.59  covered=1.00  TP53gene=TRUE
+    [write] GSE239721      PT28A                        subclones=140(ref   0)  labelled=0.68  covered=1.00  TP53gene=TRUE
+    [write] GSE239721      PT29A                        subclones= 90(ref   0)  labelled=0.38  covered=1.00  TP53gene=TRUE
+    [write] GSE239721      PT30A                        subclones= 63(ref   0)  labelled=0.15  covered=1.00  TP53gene=TRUE
+    [write] GSE239721      PT32A                        subclones= 79(ref   0)  labelled=0.32  covered=1.00  TP53gene=TRUE
+    [write] GSE289435      GSM8791432_MLL_14666         subclones= 77(ref  16)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE289435      GSM8791433_MLL_16703         subclones= 69(ref  25)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE289435      GSM8791434_MLL_17746         subclones= 79(ref   6)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE289435      GSM8791435_MLL_17843         subclones=134(ref  20)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE289435      GSM8791436_MLL_17844         subclones=142(ref   0)  labelled=0.78  covered=1.00  TP53gene=TRUE
+    [write] GSE289435      GSM8791437_MLL_28824         subclones= 59(ref  31)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE289435      GSM8791438_MLL_28830         subclones= 55(ref  11)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE289435      GSM8791439_MLL_28855         subclones= 43(ref   8)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] GSE289435      GSM8791441_MLL_29532         subclones= 13(ref  73)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE289435      GSM8791442_MLL_29538         subclones= 52(ref  15)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] GSE289435      GSM8791443_MLL_30862         subclones= 84(ref   0)  labelled=0.46  covered=1.00  TP53gene=TRUE
+    [write] GSE289435      GSM8791444_MLL_30886         subclones=108(ref  30)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] Petti2019      508084                       subclones= 89(ref   8)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] Petti2019      548327                       subclones= 88(ref  32)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] Petti2019      721214                       subclones=124(ref   8)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] Petti2019      782328                       subclones=104(ref  10)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] Petti2019      809653                       subclones= 42(ref 114)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] Petti2019      ND_083017                    subclones= 26(ref  65)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] Petti2019      ND_090617                    subclones= 35(ref  55)  labelled=1.00  covered=1.00  TP53gene=FALSE
+    [write] Petti2019      Normal_sorted_170531         subclones= 23(ref  32)  labelled=1.00  covered=1.00  TP53gene=TRUE
+    [write] Petti2019      Normal_sorted_170607         subclones= 28(ref  28)  labelled=1.00  covered=1.00  TP53gene=FALSE
+[4] rolling up
+[done] 01_parse_infercnv_regions

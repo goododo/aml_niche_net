@@ -1,0 +1,168 @@
+[1] screening all samples from 04_detection_by_sample.csv
+    screened IN 62 / 220 samples (>= 20 cells positive for DCN/LUM/COL1A1/CXCL12)
+    screened OUT 158 samples; their max marker+ count is 19 cells, i.e. below any
+    usable stromal population -- they are excluded from the per-cell stage, not from the report
+[2] per-cell pass over 103 samples (screened-in + all sorted controls)
+    10/103
+    20/103
+    30/103
+    40/103
+    50/103
+    60/103
+    70/103
+    80/103
+    90/103
+    100/103
+[3] calibrating: FPR measured on CD34-sorted libraries, sensitivity on stroma-enriched
+    min_fibro max_haem fp_per_10k_sorted rate_enrich rate_wholeMNC acceptable
+        <int>    <int>             <num>       <num>         <num>     <lgcl>
+ 1:         3        2              0.85      0.2782       0.00028       TRUE
+ 2:         4        2              0.85      0.2563       0.00025       TRUE
+ 3:         2        1              0.92      0.2431       0.00035       TRUE
+ 4:         5        2              0.85      0.2390       0.00023       TRUE
+ 5:         3        1              0.78      0.2241       0.00019       TRUE
+ 6:         4        1              0.78      0.2087       0.00019       TRUE
+ 7:         5        1              0.78      0.1958       0.00017       TRUE
+ 8:         2        0              0.43      0.1022       0.00013       TRUE
+ 9:         3        0              0.43      0.0956       0.00012       TRUE
+10:         4        0              0.43      0.0891       0.00012       TRUE
+11:         5        0              0.43      0.0828       0.00011       TRUE
+12:         2        2              1.49      0.3082       0.00083      FALSE
+    operating point: fibro_msc >= 3 & haematopoietic <= 2  (sorted FPR 8.50e-05)
+[4] calling de-novo stromal cells and subtyping them
+[5] cross-tabulating against the BoneMarrowMap projection
+
+-- cell-level agreement, whole cohort --
+   proj_stromal stromal_denovo      n
+         <lgcl>         <lgcl>  <int>
+1:        FALSE          FALSE 407630
+2:         TRUE           TRUE  26834
+3:        FALSE           TRUE   1079
+4:         TRUE          FALSE   5766
+[6] summary
+
+-- niche composition by library type: what the 'stromal' compartment is made of --
+      library_type n_cells n_stromal_denovo n_MSC_fibroblast n_adipocyte
+            <char>   <int>            <int>            <int>       <int>
+1: stroma_enriched  100089            27845            19487        1239
+2:       whole_MNC  200096               56               54           1
+3:     sorted_CD34  141124               12               12           0
+   n_MSC_adipo_primed n_endothelial n_pericyte n_osteolineage n_chondrocyte
+                <int>         <int>      <int>          <int>         <int>
+1:              15054           744        606           5103           666
+2:                 30             0          0              1             0
+3:                 10             0          0              0             0
+   pct_stromal
+         <num>
+1:     27.8202
+2:      0.0280
+3:      0.0085
+
+-- samples with a usable de-novo MSC/fibroblast population (>= 30 cells) --
+      dataset              sample timepoint    library_type n_cells
+       <char>              <char>    <char>          <char>   <int>
+ 1: GSE253355      GSM8019220_H36   Healthy stroma_enriched    8097
+ 2: GSE253355      GSM8019223_H41   Healthy stroma_enriched    6710
+ 3:  Chen2023 AML304_Niche_Immune Diagnosis stroma_enriched    5574
+ 4:  Chen2023 AML320_NICHE_IMMUNE Diagnosis stroma_enriched    7100
+ 5: GSE253355      GSM8019214_H23   Healthy stroma_enriched    5113
+ 6: GSE253355      GSM8019213_H21   Healthy stroma_enriched    6785
+ 7: GSE253355 GSM8019212_H14_MACS   Healthy stroma_enriched    4958
+ 8: GSE253355      GSM8019222_H39   Healthy stroma_enriched    7253
+ 9: GSE253355      GSM8019221_H38   Healthy stroma_enriched    6294
+10:  Chen2023   NBM1_Niche_Immune   Healthy stroma_enriched    5179
+11: GSE253355      GSM8019216_H32   Healthy stroma_enriched    3689
+12: GSE253355      GSM8019219_H35   Healthy stroma_enriched    5724
+13:  Chen2023 AML103_Niche_Immune Diagnosis stroma_enriched    1234
+14: GSE253355      GSM8019215_H24   Healthy stroma_enriched    3977
+15:  Chen2023 AML162_niche_immune Diagnosis stroma_enriched    2358
+16:  Chen2023   NBM2_Niche_Immune   Healthy stroma_enriched    2271
+17:  Chen2023   NBM3_Niche_immune   Healthy stroma_enriched    3639
+18: GSE253355      GSM8019218_H34   Healthy stroma_enriched    3196
+19:  Chen2023  AML24_Niche_Immune Diagnosis stroma_enriched    2170
+20: GSE253355      GSM8019217_H33   Healthy stroma_enriched    5636
+21:  Chen2023   NBM4_Niche_Immune   Healthy stroma_enriched    3132
+      dataset              sample timepoint    library_type n_cells
+       <char>              <char>    <char>          <char>   <int>
+    n_MSC_fibroblast n_endothelial   tp53_tier
+               <int>         <int>      <char>
+ 1:             2378           145 unevaluable
+ 2:             2284            49 unevaluable
+ 3:             1849             1 WT_presumed
+ 4:             1709             1 WT_presumed
+ 5:             1669           130 unevaluable
+ 6:             1619           236 unevaluable
+ 7:             1416            60 unevaluable
+ 8:             1049            14 unevaluable
+ 9:             1015            22 unevaluable
+10:              802             0 WT_presumed
+11:              509            37 unevaluable
+12:              470            21 unevaluable
+13:              440             1 WT_presumed
+14:              380             9 unevaluable
+15:              362             0 WT_presumed
+16:              362             1 WT_presumed
+17:              359             0 WT_presumed
+18:              265            13 unevaluable
+19:              235             0 WT_presumed
+20:              211             4 unevaluable
+21:              104             0 WT_presumed
+    n_MSC_fibroblast n_endothelial   tp53_tier
+               <int>         <int>      <char>
+
+-- TP53-aberrant (tier A/B) samples: any de-novo stroma at all? --
+     dataset               sample timepoint    tp53_tier n_cells
+      <char>               <char>    <char>       <char>   <int>
+1: GSE289435 GSM8791438_MLL_28830 Diagnosis B_allele_loh    5502
+2: Petti2019               809653 Diagnosis   A_genotype   15194
+3: GSE227903               1886_R   Relapse B_allele_loh    1743
+   n_stromal_denovo n_MSC_fibroblast
+              <int>            <int>
+1:                4                4
+2:                1                1
+3:                0                0
+
+-- projection FALSE POSITIVES: labelled Stromal but not called de novo --
+      dataset               sample    library_type proj_stromal  both proj_only
+       <char>               <char>          <char>        <int> <int>     <int>
+ 1: GSE253355       GSM8019213_H21 stroma_enriched         4415  3609       806
+ 2: GSE253355       GSM8019214_H23 stroma_enriched         3603  2934       669
+ 3: GSE253355       GSM8019220_H36 stroma_enriched         3474  2894       580
+ 4: GSE253355       GSM8019219_H35 stroma_enriched         1346   790       556
+ 5: GSE227903               1886_R       whole_MNC          528     0       528
+ 6: GSE253355  GSM8019212_H14_MACS stroma_enriched         2827  2467       360
+ 7: GSE253355       GSM8019218_H34 stroma_enriched          818   482       336
+ 8: GSE253355       GSM8019215_H24 stroma_enriched         1191   871       320
+ 9: GSE253355       GSM8019223_H41 stroma_enriched         2983  2703       280
+10: GSE253355       GSM8019222_H39 stroma_enriched         1736  1493       243
+11: GSE253355       GSM8019216_H32 stroma_enriched         1028   785       243
+12: GSE253355       GSM8019217_H33 stroma_enriched          442   261       181
+13: GSE253355       GSM8019221_H38 stroma_enriched         1507  1327       180
+14: GSE185991       GSM6412455_M95     sorted_CD34          132     0       132
+15:  Chen2023  AML304_Niche_Immune stroma_enriched         1892  1835        57
+16: GSE185991       GSM6412454_M93     sorted_CD34           50     0        50
+17: GSE227903               3904_R       whole_MNC           40     0        40
+18: GSE289435 GSM8791432_MLL_14666       whole_MNC           40     3        37
+19: GSE289435 GSM8791434_MLL_17746       whole_MNC           26     0        26
+    denovo_only
+          <int>
+ 1:         124
+ 2:          57
+ 3:         156
+ 4:           7
+ 5:           0
+ 6:         189
+ 7:           2
+ 8:          10
+ 9:         125
+10:          55
+11:           9
+12:           4
+13:          17
+14:           0
+15:          21
+16:           0
+17:           1
+18:           0
+19:           3
+[done] 10_stromal_denovo

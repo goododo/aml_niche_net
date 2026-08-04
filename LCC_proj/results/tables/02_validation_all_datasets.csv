@@ -1,0 +1,7 @@
+track,metric,value,verdict
+CK (complex-karyotype-like),healthy FPR,0.577 (15/26),FAIL
+CK (complex-karyotype-like),AUC Diagnosis vs Healthy (arm burden),0.473,FAIL
+CK (complex-karyotype-like),positive control 809653 called CK+,TRUE,PASS
+17p loss,healthy FPR,0.000 (0/26),PASS
+17p loss,positive control,"none exists (809653 is TP53 E286G missense + del(17q), no 17p loss)",NOT TESTABLE
+17p loss,"primary-set positives (Diagnosis, 1/patient)",4 positive vs 69 negative,UNDERPOWERED

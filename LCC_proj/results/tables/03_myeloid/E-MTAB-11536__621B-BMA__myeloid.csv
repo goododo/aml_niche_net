@@ -1,0 +1,2 @@
+dataset,sample,n_cells_total,n_mono_dc,n_macrophage_like,n_monocyte_like,mac_score_p50,mac_score_p90,n_mac_markers_present
+E-MTAB-11536,621B-BMA,598,20,0,20,0.264100352233892,0.595721812140956,10

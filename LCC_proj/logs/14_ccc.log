@@ -1,0 +1,91 @@
+[1] pairing
+   pair_id   dataset      timepoint           mut_sample            wt_sample
+     <int>    <char>         <char>               <char>               <char>
+1:       1 GSE116256      Diagnosis            AML328-D0           AML707B-D0
+2:       2 GSE116256      Diagnosis            AML916-D0            AML556-D0
+3:       3 GSE116256 Post_treatment          AML328-D113          AML707B-D18
+4:       4 GSE116256 Post_treatment          AML328-D171          AML420B-D14
+5:       5 GSE116256 Post_treatment           AML328-D29           AML556-D31
+6:       6 Petti2019      Diagnosis               809653               782328
+7:       7 GSE227903        Relapse               1886_R               4978_R
+8:       8 GSE227903        Relapse               6323_R               1216_R
+9:       9 GSE289435      Diagnosis GSM8791438_MLL_28830 GSM8791434_MLL_17746
+   mut_cc  wt_cc                                      repair
+   <lgcl> <lgcl>                                      <char>
+1:  FALSE   TRUE DROPPED: mut side AML328-D0 has no CellChat
+2:   TRUE   TRUE                                            
+3:   TRUE   TRUE                                            
+4:   TRUE   TRUE                                            
+5:   TRUE   TRUE                                            
+6:   TRUE   TRUE                                            
+7:   TRUE   TRUE                                            
+8:   TRUE   TRUE      WT re-matched (3853_R has no CellChat)
+9:   TRUE   TRUE                                            
+    usable pairs: 8 / 9
+[2] reading 16 CellChat objects
+    4/16
+    8/16
+    12/16
+    16/16
+[3] paired tests
+[4] figures
+    wrote G1_ccc_map
+    wrote G2_focus_pairs
+    wrote G3_ccc_pathways
+Warning messages:
+1: Removed 91 rows containing missing values or values outside the scale range
+(`geom_text_repel()`). 
+2: Removed 91 rows containing missing values or values outside the scale range
+(`geom_text_repel()`). 
+    wrote G4_hsc_mono_edges
+[5] summary
+
+-- edges, ranked by the paired test (relative normalisation) --
+       source    target n_pairs     up         d      p   fdr
+       <char>    <char>   <int> <char>     <num>  <num> <num>
+ 1:  LMPP_GMP   Mono_DC       5    4/5  2.88e-02 0.0625 0.938
+ 2:      T_NK Erythroid       4    3/4  7.88e-03 0.1250 0.938
+ 3:   Mono_DC   Mono_DC       5    4/5  4.55e-03 0.1560 0.938
+ 4:      T_NK  LMPP_GMP       5    4/5  1.13e-02 0.1560 0.938
+ 5: Erythroid   Mono_DC       4    3/4  3.93e-03 0.3120 1.000
+ 6:  LMPP_GMP      T_NK       5    2/5 -1.62e-02 0.4060 1.000
+ 7:   Mono_DC  LMPP_GMP       5    2/5 -3.61e-05 0.4060 1.000
+ 8: Erythroid      T_NK       4    2/4  2.90e-03 0.4380 1.000
+ 9:   Mono_DC Erythroid       4    2/4  2.03e-03 0.4380 1.000
+10:  LMPP_GMP  LMPP_GMP       6    3/6  1.93e-03 0.5000 1.000
+11:      T_NK  B_Plasma       4    2/4  1.87e-03 0.6250 1.000
+12: Erythroid Erythroid       5    2/5 -1.80e-04 0.7810 1.000
+
+-- do the two normalisations agree on the top edges? --
+       source    target absolute relative
+       <char>    <char>    <num>    <num>
+ 1:  LMPP_GMP   Mono_DC 0.031250  0.06250
+ 2:      T_NK Erythroid 0.125000  0.12500
+ 3:   Mono_DC   Mono_DC 0.062500  0.15625
+ 4:      T_NK  LMPP_GMP 0.031250  0.15625
+ 5: Erythroid   Mono_DC 0.062500  0.31250
+ 6:  LMPP_GMP      T_NK 0.218750  0.40625
+ 7:   Mono_DC  LMPP_GMP 0.156250  0.40625
+ 8: Erythroid      T_NK 0.187500  0.43750
+ 9:   Mono_DC Erythroid 0.312500  0.43750
+10:  LMPP_GMP  LMPP_GMP 0.109375  0.50000
+
+-- pathways touching HSC/Mono_DC, best 12 (relative) --
+     pathway           role n_pairs     up      p   fdr
+      <char>         <char>   <int> <char>  <num> <num>
+ 1:     CD99 other -> focus       6    5/6 0.0312 0.797
+ 2:   MHC-II other -> focus       6    5/6 0.0312 0.797
+ 3:  ANNEXIN other -> focus       6    4/6 0.0625 0.797
+ 4:  ANNEXIN   within focus       6    4/6 0.0625 1.000
+ 5:   MHC-II   within focus       6    4/6 0.0625 1.000
+ 6:   SELPLG focus -> other       5    4/5 0.0625 1.000
+ 7:     CD99 focus -> other       6    5/6 0.1090 1.000
+ 8:      CSF other -> focus       5    3/5 0.1250 0.797
+ 9:     CypA other -> focus       5    3/5 0.1250 0.797
+10:     CypA   within focus       5    3/5 0.1250 1.000
+11: GALECTIN other -> focus       6    3/6 0.1250 0.797
+12: GALECTIN   within focus       6    3/6 0.1250 1.000
+
+-- anything surviving FDR 0.10 anywhere --
+Empty data.table (0 rows and 4 cols): what,norm,p_higher,fdr
+[done] 14_ccc_compare

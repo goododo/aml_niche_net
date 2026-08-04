@@ -1,0 +1,12 @@
+##	tp53_genotype_literature.tsv -- HAND-CURATED TP53 genotype from source publications.
+##	One row per sample (or per patient, repeated across that patient's samples).
+##	tp53_status   : mutant | wildtype | uninformative   (uninformative = TP53 not assayed / not reported)
+##	evidence_tier : A_genotype  = per-cell or per-sample sequencing call reported by the authors
+##	                B_reported  = mutation listed in a paper table without per-cell resolution
+##	                C_karyotype = cytogenetics only (del(17p)/complex) -- NOT a genotype, kept for cross-checks
+##	Every row MUST carry a citation. Rows are added only from a primary source that names the variant
+##	or explicitly states TP53 wild-type; "not mentioned" is NOT wildtype and must stay out of this file.
+##	CODING_STANDARDS §9: only rows in this file (and van Galen per-cell calls parsed by 07) may be
+##	called "TP53-mutant". inferCNV/CopyKAT-derived calls are "17p-loss", never "TP53-mutant".
+dataset	sample	patient	tp53_status	tp53_variants	evidence	evidence_tier	citation
+Petti2019	809653	809653	mutant	TP53.E286G	targeted sequencing; key_mutations "TP53 E286G, CEBPA R142fs, NRAS G12D"; cytogenetics complex karyotype with del(5q),-7,+8,del(12p),del(17q)	B_reported	Petti et al. 2019 Nat Commun (GSE126068); project dataset inventory key_mutations column

@@ -96,9 +96,11 @@ DISPOSITION <- rbindlist(list(
   data.table(dataset = "GSE289435", side = "curated_only", sample = "MLL_29512",
              fixed_by = "INGEST_EXCLUDE xenograft (intentional; was an undocumented grepl in the ingest)"),
   data.table(dataset = "GSE185991", side = "curated_only", sample = "PT18_D30",
-             fixed_by = paste("OPEN: curated gsm_id is 'unknown' -- the curator could not identify",
-                              "which GSM this draw is. Unjoinable until resolved. GSE185991 is",
-                              "l2_capable=FALSE (sorted blast libraries), so this affects L1 only."))))
+             fixed_by = paste("RESOLVED not_deposited: checked against the PI's GSM list -- all 42",
+                              "deposited libraries are claimed by other curated rows, leaving none",
+                              "for PT18_D30. The draw exists in the clinical table and was never",
+                              "sequenced or deposited. Not a join failure; curated row should get",
+                              "data_available=FALSE."))))
 
 # ---------------------------------------------------------------------------
 # [3] Diff, per dataset -- THROUGH THE JOIN MAP, not by raw name

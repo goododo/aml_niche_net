@@ -1,0 +1,10 @@
+dataset,sample,tp53_status,tp53_variants,n_cells_genotyped,n_cells_tp53_mut,n_cells_tp53_wt,evidence,evidence_tier,timepoint,uid_patient,in_selection,tp53_status_patient
+GSE116256,AML420B-D14,wildtype,"",6,0,6,single-cell genotyping (van Galen 2019 GEO anno),A_genotype,Post_treatment,GSE116256:AML420B,FALSE,wildtype
+GSE116256,AML420B-D35,wildtype,"",8,0,8,single-cell genotyping (van Galen 2019 GEO anno),A_genotype,,,,
+GSE116256,AML328-D0,mutant,TP53.P152R+TP53.Q144P,3,3,0,single-cell genotyping (van Galen 2019 GEO anno),A_genotype,Diagnosis,GSE116256:AML328,FALSE,mutant
+GSE116256,AML328-D113,mutant,TP53.P152R,4,1,3,single-cell genotyping (van Galen 2019 GEO anno),A_genotype,Post_treatment,GSE116256:AML328,FALSE,mutant
+GSE116256,AML328-D171,mutant,TP53.Q144P,3,1,2,single-cell genotyping (van Galen 2019 GEO anno),A_genotype,Post_treatment,GSE116256:AML328,FALSE,mutant
+GSE116256,AML328-D29,mutant,TP53.P152R+TP53.Q144P,25,23,2,single-cell genotyping (van Galen 2019 GEO anno),A_genotype,Post_treatment,GSE116256:AML328,FALSE,mutant
+GSE116256,AML420B-D0,mutant,TP53.R273L,8,3,5,single-cell genotyping (van Galen 2019 GEO anno),A_genotype,,,,
+GSE116256,AML916-D0,mutant,TP53.C238Y,21,21,0,single-cell genotyping (van Galen 2019 GEO anno),A_genotype,Diagnosis,GSE116256:AML916,FALSE,mutant
+Petti2019,809653,mutant,TP53.E286G,,,,"targeted sequencing; key_mutations ""TP53 E286G, CEBPA R142fs, NRAS G12D""; cytogenetics complex karyotype with del(5q),-7,+8,del(12p),del(17q)",B_reported,Diagnosis,Petti2019:809653,TRUE,mutant

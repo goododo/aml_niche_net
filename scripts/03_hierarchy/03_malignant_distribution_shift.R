@@ -53,6 +53,21 @@ n_excl <- dist[timepoint %in% TP_LEVELS & !ok, .N]
 message(sprintf("[dist] %d samples; %d longitudinal-timepoint samples excluded (< %d malignant cells)",
                 nrow(dist), n_excl, opt$min_malignant))
 
+## ---- drop samples whose cells cannot be attributed to ONE patient ----
+# GSE185991 pools 2 patients into 3 libraries with no demux (PT01_PT10D30, PT12_PT13D14,
+# PT09_PT13D30). Everything below is per-PATIENT: the composite would enter as a phantom third
+# patient carrying a 50/50 mixture of two people's malignant distributions.
+.man <- fread(file.path(DIR_PREPROCESS, "01_sample_role_manifest.csv"))
+if ("patient_resolved" %in% names(.man)) {
+  .un <- .man[patient_resolved == FALSE, .(dataset, sample = Sample)]
+  if (nrow(.un)) {
+    .before <- nrow(dist)
+    dist <- dist[!.un, on = .(dataset, sample)]
+    message(sprintf("[dist] dropped %d sample(s) with patient_resolved=FALSE: %s",
+                    .before - nrow(dist), paste(.un$sample, collapse = ", ")))
+  }
+} else warning("manifest has no patient_resolved column -- re-run 01_dataset_roles.R", call. = FALSE)
+
 ## ---- longitudinal cohort (patients with >=2 timepoints among Dx/MRD/Relapse) ----
 lon <- dist[ok & timepoint %in% TP_LEVELS]
 lon[, tp := factor(timepoint, levels = TP_LEVELS)]

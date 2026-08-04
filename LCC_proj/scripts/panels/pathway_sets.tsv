@@ -1,0 +1,22 @@
+##	pathway_sets.tsv -- the MSigDB gene sets scored per cell with UCell in 03_percell_pass.R.
+##	set_name  = exact MSigDB 2026.1 Hs symbol-set name; all verified present in msigdb.v2026.1.Hs.symbols.gmt
+##	family    = FDR family for the group comparison (one BH correction per family)
+##	role      = primary  -> pre-specified endpoint, named in the analysis plan before any test ran
+##	            support  -> orthogonal source for the same biology (Reactome/KEGG vs Hallmark)
+##	            control  -> not expected to move; a positive hit here signals a global artifact
+##	n_genes   = set size at freeze time, recorded so a later MSigDB version bump is detectable
+set_name	family	role	n_genes	rationale
+HALLMARK_TGF_BETA_SIGNALING	tgfb	primary	54	the central profibrotic axis
+REACTOME_SIGNALING_BY_TGFB_FAMILY_MEMBERS	tgfb	support	161	orthogonal Reactome view of the same axis
+KEGG_TGF_BETA_SIGNALING_PATHWAY	tgfb	support	86	orthogonal KEGG view
+REACTOME_EXTRACELLULAR_MATRIX_ORGANIZATION	ecm	primary	321	ECM organization, the requested endpoint
+KEGG_ECM_RECEPTOR_INTERACTION	ecm	primary	84	ECM-receptor interaction, the requested endpoint
+REACTOME_COLLAGEN_FORMATION	ecm	support	90	collagen-specific subprogram of ECM organization
+HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION	emt	primary	200	EMT; in haematopoietic context read as a mesenchymal/ECM program, NOT literal EMT
+HALLMARK_HYPOXIA	hypoxia	primary	200	hypoxia response
+HALLMARK_INFLAMMATORY_RESPONSE	inflammation	primary	200	inflammatory response
+HALLMARK_TNFA_SIGNALING_VIA_NFKB	inflammation	support	200	dominant inflammatory transcriptional module in BM
+HALLMARK_IL6_JAK_STAT3_SIGNALING	inflammation	support	87	IL6-STAT3 axis, links inflammation to fibrosis
+HALLMARK_ANGIOGENESIS	vascular	support	36	angiogenesis is coupled to BM fibrosis grade
+HALLMARK_COAGULATION	vascular	support	138	overlaps the megakaryocyte/platelet axis
+HALLMARK_P53_PATHWAY	p53	control	200	functional p53 output; an orthogonal, CNV-independent read on TP53 status

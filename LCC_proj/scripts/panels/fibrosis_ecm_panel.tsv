@@ -1,0 +1,155 @@
+##	fibrosis_ecm_panel.tsv -- curated gene panels for the LCC side branch.
+##	category      = analysis family (one FDR family per category in 06_de_pseudobulk.R)
+##	gene          = HGNC symbol as it appears in GRCh38-2020-A (the cohort's reference)
+##	alias         = legacy symbol to also probe, for datasets annotated on an older GENCODE
+##	rationale     = why the gene is in the panel; keeps the panel auditable rather than ad hoc
+##	SOURCES: myelofibrosis / BM fibrosis literature (MK-derived TGFB1-PDGF-CXCL4 axis), MSigDB
+##	Hallmark EMT + Reactome ECM organization membership, BoneMarrowMap stromal markers.
+##	Panel membership is FROZEN before any group comparison is run (no post-hoc gene picking).
+category	gene	alias	rationale
+collagen_ecm_structural	COL1A1		fibrillar collagen I, the primary reticulin/collagen fibrosis product
+collagen_ecm_structural	COL1A2		fibrillar collagen I
+collagen_ecm_structural	COL3A1		reticulin fibre collagen III, graded in BM fibrosis scoring
+collagen_ecm_structural	COL4A1		basement membrane collagen
+collagen_ecm_structural	COL5A1		fibrillogenesis regulator
+collagen_ecm_structural	COL5A2		fibrillogenesis regulator
+collagen_ecm_structural	COL6A1		microfibrillar collagen, MSC-derived
+collagen_ecm_structural	COL6A2		microfibrillar collagen
+collagen_ecm_structural	COL6A3		microfibrillar collagen
+collagen_ecm_structural	COL11A1	 	activated-fibroblast collagen
+collagen_ecm_structural	FN1		fibronectin, core provisional matrix
+collagen_ecm_structural	LUM		lumican, collagen fibril assembly
+collagen_ecm_structural	DCN		decorin, TGF-beta sequestering proteoglycan
+collagen_ecm_structural	POSTN		periostin, myofibroblast matrix
+collagen_ecm_structural	SPARC		matricellular, osteonectin
+collagen_ecm_structural	BGN		biglycan
+collagen_ecm_structural	VCAN		versican
+collagen_ecm_structural	ELN		elastin
+collagen_ecm_structural	FBN1		fibrillin
+collagen_ecm_structural	MGP		matrix Gla protein
+collagen_ecm_structural	OGN		osteoglycin
+collagen_ecm_structural	ASPN		asporin
+collagen_ecm_structural	TNC		tenascin C, stress-induced matrix
+collagen_ecm_structural	LTBP1		latent TGF-beta binding protein, matrix TGF-beta reservoir
+collagen_ecm_structural	LTBP2		latent TGF-beta binding protein
+ecm_remodeling	LOX		lysyl oxidase, collagen crosslinking; MK-derived in myelofibrosis
+ecm_remodeling	LOXL1		lysyl oxidase like
+ecm_remodeling	LOXL2		lysyl oxidase like, fibrosis driver
+ecm_remodeling	PLOD1		collagen hydroxylase
+ecm_remodeling	PLOD2		hypoxia-induced collagen crosslinking
+ecm_remodeling	SERPINH1		HSP47, collagen chaperone
+ecm_remodeling	SERPINE1		PAI-1, canonical TGF-beta target
+ecm_remodeling	TIMP1		MMP inhibitor, elevated in myelofibrosis serum
+ecm_remodeling	TIMP2		MMP inhibitor
+ecm_remodeling	TIMP3		MMP inhibitor
+ecm_remodeling	MMP2		gelatinase A
+ecm_remodeling	MMP9		gelatinase B, MK/neutrophil derived
+ecm_remodeling	MMP14		MT1-MMP
+ecm_remodeling	CTSK		cathepsin K, matrix degradation
+ecm_remodeling	ADAMTS1		proteoglycanase
+profibrotic_cytokine_gf	TGFB1		the central profibrotic cytokine; MK/macrophage derived in myelofibrosis
+profibrotic_cytokine_gf	TGFB2		TGF-beta family
+profibrotic_cytokine_gf	TGFB3		TGF-beta family
+profibrotic_cytokine_gf	TGFBR1		receptor, defines responder cells
+profibrotic_cytokine_gf	TGFBR2		receptor
+profibrotic_cytokine_gf	PDGFA		MK-derived stromal mitogen
+profibrotic_cytokine_gf	PDGFB		MK-derived stromal mitogen
+profibrotic_cytokine_gf	PDGFRA		stromal receptor
+profibrotic_cytokine_gf	PDGFRB		stromal/pericyte receptor
+profibrotic_cytokine_gf	CCN2	CTGF	connective tissue growth factor, TGF-beta effector
+profibrotic_cytokine_gf	CCN1	CYR61	matricellular signalling
+profibrotic_cytokine_gf	IGF1		stromal growth factor
+profibrotic_cytokine_gf	IGF2		stromal growth factor
+profibrotic_cytokine_gf	VEGFA		angiogenesis, coupled to BM fibrosis
+profibrotic_cytokine_gf	FGF2		bFGF, stromal proliferation
+profibrotic_cytokine_gf	HGF		mesenchymal growth factor
+profibrotic_cytokine_gf	OSM		oncostatin M, monocyte/MK derived profibrotic
+profibrotic_cytokine_gf	OSMR		oncostatin M receptor, stromal
+profibrotic_cytokine_gf	IL11		STAT3-driven fibrosis effector
+profibrotic_cytokine_gf	SPP1		osteopontin, macrophage-derived matricellular
+inflammatory_cytokine	IL1B		inflammasome cytokine, drives BM niche remodelling
+inflammatory_cytokine	IL6		STAT3 axis, fibrosis-associated
+inflammatory_cytokine	TNF		inflammatory cytokine
+inflammatory_cytokine	CXCL8	IL8	neutrophil chemokine
+inflammatory_cytokine	IL10		anti-inflammatory counterweight
+inflammatory_cytokine	IFNG		interferon gamma
+inflammatory_cytokine	CCL2		monocyte chemoattractant
+inflammatory_cytokine	CCL3		macrophage inflammatory protein
+inflammatory_cytokine	CCL4		macrophage inflammatory protein
+inflammatory_cytokine	CXCL1		neutrophil chemokine
+inflammatory_cytokine	CXCL2		neutrophil chemokine
+inflammatory_cytokine	IL18		inflammasome cytokine
+inflammatory_cytokine	NLRP3		inflammasome sensor
+inflammatory_cytokine	S100A8		alarmin, MDS/AML niche inflammation
+inflammatory_cytokine	S100A9		alarmin
+megakaryocyte_fibrosis_axis	PF4	CXCL4	MK alpha-granule; the canonical myelofibrosis driver
+megakaryocyte_fibrosis_axis	PPBP	CXCL7	MK alpha-granule
+megakaryocyte_fibrosis_axis	VWF		MK/endothelial
+megakaryocyte_fibrosis_axis	ITGA2B	CD41	MK lineage marker
+megakaryocyte_fibrosis_axis	GP9		MK lineage marker
+megakaryocyte_fibrosis_axis	NFE2		MK transcription factor, MF-associated
+megakaryocyte_fibrosis_axis	GATA1		MK/erythroid transcription factor, low in MF
+megakaryocyte_fibrosis_axis	MPL		thrombopoietin receptor, MPN driver locus
+megakaryocyte_fibrosis_axis	CALR		MPN driver locus
+megakaryocyte_fibrosis_axis	JAK2		MPN driver locus
+msc_niche	LEPR		LepR+ MSC, dominant BM stromal niche population
+msc_niche	CXCL12		CAR cell / MSC hallmark
+msc_niche	KITLG	SCF	MSC-derived HSC maintenance factor
+msc_niche	ANGPT1		niche quiescence factor
+msc_niche	VCAM1		stromal adhesion
+msc_niche	NES		nestin+ MSC
+msc_niche	NGFR	CD271	human BM MSC marker
+msc_niche	SFRP2		MSC Wnt modulator
+msc_niche	SFRP4		MSC Wnt modulator
+msc_niche	GREM1		BMP antagonist, osteo-MSC
+msc_niche	FAP		activated fibroblast
+msc_niche	BGLAP		osteolineage
+msc_niche	RUNX2		osteolineage transcription factor
+msc_niche	SP7	OSX	osteolineage transcription factor
+msc_niche	ACTA2		myofibroblast / pericyte
+msc_niche	TAGLN		myofibroblast / pericyte
+msc_niche	RGS5		pericyte
+msc_niche	MYH11		smooth muscle
+msc_niche	CDH5		endothelial
+msc_niche	PECAM1	CD31	endothelial
+msc_niche	EMCN		BM sinusoidal endothelial
+hypoxia	HIF1A		hypoxia master regulator
+hypoxia	EPAS1	HIF2A	hypoxia regulator
+hypoxia	CA9		canonical HIF target
+hypoxia	LDHA		glycolytic HIF target
+hypoxia	SLC2A1	GLUT1	glycolytic HIF target
+hypoxia	PGK1		glycolytic HIF target
+hypoxia	ADM		adrenomedullin, HIF target
+hypoxia	BNIP3		hypoxia-induced autophagy
+hypoxia	NDRG1		hypoxia target
+emt	SNAI1		EMT transcription factor
+emt	SNAI2		EMT transcription factor
+emt	TWIST1		EMT transcription factor
+emt	ZEB1		EMT transcription factor
+emt	ZEB2		EMT transcription factor
+emt	VIM		mesenchymal intermediate filament
+emt	CDH2		N-cadherin, mesenchymal
+nectin_target	NECTIN4	PVRL4	the PI's IHC finding; enfortumab vedotin ADC target
+nectin_target	NECTIN1	PVRL1	family background control
+nectin_target	NECTIN2	PVRL2	family background control
+nectin_target	NECTIN3	PVRL3	family background control
+nectin_target	PVR	CD155	nectin-like, TIGIT/CD226 ligand
+nectin_target	TIGIT		NECTIN4/PVR receptor, immune checkpoint
+nectin_target	CD226	DNAM1	PVR receptor
+nectin_target	CD96		PVR receptor
+macrophage_marker	C1QA		complement C1q, tissue-macrophage defining
+macrophage_marker	C1QB		complement C1q
+macrophage_marker	C1QC		complement C1q
+macrophage_marker	CD163		haemoglobin scavenger receptor, macrophage
+macrophage_marker	MRC1	CD206	mannose receptor, macrophage
+macrophage_marker	VSIG4		macrophage complement receptor
+macrophage_marker	SELENOP	SEPP1	tissue-macrophage
+macrophage_marker	STAB1		stabilin, macrophage
+macrophage_marker	LYVE1		resident macrophage subset
+macrophage_marker	MAF		macrophage identity transcription factor
+monocyte_marker	FCN1		classical monocyte
+monocyte_marker	S100A12		classical monocyte
+monocyte_marker	VCAN		classical monocyte
+monocyte_marker	SELL	CD62L	classical monocyte
+monocyte_marker	CSF3R		granulocyte-monocyte
+monocyte_marker	PLAC8		monocyte

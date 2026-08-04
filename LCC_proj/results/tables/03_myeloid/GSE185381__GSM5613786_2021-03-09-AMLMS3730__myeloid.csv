@@ -1,0 +1,2 @@
+dataset,sample,n_cells_total,n_mono_dc,n_macrophage_like,n_monocyte_like,mac_score_p50,mac_score_p90,n_mac_markers_present
+GSE185381,GSM5613786_2021-03-09-AMLMS3730,4680,3534,27,3498,0.175934826499966,0.611571893972819,10

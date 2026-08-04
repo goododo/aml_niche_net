@@ -86,7 +86,23 @@ message("[4] merging ", length(obj_list), " libraries")
 seu <- merge_samples(obj_list)
 rm(obj_list); gc()
 
-seu$Pooled <- grepl("_", seu$Patient_ID)   # multiplexed (multi-donor) libraries
+# Three libraries pool TWO patients each, and the GEO titles say so outright:
+#   GSM5628190 PT01_PT10D30 (M43) | GSM5628191 PT12_PT13D14 (M44) | GSM5628197 PT09_PT13D30 (M50)
+# There is no demux for this deposit (curated demux_method = "unknown"), so those cells cannot
+# be attributed to a person. Verified against the PI's GSM list: this hardcoded PT_MAP is
+# byte-identical to it, and all 42 deposited GSMs are accounted for.
+seu$Pooled              <- grepl("_", seu$Patient_ID)   # kept: existing readers use it
+seu$N_donors_in_library <- ifelse(seu$Pooled, 2L, 1L)
+seu$Demuxed             <- FALSE                        # no per-cell donor call in this deposit
+seu$Patient_resolved    <- patient_resolved(seu$N_donors_in_library, seu$Demuxed)
+
+.np <- sum(unique(seu@meta.data[, c("Sample", "Patient_resolved")])$Patient_resolved == FALSE)
+message("    ", .np, " sample(s) are 2-patient composites -> Patient_resolved=FALSE ",
+        "(excluded from within-patient paired tests and from per-sample CNV)")
+
+# PT18_D30 is in the curated metadata but has NO library in GEO: all 42 deposited GSMs are
+# claimed by other rows. It is a draw that exists in the clinical table and was never
+# sequenced/deposited, not a join failure. Recorded here so it is not re-investigated.
 
 # ----------------------------------------------------------------------------
 # [5] Write QC tables + unfiltered RDS ----

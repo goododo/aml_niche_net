@@ -1,0 +1,2 @@
+dataset,sample,n_cells_total,n_mono_dc,n_macrophage_like,n_monocyte_like,mac_score_p50,mac_score_p90,n_mac_markers_present
+Chen2023,NBM4_CD34,5130,1878,4,1865,0,0.212175775611067,9

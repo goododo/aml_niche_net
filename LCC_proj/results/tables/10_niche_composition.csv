@@ -1,0 +1,4 @@
+library_type,n_cells,n_stromal_denovo,n_MSC_fibroblast,n_adipocyte,n_MSC_adipo_primed,n_endothelial,n_pericyte,n_osteolineage,n_chondrocyte,pct_stromal
+stroma_enriched,100089,27845,19487,1239,15054,744,606,5103,666,27.8202
+whole_MNC,200096,56,54,1,30,0,0,1,0,0.028
+sorted_CD34,141124,12,12,0,10,0,0,0,0,0.0085

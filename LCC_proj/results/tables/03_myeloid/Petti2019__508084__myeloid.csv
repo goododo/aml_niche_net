@@ -1,0 +1,2 @@
+dataset,sample,n_cells_total,n_mono_dc,n_macrophage_like,n_monocyte_like,mac_score_p50,mac_score_p90,n_mac_markers_present
+Petti2019,508084,9482,4246,465,3660,0.12160238481263,0.264582044570261,10

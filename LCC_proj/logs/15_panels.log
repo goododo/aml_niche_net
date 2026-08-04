@@ -1,0 +1,14 @@
+[load]
+[P1] cohort + CNV evidence
+    wrote P1_cohort_evidence
+[P2] myelofibrosis genes
+    wrote P2_myelofibrosis_genes
+[P3] cytokine / GF / ECM genes
+    wrote P3_cytokine_ecm_genes
+[P4] pathway activity
+    wrote P4_pathway_activity
+[P5] CCC and the node inventory
+    wrote P5_ccc_nodes_and_edges
+[P6] NECTIN4 / PVRL4
+    wrote P6_nectin4
+[done] 15_pi_panels

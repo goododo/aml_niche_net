@@ -1,0 +1,2 @@
+dataset,sample,status,n_genes_used,tp53_in_universe,n_subclone_obs,n_subclone_ref,n_cells_grouped,n_cells_consensus,icnv_labelled_frac,cons_covered_frac,frac_genes_nonneutral
+GSE116256,AML707B-D0,ok,5383,TRUE,83,0,4815,1215,0.252336448598131,1,0.21072919620247

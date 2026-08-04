@@ -80,6 +80,10 @@ make_seurat <- function(counts, sample, dataset, patient, timepoint,
   # cannot contain stroma / HSPC / erythroid, so this must be readable downstream as a TECHNICAL
   # absence, never as a biological one.
   seu$Tissue           <- tissue_of(dataset, sample)
+  # Defaults: one donor per library, cells attributable to that donor. The two multiplexed
+  # deposits (GSE185381, GSE185991) override these after the object is built.
+  seu$N_donors_in_library <- 1L
+  seu$Patient_resolved    <- TRUE
   seu$orig.ident       <- as.character(patient)     # merge unit is the patient
 
   if (!is.null(extra_meta)) {

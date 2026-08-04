@@ -1,0 +1,23 @@
+[1] rolling up per-sample detection
+[2] G1: Nectin family detection
+    Nectin family cohort-wide (median % non-zero cells per sample):
+       gene n_samples median_pct max_pct
+     <char>     <int>      <num>   <num>
+ 1: NECTIN2       190    7.47175 58.1043
+ 2:   PVRL2        39    5.18520 46.6358
+ 3:   CD226       220    1.99515 24.2732
+ 4: NECTIN1       190    1.87940 31.3333
+ 5:   PVRL1        39    1.67320 22.0383
+ 6:     PVR       220    1.58855 22.4079
+ 7:   TIGIT       220    1.02365 21.8371
+ 8: NECTIN3       190    0.26000 18.0987
+ 9: NECTIN4       190    0.09840  4.3597
+10:   PVRL3        39    0.08410  3.2152
+11:   PVRL4        39    0.03100  4.6014
+    NECTIN4/PVRL4: 15/220 samples exceed 1% detection; max = 4.60%
+[3] G2: macrophage counts
+    Diagnosis samples with >= 30 macrophage-like cells: 9 cohort-wide, 2 in the selected datasets (gate needs >= 50)
+    VERDICT: keep the locked 7-bin vocabulary; macrophage stays a node FEATURE
+[4] aggregating UCell scores to sample x bin
+[5] aggregating UCell scores to sample level (all / malignant / nonmalignant)
+[done] 04_aggregate_scan

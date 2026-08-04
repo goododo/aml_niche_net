@@ -1,0 +1,17 @@
+node,arm,total,n_samples_with
+Leukaemia (malignant),TP53-mut,3774,5
+Leukaemia (malignant),TP53-WT,7416,8
+HSC / MPP,TP53-mut,2628,9
+HSC / MPP,TP53-WT,2216,5
+Mono_DC (macrophage compartment),TP53-mut,5446,8
+Mono_DC (macrophage compartment),TP53-WT,14576,6
+Macrophage-like,TP53-mut,72,3
+Macrophage-like,TP53-WT,167,1
+Niche / stromal (any),TP53-mut,5,0
+Niche / stromal (any),TP53-WT,3,0
+MSC / fibroblast,TP53-mut,5,0
+MSC / fibroblast,TP53-WT,3,0
+Adipocyte,TP53-mut,0,0
+Adipocyte,TP53-WT,0,0
+Endothelial,TP53-mut,0,0
+Endothelial,TP53-WT,0,0

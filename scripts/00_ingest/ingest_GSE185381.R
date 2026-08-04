@@ -206,6 +206,10 @@ for (prefix in prefixes) {
   s$Library <- prefix
   s$GSM     <- gsm
   s$Pooled  <- is_pooled
+  # Contrast with GSE185991: this deposit pools MORE donors but ships a per-cell donor call, so
+  # the pooling is recoverable. Patient_resolved is set from Demuxed just below, once the call
+  # is read; a cell the author metadata could not assign stays unresolved.
+  s$N_donors_in_library <- length(strsplit(comp_label, "_")[[1]])
   .plat       <- platform_of(DATASET, prefix)
   s$Platform  <- .plat$platform
   s$Chemistry <- .plat$chemistry     # 3prime vs 5prime: resolved per LIBRARY, not per dataset
@@ -237,6 +241,11 @@ for (prefix in prefixes) {
   # make_seurat stamped uid_patient from the SCALAR fallback label, so it must be rebuilt per
   # cell after demux; otherwise every cell in a pooled library keeps the composition string.
   s$uid_patient <- paste0(DATASET, ":", s$Patient_ID)
+  # A demuxed cell IS attributable to one donor even though its library held five; an
+  # un-demuxed cell is not. DEMUX_PREFILTER removes the latter before the split, so in practice
+  # every surviving GSE185381 sample is resolved -- but the flag records why, rather than
+  # leaving it to be inferred from the absence of "UNDEMUX__" in a sample name.
+  s$Patient_resolved <- patient_resolved(s$N_donors_in_library, s$Demuxed)
 
   # C1: GSE185381 is disease-driven AND per-cell (a library pools AML+Healthy donors), so
   # canonical Timepoint must be set per cell from Disease_state, not via the sample-level

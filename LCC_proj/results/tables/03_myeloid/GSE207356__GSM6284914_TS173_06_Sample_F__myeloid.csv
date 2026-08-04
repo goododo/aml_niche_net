@@ -1,0 +1,2 @@
+dataset,sample,n_cells_total,n_mono_dc,n_macrophage_like,n_monocyte_like,mac_score_p50,mac_score_p90,n_mac_markers_present
+GSE207356,GSM6284914_TS173_06_Sample_F,7462,2874,0,2873,0,0.0641032697517954,10
