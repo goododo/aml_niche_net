@@ -22,7 +22,7 @@ if [ "$SLURM_ARRAY_TASK_ID" -eq 1 ]; then SD="-1"; TAG="default"; else SD="0"; T
 echo "=== doublet calibration, dbr.sd=$TAG  $(date -Is)"
 Rscript scripts/01_preprocess/07_doublet_calibration.R --n_per_bin 3 --dbr_sd "$SD"
 mv results/tables/01_preprocess/07_doublet_calibration.csv \
-   "results/tables/01_preprocess/07_doublet_calibration__${TAG}.csv"
+   "results/tables/01_preprocess/07_doublet_calibration__${TAG}_predbl.csv"
 mv results/figures/01_preprocess/07_doublet_calibration.png \
-   "results/figures/01_preprocess/07_doublet_calibration__${TAG}.png"
+   "results/figures/01_preprocess/07_doublet_calibration__${TAG}_predbl.png"
 echo "=== finished $(date -Is)"

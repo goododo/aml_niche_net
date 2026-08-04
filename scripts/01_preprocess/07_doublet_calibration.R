@@ -66,17 +66,40 @@ call_sc <- function(obj, rate, dbr.sd) {
   setNames(as.character(sce$scDblFinder.class) == "doublet", colnames(sce))
 }
 
+# INPUT MUST BE PRE-DOUBLET-REMOVAL. The first version of this script read the
+# per-sample objects under QC_RDS_DIR, which are written AFTER doublet removal.
+# That invalidates every size-dependence number it produced: the residual doublet
+# content of those objects is itself a function of the original removal, and the
+# original removal was the size-dependent thing under investigation. Small samples
+# had been depleted hardest, so re-calling on them found least -- a slope
+# manufactured by the measurement.
+# Ratios BETWEEN the two callers (Jaccard, sc/df) survive that flaw, because both
+# see identical input. Slopes and absolute rates do not.
+# So: rebuild each sample exactly as 03_per_sample_qc.R has it at the moment of
+# the doublet call -- ingest object, split by Sample, MAD+ABS filter applied.
+load_pre_doublet <- function(ds, sm) {
+  f <- file.path(RDS_INGEST_DIR, paste0(ds, ".rds"))
+  if (!file.exists(f)) return(NULL)
+  seu <- readRDS(f)
+  cells <- colnames(seu)[seu@meta.data[[COL_SAMPLE]] == sm]
+  if (!length(cells)) return(NULL)
+  obj <- seu[, cells]; rm(seu); gc(verbose = FALSE)
+  keep <- mad_keep(obj@meta.data)
+  if (!any(keep)) return(NULL)
+  obj[, keep]
+}
+
 res <- vector("list", nrow(sel))
+cache_ds <- NULL
 for (i in seq_len(nrow(sel))) {
   ds <- sel$dataset[i]; sm <- sel$Sample[i]
-  f  <- file.path(QC_RDS_DIR, ds, paste0(sm, ".rds"))
-  if (!file.exists(f)) { message("[skip] no QC object: ", f); next }
-  message(sprintf("[2] %d/%d  %s :: %s  (%d cells)", i, nrow(sel), ds, sm, sel$n_after_mad[i]))
+  message(sprintf("[2] %d/%d  %s :: %s", i, nrow(sel), ds, sm))
+  obj <- load_pre_doublet(ds, sm)
+  if (is.null(obj)) { message("  [skip] could not rebuild pre-doublet object"); next }
+  message("  pre-doublet cells: ", ncol(obj))
 
-  obj  <- readRDS(f)
-  # The QC object is POST doublet removal, so the callers must be re-run on it
-  # only to compare their relative behaviour -- absolute rates are therefore a
-  # LOWER bound. Recorded explicitly so the numbers are not over-read.
+  # Expected rate is computed on the RAW barcode count for this sample, matching
+  # 03_per_sample_qc.R, which derives it from how many barcodes were LOADED.
   rate <- sel$dbl_rate_exp[i]
   sc <- tryCatch(call_sc(obj, rate, DBR_SD), error = function(e) { message("  sc fail: ", conditionMessage(e)); NULL })
   df <- tryCatch(call_doubletfinder(obj, rate), error = function(e) { message("  df fail: ", conditionMessage(e)); NULL })
