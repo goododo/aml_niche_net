@@ -1,3 +1,2 @@
-dataset,Sample,n_raw,n_after_mad,n_doublet,n_final,status,reason,ncount_lo,ncount_hi,nfeat_lo,mt_hi,hb_hi,med_ncount_final,med_nfeat_final,lowcomplexity_flag,dbl_method
-GSE227903,3822_Dg,561,242,0,242,P2-exclude,n_final=242 < 500,7590.49199553639,45396.9214647265,2581.14833348402,16.7584199046029,0,18918.5,4379.5,FALSE,consensus_intersection
-GSE227903,3822_R,548,462,0,462,P2-exclude,n_final=462 < 500,803.644148254725,31570.3014264446,429.067007031799,22.5153735659903,0.226705679213082,5109,1650,FALSE,consensus_intersection
+dataset,Sample,n_raw,n_after_mad,n_doublet,n_final,status,reason,ncount_lo,ncount_hi,nfeat_lo,nfeat_hi,mt_hi,hb_hi,med_ncount_final,med_nfeat_final,lowcomplexity_flag,dbl_method,ncount_lo_mad,nfeat_lo_mad,mt_hi_mad,n_fail_mad,n_fail_abs,mad_loss,dbl_rate_exp,dbl_rate_obs,platform,upstream_filtered
+GSE227903,3822_Dg,561,242,7,235,P2-exclude,n_final=235 < 300,7590.49199553639,45396.9214647265,2581.14833348402,7334.41032985761,16.7584199046029,0,18863,4359,FALSE,consensus_union,7590.49199553639,2581.14833348402,16.7584199046029,319,0,0.568627450980392,0.004488,0.0289256198347107,10x,TRUE

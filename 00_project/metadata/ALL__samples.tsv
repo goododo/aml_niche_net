@@ -1,212 +1,197 @@
 dataset	sample	patient_id	timepoint	timepoint_v1	changed_vs_v1	timepoint_detail	timepoint_days	disease_state	subtype	subtype_dataset_level	karyotype	mutations	compartment	platform	chemistry	upstream_doublet_removed	n_cells_ingest	med_nFeature	n_libraries	study_role	notes	review_flag	rule0_healthy
-Chen2023	AML103_CD34	AML103	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	1001	2709		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	AML103_Niche_Immune	AML103	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	1622	1707		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	AML162_CD34	AML162	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	3381	1194		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	AML162_niche_immune	AML162	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	3267	1421		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	AML24_CD34	AML24	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	14405	605		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	AML24_Niche_Immune	AML24	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	4054	1422		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	AML304_CD34	AML304	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	4866	1762		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	AML304_Niche_Immune	AML304	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	10070	974		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	AML320_CD34	AML320	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	5091	1580		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	AML320_NICHE_IMMUNE	AML320	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	8393	1065		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	AML469_CD34	AML469	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	6283	2476		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	AML469_Niche_Immune	AML469	Diagnosis	Diagnosis	FALSE					NPM1			niche_immune	10x	unknown	FALSE	552	1408.5		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	FALSE
-Chen2023	NBM1_CD34	NBM1	Healthy	Diagnosis	TRUE					NPM1			CD34_sorted	10x	unknown	FALSE	10128	1504		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
-Chen2023	NBM1_Niche_Immune	NBM1	Healthy	Diagnosis	TRUE					NPM1			niche_immune	10x	unknown	FALSE	8512	965.5		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
-Chen2023	NBM2_CD34	NBM2	Healthy	Diagnosis	TRUE					NPM1			CD34_sorted	10x	unknown	FALSE	3345	2199		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
-Chen2023	NBM2_Niche_Immune	NBM2	Healthy	Diagnosis	TRUE					NPM1			niche_immune	10x	unknown	FALSE	4149	1576		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
-Chen2023	NBM3_CD34	NBM3	Healthy	Diagnosis	TRUE					NPM1			CD34_sorted	10x	unknown	FALSE	12528	1104.5		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
-Chen2023	NBM3_Niche_immune	NBM3	Healthy	Diagnosis	TRUE					NPM1			niche_immune	10x	unknown	FALSE	6978	1194		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
-Chen2023	NBM4_CD34	NBM4	Healthy	Diagnosis	TRUE					NPM1			CD34_sorted	10x	unknown	FALSE	6945	1572		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
-Chen2023	NBM4_Niche_Immune	NBM4	Healthy	Diagnosis	TRUE					NPM1			niche_immune	10x	unknown	FALSE	5165	1306		Discovery-AML+AuxStroma		disease_state;chemistry;subtype;	TRUE
-E-MTAB-11536	621B-BLD	621B	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	105	1690		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
+Chen2023	AML103	AML103	Diagnosis	Diagnosis	FALSE					NPM1			unknown	10x	unknown	FALSE	2623	2016		Discovery-AML+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+Chen2023	AML162	AML162	Diagnosis	Diagnosis	FALSE					NPM1			unknown	10x	unknown	FALSE	6648	1331.5		Discovery-AML+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+Chen2023	AML24	AML24	Diagnosis	Diagnosis	FALSE					NPM1			unknown	10x	unknown	FALSE	18459	682		Discovery-AML+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+Chen2023	AML304	AML304	Diagnosis	Diagnosis	FALSE					NPM1			unknown	10x	unknown	FALSE	14936	1225		Discovery-AML+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+Chen2023	AML320	AML320	Diagnosis	Diagnosis	FALSE					NPM1			unknown	10x	unknown	FALSE	13484	1159		Discovery-AML+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+Chen2023	AML469	AML469	Diagnosis	Diagnosis	FALSE					NPM1			unknown	10x	unknown	FALSE	6835	2437		Discovery-AML+AuxStroma		disease_state;compartment;chemistry;subtype;	FALSE
+Chen2023	NBM1	NBM1	Healthy	Healthy	FALSE					NPM1			unknown	10x	unknown	FALSE	18640	1267		Discovery-AML+AuxStroma		disease_state;compartment;chemistry;subtype;	TRUE
+Chen2023	NBM2	NBM2	Healthy	Healthy	FALSE					NPM1			unknown	10x	unknown	FALSE	7494	1812		Discovery-AML+AuxStroma		disease_state;compartment;chemistry;subtype;	TRUE
+Chen2023	NBM3	NBM3	Healthy	Healthy	FALSE					NPM1			unknown	10x	unknown	FALSE	19506	1160		Discovery-AML+AuxStroma		disease_state;compartment;chemistry;subtype;	TRUE
+Chen2023	NBM4	NBM4	Healthy	Healthy	FALSE					NPM1			unknown	10x	unknown	FALSE	12110	1383		Discovery-AML+AuxStroma		disease_state;compartment;chemistry;subtype;	TRUE
 E-MTAB-11536	621B-BMA	621B	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	711	1639		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
-E-MTAB-11536	637C-BLD	637C	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	779	1862		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
 E-MTAB-11536	637C-BMA	637C	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	1616	1927.5		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
 E-MTAB-11536	640C-BMA	640C	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	2048	1981.5		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
 E-MTAB-11536	A29-BMA	A29	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	1410	1367.5		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
 E-MTAB-11536	A31-BMA	A31	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	363	1841		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
-E-MTAB-11536	A35-BLD	A35	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	1411	1676		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
 E-MTAB-11536	A35-BMA	A35	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	1399	2019		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
-E-MTAB-11536	A36-BLD	A36	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	3360	1960		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
 E-MTAB-11536	A36-BMA	A36	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	1333	1764		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
 E-MTAB-11536	A37-BMA	A37	Healthy	Healthy	FALSE								unknown	10x	unknown	TRUE	821	1448		Healthy-control		disease_state;compartment;chemistry;subtype;	FALSE
 GSE116256	AML1012-D0	AML1012	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	1136	831		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML210A-D0	AML210A	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	748	846		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML314-D0	AML314	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	162	692.5		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML314-D31	AML314	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	346	840		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML314-D31	AML314	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	346	840		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML328-D0	AML328	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	1094	991		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML328-D113	AML328	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	2029	748		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML328-D171	AML328	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	1402	706		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML328-D29	AML328	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	1880	1129		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML328-D113	AML328	On_treatment	On_treatment	FALSE					mixed			unknown	SeqWell		TRUE	2029	748		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML328-D171	AML328	On_treatment	On_treatment	FALSE					mixed			unknown	SeqWell		TRUE	1402	706		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML328-D29	AML328	On_treatment	On_treatment	FALSE					mixed			unknown	SeqWell		TRUE	1880	1129		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML329-D0	AML329	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	525	893		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML329-D20	AML329	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	953	1039		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML329-D37	AML329	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	224	943		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML329-D20	AML329	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	953	1039		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML329-D37	AML329	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	224	943		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML371-D0	AML371	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	756	851		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML371-D34	AML371	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	204	827		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML371-D34	AML371	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	204	827		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML419A-D0	AML419A	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	1189	1060		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML420B-D0	AML420B	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	485	760		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML420B-D14	AML420B	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	1282	760.5		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML420B-D35	AML420B	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	743	860		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML420B-D14	AML420B	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	1282	760.5		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML420B-D35	AML420B	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	743	860		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML475-D0	AML475	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	423	852		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML475-D29	AML475	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	102	998.5		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML475-D29	AML475	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	102	998.5		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML556-D0	AML556	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	2328	985.5		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML556-D15	AML556	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	1203	663		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML556-D31	AML556	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	1451	924		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML556-D15	AML556	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	1203	663		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML556-D31	AML556	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	1451	924		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML707B-D0	AML707B	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	1586	1048		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML707B-D113	AML707B	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	708	795.5		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML707B-D18	AML707B	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	1673	704		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML707B-D41	AML707B	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	387	871		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML707B-D97	AML707B	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	84	756.5		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML707B-D113	AML707B	Post_consolidation	Post_consolidation	FALSE					mixed			unknown	SeqWell		TRUE	708	795.5		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML707B-D18	AML707B	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	1673	704		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML707B-D41	AML707B	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	387	871		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML707B-D97	AML707B	Post_consolidation	Post_consolidation	FALSE					mixed			unknown	SeqWell		TRUE	84	756.5		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML722B-D0	AML722B	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	79	726		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML722B-D49	AML722B	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	73	762		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML722B-D49	AML722B	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	73	762		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML870-D0	AML870	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	345	880		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML870-D14	AML870	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	96	634		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML870-D14	AML870	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	96	634		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML916-D0	AML916	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	933	897		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML921A-D0	AML921A	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	3813	1029		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	AML997-D0	AML997	Diagnosis	Diagnosis	FALSE					mixed			unknown	SeqWell		TRUE	83	823		Treatment-axis		disease_state;compartment;subtype;	FALSE
-GSE116256	AML997-D35	AML997	Post_treatment	Post_treatment	FALSE					mixed			unknown	SeqWell		TRUE	187	691		Treatment-axis		disease_state;compartment;subtype;	FALSE
+GSE116256	AML997-D35	AML997	Post_induction	Post_induction	FALSE					mixed			unknown	SeqWell		TRUE	187	691		Treatment-axis		disease_state;compartment;subtype;	FALSE
 GSE116256	BM1	BM1	Healthy	Healthy	FALSE					mixed			unknown	SeqWell		TRUE	108	838.5		Treatment-axis		disease_state;compartment;subtype;	TRUE
 GSE116256	BM2	BM2	Healthy	Healthy	FALSE					mixed			unknown	SeqWell		TRUE	188	963.5		Treatment-axis		disease_state;compartment;subtype;	TRUE
 GSE116256	BM3	BM3	Healthy	Healthy	FALSE					mixed			unknown	SeqWell		TRUE	643	798		Treatment-axis		disease_state;compartment;subtype;	TRUE
 GSE116256	BM4	BM4	Healthy	Healthy	FALSE					mixed			unknown	SeqWell		TRUE	3738	1079		Treatment-axis		disease_state;compartment;subtype;	TRUE
 GSE116256	BM5-34p	BM5	Healthy	Healthy	FALSE					mixed			CD34_sorted	SeqWell		TRUE	1431	899		Treatment-axis		disease_state;subtype;	TRUE
 GSE116256	BM5-34p38n	BM5	Healthy	Healthy	FALSE					mixed			CD34_sorted	SeqWell		TRUE	1590	908		Treatment-axis		disease_state;subtype;	TRUE
-GSE147989	007C1D1BL	7	Post_treatment	Post_treatment	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	3432	2354.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE147989	007C1D1BL	7	On_treatment	On_treatment	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	3432	2354.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE147989	007SCRBL	7	Diagnosis	Diagnosis	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	2094	2244		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE147989	009C1D1BL	9	Post_treatment	Post_treatment	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	1023	2099		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE147989	009C1D1BL	9	On_treatment	On_treatment	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	1023	2099		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE147989	009SCRBL	9	Diagnosis	Diagnosis	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	1554	2076		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185381	AML0024	AML0024	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	4920	2264	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML003	AML003	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	5714	1660	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML0048	AML0048	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	3892	1097	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML005	AML005	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	3891	2263	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML006	AML006	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	2593	962	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML008	AML008	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	3980	2048.5	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML009	AML009	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	2528	1251.5	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML0102	AML0102	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	1479	1848	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML0114	AML0114	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	3465	1352	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML012	AML012	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	3941	1589	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML0134	AML0134	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	1435	1571	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML0160	AML0160	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	2081	1486	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML022	AML022	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	787	978	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML025	AML025	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	3344	2095	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML026	AML026	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	973	1342	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML028	AML028	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	4272	2326	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML0310	AML0310	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	4378	1233	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML0361	AML0361	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	1282	1118.5	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML038	AML038	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	3184	2876	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML043	AML043	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	1157	2055	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML048	AML048	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	2090	1799.5	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML051	AML051	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	1582	802	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML052	AML052	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	6831	1465	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML055	AML055	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	5113	2103	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML056	AML056	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	1788	1332.5	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML0612	AML0612	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	9600	1527	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML0693	AML0693	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	2897	1065	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML073	AML073	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	4684	1190.5	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML1371	AML1371	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	2860	1727	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML2451	AML2451	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	2577	1490	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML2910	AML2910	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	6845	1163	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML2975	AML2975	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	786	1863	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML3050	AML3050	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	908	2456.5	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML3133	AML3133	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	2193	1070	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML3266	AML3266	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	1468	2052.5	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML3730	AML3730	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	4680	2150	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML3762	AML3762	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	6189	1612	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML3948	AML3948	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	9061	1564	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML4340	AML4340	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	2420	1673	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	AML4897	AML4897	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	2439	1513	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	Control0004	Control0004	Healthy	Healthy	FALSE	Healthy		Healthy		other			unknown	10x	3prime	FALSE	14369	1010	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	Control0005	Control0005	Healthy	Healthy	FALSE	Healthy		Healthy		other			unknown	10x	3prime	FALSE	3719	1129	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	Control0058	Control0058	Healthy	Healthy	FALSE	Healthy		Healthy		other			unknown	10x	3prime	FALSE	5385	835	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	Control0082	Control0082	Healthy	Healthy	FALSE	Healthy		Healthy		other			unknown	10x	3prime	FALSE	9299	707	4	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	Control0182	Control0182	Healthy	Healthy	FALSE	Healthy		Healthy		other			unknown	10x	3prime	FALSE	1347	939	1	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	Control1	Control1	Healthy	Healthy	FALSE	Healthy		Healthy		other			unknown	10x	3prime	FALSE	2766	1637.5	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	Control2	Control2	Healthy	Healthy	FALSE	Healthy		Healthy		other			unknown	10x	3prime	FALSE	2314	1684	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	Control3	Control3	Healthy	Healthy	FALSE	Healthy		Healthy		other			unknown	10x	3prime	FALSE	3775	1173	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	Control4	Control4	Healthy	Healthy	FALSE	Healthy		Healthy		other			unknown	10x	3prime	FALSE	5363	1256	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	Control4003	Control4003	Healthy	Healthy	FALSE	Healthy		Healthy		other			unknown	10x	3prime	FALSE	7657	1146	5	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	Control5	Control5	Healthy	Healthy	FALSE	Healthy		Healthy		other			unknown	10x	3prime	FALSE	2669	683	2	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	PAUMTZ	PAUMTZ	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	4456	1555.5	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
-GSE185381	PAXMIJ	PAXMIJ	Diagnosis	Diagnosis	FALSE	AML		AML		other			unknown	10x	3prime	FALSE	901	739	3	Discovery-AML-immuneReceiver		compartment;subtype;	FALSE
+GSE185381	AML001	AML001	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	466	2162.5		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML0024	AML0024	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	6141	2231		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML003	AML003	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	6362	1682.5		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML0048	AML0048	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	4281	1097		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML005	AML005	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	4021	2237		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML006	AML006	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	3056	973		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML008	AML008	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	4341	2024		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML009	AML009	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	4472	1297		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML0114	AML0114	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	5320	1471.5		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML012	AML012	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	4680	1572		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML0160	AML0160	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	2186	1477.5		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML022	AML022	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	879	939		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML025	AML025	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	3728	2083		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML026	AML026	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	1097	1297		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML028	AML028	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	4624	2312.5		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML0310	AML0310	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	4597	1230		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML0361	AML0361	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	2277	1153		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML038	AML038	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	3575	2829		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML043	AML043	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	1408	2013		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML048	AML048	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	2201	1786		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML051	AML051	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	1679	798		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML052	AML052	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	8954	1476		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML055	AML055	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	5294	2080.5		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML056	AML056	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	2014	1306		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML0612	AML0612	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	10054	1511		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML0693	AML0693	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	3604	1032.5		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML073	AML073	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	5248	1173.5		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML1371	AML1371	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	3190	1724		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML2123	AML2123	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	1333	1546		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML2451	AML2451	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	2821	1479		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML2910	AML2910	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	8451	1323		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML3050	AML3050	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	2321	2538		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML3133	AML3133	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	2499	1051		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML3266	AML3266	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	2975	2290		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML3730	AML3730	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	5053	2110		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML3762	AML3762	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	8350	1492		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML3948	AML3948	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	8636	1589		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML4340	AML4340	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	2800	1700.5		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	AML4897	AML4897	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	2844	1518		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	Control0004	Control0004	Healthy	Healthy	FALSE					other			unknown	10x	3prime	FALSE	2476	1140		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	Control0005	Control0005	Healthy	Healthy	FALSE					other			unknown	10x	3prime	FALSE	6474	1276		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	Control0058	Control0058	Healthy	Healthy	FALSE					other			unknown	10x	3prime	FALSE	5982	825		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	Control0082	Control0082	Healthy	Healthy	FALSE					other			unknown	10x	3prime	FALSE	8765	676		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	Control1	Control1	Healthy	Healthy	FALSE					other			unknown	10x	3prime	FALSE	2995	1636		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	Control2	Control2	Healthy	Healthy	FALSE					other			unknown	10x	3prime	FALSE	2489	1684		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	Control3	Control3	Healthy	Healthy	FALSE					other			unknown	10x	3prime	FALSE	4008	1183		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	Control4	Control4	Healthy	Healthy	FALSE					other			unknown	10x	3prime	FALSE	5858	1277		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	Control4003	Control4003	Healthy	Healthy	FALSE					other			unknown	10x	3prime	FALSE	6890	1093		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	Control5	Control5	Healthy	Healthy	FALSE					other			unknown	10x	3prime	FALSE	4307	737		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	PAUMTZ	PAUMTZ	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	4766	1539		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	PAWWEE	PAWWEE	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	547	1113		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
+GSE185381	PAXMIJ	PAXMIJ	Diagnosis	Diagnosis	FALSE					other			unknown	10x	3prime	FALSE	1028	724		Discovery-AML-immuneReceiver		disease_state;compartment;subtype;	FALSE
 GSE185991	GSM5628163_M03	PT01	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	1841	1403		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628164_M04	PT01	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	1763	1405		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628165_M05	PT01	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	229	142		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628166_M06	PT01	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	432	2736		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628165_M05	PT01	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	229	142		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628166_M06	PT01	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	432	2736		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628167_M07	PT06	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	1748	776.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628168_M08	PT06	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	1744	918		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628169_M09	PT06	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	378	20		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628170_M10	PT06	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	512	2870.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628169_M09	PT06	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	378	20		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628170_M10	PT06	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	512	2870.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628171_M21	PT07	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	891	598		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628172_M22	PT07	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	6614	640		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628173_M23	PT07	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	687	3585		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628174_M24	PT07	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	6666	934		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628173_M23	PT07	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	687	3585		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628174_M24	PT07	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	6666	934		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628175_M25	PT02	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	2358	1973		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628176_M26	PT02	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	2456	2210.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628177_M27	PT01	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	1456	1031		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628176_M26	PT02	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	2456	2210.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628177_M27	PT01	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	1456	1031		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628178_M28	PT08	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	5598	1363		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628179_M29	PT08	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	74	2192		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628179_M29	PT08	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	74	2192		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628180_M30	PT08	Relapse	Relapse	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	5512	1286.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628181_M31	PT08	Relapse	Relapse	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	7145	2361		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628182_M32	PT09	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	10165	1995		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628183_M33	PT10	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	5779	2086		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628184_M34	PT09	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	412	2090.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628185_M35	PT10	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	492	1576.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628186_M39	PT08	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	2752	1997		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628184_M34	PT09	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	412	2090.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628185_M35	PT10	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	492	1576.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628186_M39	PT08	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	2752	1997		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628187_M40	PT12	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	4061	2883		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628188_M41	PT13	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	5287	3119		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628189_M42	PT10	Relapse	Relapse	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	3540	276.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628190_M43	PT01_PT10	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	847	2777		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628191_M44	PT12_PT13	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	1014	4761.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628192_M45	PT12	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	2182	2731		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628190_M43	PT01_PT10	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	847	2777		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628191_M44	PT12_PT13	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	1014	4761.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628192_M45	PT12	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	2182	2731		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628195_M48	PT15	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	4480	1381.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM5628196_M49	PT15	Relapse	Relapse	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	4435	1373		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM5628197_M50	PT09_PT13	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	761	2469		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM5628197_M50	PT09_PT13	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	761	2469		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM6412447_M36	PT11	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	7321	3206		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM6412448_M38	PT11	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	7464	2262		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM6412448_M38	PT11	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	7464	2262		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM6412449_M84	PT17	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	8103	2938		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM6412450_M85	PT17	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	10586	2082		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM6412450_M85	PT17	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	10586	2082		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM6412451_M88	PT18	Diagnosis	Diagnosis	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	7729	2599		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM6412452_M89	PT18	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	3982	2616.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE185991	GSM6412453_M92	PT17	Post_treatment	Post_treatment	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	5792	3005.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM6412452_M89	PT18	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	3982	2616.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE185991	GSM6412453_M92	PT17	Post_induction	Post_induction	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	5792	3005.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM6412454_M93	PT19	Relapse	Relapse	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	6571	3506		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE185991	GSM6412455_M95	PT20	Relapse	Relapse	FALSE					NPM1			CD34_sorted	10x	unknown	FALSE	7324	2892		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE201966	GSM6085176_AML01M4_CR	AML01M4	Post_treatment	Post_treatment	FALSE					monocytic			unknown	10x	unknown	FALSE	3500	214.5		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
+GSE201966	GSM6085176_AML01M4_CR	AML01M4	Post_treatment_unspecified	Post_treatment_unspecified	FALSE					monocytic			unknown	10x	unknown	FALSE	3500	214.5		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
 GSE201966	GSM6085177_AML01M4_P	AML01M4	Diagnosis	Diagnosis	FALSE					monocytic			unknown	10x	unknown	FALSE	6000	182.5		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
 GSE201966	GSM6085178_AML01M4_RE	AML01M4	Relapse	Relapse	FALSE					monocytic			unknown	10x	unknown	FALSE	9000	820		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
 GSE201966	GSM6085179_AML02M5_P	AML02M5	Diagnosis	Diagnosis	FALSE					monocytic			unknown	10x	unknown	FALSE	5520	1300		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
 GSE201966	GSM6085180_AML02M5_RE	AML02M5	Relapse	Relapse	FALSE					monocytic			unknown	10x	unknown	FALSE	13619	2399		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
 GSE201966	GSM6085181_AML03M5_P	AML03M5	Diagnosis	Diagnosis	FALSE					monocytic			unknown	10x	unknown	FALSE	9196	1024		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
 GSE201966	GSM6085182_AML03M5_RE	AML03M5	Relapse	Relapse	FALSE					monocytic			unknown	10x	unknown	FALSE	5000	685		Validation-relapse		disease_state;compartment;chemistry;subtype;	FALSE
-GSE207356	GSM6284912_TS173_04_Sample_D	TS173	Diagnosis	Diagnosis	FALSE								unknown	10x	unknown	FALSE	12942	1750.5		Exploratory		disease_state;compartment;chemistry;subtype;	FALSE
-GSE207356	GSM6284913_TS173_05_Sample_E	TS173	Post_treatment	Post_treatment	FALSE								unknown	10x	unknown	FALSE	9551	1280		Exploratory		disease_state;compartment;chemistry;subtype;	FALSE
-GSE207356	GSM6284914_TS173_06_Sample_F	TS173	Post_treatment	Post_treatment	FALSE								unknown	10x	unknown	FALSE	12178	1866.5		Exploratory		disease_state;compartment;chemistry;subtype;	FALSE
+GSE207356	GSM6284912_TS173_04_Sample_D	TS173	Refractory	Refractory	FALSE								unknown	10x	unknown	FALSE	12942	1750.5		Exploratory		disease_state;compartment;chemistry;subtype;	FALSE
+GSE207356	GSM6284913_TS173_05_Sample_E	TS173	On_treatment	On_treatment	FALSE								unknown	10x	unknown	FALSE	9551	1280		Exploratory		disease_state;compartment;chemistry;subtype;	FALSE
+GSE207356	GSM6284914_TS173_06_Sample_F	TS173	On_treatment	On_treatment	FALSE								unknown	10x	unknown	FALSE	12178	1866.5		Exploratory		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	1216_Dg	1216	Diagnosis	Diagnosis	FALSE					mixed			unknown	10x	unknown	TRUE	2941	2019		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
-GSE227903	1216_MRD	1216	MRD	MRD	FALSE					mixed			unknown	10x	unknown	TRUE	2371	2556		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
+GSE227903	1216_MRD	1216	Post_treatment_unspecified	Post_treatment_unspecified	FALSE					mixed			unknown	10x	unknown	TRUE	2371	2556		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	1216_R	1216	Relapse	Relapse	FALSE					mixed			unknown	10x	unknown	TRUE	6866	1928		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	1886_Dg	1886	Diagnosis	Diagnosis	FALSE					mixed			unknown	10x	unknown	TRUE	7052	2606		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
-GSE227903	1886_MRD	1886	MRD	MRD	FALSE					mixed			unknown	10x	unknown	TRUE	3528	2593		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
+GSE227903	1886_MRD	1886	Post_treatment_unspecified	Post_treatment_unspecified	FALSE					mixed			unknown	10x	unknown	TRUE	3528	2593		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	1886_R	1886	Relapse	Relapse	FALSE					mixed			unknown	10x	unknown	TRUE	2099	4065		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	3822_Dg	3822	Diagnosis	Diagnosis	FALSE					mixed			unknown	10x	unknown	TRUE	561	4351		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	3822_R	3822	Relapse	Relapse	FALSE					mixed			unknown	10x	unknown	TRUE	548	1627		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	3853_Dg	3853	Diagnosis	Diagnosis	FALSE					mixed			unknown	10x	unknown	TRUE	1622	3529		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	3853_R	3853	Relapse	Relapse	FALSE					mixed			unknown	10x	unknown	TRUE	627	4288		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	3904_Dg	3904	Diagnosis	Diagnosis	FALSE					mixed			unknown	10x	unknown	TRUE	4235	2999		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
-GSE227903	3904_MRD	3904	MRD	MRD	FALSE					mixed			unknown	10x	unknown	TRUE	3183	2835		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
+GSE227903	3904_MRD	3904	Post_treatment_unspecified	Post_treatment_unspecified	FALSE					mixed			unknown	10x	unknown	TRUE	3183	2835		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	3904_R	3904	Relapse	Relapse	FALSE					mixed			unknown	10x	unknown	TRUE	11427	2096		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	40389_Dg	40389	Diagnosis	Diagnosis	FALSE					mixed			unknown	10x	unknown	TRUE	4594	2146.5		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
-GSE227903	40389_MRD	40389	MRD	MRD	FALSE					mixed			unknown	10x	unknown	TRUE	4673	1557		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
+GSE227903	40389_MRD	40389	Post_treatment_unspecified	Post_treatment_unspecified	FALSE					mixed			unknown	10x	unknown	TRUE	4673	1557		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	40389_R	40389	Relapse	Relapse	FALSE					mixed			unknown	10x	unknown	TRUE	7051	1433		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	4978_Dg	4978	Diagnosis	Diagnosis	FALSE					mixed			unknown	10x	unknown	TRUE	3502	3404.5		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
-GSE227903	4978_MRD	4978	MRD	MRD	FALSE					mixed			unknown	10x	unknown	TRUE	2477	2555		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
+GSE227903	4978_MRD	4978	Post_treatment_unspecified	Post_treatment_unspecified	FALSE					mixed			unknown	10x	unknown	TRUE	2477	2555		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	4978_R	4978	Relapse	Relapse	FALSE					mixed			unknown	10x	unknown	TRUE	2457	4304		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	5143_Dg	5143	Diagnosis	Diagnosis	FALSE					mixed			unknown	10x	unknown	TRUE	1213	3178		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	5143_R	5143	Relapse	Relapse	FALSE					mixed			unknown	10x	unknown	TRUE	2323	2861		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	5750_Dg	5750	Diagnosis	Diagnosis	FALSE					mixed			unknown	10x	unknown	TRUE	5444	3356		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
-GSE227903	5750_MRD	5750	MRD	MRD	FALSE					mixed			unknown	10x	unknown	TRUE	3167	2986		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
+GSE227903	5750_MRD	5750	Post_treatment_unspecified	Post_treatment_unspecified	FALSE					mixed			unknown	10x	unknown	TRUE	3167	2986		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	5750_R	5750	Relapse	Relapse	FALSE					mixed			unknown	10x	unknown	TRUE	6390	2194.5		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	6323_Dg	6323	Diagnosis	Diagnosis	FALSE					mixed			unknown	10x	unknown	TRUE	725	3943		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
-GSE227903	6323_MRD	6323	MRD	MRD	FALSE					mixed			unknown	10x	unknown	TRUE	13609	1519		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
+GSE227903	6323_MRD	6323	Post_treatment_unspecified	Post_treatment_unspecified	FALSE					mixed			unknown	10x	unknown	TRUE	13609	1519		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	6323_R	6323	Relapse	Relapse	FALSE					mixed			unknown	10x	unknown	TRUE	1128	3153		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE227903	6323_R2	6323	Relapse2	Relapse2	FALSE					mixed			unknown	10x	unknown	TRUE	5534	2015		Validation-relapse+treatment		disease_state;compartment;chemistry;subtype;	FALSE
 GSE239721	PT10A	PT10A	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	TRUE	1327	3305		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
@@ -258,7 +243,3 @@ Petti2019	548327	548327	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknow
 Petti2019	721214	721214	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	20474	2260		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
 Petti2019	782328	782328	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	21038	1829		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
 Petti2019	809653	809653	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	21731	1376		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
-Petti2019	ND_083017	ND_083017	Healthy	Healthy	FALSE					other			unknown	10x	unknown	FALSE	5860	1098		Discovery-AML		disease_state;compartment;chemistry;subtype;	TRUE
-Petti2019	ND_090617	ND_090617	Healthy	Healthy	FALSE					other			unknown	10x	unknown	FALSE	7197	969		Discovery-AML		disease_state;compartment;chemistry;subtype;	TRUE
-Petti2019	Normal_sorted_170531	Normal_sorted_170531	Healthy	Healthy	FALSE					other			lineage_sorted	10x	unknown	FALSE	3137	1000		Discovery-AML		disease_state;chemistry;subtype;	TRUE
-Petti2019	Normal_sorted_170607	Normal_sorted_170607	Healthy	Healthy	FALSE					other			lineage_sorted	10x	unknown	FALSE	3605	820		Discovery-AML		disease_state;chemistry;subtype;	TRUE

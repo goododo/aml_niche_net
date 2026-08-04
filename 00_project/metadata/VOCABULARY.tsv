@@ -1,8 +1,12 @@
 field	allowed
 timepoint	Healthy
 timepoint	Diagnosis
-timepoint	MRD
-timepoint	Post_treatment
+timepoint	Refractory
+timepoint	On_treatment
+timepoint	Post_induction
+timepoint	Post_consolidation
+timepoint	Post_transplant
+timepoint	Post_treatment_unspecified
 timepoint	Relapse
 timepoint	Relapse2
 timepoint	Unknown

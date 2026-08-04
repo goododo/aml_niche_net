@@ -65,29 +65,27 @@ SUBTYPE_VALUES  <- c("NPM1", "FLT3-ITD", "TP53", "KMT2A-r", "monocytic",
                      "complex_karyotype", "other", "NA")
 
 # ---------------------------------------------------------------------------
-# Sample lists: from the ingest QC summaries, except GSE185381 (key changed).
+# Sample lists, from the ingest QC summaries.
+#
+# GSE185381 used to be read from recon_GSE185381_donor_qc.csv instead, because
+# the ingest keyed Sample on the LIBRARY and the donor list existed only in that
+# side-car. ingest_GSE185381.R now emits donor-level samples directly, so the
+# side-car is redundant -- and worse, it froze the v1 roster: a 2026-07-22 file
+# still holding 53 donors (the 4 five-prime-only ones present, the 3 recovered by
+# the donor-level cell gate absent). Every rebuild silently reinstated it, and the
+# roster gate then reported AML001 / AML2123 / PAWWEE as unmatched.
+# Read the deposit like every other dataset; drop the un-demuxed remainders, which
+# the demux prefilter removes before the per-sample split and which are therefore
+# not samples.
 # ---------------------------------------------------------------------------
 build_rows <- function(ds) {
-  if (ds == "GSE185381") {
-    f <- file.path(PROJECT_ROOT, "recon_GSE185381_donor_qc.csv")
-    if (!file.exists(f)) {
-      message("[skip] GSE185381: donor recon table missing (", f, ")"); return(NULL)
-    }
-    r <- fread(f)
-    return(data.table(
-      dataset          = ds,
-      sample           = r$Patient_ID,        # donor IS the sample now
-      patient_id       = r$Patient_ID,
-      n_cells_ingest   = r$n_cells,
-      timepoint        = r$timepoints,        # from per-cell Disease_state
-      timepoint_detail = r$disease_states,
-      disease_state    = r$disease_states,
-      n_libraries      = r$n_libraries,
-      med_nFeature     = r$med_nFeature))
-  }
   f <- file.path(DIR_INGEST, paste0(ds, "_qc_summary.csv"))
   if (!file.exists(f)) { message("[skip] ", ds, ": no ingest QC summary"); return(NULL) }
   r <- fread(f)
+  if (any(grepl("^UNDEMUX__", r$Sample))) {
+    n0 <- nrow(r); r <- r[!grepl("^UNDEMUX__", Sample)]
+    message("[", ds, "] dropped ", n0 - nrow(r), " UNDEMUX__ rows (not samples)")
+  }
   data.table(dataset          = ds,
              sample           = as.character(r$Sample),
              patient_id       = as.character(r$Patient_ID),

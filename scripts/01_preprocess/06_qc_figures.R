@@ -189,8 +189,14 @@ if (nrow(D)) {
 # ---------------------------------------------------------------------------
 if (!is.null(M) && "Timepoint" %in% names(M)) {
   message("[5] cohort composition")
-  Mp <- merge(M, R[, .(dataset, Sample, status)], by = c("dataset", "Sample"), all.x = TRUE)
-  Mp <- Mp[status == "PASS" | is.na(status)]
+  # INNER join, and PASS only. The manifest is built at INGEST level, so it still contains
+  # GSE185381's 27 UNDEMUX__* rows -- cells the author metadata could not assign to a donor,
+  # removed by the demux prefilter before the per-sample split. An outer join with
+  # `status == "PASS" | is.na(status)` admits exactly those (they have no QC row, so status is
+  # NA), which inflated the healthy arm from 40 to 47: ten un-demuxed all-control LIBRARIES
+  # counted as healthy donors. A sample that produced no QC row is not a sample.
+  Mp <- merge(M, R[, .(dataset, Sample, status)], by = c("dataset", "Sample"))
+  Mp <- Mp[status == "PASS"]
   Mp[, Timepoint := factor(Timepoint, levels = intersect(CANONICAL_TIMEPOINTS, unique(Timepoint)))]
 
   p5 <- ggplot(Mp[!is.na(Timepoint)], aes(dataset, fill = Timepoint)) +

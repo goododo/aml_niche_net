@@ -57,11 +57,22 @@ CUR[, sample := sub("^[^_]*__", "", curated_id)]
 # [1] Pipeline roster
 # ---------------------------------------------------------------------------
 if (POST) {
-  fs <- list.files(DIR_INGEST, "_qc_summary\\.csv$", full.names = TRUE)
-  if (!length(fs)) stop("--post given but no *_qc_summary.csv under ", DIR_INGEST)
-  PIPE <- rbindlist(lapply(fs, function(f)
-    fread(f)[, .(dataset = as.character(Dataset), sample = as.character(Sample))]), fill = TRUE)
-  message("[1] POST-INGEST roster: ", nrow(PIPE), " samples from ", length(fs), " qc summaries")
+  # SOURCE: the per-sample QC report, NOT the ingest summaries. Two reasons, both of which
+  # this check got wrong on its first run (582 "samples" from 14 files):
+  #   - DIR_INGEST also holds 00_MASTER_qc_summary.csv, which IS the concatenation of the
+  #     other 13, so globbing the directory counts every sample twice.
+  #   - the ingest summaries still contain GSE185381's 47 UNDEMUX__* rows. Those are cells
+  #     the author metadata could not assign to a donor; the demux prefilter removes them
+  #     before the per-sample split, so they never become samples and must not be compared
+  #     against a curated roster.
+  # 03_qc_report__ALL.csv is written after both, so it is the actual set of samples the
+  # pipeline produced -- including the ones QC then excluded, which still belong in a ROSTER
+  # check (the sample existed and was processed; whether it passed QC is a separate question).
+  f <- file.path(DIR_PREPROCESS, "03_qc_report__ALL.csv")
+  if (!file.exists(f)) stop("--post given but ", f, " is missing (run the J2c combine step)")
+  PIPE <- fread(f)[, .(dataset = as.character(dataset), sample = as.character(Sample))]
+  PIPE <- unique(PIPE, by = c("dataset", "sample"))
+  message("[1] POST-QC roster: ", nrow(PIPE), " samples across ", uniqueN(PIPE$dataset), " datasets")
 } else {
   PIPE <- fread(file.path(OUT_DIR, "ALL__samples.tsv"))[, .(dataset, sample = as.character(sample))]
   message("[1] PRE-INGEST (v1) roster: ", nrow(PIPE), " samples")

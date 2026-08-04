@@ -1,5 +1,5 @@
 dataset	sample	patient_id	timepoint	timepoint_v1	changed_vs_v1	timepoint_detail	timepoint_days	disease_state	subtype	subtype_dataset_level	karyotype	mutations	compartment	platform	chemistry	upstream_doublet_removed	n_cells_ingest	med_nFeature	n_libraries	study_role	notes	review_flag	rule0_healthy
-GSE147989	007C1D1BL	7	Post_treatment	Post_treatment	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	3432	2354.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE147989	007C1D1BL	7	On_treatment	On_treatment	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	3432	2354.5		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE147989	007SCRBL	7	Diagnosis	Diagnosis	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	2094	2244		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
-GSE147989	009C1D1BL	9	Post_treatment	Post_treatment	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	1023	2099		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
+GSE147989	009C1D1BL	9	On_treatment	On_treatment	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	1023	2099		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE
 GSE147989	009SCRBL	9	Diagnosis	Diagnosis	FALSE					mixed			CD34_sorted	10x	unknown	FALSE	1554	2076		Treatment-axis-L1only		disease_state;chemistry;subtype;	FALSE

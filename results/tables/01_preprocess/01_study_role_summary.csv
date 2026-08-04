@@ -1,10 +1,10 @@
 dataset,study_role,is_longitudinal,discovery_candidate,subtype_stratum,n_samples,n_discovery_pool,n_healthy,n_excluded,integrity
-Chen2023,Discovery-AML+AuxStroma,FALSE,TRUE,NPM1,20,20,0,0,OK
-GSE185381,Discovery-AML-immuneReceiver,FALSE,TRUE,other,63,46,17,0,OK
+Chen2023,Discovery-AML+AuxStroma,FALSE,TRUE,NPM1,10,10,0,0,OK
+GSE185381,Discovery-AML-immuneReceiver,FALSE,TRUE,other,99,79,20,0,OK
 GSE239721,Discovery-AML,FALSE,TRUE,other,20,20,0,0,OK
 GSE289435,Discovery-AML,FALSE,TRUE,other,12,12,0,0,OK
-Petti2019,Discovery-AML,FALSE,TRUE,other,9,5,4,0,OK
-E-MTAB-11536,Healthy-control,FALSE,FALSE,,12,0,12,0,OK
+Petti2019,Discovery-AML,FALSE,TRUE,other,5,5,0,0,OK
+E-MTAB-11536,Healthy-control,FALSE,FALSE,,8,0,8,0,OK
 GSE116256,Treatment-axis,TRUE,FALSE,mixed,41,0,0,0,OK
 GSE147989,Treatment-axis-L1only,TRUE,FALSE,mixed,4,0,0,0,OK
 GSE185991,Treatment-axis-L1only,TRUE,FALSE,NPM1,42,0,0,0,OK

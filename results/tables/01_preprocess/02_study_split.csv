@@ -1,6 +1,6 @@
 dataset,study_role,is_longitudinal,discovery_candidate,subtype_stratum,n_discovery_samples,split
-Chen2023,Discovery-AML+AuxStroma,FALSE,TRUE,NPM1,20,Discovery
-GSE185381,Discovery-AML-immuneReceiver,FALSE,TRUE,other,46,Discovery
+Chen2023,Discovery-AML+AuxStroma,FALSE,TRUE,NPM1,10,Discovery
+GSE185381,Discovery-AML-immuneReceiver,FALSE,TRUE,other,79,Discovery
 GSE239721,Discovery-AML,FALSE,TRUE,other,20,Discovery
 Petti2019,Discovery-AML,FALSE,TRUE,other,5,Discovery
 GSE207356,Exploratory,TRUE,FALSE,"",0,Exploratory

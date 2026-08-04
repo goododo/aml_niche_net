@@ -1,20 +1,5 @@
 dataset	sample	side	fixed_by
-E-MTAB-11536	621B-BLD	pipeline_only	INGEST_EXCLUDE peripheral_blood
-E-MTAB-11536	637C-BLD	pipeline_only	INGEST_EXCLUDE peripheral_blood
-E-MTAB-11536	A35-BLD	pipeline_only	INGEST_EXCLUDE peripheral_blood
-E-MTAB-11536	A36-BLD	pipeline_only	INGEST_EXCLUDE peripheral_blood
 E-MTAB-11536	D496-BMA-80	curated_only	OPEN: absent from the local deposit. Needs download, plus the erythroid-node mask (C10) and donor-equal barycenter weighting (C11) before they can be admitted -- they are 72% of this dataset's marrow cells and the only 3' + triple-depleted arm.
 E-MTAB-11536	D503-BMA-72	curated_only	OPEN: absent from the local deposit. Needs download, plus the erythroid-node mask (C10) and donor-equal barycenter weighting (C11) before they can be admitted -- they are 72% of this dataset's marrow cells and the only 3' + triple-depleted arm.
-GSE185381	AML001	curated_only	Sample=donor + MIN_CELLS at donor level (v1 lost these to a library-level gate)
-GSE185381	AML0102	pipeline_only	INGEST_EXCLUDE 5prime arm
-GSE185381	AML0134	pipeline_only	INGEST_EXCLUDE 5prime arm
-GSE185381	AML2123	curated_only	Sample=donor + MIN_CELLS at donor level (v1 lost these to a library-level gate)
-GSE185381	AML2975	pipeline_only	INGEST_EXCLUDE 5prime arm
-GSE185381	Control0182	pipeline_only	INGEST_EXCLUDE 5prime arm
-GSE185381	PAWWEE	curated_only	Sample=donor + MIN_CELLS at donor level (v1 lost these to a library-level gate)
 GSE185991	PT18_D30	curated_only	RESOLVED not_deposited: checked against the PI's GSM list -- all 42 deposited libraries are claimed by other curated rows, leaving none for PT18_D30. The draw exists in the clinical table and was never sequenced or deposited. Not a join failure; curated row should get data_available=FALSE.
 GSE289435	MLL_29512	curated_only	INGEST_EXCLUDE xenograft (intentional; was an undocumented grepl in the ingest)
-Petti2019	ND_083017	pipeline_only	INGEST_EXCLUDE uncurated_healthy
-Petti2019	ND_090617	pipeline_only	INGEST_EXCLUDE uncurated_healthy
-Petti2019	Normal_sorted_170531	pipeline_only	INGEST_EXCLUDE uncurated_healthy
-Petti2019	Normal_sorted_170607	pipeline_only	INGEST_EXCLUDE uncurated_healthy

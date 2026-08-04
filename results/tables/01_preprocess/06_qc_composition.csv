@@ -1,0 +1,14 @@
+dataset,Healthy,Diagnosis,Refractory,On_treatment,Post_induction,Post_consolidation,Post_treatment_unspecified,Relapse,Relapse2
+Chen2023,4,6,0,0,0,0,0,0,0
+E-MTAB-11536,7,0,0,0,0,0,0,0,0
+GSE116256,4,13,0,3,6,1,0,0,0
+GSE147989,0,2,0,2,0,0,0,0,0
+GSE185381,10,42,0,0,0,0,0,0,0
+GSE185991,0,15,0,0,11,0,0,5,0
+GSE201966,0,3,0,0,0,0,1,3,0
+GSE207356,0,0,1,2,0,0,0,0,0
+GSE227903,0,9,0,0,0,0,7,10,1
+GSE239721,0,17,0,0,0,0,0,0,0
+GSE253355,12,0,0,0,0,0,0,0,0
+GSE289435,0,12,0,0,0,0,0,0,0
+Petti2019,0,5,0,0,0,0,0,0,0

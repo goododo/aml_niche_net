@@ -4,7 +4,3 @@ Petti2019	548327	548327	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknow
 Petti2019	721214	721214	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	20474	2260		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
 Petti2019	782328	782328	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	21038	1829		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
 Petti2019	809653	809653	Diagnosis	Diagnosis	FALSE					other			unknown	10x	unknown	FALSE	21731	1376		Discovery-AML		disease_state;compartment;chemistry;subtype;	FALSE
-Petti2019	ND_083017	ND_083017	Healthy	Healthy	FALSE					other			unknown	10x	unknown	FALSE	5860	1098		Discovery-AML		disease_state;compartment;chemistry;subtype;	TRUE
-Petti2019	ND_090617	ND_090617	Healthy	Healthy	FALSE					other			unknown	10x	unknown	FALSE	7197	969		Discovery-AML		disease_state;compartment;chemistry;subtype;	TRUE
-Petti2019	Normal_sorted_170531	Normal_sorted_170531	Healthy	Healthy	FALSE					other			lineage_sorted	10x	unknown	FALSE	3137	1000		Discovery-AML		disease_state;chemistry;subtype;	TRUE
-Petti2019	Normal_sorted_170607	Normal_sorted_170607	Healthy	Healthy	FALSE					other			lineage_sorted	10x	unknown	FALSE	3605	820		Discovery-AML		disease_state;chemistry;subtype;	TRUE
