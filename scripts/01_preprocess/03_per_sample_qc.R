@@ -51,16 +51,28 @@ args <- commandArgs(trailingOnly = TRUE)
 all_datasets <- list_datasets()
 
 pick_datasets <- function() {
-  # SLURM array task id takes priority if present.
+  # PRECEDENCE: explicit --dataset > --all > SLURM_ARRAY_TASK_ID.
+  #
+  # It used to be the other way round, and that silently discards the argument
+  # whenever an array job does its OWN task-id -> dataset mapping. A targeted
+  # re-run submitted as `--array=1-3` with `--dataset GSE185991` inside ran
+  # all_datasets[2] = E-MTAB-11536 instead: the two datasets that actually needed
+  # re-QC were never touched, and nothing errored, because both names are valid.
+  # An explicit argument is a statement of intent; an environment variable is not.
+  k <- which(args == "--dataset")
+  if (length(k) == 1 && length(args) >= k + 1) {
+    ds <- args[k + 1]
+    if (!ds %in% all_datasets)
+      stop("--dataset '", ds, "' not found. Available: ", paste(all_datasets, collapse = ", "))
+    return(ds)
+  }
+  if ("--all" %in% args) return(all_datasets)
   aid <- Sys.getenv("SLURM_ARRAY_TASK_ID", unset = "")
   if (nzchar(aid)) {
     i <- as.integer(aid)
     stopifnot(i >= 1, i <= length(all_datasets))
     return(all_datasets[i])
   }
-  if ("--all" %in% args) return(all_datasets)
-  k <- which(args == "--dataset")
-  if (length(k) == 1 && length(args) >= k + 1) return(args[k + 1])
   stop("Specify --dataset <name>, --all, or run as a SLURM array job.")
 }
 # NOTE: dataset selection is deferred to the run block below so that sourcing
