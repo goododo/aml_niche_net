@@ -217,6 +217,31 @@ qc_one_sample <- function(obj, ds, samp, integrity_fail) {
 
   # --- 1. MAD cell filtering ---
   keep <- mad_keep(md); th <- attr(keep, "thresh")
+
+  # A sample can lose EVERY cell, and that is a result, not an error. It happens where the
+  # library is genuinely broken: GSE185991 ships samples at 18 and 36 median genes/cell, and the
+  # absolute floor (ABS_MIN_NFEAT = 200) correctly rejects all of them. v1 never reached this
+  # branch because the absolute bounds were defined in config and wired to nothing, so MAD --
+  # being a relative rule -- always kept the middle of whatever distribution it was given, no
+  # matter how degenerate. Subsetting a Seurat object to zero cells aborts, which killed the
+  # whole dataset's task. Record it and move on.
+  if (!any(keep)) {
+    rep[, `:=`(n_after_mad = 0L, n_final = 0L, status = "P2-exclude",
+               reason = sprintf("all %d cells failed QC (median nFeature = %s; ABS floor = %d)",
+                                n0, format(median(md[[COL_NFEAT]], na.rm = TRUE), digits = 4),
+                                ABS_MIN_NFEAT),
+               ncount_lo = th$ncount_lo, ncount_hi = th$ncount_hi,
+               nfeat_lo  = th$nfeat_lo,  nfeat_hi  = th$nfeat_hi,
+               mt_hi = th$mt_hi, hb_hi = th$hb_hi,
+               ncount_lo_mad = th$ncount_lo_mad, nfeat_lo_mad = th$nfeat_lo_mad,
+               mt_hi_mad = th$mt_hi_mad,
+               n_fail_mad = th$n_fail_mad, n_fail_abs = th$n_fail_abs,
+               mad_loss = 1, platform = platform_of(ds)$platform,
+               upstream_filtered = is_upstream_filtered(ds))]
+    message_ts(ds, "/", samp, ": ALL ", n0, " cells failed QC -> P2-exclude")
+    return(rep)
+  }
+
   obj  <- obj[, keep]
   rep[, `:=`(n_after_mad = ncol(obj),
              ncount_lo = th$ncount_lo, ncount_hi = th$ncount_hi,
