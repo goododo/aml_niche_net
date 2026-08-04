@@ -13,7 +13,11 @@
 #           unassigned    -> Patient_ID = library composition string (fallback)
 # Sample  : the DONOR, not the library. Libraries pool up to 5 donors and mix AML with Healthy,
 #           so the library is not a biological sample; Library/GSM/Platform keep the provenance.
-#           50 libraries -> 53 donors (42 AML Diagnosis + 11 Healthy); 41 donors span >1 library.
+#           47 3' libraries -> 52 curated donors (42 AML Diagnosis + 10 Healthy); most span >1
+#           library. The 16 5'/scTCR libraries are dropped at [4]; see INGEST_EXCLUDE.
+#           v1 produced 53 donors from this deposit: +4 that are 5'-only (AML0102, AML0134,
+#           AML2975, Control0182) and -3 (AML001, AML2123, PAWWEE) that v1 lost because the
+#           cell-count gate ran on the LIBRARY. Those three come back once Sample is the donor.
 # Guard  : if a library's metadata barcodes barely map to its matrix
 #          (source-file mismatch, e.g. GSM5613798), warn and use fallback.
 # ============================================================================
@@ -152,6 +156,13 @@ mtx_files <- list.files(RAW, pattern = "_matrix\\.mtx\\.gz$", full.names = FALSE
 prefixes  <- sub("_matrix\\.mtx\\.gz$", "", mtx_files)   # "GSM5613744_2019-07-01-count-1"
 message("    ", length(prefixes), " RNA libraries found")
 
+# The 5'/scTCR arm (GSM5613791-806) leaves the cohort whole -- see INGEST_EXCLUDE. These are
+# pan-T-enriched libraries: 1 of 7 CCC nodes, no malignant compartment. Note the GEO titles are
+# NOT a usable key (only 4 of the 16 say "5prime"; GSM5613791 is titled "1-Control0004"), which
+# is exactly how they survived v1 -- so the rule is keyed on the GSM range.
+prefixes <- ingest_keep(DATASET, prefixes, "library")
+message("    ", length(prefixes), " 3prime libraries retained")
+
 # ----------------------------------------------------------------------------
 # [5] Build one Seurat object per library (no filtering) ----
 # ----------------------------------------------------------------------------
@@ -211,8 +222,7 @@ for (prefix in prefixes) {
     # THE SAMPLE IS THE DONOR, NOT THE LIBRARY. A library here pools up to 5 donors and mixes
     # AML with Healthy in one barcode set, so splitting on the library key (03_per_sample_qc.R
     # splits by Sample) yielded "samples" that are not biological samples: one QC unit, one CNV
-    # run and one CCC graph per POOL. 50 libraries -> 53 donors (42 AML Diagnosis + 11 Healthy),
-    # all 53 clearing the cell-count and complexity gates. Un-demuxed cells get a marked id so
+    # run and one CCC graph per POOL. Un-demuxed cells get a marked id so
     # they can never be mistaken for a donor; DEMUX_PREFILTER drops them before the split anyway.
     s$Sample <- ifelse(has_call, donor_vals, paste0("UNDEMUX__", prefix))
     message("        demuxed on '", donor_col, "': ",

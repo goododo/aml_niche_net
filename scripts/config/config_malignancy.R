@@ -91,9 +91,19 @@ MYELOID_BLAST <- c("CD34", "KIT", "MPO", "ELANE", "PRTN3", "AZU1",
 LINEAGE_VALID <- c("CD3D", "CD3E", "TRAC", "CD79A", "MS4A1", "CD19")
 
 ## -- sorted / lineage-enriched libraries (explicit fallback guard; no autologous attempt) ----
+# This guard means "this library has no normal-cell population to use as an autologous inferCNV
+# reference". GSE185991/GSE147989 are genuinely CD34/CD117-sorted blast libraries.
+#
+# REMOVED: SORTED_LIBRARY_REGEX <- "_CD34$". Chen2023's "<donor>_CD34" is not a CD34-sorted
+# library -- per Methods it is pool A = HSPC + myeloid, i.e. half of a donor whose other half is
+# in "<donor>_Niche_Immune". The regex therefore routed half of every Chen2023 donor to the
+# fallback and, worse, computed malignant_frac from the LYMPHOID pool only. Since
+# ingest_Chen2023.R now merges both pools under one donor-level Sample, no Chen2023 sample id
+# ends in "_CD34" any more and the regex would be dead code as well as wrong. Left empty rather
+# than deleted so the variable stays part of the guard's contract.
 SORTED_LIBRARY_DATASETS <- c("GSE185991", "GSE147989")
 SORTED_LIBRARY_SAMPLES  <- character(0)
-SORTED_LIBRARY_REGEX    <- "_CD34$"
+SORTED_LIBRARY_REGEX    <- ""
 
 ## -- refnorm I/O (QC objects come from the canonical QC_RDS_DIR) ----
 REFNORM_SUMMARY_CSV  <- file.path(DIR_MALIGNANCY, "ref_norm_summary.csv")   # 02_malignancy (was 03)
@@ -164,11 +174,18 @@ SNV_ARM_ACTIVE <- FALSE
 ## -- RESIDUAL-DISEASE STRATUM (H3 treatment-pressure axis) ----
 # WHY this exists: the nominal Timepoint is the depositing author's word for the draw, and it
 # conflates two different things -- GSE201966 "Complete_remission" is clinically an MRD draw,
-# and GSE116256 maps every "D<n>" to Post_treatment whether n is 14 or 171. Only GSE227903 ever
-# lands in MRD, purely because its authors wrote "MRD". So H3's stratum is derived from residual
-# disease BURDEN instead of from the label. Applied ONLY to post-treatment draws: a low-blast
-# diagnosis marrow is not an MRD sample.
-RESIDUAL_NOMINAL_SCOPE <- c("MRD", "Post_treatment")
+# and GSE116256 maps every "D<n>" to the same class whether n is 14 or 171. In v1 only GSE227903
+# ever landed in "MRD", purely because its authors wrote the word. So H3's stratum is derived
+# from residual disease BURDEN instead of from the label. Applied ONLY to post-treatment draws:
+# a low-blast diagnosis marrow is not an MRD sample.
+#
+# Tracks the v2 vocabulary. "MRD" and "Post_treatment" no longer exist as canonical values; the
+# post-therapy phases that replaced them are listed explicitly. Diagnosis/Refractory/Relapse are
+# OUT (never had a response to be residual to); On_treatment is OUT because the drug is still on
+# board and the blast count is mid-transit, not a response measurement.
+RESIDUAL_NOMINAL_SCOPE <- c("Post_induction", "Post_consolidation",
+                            "Post_transplant", "Post_treatment_unspecified")
+stopifnot(all(RESIDUAL_NOMINAL_SCOPE %in% CANONICAL_TIMEPOINTS))
 RESIDUAL_CUTS   <- c(deep = 0.05, residual = 0.20)   # frac_malignant boundaries
 RESIDUAL_LABELS <- c("Deep_response", "Residual", "Active_disease")
 # Sensitivity sweep: the cut points are a clinical convention (CR is <5% blasts by morphology),

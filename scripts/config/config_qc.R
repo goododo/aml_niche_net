@@ -23,7 +23,37 @@ MITO_SHORT <- c("ND1","ND2","ND3","ND4","ND4L","ND5","ND6","CYTB","COX1","COX2",
 # Every ingest_<dataset>.R sets its RAW timepoint as before, then calls canonicalize_timepoint()
 # to map (dataset, raw_timepoint, disease_state) -> ONE canonical value. Raw value is preserved
 # in a new Timepoint_detail column, so nothing is lost.
-CANONICAL_TIMEPOINTS <- c("Healthy", "Diagnosis", "MRD", "Post_treatment", "Relapse", "Relapse2", "Unknown")
+# v2 VOCABULARY. This is now the union of what the curated per-sample metadata actually uses,
+# because the v1 vocabulary destroyed information the curation had already recovered:
+#   - "Post_treatment" collapsed a D14 induction aspirate, a consolidation draw, a post-BMT
+#     draw and an on-drug trial biopsy into one class. Those are four different treatment
+#     pressures and H3 is a statement ABOUT treatment pressure.
+#   - "MRD" is GONE as a NOMINAL label. It only ever fired for GSE227903, whose authors happened
+#     to write the word, which made MRD look like a 7-sample single-study class. The curation
+#     re-labels those 7 as Post_treatment_unspecified, and residual disease is now a DERIVED
+#     stratum from frac_malignant (02_malignancy/70_residual_stratum.R). A nominal label must
+#     never claim a measurement that a nominal label cannot make.
+#   - "Refractory" and "On_treatment" are new and load-bearing: without them GSE207356's
+#     screening draw had nowhere to go but "Diagnosis", which is how a relapsed/refractory
+#     patient already past >=2 lines of therapy was sitting in the treatment-naive arm.
+# Ordered from least to most treatment pressure; H3's axis mapping lives in Appendix A.
+CANONICAL_TIMEPOINTS <- c(
+  "Healthy",                    # normal donor marrow
+  "Diagnosis",                  # treatment-naive AML
+  "Refractory",                 # never achieved remission / progressed on therapy
+  "On_treatment",               # drawn DURING a cycle, drug still on board
+  "Post_induction",             # after induction, before consolidation
+  "Post_consolidation",
+  "Post_transplant",
+  "Post_treatment_unspecified", # post-therapy, phase not recoverable from the deposit
+  "Relapse", "Relapse2",
+  "Unknown")
+
+# C14 (curation GSE207356): draws taken DURING a cycle of an investigational differentiating
+# agent are not "treatment pressure" in H3's sense -- CCS1477/inobrodib drives myeloid
+# maturation, so these topologies may move TOWARD healthy, the opposite of H3's prediction, and
+# with n=1 they would read as a counterexample. Kept as a drug-perturbation arm only.
+TP_H3_EXCLUDED_DATASETS <- c("GSE207356")
 
 # WHY a table (not a generic regex): the string "Baseline" means HEALTHY in E-MTAB/GSE253355/
 # GSE116256 (healthy donors) but AML DIAGNOSIS in Chen2023/Petti2019. Mapping must be dataset-aware.
@@ -69,22 +99,39 @@ Chen2023|Diagnosis|Diagnosis
 GSE239721|Diagnosis|Diagnosis
 GSE289435|Diagnosis|Diagnosis
 GSE227903|Diagnosis|Diagnosis
-GSE227903|MRD|MRD
+GSE227903|MRD|Post_treatment_unspecified
 GSE227903|Relapse|Relapse
 GSE227903|Relapse2|Relapse2
 GSE185991|DX|Diagnosis
-GSE185991|D14|Post_treatment
-GSE185991|D30|Post_treatment
+GSE185991|D14|Post_induction
+GSE185991|D30|Post_induction
 GSE185991|REL|Relapse
 GSE147989|SCR|Diagnosis
-GSE147989|C1D1|Post_treatment
+GSE147989|C1D1|On_treatment
 GSE201966|Primary|Diagnosis
-GSE201966|Complete_remission|Post_treatment
+GSE201966|Complete_remission|Post_treatment_unspecified
 GSE201966|Relapse|Relapse
-GSE207356|Sample_D|Diagnosis
-GSE207356|Sample_E|Post_treatment
-GSE207356|Sample_F|Post_treatment
+GSE207356|Sample_D|Refractory
+GSE207356|Sample_E|On_treatment
+GSE207356|Sample_F|On_treatment
 ', sep = "|")
+# Row-by-row justification for the values that CHANGED, all from the curated metadata:
+#   GSE227903 MRD           -> Post_treatment_unspecified: the deposit gives no cycle/day, so
+#                              "MRD" is the authors' clinical read, not a recoverable phase.
+#                              Residual disease is now measured, not asserted (70_residual_stratum).
+#   GSE185991 D14/D30       -> Post_induction: Naldini's series is explicitly induction.
+#   GSE147989 C1D1          -> On_treatment: cycle 1 day 1 of an azacitidine/venetoclax trial.
+#                              This dataset is also PB, not marrow (see TISSUE_OVERRIDE).
+#   GSE201966 Complete_rem. -> Post_treatment_unspecified: CR is a clinical response category,
+#                              not a phase; treating it as a phase is what made "CR" and "D14"
+#                              interchangeable in v1.
+#   GSE207356 Sample_D      -> Refractory (was Diagnosis, WRONG): CCS1477-02/NCT04068597 enrols
+#                              relapsed-or-refractory patients typically past >=2 lines. This is
+#                              a screening draw from a heavily pretreated patient, and it is
+#                              PERIPHERAL BLOOD. Curation D2 chooses Refractory over Relapse as
+#                              the weaker claim (it does not assert a prior CR).
+#   GSE207356 Sample_E/F    -> On_treatment (C2D3 / C4D1, drug on board). Excluded from H3 by
+#                              TP_H3_EXCLUDED_DATASETS.
 
 # Disease_state -> canonical (for TP_DISEASE_DRIVEN datasets). "Mixed" = un-demuxed composite
 # library (removed by DEMUX_PREFILTER); map to Unknown but preserve "Mixed" in Timepoint_detail.
@@ -167,7 +214,7 @@ timepoint_days <- function(raw_tp) {
 # tempting and wrong): they remain fully usable at L1, where sorted blasts are an advantage.
 ROLE_TABLE <- data.table::fread(text = '
 dataset|study_role|is_longitudinal|discovery_candidate|subtype_stratum|l2_capable|integrity_flag|l2_reason
-Chen2023|Discovery-AML+AuxStroma|FALSE|TRUE|NPM1|TRUE|OK|whole-marrow niche+immune libraries (CD34 sublibs excluded separately by CCC_SORTED_SUBLIB_PATTERN)
+Chen2023|Discovery-AML+AuxStroma|FALSE|TRUE|NPM1|TRUE|OK|five FACS fractions re-pooled into 2 libraries per donor and merged back at ingest; all 7 nodes present (pool A = HSPC+myeloid, pool B = stroma+lymphoid). Composition bias is a covariate (sorting=multi_fraction_FACS_recombined), not an exclusion.
 GSE239721|Discovery-AML|FALSE|TRUE|other|TRUE|OK|whole-marrow MNC
 GSE289435|Discovery-AML|FALSE|TRUE|other|TRUE|OK|whole-marrow MNC
 Petti2019|Discovery-AML|FALSE|TRUE|other|TRUE|OK|whole-marrow MNC
@@ -211,10 +258,39 @@ GSE207356|10x|unknown
 ', sep = "|")
 
 # LIBRARY-level overrides, matched as a regex against the raw library/prefix id.
+# GSE185381: the 5' arm is GSM5613791-GSM5613806, but only 4 of those 16 libraries carry
+# "5prime" in their GEO title (GSM5613794/5/8/9). Matching on the title therefore mislabelled
+# 11 libraries as 3'. The GSM range is the only reliable key. (Moot for the covariate now that
+# INGEST_EXCLUDE drops the whole arm, but kept so the rule is right if it is ever re-admitted.)
 PLATFORM_LIBRARY_OVERRIDE <- data.table::fread(text = '
 dataset|library_regex|platform|chemistry
-GSE185381|5prime|10x|5prime
+GSE185381|^GSM56137(9[1-9])[_-]|10x|5prime
+GSE185381|^GSM561380[0-6][_-]|10x|5prime
 ', sep = "|")
+
+## -- TISSUE (BM vs PB) ----
+# The project's unit of analysis is the BONE MARROW niche. Six samples in three datasets are
+# PERIPHERAL BLOOD and v1 had no field to say so, so they were compared against marrow as if the
+# difference were a timepoint effect. PB marrow-lacks stroma, HSPC and erythroid/megakaryocyte
+# progenitors entirely -- that absence is TECHNICAL (wrong compartment), the single thing
+# unbalanced FGW must not be asked to absorb as biology.
+# Default is BM; only exceptions are listed. Matched case-insensitively against the sample id.
+# Built with data.table() rather than fread(text=): the GSE147989 regex needs alternation, and
+# "|" is the separator every other config table uses.
+TISSUE_DEFAULT  <- "BM"
+TISSUE_OVERRIDE <- data.table::data.table(
+  dataset      = c("GSE147989",              "GSE185991",  "GSE207356"),
+  sample_regex = c("^00[79](SCR|C1D1)BL$",   "^PT06_DX$",  "Sample_D"),
+  tissue       = c("PB",                     "PB",         "PB"))
+
+tissue_of <- function(ds_id, sample_id = NA_character_) {
+  ds_id <- as.character(ds_id); sample_id <- as.character(sample_id)[1]
+  ov <- TISSUE_OVERRIDE[TISSUE_OVERRIDE$dataset == ds_id, ]
+  if (nrow(ov) && !is.na(sample_id) && nzchar(sample_id))
+    for (i in seq_len(nrow(ov)))
+      if (grepl(ov$sample_regex[i], sample_id, ignore.case = TRUE)) return(ov$tissue[i])
+  TISSUE_DEFAULT
+}
 
 # Resolve (dataset, library) -> list(platform, chemistry). library may be NA.
 platform_of <- function(ds_id, library_id = NA_character_) {
@@ -229,6 +305,72 @@ platform_of <- function(ds_id, library_id = NA_character_) {
   hit <- PLATFORM_TABLE[PLATFORM_TABLE$dataset == ds_id, ]
   if (nrow(hit) == 1L) return(list(platform = hit$platform[1], chemistry = hit$chemistry[1]))
   list(platform = "unknown", chemistry = "unknown")
+}
+
+## -- INGEST-LEVEL EXCLUSIONS (protocol scope, not quality) ----
+# WHY THIS TABLE EXISTS. Four separate sample-set errors were found by
+# 99_admin/11_audit_labels_vs_curated.R, and every one of them was a library that the ingest
+# glob happened to pick up rather than a library anyone decided to include. Three of the four
+# landed in the HEALTHY arm, i.e. in the B_healthy barycenter that H2's whole discriminative
+# claim is measured against. The fix is not four private `if` statements in four ingest scripts
+# -- it is one table that says, per dataset, which raw keys are out of scope and why, so the
+# cohort definition is auditable in one place and diffable in git.
+#
+# SCOPE: this is the DEPOSIT->COHORT filter (does this library belong to the study at all).
+# It is NOT a QC gate (that is 01_preprocess) and NOT an analysis-arm filter (that is the
+# disease/timepoint columns). Rows here are decisions taken from the curated per-sample
+# metadata under /LARGE1/.../00_raw/metadata/<dataset>/, and each cites the curation ID.
+#
+# `key_regex` matches the raw key each ingest iterates over -- a file prefix, a GSM, an h5
+# basename, a deposit directory. Case-insensitive.
+# NOTE: built with data.table(), not fread(text=), because the regexes contain "|" (alternation)
+# which would collide with the pipe separator the other config tables use.
+INGEST_EXCLUDE <- data.table::data.table(
+  dataset = c("GSE185381", "GSE185381", "E-MTAB-11536", "Petti2019", "GSE289435"),
+  key_regex = c(
+    "^GSM56137(9[1-9])[_-]",
+    "^GSM561380[0-6][_-]",
+    "-BLD$",
+    "^(ND_|Normal_sorted_)",
+    "PDX"),
+  reason = c(
+    paste("5prime_scTCR_arm (curation D1): pan-T-enriched libraries covering 1 of 7 CCC nodes",
+          "with no malignant compartment -- worse than a lineage-depleted sample. 10 donors also",
+          "have a 3prime library (folded as related_gsm_ids); 5 are 5prime-only and leave the",
+          "cohort: AML0102, AML0134, AML1133, AML2975, Control0182."),
+    "5prime_scTCR_arm (curation D1): same arm, second GSM block. See above.",
+    paste("peripheral_blood: this is a CROSS-TISSUE atlas and only the BMA compartment is bone",
+          "marrow. 4 BLD libraries (621B, 637C, A35, A36) sat in the healthy-marrow arm, so blood",
+          "composition was being averaged into the B_healthy barycenter. The curated metadata",
+          "lists 10 rows, all tissue=BM."),
+    paste("uncurated_healthy (curation D2): no donor-level identifier exists in the paper,",
+          "supplement, GitHub or Zenodo; chemistry is 10x 3p v2 while this dataset's AML rows are",
+          "5p v1; 2 of the 4 are FACS-sorted; and they carry the highest healthy false-positive",
+          "malignancy rates in the cohort (0.13-0.34). Not usable as a healthy reference."),
+    paste("xenograft: MLL_29512_PDX is a patient-derived xenograft. Its human compartment is the",
+          "graft only -- the entire immune and stromal microenvironment is mouse and absent from",
+          "the human matrix, so 5 of the 7 CCC nodes are technically, not biologically, empty.",
+          "The curated row is retained as a documented exclusion.")))
+
+# Keys to KEEP, plus a message naming every key dropped and why. Every ingest that has an
+# INGEST_EXCLUDE row calls this immediately after its discovery glob, so the drop is visible in
+# the ingest log rather than inferred later from a missing sample.
+ingest_keep <- function(ds_id, keys, label = "key") {
+  ds_id <- as.character(ds_id); keys <- as.character(keys)
+  ex <- INGEST_EXCLUDE[INGEST_EXCLUDE$dataset == ds_id, ]
+  if (!nrow(ex) || !length(keys)) return(keys)
+  drop <- rep(FALSE, length(keys)); why <- rep(NA_character_, length(keys))
+  for (i in seq_len(nrow(ex))) {
+    hit <- grepl(ex$key_regex[i], keys, ignore.case = TRUE) & !drop
+    drop[hit] <- TRUE; why[hit] <- ex$reason[i]
+  }
+  if (any(drop)) {
+    message("[exclude] ", ds_id, ": dropping ", sum(drop), " of ", length(keys), " ", label, "s")
+    for (r in unique(why[drop]))
+      message("    - ", sum(!is.na(why) & why == r), " x ", substr(r, 1, 90), "...\n      ",
+              paste(keys[drop & !is.na(why) & why == r], collapse = ", "))
+  }
+  keys[!drop]
 }
 
 ## -- upstream-processed deposits (doublet-recovery interpretation, NOT a behaviour change) ----

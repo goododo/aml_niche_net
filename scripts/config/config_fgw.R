@@ -39,10 +39,16 @@ FGW_ZERO_HEALTHY_MAL <- TRUE                # set frac_malignant = 0 for Disease
 
 ## -- barycenter grouping ----
 # Which sample groups get a consensus barycenter (built on the fixed 7-node vocab).
+# DERIVED from CANONICAL_TIMEPOINTS rather than re-listed, so the v2 vocabulary change (MRD and
+# Post_treatment removed; Refractory / On_treatment / Post_induction / Post_consolidation /
+# Post_transplant / Post_treatment_unspecified added) cannot silently shrink B_AML. Spelling out
+# c("Diagnosis","MRD","Post_treatment",...) is exactly how that would have happened: every
+# post-treatment sample would have dropped out of the AML barycenter with no error.
 FGW_BARY_GROUPS <- list(
-  healthy = list(timepoint = "Healthy"),                                  # B_healthy
-  aml     = list(timepoint = c("Diagnosis","MRD","Post_treatment","Relapse","Relapse2"))  # B_AML
+  healthy = list(timepoint = "Healthy"),                                   # B_healthy
+  aml     = list(timepoint = setdiff(CANONICAL_TIMEPOINTS, c("Healthy", "Unknown")))  # B_AML
 )
+stopifnot(length(FGW_BARY_GROUPS$aml$timepoint) == length(CANONICAL_TIMEPOINTS) - 2L)
 FGW_BARY_EXCLUDE_SPARSE <- TRUE             # drop sparse_flag==TRUE samples from barycenter construction (edge_qc.csv)
 
 ## -- IO ----

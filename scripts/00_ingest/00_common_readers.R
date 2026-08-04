@@ -76,6 +76,10 @@ make_seurat <- function(counts, sample, dataset, patient, timepoint,
   .plat                <- platform_of(dataset)      # library-level override applied by the ingest
   seu$Platform         <- .plat$platform            # if the dataset is not platform-homogeneous
   seu$Chemistry        <- .plat$chemistry
+  # BM unless the sample is one of the 6 known peripheral-blood draws. A PB sample structurally
+  # cannot contain stroma / HSPC / erythroid, so this must be readable downstream as a TECHNICAL
+  # absence, never as a biological one.
+  seu$Tissue           <- tissue_of(dataset, sample)
   seu$orig.ident       <- as.character(patient)     # merge unit is the patient
 
   if (!is.null(extra_meta)) {

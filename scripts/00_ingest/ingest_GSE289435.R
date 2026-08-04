@@ -25,7 +25,10 @@ RAW     <- file.path(GEO_RAW_DIR, "GSE289435_RAW")
 message("[1] listing library prefixes")
 bc_files <- list.files(RAW, pattern = "\\.barcodes\\.tsv\\.gz$", full.names = FALSE)
 prefixes <- sub("\\.barcodes\\.tsv\\.gz$", "", bc_files)   # e.g. "GSM8791432_MLL_14666"
-prefixes <- prefixes[!grepl("PDX", prefixes)]              # drop xenograft
+# PDX drop moved into INGEST_EXCLUDE so the cohort definition lives in ONE place. It was
+# previously a bare `!grepl("PDX", ...)` here, which is correct but invisible to the roster
+# check -- the sample showed up as an undiagnosed curated/pipeline mismatch.
+prefixes <- ingest_keep(DATASET, prefixes, "library")
 message("    ", length(prefixes), " libraries to process")
 
 # ----------------------------------------------------------------------------

@@ -28,11 +28,18 @@ CCC_SENDER_LSC  <- c("HSC_MPP","LMPP_GMP")           # SCS senders (feature-modu
 CCC_RECV_IMMUNE <- c("T_NK","B_Plasma","Mono_DC")    # immune/paracrine receivers (incl. HSC-macrophage axis)
 
 ## -- CCC-eligibility gate [R9] (METADATA-DRIVEN; NOT composition-based) ----
-# Verified on real manifest + recon: l2_capable is STUDY-level (Chen CD34 sublibs slip through);
-# a lymphoid floor CANNOT gate (blast-dominated whole-MNC has ~0 lymphoid yet is valid -> keep,
-# missing nodes biological; sorted CD34 missingness is technical -> exclude). -> gate on protocol only.
+# A lymphoid floor CANNOT gate: blast-dominated whole-MNC has ~0 lymphoid yet is valid (missing
+# nodes biological), while a sorted CD34 library's missingness is technical. -> gate on protocol.
 CCC_ELIGIBLE_REQUIRES_L2  <- TRUE
-CCC_SORTED_SUBLIB_PATTERN <- list(Chen2023 = "CD34") # dataset -> regex (case-insensitive) of sorted sublibs
+# EMPTY, was list(Chen2023 = "CD34"). That entry excluded every "<donor>_CD34" sublibrary on the
+# theory that it was a CD34-enriched fraction. Per Chen 2023 Methods it is pool A = HSPC +
+# myeloid, the other half of a two-library donor, and it carries 5 of these 7 nodes (HSC_MPP,
+# LMPP_GMP, Mono_DC, Erythroid, Megakaryocyte). Excluding it did not remove a biased library --
+# it deleted half of every Chen2023 marrow and left a T/B-only graph. ingest_Chen2023.R now
+# merges both pools into one donor-level Sample, so there is nothing left to exclude here; the
+# composition bias travels as the curated covariate sorting="multi_fraction_FACS_recombined".
+# Any v1 count that quoted "10 sorted_sublibrary" exclusions is void.
+CCC_SORTED_SUBLIB_PATTERN <- list()   # dataset -> regex (case-insensitive) of sorted sublibs
 # MUST track MIN_CELLS_SAMPLE in config_qc.R. These are two independent gates on the same
 # quantity: while this one sat at 500 and MIN_CELLS_SAMPLE was lowered to 300, every sample in
 # the 300-499 band was re-admitted at 01_preprocess only to be cut again here as

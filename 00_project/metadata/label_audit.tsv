@@ -1,0 +1,264 @@
+dataset	sample	pipe_timepoint	pipe_v1	how	sample_id	cur_timepoint	cur_disease	cur_control	cur_sorting	cur_material	cur_coarse	pipe_coarse	mismatch	unjoined
+GSE207356	GSM6284912_TS173_04_Sample_D	Diagnosis	Diagnosis	gsm_prefix	GSE207356__TS173_04_Sample_D_screening_pretreatment	Refractory	AML	not_a_control	none	primary_patient	Refractory	Diagnosis	TRUE	FALSE
+Chen2023	AML103_CD34	Diagnosis	Diagnosis	prefix_2	Chen2023__AML103	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	AML103_Niche_Immune	Diagnosis	Diagnosis	prefix_2	Chen2023__AML103	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	AML162_CD34	Diagnosis	Diagnosis	prefix_2	Chen2023__AML162	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	AML162_niche_immune	Diagnosis	Diagnosis	prefix_2	Chen2023__AML162	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	AML24_CD34	Diagnosis	Diagnosis	prefix_2	Chen2023__AML24	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	AML24_Niche_Immune	Diagnosis	Diagnosis	prefix_2	Chen2023__AML24	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	AML304_CD34	Diagnosis	Diagnosis	prefix_2	Chen2023__AML304	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	AML304_Niche_Immune	Diagnosis	Diagnosis	prefix_2	Chen2023__AML304	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	AML320_CD34	Diagnosis	Diagnosis	prefix_2	Chen2023__AML320	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	AML320_NICHE_IMMUNE	Diagnosis	Diagnosis	prefix_2	Chen2023__AML320	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	AML469_CD34	Diagnosis	Diagnosis	prefix_2	Chen2023__AML469	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	AML469_Niche_Immune	Diagnosis	Diagnosis	prefix_2	Chen2023__AML469	Diagnosis	AML	not_a_control	multi_fraction_FACS_recombined		Diagnosis	Diagnosis	FALSE	FALSE
+Chen2023	NBM1_CD34	Healthy	Diagnosis	prefix_2	Chen2023__NBM1	Healthy	healthy_donor	healthy_donor	multi_fraction_FACS_recombined		Healthy	Healthy	FALSE	FALSE
+Chen2023	NBM1_Niche_Immune	Healthy	Diagnosis	prefix_2	Chen2023__NBM1	Healthy	healthy_donor	healthy_donor	multi_fraction_FACS_recombined		Healthy	Healthy	FALSE	FALSE
+Chen2023	NBM2_CD34	Healthy	Diagnosis	prefix_2	Chen2023__NBM2	Healthy	healthy_donor	healthy_donor	multi_fraction_FACS_recombined		Healthy	Healthy	FALSE	FALSE
+Chen2023	NBM2_Niche_Immune	Healthy	Diagnosis	prefix_2	Chen2023__NBM2	Healthy	healthy_donor	healthy_donor	multi_fraction_FACS_recombined		Healthy	Healthy	FALSE	FALSE
+Chen2023	NBM3_CD34	Healthy	Diagnosis	prefix_2	Chen2023__NBM3	Healthy	healthy_donor	healthy_donor	multi_fraction_FACS_recombined		Healthy	Healthy	FALSE	FALSE
+Chen2023	NBM3_Niche_immune	Healthy	Diagnosis	prefix_2	Chen2023__NBM3	Healthy	healthy_donor	healthy_donor	multi_fraction_FACS_recombined		Healthy	Healthy	FALSE	FALSE
+Chen2023	NBM4_CD34	Healthy	Diagnosis	prefix_2	Chen2023__NBM4	Healthy	healthy_donor	healthy_donor	multi_fraction_FACS_recombined		Healthy	Healthy	FALSE	FALSE
+Chen2023	NBM4_Niche_Immune	Healthy	Diagnosis	prefix_2	Chen2023__NBM4	Healthy	healthy_donor	healthy_donor	multi_fraction_FACS_recombined		Healthy	Healthy	FALSE	FALSE
+E-MTAB-11536	621B-BLD	Healthy	Healthy									Healthy	FALSE	TRUE
+E-MTAB-11536	621B-BMA	Healthy	Healthy	suffix_strip	E-MTAB-11536__621B-BMA-90	Healthy	non_heme_condition	non_leukemic_control	other	primary_patient	Healthy	Healthy	FALSE	FALSE
+E-MTAB-11536	637C-BLD	Healthy	Healthy									Healthy	FALSE	TRUE
+E-MTAB-11536	637C-BMA	Healthy	Healthy	suffix_strip	E-MTAB-11536__637C-BMA-104	Healthy	non_heme_condition	non_leukemic_control	other	primary_patient	Healthy	Healthy	FALSE	FALSE
+E-MTAB-11536	640C-BMA	Healthy	Healthy	suffix_strip	E-MTAB-11536__640C-BMA-121	Healthy	non_heme_condition	non_leukemic_control	other	primary_patient	Healthy	Healthy	FALSE	FALSE
+E-MTAB-11536	A29-BMA	Healthy	Healthy	suffix_strip	E-MTAB-11536__A29-BMA-1	Healthy	non_heme_condition	non_leukemic_control	other	primary_patient	Healthy	Healthy	FALSE	FALSE
+E-MTAB-11536	A31-BMA	Healthy	Healthy	suffix_strip	E-MTAB-11536__A31-BMA-1	Healthy	non_heme_condition	non_leukemic_control	other	primary_patient	Healthy	Healthy	FALSE	FALSE
+E-MTAB-11536	A35-BLD	Healthy	Healthy									Healthy	FALSE	TRUE
+E-MTAB-11536	A35-BMA	Healthy	Healthy	suffix_strip	E-MTAB-11536__A35-BMA-1	Healthy	non_heme_condition	non_leukemic_control	other	primary_patient	Healthy	Healthy	FALSE	FALSE
+E-MTAB-11536	A36-BLD	Healthy	Healthy									Healthy	FALSE	TRUE
+E-MTAB-11536	A36-BMA	Healthy	Healthy	suffix_strip	E-MTAB-11536__A36-BMA-1	Healthy	non_heme_condition	non_leukemic_control	other	primary_patient	Healthy	Healthy	FALSE	FALSE
+E-MTAB-11536	A37-BMA	Healthy	Healthy	suffix_strip	E-MTAB-11536__A37-BMA-1	Healthy	non_heme_condition	non_leukemic_control	other	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE116256	AML1012-D0	Diagnosis	Diagnosis	exact	GSE116256__AML1012-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML210A-D0	Diagnosis	Diagnosis	exact	GSE116256__AML210A-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML314-D0	Diagnosis	Diagnosis	exact	GSE116256__AML314-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML314-D31	Post_treatment	Post_treatment	exact	GSE116256__AML314-D31	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML328-D0	Diagnosis	Diagnosis	exact	GSE116256__AML328-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML328-D113	Post_treatment	Post_treatment	exact	GSE116256__AML328-D113	On_treatment	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML328-D171	Post_treatment	Post_treatment	exact	GSE116256__AML328-D171	On_treatment	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML328-D29	Post_treatment	Post_treatment	exact	GSE116256__AML328-D29	On_treatment	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML329-D0	Diagnosis	Diagnosis	exact	GSE116256__AML329-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML329-D20	Post_treatment	Post_treatment	exact	GSE116256__AML329-D20	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML329-D37	Post_treatment	Post_treatment	exact	GSE116256__AML329-D37	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML371-D0	Diagnosis	Diagnosis	exact	GSE116256__AML371-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML371-D34	Post_treatment	Post_treatment	exact	GSE116256__AML371-D34	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML419A-D0	Diagnosis	Diagnosis	exact	GSE116256__AML419A-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML420B-D0	Diagnosis	Diagnosis	exact	GSE116256__AML420B-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML420B-D14	Post_treatment	Post_treatment	exact	GSE116256__AML420B-D14	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML420B-D35	Post_treatment	Post_treatment	exact	GSE116256__AML420B-D35	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML475-D0	Diagnosis	Diagnosis	exact	GSE116256__AML475-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML475-D29	Post_treatment	Post_treatment	exact	GSE116256__AML475-D29	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML556-D0	Diagnosis	Diagnosis	exact	GSE116256__AML556-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML556-D15	Post_treatment	Post_treatment	exact	GSE116256__AML556-D15	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML556-D31	Post_treatment	Post_treatment	exact	GSE116256__AML556-D31	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML707B-D0	Diagnosis	Diagnosis	exact	GSE116256__AML707B-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML707B-D113	Post_treatment	Post_treatment	exact	GSE116256__AML707B-D113	Post_consolidation	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML707B-D18	Post_treatment	Post_treatment	exact	GSE116256__AML707B-D18	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML707B-D41	Post_treatment	Post_treatment	exact	GSE116256__AML707B-D41	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML707B-D97	Post_treatment	Post_treatment	exact	GSE116256__AML707B-D97	Post_consolidation	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML722B-D0	Diagnosis	Diagnosis	exact	GSE116256__AML722B-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML722B-D49	Post_treatment	Post_treatment	exact	GSE116256__AML722B-D49	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML870-D0	Diagnosis	Diagnosis	exact	GSE116256__AML870-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML870-D14	Post_treatment	Post_treatment	exact	GSE116256__AML870-D14	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	AML916-D0	Diagnosis	Diagnosis	exact	GSE116256__AML916-D0	Diagnosis	MPAL	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML921A-D0	Diagnosis	Diagnosis	exact	GSE116256__AML921A-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML997-D0	Diagnosis	Diagnosis	exact	GSE116256__AML997-D0	Diagnosis	AML	not_a_control	viability_only		Diagnosis	Diagnosis	FALSE	FALSE
+GSE116256	AML997-D35	Post_treatment	Post_treatment	exact	GSE116256__AML997-D35	Post_induction	AML	not_a_control	viability_only		Post_treatment	Post_treatment	FALSE	FALSE
+GSE116256	BM1	Healthy	Healthy	exact	GSE116256__BM1	Healthy	healthy_donor	healthy_donor	viability_only		Healthy	Healthy	FALSE	FALSE
+GSE116256	BM2	Healthy	Healthy	exact	GSE116256__BM2	Healthy	healthy_donor	healthy_donor	viability_only		Healthy	Healthy	FALSE	FALSE
+GSE116256	BM3	Healthy	Healthy	exact	GSE116256__BM3	Healthy	healthy_donor	healthy_donor	viability_only		Healthy	Healthy	FALSE	FALSE
+GSE116256	BM4	Healthy	Healthy	exact	GSE116256__BM4	Healthy	healthy_donor	healthy_donor	viability_only		Healthy	Healthy	FALSE	FALSE
+GSE116256	BM5-34p	Healthy	Healthy	exact	GSE116256__BM5-34p	Healthy	healthy_donor	healthy_donor	CD34pos		Healthy	Healthy	FALSE	FALSE
+GSE116256	BM5-34p38n	Healthy	Healthy	exact	GSE116256__BM5-34p38n	Healthy	healthy_donor	healthy_donor	CD34posCD38neg		Healthy	Healthy	FALSE	FALSE
+GSE147989	007C1D1BL	Post_treatment	Post_treatment	exact	GSE147989__007C1D1BL	On_treatment	AML	not_a_control	blast_enriched_lin_depleted	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE147989	007SCRBL	Diagnosis	Diagnosis	exact	GSE147989__007SCRBL	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE147989	009C1D1BL	Post_treatment	Post_treatment	exact	GSE147989__009C1D1BL	On_treatment	AML	not_a_control	blast_enriched_lin_depleted	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE147989	009SCRBL	Diagnosis	Diagnosis	exact	GSE147989__009SCRBL	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML0024	Diagnosis	Diagnosis	exact	GSE185381__AML0024	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML003	Diagnosis	Diagnosis	exact	GSE185381__AML003	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML0048	Diagnosis	Diagnosis	exact	GSE185381__AML0048	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML005	Diagnosis	Diagnosis	exact	GSE185381__AML005	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML006	Diagnosis	Diagnosis	exact	GSE185381__AML006	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML008	Diagnosis	Diagnosis	exact	GSE185381__AML008	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML009	Diagnosis	Diagnosis	exact	GSE185381__AML009	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML0102	Diagnosis	Diagnosis									Diagnosis	FALSE	TRUE
+GSE185381	AML0114	Diagnosis	Diagnosis	exact	GSE185381__AML0114	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML012	Diagnosis	Diagnosis	exact	GSE185381__AML012	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML0134	Diagnosis	Diagnosis									Diagnosis	FALSE	TRUE
+GSE185381	AML0160	Diagnosis	Diagnosis	exact	GSE185381__AML0160	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML022	Diagnosis	Diagnosis	exact	GSE185381__AML022	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML025	Diagnosis	Diagnosis	exact	GSE185381__AML025	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML026	Diagnosis	Diagnosis	exact	GSE185381__AML026	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML028	Diagnosis	Diagnosis	exact	GSE185381__AML028	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML0310	Diagnosis	Diagnosis	exact	GSE185381__AML0310	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML0361	Diagnosis	Diagnosis	exact	GSE185381__AML0361	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML038	Diagnosis	Diagnosis	exact	GSE185381__AML038	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML043	Diagnosis	Diagnosis	exact	GSE185381__AML043	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML048	Diagnosis	Diagnosis	exact	GSE185381__AML048	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML051	Diagnosis	Diagnosis	exact	GSE185381__AML051	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML052	Diagnosis	Diagnosis	exact	GSE185381__AML052	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML055	Diagnosis	Diagnosis	exact	GSE185381__AML055	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML056	Diagnosis	Diagnosis	exact	GSE185381__AML056	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML0612	Diagnosis	Diagnosis	exact	GSE185381__AML0612	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML0693	Diagnosis	Diagnosis	exact	GSE185381__AML0693	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML073	Diagnosis	Diagnosis	exact	GSE185381__AML073	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML1371	Diagnosis	Diagnosis	exact	GSE185381__AML1371	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML2451	Diagnosis	Diagnosis	exact	GSE185381__AML2451	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML2910	Diagnosis	Diagnosis	exact	GSE185381__AML2910	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML2975	Diagnosis	Diagnosis									Diagnosis	FALSE	TRUE
+GSE185381	AML3050	Diagnosis	Diagnosis	exact	GSE185381__AML3050	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML3133	Diagnosis	Diagnosis	exact	GSE185381__AML3133	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML3266	Diagnosis	Diagnosis	exact	GSE185381__AML3266	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML3730	Diagnosis	Diagnosis	exact	GSE185381__AML3730	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML3762	Diagnosis	Diagnosis	exact	GSE185381__AML3762	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML3948	Diagnosis	Diagnosis	exact	GSE185381__AML3948	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML4340	Diagnosis	Diagnosis	exact	GSE185381__AML4340	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	AML4897	Diagnosis	Diagnosis	exact	GSE185381__AML4897	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	Control0004	Healthy	Healthy	exact	GSE185381__Control0004	Healthy	healthy_donor	healthy_donor	viability_only	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE185381	Control0005	Healthy	Healthy	exact	GSE185381__Control0005	Healthy	healthy_donor	healthy_donor	viability_only	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE185381	Control0058	Healthy	Healthy	exact	GSE185381__Control0058	Healthy	healthy_donor	healthy_donor	viability_only	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE185381	Control0082	Healthy	Healthy	exact	GSE185381__Control0082	Healthy	healthy_donor	healthy_donor	viability_only	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE185381	Control0182	Healthy	Healthy									Healthy	FALSE	TRUE
+GSE185381	Control1	Healthy	Healthy	exact	GSE185381__Control1	Healthy	healthy_donor	healthy_donor	viability_only	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE185381	Control2	Healthy	Healthy	exact	GSE185381__Control2	Healthy	healthy_donor	healthy_donor	viability_only	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE185381	Control3	Healthy	Healthy	exact	GSE185381__Control3	Healthy	healthy_donor	healthy_donor	viability_only	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE185381	Control4	Healthy	Healthy	exact	GSE185381__Control4	Healthy	healthy_donor	healthy_donor	viability_only	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE185381	Control4003	Healthy	Healthy	exact	GSE185381__Control4003	Healthy	healthy_donor	healthy_donor	viability_only	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE185381	Control5	Healthy	Healthy	exact	GSE185381__Control5	Healthy	healthy_donor	healthy_donor	viability_only	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE185381	PAUMTZ	Diagnosis	Diagnosis	exact	GSE185381__PAUMTZ	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185381	PAXMIJ	Diagnosis	Diagnosis	exact	GSE185381__PAXMIJ	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628163_M03	Diagnosis	Diagnosis	gsm_multi_2	GSE185991__PT01_DX	Diagnosis	AML	not_a_control	blast_enriched_progenitor_gate		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628164_M04	Diagnosis	Diagnosis	gsm_multi_2	GSE185991__PT01_DX	Diagnosis	AML	not_a_control	blast_enriched_progenitor_gate		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628165_M05	Post_treatment	Post_treatment	gsm_multi_2	GSE185991__PT01_D14	Post_induction	AML	not_a_control	blast_enriched_progenitor_gate		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628166_M06	Post_treatment	Post_treatment	gsm_multi_2	GSE185991__PT01_D14	Post_induction	AML	not_a_control	blast_enriched_progenitor_gate		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628167_M07	Diagnosis	Diagnosis	gsm_multi_2	GSE185991__PT06_DX	Diagnosis	AML	not_a_control	blast_enriched_progenitor_gate		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628168_M08	Diagnosis	Diagnosis	gsm_multi_2	GSE185991__PT06_DX	Diagnosis	AML	not_a_control	blast_enriched_progenitor_gate		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628169_M09	Post_treatment	Post_treatment	gsm_multi_2	GSE185991__PT06_D14	Post_induction	AML	not_a_control	blast_enriched_progenitor_gate		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628170_M10	Post_treatment	Post_treatment	gsm_multi_2	GSE185991__PT06_D14	Post_induction	AML	not_a_control	blast_enriched_progenitor_gate		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628171_M21	Diagnosis	Diagnosis	gsm_multi_2	GSE185991__PT07_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628172_M22	Diagnosis	Diagnosis	gsm_multi_2	GSE185991__PT07_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628173_M23	Post_treatment	Post_treatment	gsm_multi_2	GSE185991__PT07_D14	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628174_M24	Post_treatment	Post_treatment	gsm_multi_2	GSE185991__PT07_D14	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628175_M25	Diagnosis	Diagnosis	gsm_prefix	GSE185991__PT02_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628176_M26	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT02_D30	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628177_M27	Post_treatment	Post_treatment	gsm_multi_2	GSE185991__PT01_D30	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628178_M28	Diagnosis	Diagnosis	gsm_prefix	GSE185991__PT08_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628179_M29	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT08_D14	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628180_M30	Relapse	Relapse	gsm_multi_2	GSE185991__PT08_REL	Relapse	AML	not_a_control	blast_enriched_lin_depleted		Relapse	Relapse	FALSE	FALSE
+GSE185991	GSM5628181_M31	Relapse	Relapse	gsm_multi_2	GSE185991__PT08_REL	Relapse	AML	not_a_control	blast_enriched_lin_depleted		Relapse	Relapse	FALSE	FALSE
+GSE185991	GSM5628182_M32	Diagnosis	Diagnosis	gsm_prefix	GSE185991__PT09_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628183_M33	Diagnosis	Diagnosis	gsm_prefix	GSE185991__PT10_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628184_M34	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT09_D14	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628185_M35	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT10_D14	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628186_M39	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT08_D30	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628187_M40	Diagnosis	Diagnosis	gsm_prefix	GSE185991__PT12_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628188_M41	Diagnosis	Diagnosis	gsm_prefix	GSE185991__PT13_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628189_M42	Relapse	Relapse	gsm_prefix	GSE185991__PT10_REL	Relapse	AML	not_a_control	blast_enriched_lin_depleted		Relapse	Relapse	FALSE	FALSE
+GSE185991	GSM5628190_M43	Post_treatment	Post_treatment	gsm_multi_2	GSE185991__PT01_D30	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628191_M44	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT12_D14	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628192_M45	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT12_D30	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM5628195_M48	Diagnosis	Diagnosis	gsm_prefix	GSE185991__PT15_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM5628196_M49	Relapse	Relapse	gsm_prefix	GSE185991__PT15_REL	Relapse	AML	not_a_control	blast_enriched_lin_depleted		Relapse	Relapse	FALSE	FALSE
+GSE185991	GSM5628197_M50	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT09_D30	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM6412447_M36	Diagnosis	Diagnosis	gsm_prefix	GSE185991__PT11_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM6412448_M38	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT11_D30	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM6412449_M84	Diagnosis	Diagnosis	gsm_prefix	GSE185991__PT17_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM6412450_M85	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT17_D30	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM6412451_M88	Diagnosis	Diagnosis	gsm_prefix	GSE185991__PT18_DX	Diagnosis	AML	not_a_control	blast_enriched_lin_depleted		Diagnosis	Diagnosis	FALSE	FALSE
+GSE185991	GSM6412452_M89	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT18_D14	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM6412453_M92	Post_treatment	Post_treatment	gsm_prefix	GSE185991__PT17_D14	Post_induction	AML	not_a_control	blast_enriched_lin_depleted		Post_treatment	Post_treatment	FALSE	FALSE
+GSE185991	GSM6412454_M93	Relapse	Relapse	gsm_prefix	GSE185991__PT19_REL	Relapse	AML	not_a_control	blast_enriched_lin_depleted		Relapse	Relapse	FALSE	FALSE
+GSE185991	GSM6412455_M95	Relapse	Relapse	gsm_prefix	GSE185991__PT20_REL	Relapse	AML	not_a_control	blast_enriched_lin_depleted		Relapse	Relapse	FALSE	FALSE
+GSE201966	GSM6085176_AML01M4_CR	Post_treatment	Post_treatment	gsm_prefix	GSE201966__AML01M4_CR	Post_transplant	AML	not_a_control	unknown	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE201966	GSM6085177_AML01M4_P	Diagnosis	Diagnosis	gsm_prefix	GSE201966__AML01M4_P	Diagnosis	AML	not_a_control	unknown	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE201966	GSM6085178_AML01M4_RE	Relapse	Relapse	gsm_prefix	GSE201966__AML01M4_RE	Relapse	AML	not_a_control	unknown	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE201966	GSM6085179_AML02M5_P	Diagnosis	Diagnosis	gsm_prefix	GSE201966__AML02M5_P	Diagnosis	AML	not_a_control	unknown	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE201966	GSM6085180_AML02M5_RE	Relapse	Relapse	gsm_prefix	GSE201966__AML02M5_RE	Relapse	AML	not_a_control	unknown	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE201966	GSM6085181_AML03M5_P	Diagnosis	Diagnosis	gsm_prefix	GSE201966__AML03M5_P	Diagnosis	AML	not_a_control	unknown	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE201966	GSM6085182_AML03M5_RE	Relapse	Relapse	gsm_prefix	GSE201966__AML03M5_RE	Relapse	AML	not_a_control	unknown	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE207356	GSM6284913_TS173_05_Sample_E	Post_treatment	Post_treatment	gsm_prefix	GSE207356__TS173_05_Sample_E_treatment_timepoint2_Cycle2_Day3	On_treatment	AML	not_a_control	none	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE207356	GSM6284914_TS173_06_Sample_F	Post_treatment	Post_treatment	gsm_prefix	GSE207356__TS173_06_Sample_F_treatment_timepoint4_Cycle4_Day1	On_treatment	AML	not_a_control	none	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE227903	1216_Dg	Diagnosis	Diagnosis	exact	GSE227903__1216_Dg	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE227903	1216_MRD	MRD	MRD	exact	GSE227903__1216_MRD	Post_treatment_unspecified	AML	not_a_control	viability_only	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE227903	1216_R	Relapse	Relapse	exact	GSE227903__1216_R	Relapse	AML	not_a_control	viability_only	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE227903	1886_Dg	Diagnosis	Diagnosis	exact	GSE227903__1886_Dg	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE227903	1886_MRD	MRD	MRD	exact	GSE227903__1886_MRD	Post_treatment_unspecified	AML	not_a_control	viability_only	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE227903	1886_R	Relapse	Relapse	exact	GSE227903__1886_R	Relapse	AML	not_a_control	viability_only	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE227903	3822_Dg	Diagnosis	Diagnosis	exact	GSE227903__3822_Dg	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE227903	3822_R	Relapse	Relapse	exact	GSE227903__3822_R	Relapse	AML	not_a_control	viability_only	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE227903	3853_Dg	Diagnosis	Diagnosis	exact	GSE227903__3853_Dg	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE227903	3853_R	Relapse	Relapse	exact	GSE227903__3853_R	Relapse	AML	not_a_control	viability_only	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE227903	3904_Dg	Diagnosis	Diagnosis	exact	GSE227903__3904_Dg	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE227903	3904_MRD	MRD	MRD	exact	GSE227903__3904_MRD	Post_treatment_unspecified	AML	not_a_control	viability_only	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE227903	3904_R	Relapse	Relapse	exact	GSE227903__3904_R	Relapse	AML	not_a_control	viability_only	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE227903	40389_Dg	Diagnosis	Diagnosis	exact	GSE227903__40389_Dg	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE227903	40389_MRD	MRD	MRD	exact	GSE227903__40389_MRD	Post_treatment_unspecified	AML	not_a_control	viability_only	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE227903	40389_R	Relapse	Relapse	exact	GSE227903__40389_R	Relapse	AML	not_a_control	viability_only	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE227903	4978_Dg	Diagnosis	Diagnosis	exact	GSE227903__4978_Dg	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE227903	4978_MRD	MRD	MRD	exact	GSE227903__4978_MRD	Post_treatment_unspecified	AML	not_a_control	viability_only	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE227903	4978_R	Relapse	Relapse	exact	GSE227903__4978_R	Relapse	AML	not_a_control	viability_only	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE227903	5143_Dg	Diagnosis	Diagnosis	exact	GSE227903__5143_Dg	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE227903	5143_R	Relapse	Relapse	exact	GSE227903__5143_R	Relapse	AML	not_a_control	viability_only	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE227903	5750_Dg	Diagnosis	Diagnosis	exact	GSE227903__5750_Dg	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE227903	5750_MRD	MRD	MRD	exact	GSE227903__5750_MRD	Post_treatment_unspecified	AML	not_a_control	viability_only	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE227903	5750_R	Relapse	Relapse	exact	GSE227903__5750_R	Relapse	AML	not_a_control	viability_only	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE227903	6323_Dg	Diagnosis	Diagnosis	exact	GSE227903__6323_Dg	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE227903	6323_MRD	MRD	MRD	exact	GSE227903__6323_MRD	Post_treatment_unspecified	AML	not_a_control	viability_only	primary_patient	Post_treatment	Post_treatment	FALSE	FALSE
+GSE227903	6323_R	Relapse	Relapse	exact	GSE227903__6323_R	Relapse	AML	not_a_control	viability_only	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE227903	6323_R2	Relapse2	Relapse2	exact	GSE227903__6323_R2	Relapse	AML	not_a_control	viability_only	primary_patient	Relapse	Relapse	FALSE	FALSE
+GSE239721	PT10A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT12A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT13A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT14A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT15A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT16A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT17A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT19A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT20A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT21A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT22A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT23A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT25A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT26A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT27A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT28A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT29A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT30A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT32A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE239721	PT9A	Diagnosis	Diagnosis	broadcast	GSE239721__Patient1	Diagnosis	AML	not_a_control	none	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE253355	GSM8019212_H14_MACS	Healthy	Healthy	gsm_prefix	GSE253355__H14_MACS	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE253355	GSM8019213_H21	Healthy	Healthy	gsm_prefix	GSE253355__H21	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE253355	GSM8019214_H23	Healthy	Healthy	gsm_prefix	GSE253355__H23	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE253355	GSM8019215_H24	Healthy	Healthy	gsm_prefix	GSE253355__H24	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE253355	GSM8019216_H32	Healthy	Healthy	gsm_prefix	GSE253355__H32	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE253355	GSM8019217_H33	Healthy	Healthy	gsm_prefix	GSE253355__H33	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE253355	GSM8019218_H34	Healthy	Healthy	gsm_prefix	GSE253355__H34	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE253355	GSM8019219_H35	Healthy	Healthy	gsm_prefix	GSE253355__H35	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE253355	GSM8019220_H36	Healthy	Healthy	gsm_prefix	GSE253355__H36	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE253355	GSM8019221_H38	Healthy	Healthy	gsm_prefix	GSE253355__H38	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE253355	GSM8019222_H39	Healthy	Healthy	gsm_prefix	GSE253355__H39	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE253355	GSM8019223_H41	Healthy	Healthy	gsm_prefix	GSE253355__H41	Healthy	non_heme_condition	non_leukemic_control	multi_fraction_FACS_recombined	primary_patient	Healthy	Healthy	FALSE	FALSE
+GSE289435	GSM8791432_MLL_14666	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_14666	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE289435	GSM8791433_MLL_16703	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_16703	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE289435	GSM8791434_MLL_17746	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_17746	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE289435	GSM8791435_MLL_17843	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_17843	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE289435	GSM8791436_MLL_17844	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_17844	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE289435	GSM8791437_MLL_28824	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_28824	Diagnosis	AEL	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE289435	GSM8791438_MLL_28830	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_28830	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE289435	GSM8791439_MLL_28855	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_28855	Diagnosis	MDS	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE289435	GSM8791441_MLL_29532	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_29532	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE289435	GSM8791442_MLL_29538	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_29538	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE289435	GSM8791443_MLL_30862	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_30862	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+GSE289435	GSM8791444_MLL_30886	Diagnosis	Diagnosis	gsm_prefix	GSE289435__MLL_30886	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+Petti2019	508084	Diagnosis	Diagnosis	exact	Petti2019__508084	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+Petti2019	548327	Diagnosis	Diagnosis	exact	Petti2019__548327	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+Petti2019	721214	Diagnosis	Diagnosis	exact	Petti2019__721214	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+Petti2019	782328	Diagnosis	Diagnosis	exact	Petti2019__782328	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+Petti2019	809653	Diagnosis	Diagnosis	exact	Petti2019__809653	Diagnosis	AML	not_a_control	viability_only	primary_patient	Diagnosis	Diagnosis	FALSE	FALSE
+Petti2019	ND_083017	Healthy	Healthy									Healthy	FALSE	TRUE
+Petti2019	ND_090617	Healthy	Healthy									Healthy	FALSE	TRUE
+Petti2019	Normal_sorted_170531	Healthy	Healthy									Healthy	FALSE	TRUE
+Petti2019	Normal_sorted_170607	Healthy	Healthy									Healthy	FALSE	TRUE
