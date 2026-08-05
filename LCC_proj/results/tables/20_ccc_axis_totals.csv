@@ -1,0 +1,73 @@
+axis,pair_id,direction,arm,rel,n_pairs,p_higher,frac_pairs_up,panel,n_node_mut,n_node_wt
+HSC,6,receives,TP53-mut,0.151344022010625,4,0.9375,0.25,"HSC compartment receives
+4 pairs  |  1 higher in mut  |  p = 0.938",884,496
+HSC,6,receives,TP53-WT,0.155784715301303,4,0.9375,0.25,"HSC compartment receives
+4 pairs  |  1 higher in mut  |  p = 0.938",884,496
+HSC,6,sends,TP53-mut,0.167012312624937,4,0.8125,0.5,"HSC compartment sends
+4 pairs  |  2 higher in mut  |  p = 0.812",884,496
+HSC,6,sends,TP53-WT,0.219583064620006,4,0.8125,0.5,"HSC compartment sends
+4 pairs  |  2 higher in mut  |  p = 0.812",884,496
+HSC,7,receives,TP53-mut,0.118041110849756,4,0.9375,0.25,"HSC compartment receives
+4 pairs  |  1 higher in mut  |  p = 0.938",207,702
+HSC,7,receives,TP53-WT,0.271623565750627,4,0.9375,0.25,"HSC compartment receives
+4 pairs  |  1 higher in mut  |  p = 0.938",207,702
+HSC,7,sends,TP53-mut,0.145987038902572,4,0.8125,0.5,"HSC compartment sends
+4 pairs  |  2 higher in mut  |  p = 0.812",207,702
+HSC,7,sends,TP53-WT,0.199375514286386,4,0.8125,0.5,"HSC compartment sends
+4 pairs  |  2 higher in mut  |  p = 0.812",207,702
+HSC,8,receives,TP53-mut,0.0999224825088509,4,0.9375,0.25,"HSC compartment receives
+4 pairs  |  1 higher in mut  |  p = 0.938",90,409
+HSC,8,receives,TP53-WT,0.145321297881944,4,0.9375,0.25,"HSC compartment receives
+4 pairs  |  1 higher in mut  |  p = 0.938",90,409
+HSC,8,sends,TP53-mut,0.218039533988912,4,0.8125,0.5,"HSC compartment sends
+4 pairs  |  2 higher in mut  |  p = 0.812",90,409
+HSC,8,sends,TP53-WT,0.191321019695404,4,0.8125,0.5,"HSC compartment sends
+4 pairs  |  2 higher in mut  |  p = 0.812",90,409
+HSC,9,receives,TP53-mut,0.0127026390229816,4,0.9375,0.25,"HSC compartment receives
+4 pairs  |  1 higher in mut  |  p = 0.938",254,108
+HSC,9,receives,TP53-WT,0.0116404647780461,4,0.9375,0.25,"HSC compartment receives
+4 pairs  |  1 higher in mut  |  p = 0.938",254,108
+HSC,9,sends,TP53-mut,0.166598793946527,4,0.8125,0.5,"HSC compartment sends
+4 pairs  |  2 higher in mut  |  p = 0.812",254,108
+HSC,9,sends,TP53-WT,0.116036982520497,4,0.8125,0.5,"HSC compartment sends
+4 pairs  |  2 higher in mut  |  p = 0.812",254,108
+Macrophage,2,receives,TP53-mut,0.171431458437404,5,0.03125,1,"Macrophage compartment receives
+5 pairs  |  5 higher in mut  |  p = 0.031",14,1225
+Macrophage,2,receives,TP53-WT,0.0924741827875589,5,0.03125,1,"Macrophage compartment receives
+5 pairs  |  5 higher in mut  |  p = 0.031",14,1225
+Macrophage,2,sends,TP53-mut,0,5,0.90625,0.2,"Macrophage compartment sends
+5 pairs  |  1 higher in mut  |  p = 0.906",14,1225
+Macrophage,2,sends,TP53-WT,0.227345800980793,5,0.90625,0.2,"Macrophage compartment sends
+5 pairs  |  1 higher in mut  |  p = 0.906",14,1225
+Macrophage,5,receives,TP53-mut,0.288684395707375,5,0.03125,1,"Macrophage compartment receives
+5 pairs  |  5 higher in mut  |  p = 0.031",16,554
+Macrophage,5,receives,TP53-WT,0.215824949038474,5,0.03125,1,"Macrophage compartment receives
+5 pairs  |  5 higher in mut  |  p = 0.031",16,554
+Macrophage,5,sends,TP53-mut,0.0747185933771062,5,0.90625,0.2,"Macrophage compartment sends
+5 pairs  |  1 higher in mut  |  p = 0.906",16,554
+Macrophage,5,sends,TP53-WT,0.133117801929503,5,0.90625,0.2,"Macrophage compartment sends
+5 pairs  |  1 higher in mut  |  p = 0.906",16,554
+Macrophage,6,receives,TP53-mut,0.180358897194367,5,0.03125,1,"Macrophage compartment receives
+5 pairs  |  5 higher in mut  |  p = 0.031",1427,12058
+Macrophage,6,receives,TP53-WT,0.157071373448714,5,0.03125,1,"Macrophage compartment receives
+5 pairs  |  5 higher in mut  |  p = 0.031",1427,12058
+Macrophage,6,sends,TP53-mut,0.112300704193844,5,0.90625,0.2,"Macrophage compartment sends
+5 pairs  |  1 higher in mut  |  p = 0.906",1427,12058
+Macrophage,6,sends,TP53-WT,0.0564587409843796,5,0.90625,0.2,"Macrophage compartment sends
+5 pairs  |  1 higher in mut  |  p = 0.906",1427,12058
+Macrophage,8,receives,TP53-mut,0.216351111906679,5,0.03125,1,"Macrophage compartment receives
+5 pairs  |  5 higher in mut  |  p = 0.031",213,833
+Macrophage,8,receives,TP53-WT,0.18072557774328,5,0.03125,1,"Macrophage compartment receives
+5 pairs  |  5 higher in mut  |  p = 0.031",213,833
+Macrophage,8,sends,TP53-mut,0.139952508829403,5,0.90625,0.2,"Macrophage compartment sends
+5 pairs  |  1 higher in mut  |  p = 0.906",213,833
+Macrophage,8,sends,TP53-WT,0.155845935508576,5,0.90625,0.2,"Macrophage compartment sends
+5 pairs  |  1 higher in mut  |  p = 0.906",213,833
+Macrophage,9,receives,TP53-mut,0.186471035761084,5,0.03125,1,"Macrophage compartment receives
+5 pairs  |  5 higher in mut  |  p = 0.031",3307,392
+Macrophage,9,receives,TP53-WT,0.0645350352962129,5,0.03125,1,"Macrophage compartment receives
+5 pairs  |  5 higher in mut  |  p = 0.031",3307,392
+Macrophage,9,sends,TP53-mut,0.130246987156221,5,0.90625,0.2,"Macrophage compartment sends
+5 pairs  |  1 higher in mut  |  p = 0.906",3307,392
+Macrophage,9,sends,TP53-WT,0.16465281073996,5,0.90625,0.2,"Macrophage compartment sends
+5 pairs  |  1 higher in mut  |  p = 0.906",3307,392

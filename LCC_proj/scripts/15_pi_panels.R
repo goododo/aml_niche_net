@@ -56,37 +56,83 @@ p1 <- merge(p1, unique(det[stratum == "all", .(dataset, sample, n_cells)]),
 setorder(p1, pair_id, -arm)
 fwrite_safe(p1, file.path(LCC_TAB_DIR, "P1_cohort_evidence.csv"))
 
-p1l <- melt(p1[, .(lab = paste0(sample, "  (pair ", pair_id, ")"), arm,
-                   `genotype\nmutant cells` = as.numeric(n_cells_tp53_mut),
-                   `Numbat\n17p LOH` = as.numeric(arm17p_frac_loh),
-                   `inferCNV\n17p frac` = as.numeric(icnv_max_17p_frac),
-                   `inferCNV\naltered arms` = as.numeric(icnv_ck_arms))],
+# P1 SHOWS ONLY THE EVIDENCE THAT ACTUALLY DEFINED THE GROUPS -- genotype and Numbat 17p LOH.
+# An earlier version also carried the two inferCNV columns. That was a presentation error: inferCNV
+# was TESTED and REJECTED, so putting it beside the evidence that was used invites the reader to
+# think it contributed. The inferCNV result is real and worth reporting -- the PI's first question
+# was literally "use inferCNV to split the groups" -- so it now has its own figure, P1B, where it
+# reads as what it is: a method check with a negative outcome.
+# The tier goes in the row label as WORDS, not a letter. 809653's mutation comes from the study's
+# targeted sequencing rather than from the single-cell reads, so its genotype cell count is legitimately
+# blank -- with a bare "[tier A]" that blank reads as missing evidence, which is the opposite of true.
+TIERLAB <- c(A_genotype   = "single-cell genotype",
+             B_reported   = "reported mutation",
+             B_allele_loh = "Numbat 17p LOH")
+p1[, tier := fifelse(arm == "TP53-WT", "", paste0("   ", TIERLAB[tp53_tier]))]
+p1[is.na(tier), tier := ""]
+p1l <- melt(p1[, .(lab = paste0(sample, "  (pair ", pair_id, ")", tier), arm,
+                   `TP53 mutation\nread directly\n(cells)` = as.numeric(n_cells_tp53_mut),
+                   `Numbat\n17p LOH\n(fraction)` = as.numeric(arm17p_frac_loh),
+                   `cells in\nsample` = as.numeric(n_cells))],
             id.vars = c("lab", "arm"), variable.name = "evidence", value.name = "v")
 p1l[is.na(v), v := 0]
-p1l[, vs := v / max(v, na.rm = TRUE), by = evidence]           # each arm on its own scale
-ord <- p1[order(pair_id, arm != "TP53-mut")][, paste0(sample, "  (pair ", pair_id, ")")]
+p1l[, vs := v / max(v, na.rm = TRUE), by = evidence]           # each column on its own scale
+# per-column formatting: counts as plain separated integers (scientific notation is unreadable for a
+# clinical reader), the LOH fraction to three decimals
+p1l[, txt := fifelse(v == 0, "-",
+              fifelse(grepl("LOH", evidence), formatC(v, format = "f", digits = 3),
+                      formatC(v, format = "d", big.mark = ",")))]
+ord <- p1[order(pair_id, arm != "TP53-mut")][, paste0(sample, "  (pair ", pair_id, ")", tier)]
 p1l[, lab := factor(lab, levels = rev(ord))]
 fP1 <- ggplot(p1l, aes(evidence, lab, fill = vs)) +
   geom_tile(colour = SURF, linewidth = 1.1) +
-  geom_text(aes(label = ifelse(v == 0, "-", formatC(v, format = "g", digits = 3))),
-            size = 4.2, colour = INK[["primary"]]) +
+  geom_text(aes(label = txt), size = 4.2, colour = INK[["primary"]]) +
   facet_wrap(~ arm, scales = "free_y", ncol = 1) +
   scale_fill_gradient(low = "#eef3fa", high = PAL[["blue"]], guide = "none") +
   scale_x_discrete(position = "top") +
-  labs(title = "P1  Samples used, and every number behind the TP53 grouping",
-       subtitle = paste("9 TP53-mut samples from 6 patients, each matched 1:1 to a TP53-WT sample",
-                        "from the SAME dataset and\nthe SAME timepoint. Each column is scaled",
-                        "independently; printed values are the raw numbers."),
-       x = NULL, y = NULL,
-       caption = paste("Read the inferCNV column against the genotype column. NOT ONE of the nine",
-                       "TP53-mut samples is called\n17p-positive by inferCNV, while the WT sample",
-                       "AML420B-D14 IS (11 altered arms, 17p positive). That is why\nexpression-CNV",
-                       "alone was never allowed to define the mutant group: measured against",
-                       "single-cell genotype\ntruth its sensitivity is 1/3, and all five confirmed",
-                       "variants (Q144P, P152R, R273L, C238Y, E286G) are\nDNA-binding-domain",
-                       "missense mutations, which an expression caller cannot see by construction.")) +
+  labs(title = "P1  Samples used, and the evidence that defined the two groups",
+       subtitle = "tier A = TP53 mutation read directly; tier B = Numbat 17p LOH; WT = neither",
+       x = NULL, y = NULL) +
   theme_lcc() + theme(panel.grid.major = element_blank())
-save_fig(fP1, "P1_cohort_evidence", 11, 8)
+save_fig(fP1, "P1_cohort_evidence", 13, 8)
+
+## ===== P1B. the inferCNV check, reported separately because it FAILED ======================
+# The PI's question 1 was "use inferCNV to split TP53-mut from TP53-WT". This is the answer, and the
+# answer is that it cannot be done on this data. Reported rather than quietly dropped.
+message("[P1B] inferCNV vs genotype truth")
+pv <- fread(file.path(LCC_TAB_DIR, "07_proxy_vs_genotype.csv"))
+# 07 writes the three evaluable samples as a single semicolon-joined `detail` string; parse it back
+# rather than retyping the calls, so the figure cannot drift from the table.
+ev <- rbindlist(lapply(strsplit(pv$detail, "; *")[[1]], function(s) {
+  smp <- sub(":.*$", "", s)
+  truth <- ifelse(grepl("mutant", s), "TP53 mutant", "TP53 wild-type")
+  call  <- ifelse(grepl("17p=TRUE", s), "17p POSITIVE", "17p negative")
+  data.table(sample = smp, truth = truth, call = call)
+}))
+ev[, verdict := fifelse(truth == "TP53 mutant" & call == "17p negative", "missed the mutation",
+                 fifelse(truth == "TP53 wild-type" & call == "17p POSITIVE", "false alarm", "correct"))]
+gvar <- fread(file.path(LCC_TAB_DIR, "07_tp53_genotype_sample.csv"))[, .(sample, tp53_variants)]
+ev[gvar, variant := i.tp53_variants, on = "sample"]
+ev[, row := paste0(sample, ifelse(nzchar(variant) & !is.na(variant), paste0("\n", variant), ""))]
+fwrite_safe(ev, file.path(LCC_TAB_DIR, "P1B_infercnv_check.csv"))
+
+evl <- melt(ev[, .(row, `genotype truth` = truth, `inferCNV call` = call, verdict)],
+            id.vars = "row", variable.name = "col", value.name = "txt")
+evl[, wrong := col == "verdict" & txt != "correct"]
+fP1B <- ggplot(evl, aes(col, factor(row, levels = rev(sort(unique(row)))))) +
+  geom_tile(aes(fill = wrong), colour = SURF, linewidth = 1.1) +
+  geom_text(aes(label = txt), size = 4.4, colour = INK[["primary"]]) +
+  scale_fill_manual(values = c(`TRUE` = "#fbe0da", `FALSE` = "#eef3fa"), guide = "none") +
+  scale_x_discrete(position = "top") +
+  labs(title = "P1B  inferCNV was tested against genotype truth, and it failed",
+       subtitle = sprintf("%d samples have both a genotype and an inferCNV call; %d correct",
+                          nrow(ev), sum(ev$verdict == "correct")),
+       x = NULL, y = NULL) +
+  theme_lcc() + theme(panel.grid.major = element_blank())
+save_fig(fP1B, "P1B_infercnv_check", 13, 4.6)
+cat("\n-- P1B: inferCNV vs genotype --\n"); print(ev[, .(sample, truth, call, verdict)])
+cat(sprintf("   sensitivity %d/%d   specificity %d/%d\n",
+            pv$true_pos, pv$true_pos + pv$false_neg, pv$true_neg, pv$true_neg + pv$false_pos))
 
 ## ===== shared machinery for P2 / P3 =========================================================
 gene_panel_fig <- function(cats, title, subtitle, caption, file, h) {

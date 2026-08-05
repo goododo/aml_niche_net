@@ -41,7 +41,7 @@ aml0 <- grp[timepoint != "Healthy" & !is.na(uid_patient) & uid_patient != "",
 # Two mut definitions, run side by side so the cost of the looser one is visible rather than argued:
 #   strict = tiers A+B only  (genotype or allele-LOH; 9 samples / 6 patients)
 #   broad  = A+B+C          (adds 5 expression-CNV-only samples -> 14 samples / 11 patients)
-# Tier C was measured at 1/3 sensitivity against genotype truth, so ~2/3 of the added samples are
+# Tier C was measured at 0/2 sensitivity against genotype truth, so most of the added samples are
 # expected to be mislabelled. Broad buys patients and spends specificity; the tables show the trade.
 MUT_DEFS <- list(strict = c("A_genotype", "B_allele_loh"),
                  broad  = c("A_genotype", "B_allele_loh", "C_expr_only"))

@@ -8,7 +8,7 @@
 #   T2  allele LOH      08: Numbat 17p LOH from phased allele counts. Measures loss of the second
 #                       allele -- the canonical partner lesion. ORTHOGONAL to expression.
 #   T3  expression CNV  02: inferCNV 17p gene-level loss (+ CopyKAT when installed). Measured
-#                       performance against T1 truth: 1/3 sensitivity, and it missed AML916
+#                       performance against T1 truth: 0/2 sensitivity (it missed AML916 and 809653) plus 1 false positive
 #                       (21 genotype-confirmed mutant cells) and 809653. LOW trust, used only to
 #                       flag candidates, never alone to assert TP53 status.
 #

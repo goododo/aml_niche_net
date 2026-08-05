@@ -52,7 +52,7 @@ ncell <- unique(det[stratum == "all", .(dataset, sample, n_cells_sample = n_cell
 
 aml <- grp[timepoint != "Healthy" & !is.na(uid_patient) & uid_patient != ""]
 aml <- merge(aml, ncell, by = c("dataset", "sample"), all.x = TRUE)
-# tier C (expression-CNV only) is in NEITHER arm. Measured at 1/3 sensitivity against genotype
+# tier C (expression-CNV only) is in NEITHER arm. Measured at 0/2 sensitivity against genotype
 # truth, so it would inject mislabelled samples into a 9-sample group.
 mut  <- aml[tp53_tier %in% c("A_genotype", "B_allele_loh")]
 wtp  <- aml[tp53_tier %in% c("WT_genotyped", "WT_presumed")]

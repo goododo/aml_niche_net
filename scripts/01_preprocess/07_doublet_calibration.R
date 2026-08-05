@@ -36,9 +36,18 @@ opt <- parse_args(OptionParser(option_list = list(
   make_option("--n_per_bin", type = "integer", default = 2L,
               help = "samples drawn per size bin [2]"),
   make_option("--dbr_sd", type = "double", default = -1,
-              help = "scDblFinder dbr.sd; -1 = package default (40%% of dbr) [-1]")
+              help = "scDblFinder dbr.sd; -1 = package default (40%% of dbr) [-1]"),
+  make_option("--out_suffix", type = "character", default = "",
+              help = "appended to the output basenames; REQUIRED when running conditions in parallel")
 )))
 DBR_SD <- if (opt$dbr_sd < 0) NULL else opt$dbr_sd
+SFX    <- if (nzchar(opt$out_suffix)) paste0("__", opt$out_suffix) else ""
+# The output path is parameterised HERE rather than renamed by the submit script.
+# Two array tasks running different conditions both wrote 07_doublet_calibration.csv
+# and then mv'd it: they raced, one mv failed, and the surviving file was labelled
+# with the other condition's name. A job must not depend on winning a rename.
+OUT_CSV <- file.path(DIR_PREPROCESS, paste0("07_doublet_calibration", SFX, ".csv"))
+OUT_FIG <- file.path(FIG_PREPROCESS, paste0("07_doublet_calibration", SFX))
 
 set.seed(SEED)
 
@@ -48,11 +57,23 @@ set.seed(SEED)
 R <- fread(file.path(DIR_PREPROCESS, "03_qc_report__ALL.csv"))[status == "PASS" & n_after_mad > 0]
 R[, size_bin := cut(n_after_mad, breaks = c(0, 1e3, 3e3, 1e4, Inf),
                     labels = c("<1k", "1-3k", "3-10k", ">10k"))]
-sel <- R[, .SD[sample(.N, min(.N, opt$n_per_bin))], by = size_bin][
+
+# Round-robin across DATASETS within each size bin, not a plain random draw. The
+# <1k bin is 18/39 GSE116256 (Seq-Well, small libraries by construction), so a
+# uniform sample would let one platform speak for the whole small-sample regime --
+# and platform is exactly what the doublet model is conditioned on.
+pick_bin <- function(d, k) {
+  d <- d[sample(.N)]                       # break within-dataset order
+  d[, rank_in_ds := seq_len(.N), by = dataset]
+  setorder(d, rank_in_ds, dataset)
+  head(d, k)
+}
+sel <- R[, pick_bin(copy(.SD), opt$n_per_bin), by = size_bin][
         , .(dataset, Sample, n_after_mad, dbl_rate_exp, dbl_rate_obs, size_bin)]
 setorder(sel, n_after_mad)
-message("[1] ", nrow(sel), " samples selected across ", uniqueN(sel$size_bin), " size bins")
-print(sel)
+message("[1] ", nrow(sel), " samples across ", uniqueN(sel$size_bin), " size bins, ",
+        uniqueN(sel$dataset), " datasets")
+print(sel[, .N, by = .(size_bin, dataset)][order(size_bin, dataset)])
 
 # ---------------------------------------------------------------------------
 # [2] Run both callers separately
@@ -122,7 +143,7 @@ if (!nrow(D)) stop("no samples produced calls")
 for (k in c("sc", "df", "union", "inter"))
   D[[paste0("ratio_", k)]] <- D[[paste0("rate_", k)]] / D$rate_exp
 
-fwrite_safe(D, file.path(DIR_PREPROCESS, "07_doublet_calibration.csv"))
+fwrite_safe(D, OUT_CSV)
 
 # ---------------------------------------------------------------------------
 # [3] Verdict
@@ -164,7 +185,6 @@ p <- ggplot(L, aes(n_cells, ratio, colour = rule)) +
        x = "cells in sample (log)", y = "observed / expected (log)", colour = NULL) +
   theme_bw(base_size = 9) + theme(legend.position = "top")
 for (ext in c("png", "pdf"))
-  ggsave(file.path(FIG_PREPROCESS, paste0("07_doublet_calibration.", ext)), p,
-         width = 6.5, height = 4.5, dpi = 200)
+  ggsave(paste0(OUT_FIG, ".", ext), p, width = 6.5, height = 4.5, dpi = 200)
 
-message("\n[done] ", file.path(DIR_PREPROCESS, "07_doublet_calibration.csv"))
+message("\n[done] ", OUT_CSV)

@@ -1,4 +1,12 @@
 # 05_p53_axis.R ----
+#
+# ***** RETIRED. NOT PART OF THE CURRENT CHAIN, AND WILL NOT RUN AS-IS. *****
+# Grouping is defined by 07 (curated genotype) + 08 (Numbat 17p LOH) + 09 (final assignment).
+# Every figure in this project uses that. This transcriptional axis was the intermediate attempt
+# between the failed CNV proxy and the curated genotype, and nothing downstream reads its output.
+# Its two tables and its input 02_sample_cnv_proxy.csv are in results/_retired/ -- see the README
+# there for how to restore them if this ever needs re-running.
+#
 # Validate, then define, the continuous p53-activity axis that replaces the failed CNV grouping.
 #
 # THE FALSIFIABLE PREDICTION THIS SCRIPT EXISTS TO TEST:

@@ -1,0 +1,6 @@
+sample,truth,call,verdict,variant,row
+AML420B-D14,TP53 wild-type,17p POSITIVE,false alarm,"",AML420B-D14
+AML916-D0,TP53 mutant,17p negative,missed the mutation,TP53.C238Y,"AML916-D0
+TP53.C238Y"
+809653,TP53 mutant,17p negative,missed the mutation,TP53.E286G,"809653
+TP53.E286G"

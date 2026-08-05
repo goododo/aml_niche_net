@@ -75,7 +75,10 @@ sc <- join(sc, det[gene == "COL1A1" & stratum == "Stromal", .(stromal_cells = su
 sc <- join(sc, fread(file.path(LCC_TAB_DIR, "04_nectin_gate.csv"))[
              , .(nectin4_max_pct = round(max(pct_nonzero), 2),
                  n_nectin4_gt1pct = sum(pct_nonzero > 1)), by = dataset])
-f <- file.path(LCC_TAB_DIR, "02_sample_cnv_proxy.csv")
+# Prefer the 11-dataset --all_datasets table. The 4-dataset one it replaced was retired: keeping
+# both meant this line could silently score datasets against the smaller of the two.
+f <- file.path(LCC_TAB_DIR, "02_sample_cnv_proxy_all_datasets.csv")
+if (!file.exists(f)) f <- file.path(LCC_TAB_DIR, "02_sample_cnv_proxy.csv")
 if (file.exists(f)) sc <- join(sc, fread(f)[p17_pos == TRUE, .(n_17p_anchors = .N), by = dataset])
 sc[, genotype_anchor := fifelse(dataset == "Petti2019", LCC_GENOTYPE_ANCHOR, "")]
 

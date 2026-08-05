@@ -110,7 +110,7 @@ f2 <- ggplot(d2, aes(unit, frac_p05, group = feature, colour = feature)) +
        x = NULL, y = "share of 500 control sets reaching p < 0.05",
        caption = paste("Both panels fall from left to right, so the sample-level result was partly",
                        "AML328 counted repeatedly.\nAdding tier C (right panel) does not repair it:",
-                       "tier C is expression-CNV only, measured at 1/3 sensitivity\nagainst genotype",
+                       "tier C is expression-CNV only, and expression-CNV scored 0/3\nagainst genotype",
                        "truth, so most of what it adds is expected to be mislabelled. At 6 pairs the",
                        "smallest\nattainable p is 1/64, so part of the fall is power rather than",
                        "error -- the two cannot be fully separated here.")) +

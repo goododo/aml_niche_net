@@ -32,19 +32,46 @@ for "mutant deeper").
 
 ---
 
-## P1 — Samples used and the evidence behind the grouping
+## P1 — Samples used and the evidence that defined the groups
 `P1_cohort_evidence.png` · `P1_cohort_evidence.csv`
 
-All 18 samples, mutant arm above, wild-type below, with every number that entered the grouping:
-genotyped mutant cells, Numbat 17p LOH fraction, inferCNV 17p fraction, inferCNV altered-arm count.
-Each column is colour-scaled independently; printed values are raw.
+All 18 samples, mutant arm above, wild-type below, carrying **only the evidence that actually defined
+the grouping**: TP53 mutant cells read directly from the reads, Numbat 17p LOH fraction, and the cell
+count the matching used. Each row names the evidence that made that sample mutant. Each column is
+colour-scaled independently; printed values are raw.
 
-**The point of this figure is the contrast between columns.** Not one of the nine TP53-mut samples is
-called 17p-positive by inferCNV, while the *wild-type* sample AML420B-D14 is (17p = 0.964, 11 altered
-arms). Numbat cleanly recovers 1886_R (0.981), 6323_R (0.931) and MLL_28830 (0.986). This is why
-expression-CNV was never allowed to define the mutant group: against single-cell genotype truth its
-sensitivity is 1/3, and all five confirmed variants (Q144P, P152R, R273L, C238Y, E286G) are
-DNA-binding-domain **missense** mutations, which an expression-based caller cannot see by construction.
+Mutant arm = 6 samples with the mutation read directly (5 from single-cell reads, 809653 from the
+study's targeted sequencing — hence its blank genotype-cell count) + 3 with Numbat 17p LOH
+(1886_R 0.981, 6323_R 0.931, MLL_28830 0.986). Wild-type = neither.
+
+An earlier version of this figure also carried two inferCNV columns. That was a presentation error:
+inferCNV was tested and **rejected**, so showing it beside the evidence that was used implied it had
+contributed. It now has its own figure.
+
+## P1B — The inferCNV check, which failed
+`P1B_infercnv_check.png` · `P1B_infercnv_check.csv`
+
+The PI's first question was "use inferCNV to split TP53-mut from TP53-WT". This is the answer, and it
+is negative, so it is reported rather than dropped.
+
+Three samples have both a genotype and an inferCNV 17p call. **inferCNV got none of them right:**
+
+| sample | genotype truth | inferCNV call | verdict |
+|---|---|---|---|
+| AML916-D0 (C238Y) | mutant | 17p negative | missed |
+| 809653 (E286G) | mutant | 17p negative | missed |
+| AML420B-D14 | wild-type | **17p positive** (0.964, 11 altered arms) | false alarm |
+
+Sensitivity 0/2, specificity 0/1 (`07_proxy_vs_genotype.csv`). n = 3 is a very small validation set —
+that limitation is real — but it is 0-for-3 in the direction that matters, and the mechanism is not
+in doubt: all five confirmed variants (Q144P, P152R, R273L, C238Y, E286G) are DNA-binding-domain
+**missense** mutations. They change one base and leave copy number untouched, so an expression-based
+CNV caller cannot see them by construction.
+
+Two further validation results point the same way (`02_validation_all_datasets.csv`): the
+complex-karyotype track fails outright (healthy-donor false-positive rate 15/26 = 58%, AUC 0.473 =
+chance), while the 17p track has clean specificity in healthy donors (0/26) but no testable positive
+control and is underpowered.
 
 ## P2 — Myelofibrosis-related genes
 `P2_myelofibrosis_genes.png` · `.csv`
@@ -130,7 +157,7 @@ these belong in the discussion as an observation to follow up, **not in a result
 
 ## Supporting figures
 
-**F1 `F1_effect_robustness`** — all 160 panel genes: x = median paired difference in log2 CPM,
+**F1 `F1_effect_robustness`** — the panel genes: x = median paired difference in log2 CPM,
 y = robustness share. The cloud at the origin is the null result; genes leaving it are the candidates.
 x is the *sample-level* effect on purpose — an earlier version plotted the cell-level odds ratio
 against a sample-level y, which put genes such as VSIG4 on the wrong side of zero.
@@ -138,7 +165,7 @@ against a sample-level y, which put genes such as VSIG4 on the wrong side of zer
 **F2 `F2_robustness_decay`** — the honest figure. Each line is a gene; left point counts samples as
 the unit (so AML328's four timepoints count four times), right point counts patients. **Both panels
 fall left to right**: part of the sample-level result was AML328 counted repeatedly. Adding tier C
-(right facet, 11 patients) does not repair it — tier C is expression-CNV only at 1/3 sensitivity, so
+(right facet, 11 patients) does not repair it — tier C is expression-CNV only, and expression-CNV scored 0/3 against genotype, so
 most of what it adds is expected to be mislabelled, and the lines fall further. At 6 pairs the p-floor
 is 1/64, so some of the fall is power rather than error; the two cannot be fully separated here.
 
@@ -193,3 +220,157 @@ to look next, not findings: nothing survives FDR.
 **The binding constraint throughout is 6 TP53-aberrant patients**, one of whom (AML328) supplies 4 of
 the 9 mutant samples. Materially advancing this requires more public datasets carrying TP53 genotype,
 or in-house samples.
+
+---
+
+## Q1 / V1 / V2 / V3 / U1 — the expression views
+
+Added after a review found the panel set had a single chart form for gene expression (the paired
+"n of 9 pairs higher" lollipop) and no sample-quality figure at all. A paired count is the statistic
+the test operates on; it is not a view of the expression.
+
+**Q1 `Q1_sample_qc`** · `Q1_sample_qc.csv` — library quality of the 18 samples.
+
+**Metrics are computed on the cells that entered the comparison.** A first version read
+`00_ingest/00_MASTER_qc_summary.csv`, which is the *pre-filter* summary: it reported 21,731 cells for
+809653 where 12,340 entered, and 84,603 across the 18 samples where 49,519 did. A QC figure
+describing a different cell set from every other figure in the project is worse than none. The
+ingest counts are retained, but as the "before" half of Q1c. Post-filter totals now agree exactly
+with U1 (49,519).
+
+**Q1a** pairs every metric so a systematic arm difference would show as parallel lines. **Q1b**
+genes per cell per sample, median with min–max whiskers. **Q1c** cells at ingest vs cells retained,
+per sample, with the retention rate. Q1a's y is square-root scaled — the haemoglobin facet contains
+exact zeros, which log cannot take.
+
+**The arms are comparable, measured rather than eyeballed.** Paired signed-rank on each metric,
+mutant higher in *n* of 9 pairs:
+
+| metric | mut higher | p |
+|---|---|---|
+| cells per sample | 4 / 9 | 0.203 |
+| genes per cell | 2 / 9 | 0.098 |
+| UMIs per cell | 4 / 9 | 0.426 |
+| mitochondrial % | 3 / 9 | 0.164 |
+| ribosomal % | 7 / 9 | 0.098 |
+| haemoglobin % | 3 / 9 | 0.855 |
+
+Nothing reaches p < 0.05. The two closest are worth stating rather than rounding to "comparable":
+the mutant arm trends toward **fewer genes per cell** (2/9, p = 0.098) and **more ribosomal
+reads** (7/9, p = 0.098). Neither is significant, and the first one matters for how V3 is read —
+lower detection sensitivity in the mutant arm biases *against* the V3 finding that detection rates
+rise there, so that finding is observed against the bias, not with it.
+
+**Overall retention 59%** (49,519 / 84,603), range 40–81% per sample, with no arm pattern.
+
+**V1 `V1_volcano`** — the 145 panel genes with a testable paired result (of 148 in the panel; 19 significant up, 12 down). x is the **median paired log2 fold change** across the 9
+pairs, computed per pair from per-sample mean expression and then medianed. It is *not*
+`median_delta_log2cpm`, which is a difference of mean log-normalised values and runs 0.001–0.05 for
+the lowly-detected genes here — plotting that put almost every gene on the y axis. y is
+−log10(p) made two-sided from the one-sided paired test (the test asks only "higher in mutant", so a
+down gene scores p≈1, not a small p). Horizontal banding is real, not a rendering artefact: 9 pairs
+admit only a handful of attainable p-values, the smallest being 1/512.
+
+**The dashed line sits at two-sided 0.10, which is one-sided 0.05.** Points are coloured by the
+project's one-sided p — the quantity every other figure and table reports — while y is the
+two-sided mirror. A line drawn at two-sided 0.05 therefore sat above several coloured points and the
+figure contradicted its own legend. Moving the line to the equivalent level makes colour and
+geometry agree; the subtitle states which p the line is.
+
+**V2 `V2_dotplot`** — genes × (compartment × arm); dot size = % of cells with a detected transcript,
+colour = mean expression **scaled within each gene**. Within-gene scaling is necessary: absolute
+expression spans three orders of magnitude across this panel and a shared scale renders every
+low-expressed gene blank. Size is on a square-root scale for the same reason — most panel genes are
+detected in 1–8% of cells.
+
+**V3 `V3_violin`** — per-cell distributions. **Violins cover expressing cells only**, with the
+detection rate over *all* cells printed above each. Drawn over all cells the figure was honest and
+unreadable: 14 of the 16 genes are detected in 0.1–7% of cells, so every panel collapsed to a spike
+at zero and only PGK1 and VIM had a visible shape.
+
+**The two numbers together carry the finding.** The detection rate roughly doubles-to-quintuples in
+the mutant arm — C1QB 0.1%→0.4%, SLC2A1 2.9%→7.3%, OSM 2.6%→5.5%, IL11 0.4%→2.0%, GP9 0.2%→0.7%,
+PLOD2 0.1%→0.5% — while the level *among cells that already express* barely moves. **The mutant
+effect is more cells switching these genes on, not expressing cells expressing more.** The two
+well-detected controls behave as controls: PGK1 56.4%→55.8% and VIM 89.0%→81.5% do not move.
+
+**U1 `U1_umap`** — 49,519 cells from the 18 samples, 20,438 genes shared across all of them.
+CP10K + log1p → 2,000 HVGs → 30 PCs → **Harmony on dataset** → UMAP. Harmony is not optional: the
+samples come from five studies with different chemistries, and an uncorrected embedding separates by
+study rather than biology. Correction is on *dataset only* — correcting on arm would erase the
+contrast being examined. **U1a** cell type (malignant blasts pulled out of their haematopoietic bin,
+8-slot categorical cap with the remainder folded into "other"), **U1b** TP53 group, **U1c** four
+genes painted on, expressing cells drawn last so they are never buried.
+
+**Caveat that must travel with U1b.** Harmony corrects *study*, not *patient*. The large right-hand
+island is close to arm-pure, and that reflects one 15,000-cell sample rather than a TP53 effect.
+U1b shows that the arms otherwise co-occupy the same territory — it is not evidence of a global
+transcriptional difference, and no claim in this project rests on it.
+
+---
+
+## C1 / C2 / C3 — cell–cell communication, macrophage and HSC axes
+
+Produced by `20_ccc_macrophage.R`. These extend P5 and G1–G4 in two directions the earlier figures
+did not cover: the macrophage node the brief asked for, and the ligand–receptor resolution under the
+compartment-level edges.
+
+**C1 `C1_macrophage_node`** · `20_macrophage_node_availability.csv`
+Per matched pair, cells available for a macrophage node, log scale, dashed line at CellChat's
+10-cell floor. A pair counts only when **both** dots clear it, because the test is paired.
+
+- **Macrophage-like (strict call): 1 of 8 pairs qualifies.** Counts run 0–158, median 1.
+- **Mono_DC compartment: 5 of 8 pairs qualify.**
+
+This is the answer to "run CCC on macrophages", and it is a negative one: a strict macrophage node
+is not estimable in this cohort. What *is* estimable is the Mono_DC compartment that contains the
+macrophages, and every macrophage statement below is at that resolution. The figure exists so the
+limitation is visible rather than asserted in a footnote — "we skipped it" and "we measured that it
+cannot be done" are different claims and only the second one is true here.
+
+**C3 `C3_ccc_axis_totals`** · `20_ccc_axis_totals.csv`
+Total significant communication on each axis as a share of the sample's total, bar = median across
+qualifying pairs, one line per pair. Four tests, one-sided exact paired signed-rank:
+
+| axis | direction | pairs | higher in mut | median Δ | p |
+|---|---|---|---|---|---|
+| Macrophage | **receives** | 5 | **5 / 5** | **+7.3 pp** | **0.031** |
+| Macrophage | sends | 5 | 1 / 5 | −3.4 pp | 0.906 |
+| HSC | receives | 4 | 1 / 4 | −2.5 pp | 0.938 |
+| HSC | sends | 4 | 2 / 4 | −1.3 pp | 0.812 |
+
+**What may be claimed.** In every one of the 5 qualifying pairs, the monocyte/macrophage compartment
+of the TP53-mutant marrow receives a larger share of the marrow's signalling. p = 0.031 is the exact
+floor at 5 pairs — the result is as strong as this design can produce, and no stronger. Across the
+four tests two-sided BH gives FDR = 0.25, so **this is a consistent direction, not a corrected
+significant finding.**
+
+**Two structural checks, both of which the result survives.**
+
+1. *Structural zeros.* A sample whose compartment holds fewer than 10 cells gets ~zero communication
+   by construction, not because signalling fell. A first run left those rows in and returned 7/7
+   pairs, p = 0.008 — an artefact, because two of the seven "increases" were WT samples carrying 1
+   and 9 Mono_DC cells. Those rows are excluded; the table above is post-exclusion.
+2. *Compartment size.* CellChat's permutation p depends on group size, so a smaller node yields less
+   measured signal. **The mutant node is the smaller one in 4 of the 5 macrophage pairs** (14 vs
+   1,225; 16 vs 554; 1,427 vs 12,058; 213 vs 833). The "receives" result is therefore observed
+   *against* that bias. The mutant Mono_DC fraction is also *lower* in 3 of 5 pairs while receives
+   is higher in 5 of 5.
+
+**What may not be claimed.** "Mutant macrophages send less" is exactly what a smaller node would
+manufacture on its own, and it is not separable from that here. Relative normalisation also forces
+the shares to compete, so "receives up" and "sends down" are not independent observations.
+
+**C2 `C2_ccc_ligand_receptor`** · `20_ccc_lr_tests.csv`
+Every ligand–receptor pair on the two axes, paired mut vs WT, top 12 per panel by effect size; text
+gives pairs-higher-in-mut over pairs measurable. Ligand names contain hyphens (HLA-DRA), so only the
+spaced separator is rendered as an arrow.
+
+**No single LR pair carries the C3 result.** The strongest on the macrophage-receives axis are
+LGALS9→CD44 (4/4 pairs, p = 0.063) and the MHC-II→CD4 family (3/4, p = 0.125); nothing reaches
+FDR < 1. The axis-level shift is distributed across many small contributions rather than driven by
+one signal, which is what the 12 similarly-sized bars in that panel show. Read C2 as *where to look
+next*, not as a list of findings.
+
+**MSC / stromal axis.** Not computed, at any resolution. P5a and F5 give the reason: no TP53-mut
+sample has a usable stromal population, so the node has n = 0 on the mutant side.
