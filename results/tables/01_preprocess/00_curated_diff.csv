@@ -1,0 +1,5 @@
+dataset,sample,field,curated,config
+GSE185991,GSM5628177_M27,timepoint,CONFLICT:Post_induction|Refractory,Post_induction
+GSE185991,GSM5628190_M43,timepoint,CONFLICT:Post_induction|Refractory,Post_induction
+GSE201966,GSM6085176_AML01M4_CR,timepoint,Post_transplant,Post_treatment_unspecified
+GSE227903,6323_R2,timepoint,Relapse,Relapse2
