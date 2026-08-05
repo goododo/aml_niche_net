@@ -516,6 +516,38 @@ INTEGRITY_MIN_MED_NCOUNT <- 100   # hard integrity floor -> flag + skip doublet
 # Union is less conservative on real cells; that trade is deliberate.
 DOUBLET_CONSENSUS <- "union"
 DOUBLET_MIN_CELLS <- 100L
+
+## -- scDblFinder: treat the expected rate as an EXPECTATION, not a hint ----
+# MEASURED, not assumed (07_doublet_calibration.R, n=22 samples spanning 314-13,918
+# cells across 11 datasets, run on pre-doublet-removal input). Ratio = cells called
+# / cells expected; slope = change in that ratio per 10x more cells, which is the
+# number that matters because composition is the FGW node marginal and a sloped
+# removal rate writes a library-size gradient into exactly what H2 measures:
+#
+#   rule                     median   range        slope/decade
+#   union, dbr.sd = 0          1.24   1.01-1.55         +0.030    <- adopted
+#   DoubletFinder alone        0.86   0.57-0.91         +0.105
+#   scDblFinder alone, sd=0    0.65   0.37-1.00         +0.211
+#   intersection, sd = 0       0.21   0.00-0.64         +0.217
+#   union, dbr.sd = default    2.11   1.38-6.03         -1.773    <- was in use
+#
+# Two conclusions the numbers force:
+#   1. The old default was the WORST rule in the table. Over this cohort's ~40x
+#      size range a slope of -1.77/decade swings the removal multiplier by ~2.8.
+#   2. INTERSECTION IS NOT A CONSERVATIVE FILTER, IT IS AN ABSENT ONE. Its minimum
+#      is 0.00 -- on some samples it removes nothing at all -- and the two callers
+#      overlap at Jaccard 0.15 (itself size-dependent, rho +0.74), so there is no
+#      "consensus" to take. v1's "37% of expected doublets recovered" was not
+#      caution; it was a filter that had largely stopped working.
+#
+# The excess was never the union operator: DoubletFinder is hard-capped at
+# nExp = rate*n*(1-homotypic), so all of it came from scDblFinder, where dbr is a
+# soft prior (dbr.sd defaults to 40% of dbr and thresholding is ultimately driven
+# by artificial-doublet misclassification). Setting dbr.sd = 0 removes that degree
+# of freedom and leaves union nearly flat. A residual constant offset of ~1.24 is
+# acceptable; a gradient is not, because a constant is absorbed and a gradient is
+# read as biology.
+DBL_SCDBLFINDER_DBR_SD <- 0
 DBL_RATE_PER_1K   <- 0.008           # ~0.8% per 1000 cells -- a 10x DROPLET-loading model
 DBL_RATE_CAP      <- 0.10
 # Non-droplet platforms do not follow the linear-in-n droplet law. Seq-Well is a nanowell method

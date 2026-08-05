@@ -140,7 +140,13 @@ mad_keep <- function(md) {
 # ----------------------------------------------------------------------------
 call_scdblfinder <- function(obj, rate) {
   sce <- as.SingleCellExperiment(obj)
-  sce <- scDblFinder(sce, dbr = rate)
+  # dbr.sd = 0 makes `rate` an expectation rather than a hint. Left at the package
+  # default (40% of dbr, with thresholding ultimately driven by artificial-doublet
+  # misclassification) this caller ran at 1.0-5.5x the expected rate, and the
+  # multiplier fell steeply with library size -- which is how union ended up
+  # removing 2.1x expected with a slope of -1.77 per decade. See the measurement
+  # table above DBL_SCDBLFINDER_DBR_SD in config_qc.R.
+  sce <- scDblFinder(sce, dbr = rate, dbr.sd = DBL_SCDBLFINDER_DBR_SD)
   cls <- as.character(sce$scDblFinder.class)
   setNames(cls == "doublet", colnames(sce))
 }
@@ -207,7 +213,10 @@ qc_one_sample <- function(obj, ds, samp, integrity_fail) {
                     ncount_lo_mad = NA_real_, nfeat_lo_mad = NA_real_, mt_hi_mad = NA_real_,
                     n_fail_mad = NA_integer_, n_fail_abs = NA_integer_,
                     mad_loss = NA_real_, dbl_rate_exp = NA_real_, dbl_rate_obs = NA_real_,
-                    platform = NA_character_, upstream_filtered = NA)
+                    platform = NA_character_, upstream_filtered = NA,
+                    # per-caller doublet counts + their agreement (see the consensus block)
+                    n_dbl_sc = NA_integer_, n_dbl_df = NA_integer_,
+                    n_dbl_both = NA_integer_, dbl_jaccard = NA_real_)
 
   # --- integrity short-circuit (e.g. GSE227903 counts not loaded) ---
   if (isTRUE(integrity_fail)) {
@@ -277,6 +286,19 @@ qc_one_sample <- function(obj, ds, samp, integrity_fail) {
       sc <- sc[colnames(obj)]; df <- df[colnames(obj)]
       is_dbl <- if (DOUBLET_CONSENSUS == "union") (sc | df) else (sc & df)
       rep[, dbl_method := paste0("consensus_", DOUBLET_CONSENSUS)]
+      # Per-caller counts and their agreement. Previously only the merged n_doublet
+      # was stored, which meant the union/intersection question could not be asked of
+      # existing output at all -- it took a dedicated re-run of both callers on 22
+      # samples to discover they overlap at Jaccard 0.15. That is a standing quality
+      # signal, not a one-off: agreement rises with library size (rho +0.74), so a
+      # sample with an unusually low Jaccard for its size is flagging either a hard
+      # doublet structure or a bad library.
+      rep[, `:=`(n_dbl_sc    = sum(sc, na.rm = TRUE),
+                 n_dbl_df    = sum(df, na.rm = TRUE),
+                 n_dbl_both  = sum(sc & df, na.rm = TRUE),
+                 dbl_jaccard = if (sum(sc | df, na.rm = TRUE) > 0)
+                                 sum(sc & df, na.rm = TRUE) / sum(sc | df, na.rm = TRUE)
+                               else NA_real_)]
     }
     rep[, n_doublet := sum(is_dbl, na.rm = TRUE)]
     rep[, dbl_rate_obs := n_doublet / n_after_mad]
