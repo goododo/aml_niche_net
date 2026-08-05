@@ -455,6 +455,29 @@ ingest_keep <- function(ds_id, keys, label = "key") {
   keys[!drop]
 }
 
+## -- SORTING / CELL_PREP fallback, for rows the curation leaves blank ----
+# These two fields decide, per sample, whether a MISSING CCC node is biologically
+# absent or technically removed -- so for node_status a blank is not a neutral
+# value, it is the most expensive one. Absence cannot be shown to be biological,
+# so the safe default for "unknown" is to MASK the node, and masking a
+# whole-marrow sample throws away real signal.
+#
+# GSE201966 ships both fields blank in the curation, but GEO documents them
+# positively (GSM6085176 and siblings):
+#   "All of dead cells were removed using dead cell removal kit (Miltenyi Biotec)"
+#     -> viability selection and nothing else: no lineage gate is described
+#        anywhere in the growth, treatment or extraction protocol
+#   title "BMMCs of M4 AML ..." + characteristics "cell type: human bone marrow
+#   cells" -> mononuclear, isolation method not stated
+# So this is not a guess filling a gap; it is a documented value the curation had
+# not reached yet. Precedence is unchanged -- curated wins the moment these fields
+# are filled there, and 00_curated_manifest.R reports the difference either way.
+SORTING_FALLBACK <- data.table::data.table(
+  dataset   = "GSE201966",
+  sorting   = "viability_only",
+  cell_prep = "mononuclear_unspecified",
+  source    = "GEO GSM6085176-82 treatment/extraction protocol")
+
 ## -- upstream-processed deposits (doublet-recovery interpretation, NOT a behaviour change) ----
 # These datasets are ingested from AUTHOR-PROCESSED objects, not from raw CellRanger output, so
 # the authors' own QC (including doublet removal) has already been applied. A low doublet yield

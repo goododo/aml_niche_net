@@ -277,6 +277,25 @@ M[, `:=`(timepoint = r_tp$value, timepoint_src = r_tp$src,
 M[, `:=`(platform_coarse = cfg_platform, platform_fine = nz(platform))]
 M[, platform_fine_src := fifelse(is.na(platform_fine), "missing", "curated")]
 
+# sorting / cell_prep get the same precedence chain, because node_status reads them
+# and a blank there costs more than a wrong-but-checkable value (see SORTING_FALLBACK).
+M[, `:=`(sorting_r = nz(sorting), cell_prep_r = nz(cell_prep))]
+M[, `:=`(sorting_src = fifelse(is.na(sorting_r), "none", "curated"),
+         cell_prep_src = fifelse(is.na(cell_prep_r), "none", "curated"))]
+for (i in seq_len(nrow(SORTING_FALLBACK))) {
+  d <- SORTING_FALLBACK$dataset[i]
+  M[dataset == d & is.na(sorting_r),
+    `:=`(sorting_r = SORTING_FALLBACK$sorting[i], sorting_src = "config_rule")]
+  M[dataset == d & is.na(cell_prep_r),
+    `:=`(cell_prep_r = SORTING_FALLBACK$cell_prep[i], cell_prep_src = "config_rule")]
+}
+message("    sorting resolved: ", paste(sprintf("%s=%d", names(table(M$sorting_src)),
+                                                table(M$sorting_src)), collapse = "  "))
+if (M[is.na(sorting_r), .N])
+  warning(M[is.na(sorting_r), .N], " sample(s) still have no sorting value -- node_status ",
+          "must treat these as NA_technical for every node, which is very costly. Datasets: ",
+          paste(unique(M[is.na(sorting_r), dataset]), collapse = ", "), call. = FALSE)
+
 message("\n[6] provenance of resolved fields:")
 for (f in c("timepoint", "tissue"))
   print(M[, .N, by = c(paste0(f, "_src"))][order(-N)])
