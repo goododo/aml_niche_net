@@ -16,6 +16,12 @@
 
 suppressPackageStartupMessages({ library(here) })
 source(here::here("scripts", "config", "config_paths.R"))
+# CANONICAL_TIMEPOINTS lives in config_qc.R and RESIDUAL_NOMINAL_SCOPE is validated against it
+# below. Sourced here rather than left to the caller: 20_refnorm_identify.R sources only paths +
+# malignancy, so the validation exploded with "object 'CANONICAL_TIMEPOINTS' not found" the first
+# time this config was loaded on its own. A config that asserts against another config must pull
+# it in itself -- the same pattern config_hierarchy.R already follows.
+source(here::here("scripts", "config", "config_qc.R"))
 suppressPackageStartupMessages({ library(data.table) })
 
 ## -- inferCNV: detection + burden thresholding ----
