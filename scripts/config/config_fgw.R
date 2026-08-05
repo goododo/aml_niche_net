@@ -4,6 +4,7 @@
 # (the C matrices it consumes). Strictly downstream -> acyclic dependency, not sideways coupling.
 suppressPackageStartupMessages({ library(here) })
 source(here::here("scripts", "config", "config_paths.R"))
+source(here::here("scripts", "config", "config_qc.R"))        # CANONICAL_TIMEPOINTS (FGW_BARY_GROUPS derives from it)
 source(here::here("scripts", "config", "config_ccc.R"))       # CCC_NODES, CCC_NODE_FEATURES
 source(here::here("scripts", "config", "config_distance.R"))  # DIR_DISTANCE (edge_distance.csv / edge_qc.csv)
 
