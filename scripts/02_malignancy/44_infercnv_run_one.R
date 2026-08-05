@@ -51,10 +51,28 @@ route <- row$route[1]
 
 out_dir    <- file.path(INFERCNV_ROOT, opt$dataset, opt$sample)
 burden_csv <- file.path(INFERCNV_BURDEN_ROOT, opt$dataset, paste0(opt$sample, "_infercnv_burden.csv"))
-if (file.exists(burden_csv)) { message("[skip] already done: ", burden_csv); quit(save = "no") }
+# RESUME GUARD, WITH A FRESHNESS TEST. `file.exists` alone made this loop
+# unrunnable after any upstream change: 130 burden CSVs from 2026-07-09..14 sit on
+# disk, so a re-run submitted after the v2 QC rebuild would skip every sample and
+# report success having computed nothing. The output is only reusable if it
+# POSTDATES the QC object it was computed from -- same invariant the QC report
+# combiner uses. Set INFERCNV_FORCE=1 to recompute regardless.
+rds_in <- file.path(QC_RDS_DIR, opt$dataset, paste0(opt$sample, ".rds"))
+
+if (file.exists(burden_csv)) {
+  .force <- nzchar(Sys.getenv("INFERCNV_FORCE"))
+  .stale <- file.exists(rds_in) && file.mtime(burden_csv) < file.mtime(rds_in)
+  if (.force) {
+    message("[recompute] INFERCNV_FORCE set: ", burden_csv)
+  } else if (.stale) {
+    message("[recompute] burden CSV (", format(file.mtime(burden_csv), "%m-%d %H:%M"),
+            ") predates its QC object (", format(file.mtime(rds_in), "%m-%d %H:%M"), "): ", burden_csv)
+  } else {
+    message("[skip] already done and current: ", burden_csv); quit(save = "no")
+  }
+}
 if (route == "skip") { message("[skip] sorted_guard: ", opt$sample); quit(save = "no") }
 
-rds_in <- file.path(QC_RDS_DIR, opt$dataset, paste0(opt$sample, ".rds"))
 stopifnot(file.exists(rds_in))
 message(sprintf("[run] %s::%s route=%s", opt$dataset, opt$sample, route))
 seu <- readRDS(rds_in); s_cnt <- .get_counts(seu)

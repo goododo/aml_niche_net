@@ -1,0 +1,11 @@
+sample_id	pipeline_sample_id	join_rule
+Chen2023__NBM1	NBM1	exact
+Chen2023__NBM2	NBM2	exact
+Chen2023__NBM3	NBM3	exact
+Chen2023__NBM4	NBM4	exact
+Chen2023__AML103	AML103	exact
+Chen2023__AML24	AML24	exact
+Chen2023__AML162	AML162	exact
+Chen2023__AML304	AML304	exact
+Chen2023__AML320	AML320	exact
+Chen2023__AML469	AML469	exact

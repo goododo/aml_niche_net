@@ -1,0 +1,11 @@
+sample_id	pipeline_sample_id	join_rule
+E-MTAB-11536__A29-BMA-1	A29-BMA	suffix_strip
+E-MTAB-11536__A31-BMA-1	A31-BMA	suffix_strip
+E-MTAB-11536__A35-BMA-1	A35-BMA	suffix_strip
+E-MTAB-11536__A36-BMA-1	A36-BMA	suffix_strip
+E-MTAB-11536__A37-BMA-1	A37-BMA	suffix_strip
+E-MTAB-11536__621B-BMA-90	621B-BMA	suffix_strip
+E-MTAB-11536__637C-BMA-104	637C-BMA	suffix_strip
+E-MTAB-11536__640C-BMA-121	640C-BMA	suffix_strip
+E-MTAB-11536__D496-BMA-80	""	UNRESOLVED
+E-MTAB-11536__D503-BMA-72	""	UNRESOLVED
