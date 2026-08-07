@@ -30,7 +30,12 @@ suppressPackageStartupMessages({
   library(SingleR)
   library(SummarizedExperiment)
   library(data.table)
+  library(optparse)
 })
+opt <- parse_args(OptionParser(option_list = list(
+  make_option("--datasets", type = "character", default = "",
+              help = "comma-separated dataset filter; default = the whole PASS roster")
+)))
 
 ## ---- config (here-anchored; zero hard-coded paths) ----
 suppressPackageStartupMessages({ library(here) })
@@ -175,6 +180,14 @@ if (nzchar(REFNORM_MANIFEST_CSV) && file.exists(REFNORM_MANIFEST_CSV)) {
   man <- qc_rds_roster(on_extra = "error")[, .(sample_id = sample, dataset, rds_in = rds)]
   stopifnot(nrow(man) > 0)
 }
+if (nzchar(opt$datasets)) {
+  .want <- trimws(strsplit(opt$datasets, ",")[[1]])
+  .miss <- setdiff(.want, man$dataset)
+  if (length(.miss)) stop("--datasets names no roster dataset: ", paste(.miss, collapse = ", "))
+  man <- man[dataset %in% .want]
+  message(sprintf("[0] --datasets restricts the run to %d sample(s) in %s",
+                  nrow(man), paste(.want, collapse = ", ")))
+}
 if (length(REFNORM_SKIP_DATASETS)) {
   n0 <- nrow(man); man <- man[!(dataset %in% REFNORM_SKIP_DATASETS)]
   message(sprintf("[0] skipped %d sample(s) from healthy-only datasets: %s",
@@ -224,8 +237,22 @@ for (i in seq_len(nrow(man))) {
 }
 
 summary_dt <- rbindlist(all_summ, fill = TRUE)
+
+# UPDATE IN PLACE, DO NOT CLOBBER. The summary is the routing table for the whole
+# cohort; a subset run that overwrote it would silently shrink inferCNV's task list
+# to whatever was run last. Rows for the samples just processed are replaced, every
+# other row is carried through untouched.
+if (nzchar(opt$datasets) && file.exists(REFNORM_SUMMARY_CSV)) {
+  prev <- fread(REFNORM_SUMMARY_CSV)
+  k_new <- paste(summary_dt$dataset, summary_dt$sample_id)
+  kept  <- prev[!paste(dataset, sample_id) %in% k_new]
+  message(sprintf("[done] subset run: %d row(s) replaced/added, %d existing row(s) kept",
+                  nrow(summary_dt), nrow(kept)))
+  summary_dt <- rbindlist(list(kept, summary_dt), fill = TRUE)
+  setorder(summary_dt, dataset, sample_id)
+}
 fwrite_safe(summary_dt, REFNORM_SUMMARY_CSV)
-message(sprintf("[done] summary -> %s", REFNORM_SUMMARY_CSV))
+message(sprintf("[done] summary -> %s (%d rows)", REFNORM_SUMMARY_CSV, nrow(summary_dt)))
 print(summary_dt[, .(dataset, sample_id, n_total, n_ref, frac_ref, val_lineage_pos, decision)])
 
 # ---------------------------------------------------------------------

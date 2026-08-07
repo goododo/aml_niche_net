@@ -117,7 +117,16 @@ REFNORM_REF_CELL_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "01b_ref_norm
 REFNORM_OUT_OBJ_DIR  <- file.path(LARGE1_DIR, "02_seurat_objects", "01b_ref_norm_obj")
 REFNORM_WRITE_RDS    <- FALSE      # OPTIONAL: rewrite per-sample RDS with a `ref_norm` column
 REFNORM_MANIFEST_CSV <- ""         # optional manifest; "" -> auto-discover under QC_RDS_DIR
-REFNORM_SKIP_DATASETS <- c("E-MTAB-11536", "GSE253355")  # purely-healthy; no malignancy step
+# HEALTHY-ONLY DATASETS ARE NOT SKIPPED. They used to be, on the reasoning that a
+# purely-healthy cohort has no malignancy to call. That reasoning ignores what the
+# healthy samples are FOR: a normal marrow contains no malignant cells, so every
+# cell called malignant there is a measured false positive, and that measurement is
+# the blocking calibration gate in 70_residual_stratum. Skipping E-MTAB-11536 (7)
+# and GSE253355 (12) removed 19 of 37 healthy samples -- more than half the negative
+# control, and specifically the two INDEPENDENT healthy cohorts, leaving the gate to
+# be judged on healthy samples collected inside AML studies. The v1 gate (AUC 0.546)
+# was read off 22 such samples. Running them costs 19 inferCNV jobs.
+REFNORM_SKIP_DATASETS <- character(0)
 
 ## =====================================================================================
 ## inferCNV RUNNER (was script-local in c40/c46) ----

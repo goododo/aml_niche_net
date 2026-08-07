@@ -34,5 +34,9 @@ source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate /FAST/gr10634/gaozy/general_env
 cd /FAST/gr10634/gaozy/aml_niche_net
 echo "=== 20_refnorm_identify  $(date -Is)"
-Rscript scripts/02_malignancy/20_refnorm_identify.R
+# Optional dataset filter, forwarded to --datasets. A subset run UPDATES the summary
+# in place (rows for the samples it processed are replaced, the rest carried through),
+# so it cannot silently shrink inferCNV's task list.
+#   sbatch submit_J3_refnorm.sbatch E-MTAB-11536,GSE253355
+Rscript scripts/02_malignancy/20_refnorm_identify.R ${1:+--datasets "$1"}
 echo "=== finished $(date -Is)"
