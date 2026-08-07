@@ -36,6 +36,20 @@ info <- rbindlist(lapply(seq_len(nrow(R)), function(i) {
 info[, healthy := timepoint == "Healthy" | mapply(function(s) isTRUE(is_healthy_sample(s)), sample)]
 message(sprintf("[0] %d samples, %d healthy donors", nrow(info), info[healthy == TRUE, .N]))
 
+## ---- the autologous reference cells are forced malignant=0 by construction ----
+# 41_infercnv_to_percell sets `malignant := 0L` for every reference cell, so those
+# cells cannot be false positives no matter how they score. That is defensible per
+# sample, but it makes the FPR depend on how BIG the reference is -- and the
+# reference fraction is not comparable across arms: healthy marrow is rich in the
+# mature T/B cells the reference is drawn from (median frac_ref 0.31) while
+# diagnosis marrow is blast-packed (0.13). The bias runs toward a LOWER healthy
+# score, i.e. toward the gate passing. So report the FPR with those cells removed
+# from the denominator as well, and read the gate against both.
+ref_cells_of <- function(ds, sid) {
+  f <- file.path(REFNORM_REF_CELL_DIR, ds, paste0(sid, "_ref_norm_cells.txt"))
+  if (file.exists(f)) readLines(f) else character(0)
+}
+
 ## ---- per-sample FPR = fraction of cells called malignant in a healthy marrow ----
 res <- rbindlist(lapply(which(info$healthy), function(i) {
   ds <- info$dataset[i]; sid <- info$sample[i]
@@ -45,12 +59,20 @@ res <- rbindlist(lapply(which(info$healthy), function(i) {
   pf <- file.path(HIER_PROJ_DIR, ds, paste0(sid, "__bmm_percell.csv"))
   bin <- if (file.exists(pf)) fread(pf, select = c("cell", "hierarchy_bin", "in_ccc_graph")) else NULL
   if (!is.null(bin)) c <- merge(c, bin, by = "cell", all.x = TRUE)
+  rc <- ref_cells_of(ds, sid)
+  c[, is_ref := cell %in% rc]
+  nr <- c[is_ref == FALSE]
   data.table(dataset = ds, sample = sid,
              n_evaluable = sum(!is.na(c$malignant)),
              n_false_pos = sum(c$malignant == 1, na.rm = TRUE),
              fpr = round(mean(c$malignant == 1, na.rm = TRUE), 4),
              fpr_ccc_bins = if (!is.null(bin))
-               round(mean(c[in_ccc_graph == TRUE]$malignant == 1, na.rm = TRUE), 4) else NA_real_)
+               round(mean(c[in_ccc_graph == TRUE]$malignant == 1, na.rm = TRUE), 4) else NA_real_,
+             n_ref_cells = length(rc),
+             frac_ref = round(mean(c$is_ref), 4),
+             # same numerator, denominator excludes the cells that were defined normal
+             n_evaluable_excl_ref = nrow(nr),
+             fpr_excl_ref = if (nrow(nr)) round(mean(nr$malignant == 1, na.rm = TRUE), 4) else NA_real_)
 }), fill = TRUE)
 setorder(res, -fpr)
 fwrite(res, file.path(DIR_MALIGNANCY, "malignancy_fpr_healthy.csv"))
@@ -62,6 +84,15 @@ print(res[, .(n_healthy = .N, cells = sum(n_evaluable), false_pos = sum(n_false_
               FPR = round(sum(n_false_pos) / sum(n_evaluable), 4)), by = dataset][order(-FPR)])
 cat(sprintf("\n  OVERALL FPR = %.4f  (%d of %d cells in healthy marrow called malignant)\n",
             sum(res$n_false_pos) / sum(res$n_evaluable), sum(res$n_false_pos), sum(res$n_evaluable)))
+if ("fpr_excl_ref" %in% names(res)) {
+  cat(sprintf("  OVERALL FPR excluding the autologous reference cells = %.4f (%d of %d)\n",
+              sum(res$n_false_pos) / sum(res$n_evaluable_excl_ref),
+              sum(res$n_false_pos), sum(res$n_evaluable_excl_ref)))
+  cat(sprintf("  reference cells are %.1f%% of healthy cells and are defined normal, so the first\n",
+              100 * (1 - sum(res$n_evaluable_excl_ref) / sum(res$n_evaluable))))
+  cat("  number is the one the pipeline acts on and the second is the one that is comparable\n")
+  cat("  across arms. Report both; the gap IS the reference-fraction confound.\n")
+}
 
 ## ---- per-bin FPR: does the caller misfire preferentially in some compartments? ----
 bins <- rbindlist(lapply(which(info$healthy), function(i) {
