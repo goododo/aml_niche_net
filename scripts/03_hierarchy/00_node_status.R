@@ -24,6 +24,7 @@ suppressPackageStartupMessages({library(data.table); library(here)})
 source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "config", "config_qc.R"))
 source(here::here("scripts", "config", "utils.R"))
+source(here::here("scripts", "config", "config_hierarchy.R"))   # HIER_TAB_DIR (per_bin_malignant.csv)
 source(here::here("scripts", "config", "config_nodestatus.R"))
 
 MAN <- file.path(DIR_PREPROCESS, "00_curated_manifest.csv")
@@ -93,9 +94,43 @@ grid[, abundance_unreliable :=
 # `absent_biological`. They can never overturn `NA_technical` -- a node the
 # protocol removed does not become present because a handful of cells leaked
 # through the gate. Cells in a masked node are a purity readout, not evidence.
+# WHERE THE COUNTS ACTUALLY COME FROM. This used to read per-sample
+# PERBIN_DIR/<ds>/<sample>_perbin.csv. Nothing in the current pipeline writes
+# there -- that path belongs to the archived 以前06_hierarchy/d30 script, and
+# 03_hierarchy/02_per_bin_malignant.R writes ONE consolidated long table instead.
+# So the directory was permanently empty, this block never ran, and the
+# three-state table silently degraded to two states: every unmasked node stayed
+# `present` and nothing could ever be called biologically absent. It did not
+# error, which is exactly why it survived.
+pb_one <- file.path(HIER_TAB_DIR, "per_bin_malignant.csv")
 pb_files <- list.files(PERBIN_DIR, "_perbin\\.csv$", recursive = TRUE, full.names = TRUE)
-if (length(pb_files)) {
-  cnt <- rbindlist(lapply(pb_files, function(f) {
+read_counts <- function() {
+  if (file.exists(pb_one)) {                      # current pipeline
+    x <- fread(pb_one)
+    if (all(c("dataset", "sample", "hierarchy_bin", "n_cells") %in% names(x))) {
+      # FRESHNESS. Counts demote nodes from `present` to `absent_biological`, so a
+      # stale table does not merely add noise -- it asserts that specific nodes hold
+      # no cells, on the strength of a run against a cohort that no longer exists.
+      # The July table covers 130 samples of which 62 are gone and 146 of the
+      # current 214 are missing; using it would mark those 146 samples' nodes absent.
+      x[, .k := paste(dataset, sample)]
+      have <- sum(paste(M$dataset, M$sample) %in% x$.k)
+      if (have < nrow(M)) {
+        warning(sprintf(paste0("per_bin_malignant.csv covers %d of %d manifest samples (dated %s) ",
+                "-- IGNORED. Counts that cover only part of the cohort would mark every ",
+                "uncovered node `absent_biological`. Re-run 02_per_bin_malignant.R first."),
+                have, nrow(M), format(file.mtime(pb_one), "%Y-%m-%d")), call. = FALSE)
+        return(NULL)
+      }
+      message("[3] counts from ", pb_one, " (", nrow(x), " sample x bin rows)")
+      return(x[, .(dataset, sample = as.character(sample),
+                   node = hierarchy_bin, n_cells = as.integer(n_cells))])
+    }
+    warning("per_bin_malignant.csv lacks the expected columns; counts skipped", call. = FALSE)
+  }
+  if (!length(pb_files)) return(NULL)
+  message("[3] counts from ", length(pb_files), " legacy per-sample perbin files")
+  rbindlist(lapply(pb_files, function(f) {        # legacy layout, kept as a fallback
     x <- tryCatch(fread(f), error = function(e) NULL); if (is.null(x)) return(NULL)
     nm <- names(x)
     dsc <- intersect(c("dataset", "Dataset"), nm)[1]
@@ -106,20 +141,24 @@ if (length(pb_files)) {
     x[, .(dataset = get(dsc), sample = as.character(get(smc)),
           node = get(ndc), n_cells = as.integer(get(ncc)))]
   }), fill = TRUE)
-  if (nrow(cnt)) {
+}
+cnt <- read_counts()
+if (!is.null(cnt) && nrow(cnt)) {
+  {
     grid <- merge(grid, cnt, by = c("dataset", "sample", "node"), all.x = TRUE)
     grid[status == "present" & (is.na(n_cells) | n_cells < NODE_PRESENT_MIN_CELLS),
          status := "absent_biological"]
     leak <- grid[status == "NA_technical" & !is.na(n_cells) & n_cells >= NODE_PRESENT_MIN_CELLS]
-    message("[3] counts joined from ", length(pb_files), " perbin files")
+    message("    counts joined for ", uniqueN(cnt[, paste(dataset, sample)]), " sample(s)")
     if (nrow(leak))
       message("    ", nrow(leak), " masked node(s) still hold >= ", NODE_PRESENT_MIN_CELLS,
               " cells -- gate purity readout, status unchanged")
   }
 } else {
   grid[, n_cells := NA_integer_]
-  message("[3] no perbin files yet -- every unmasked node stays 'present' until the ",
-          "projection runs. Re-run this after 03_hierarchy to split present vs absent_biological.")
+  message("[3] no per-bin counts yet (", pb_one, " absent) -- every unmasked node stays ",
+          "'present'. This table is TWO-state until 03_hierarchy/02_per_bin_malignant.R has run; ",
+          "re-run then to split present vs absent_biological.")
 }
 
 # ---------------------------------------------------------------------------
