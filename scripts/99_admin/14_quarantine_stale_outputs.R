@@ -41,7 +41,9 @@ TARGETS <- list(
   list(id = "qc_object",        root = QC_RDS_DIR,            pat = "\\.rds$"),
   list(id = "infercnv_burden",  root = INFERCNV_BURDEN_ROOT,  pat = "_infercnv_burden\\.csv$"),
   list(id = "consensus_summary",root = DIR_MALIGNANCY,        pat = "__consensus_summary\\.csv$"),
-  list(id = "consensus_percell",root = DIR_MALIGNANCY,        pat = "__consensus_percell\\.csv$")
+  list(id = "consensus_percell",root = DIR_MALIGNANCY,        pat = "__consensus_percell\\.csv$"),
+  list(id = "bmm_projection",   root = file.path(LARGE1_DIR, "02_seurat_objects", "03_bmm_projected"),
+                                                              pat = "__bmm_percell\\.csv$")
 )
 
 R <- qc_rds_roster(on_extra = "ignore")          # the roster IS the QC report

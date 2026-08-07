@@ -104,8 +104,17 @@ all_summ <- vector("list", nrow(man))
 for (i in seq_len(nrow(man))) {
   sid <- man$sample[i]; ds <- man$dataset[i]
   out <- file.path(HIER_PROJ_DIR, ds, paste0(sid, "__bmm_percell.csv"))
-  if (file.exists(out)) { message(sprintf("[%d/%d] %s::%s already projected", i, nrow(man), ds, sid))
-                          all_summ[[i]] <- data.table(sample = sid, dataset = ds, status = "already_done"); next }
+  # RESUME GUARD WITH A FRESHNESS TEST. Existence alone made this unrunnable after
+  # the v2 QC rebuild: all 143 projections for current samples date from 2026-07-16
+  # and predate the QC objects they describe, so a re-run would have reported
+  # "already projected" for every one and produced nothing. A projection is
+  # reusable only if it POSTDATES the QC object it was computed from.
+  # BMM_FORCE=1 recomputes regardless.
+  if (file.exists(out) && !nzchar(Sys.getenv("BMM_FORCE")) &&
+      file.mtime(out) >= file.mtime(man$rds[i])) {
+    message(sprintf("[%d/%d] %s::%s already projected and current", i, nrow(man), ds, sid))
+    all_summ[[i]] <- data.table(sample = sid, dataset = ds, status = "already_done"); next
+  }
   message(sprintf("[%d/%d] %s::%s", i, nrow(man), ds, sid))
   res <- tryCatch({
     seu <- readRDS(man$rds[i])
