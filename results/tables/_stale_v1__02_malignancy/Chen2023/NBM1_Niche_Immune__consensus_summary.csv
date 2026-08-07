@@ -1,0 +1,2 @@
+sample,dataset,n_qc_cells,arms,n_types,evidence_tier,conflict_frac,n_called,n_malignant,malignant_frac,n_high,n_conflicting,n_low_single
+NBM1_Niche_Immune,Chen2023,5179,infercnv,1,C_single,0,5179,1067,0.206,0,0,5179

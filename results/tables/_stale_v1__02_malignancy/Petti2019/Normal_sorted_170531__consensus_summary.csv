@@ -1,0 +1,2 @@
+sample,dataset,n_qc_cells,arms,n_types,evidence_tier,conflict_frac,n_called,n_malignant,malignant_frac,n_high,n_conflicting,n_low_single
+Normal_sorted_170531,Petti2019,2577,infercnv,1,C_single,0,2577,546,0.2119,0,0,2577

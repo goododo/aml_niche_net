@@ -6,11 +6,26 @@
 suppressPackageStartupMessages({ library(data.table) })
 suppressPackageStartupMessages({ library(here) })
 source(here::here("scripts", "config", "config_paths.R"))
+source(here::here("scripts", "config", "config_qc.R"))
+source(here::here("scripts", "config", "utils.R"))
 
 DIR <- DIR_MALIGNANCY   # /FAST/.../results/tables/02_malignancy
 f <- list.files(DIR, pattern = "__consensus_summary\\.csv$", recursive = TRUE, full.names = TRUE)
 stopifnot(length(f) > 0)
-message(sprintf("[0] %d summary files under %s", length(f), DIR))
+
+# ROSTER FILTER. This table is the input to 70_residual_stratum (the blocking gate)
+# and to 94/96 (the calibration diagnostics), so a directory glob here quietly
+# decides which cohort those numbers describe. 62 summaries from the v1 ingest
+# still sit under this root; they belong to samples that left the study.
+R <- qc_rds_roster(on_extra = "error")[, .(k = paste(dataset, sample))]
+fk   <- paste(basename(dirname(f)), sub("__consensus_summary\\.csv$", "", basename(f)))
+keep <- fk %in% R$k
+if (any(!keep))
+  message(sprintf("[0] %d summary file(s) are not in the PASS roster -> excluded (e.g. %s)",
+                  sum(!keep), paste(head(fk[!keep], 3), collapse = ", ")))
+f <- f[keep]
+stopifnot(length(f) > 0)
+message(sprintf("[0] %d summary files under %s (roster: %d samples)", length(f), DIR, nrow(R)))
 
 all <- rbindlist(lapply(f, fread), fill = TRUE)
 setorder(all, dataset, sample)

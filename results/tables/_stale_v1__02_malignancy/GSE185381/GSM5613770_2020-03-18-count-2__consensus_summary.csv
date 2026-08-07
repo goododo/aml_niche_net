@@ -1,0 +1,2 @@
+sample,dataset,n_qc_cells,arms,n_types,evidence_tier,conflict_frac,n_called,n_malignant,malignant_frac,n_high,n_conflicting,n_low_single
+GSM5613770_2020-03-18-count-2,GSE185381,5230,infercnv,1,C_single,0,5230,1475,0.282,0,0,5230

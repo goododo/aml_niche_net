@@ -1,0 +1,2 @@
+sample,dataset,n_qc_cells,arms,n_types,evidence_tier,conflict_frac,n_called,n_malignant,malignant_frac,n_high,n_conflicting,n_low_single
+GSM5613805_2021-04-29-2975_cDNA,GSE185381,786,infercnv,1,C_single,0,786,1,0.0013,0,0,786
