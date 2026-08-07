@@ -19,6 +19,8 @@
 suppressPackageStartupMessages({ library(Seurat); library(data.table); library(optparse) })
 suppressPackageStartupMessages({ library(here) })
 source(here::here("scripts", "config", "config_paths.R"))
+source(here::here("scripts", "config", "config_qc.R"))
+source(here::here("scripts", "config", "utils.R"))
 
 opt <- parse_args(OptionParser(option_list = list(
   make_option("--datasets", type = "character", default = "",
@@ -28,8 +30,8 @@ opt <- parse_args(OptionParser(option_list = list(
 )))
 
 ## ================= (1) malignant_frac vs data quality =================
-qc <- data.table(rds = list.files(QC_RDS_DIR, pattern = "\\.rds$", recursive = TRUE, full.names = TRUE))
-qc <- qc[!grepl("/_", rds)][, sample := sub("\\.rds$", "", basename(rds))][, dataset := basename(dirname(rds))]
+# Roster from the QC report, not from ls -- see qc_rds_roster() in utils.R.
+qc <- qc_rds_roster(on_extra = "error")[, .(dataset, sample, rds)]
 summ <- fread(file.path(DIR_MALIGNANCY, "ALL_consensus_summary.csv"))
 man <- merge(summ[, .(dataset, sample, malignant_frac, n_qc_cells, evidence_tier)], qc, by = c("dataset", "sample"))
 message(sprintf("[1] reading QC metadata for %d samples ...", nrow(man)))

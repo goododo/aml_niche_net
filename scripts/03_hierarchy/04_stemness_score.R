@@ -43,8 +43,8 @@ tp_from_name <- function(s) { u <- toupper(s)
                                     error = function(e) Seurat::GetAssayData(seu, assay = "RNA", slot = "data"))
 
 ## ---- samples with QC rds + consensus + projection ----
-qc <- data.table(rds = list.files(QC_RDS_DIR, pattern = "\\.rds$", recursive = TRUE, full.names = TRUE))
-qc <- qc[!grepl("/_", rds)][, sample := sub("\\.rds$", "", basename(rds))][, dataset := basename(dirname(rds))]
+# Roster from the QC report, not from ls -- see qc_rds_roster() in utils.R.
+qc <- qc_rds_roster(on_extra = "error")[, .(dataset, sample, rds)]
 cons <- data.table(cons = list.files(DIR_MALIGNANCY, pattern = "__consensus_percell\\.csv$", recursive = TRUE, full.names = TRUE))
 cons[, sample := sub("__consensus_percell\\.csv$", "", basename(cons))][, dataset := basename(dirname(cons))]
 proj <- data.table(proj = list.files(HIER_PROJ_DIR, pattern = "__bmm_percell\\.csv$", recursive = TRUE, full.names = TRUE))

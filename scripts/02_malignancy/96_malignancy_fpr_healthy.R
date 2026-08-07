@@ -19,15 +19,17 @@ suppressPackageStartupMessages({ library(data.table) })
 suppressPackageStartupMessages({ library(here) })
 source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "config", "config_qc.R"))
+source(here::here("scripts", "config", "utils.R"))
 HIER_PROJ_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "03_bmm_projected")
 
 ## ---- which samples are healthy (label first, name pattern as a safety net) ----
-rds <- list.files(QC_RDS_DIR, pattern = "\\.rds$", recursive = TRUE, full.names = TRUE)
-rds <- rds[!grepl("/_", rds)]
-info <- rbindlist(lapply(rds, function(f) {
-  m <- tryCatch(readRDS(f)@meta.data, error = function(e) NULL); if (is.null(m)) return(NULL)
-  s <- sub("\\.rds$", "", basename(f))
-  data.table(dataset = basename(dirname(f)), sample = s,
+# Roster from the QC report, not from ls: this script IS the calibration gate, so
+# a cohort silently widened by leftover objects from a previous ingest would move
+# the very number the gate is read off. See qc_rds_roster() in utils.R.
+R <- qc_rds_roster(on_extra = "error")
+info <- rbindlist(lapply(seq_len(nrow(R)), function(i) {
+  m <- tryCatch(readRDS(R$rds[i])@meta.data, error = function(e) NULL); if (is.null(m)) return(NULL)
+  data.table(dataset = R$dataset[i], sample = R$sample[i],
              timepoint = if ("Timepoint" %in% names(m)) as.character(m$Timepoint[1]) else NA_character_,
              n_cells_qc = nrow(m))
 }), fill = TRUE)

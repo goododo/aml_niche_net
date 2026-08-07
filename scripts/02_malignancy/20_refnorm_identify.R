@@ -167,12 +167,13 @@ if (nzchar(REFNORM_MANIFEST_CSV) && file.exists(REFNORM_MANIFEST_CSV)) {
   man <- fread(REFNORM_MANIFEST_CSV)
   stopifnot(all(c("sample_id", "dataset", "rds_in") %in% names(man)))
 } else {
-  rds_in <- list.files(QC_RDS_DIR, pattern = "\\.rds$", recursive = TRUE, full.names = TRUE)
-  rds_in <- rds_in[!grepl("/_", rds_in)]            # drop scratch dirs (e.g. /_dryrun/)
-  stopifnot(length(rds_in) > 0)
-  man <- data.table(sample_id = sub("\\.rds$", "", basename(rds_in)),
-                    dataset   = basename(dirname(rds_in)),
-                    rds_in    = rds_in)
+  # ROSTER FROM THE QC REPORT, NOT FROM ls. The directory listing was the roster
+  # until the 2026-08-05 run, when it returned 267 samples for a 214-sample
+  # cohort: 74 objects written by the v1 ingest were still on disk, so they were
+  # routed, summarised, and would have gone on to inferCNV. Nothing failed --
+  # that is the problem. qc_rds_roster() errors if disk and roster disagree.
+  man <- qc_rds_roster(on_extra = "error")[, .(sample_id = sample, dataset, rds_in = rds)]
+  stopifnot(nrow(man) > 0)
 }
 if (length(REFNORM_SKIP_DATASETS)) {
   n0 <- nrow(man); man <- man[!(dataset %in% REFNORM_SKIP_DATASETS)]

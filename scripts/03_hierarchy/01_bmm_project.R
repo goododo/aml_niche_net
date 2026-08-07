@@ -55,10 +55,8 @@ bin_map <- load_bin_map()                # CellType_Broad -> hierarchy_bin + in_
 setkey(bin_map, CellType_Broad)
 
 ## ---- sample manifest (project ALL QC samples, healthy included -- they anchor the baseline) ----
-rds <- list.files(QC_RDS_DIR, pattern = "\\.rds$", recursive = TRUE, full.names = TRUE)
-rds <- rds[!grepl("/_", rds)]
-man <- data.table(sample = sub("\\.rds$", "", basename(rds)),
-                  dataset = basename(dirname(rds)), rds = rds)
+# Roster from the QC report, not from ls -- see qc_rds_roster() in utils.R.
+man <- qc_rds_roster(on_extra = "error")[, .(sample, dataset, rds)]
 if (nzchar(opt$datasets)) man <- man[dataset %in% trimws(strsplit(opt$datasets, ",")[[1]])]
 if (opt$limit > 0)        man <- man[seq_len(min(opt$limit, .N))]
 stopifnot(nrow(man) > 0)

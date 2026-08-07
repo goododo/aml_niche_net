@@ -69,14 +69,24 @@ note(sprintf("routes: autologous=%d, external=%d, skip=%d",
 message("[4] stale-output / resume-skip audit")
 summ[, burden_csv := file.path(INFERCNV_BURDEN_ROOT, dataset, paste0(sample_id, "_infercnv_burden.csv"))]
 summ[, has_burden := file.exists(burden_csv)]
-n_skip <- summ[route != "skip" & has_burden, .N]
+# Apply the SAME freshness invariant 44 uses, or this audit lies in the direction
+# that matters: it reported 68 samples as "will be skipped" when every one of them
+# predates its QC object and will in fact be recomputed. An existing output is only
+# a skip if it POSTDATES the input it was computed from.
+summ[, qc_rds := file.path(QC_RDS_DIR, dataset, paste0(sample_id, ".rds"))]
+summ[, burden_current := has_burden & file.exists(qc_rds) &
+       file.mtime(burden_csv) >= file.mtime(qc_rds)]
+n_stale <- summ[route != "skip" & has_burden & !burden_current, .N]
+n_skip  <- summ[route != "skip" & burden_current, .N]
+if (n_stale > 0)
+  note(sprintf("%d burden CSV(s) predate their QC object -> 44 recomputes them (not a skip)", n_stale))
 if (n_skip > 0) {
-  flag(sprintf("%d runnable sample(s) ALREADY have a burden CSV -> 40/44 will SKIP them.", n_skip))
-  note("    Under the seed refresh these are old-QC-cell / old-route results. To force a clean")
-  note("    re-run, remove the stale burden CSVs (and their inferCNV dirs) for those samples,")
-  note("    e.g.:  rm <INFERCNV_BURDEN_ROOT>/<ds>/<sample>_infercnv_burden.csv")
-  print(summ[route != "skip" & has_burden, .(dataset, sample_id, route)][1:min(20, n_skip)])
-} else note("no pre-existing burden CSVs -> clean run")
+  flag(sprintf("%d runnable sample(s) have a burden CSV NEWER than its QC object -> 44 will SKIP them.", n_skip))
+  note("    That is correct resume behaviour if the QC object is final. To force a rebuild anyway,")
+  note("    run the array with INFERCNV_FORCE=1.")
+  print(summ[route != "skip" & burden_current, .(dataset, sample_id, route)][1:min(20, n_skip)])
+} else note(sprintf("no CURRENT burden CSVs -> clean run over all %d runnable sample(s)",
+                    summ[route != "skip", .N]))
 
 ## ---- 5. missing QC rds ----
 message("[5] QC rds presence")
