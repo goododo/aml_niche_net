@@ -54,8 +54,11 @@ if (nzchar(opt$burden_csv) && file.exists(opt$burden_csv)) {
   message("    burden threshold (ref q", opt$score_q, ") = ", signif(thr, 3))
   d[, malignant := as.integer(infercnv_burden > thr)]
   d[is_ref, malignant := 0L]                       # reference cells normal by design
-  # external-reference cells are NOT this sample's cells -> drop them from output
-  d <- d[!grepl("reference_external", group, ignore.case = TRUE)]
+  # FOREIGN reference cells are not this sample's cells -> drop them from output. Match on "any
+  # reference group that is not reference_normal" rather than on the reference_external prefix:
+  # 00_infercnv_common now also emits reference_matched__<bin> (this dataset's healthy donors),
+  # and a prefix test would have silently passed those foreign cells through as sample cells.
+  d <- d[!(is_ref & group != "reference_normal")]
   res <- d[, .(cell, malignant, score = infercnv_burden, method = "infercnv", sample = opt$sample)]
   fwrite_safe(res, out)
   message("[done] ", sum(res$malignant), "/", nrow(res), " malignant -> ", out); quit(save = "no")

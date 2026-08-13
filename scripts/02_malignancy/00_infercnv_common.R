@@ -18,6 +18,10 @@ source(here::here("scripts", "config", "config_malignancy.R"))
 # BIN_MAP_TSV + load_bin_map(): CellType_Broad -> hierarchy_bin, needed to split the external
 # reference into one inferCNV group per lineage (INFERCNV_REF_PER_LINEAGE).
 source(here::here("scripts", "config", "config_hierarchy.R"))
+# is_healthy_sample(): the dataset-matched reference is built from this dataset's own healthy
+# donors, so the healthy roster rule has to be the SAME one 96 calibrates against -- if the two
+# drifted, the reference and the number judging it would describe different cohorts.
+source(here::here("scripts", "config", "config_qc.R"))
 source(here::here("scripts", "config", "utils.R"))
 suppressPackageStartupMessages({
   library(Seurat); library(SeuratObject); library(infercnv); library(data.table)
@@ -72,6 +76,98 @@ get_external_ref <- function() {
   ext
 }
 
+# Build (or load) this dataset's OWN healthy donors as a reference pool: same chemistry, depth and
+# handling as the AML samples it will score, which the BMM atlas is not. Cached per dataset.
+#
+# Cells are pooled per hierarchy bin and the SOURCE DONOR is carried alongside, because the caller
+# has to be able to drop one donor (leave-one-out) without rebuilding. We cache several times the
+# per-bin target so that removing a donor still leaves enough to sample from.
+get_matched_ref <- function(ds) {
+  cache <- file.path(INFERCNV_MATCHED_REF_CACHE_DIR, paste0(ds, "__matched_ref.rds"))
+  if (file.exists(cache)) {
+    message(sprintf("[matched-ref] loading cached pool for %s", ds))
+    return(readRDS(cache))
+  }
+  roster <- qc_rds_roster(datasets = ds, on_extra = "ignore")
+  if (!nrow(roster)) return(NULL)
+  healthy <- vapply(seq_len(nrow(roster)), function(i) {
+    m <- tryCatch(readRDS(roster$rds[i])@meta.data, error = function(e) NULL)
+    if (is.null(m)) return(FALSE)
+    tp <- if ("Timepoint" %in% names(m)) as.character(m$Timepoint[1]) else NA_character_
+    isTRUE(tp == "Healthy") || isTRUE(is_healthy_sample(roster$sample[i]))
+  }, logical(1))
+  roster <- roster[healthy]
+  if (!nrow(roster)) { message(sprintf("[matched-ref] %s has no healthy donor -> BMM only", ds)); return(NULL) }
+  message(sprintf("[matched-ref] building %s pool from %d healthy donor(s)", ds, nrow(roster)))
+
+  cap <- 4L * max(INFERCNV_MATCHED_REF_PER_BIN)   # keep headroom for leave-one-out
+  parts <- lapply(seq_len(nrow(roster)), function(i) {
+    sid <- roster$sample[i]
+    pf  <- file.path(HIER_PROJ_DIR, ds, paste0(sid, "__bmm_percell.csv"))
+    if (!file.exists(pf)) return(NULL)
+    prj <- fread(pf, select = c("cell", "hierarchy_bin", "high_error"))
+    # only cells the projection is confident about: a mis-binned reference cell puts the wrong
+    # lineage's expression into a lineage's reference interval, which is the exact artefact
+    # INFERCNV_REF_PER_LINEAGE exists to prevent.
+    prj <- prj[high_error == FALSE & !is.na(hierarchy_bin) & nzchar(hierarchy_bin) &
+                 hierarchy_bin %in% names(INFERCNV_MATCHED_REF_PER_BIN)]
+    if (!nrow(prj)) return(NULL)
+    seu <- tryCatch(readRDS(roster$rds[i]), error = function(e) NULL); if (is.null(seu)) return(NULL)
+    cnt <- .get_counts(seu)
+    keep <- intersect(prj$cell, colnames(cnt)); if (!length(keep)) return(NULL)
+    prj <- prj[match(keep, cell)]
+    cnt <- cnt[, keep, drop = FALSE]
+    colnames(cnt) <- paste0("MATCHREF_", sid, "_", colnames(cnt))
+    rm(seu); gc(verbose = FALSE)
+    list(counts = cnt, bin = prj$hierarchy_bin, donor = rep(sid, ncol(cnt)))
+  })
+  parts <- Filter(Negate(is.null), parts)
+  if (!length(parts)) return(NULL)
+
+  genes <- Reduce(intersect, lapply(parts, function(p) rownames(p$counts)))
+  stopifnot(length(genes) > 1000)
+  counts <- do.call(cbind, lapply(parts, function(p) p$counts[genes, , drop = FALSE]))
+  bin    <- unlist(lapply(parts, `[[`, "bin"))
+  donor  <- unlist(lapply(parts, `[[`, "donor"))
+
+  # trim each bin to the cap so the cache stays small, keeping donors balanced
+  set.seed(INFERCNV_MATCHED_REF_SEED)
+  keep <- unlist(lapply(split(seq_along(bin), bin), function(ii)
+    if (length(ii) <= cap) ii else sample(ii, cap)))
+  keep <- sort(keep)
+  out <- list(counts = counts[, keep, drop = FALSE], bin = bin[keep], donor = donor[keep],
+              donors = unique(donor))
+  dir.create(dirname(cache), recursive = TRUE, showWarnings = FALSE)
+  saveRDS(out, cache)
+  message(sprintf("[matched-ref] %s: %d cells across %d bins from %d donors -> cached",
+                  ds, ncol(out$counts), length(unique(out$bin)), length(out$donors)))
+  out
+}
+
+# Choose, per bin, between this dataset's healthy donors and the BMM atlas. `exclude_donor` is the
+# leave-one-out sample: when the sample being scored IS one of the healthy donors, its own cells
+# must not sit in its own reference.
+.matched_ref_lineage_block <- function(mref, drop_bins = character(0), exclude_donor = NA_character_) {
+  if (is.null(mref)) return(NULL)
+  ok <- !(mref$bin %in% drop_bins)
+  if (!is.na(exclude_donor)) ok <- ok & mref$donor != exclude_donor
+  idx_by_bin <- split(which(ok), mref$bin[ok])
+  set.seed(INFERCNV_MATCHED_REF_SEED)
+  sel <- unlist(lapply(names(idx_by_bin), function(b) {
+    ii  <- idx_by_bin[[b]]
+    tgt <- INFERCNV_MATCHED_REF_PER_BIN[[b]]
+    # The floor is the BMM block size for this bin, not a flat minimum: swapping a 300-cell BMM
+    # block for a 196-cell matched one would SHRINK the reference, and 98 measured that a short
+    # block gives a biased-low P95 and a worse gate. Better a cross-dataset reference of the right
+    # size than a matched one that is too small.
+    if (length(ii) < max(tgt, INFERCNV_MATCHED_REF_MIN_PER_BIN)) return(integer(0))
+    if (length(ii) <= tgt) ii else sample(ii, tgt)
+  }))
+  if (!length(sel)) return(NULL)
+  list(idx = sel, groups = paste0("reference_matched__", mref$bin[sel]),
+       bins = sort(unique(mref$bin[sel])))
+}
+
 # Pick external reference cells and label them one inferCNV group per lineage.
 # See INFERCNV_REF_PER_LINEAGE in config_malignancy.R: with a single reference group infercnv's
 # [min,max] per-group interval collapses to a point, so the lineage component of expression is
@@ -86,9 +182,44 @@ get_external_ref <- function() {
   list(idx = which(keep), groups = paste0("reference_external__", b[keep]))
 }
 
+# Assemble the foreign half of the reference: this dataset's own healthy donors where they can
+# cover a bin, the BMM atlas everywhere else. Returns NULL if neither source yields a group.
+# Both routes go through here so they cannot drift apart -- the drift this file exists to stop.
+.assemble_foreign_ref <- function(s_cnt, ds, sid, drop_bins, ext_ref_fn, matched_ref_fn) {
+  mblk <- NULL; mref <- NULL
+  if (isTRUE(INFERCNV_MATCHED_REF)) {
+    mref <- tryCatch(matched_ref_fn(ds), error = function(e) { message("  [matched-ref] ", conditionMessage(e)); NULL })
+    mblk <- .matched_ref_lineage_block(mref, drop_bins = drop_bins, exclude_donor = sid)
+  }
+  covered <- if (is.null(mblk)) character(0) else mblk$bins
+  ext  <- ext_ref_fn()
+  eblk <- .ext_ref_lineage_block(ext, drop_bins = union(drop_bins, covered))
+
+  cols <- list(); groups <- character(0); genes <- rownames(s_cnt)
+  if (!is.null(mblk)) genes <- intersect(genes, rownames(mref$counts))
+  if (length(eblk$idx)) genes <- intersect(genes, rownames(ext$counts))
+  stopifnot(length(genes) > 1000)
+  if (!is.null(mblk)) {
+    cols[[length(cols) + 1L]] <- mref$counts[genes, mblk$idx, drop = FALSE]
+    groups <- c(groups, mblk$groups)
+  }
+  if (length(eblk$idx)) {
+    cols[[length(cols) + 1L]] <- ext$counts[genes, eblk$idx, drop = FALSE]
+    groups <- c(groups, eblk$groups)
+  }
+  if (!length(cols)) return(NULL)
+  message(sprintf("  [ref] foreign block: %d matched cells (%s) + %d BMM cells (%s)",
+                  if (is.null(mblk)) 0L else length(mblk$idx),
+                  if (is.null(mblk)) "-" else paste(mblk$bins, collapse = ","),
+                  length(eblk$idx),
+                  if (!length(eblk$idx)) "-" else paste(sort(unique(sub("^reference_external__", "", eblk$groups))), collapse = ",")))
+  list(counts = do.call(cbind, cols), groups = groups, genes = genes)
+}
+
 # Assemble (counts, anno, ref_groups) for one sample. `ext_ref_fn` is a thunk so callers can
 # cache the (large) external reference across samples.
-build_infercnv_input <- function(s_cnt, route, ds, sid, ext_ref_fn = get_external_ref) {
+build_infercnv_input <- function(s_cnt, route, ds, sid, ext_ref_fn = get_external_ref,
+                                 matched_ref_fn = get_matched_ref) {
   if (route == "autologous") {
     ref_txt <- file.path(REFNORM_REF_CELL_DIR, ds, paste0(sid, "_ref_norm_cells.txt"))
     if (!file.exists(ref_txt)) stop("ref_norm cell list missing for autologous sample: ", ref_txt)
@@ -102,19 +233,17 @@ build_infercnv_input <- function(s_cnt, route, ds, sid, ext_ref_fn = get_externa
     # inferCNV group. The autologous lymphoid group is kept because it also controls for patient
     # and batch; the external groups only widen the per-gene reference interval.
     if (isTRUE(INFERCNV_REF_PER_LINEAGE)) {
-      ext <- ext_ref_fn()
-      blk <- .ext_ref_lineage_block(ext, drop_bins = c("T_NK", "B_Plasma"))
-      if (length(blk$idx)) {
-        common <- intersect(rownames(s_cnt), rownames(ext$counts))
-        stopifnot(length(common) > 1000)
-        counts <- cbind(s_cnt[common, , drop = FALSE], ext$counts[common, blk$idx, drop = FALSE])
-        anno   <- data.table(cell = colnames(counts), group = c(grp, blk$groups))
-        rg     <- c("reference_normal", sort(unique(blk$groups)))
-        message(sprintf("  [ref] autologous lymphoid + %d external cells across %d lineages",
-                        length(blk$idx), length(rg) - 1L))
+      fb <- .assemble_foreign_ref(s_cnt, ds, sid, drop_bins = c("T_NK", "B_Plasma"),
+                                  ext_ref_fn = ext_ref_fn, matched_ref_fn = matched_ref_fn)
+      if (!is.null(fb)) {
+        counts <- cbind(s_cnt[fb$genes, , drop = FALSE], fb$counts)
+        anno   <- data.table(cell = colnames(counts), group = c(grp, fb$groups))
+        rg     <- c("reference_normal", sort(unique(fb$groups)))
+        message(sprintf("  [ref] autologous lymphoid + %d foreign cells across %d lineage groups",
+                        length(fb$groups), length(rg) - 1L))
         return(list(counts = counts, anno = anno, ref_groups = rg))
       }
-      message("  [ref] no external lineage group cleared INFERCNV_REF_MIN_PER_GROUP",
+      message("  [ref] no foreign lineage group cleared the per-group minimum",
               " -> autologous reference only (lineage artefact NOT controlled)")
     }
     return(list(counts = s_cnt,
@@ -122,19 +251,22 @@ build_infercnv_input <- function(s_cnt, route, ds, sid, ext_ref_fn = get_externa
                 ref_groups = "reference_normal"))
   }
 
-  # external route
+  # external route -- no autologous normals at all, so the whole reference is foreign and the
+  # dataset-matched donors matter MOST here (this is the frac_ref == 0 regime: 44 of 142 AML
+  # samples, and the one configuration whose healthy-donor FPR was measured at 0.53-0.59).
   ext    <- ext_ref_fn()
   common <- intersect(rownames(s_cnt), rownames(ext$counts))
   stopifnot(length(common) > 1000)
   if (isTRUE(INFERCNV_REF_PER_LINEAGE)) {
-    blk <- .ext_ref_lineage_block(ext)
-    stopifnot(length(blk$idx) > 0)
-    counts <- cbind(s_cnt[common, , drop = FALSE], ext$counts[common, blk$idx, drop = FALSE])
+    fb <- .assemble_foreign_ref(s_cnt, ds, sid, drop_bins = character(0),
+                                ext_ref_fn = ext_ref_fn, matched_ref_fn = matched_ref_fn)
+    stopifnot(!is.null(fb))
+    counts <- cbind(s_cnt[fb$genes, , drop = FALSE], fb$counts)
     anno   <- data.table(cell  = colnames(counts),
-                         group = c(rep("observation", ncol(s_cnt)), blk$groups))
-    rg     <- sort(unique(blk$groups))
-    message(sprintf("  [ref] external reference split into %d lineage groups (%d cells)",
-                    length(rg), length(blk$idx)))
+                         group = c(rep("observation", ncol(s_cnt)), fb$groups))
+    rg     <- sort(unique(fb$groups))
+    message(sprintf("  [ref] foreign reference split into %d lineage groups (%d cells)",
+                    length(rg), length(fb$groups)))
     return(list(counts = counts, anno = anno, ref_groups = rg))
   }
   counts <- cbind(s_cnt[common, , drop = FALSE], ext$counts[common, , drop = FALSE])

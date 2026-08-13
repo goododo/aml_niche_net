@@ -37,6 +37,99 @@ HIERARCHY_BINS <- c("HSC_MPP", "LMPP_GMP", "Mono_DC", "Erythroid",
                     "Megakaryocyte", "T_NK", "B_Plasma", "Stromal")
 # Stromal is annotated but NOT a CCC-graph node (in_ccc_graph = FALSE in bmm_bin_map.tsv).
 
+## =====================================================================================
+## MARKER-BASED ANNOTATION (05) -- the fallback for datasets the BMM projection cannot type
+## =====================================================================================
+# Used where the projection is untrustworthy. GSE253355 is the case that forced this: its median
+# mapping_error runs ~50% above every other dataset in EVERY bin, so its projected bins are not
+# usable -- and it supplies 80% of the cohort's stromal cells, so it cannot simply be dropped.
+MARKER_TABLE_CSV <- file.path(REF_DIR, "cell_annotation_markers_for_code_260206.csv")
+MARKER_ANNO_DIR  <- file.path(LARGE1_DIR, "02_seurat_objects", "03_marker_annotated")
+# 06 joins the projection and the marker call per cell and emits ONE corrected bin while keeping
+# both inputs as their own columns (bin_bmm / bin_marker). Downstream should read THIS, not either
+# source table, so that a result which depends on the typing method is visible rather than latent.
+ANNO_RECONCILED_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "03_annotation_reconciled")
+# 07 writes Seurat objects carrying both annotations HERE, not back into 01_per_sample_qc: the
+# inferCNV freshness guard keys on the QC object's mtime, so re-saving those would mark all 179
+# finished runs stale and trigger a full recompute for what is only a metadata edit.
+ANNO_OBJ_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "04_annotated")
+# Datasets whose hierarchy_bin should be read from 05 rather than 01. Keep this list explicit:
+# a dataset silently switching typing method is exactly the kind of thing that makes two figures
+# in the same paper disagree.
+MARKER_ANNO_DATASETS <- c("GSE253355")
+
+MARKER_ANNO_RESOLUTION  <- 1.0    # Louvain resolution; stroma needs enough clusters to resolve
+MARKER_ANNO_MIN_CELLS   <- 200L   # below this a per-sample clustering is not meaningful
+MARKER_ANNO_MIN_MARKERS <- 2L     # a cell type needs >=2 positive markers PRESENT to be scorable
+MARKER_ANNO_NEG_WEIGHT  <- 1.0    # weight on the negative-marker penalty
+MARKER_ANNO_MIN_MARGIN  <- 0.25   # top-vs-second score gap below which the call is low_confidence
+# "Proliferation state" / "Blast state" describe a STATE, not a lineage: a cycling or blast-like
+# cell still belongs to its lineage bin, and letting a state win the argmax would put cells in a
+# bin that does not exist in the hierarchy.
+MARKER_ANNO_DROP_CATEGORIES <- c("Proliferation state")
+
+# marker-table category -> hierarchy bin. Aligned to bmm_bin_map.tsv so the two typing methods
+# produce the SAME vocabulary: MEP -> Erythroid, EoBasoMast Precursor -> LMPP_GMP, Early Lymphoid
+# -> T_NK there, so Ery/Meg progenitor, Granulocyte and the T/NK categories follow suit here.
+MARKER_CATEGORY_TO_BIN <- c(
+  "Stem/Progenitor"         = "HSC_MPP",
+  "Blast state"             = "HSC_MPP",   # blast-like states sit in the progenitor compartment
+  "Lymphoid progenitor"     = "LMPP_GMP",
+  "Granulocyte"             = "LMPP_GMP",  # cf. EoBasoMast Precursor -> LMPP_GMP in the BMM map
+  "Monocyte/Macrophage"     = "Mono_DC",
+  "Dendritic cell"          = "Mono_DC",
+  "Myeloid (general)"       = "Mono_DC",
+  "Erythroid"               = "Erythroid",
+  "Ery/Meg progenitor"      = "Erythroid", # cf. MEP -> Erythroid in the BMM map
+  "Megakaryocyte/Platelet"  = "Megakaryocyte",
+  "T cell (general)"        = "T_NK",
+  "T cell (CD4)"            = "T_NK",
+  "T cell (CD8)"            = "T_NK",
+  "T helper"                = "T_NK",
+  "Innate-like T"           = "T_NK",
+  "NK"                      = "T_NK",
+  "B cell"                  = "B_Plasma",
+  "Plasma cell"             = "B_Plasma",
+  "Bone marrow stroma"      = "Stromal",
+  "Skeletal lineage"        = "Stromal",
+  "Adipo lineage"           = "Stromal",
+  "Bone marrow vasculature" = "Stromal"    # BMM carries a single "Stromal" broad type; endothelium
+)                                          # folds into it so the two vocabularies stay comparable
+
+# CELL-TYPE overrides, applied ON TOP of the category map. Several categories are heterogeneous in
+# lineage, so mapping them wholesale puts cells in the wrong bin and manufactures a disagreement
+# with the projection that is entirely our own doing. Measured: with the category map alone,
+# LMPP_GMP agreement was 0.00-0.17 in EVERY dataset -- a cohort-wide constant, i.e. a vocabulary
+# bug, not a data property. Each line below is anchored to bmm_bin_map.tsv so the two methods
+# partition the same way:
+#   * "Blast state" names its own lineage per cell type ("Blast-like: GMP" is a GMP), so it cannot
+#     collapse to one progenitor bin.
+#   * BMM maps LMPP -> LMPP_GMP and Early Lymphoid -> T_NK, so the HSPC types must follow.
+#   * The marker table files a "T/NK" type under category "Stem/Progenitor"; taking the category
+#     there would bin T cells as stem cells.
+#   * The 8-bin hierarchy has no granulocyte node. BMM sends EoBasoMast Precursor -> LMPP_GMP, so
+#     baso/eo/mast follow it; mature neutrophils are not progenitors and BMM assigns them Mono_DC.
+MARKER_CELLTYPE_TO_BIN <- c(
+  "Blast-like: HSC/MPP"             = "HSC_MPP",
+  "Blast-like: GMP"                 = "LMPP_GMP",
+  "Blast-like: Pro-monocyte"        = "Mono_DC",
+  "Blast-like: Monocyte"            = "Mono_DC",
+  "Blast-like: cDC"                 = "Mono_DC",
+  "HSPC: HSC/MPP"                   = "HSC_MPP",
+  "HSPC: LMPP"                      = "LMPP_GMP",
+  "HSPC: CLP/Early lymphoid"        = "T_NK",
+  "T/NK"                            = "T_NK",
+  "Granulocyte: Neutrophil"         = "Mono_DC",
+  "Granulocyte: Neutrophil (CST7+)" = "Mono_DC",
+  "Granulocyte: Basophil"           = "LMPP_GMP",
+  "Granulocyte: Eosinophil"         = "LMPP_GMP",
+  "Granulocyte: Mast"               = "LMPP_GMP",
+  # Genuinely bi-lineage by name (MEP is erythroid-megakaryocytic). The category map already sent
+  # it to Erythroid, matching BMM's MEP -> Erythroid, but leaving that implicit means the choice
+  # is invisible; stated here so it is a decision on the record rather than a side effect.
+  "Ery/Meg prog: MEP/MkP"           = "Erythroid"
+)
+
 ## -- mapping-QC flag (PRIMARY, scale-free): prob-based ----
 # high_error if bmm_celltype_fine_prob < MIN_PROJ_PROB. prob is a 0-1 KNN label-agreement
 # proportion, comparable across depth/platform (unlike absolute mapping_error, whose per-platform

@@ -1,0 +1,2 @@
+sample,dataset,n_qc_cells,arms,n_types,evidence_tier,conflict_frac,n_called,n_malignant,malignant_frac,n_high,n_conflicting,n_low_single
+GSM8791436_MLL_17844,GSE289435,13050,infercnv,1,C_single,0,13050,4247,0.3254,0,0,13050

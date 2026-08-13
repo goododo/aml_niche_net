@@ -151,6 +151,30 @@ INFERCNV_EXT_REF_CACHE    <- file.path(LARGE1_DIR, "reference", "infercnv_extern
 INFERCNV_EXT_REF_SEED     <- 20260613L           # LEGACY cache-provenance seed, NOT the global SEED;
                                                  # changing it re-samples the external ref on rebuild.
 
+## ---- dataset-matched healthy reference -------------------------------------------------------
+# The BMM external reference is drawn from a DIFFERENT study than the sample being scored, so the
+# non-lymphoid half of every reference is a cross-dataset comparison and batch effects enter the
+# burden directly. Where a dataset ships its own healthy donors, those donors are the same
+# chemistry, depth and handling as the AML samples beside them, so they are the better reference.
+#
+# Applies to 71 of 142 AML samples (GSE185381 42, GSE116256 23, Chen2023 6); the remaining 71 have
+# no in-dataset healthy donor and keep the BMM block. Per BIN, matched cells are used only if at
+# least INFERCNV_MATCHED_REF_MIN_PER_BIN of them exist -- otherwise that bin falls back to BMM, so
+# a matched block is never SMALLER than the BMM block it replaces. That floor matters: 98 showed a
+# short reference block gives a noisy, biased-low P95 and makes the gate worse, not better.
+#
+# HONESTY CONSTRAINT: a healthy donor must never appear in the reference used to score itself, or
+# the healthy-donor FPR -- the number this change is judged by -- is measuring the reference
+# against itself. build_infercnv_input() drops the target sample's own cells (leave-one-out).
+INFERCNV_MATCHED_REF          <- TRUE
+INFERCNV_MATCHED_REF_MIN_PER_BIN <- 150L  # absolute floor; the EFFECTIVE floor per bin is that
+                                          # bin's BMM block size (see .matched_ref_lineage_block)
+INFERCNV_MATCHED_REF_CACHE_DIR   <- file.path(LARGE1_DIR, "reference", "infercnv_matched_ref")
+INFERCNV_MATCHED_REF_SEED        <- 20260811L
+# per-bin targets, matched to the BMM block so the two sources are the same size
+INFERCNV_MATCHED_REF_PER_BIN  <- c(Mono_DC = 600L, LMPP_GMP = 600L, Erythroid = 450L,
+                                   HSC_MPP = 300L, Megakaryocyte = 150L, Stromal = 150L)
+
 ## =====================================================================================
 ## CONSENSUS (50 is the SOLE malignancy labeler; d35 retired) ----
 ## Evidence TYPES: expression {inferCNV, copykat, scevan, author}, allele {Numbat}, SNV {VarTrix}.

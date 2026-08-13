@@ -19,6 +19,9 @@ suppressPackageStartupMessages({ library(data.table) })
 suppressPackageStartupMessages({ library(here) })
 source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "config", "config_qc.R"))
+# REFNORM_REF_CELL_DIR lives here: the reference-cells-out-of-the-denominator arm reads the
+# per-sample ref_norm cell lists, so this file is a hard dependency of that arm, not optional.
+source(here::here("scripts", "config", "config_malignancy.R"))
 source(here::here("scripts", "config", "utils.R"))
 HIER_PROJ_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "03_bmm_projected")
 
@@ -114,6 +117,25 @@ if (nrow(bins)) {
   cat("\n[reading it] A bin with a high FPR is one where the CNV caller cannot be trusted. Compare\n")
   cat("  these numbers against the AML per-bin malignant fractions from 03_hierarchy: a bin whose\n")
   cat("  AML fraction is not clearly above its healthy FPR carries no usable malignancy signal.\n")
+
+  ## ---- bin x dataset: is a bin's FPR a property of the caller, or of one dataset? ----
+  # The pooled per-bin FPR above is dominated by whichever dataset contributes the most cells
+  # to that bin, so a bin can look unusable because ONE cohort misfires there. Splitting by
+  # dataset is what separates "the caller cannot read this compartment" from "this dataset is
+  # the problem" -- and only the first justifies dropping the bin cohort-wide.
+  bd <- bins[, .(n = .N, false_pos = sum(malignant == 1, na.rm = TRUE)),
+             by = .(hierarchy_bin, in_ccc_graph, dataset)]
+  bd[, FPR := round(false_pos / n, 4)]
+  bd[, n_healthy := bins[, uniqueN(sample), by = dataset][match(bd$dataset, dataset)]$V1]
+  setorder(bd, hierarchy_bin, -FPR)
+  fwrite(bd, file.path(DIR_MALIGNANCY, "malignancy_fpr_by_bin_dataset.csv"))
+  cat("\n=========== false-positive rate by hierarchy bin x dataset (healthy donors) ===========\n")
+  print(dcast(bd[in_ccc_graph == TRUE], hierarchy_bin ~ dataset, value.var = "FPR"))
+  cat("\n  cell counts behind each rate (an FPR over few hundred cells is not a stable estimate):\n")
+  print(dcast(bd[in_ccc_graph == TRUE], hierarchy_bin ~ dataset, value.var = "n", fill = 0L))
+  cat("\n[reading it] A bin whose FPR is high in EVERY dataset is a caller limitation. A bin that is\n")
+  cat("  high in one dataset only is a cohort problem, and dropping the bin everywhere would throw\n")
+  cat("  away usable signal from the other datasets.\n")
 }
 
 cat("\n[caveat] These healthy samples span several platforms/depths, so the FPR is a cohort-level\n")

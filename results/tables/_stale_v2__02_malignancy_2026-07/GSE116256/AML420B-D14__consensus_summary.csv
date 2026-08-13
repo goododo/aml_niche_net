@@ -1,0 +1,2 @@
+sample,dataset,n_qc_cells,arms,n_types,evidence_tier,conflict_frac,n_called,n_malignant,malignant_frac,n_high,n_conflicting,n_low_single
+AML420B-D14,GSE116256,938,infercnv,1,C_single,0,938,143,0.1525,0,0,938
