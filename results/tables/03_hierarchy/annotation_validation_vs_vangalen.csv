@@ -1,0 +1,4 @@
+comparison,n_cells,acc_bmm,acc_marker,acc_final
+primary (Prog excluded),21940,0.8284,0.6636,0.7724
+Prog -> HSC_MPP,25746,0.744,0.5931,0.6936
+Prog -> LMPP_GMP,25746,0.7412,0.6118,0.7034

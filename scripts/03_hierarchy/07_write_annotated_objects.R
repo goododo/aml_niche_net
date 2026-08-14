@@ -10,9 +10,15 @@
 # edit. A separate directory costs ~4 GB and no recompute.
 #
 # Columns added (all per cell, joined by cell id, never by position):
-#   hierarchy_bin  in_ccc_graph  anno_source  agree      <- the corrected call and its provenance
+#   hierarchy_bin  in_ccc_graph  anno_source  agree      <- the call and its provenance
+#   cell_subtype  subtype_dropped                        <- marker subtype INSIDE that bin, gated
 #   bin_bmm  bmm_fine  bmm_prob  mapping_error  high_error <- projection side, unchanged
-#   bin_marker  marker_cell_type  marker_category  margin_bin  marker_low_conf <- marker side
+#   bin_marker  marker_cell_type  marker_category  margin_bin  marker_low_conf <- marker side, raw
+#
+# READ hierarchy_bin FOR THE COMPARTMENT AND cell_subtype FOR THE FINE TYPE. bin_marker and
+# marker_cell_type are the UNGATED marker outputs, kept for auditing only: marker_cell_type puts
+# "Stroma: MSC/perivascular" on 499 cells van Galen types as T/NK. cell_subtype is that column
+# after the bin-consistency gate, and is the one that is safe to group by.
 #
 # Malignancy is deliberately NOT written here: it is still moving (the dataset-matched reference
 # evaluation is in flight), and an object that mixes a settled annotation with an unsettled label
@@ -32,6 +38,7 @@ opt <- parse_args(OptionParser(option_list = list(
 )))
 
 KEEP <- c("hierarchy_bin", "in_ccc_graph", "anno_source", "agree",
+          "cell_subtype", "subtype_dropped",
           "bin_bmm", "bmm_fine", "bmm_prob", "mapping_error", "high_error",
           "bin_marker", "marker_cell_type", "marker_category", "margin_bin", "marker_low_conf")
 
@@ -47,6 +54,12 @@ one <- function(ds, sid, rds) {
   af <- file.path(ANNO_RECONCILED_DIR, ds, paste0(sid, "__anno_percell.csv"))
   if (!file.exists(af)) { message("[skip] no reconciled table: ", sid); return(NULL) }
   A <- fread(af)
+  # CSV ROUND-TRIP: fwrite writes NA as an empty field and fread reads it back as "", not NA. Left
+  # alone, a cell with no subtype arrives in meta.data as the empty string -- which survives
+  # !is.na() filters and shows up as its own silent group in any table or plot keyed on the column.
+  # Normalise every character annotation column back to NA at the boundary where it is read.
+  for (cc in intersect(KEEP, names(A)))
+    if (is.character(A[[cc]])) set(A, which(!nzchar(trimws(A[[cc]]))), cc, NA_character_)
   seu <- readRDS(rds)
 
   # Join by cell id. Position-based assignment is the classic way to get a table that looks fine

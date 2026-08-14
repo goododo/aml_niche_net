@@ -166,7 +166,17 @@ INFERCNV_EXT_REF_SEED     <- 20260613L           # LEGACY cache-provenance seed,
 # HONESTY CONSTRAINT: a healthy donor must never appear in the reference used to score itself, or
 # the healthy-donor FPR -- the number this change is judged by -- is measuring the reference
 # against itself. build_infercnv_input() drops the target sample's own cells (leave-one-out).
-INFERCNV_MATCHED_REF          <- TRUE
+# VERDICT 2026-08-14: OFF. Measured and rejected -- see 93_matched_ref_verdict.R.
+# On 18 healthy donors it looked excellent: FPR 0.186 -> 0.099, 17 of 18 improved, and the two
+# CD34-sorted donors (no autologous reference at all) fell from 0.59/0.53 to 0.06/0.12.
+# On the 18 GSE116256 AML samples with single-cell genotyping it collapsed: sensitivity on
+# genotypically malignant cells 0.492 -> 0.131. True positives fell ~3x more than false ones,
+# because a same-dataset healthy reference of the SAME lineage subtracts the malignant signal
+# along with the batch effect. AML blasts and healthy GMP/Mono are close in expression; using the
+# latter as the reference for the former removes what we are trying to measure.
+# The healthy cohort CANNOT see this: it has no positive cells. Judging a malignancy gate on
+# negative controls alone systematically favours any change that lowers all burdens.
+INFERCNV_MATCHED_REF          <- FALSE
 INFERCNV_MATCHED_REF_MIN_PER_BIN <- 150L  # absolute floor; the EFFECTIVE floor per bin is that
                                           # bin's BMM block size (see .matched_ref_lineage_block)
 INFERCNV_MATCHED_REF_CACHE_DIR   <- file.path(LARGE1_DIR, "reference", "infercnv_matched_ref")

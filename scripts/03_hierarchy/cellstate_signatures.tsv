@@ -1,0 +1,161 @@
+signature	gene	weight	family	source
+apoptotic_priming	BCL2L11	1	apoptosis	BH3-only pro-apoptotic (BIM); Letai 2008 BH3 profiling
+apoptotic_priming	BBC3	1	apoptosis	BH3-only (PUMA)
+apoptotic_priming	PMAIP1	1	apoptosis	BH3-only (NOXA); MCL1-neutralising
+apoptotic_priming	BID	1	apoptosis	BH3-only
+apoptotic_priming	BAD	1	apoptosis	BH3-only
+apoptotic_priming	BIK	1	apoptosis	BH3-only
+apoptotic_priming	BMF	1	apoptosis	BH3-only
+apoptotic_priming	HRK	1	apoptosis	BH3-only
+apoptotic_priming	BAX	1	apoptosis	pore-forming effector
+apoptotic_priming	BAK1	1	apoptosis	pore-forming effector
+antiapoptotic	BCL2	1	apoptosis	venetoclax target
+antiapoptotic	MCL1	1	apoptosis	venetoclax-resistance axis; niche-induced
+antiapoptotic	BCL2L1	1	apoptosis	BCL-xL
+antiapoptotic	BCL2A1	1	apoptosis	BFL-1; myeloid-restricted
+antiapoptotic	BCL2L2	1	apoptosis	BCL-w
+oxphos	NDUFA4	1	metabolism	ETC complex I; LSCs are OXPHOS-dependent (Lagadinou 2013)
+oxphos	NDUFB1	1	metabolism	ETC complex I
+oxphos	NDUFS5	1	metabolism	ETC complex I
+oxphos	SDHA	1	metabolism	ETC complex II
+oxphos	SDHB	1	metabolism	ETC complex II
+oxphos	UQCRC1	1	metabolism	ETC complex III
+oxphos	UQCRB	1	metabolism	ETC complex III
+oxphos	CYCS	1	metabolism	cytochrome c
+oxphos	COX4I1	1	metabolism	ETC complex IV
+oxphos	COX5A	1	metabolism	ETC complex IV
+oxphos	COX6B1	1	metabolism	ETC complex IV
+oxphos	COX7A2	1	metabolism	ETC complex IV
+oxphos	ATP5F1A	1	metabolism	ATP synthase
+oxphos	ATP5F1B	1	metabolism	ATP synthase
+oxphos	ATP5MC3	1	metabolism	ATP synthase
+glycolysis	SLC2A1	1	metabolism	GLUT1
+glycolysis	HK1	1	metabolism	hexokinase
+glycolysis	HK2	1	metabolism	hexokinase
+glycolysis	GPI	1	metabolism	glycolysis
+glycolysis	PFKL	1	metabolism	glycolysis
+glycolysis	PFKP	1	metabolism	glycolysis
+glycolysis	ALDOA	1	metabolism	glycolysis
+glycolysis	TPI1	1	metabolism	glycolysis
+glycolysis	GAPDH	1	metabolism	glycolysis
+glycolysis	PGK1	1	metabolism	glycolysis
+glycolysis	PGAM1	1	metabolism	glycolysis
+glycolysis	ENO1	1	metabolism	glycolysis
+glycolysis	PKM	1	metabolism	glycolysis
+glycolysis	LDHA	1	metabolism	glycolysis
+glycolysis	SLC16A3	1	metabolism	MCT4 lactate export
+fatty_acid_oxidation	CPT1A	1	metabolism	FAO rate-limiting; adipocyte-fuelled AML (Ye 2016, Shafat 2017)
+fatty_acid_oxidation	CPT2	1	metabolism	FAO
+fatty_acid_oxidation	ACADVL	1	metabolism	FAO
+fatty_acid_oxidation	ACADM	1	metabolism	FAO
+fatty_acid_oxidation	ACADS	1	metabolism	FAO
+fatty_acid_oxidation	HADHA	1	metabolism	FAO trifunctional
+fatty_acid_oxidation	HADHB	1	metabolism	FAO trifunctional
+fatty_acid_oxidation	ACAA2	1	metabolism	FAO
+fatty_acid_oxidation	ECHS1	1	metabolism	FAO
+fatty_acid_oxidation	ETFA	1	metabolism	electron transfer flavoprotein
+fatty_acid_oxidation	ETFB	1	metabolism	electron transfer flavoprotein
+fatty_acid_oxidation	SLC25A20	1	metabolism	carnitine translocase
+fatty_acid_oxidation	ACSL1	1	metabolism	FA activation
+fatty_acid_oxidation	CD36	1	metabolism	FA uptake; marks LSC in adipose niche
+cytotoxicity	GZMA	1	tnk_function	cytotoxic granule
+cytotoxicity	GZMB	1	tnk_function	cytotoxic granule
+cytotoxicity	GZMH	1	tnk_function	cytotoxic granule
+cytotoxicity	GZMK	1	tnk_function	cytotoxic granule
+cytotoxicity	PRF1	1	tnk_function	perforin
+cytotoxicity	NKG7	1	tnk_function	granule
+cytotoxicity	GNLY	1	tnk_function	granulysin
+cytotoxicity	KLRD1	1	tnk_function	CD94
+cytotoxicity	FGFBP2	1	tnk_function	effector
+cytotoxicity	CTSW	1	tnk_function	effector
+exhaustion	PDCD1	1	tnk_function	PD-1
+exhaustion	HAVCR2	1	tnk_function	TIM-3; also an AML LSC marker -- interpret in T_NK only
+exhaustion	LAG3	1	tnk_function	exhaustion
+exhaustion	TIGIT	1	tnk_function	exhaustion
+exhaustion	CTLA4	1	tnk_function	exhaustion
+exhaustion	TOX	1	tnk_function	exhaustion master TF
+exhaustion	ENTPD1	1	tnk_function	CD39
+exhaustion	LAYN	1	tnk_function	exhaustion
+exhaustion	CD160	1	tnk_function	exhaustion
+exhaustion	BTLA	1	tnk_function	exhaustion
+naive_memory	CCR7	1	tnk_function	contrast axis for exhaustion
+naive_memory	SELL	1	tnk_function	CD62L
+naive_memory	TCF7	1	tnk_function	stem-like T
+naive_memory	LEF1	1	tnk_function	naive
+naive_memory	IL7R	1	tnk_function	memory
+sasp	IL6	1	stromal_state	SASP core
+sasp	IL1B	1	stromal_state	SASP core
+sasp	IL1A	1	stromal_state	SASP core
+sasp	CXCL8	1	stromal_state	IL-8
+sasp	CXCL1	1	stromal_state	SASP chemokine
+sasp	CXCL2	1	stromal_state	SASP chemokine
+sasp	CCL2	1	stromal_state	MCP-1
+sasp	MMP1	1	stromal_state	SASP protease
+sasp	MMP3	1	stromal_state	SASP protease
+sasp	SERPINE1	1	stromal_state	PAI-1
+sasp	IGFBP3	1	stromal_state	SASP
+sasp	ICAM1	1	stromal_state	adhesion/inflammation
+senescence	CDKN1A	1	stromal_state	p21. NOTE: senescence in scRNA is weak -- read as a trend, not a call
+senescence	CDKN2A	1	stromal_state	p16
+senescence	TP53	1	stromal_state	senescence programme
+senescence	GLB1	1	stromal_state	SA-beta-gal
+senescence	TP53BP1	1	stromal_state	DNA-damage response
+interferon_I	ISG15	1	interferon	IFN-I ISG
+interferon_I	IFI6	1	interferon	IFN-I ISG
+interferon_I	IFI27	1	interferon	IFN-I ISG
+interferon_I	IFIT1	1	interferon	IFN-I ISG
+interferon_I	IFIT3	1	interferon	IFN-I ISG
+interferon_I	MX1	1	interferon	IFN-I ISG
+interferon_I	MX2	1	interferon	IFN-I ISG
+interferon_I	OAS1	1	interferon	IFN-I ISG
+interferon_I	OAS3	1	interferon	IFN-I ISG
+interferon_I	RSAD2	1	interferon	viperin
+interferon_I	IFITM3	1	interferon	IFN-I ISG
+interferon_I	IRF7	1	interferon	IFN-I master TF
+interferon_II	GBP1	1	interferon	IFN-gamma induced
+interferon_II	GBP2	1	interferon	IFN-gamma induced
+interferon_II	GBP4	1	interferon	IFN-gamma induced
+interferon_II	GBP5	1	interferon	IFN-gamma induced
+interferon_II	CXCL9	1	interferon	IFN-gamma chemokine
+interferon_II	CXCL10	1	interferon	IFN-gamma chemokine
+interferon_II	CXCL11	1	interferon	IFN-gamma chemokine
+interferon_II	IDO1	1	interferon	IFN-gamma effector
+interferon_II	STAT1	1	interferon	shared IFN-I/II -- do not read STAT1 alone as IFN-II
+interferon_II	IRF1	1	interferon	IFN-gamma TF
+interferon_II	SOCS1	1	interferon	IFN feedback
+mhc_ii	HLA-DRA	1	antigen_presentation	HLA-DR loss = AML immune escape (Christopher 2018, Toffalori 2019)
+mhc_ii	HLA-DRB1	1	antigen_presentation	MHC-II
+mhc_ii	HLA-DPA1	1	antigen_presentation	MHC-II
+mhc_ii	HLA-DPB1	1	antigen_presentation	MHC-II
+mhc_ii	HLA-DQA1	1	antigen_presentation	MHC-II
+mhc_ii	HLA-DQB1	1	antigen_presentation	MHC-II
+mhc_ii	HLA-DMA	1	antigen_presentation	MHC-II peptide loading
+mhc_ii	HLA-DMB	1	antigen_presentation	MHC-II peptide loading
+mhc_ii	CD74	1	antigen_presentation	invariant chain
+mhc_ii	CIITA	1	antigen_presentation	MHC-II master TF
+mhc_i	HLA-A	1	antigen_presentation	MHC-I
+mhc_i	HLA-B	1	antigen_presentation	MHC-I
+mhc_i	HLA-C	1	antigen_presentation	MHC-I
+mhc_i	B2M	1	antigen_presentation	MHC-I light chain
+mhc_i	TAP1	1	antigen_presentation	peptide transport
+mhc_i	TAP2	1	antigen_presentation	peptide transport
+mhc_i	PSMB8	1	antigen_presentation	immunoproteasome
+mhc_i	PSMB9	1	antigen_presentation	immunoproteasome
+mhc_i	NLRC5	1	antigen_presentation	MHC-I master TF
+retention_ligand	CXCL12	1	niche_retention	SDF-1; the central marrow retention signal
+retention_ligand	KITLG	1	niche_retention	SCF
+retention_ligand	VCAM1	1	niche_retention	VLA4 counter-receptor
+retention_ligand	ANGPT1	1	niche_retention	quiescence
+retention_ligand	SPP1	1	niche_retention	osteopontin
+retention_ligand	THBS1	1	niche_retention	thrombospondin
+retention_ligand	JAG1	1	niche_retention	Notch ligand
+retention_ligand	IL7	1	niche_retention	lymphoid niche
+retention_ligand	TGFB1	1	niche_retention	quiescence
+retention_receptor	CXCR4	1	niche_retention	SDF-1 receptor; mobilisation target
+retention_receptor	KIT	1	niche_retention	SCF receptor
+retention_receptor	ITGA4	1	niche_retention	VLA4 alpha
+retention_receptor	ITGB1	1	niche_retention	VLA4 beta
+retention_receptor	ITGB7	1	niche_retention	integrin
+retention_receptor	SELPLG	1	niche_retention	PSGL-1
+retention_receptor	CD44	1	niche_retention	HA receptor; AML homing
+retention_receptor	TEK	1	niche_retention	TIE2; ANGPT1 receptor

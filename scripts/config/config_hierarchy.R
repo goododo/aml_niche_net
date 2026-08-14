@@ -53,9 +53,13 @@ ANNO_RECONCILED_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "03_annotation
 # inferCNV freshness guard keys on the QC object's mtime, so re-saving those would mark all 179
 # finished runs stale and trigger a full recompute for what is only a metadata edit.
 ANNO_OBJ_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "04_annotated")
-# Datasets whose hierarchy_bin should be read from 05 rather than 01. Keep this list explicit:
-# a dataset silently switching typing method is exactly the kind of thing that makes two figures
-# in the same paper disagree.
+# OBSOLETE as a bin selector [2026-08-14]. It used to name the datasets whose hierarchy_bin came
+# from 05 instead of 01. No dataset does that any more: 08_validate_annotation.R measured the
+# marker bins against van Galen 2019 and they lost badly (0.664 vs 0.828; marker overrides wrong
+# 5.5x more often than right), so 06 now takes the bin from the projection everywhere and uses the
+# markers only for cell_subtype WITHIN that bin. Kept as a non-empty declaration of which datasets
+# most depend on marker subtyping -- GSE253355 supplies 80.1% of the cohort's stromal cells, so its
+# 17 resolved niche subtypes are the main thing the marker route still buys.
 MARKER_ANNO_DATASETS <- c("GSE253355")
 
 MARKER_ANNO_RESOLUTION  <- 1.0    # Louvain resolution; stroma needs enough clusters to resolve
@@ -148,6 +152,73 @@ TIER2CONF    <- c(A = "high", B = "medium", C = "low")  # evidence_tier -> confi
 
 ## -- healthy datasets anchoring per-platform thresholds ----
 HEALTHY_DATASETS <- c("E-MTAB-11536", "GSE253355")
+
+## =====================================================================================
+## CELL-STATE FEATURE PANEL (09) -- functional axes the node features currently lack
+## =====================================================================================
+# The FGW feature term today is frac_malignant + mean_stemness + n_cells, and the measured
+# decomposition (08_scoring/feature_decomposition.csv) says mean_stemness carries NO global signal
+# (beta -0.044, p 0.396) while adding it DILUTES the combined estimate (all3 beta 0.135 vs
+# frac_malignant alone 0.334). So the panel below is built to be tested one axis at a time, and
+# nothing enters FGW_FEATURES until it is individually significant. Most of it is for mechanism
+# and for validating CCC edges, NOT for graph alignment.
+CELLSTATE_TABLE_TSV <- file.path(HIER_SCRIPT_DIR, "cellstate_signatures.tsv")
+CELLSTATE_DIR       <- HIER_PROJ_DIR   # per-cell scores sit beside the projection they are keyed to
+
+# UCELL, NOT AddModuleScore. UCell ranks genes WITHIN each cell, so a score depends on nothing but
+# that cell -- which is what makes it comparable across 214 samples. AddModuleScore subtracts the
+# mean of control-gene bins drawn from whatever object it is handed, and 04_stemness_score.R calls
+# it PER SAMPLE, so part of the between-sample signal is removed by construction: measured
+# between/within sd ratio 0.300 for HSPC_core vs 0.689 for LSC17, which is a raw weighted sum and
+# is not recentred. (The node feature in use is LSC17, so this is not the explanation for the null
+# stemness result -- but it is a reason not to build NEW cross-sample features that way.)
+CELLSTATE_MAXRANK   <- 1500L   # UCell rank horizon; genes below this rank contribute nothing
+
+# Single genes reported as mean log-normalised expression rather than a UCell score. A rank-based
+# score over one gene is meaningless, but the MCL1-vs-BCL2 balance is exactly the quantity the
+# venetoclax-resistance literature is about, so it is emitted directly.
+CELLSTATE_SINGLE_GENES <- c("BCL2", "MCL1", "BCL2L1", "CXCR4", "KIT", "CD36", "HLA-DRA", "CD74")
+
+# POSITIVE CONTROLS, AS ORDERED CONTRASTS. A signature with a stale gene symbol or cross-axis
+# bleed still produces a perfectly ordinary-looking number for every cell, so each panel has to be
+# checked against biology that is not in question.
+#
+# These were argmax tests ("this signature must PEAK in bin X") and that was the wrong instrument.
+# mhc_ii failed it by peaking in HSC_MPP -- which is CORRECT biology, not a bug: human CD34+
+# progenitors are largely HLA-DR positive (CD34+CD38-HLA-DR- is how you deplete them to enrich
+# HSC). Argmax asks which compartment is highest across the whole marrow, which is often a genuine
+# empirical question; a pairwise contrast asks something that is actually settled.
+#
+# Each row is high_bin > low_bin, and the pair is chosen so that a violation can only mean the
+# panel is broken. T cells do not express MHC-II; stroma is not cytotoxic; T cells are not stromal.
+CELLSTATE_CONTRASTS <- data.table::data.table(
+  signature = c("cytotoxicity", "cytotoxicity", "exhaustion", "naive_memory",
+                "mhc_ii", "mhc_ii", "retention_ligand", "retention_ligand", "sasp"),
+  high_bin  = c("T_NK", "T_NK", "T_NK", "T_NK",
+                "B_Plasma", "Mono_DC", "Stromal", "Stromal", "Stromal"),
+  low_bin   = c("Erythroid", "Stromal", "B_Plasma", "Mono_DC",
+                "T_NK", "T_NK", "T_NK", "B_Plasma", "T_NK"),
+  why       = c("erythroid cells carry no cytotoxic granules",
+                "stroma is not a cytotoxic lineage",
+                "PDCD1/LAG3/TOX are T-cell exhaustion markers, not B-cell",
+                "CCR7/TCF7/LEF1 are T-naive markers",
+                "T cells do not express MHC-II; B cells do",
+                "T cells do not express MHC-II; monocytes/DC do",
+                "CXCL12/KITLG/VCAM1 are stromal niche ligands",
+                "CXCL12/KITLG/VCAM1 are stromal niche ligands",
+                "SASP is a stromal/myeloid inflammatory programme")
+)
+
+## -- PROGENy pathway footprints (10) ----
+# The model ships INSIDE the progeny package, so nothing here needs the network at run time. top=500
+# is the PROGENy default and the setting its benchmarks were run at.
+PROGENY_TOP          <- 500L
+PROGENY_MINSIZE      <- 5L      # a pathway needs >=5 of its genes present to be scored at all
+PROGENY_MIN_OVERLAP  <- 2000L   # gene-symbol sanity: a near-empty overlap still returns numbers
+# Interferon signals through JAK-STAT, so PROGENy's JAK-STAT footprint and the interferon_I/II
+# UCell panels in 09 must agree despite sharing no genes and no method. Set from the observed
+# separation against the unrelated-pathway baseline, not from a rule of thumb.
+PROGENY_MIN_IFN_COR  <- 0.15
 
 ## -- stemness scoring: 4 signatures (from van Galen 2019 Table S3 + LSC17) ----
 # vanGalen_HSC_Prog (PRIMARY normal stemness), HSPC_core (cross-val), vanGalen_HSCprog_like

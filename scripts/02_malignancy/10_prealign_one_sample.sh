@@ -53,9 +53,23 @@ verify_file(){ local f=$1 eb=${2:-} em=${3:-}; [[ -s $f ]]||return 1
   return 0; }
 
 # Download ONE run's mates into FQ_DIR as <ACC>_1.fastq.gz / <ACC>_2.fastq.gz.
-# Preference: ENA fastq_ftp -> ENA submitted BAM (bamtofastq) -> prefetch/normalized SRA.
-# NOTE: SRA "Normalized Format" strips 10x barcode reads. When fastq_ftp is empty, the author's
-# submitted cellranger BAM (barcodes in CB/UB tags) is the reliable source; bamtofastq restores R1/R2.
+# Preference: ENA fastq_ftp -> original 10x BAM (bamtofastq) -> prefetch/normalized SRA.
+# NOTE: SRA "Normalized Format" strips 10x barcode reads. When fastq_ftp does not carry a real
+# mate pair, the author's submitted cellranger BAM (barcodes in CB/UB tags) is the reliable
+# source; bamtofastq restores R1/R2.
+#
+# TWO TRAPS, both hit by GSE289435/SRR32323361 and both fixed here:
+#
+#  (1) fastq_ftp NON-EMPTY BUT SINGLE-FILE. The BAM route used to fire only on an EMPTY fastq_ftp.
+#      SRR32323361 advertises one 3.4G fastq_ftp file that is 91bp single-end -- the cDNA read with
+#      the barcode read discarded. The old gate took the fastq route, downloaded 3.4G, and died at
+#      "missing _1/_2" having thrown away the only usable source. A 10x run ALWAYS has >=2 mate
+#      files, so a single-file listing is the normalized-format trap, not a valid download.
+#
+#  (2) ENA submitted_ftp EMPTY WHILE NCBI STILL HOLDS THE ORIGINAL. ENA lists no submitted_ftp for
+#      SRR32323361, but NCBI's SRAFiles manifest carries MLL_29532.bam (17.4G, supertype="Original",
+#      semantic_name="10X Genomics bam file") on sra-pub-src S3. Mirrors disagree about what they
+#      kept, so exhausting ENA is not the same as the data being gone.
 fetch_one(){
   local ACC=$1
   # resume: mates already restored (e.g. a prior run got past download/bamtofastq then failed at
@@ -75,13 +89,39 @@ fetch_one(){
   SUBBYT=$(echo "${rep}"|awk -F'\t' 'NR>1{print $7}'|head -1)
   SUBMD5=$(echo "${rep}"|awk -F'\t' 'NR>1{print $8}'|head -1)
 
-  if [[ ${#FTP[@]} -eq 0 ]]; then
-    # (a) submitted 10x BAM -> bamtofastq (barcodes survive here; normalized SRA fastq does not)
-    if [[ -n "${SUB}" && ( "${SUBFMT^^}" == *BAM* || "${SUB}" == *.bam ) ]]; then
-      local subbam; subbam=$(echo "${SUB}"|tr ';' '\n'|grep -i '\.bam$'|head -1)
-      # matching submitted_bytes entry (fields are ';'-aligned when multiple files)
-      local exp_bytes; exp_bytes=$(echo "${SUBBYT}"|tr ';' '\n'|sed -n "$(echo "${SUB}"|tr ';' '\n'|grep -in '\.bam$'|head -1|cut -d: -f1)p")
-      echo "      ENA submitted BAM (${subbam##*/}, expect ${exp_bytes:-?} bytes); restoring via bamtofastq"
+  # Resolve the original 10x BAM from EITHER mirror before deciding the route. ENA first (it
+  # publishes byte size + md5 in the same call), then NCBI's SRAFiles manifest.
+  local BAM_URL="" BAM_BYTES="" BAM_MD5=""
+  if [[ -n "${SUB}" && ( "${SUBFMT^^}" == *BAM* || "${SUB}" == *.bam ) ]]; then
+    local subbam sub_i
+    subbam=$(echo "${SUB}"|tr ';' '\n'|grep -i '\.bam$'|head -1)
+    # matching submitted_bytes/md5 entry (fields are ';'-aligned when multiple files)
+    sub_i=$(echo "${SUB}"|tr ';' '\n'|grep -in '\.bam$'|head -1|cut -d: -f1)
+    BAM_URL="https://${subbam}"
+    BAM_BYTES=$(echo "${SUBBYT}"|tr ';' '\n'|sed -n "${sub_i}p")
+    BAM_MD5=$(echo "${SUBMD5}"|tr ';' '\n'|sed -n "${sub_i}p")
+  else
+    # supertype="Original" is the author's submission; the "Primary ETL"/normalized entries in the
+    # same manifest are the lossy derivatives we are trying to avoid, so match on it explicitly.
+    local nx rec
+    nx=$(curl -fsSL "https://trace.ncbi.nlm.nih.gov/Traces/sra-db-be/run_new?acc=${ACC}" || true)
+    rec=$(printf '%s' "${nx}" | tr '<' '\n' \
+          | grep -i '^SRAFile ' | grep 'supertype="Original"' | grep -iE 'filename="[^"]*\.bam"' | head -1)
+    if [[ -n "${rec}" ]]; then
+      BAM_URL=$(sed -n 's/.* url="\([^"]*\)".*/\1/p' <<<"${rec}")
+      BAM_BYTES=$(sed -n 's/.* size="\([^"]*\)".*/\1/p' <<<"${rec}")
+      BAM_MD5=$(sed -n 's/.* md5="\([^"]*\)".*/\1/p' <<<"${rec}")
+      [[ -n "${BAM_URL}" ]] && echo "      ENA has no submitted BAM; NCBI SRAFiles does (${BAM_URL##*/})"
+    fi
+  fi
+
+  # -lt 2, not -eq 0: see trap (1) in the header. One fastq for a 10x run is the normalized trap.
+  if [[ ${#FTP[@]} -lt 2 ]]; then
+    [[ ${#FTP[@]} -eq 1 ]] && echo "      fastq_ftp lists ONE file for a 10x run (barcode read stripped); ignoring it"
+    # (a) original 10x BAM -> bamtofastq (barcodes survive here; normalized SRA fastq does not)
+    if [[ -n "${BAM_URL}" ]]; then
+      local exp_bytes="${BAM_BYTES}"
+      echo "      original 10x BAM (${BAM_URL##*/}, expect ${exp_bytes:-?} bytes); restoring via bamtofastq"
       [[ -x "${BAMTOFASTQ}" ]] || { echo "ERROR: bamtofastq not found/executable at '${BAMTOFASTQ}' (set \$BAMTOFASTQ)"; exit 1; }
       local bam="${SDIR}/${ACC}.bam"; local t=0 stall=0 prev=-1
       # wget fetches ONLY the submitted BAM (prefetch --type all also pulls the normalized SRA + its
@@ -95,15 +135,15 @@ fetch_one(){
         if [[ "${have}" == "${prev}" ]]; then stall=$((stall+1)); else stall=0; fi
         [[ $stall -ge 15 ]] && { echo "ERROR: ${ACC} BAM stalled 15x at ${have}/${exp_bytes:-?}; partial KEPT -- re-submit to resume"; exit 1; }
         prev="${have}"
-        echo "      [dl BAM ${t}] ${subbam##*/}  (have ${have}/${exp_bytes:-?})"
+        echo "      [dl BAM ${t}] ${BAM_URL##*/}  (have ${have}/${exp_bytes:-?})"
         wget -c -q --tries=10 --timeout=300 --retry-connrefused --waitretry=20 \
-             -O "${bam}" "https://${subbam}" || true
+             -O "${bam}" "${BAM_URL}" || true
       done
       # INTEGRITY: size match is NOT enough -- a resumed transfer can be byte-complete yet corrupt
-      # (seen on GSM8791438: bgzf inflate failure). Verify md5 when ENA provides it, plus a cheap
-      # BAM structural check. A CORRUPT file is deleted and re-fetched (unlike a partial, it is
-      # worthless and would only fail again downstream).
-      local exp_md5; exp_md5=$(echo "${SUBMD5}"|tr ';' '\n'|sed -n "$(echo "${SUB}"|tr ';' '\n'|grep -in '\.bam$'|head -1|cut -d: -f1)p")
+      # (seen on GSM8791438: bgzf inflate failure). Verify md5 when the mirror provides it, plus a
+      # cheap BAM structural check. A CORRUPT file is deleted and re-fetched (unlike a partial, it
+      # is worthless and would only fail again downstream).
+      local exp_md5="${BAM_MD5}"
       if [[ -n "${exp_md5}" ]]; then
         echo "      verifying md5 (${exp_md5})"
         local got_md5; got_md5=$(md5sum "${bam}" | awk '{print $1}')
@@ -129,7 +169,8 @@ fetch_one(){
       return
     fi
     # (b) last resort: prefetch normalized SRA (may lack the 10x barcode read -> caller errors out)
-    echo "      ENA fastq empty for ${ACC}; prefetch fallback (WARNING: normalized SRA may drop barcodes)"
+    echo "      no usable mate pair and no original BAM on either mirror for ${ACC};"
+    echo "      prefetch fallback (WARNING: normalized SRA may drop barcodes)"
     mkdir -p "${SDIR}/sra"
     prefetch --max-size 500G -O "${SDIR}/sra" "${ACC}"
     local sra; sra=$(find "${SDIR}/sra" -name "${ACC}*.sra"|head -1)

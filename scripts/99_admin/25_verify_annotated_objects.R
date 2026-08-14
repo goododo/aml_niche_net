@@ -61,6 +61,9 @@ for (p in pick) {
   seu <- readRDS(p)
   ds  <- basename(dirname(p)); sid <- sub("\\.rds$", "", basename(p))
   A   <- fread(file.path(ANNO_RECONCILED_DIR, ds, paste0(sid, "__anno_percell.csv")))
+  # 07 normalises "" -> NA when it loads this CSV (fwrite writes NA as an empty field), so compare
+  # against the same normalisation or every blank bin reads as a mismatch that is not one.
+  for (cc in names(A)) if (is.character(A[[cc]])) set(A, which(!nzchar(trimws(A[[cc]]))), cc, NA_character_)
   if (!identical(rownames(seu@meta.data), colnames(seu))) n_align <- n_align + 1L
   if (!all(KEY %in% names(seu@meta.data))) { n_missing_col <- n_missing_col + 1L; next }
   A <- A[match(colnames(seu), cell)]

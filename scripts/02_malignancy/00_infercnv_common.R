@@ -305,8 +305,25 @@ burden_from_obj <- function(obj) colMeans((obj@expr.data - 1)^2)
 infercnv_routes <- function() {
   stopifnot(file.exists(REFNORM_SUMMARY_CSV))
   summ <- fread(REFNORM_SUMMARY_CSV)
+  # ROUTE ON THE DECISION, NOT ON HOW IT WAS REACHED [changed 2026-08-14].
+  #
+  # This used to read `method == "sorted_guard" -> "skip"`, which contradicted both the guard's own
+  # documented meaning and the decision 20_refnorm_identify.R had already recorded. The guard in
+  # config_malignancy.R says a sorted library "has no normal-cell population to use as an
+  # AUTOLOGOUS inferCNV reference" -- that is the exact condition the external BMM reference exists
+  # to cover, and 20 duly writes decision = "fallback_external" for those samples. Routing on
+  # `method` then overrode that to "skip", so 33 samples (GSE185991 29, GSE147989 4) were dropped
+  # from the cohort silently: 44_infercnv_run_one.R printed "[skip] sorted_guard" and exited 0, so
+  # an array over them COMPLETED with no output and no error.
+  #
+  # 44 other samples carrying the SAME decision (fallback_external, reached via singleR finding too
+  # few reference cells) ran through the external route without incident, so there was never a
+  # methodological reason to treat these differently -- only the discarded `method` string.
+  #
+  # "skip" is kept as a legal route value: a sample with no usable reference of either kind still
+  # has to be representable. Nothing produces it today.
   summ[, route := fifelse(decision == "autologous_ok", "autologous",
-                 fifelse(method == "sorted_guard", "skip", "external"))]
+                 fifelse(decision == "fallback_external", "external", "skip"))]
   summ
 }
 
