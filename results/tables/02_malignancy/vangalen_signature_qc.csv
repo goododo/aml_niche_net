@@ -1,0 +1,10 @@
+bin,dir,N,min_retained,median_retained
+B_Plasma,up,50,0.28,0.3
+B_Plasma,down,17,0.28,0.3
+Erythroid,up,9,0.333,0.3885
+HSC_MPP,up,43,0.721,0.767
+HSC_MPP,down,4,0.721,0.767
+LMPP_GMP,up,5,1,1
+Mono_DC,up,3,0.667,0.667
+T_NK,up,50,0.4,0.42
+T_NK,down,27,0.4,0.42

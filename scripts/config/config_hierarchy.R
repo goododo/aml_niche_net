@@ -173,6 +173,7 @@ CELLSTATE_DIR       <- HIER_PROJ_DIR   # per-cell scores sit beside the projecti
 # is not recentred. (The node feature in use is LSC17, so this is not the explanation for the null
 # stemness result -- but it is a reason not to build NEW cross-sample features that way.)
 CELLSTATE_MAXRANK   <- 1500L   # UCell rank horizon; genes below this rank contribute nothing
+CELLSTATE_NCORES    <- 8L      # measured 646.6s (1 core) vs 38.5s (8) on an 8,469-cell sample
 
 # Single genes reported as mean log-normalised expression rather than a UCell score. A rank-based
 # score over one gene is meaningless, but the MCL1-vs-BCL2 balance is exactly the quantity the

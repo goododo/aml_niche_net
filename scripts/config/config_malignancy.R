@@ -111,6 +111,57 @@ SORTED_LIBRARY_DATASETS <- c("GSE185991", "GSE147989")
 SORTED_LIBRARY_SAMPLES  <- character(0)
 SORTED_LIBRARY_REGEX    <- ""
 
+## -- CNV-UNINFORMATIVE DATASETS: a near-zero malignant_frac here is not a low tumour burden ----
+# [2026-08-14] These 33 samples were backfilled through the external BMM reference (they had been
+# dropped entirely by a routing bug in infercnv_routes(); see 00_infercnv_common.R). They now have
+# burden files, and their calls came out at a median malignant_frac of 0.0151 -- 4-5x below either
+# other route, with 39% of samples calling under 1%. For CD34/CD117-SORTED BLAST libraries that
+# looks like a caller failure, and it is not:
+#
+#   GSE185991 (29 of the 33) is NPM1-mutant AML. NPM1-mutant AML is the textbook CYTOGENETICALLY
+#   NORMAL subtype -- roughly 85% carry a normal karyotype. inferCNV infers copy-number change.
+#   A karyotypically normal leukaemia has no copy-number change to infer, so ~0 is the RIGHT
+#   answer from this instrument about these cells, and it says nothing about whether they are
+#   malignant. They are: they were sorted as blasts.
+#
+# So malignant_frac for these datasets must be read as "no CNV evidence", never as "few malignant
+# cells", and they must not enter a healthy-vs-AML contrast as though their value were comparable
+# to a karyotypically abnormal sample's. Their cells remain fully usable for hierarchy and CCC.
+#
+# There is no orthogonal check available: karyotype and mutations are empty for all 46 samples in
+# these two datasets, and neither has Numbat coverage. A threshold contribution cannot be ruled
+# out either -- their observation/reference burden ratio is 1.78 vs 2.95 for the 44 samples that
+# took the same external route successfully -- but the NPM1 subtype explains the bulk of it and is
+# the only explanation with evidence behind it.
+CNV_UNINFORMATIVE_DATASETS <- c("GSE185991", "GSE147989")
+
+## =====================================================================================
+## VAN GALEN MALIGNANT-STATE AXIS (80/81) -- a malignancy call that does not use copy number
+## =====================================================================================
+# Built because the CNV route is inverted on negative controls (healthy median malignant_frac
+# 0.108 vs autologous-AML 0.063) and structurally blind to cytogenetically normal AML. Signatures
+# are learned from van Galen's PredictionRefined labels by a WITHIN-SAMPLE malignant-vs-normal
+# contrast, then scored cohort-wide with UCell -- rank-based within each cell, which is what lets
+# a signature learned on Seq-Well transfer to 10x at all.
+VG_MIN_CELLS_PER_SIDE   <- 10L    # a (sample,bin) needs this many malignant AND normal cells.
+                                  # 20 left only Mono_DC(9) and LMPP_GMP(4) testable; 10 gives
+                                  # Mono_DC 10, LMPP_GMP 8, HSC_MPP 5, Erythroid 4, T_NK 4, B_Plasma 4.
+                                  # Most AML samples retain almost no NORMAL myeloid cells, so this
+                                  # is the binding constraint on contrast A, not a quality knob.
+VG_MIN_SAMPLES_PER_BIN  <- 4L     # a bin needs this many testable samples before it gets a signature
+VG_MIN_LFC              <- 0.25   # on log-normalised expression
+VG_MIN_DDET             <- 0.05   # and the detection rate must move too, not just the mean
+VG_MIN_FRAC_SAMPLES     <- 0.70   # CONSISTENCY, not effect size: one donor cannot install its genes
+VG_MIN_LFC_B            <- 0.25   # contrast B (vs the 4 healthy donors inside GSE116256) must agree
+VG_HEALTHY_REGEX        <- "^BM"  # those donors: BM3, BM4, BM5-34p, BM5-34p38n
+VG_TOP_N                <- 50L    # genes per direction per bin
+
+# The threshold is set FROM the healthy donors rather than derived from a reference quantile and
+# then discovered to be miscalibrated. Pick the operating point on the negative controls, then
+# report whatever sensitivity it buys on the genotyped cells -- the opposite order to the CNV gate,
+# and the reason that gate ended up at FPR 0.186 against a nominal 0.05.
+VG_TARGET_HEALTHY_FPR   <- 0.05
+
 ## -- refnorm I/O (QC objects come from the canonical QC_RDS_DIR) ----
 REFNORM_SUMMARY_CSV  <- file.path(DIR_MALIGNANCY, "ref_norm_summary.csv")   # 02_malignancy (was 03)
 REFNORM_REF_CELL_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "01b_ref_norm_cells")

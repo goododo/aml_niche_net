@@ -83,8 +83,11 @@ score_one <- function(rds, ds, sid, verbose) {
   if (verbose) { message("  [coverage] worst signatures in this sample:"); print(head(cov[order(frac)], 4)) }
 
   use <- sigs[vapply(sigs, function(g) sum(g %in% g_have) >= 3L, logical(1))]
+  # ncores matters more than it looks: UCell ranks every gene in every cell, and on an 8,469-cell
+  # sample that measured 646.6 s single-threaded vs 38.5 s at 8 cores -- 17x, i.e. the difference
+  # between ~10 h and ~40 min over the cohort. Kept modest so a login-node run stays polite.
   U <- UCell::ScoreSignatures_UCell(dat, features = use, maxRank = CELLSTATE_MAXRANK,
-                                    ncores = 1, name = "")
+                                    ncores = CELLSTATE_NCORES, name = "")
   out <- data.table(cell = colnames(dat))
   for (nm in colnames(U)) out[, (nm) := as.numeric(U[, nm])]
   for (nm in setdiff(names(sigs), colnames(U))) out[, (nm) := NA_real_]
