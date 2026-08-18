@@ -19,11 +19,26 @@
 # measured against van Galen 2019's independent cell typing (08_validate_annotation.R) and it was
 # making the annotation WORSE:
 #
-#   agreement with the referee   BMM 0.828 | marker 0.664 | old corrected output 0.772
-#   where the two disagreed      BMM right 58.6%  marker right 13.8%
+#   agreement with the referee   BMM 0.875 | marker 0.680 | old corrected output 0.772
+#                                (on COMMON SUPPORT, n=20,781: every source answered)
+#   where the two disagreed      BMM right 68.4%  marker right 9.9%   (n=6,911)
 #   on the rows the old rule OVERRODE the projection: BMM right 62.6%, marker right 11.3%
+#                                (n=3,234: the disagreements where the marker call was CONFIDENT.
+#                                 This pair was always computed on the clean subset and is
+#                                 unchanged by the 2026-08-18 correction; re-derived independently
+#                                 to confirm it, since 08 no longer reproduces the retired rule.)
 #
-# i.e. every override was wrong about 5.5x more often than right. The failure is mechanical, not
+# NUMBERS CORRECTED 2026-08-18, CONCLUSION UNCHANGED -- IT GOT STRONGER. This block previously
+# read "BMM 0.828 | marker 0.664" and "58.6% / 13.8% (n=8,070)". Those came from
+# 08_validate_annotation.R before it handled the CSV empty-string round-trip: fwrite writes
+# NA_character_ as "", fread returns "" not NA, so is.na() was silently FALSE and 1,159 cells the
+# projection ABSTAINED on were scored as cells BMM ANSWERED WRONG. Pooling those with the 6,911
+# where both sources actually answered dragged BMM from 68.4% down to 58.6% and lifted the marker
+# from 9.9% to 13.8%. The old "final vs BMM +0.0196" came from the same artefact; on common
+# support the two are identical to four decimals, because this rule takes BMM wherever BMM answers.
+#
+# i.e. every override was wrong about 7x more often than right (was 5.5x on the contaminated
+# pool). The failure is mechanical, not
 # noise: the panel's "DC: Migratory (LAMP3+CCR7+)" shares CCR7 with naive/central-memory T cells,
 # and the method types CLUSTERS, so one bad cluster call mislabels hundreds of cells at once. The
 # low-confidence flag separates good calls from bad (61.8% of the wrong calls are flagged vs 23.8%

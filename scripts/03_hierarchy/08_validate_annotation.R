@@ -97,6 +97,18 @@ rec <- rbindlist(lapply(list.files(file.path(ANNO_RECONCILED_DIR, DS), pattern =
   d <- fread(p, select = c("cell", "bin_bmm", "bin_marker", "hierarchy_bin", "anno_source",
                            "marker_low_conf", "marker_cell_type", "margin_bin",
                            "bmm_prob", "mapping_error"))
+  # BLANK IS NOT A BIN, AND fread WILL NOT TELL YOU. 06 writes NA_character_ for a cell the
+  # projection abstained on; fwrite emits it as an empty string and fread reads it back as "",
+  # so every is.na() guard below was silently FALSE. The effect is not cosmetic: an ABSTENTION
+  # was scored as an ANSWER THAT WAS WRONG. acc_bmm read 0.8284 instead of 0.8746, and section
+  # 3's headline pooled the 1,159 cells where BMM never answered (bmm_right = 0 by construction)
+  # in with the 6,911 where it did -- turning 68.4% vs 9.9% into 58.6% vs 13.8%. That pooled
+  # pair was transcribed into 06_reconcile_annotation.R's header as the measurement justifying
+  # the 2026-08-14 rule change. 07_write_annotated_objects.R already normalises on read; this
+  # script did not.
+  for (cc in c("bin_bmm", "bin_marker", "hierarchy_bin", "marker_cell_type", "anno_source"))
+    if (cc %in% names(d) && is.character(d[[cc]]))
+      set(d, which(!nzchar(trimws(d[[cc]]))), cc, NA_character_)
   d[, sample := sub("__anno_percell\\.csv$", "", basename(p))][]
 }), fill = TRUE)
 
@@ -140,12 +152,25 @@ score <- function(D, label, prog_bin = NULL) {
   d[!vg %in% AMBIG, ref := VG2BIN[vg]]
   d <- d[!is.na(ref)]
   if (!nrow(d)) return(NULL)
+  # THREE ACCURACIES OVER THREE DIFFERENT DENOMINATORS IS NOT A COMPARISON. With NA handled
+  # correctly, na.rm = TRUE silently gives acc_bmm the subset where BMM answered while acc_final
+  # keeps every cell, so "final vs BMM" subtracts numbers computed on different cells. Before the
+  # NA fix the same line was wrong in the opposite direction -- abstentions counted as BMM errors,
+  # which is what made a marker-fill rule look like a +0.0196 improvement. Report coverage next to
+  # each rate, and do the head-to-head on COMMON SUPPORT, where all three actually answered.
+  cs <- d[!is.na(bin_bmm) & !is.na(bin_marker) & !is.na(hierarchy_bin)]
   data.table(
     comparison   = label,
     n_cells      = nrow(d),
+    cov_bmm      = round(mean(!is.na(d$bin_bmm)), 4),
+    cov_marker   = round(mean(!is.na(d$bin_marker)), 4),
     acc_bmm      = round(mean(d$bin_bmm       == d$ref, na.rm = TRUE), 4),
     acc_marker   = round(mean(d$bin_marker    == d$ref, na.rm = TRUE), 4),
-    acc_final    = round(mean(d$hierarchy_bin == d$ref, na.rm = TRUE), 4)
+    acc_final    = round(mean(d$hierarchy_bin == d$ref, na.rm = TRUE), 4),
+    n_common     = nrow(cs),
+    acc_bmm_cs   = round(mean(cs$bin_bmm       == cs$ref), 4),
+    acc_marker_cs= round(mean(cs$bin_marker    == cs$ref), 4),
+    acc_final_cs = round(mean(cs$hierarchy_bin == cs$ref), 4)
   )
 }
 
@@ -153,8 +178,14 @@ cat("\n=========== 1. overall agreement with the referee ===========\n")
 cat("  (Prog/Prog-like excluded: no clean 8-bin counterpart)\n\n")
 P <- score(M, "primary (Prog excluded)")
 print(P)
-cat(sprintf("\n  final vs BMM: %+.4f     final vs marker: %+.4f\n",
-            P$acc_final - P$acc_bmm, P$acc_final - P$acc_marker))
+cat(sprintf("\n  ON COMMON SUPPORT (n=%d, every source answered):\n", P$n_common))
+cat(sprintf("    BMM %.4f | marker %.4f | final %.4f\n", P$acc_bmm_cs, P$acc_marker_cs, P$acc_final_cs))
+cat(sprintf("    final vs BMM: %+.4f     final vs marker: %+.4f\n",
+            P$acc_final_cs - P$acc_bmm_cs, P$acc_final_cs - P$acc_marker_cs))
+cat("  The all-cell rates above carry different denominators (see cov_*) and must not be subtracted\n")
+cat("  from one another. Where the projection abstains, the final label is the marker's, so a\n")
+cat("  non-zero final-vs-BMM gap on common support is the ONLY form of that comparison that means\n")
+cat("  anything -- and there it is 0 by construction, because final == bmm wherever bmm answered.\n")
 
 cat("\n=========== 2. does the ambiguous class change the verdict? ===========\n")
 S <- rbindlist(list(P,
@@ -168,8 +199,10 @@ chk(!flip, "the sign of (final - BMM) is stable across both Prog assignments",
 cat("\n=========== 3. THE DECISIVE TEST: who is right where they disagree? ===========\n")
 D <- copy(M)[!vg %in% AMBIG][, ref := VG2BIN[vg]][!is.na(ref)]
 D <- D[!is.na(bin_bmm) & !is.na(bin_marker) & bin_bmm != bin_marker]
-cat(sprintf("  cells where BMM and marker disagree: %d (%.1f%% of scorable)\n\n",
+cat(sprintf("  cells where BMM and marker disagree: %d (%.1f%% of scorable)\n",
             nrow(D), 100 * nrow(D) / nrow(M[!vg %in% AMBIG & !is.na(VG2BIN[vg])])))
+cat("  Both bins are non-NA here, so this set EXCLUDES cells the projection abstained on. Pooling\n")
+cat("  those in makes BMM look worse by construction: it cannot be right where it did not answer.\n\n")
 W <- D[, .(n = .N,
            bmm_right    = sum(bin_bmm    == ref),
            marker_right = sum(bin_marker == ref),
@@ -179,7 +212,11 @@ setorder(W, -n); print(W)
 cat(sprintf("\n  POOLED  BMM right %.1f%%  |  marker right %.1f%%  |  both wrong %.1f%%\n",
             100 * D[, mean(bin_bmm == ref)], 100 * D[, mean(bin_marker == ref)],
             100 * D[, mean(bin_bmm != ref & bin_marker != ref)]))
-cat("\n  Read 'marker_corrected' as the rows where 06 OVERRODE the projection, and 'bmm_kept' as\n")
+cat("\n  Read 'bmm_over_marker' as the rows where the projection WON over a disagreeing marker call,\n")
+cat("  and 'marker_fill' as the rows where the projection abstained and the marker supplied the bin.\n")
+cat("  (This legend named 'marker_corrected'/'bmm_kept' until 2026-08-18; 06 has never emitted\n")
+cat("   either value, so the reader was being pointed at rows that do not exist.)\n")
+cat("  IGNORED-LEGEND GUARD: every anno_source printed above must be a value 06 actually writes.\n")
 cat("  the rows where it declined to. Those two rows are the correction rule on trial.\n")
 
 cat("\n=========== 4. per-bin, where does each method lose? ===========\n")
@@ -232,8 +269,9 @@ print(Z[!is.na(pq), .(n = .N, bmm = round(mean(bin_bmm == ref, na.rm = TRUE), 3)
 Z[, eq := cut(mapping_error, quantile(mapping_error, 0:4 / 4, na.rm = TRUE),
               labels = c("Q1 best", "Q2", "Q3", "Q4 worst"), include.lowest = TRUE)]
 cat("\n  by mapping_error (the DEMOTED, scale-dependent metric):\n")
-print(Z[!is.na(eq), .(n = .N, bmm = round(mean(bin_bmm == ref, na.rm = TRUE), 3),
-                      marker = round(mean(bin_marker == ref, na.rm = TRUE), 3)), by = eq][order(eq)])
+ME <- Z[!is.na(eq), .(n = .N, bmm = round(mean(bin_bmm == ref, na.rm = TRUE), 3),
+                      marker = round(mean(bin_marker == ref, na.rm = TRUE), 3)), by = eq][order(eq)]
+print(ME)
 cat("\n  BMM holds up across its own confidence but collapses in the worst mapping_error quartile.\n")
 
 cat("\n=========== 9. the two QC metrics rank the cohort OPPOSITELY ===========\n")
@@ -241,7 +279,12 @@ Q <- rbindlist(lapply(list.dirs(ANNO_RECONCILED_DIR, recursive = FALSE), functio
   rbindlist(lapply(list.files(d, full.names = TRUE), function(p)
     fread(p, select = c("bmm_prob", "mapping_error"))[, dataset := basename(d)][]), fill = TRUE)), fill = TRUE)
 CUT <- as.numeric(quantile(M$mapping_error, 0.75, na.rm = TRUE))
-cat(sprintf("  danger-zone cutoff = GSE116256 mapping_error P75 = %.2f (where BMM fell to ~0.52)\n\n", CUT))
+# the accuracy quoted here is READ FROM the table just computed, not transcribed. It used to say
+# "~0.52", which was the abstention-inflated figure from before the NA fix; the true Q4 value is
+# 0.653, and a hardcoded number cannot follow a corrected measurement.
+q4_acc <- ME[eq == "Q4 worst", bmm][1]
+cat(sprintf("  danger-zone cutoff = GSE116256 mapping_error P75 = %.2f (where BMM falls to %.3f)\n\n",
+            CUT, q4_acc))
 QS <- Q[, .(n = .N, pct_prob_lt_0.5 = round(100 * mean(bmm_prob < 0.5, na.rm = TRUE), 1),
             med_maperr = round(median(mapping_error, na.rm = TRUE), 2),
             pct_in_danger = round(100 * mean(mapping_error > CUT, na.rm = TRUE), 1)), by = dataset]

@@ -103,17 +103,42 @@ bins <- rbindlist(lapply(which(info$healthy), function(i) {
   cf <- file.path(DIR_MALIGNANCY, ds, paste0(sid, "__consensus_percell.csv"))
   pf <- file.path(HIER_PROJ_DIR, ds, paste0(sid, "__bmm_percell.csv"))
   if (!file.exists(cf) || !file.exists(pf)) return(NULL)
-  m <- merge(fread(cf, select = c("cell", "malignant")),
-             fread(pf, select = c("cell", "hierarchy_bin", "in_ccc_graph")), by = "cell")
-  m[, .(dataset = ds, sample = sid, hierarchy_bin, in_ccc_graph, malignant)]
+  hdr <- names(fread(cf, nrows = 0L))
+  cc  <- if ("is_ref" %in% hdr) c("cell", "malignant", "is_ref") else c("cell", "malignant")
+  cm  <- fread(cf, select = cc)
+  if (!"is_ref" %in% names(cm)) cm[, is_ref := NA]
+  m <- merge(cm, fread(pf, select = c("cell", "hierarchy_bin", "in_ccc_graph")), by = "cell")
+  m[, .(dataset = ds, sample = sid, hierarchy_bin, in_ccc_graph, malignant, is_ref = as.logical(is_ref))]
 }), fill = TRUE)
 
 if (nrow(bins)) {
-  bt <- bins[, .(n = .N, false_pos = sum(malignant == 1, na.rm = TRUE)), by = .(hierarchy_bin, in_ccc_graph)]
-  bt[, FPR := round(false_pos / n, 4)][order(-FPR)]
+  # BOTH DENOMINATORS, ALWAYS. 41_infercnv_to_percell.R ASSIGNS malignant=0 to every autologous
+  # reference cell -- those cells cannot be false positives whatever their burden, so a rate over
+  # all cells is arithmetically FPR_evaluable x evaluable_share, not a false-positive rate.
+  # Measured effect when this was a single number: T_NK published 0.0557 against a true evaluable
+  # rate of 0.2598 (78.6% of that bin is forced zeros), and the BIN RANKING INVERTED -- T_NK was
+  # plotted as the cleanest compartment when it is among the dirtiest. The per-sample arm of this
+  # same script already reported both via fpr_excl_ref; only the per-bin arm did not.
+  if (bins[!is.na(is_ref), .N] == 0)
+    warning("no is_ref column in the consensus files -- rerun 41 and 50; reporting the padded rate only")
+  bt <- bins[, .(n = .N,
+                 false_pos = sum(malignant == 1, na.rm = TRUE),
+                 n_excl_ref = sum(!(is_ref %in% TRUE)),
+                 false_pos_excl_ref = sum(malignant == 1 & !(is_ref %in% TRUE), na.rm = TRUE)),
+             by = .(hierarchy_bin, in_ccc_graph)]
+  bt[, FPR := round(false_pos / n, 4)]
+  bt[, FPR_excl_ref := round(fifelse(n_excl_ref > 0, false_pos_excl_ref / n_excl_ref, NA_real_), 4)]
+  bt[, ref_share := round(1 - n_excl_ref / n, 4)]
+  setorder(bt, -FPR_excl_ref)
   fwrite(bt, file.path(DIR_MALIGNANCY, "malignancy_fpr_by_bin.csv"))
   cat("\n================ false-positive rate by hierarchy bin (healthy donors) ================\n")
-  print(bt[order(-FPR)])
+  # ordered by the COMPARABLE rate, not the padded one -- ordering by FPR is what put T_NK at the
+  # bottom of this table (0.0557) and had it read as the cleanest compartment
+  print(bt[order(-FPR_excl_ref)])
+  cat("\n  FPR is over ALL cells (what the pipeline acts on); FPR_excl_ref drops the autologous\n")
+  cat("  reference cells, which are DEFINED normal and cannot be positive. ref_share is how much of\n")
+  cat("  the bin that is. Read the second column when comparing bins -- the first one ranks bins by\n")
+  cat("  how large their reference is as much as by how often the caller misfires.\n")
   cat("\n[reading it] A bin with a high FPR is one where the CNV caller cannot be trusted. Compare\n")
   cat("  these numbers against the AML per-bin malignant fractions from 03_hierarchy: a bin whose\n")
   cat("  AML fraction is not clearly above its healthy FPR carries no usable malignancy signal.\n")

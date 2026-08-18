@@ -44,13 +44,24 @@ for f in "${BURDEN}"/*/*_infercnv_burden.csv; do
   qc="${QC_RDS_DIR}/${ds}/${s}.rds"
   ic="${INFERCNV_ROOT}/${ds}/${s}/${s}__infercnv_percell.csv"
   nb="${CNV_ROOT}/numbat/${ds}/${s}/numbat/${s}__numbat_percell.csv"
+  # THE AUTHOR ARM WAS NEVER WIRED INTO THIS DRIVER. 50 accepts --author and 43_author_to_percell.R
+  # writes 15 files for GSE239721, but the args array below only ever passed --numbat -- so the
+  # PRODUCTION driver could not reproduce the shipped state. Re-running it silently rewrote those 15
+  # samples from arms="infercnv+author" to arms="infercnv", changing the malignant call on 11 of
+  # them (PT32A 5 -> 115) and exiting 0. Nothing in the consensus output records that an arm which
+  # exists on disk was never offered; only 22_verify_malignancy_percell.R's arms-vs-disk check
+  # would have caught it, after the fact.
+  au="${CNV_ROOT}/author/${ds}/${s}/${s}__author_percell.csv"
 
   # The roster check comes FIRST. A sample that left the cohort has no QC object
   # (they are quarantined by 99_admin/14), and it must not be reported as
   # "already-done" just because a burden CSV from the previous ingest survives.
   if [[ ! -f "$qc" ]]; then echo "[skip] not in cohort / no QC rds: ${ds}/${s}"; n_skip=$((n_skip+1)); continue; fi
 
-  if [[ -z "$FORCE" && -f "$summ" && "$summ" -nt "$f" && "$summ" -nt "$qc" ]]; then
+  # freshness must consider EVERY arm the consensus consumes, not just the burden and the QC object
+  if [[ -z "$FORCE" && -f "$summ" && "$summ" -nt "$f" && "$summ" -nt "$qc" ]] \
+     && { [[ ! -f "$au" ]] || [[ "$summ" -nt "$au" ]]; } \
+     && { [[ ! -f "$nb" ]] || [[ "$summ" -nt "$nb" ]]; }; then
     n_done=$((n_done+1)); continue                                      # resume-skip: output is current
   fi
   [[ -f "$summ" ]] && { echo "[recompute] stale summary: ${ds}/${s}"; n_stale=$((n_stale+1)); }
@@ -64,7 +75,8 @@ for f in "${BURDEN}"/*/*_infercnv_burden.csv; do
 
   args=(--sample "$s" --dataset "$ds" --qc_rds "$qc" --infercnv "$ic" --outdir "$out")
   [[ -f "$nb" ]] && args+=(--numbat "$nb")
-  echo "[run] ${ds}/${s}$([[ -f $nb ]] && echo ' (+numbat)')"
+  [[ -f "$au" ]] && args+=(--author "$au")
+  echo "[run] ${ds}/${s}$([[ -f $nb ]] && echo ' (+numbat)')$([[ -f $au ]] && echo ' (+author)')"
   Rscript "${MAL_DIR}/50_consensus_malignancy.R" "${args[@]}" >/dev/null && n_run=$((n_run+1))
 done
 

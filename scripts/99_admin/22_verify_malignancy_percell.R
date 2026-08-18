@@ -22,8 +22,14 @@ ok  <- function(m) { N <<- N + 1L; cat(sprintf("  [PASS] %s\n", m)) }
 bad <- function(m) { N <<- N + 1L; FAIL <<- FAIL + 1L; cat(sprintf("  [FAIL] %s\n", m)) }
 chk <- function(cond, m, d = "") if (isTRUE(cond)) ok(m) else bad(paste0(m, if (nzchar(d)) paste0(" -- ", d)))
 
-tasks <- rbindlist(lapply(list.files(".", pattern = "^infercnv_tasks(_healthy)?\\.tsv$"),
-                          function(p) fread(p, header = FALSE, col.names = c("dataset", "sample"))))
+# THE ROSTER COMES FROM THE COHORT, NOT FROM THE TASK FILES. This used to glob
+# ^infercnv_tasks(_healthy)?\.tsv$, which matches 2 of the 6 task files now in the tree. The
+# 33-sample external-reference backfill was queued through infercnv_tasks_sorted.tsv, so it was
+# INVISIBLE here: 3.5 failed loudly (rollup 212 vs files 179) but 3.1-3.4 had been quietly
+# validating a 179-sample subset and reporting PASS. A roster that has to be extended by hand
+# every time work is queued will silently shrink the audit exactly when new work needs auditing.
+# qc_rds_roster() is the roster every producing script already uses, so it cannot drift from them.
+tasks <- qc_rds_roster(on_extra = "ignore")[, .(dataset, sample)]
 tasks[, burden   := file.path(INFERCNV_BURDEN_ROOT, dataset, paste0(sample, "_infercnv_burden.csv"))]
 tasks[, percell  := file.path(INFERCNV_ROOT, dataset, sample, paste0(sample, "__infercnv_percell.csv"))]
 tasks[, cons     := file.path(DIR_MALIGNANCY, dataset, paste0(sample, "__consensus_summary.csv"))]
@@ -111,6 +117,14 @@ if (nrow(degraded)) {
 } else cat("  [skip] no degraded numbat files found\n")
 
 cat("\n=========== 3.5 rollup covers exactly the per-sample records ===========\n")
+# Counted straight off the filesystem as well as through the roster. If the two ever disagree the
+# roster is wrong, and the roster is what the rest of this batch trusts -- so a roster-only count
+# would report PASS on a subset, which is the bug this section was written to catch.
+disk <- list.files(DIR_MALIGNANCY, pattern = "__consensus_summary\\.csv$", recursive = TRUE)
+cat(sprintf("  roster samples: %d | with a consensus summary: %d | summaries on disk: %d\n",
+            nrow(tasks), nrow(S), length(disk)))
+chk(nrow(S) == length(disk), "roster sees every consensus summary on disk",
+    sprintf("roster %d vs disk %d -- an orphan output or a roster gap", nrow(S), length(disk)))
 if (file.exists(file.path(DIR_MALIGNANCY, "ALL_consensus_summary.csv"))) {
   A <- fread(file.path(DIR_MALIGNANCY, "ALL_consensus_summary.csv"))
   chk(nrow(A) == nrow(S), "rollup rows == per-sample summary files",
@@ -118,6 +132,33 @@ if (file.exists(file.path(DIR_MALIGNANCY, "ALL_consensus_summary.csv"))) {
   chk(!anyDuplicated(A[, .(dataset, sample)]), "no duplicated sample in the rollup")
   chk(all(A$malignant_frac >= 0 & A$malignant_frac <= 1, na.rm = TRUE), "malignant_frac in [0,1]")
   chk(all(A$n_malignant <= A$n_called, na.rm = TRUE), "n_malignant <= n_called")
+
+  ## -- 3.6 the coverage gate on malignant_frac ------------------------------------------------
+  # malignant_frac divides by n_called, not by n_qc_cells. When a sample's only two arms are both
+  # EXPRESSION arms, strict_majority() returns NA on every cell they disagree about, so n_called
+  # collapses and the published fraction can describe a fraction of a percent of the sample --
+  # measured at 8 of 3,910 cells for GSE239721/PT15A. These assert the collapse stays visible.
+  if (all(c("called_frac", "expr_conflict_frac", "evidence_tier") %in% names(A))) {
+    chk(all(abs(A$called_frac - A$n_called / A$n_qc_cells) < 1e-4, na.rm = TRUE),
+        "called_frac equals n_called / n_qc_cells",
+        sprintf("%d rows disagree", sum(abs(A$called_frac - A$n_called / A$n_qc_cells) >= 1e-4, na.rm = TRUE)))
+    chk(all((A$evidence_tier == "D_low_coverage") == (A$called_frac < CONSENSUS_MIN_CALLED_FRAC)),
+        sprintf("D_low_coverage iff called_frac < %.2f", CONSENSUS_MIN_CALLED_FRAC),
+        sprintf("%d rows violate", sum((A$evidence_tier == "D_low_coverage") != (A$called_frac < CONSENSUS_MIN_CALLED_FRAC))))
+    # NON-VACUITY. Every assertion above is satisfied by an empty set. If no sample is ever tiered
+    # D, the gate is untested and indistinguishable from one that never fires.
+    chk(A[evidence_tier == "D_low_coverage", .N] > 0,
+        "at least one sample actually trips the coverage gate (the check is not vacuous)",
+        sprintf("%d tiered D", A[evidence_tier == "D_low_coverage", .N]))
+    # expr_conflict_frac must be populated exactly where two expression arms exist, and NA elsewhere
+    two_expr <- A[, grepl("infercnv", arms) & grepl("author", arms)]
+    chk(all(!is.na(A$expr_conflict_frac[two_expr])) && all(is.na(A$expr_conflict_frac[!two_expr])),
+        "expr_conflict_frac is present iff the sample has two expression arms",
+        sprintf("%d with two expr arms, %d non-NA", sum(two_expr), sum(!is.na(A$expr_conflict_frac))))
+    cat(sprintf("  coverage: %d samples below the gate, worst called_frac %.4f, max arm disagreement %.4f\n",
+                A[evidence_tier == "D_low_coverage", .N], min(A$called_frac),
+                max(A$expr_conflict_frac, na.rm = TRUE)))
+  } else cat("  [SKIP] summary predates called_frac/expr_conflict_frac -- rerun 50 and 60\n")
 } else cat("  [skip] rollup not built\n")
 
 cat(sprintf("\n=========== BATCH 3: %d checks, %d failed ===========\n", N, FAIL))

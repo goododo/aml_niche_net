@@ -121,6 +121,25 @@ for (nm in names(arm_paths)) {
 if (!length(present)) stop("No malignancy arms available for ", opt$sample)
 message("[2] Arms present: ", paste(present, collapse = ", "))
 
+## ---- 2b. carry the inferCNV reference flag ----
+# An autologous reference cell is ASSIGNED malignant=0 by 41; it is not a cell the caller got right.
+# Any rate computed over a denominator that includes them measures the reference fraction as much as
+# the caller. Carried per cell so every consumer can choose its denominator explicitly instead of
+# silently inheriting the padded one.
+base[, is_ref := FALSE]
+if (nzchar(opt$infercnv) && file.exists(opt$infercnv)) {
+  ic <- fread(opt$infercnv)
+  if ("is_ref" %in% names(ic)) {
+    ic[, key16 := core16(cell)]
+    icu <- unique(ic[, .(key16, r = as.logical(is_ref))], by = "key16")
+    base[icu, is_ref := i.r, on = "key16"]
+    base[is.na(is_ref), is_ref := FALSE]
+    message("    [is_ref] ", sum(base$is_ref), " autologous reference cells flagged")
+  } else {
+    message("    [is_ref] inferCNV percell predates the is_ref column -- rerun 41 for this sample")
+  }
+}
+
 ## ---- 3. collapse to per-TYPE calls, then vote across types ----
 union_mode <- (isTRUE(opt$union_mode) || isTRUE(CONSENSUS_UNION_MODE)) && !isTRUE(opt$majority)
 message("[3] Type-level voting (min_tools=", opt$min_tools,
@@ -161,7 +180,7 @@ if (!is.na(opt$dataset)) base[, dataset := opt$dataset]
 base[, sample := opt$sample]
 
 ## ---- 4. write per-cell + per-sample summary ----
-keep <- c("cell","sample","malignant","confidence","n_types","n_types_mal",
+keep <- c("cell","sample","malignant","is_ref","confidence","n_types","n_types_mal",
           "expr_call","allele_call","snv_call", intersect(paste0("m_",names(arm_paths)), names(base)))
 out_cell <- file.path(opt$outdir, paste0(opt$sample, "__consensus_percell.csv"))
 fwrite_safe(base[, ..keep], out_cell)
@@ -174,14 +193,40 @@ n_types_sample <- sum(type_present)
 # among cells with >=2 types, fraction whose types DISAGREE (not unanimous: 0 < n_types_mal < n_types)
 multi <- base[n_types >= 2]
 conflict_frac <- if (nrow(multi)) mean(multi$n_types_mal > 0 & multi$n_types_mal < multi$n_types) else 0
+
+# WITHIN-EXPRESSION-TYPE DISAGREEMENT, which conflict_frac above is structurally blind to.
+# conflict_frac ranges over base[n_types >= 2]; n_types counts TYPES (expr/allele/snv), so for a
+# sample whose only arms are inferCNV + author -- both expression -- that set is EMPTY and
+# conflict_frac is 0. It reported "no conflict" on samples whose two arms disagreed on 99.8% of
+# cells, because the disagreement had already been collapsed to NA by strict_majority() one step
+# earlier and could never reach the cross-type vote.
+n_expr_arms <- length(expr_cols)
+expr_conflict_frac <- NA_real_
+if (n_expr_arms >= 2) {
+  EC <- base[, ..expr_cols]                       # subset first; .SDcols does not apply in `i`
+  ec <- EC[rowSums(!is.na(EC)) >= 2]              # cells where at least two expression arms called
+  expr_conflict_frac <- if (nrow(ec))
+    mean(rowSums(ec == 1, na.rm = TRUE) > 0 & rowSums(ec == 0, na.rm = TRUE) > 0) else NA_real_
+}
+
+n_called   <- base[!is.na(malignant), .N]
+called_frac <- if (nrow(base)) n_called / nrow(base) else 0
+
+# D_low_coverage OVERRIDES the concordance tiers. A sample can be perfectly concordant on the
+# handful of cells that got a call and still have a malignant_frac that describes 0.2% of it.
 evidence_tier <- if (n_types_sample <= 1) "C_single" else
                  if (conflict_frac < opt$conflict_max) "A_concordant" else "B_multi_partial"
-n_called <- base[!is.na(malignant), .N]
+if (called_frac < CONSENSUS_MIN_CALLED_FRAC) evidence_tier <- "D_low_coverage"
+
 summ <- data.table(
   sample = opt$sample, dataset = opt$dataset, n_qc_cells = nrow(base),
   arms = paste(present, collapse = "+"), n_types = n_types_sample,
   evidence_tier = evidence_tier, conflict_frac = round(conflict_frac, 4),
-  n_called = n_called, n_malignant = base[malignant == 1, .N],
+  expr_conflict_frac = round(expr_conflict_frac, 4),
+  n_called = n_called, called_frac = round(called_frac, 4),
+  n_malignant = base[malignant == 1, .N],
+  # DENOMINATOR IS n_called, NOT n_qc_cells -- read it as "of the cells that got a call". Pair it
+  # with called_frac, which is now next to it in every summary, or it is not interpretable.
   malignant_frac = round(base[malignant == 1, .N] / max(n_called, 1), 4),
   n_high = base[confidence == "high", .N],
   n_conflicting = base[confidence == "conflicting", .N],
@@ -189,6 +234,12 @@ summ <- data.table(
 out_summ <- file.path(opt$outdir, paste0(opt$sample, "__consensus_summary.csv"))
 fwrite_safe(summ, out_summ)
 
+if (called_frac < CONSENSUS_MIN_CALLED_FRAC)
+  message(sprintf("  [!] only %d of %d cells got a call (%.1f%%) -- malignant_frac describes that subset, not the sample",
+                  n_called, nrow(base), 100 * called_frac))
+if (!is.na(expr_conflict_frac) && expr_conflict_frac > 0.5)
+  message(sprintf("  [!] the %d expression arms disagree on %.1f%% of jointly-called cells",
+                  n_expr_arms, 100 * expr_conflict_frac))
 message("[done] ", opt$sample, ": tier=", evidence_tier, " malignant_frac=", summ$malignant_frac,
         " (", summ$n_malignant, "/", n_called, "), arms=", summ$arms,
         "\n        per-cell -> ", out_cell, "\n        summary  -> ", out_summ)

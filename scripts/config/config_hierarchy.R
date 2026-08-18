@@ -233,3 +233,49 @@ load_stemness <- function() {
   if (!file.exists(STEMNESS_TSV)) stop("[config] stemness tsv not found: ", STEMNESS_TSV)
   fread(STEMNESS_TSV, sep = "\t")
 }
+
+## =====================================================================================
+## CytoTRACE2 -- a SECOND, INDEPENDENT developmental-potency estimate
+## =====================================================================================
+# The pipeline's differentiation axis currently comes entirely from the BoneMarrowMap projection.
+# A single estimator cannot be checked against itself, and the projection is already known to
+# misplace cells (it puts malignant myeloid blasts into the T_NK, B_Plasma and Erythroid bins).
+# CytoTRACE2 predicts absolute potency from a model trained on annotated developmental data and
+# shares no machinery with Symphony projection, so agreement between the two is evidence and
+# disagreement localises which cells not to trust.
+CYTOTRACE_DIR    <- file.path(LARGE1_DIR, "02_seurat_objects", "03_cytotrace2")
+# ONE CORE PER PROCESS, PARALLELISM VIA SLICES ONLY. cytotrace2 forks its model and smoothing
+# workers, and the conda R links a threaded BLAS; forking from inside a threaded region deadlocks.
+# With 5 concurrent slices x 12 forked workers every process sat at 0.1% CPU with 385 GB free --
+# hung, not slow, and hung in a way that looks exactly like slow from the log. A single-threaded
+# worker per process cannot deadlock, and OMP_NUM_THREADS=1 in the launcher keeps the BLAS out of it.
+CYTOTRACE_NCORES <- 1L
+# cytotrace2 throws "wrong sign in 'by' argument" for some cell-count/batch-size combinations
+# (observed at 5,626 cells with the defaults). Chunk sizes to try in order; the sample is only
+# abandoned if every one fails, because a silently dropped sample shows up nowhere but the denominator.
+CYTOTRACE_CHUNKS <- list(c(10000L, 1000L), c(5000L, 1000L), c(2500L, 500L), c(1000L, 250L))
+CYTOTRACE_SEED   <- 42L
+
+# CytoTRACE2_Relative is rank-normalised WITHIN each run, so it is NOT comparable across samples --
+# the same trap as AddModuleScore. CytoTRACE2_Score is the absolute potency estimate and is what
+# any cross-sample statement must use. Concordance with BMM pseudotime is measured WITHIN sample
+# (Spearman per sample, then summarised), which sidesteps the question entirely.
+CYTOTRACE_SCORE_COL <- "CytoTRACE2_Score"
+
+# Ordered contrasts against settled haematopoiesis, in the style of 09: potency must DECREASE with
+# differentiation. Not an argmax test -- a single wrong peak would fail an argmax for reasons that
+# have nothing to do with the estimator working.
+CYTOTRACE_CONTRASTS <- data.table::data.table(
+  hi = c("HSC_MPP", "HSC_MPP", "HSC_MPP",  "HSC_MPP",   "LMPP_GMP", "LMPP_GMP"),
+  lo = c("Mono_DC", "T_NK",    "B_Plasma", "Erythroid", "Mono_DC",  "T_NK"),
+  why = c("HSC/MPP are less differentiated than monocytes and DC",
+          "HSC/MPP are less differentiated than mature T and NK cells",
+          "HSC/MPP are less differentiated than B and plasma cells",
+          "HSC/MPP are less differentiated than erythroid cells",
+          "granulocyte-monocyte progenitors are upstream of monocytes",
+          "myeloid progenitors are less differentiated than mature T and NK cells"))
+
+# BMM pseudotime INCREASES with differentiation; CytoTRACE2 potency DECREASES with it. So the two
+# must correlate NEGATIVELY. A positive correlation means one of them is inverted, which is exactly
+# the kind of error that survives when only one estimator exists.
+CYTOTRACE_MAX_BMM_COR <- -0.20

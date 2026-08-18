@@ -143,24 +143,88 @@ CNV_UNINFORMATIVE_DATASETS <- c("GSE185991", "GSE147989")
 # are learned from van Galen's PredictionRefined labels by a WITHIN-SAMPLE malignant-vs-normal
 # contrast, then scored cohort-wide with UCell -- rank-based within each cell, which is what lets
 # a signature learned on Seq-Well transfer to 10x at all.
-VG_MIN_CELLS_PER_SIDE   <- 10L    # a (sample,bin) needs this many malignant AND normal cells.
-                                  # 20 left only Mono_DC(9) and LMPP_GMP(4) testable; 10 gives
-                                  # Mono_DC 10, LMPP_GMP 8, HSC_MPP 5, Erythroid 4, T_NK 4, B_Plasma 4.
+VG_MIN_CELLS_PER_SIDE   <- 10L    # a (sample,celltype) needs this many malignant AND normal cells.
                                   # Most AML samples retain almost no NORMAL myeloid cells, so this
                                   # is the binding constraint on contrast A, not a quality knob.
-VG_MIN_SAMPLES_PER_BIN  <- 4L     # a bin needs this many testable samples before it gets a signature
+                                  # At 10: HSC 10 samples, Mono 8, cDC 7, Prog 6, GMP 5, ProMono 4.
+VG_MIN_SAMPLES_PER_TYPE <- 4L     # a cell type needs this many testable samples to get a signature
 VG_MIN_LFC              <- 0.25   # on log-normalised expression
 VG_MIN_DDET             <- 0.05   # and the detection rate must move too, not just the mean
 VG_MIN_FRAC_SAMPLES     <- 0.70   # CONSISTENCY, not effect size: one donor cannot install its genes
 VG_MIN_LFC_B            <- 0.25   # contrast B (vs the 4 healthy donors inside GSE116256) must agree
 VG_HEALTHY_REGEX        <- "^BM"  # those donors: BM3, BM4, BM5-34p, BM5-34p38n
-VG_TOP_N                <- 50L    # genes per direction per bin
+VG_TOP_N                <- 50L    # genes per direction per cell type
+
+# RANK BY DETECTION-RATE DIFFERENCE, NOT BY MEAN LOG FOLD CHANGE. Ranking by med_lfc put GAPDH,
+# ACTG1, EIF4A1, ENO1, PSMA7 and RPS/RPL genes at the top of every signature: the mean of
+# log1p(CP10K) is dominated by abundant genes, so the ranking selected for abundance. That is fatal
+# downstream because UCell scores the WITHIN-CELL RANK of the signature genes, and housekeeping
+# genes sit near the top of the ranking in every cell -- malignant or not -- so such a signature
+# saturates and cannot discriminate. Detection-rate difference is bounded in [0,1] and is ~0 for
+# genes expressed everywhere, so it actively de-selects housekeeping instead of favouring it.
+VG_RANK_BY              <- "ddet"
+
+# A gene that separates malignant from normal in EVERY lineage is about malignancy; one that does
+# so in a single lineage may be about that lineage. The pan-blast signature is the intersection
+# side of that trade and is what gets applied to cells whose bin has no matched counterpart.
+VG_PANBLAST_MIN_TYPES   <- 3L
+
+# THE GATE THAT WAS MISSING. The first version reported gene-retention under leave-one-out and
+# called that validation -- but a signature can be perfectly stable and still not discriminate.
+# Held-out AUC asks the only question that matters: trained WITHOUT this donor, does the signature
+# separate that donor's malignant cells from their normal cells? Below this, the signature is not
+# used, however stable it is.
+VG_MIN_AUC              <- 0.70
+
+# TRAIN ON VAN GALEN'S OWN CELL TYPES, NOT ON OUR PROJECTION BINS. Pairing malignant vs normal
+# within OUR hierarchy_bin looked reasonable and was wrong: the projection puts malignant HSC-like
+# and Prog-like blasts into the T_NK (299 cells), B_Plasma (112) and Erythroid (1,483) bins, so
+# those contrasts were "myeloid blast vs T cell" -- a LINEAGE difference dressed up as malignancy.
+# The tell was in the output: the lineage-mismatched bins yielded a full 50 genes while the
+# correctly matched Mono_DC yielded 3. van Galen's `X-like` vs `X` naming pairs each malignant type
+# with its own normal counterpart exactly, which is the contrast we actually want.
+VG_TYPE_TO_BIN <- c(HSC = "HSC_MPP", Prog = "HSC_MPP", GMP = "LMPP_GMP",
+                    ProMono = "Mono_DC", Mono = "Mono_DC", cDC = "Mono_DC")
 
 # The threshold is set FROM the healthy donors rather than derived from a reference quantile and
 # then discovered to be miscalibrated. Pick the operating point on the negative controls, then
 # report whatever sensitivity it buys on the genotyped cells -- the opposite order to the CNV gate,
 # and the reason that gate ended up at FPR 0.186 against a nominal 0.05.
 VG_TARGET_HEALTHY_FPR   <- 0.05
+
+## -- 81: cohort scoring and calibration -------------------------------------------------------
+VG_SIG_TSV   <- file.path(SCRIPTS_DIR, "02_malignancy", "vangalen_malignant_signatures.tsv")
+VG_SCORE_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "03_vg_malignancy")
+
+# THE CALIBRATION DONORS MUST BE ONES THE SIGNATURE HAS NEVER SEEN. GSE116256's own 4 healthy
+# donors are contrast B in 80 -- they helped SELECT the genes, so calibrating a threshold on them
+# would be circular and would report a false-low FPR. The other 33 healthy donors live in 4
+# independent datasets on a different chemistry (van Galen is Seq-Well; these are 10x), so they
+# test transfer and calibration at the same time.
+VG_CALIB_EXCLUDE_DATASET <- "GSE116256"
+VG_MIN_CALIB_CELLS       <- 500L   # below this the 95th percentile is too noisy to set a gate on
+
+# The signatures that cleared 80's held-out AUC gate are HSC and Prog, both of which map into
+# HSC_MPP. So the van Galen axis has ONE bin of validity, and 81 must not quietly score outside it:
+# a call made in a bin where the signature was never shown to work is not evidence.
+VG_CALL_BINS <- "HSC_MPP"
+
+# UCell is rank-based WITHIN each cell, which is the property that lets a Seq-Well-trained
+# signature transfer to 10x at all -- but "should transfer" is a hypothesis, so 81 reports the
+# healthy score distribution per dataset. If the healthy 95th percentile moves substantially
+# between datasets, a single global threshold is the wrong object and calibration must be
+# per-dataset. This is the number that decides it.
+VG_MAX_CALIB_SPREAD <- 0.05   # tolerated spread in the healthy P95 across calibration datasets
+
+# MEASURED, AFTER THE FACT: the score is NOT platform-invariant. The four 10x calibration datasets
+# agree closely (healthy P95 spread 0.019), but GSE116256 -- the Seq-Well dataset the signature was
+# trained on -- sits at 0.398 against their 0.652. A quarter of the score's range separates the two
+# platforms, so a single global threshold applied to Seq-Well cells calls almost nothing, and the
+# first sensitivity measurement came back at 0.118 for exactly that reason and not because the
+# signature is weak. The transfer check passed only because it compared 10x with 10x.
+# So the threshold is DATASET-MATCHED wherever a dataset ships its own healthy donors, and falls
+# back to the pooled 10x threshold only where it cannot be.
+VG_MIN_DS_CALIB_CELLS <- 200L
 
 ## -- refnorm I/O (QC objects come from the canonical QC_RDS_DIR) ----
 REFNORM_SUMMARY_CSV  <- file.path(DIR_MALIGNANCY, "ref_norm_summary.csv")   # 02_malignancy (was 03)
@@ -243,6 +307,27 @@ INFERCNV_MATCHED_REF_PER_BIN  <- c(Mono_DC = 600L, LMPP_GMP = 600L, Erythroid = 
 CONSENSUS_MIN_TOOLS <- 1L     # pilot: single-type allowed (tier C). Raise for strict >=2/3.
 CONSENSUS_UNION_MODE <- TRUE   # PRODUCTION DEFAULT: with >=2 evidence types, malignant if ANY type
                               # is positive. Numbat allele evidence (del/LOH) is the ONLY way to
+
+# COVERAGE GATE ON malignant_frac. strict_majority() returns NA on a tie, so a sample whose only
+# two arms are BOTH expression-type (inferCNV + author) loses every cell the two disagree on --
+# they never reach the cross-type vote at all. Measured on the shipped cohort: 13 samples, all
+# GSE239721, publish a malignant_frac computed from under 95% of their cells and PT15A publishes
+# 0.6250 from 8 cells of 3,910 (0.2%). Nothing flagged it: conflict_frac is computed over
+# base[n_types >= 2], which is EMPTY for exactly these samples, so it reported 0.0000 -- "no
+# conflict" -- while the two arms disagreed on 99.8% of cells, and evidence_tier read C_single
+# because only one evidence TYPE was present.
+# This threshold does not repair the number; which arm is right is a provenance question about
+# GSE239721's author labels that the code cannot answer. It makes the number impossible to consume
+# without noticing, which is the part that was missing.
+# 0.90, i.e. "more than a tenth of the sample is missing from this number". Chosen as a general
+# completeness criterion rather than fitted to the gap in this cohort, which has none: the affected
+# samples run 0.002, 0.004, 0.027, 0.040, 0.060, 0.070, 0.130, 0.160, 0.170, 0.216, 0.522, 0.744,
+# 0.948, 0.991, 0.997 and then 197 samples at exactly 1. An earlier 0.50 left PT16A untiered while
+# it published malignant_frac 0.9230 from 52% of its cells. The three above 0.90 (PT23A 0.948,
+# PT22A 0.991, PT14A 0.997) keep their tier and carry called_frac/expr_conflict_frac instead --
+# the columns are on every row, so a consumer that wants a stricter cut has the number to apply it.
+CONSENSUS_MIN_CALLED_FRAC <- 0.90   # below this the sample is tiered D_low_coverage
+
                               # catch CN-normal AML (inferCNV is expression-flat there); type-majority
                               # would drop those samples' malignant cells (e.g. 3853_Dg/6323_Dg went
                               # 0 -> 0.66/0.50 under union). Labels use union; the B_multi_partial

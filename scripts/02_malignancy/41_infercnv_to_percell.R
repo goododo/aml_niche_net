@@ -59,7 +59,15 @@ if (nzchar(opt$burden_csv) && file.exists(opt$burden_csv)) {
   # 00_infercnv_common now also emits reference_matched__<bin> (this dataset's healthy donors),
   # and a prefix test would have silently passed those foreign cells through as sample cells.
   d <- d[!(is_ref & group != "reference_normal")]
-  res <- d[, .(cell, malignant, score = infercnv_burden, method = "infercnv", sample = opt$sample)]
+  # CARRY THE REFERENCE FLAG INTO THE OUTPUT. `malignant := 0L` above is an ASSIGNMENT, not a
+  # measurement: an autologous reference cell is DEFINED normal and cannot be positive whatever its
+  # burden. Dropping the group column here made that indistinguishable from a call downstream, and
+  # two published statistics then divided by denominators padded with cells that cannot be positive
+  # -- the healthy per-bin FPR (96) and the DNA-level specificity (99). Recomputed from `group`
+  # rather than reusing `is_ref`, which was built before this subset and no longer aligns.
+  res <- d[, .(cell, malignant, score = infercnv_burden,
+               is_ref = grepl("reference", group, ignore.case = TRUE),
+               method = "infercnv", sample = opt$sample)]
   fwrite_safe(res, out)
   message("[done] ", sum(res$malignant), "/", nrow(res), " malignant -> ", out); quit(save = "no")
 }
@@ -87,7 +95,12 @@ if (length(ref_idx) >= 20) {
   thr_c <- max(opt$cor_min, as.numeric(quantile(cnv_cor[ref_idx], opt$score_q, na.rm = TRUE)))
 } else { thr_s <- as.numeric(quantile(cnv_score[obs_idx], 0.75, na.rm = TRUE)); thr_c <- opt$cor_min }
 mal <- as.integer(cnv_score > thr_s & cnv_cor > thr_c); mal[ref_idx] <- 0L
-res <- data.table(cell = cells, malignant = mal, score = cnv_cor, method = "infercnv", sample = opt$sample)
+# PATH B drops EVERY reference cell, autologous included, so every surviving cell is an
+# observation and is_ref is FALSE by construction. That differs from PATH A, which keeps
+# reference_normal -- recorded here because a consumer that sees is_ref all-FALSE must not read it
+# as "this sample had no reference".
+res <- data.table(cell = cells, malignant = mal, score = cnv_cor, is_ref = FALSE,
+                  method = "infercnv", sample = opt$sample)
 res <- res[setdiff(seq_along(cells), ref_idx)]    # drop reference cells if external
 fwrite_safe(res, out)
 message("[done] ", sum(res$malignant), "/", nrow(res), " malignant -> ", out)
