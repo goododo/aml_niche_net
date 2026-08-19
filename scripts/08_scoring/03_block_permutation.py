@@ -28,13 +28,20 @@
 #          <root>/08_scoring/block_null.npz         (null distributions, for plotting)
 # Usage  : python scripts/08_scoring/03_block_permutation.py [--n_perm 10000] [--max_iter 300]
 import argparse, os
+import sys
 import numpy as np
 import pandas as pd
 import ot
 
+# The timepoint vocabulary is LOADED, not literal. A hard-coded set here silently deleted 34 of
+# 214 samples (64% of the treated arm) after CANONICAL_TIMEPOINTS changed on 2026-08-04.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
+from fgw_vocab import load_vocab, assert_index_covered
+
+
 FGW_NODES=["HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK","B_Plasma"]
 FGW_FEATURES=["frac_malignant","mean_stemness","n_cells"]
-AML_TP={"Diagnosis","MRD","Post_treatment","Relapse","Relapse2"}
+AML_TP = None  # set from fgw_vocab.json below -- see scripts/config/fgw_vocab.py
 DEFAULT_ROOT="/FAST/gr10634/gaozy/aml_niche_net/results/tables"; SEED=491638
 
 # --- pre-specified sets (mirror config_ccc.R; locked before results existed) ---
@@ -47,10 +54,18 @@ ap.add_argument("--root",default=DEFAULT_ROOT); ap.add_argument("--alpha",type=f
 ap.add_argument("--n_perm",type=int,default=10000); ap.add_argument("--max_iter",type=int,default=300)
 args=ap.parse_args(); rng=np.random.default_rng(SEED)
 D_FGW=os.path.join(args.root,"07_fgw"); D_OUT=os.path.join(args.root,"08_scoring"); os.makedirs(D_OUT,exist_ok=True)
+_VOCAB = load_vocab(D_FGW)
+AML_TP = _VOCAB["aml_timepoints"]
+
 
 edges=pd.read_csv(os.path.join(D_FGW,"fgw_edges_long.csv"))
 nodes=pd.read_csv(os.path.join(D_FGW,"fgw_nodes_long.csv"))
 idx=pd.read_csv(os.path.join(D_FGW,"fgw_input_index.csv"))
+
+# Fail loudly on a label the vocabulary does not cover. Without this an unrecognised
+# timepoint is not an error -- it is a sample that quietly stops being AML and stops
+# being healthy, and therefore stops existing for every test below.
+assert_index_covered(idx, _VOCAB)
 
 ## -- block masks over the 7x7 directed grid ----
 ii={n:i for i,n in enumerate(FGW_NODES)}

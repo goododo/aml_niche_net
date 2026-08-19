@@ -124,6 +124,49 @@ chk(isTRUE(INFERCNV_SCORE_Q > 0.5 && INFERCNV_SCORE_Q < 1), "INFERCNV_SCORE_Q in
 chk(all(MARKER_ANNO_DATASETS %in% unique(fread(BIN_MAP_TSV, nrows = 1)[, character(0)]) |
         TRUE), "MARKER_ANNO_DATASETS is explicit (informational)")
 
+## ---------------------------------------------------------------------------------------------
+## the timepoint vocabulary must have exactly ONE source
+## ---------------------------------------------------------------------------------------------
+# config_fgw.R derives FGW_BARY_GROUPS$aml from CANONICAL_TIMEPOINTS specifically so a curation
+# change cannot shrink B_AML, and says so in a comment that names the failure: "Spelling out
+# c(\"Diagnosis\",\"MRD\",\"Post_treatment\",...) is exactly how that would have happened."
+# Nine Python files then each hard-coded that literal, CANONICAL_TIMEPOINTS was migrated on
+# 2026-08-04, and the mirror was not. Nothing detected it because the R side stayed correct.
+# This check is the detector: the vocabulary may be READ from fgw_vocab.json, never re-listed.
+cat("\n=========== timepoint vocabulary has one source ===========\n")
+py_files <- c(list.files(file.path(SCRIPTS_DIR, "07_fgw"),    pattern = "\\.py$", full.names = TRUE),
+              list.files(file.path(SCRIPTS_DIR, "08_scoring"), pattern = "\\.py$", full.names = TRUE))
+py_files <- py_files[!grepl("recon_", basename(py_files))]
+RETIRED <- c("MRD", "Post_treatment")
+offend <- character(0)
+for (f in py_files) {
+  L <- readLines(f, warn = FALSE)
+  L <- L[!grepl("^\\s*#", L)]                       # comments may name the retired labels
+  hit <- grep(paste0("\"(", paste(RETIRED, collapse = "|"), ")\""), L, value = TRUE)
+  if (length(hit)) offend <- c(offend, sprintf("%s: %s", basename(f), trimws(hit[1])))
+}
+chk(length(offend) == 0,
+    "no Python stage re-lists a retired timepoint label",
+    sprintf("%d file(s): %s", length(offend), paste(head(offend, 3), collapse = " | ")))
+
+# NON-VACUITY: the scan must actually be looking at files. An empty py_files list satisfies the
+# assertion above for free, which is the exact shape of check this suite has been caught on before.
+chk(length(py_files) >= 9,
+    "the scan covers the Python stages (the check is not vacuous)",
+    sprintf("%d .py files found under 07_fgw/08_scoring", length(py_files)))
+
+# and every stage that splits AML from healthy must LOAD the vocabulary
+users <- py_files[vapply(py_files, function(f)
+  any(grepl("AML_TP|AML_TIMEPOINTS", readLines(f, warn = FALSE))), logical(1))]
+loads <- users[vapply(users, function(f)
+  any(grepl("load_vocab\\(", readLines(f, warn = FALSE))), logical(1))]
+chk(length(users) == length(loads),
+    "every Python stage using an AML timepoint set loads it from fgw_vocab.json",
+    sprintf("%d use it, %d load it: %s", length(users), length(loads),
+            paste(basename(setdiff(users, loads)), collapse = ", ")))
+cat(sprintf("  %d Python stages scanned, %d consume the timepoint vocabulary, %d load it\n",
+            length(py_files), length(users), length(loads)))
+
 cat(sprintf("\n=========== BATCH 1: %d checks, %d failed ===========\n", N, FAIL))
 if (FAIL > 0) quit(save = "no", status = 1)
 cat("batch 1 PASS\n")

@@ -28,15 +28,22 @@
 # OUTPUT : <root>/08_scoring/feature_decomposition.csv
 # Usage  : python scripts/08_scoring/07_feature_decomposition.py [--n_perm 10000]
 import argparse, os, warnings
+import sys
 import numpy as np
 import pandas as pd
 import ot
+
+# The timepoint vocabulary is LOADED, not literal. A hard-coded set here silently deleted 34 of
+# 214 samples (64% of the treated arm) after CANONICAL_TIMEPOINTS changed on 2026-08-04.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
+from fgw_vocab import load_vocab, assert_index_covered
+
 warnings.filterwarnings("ignore", category=RuntimeWarning)   # alpha=0 divide-by-zero in POT's log term only
 
 FGW_NODES=["HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK","B_Plasma"]
 ALL_FEATURES=["frac_malignant","mean_stemness","n_cells"]
 BLAST_BINS=["HSC_MPP","LMPP_GMP","Mono_DC"]
-AML_TP={"Diagnosis","MRD","Post_treatment","Relapse","Relapse2"}
+AML_TP = None  # set from fgw_vocab.json below -- see scripts/config/fgw_vocab.py
 DEFAULT_ROOT="/FAST/gr10634/gaozy/aml_niche_net/results/tables"; SEED=491638
 
 SUBSETS={
@@ -55,10 +62,18 @@ ap.add_argument("--max_iter",type=int,default=1000)
 args=ap.parse_args(); rng=np.random.default_rng(SEED)
 ALPHAS=[float(x) for x in args.alphas.split(",")]
 D_FGW=os.path.join(args.root,"07_fgw"); D_OUT=os.path.join(args.root,"08_scoring"); os.makedirs(D_OUT,exist_ok=True)
+_VOCAB = load_vocab(D_FGW)
+AML_TP = _VOCAB["aml_timepoints"]
+
 
 edges=pd.read_csv(os.path.join(D_FGW,"fgw_edges_long.csv"))
 nodes=pd.read_csv(os.path.join(D_FGW,"fgw_nodes_long.csv"))
 idx=pd.read_csv(os.path.join(D_FGW,"fgw_input_index.csv"))
+
+# Fail loudly on a label the vocabulary does not cover. Without this an unrecognised
+# timepoint is not an error -- it is a sample that quietly stops being AML and stops
+# being healthy, and therefore stops existing for every test below.
+assert_index_covered(idx, _VOCAB)
 
 _cache={}
 def build_one(ds,smp,feats):

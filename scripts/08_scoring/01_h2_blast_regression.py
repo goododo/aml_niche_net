@@ -20,14 +20,21 @@
 # OUTPUT : <root>/08_scoring/h2_blast_regression.csv (per-sample HDS_clean, blast_proxy, mal_frac, is_aml)
 # Usage  : python scripts/08_scoring/01_h2_blast_regression.py [--root .../results/tables] [--alpha 0.5] [--n_perm 2000]
 import argparse, os
+import sys
 import numpy as np
 import pandas as pd
 import ot
 
+# The timepoint vocabulary is LOADED, not literal. A hard-coded set here silently deleted 34 of
+# 214 samples (64% of the treated arm) after CANONICAL_TIMEPOINTS changed on 2026-08-04.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
+from fgw_vocab import load_vocab, assert_index_covered
+
+
 FGW_NODES = ["HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK","B_Plasma"]
 FGW_FEATURES = ["frac_malignant","mean_stemness","n_cells"]
 BLAST_BINS = ["HSC_MPP","LMPP_GMP","Mono_DC"]
-AML_TP = {"Diagnosis","MRD","Post_treatment","Relapse","Relapse2"}
+AML_TP = None  # set from fgw_vocab.json below -- see scripts/config/fgw_vocab.py
 DEFAULT_ROOT = "/FAST/gr10634/gaozy/aml_niche_net/results/tables"; SEED = 491638
 
 ap = argparse.ArgumentParser()
@@ -37,11 +44,19 @@ ap.add_argument("--n_perm", type=int, default=2000)
 args = ap.parse_args()
 rng = np.random.default_rng(SEED)
 D_FGW = os.path.join(args.root, "07_fgw"); D_CCC = os.path.join(args.root, "05_ccc"); D_OUT = os.path.join(args.root, "08_scoring")
+_VOCAB = load_vocab(D_FGW)
+AML_TP = _VOCAB["aml_timepoints"]
+
 os.makedirs(D_OUT, exist_ok=True)
 
 edges = pd.read_csv(os.path.join(D_FGW, "fgw_edges_long.csv"))
 nodes = pd.read_csv(os.path.join(D_FGW, "fgw_nodes_long.csv"))
 idx   = pd.read_csv(os.path.join(D_FGW, "fgw_input_index.csv"))
+# Fail loudly on a label the vocabulary does not cover. Without this an unrecognised
+# timepoint is not an error -- it is a sample that quietly stops being AML and stops
+# being healthy, and therefore stops existing for every test below.
+assert_index_covered(idx, _VOCAB)
+
 sc    = pd.read_csv(os.path.join(D_FGW, "patient_scores.csv"))
 nfraw = pd.read_csv(os.path.join(D_CCC, "ccc_node_features.csv"))
 

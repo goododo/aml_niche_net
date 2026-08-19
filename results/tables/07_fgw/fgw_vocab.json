@@ -1,0 +1,9 @@
+{
+  "aml_timepoints": ["Diagnosis", "On_treatment", "Post_consolidation", "Post_induction", "Post_transplant", "Post_treatment_unspecified", "Refractory", "Relapse", "Relapse2"],
+  "healthy_timepoints": "Healthy",
+  "excluded_timepoints": "Unknown",
+  "all_timepoints": ["Healthy", "Diagnosis", "Refractory", "On_treatment", "Post_induction", "Post_consolidation", "Post_transplant", "Post_treatment_unspecified", "Relapse", "Relapse2", "Unknown"],
+  "nodes": ["HSC_MPP", "LMPP_GMP", "Mono_DC", "Erythroid", "Megakaryocyte", "T_NK", "B_Plasma"],
+  "features": ["frac_malignant", "mean_stemness", "n_cells"],
+  "generated_by": "scripts/07_fgw/01_build_fgw_inputs.R"
+}

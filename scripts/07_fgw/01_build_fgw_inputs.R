@@ -22,7 +22,7 @@
 #          DIR_FGW/fgw_edges_long.csv  (per sample x directed edge: C)
 #          DIR_FGW/fgw_input_index.csv (per sample: timepoint, sparse_flag, healthy)
 # Usage  : Rscript scripts/07_fgw/01_build_fgw_inputs.R [--force]
-suppressPackageStartupMessages({ library(optparse); library(data.table); library(here) })
+suppressPackageStartupMessages({ library(optparse); library(data.table); library(here); library(jsonlite) })
 source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "config", "config_fgw.R"))   # FGW_* ; pulls CCC_NODES, DIR_DISTANCE, DIR_CCC
 source(here::here("scripts", "config", "utils.R"))
@@ -94,10 +94,56 @@ setorder(edges_long, dataset, sample, sender_bin, receiver_bin)
 index <- unique(nodes_long[, .(dataset, sample, timepoint, sparse_flag,
                                healthy, mass_mode = FGW_MASS_MODE)])
 
+## -- VALIDATE BEFORE WRITING ANYTHING ---------------------------------------------------------
+# Every timepoint present must be a label CANONICAL_TIMEPOINTS covers. If curation introduces a
+# label nobody wired up -- or, as happened here, the UPSTREAM input still carries labels that were
+# RETIRED on 2026-08-04 -- that is an error, not 34 silently deleted rows six stages downstream.
+# This runs before the writes on purpose: the first version of this check sat after them and left
+# a complete, well-formed, stale-vocabulary output set on disk next to a non-zero exit code, which
+# is exactly the state a resume-guard would then treat as done.
+seen_tp <- setdiff(unique(as.character(index$timepoint)), NA_character_)
+unknown_tp <- setdiff(seen_tp, CANONICAL_TIMEPOINTS)
+if (length(unknown_tp))
+  stop(sprintf(paste0("timepoint(s) not in CANONICAL_TIMEPOINTS: %s\n",
+                      "  These are retired or unrecognised labels carried by the INPUT, so the node\n",
+                      "  features are older than the 2026-08-04 vocabulary migration. Rebuild\n",
+                      "  05_ccc/03_node_features.R before rebuilding FGW inputs; writing them now\n",
+                      "  would bake a dead vocabulary into every downstream stage."),
+               paste(unknown_tp, collapse = ", ")))
+
 ## -- Step 5. write ----
 fwrite_safe(nodes_long, out_nodes)
 fwrite_safe(edges_long, out_edges)
 fwrite_safe(index,      out_index)
+
+## -- EMIT THE VOCABULARY THE PYTHON STAGES MUST USE ------------------------------------------
+# The R side derives FGW_BARY_GROUPS$aml from CANONICAL_TIMEPOINTS precisely so a vocabulary change
+# cannot silently shrink B_AML, and config_fgw.R says so in a comment that names the failure:
+# "Spelling out c(\"Diagnosis\",\"MRD\",\"Post_treatment\",...) is exactly how that would have
+# happened". Nine Python files then did exactly that. CANONICAL_TIMEPOINTS was migrated on
+# 2026-08-04 -- MRD and Post_treatment retired, six labels added -- and the Python mirror was not,
+# so 34 of 214 samples (Post_induction 17, Post_treatment_unspecified 8, On_treatment 7,
+# Post_consolidation 1, Refractory 1) fall to grp=="other" and are deleted by the AML/healthy
+# filters in the H2 regression, both permutation pools, the alpha sweep, the edge regression, the
+# feature decomposition and the CLR test. That is 64% of the treated arm -- the arm H3 is about --
+# and nothing prints an "other" count.
+# So the vocabulary is EMITTED here, next to the index it describes, and the Python loader aborts
+# if it is missing rather than falling back to a literal. One source, no mirror to drift.
+vocab <- list(
+  aml_timepoints     = sort(setdiff(CANONICAL_TIMEPOINTS, c("Healthy", "Unknown"))),
+  healthy_timepoints = "Healthy",
+  excluded_timepoints= "Unknown",
+  all_timepoints     = CANONICAL_TIMEPOINTS,
+  nodes              = FGW_NODES,
+  features           = FGW_FEATURES,
+  generated_by       = "scripts/07_fgw/01_build_fgw_inputs.R"
+)
+out_vocab <- file.path(DIR_FGW, "fgw_vocab.json")
+writeLines(jsonlite::toJSON(vocab, auto_unbox = TRUE, pretty = TRUE), out_vocab)
+
+message(sprintf("[vocab] %s : %d AML timepoints, %d present in this index",
+                out_vocab, length(vocab$aml_timepoints),
+                length(intersect(seen_tp, vocab$aml_timepoints))))
 message("[5] wrote ", out_nodes, "  (", nrow(nodes_long), " rows = ", nrow(samples), " x 7 nodes)")
 message("[5] wrote ", out_edges, "  (", nrow(edges_long), " rows = ", nrow(samples), " x 49 edges)")
 message("[5] wrote ", out_index, "  (", nrow(index), " samples)")

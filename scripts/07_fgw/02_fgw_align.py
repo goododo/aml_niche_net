@@ -27,11 +27,17 @@ import numpy as np
 import pandas as pd
 import ot
 
+# The timepoint vocabulary is LOADED, not literal. A hard-coded set here silently deleted 34 of
+# 214 samples (64% of the treated arm) after CANONICAL_TIMEPOINTS changed on 2026-08-04.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
+from fgw_vocab import load_vocab, assert_index_covered
+
+
 # ---- LOCKED constants (must match config_fgw.R) ----
 FGW_NODES    = ["HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK","B_Plasma"]
 FGW_FEATURES = ["frac_malignant","mean_stemness","n_cells"]
 DEFAULT_INPUT_DIR = "/FAST/gr10634/gaozy/aml_niche_net/results/tables/07_fgw"
-AML_TIMEPOINTS = {"Diagnosis","MRD","Post_treatment","Relapse","Relapse2"}
+AML_TIMEPOINTS = None  # set from fgw_vocab.json below -- see scripts/config/fgw_vocab.py
 SEED = 491638
 EXCLUDE_SPARSE_FROM_BARY = True
 
@@ -45,6 +51,14 @@ args = ap.parse_args()
 nodes = pd.read_csv(os.path.join(args.input_dir, "fgw_nodes_long.csv"))
 edges = pd.read_csv(os.path.join(args.input_dir, "fgw_edges_long.csv"))
 index = pd.read_csv(os.path.join(args.input_dir, "fgw_input_index.csv"))
+
+_VOCAB = load_vocab(args.input_dir)
+AML_TIMEPOINTS = _VOCAB["aml_timepoints"]
+# Fail loudly on a label the vocabulary does not cover. Without this an unrecognised
+# timepoint is not an error -- it is a sample that quietly stops being AML and stops
+# being healthy, and therefore stops existing for every test below.
+assert_index_covered(index, _VOCAB)
+
 print(f"[0] loaded {len(index)} samples | alpha={args.alpha} | test={args.test}")
 
 ## -- build per-sample C (7x7 directed), F (7x3), p (7); reindex by NAME (order-safe) ----
