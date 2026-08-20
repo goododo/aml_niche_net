@@ -1,5 +1,8 @@
 # ============================================================================
 # ingest_GSE253355.R   --   Bandyopadhyay 2024 Cell (healthy BM niche, stroma)
+# INPUT  : GEO_RAW_DIR/GSE253355_RAW/  -- 10x triplets, one per library, "<GSM>_<donor>_*"
+# OUTPUT : DIR_INGEST/GSE253355_qc_percell.csv.gz + _qc_summary.csv, RDS_INGEST_DIR/GSE253355.rds
+# DOES   : one Seurat object per library (donor/QC metadata), merged UNFILTERED into one object
 # Format : prefixed 10x mtx  "<GSM>_<donor>_{barcodes,features,matrix}"
 #          donor ids like "H14_MACS", "H21", ...
 # Role   : healthy reference + auxiliary stroma. All baseline, no timepoints.
@@ -58,6 +61,10 @@ rm(obj_list); gc()
 # [4] Write QC tables + unfiltered RDS ----
 # ----------------------------------------------------------------------------
 message("[4] writing outputs")
-write_qc_outputs(seu, DATASET)
+smry <- write_qc_outputs(seu, DATASET)
+
+# [sanity] every library must show some mitochondrial signal. An all-zero percent.mt means the
+# features file was read on the wrong column (Ensembl ids, not symbols) -- see add_qc_metrics A1.
+stopifnot(all(smry$max_pct_mt > 0))
 
 message("[ok] GSE253355 finished")
