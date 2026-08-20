@@ -32,13 +32,10 @@ opt <- parse_args(OptionParser(option_list = list(
 
 dir.create(HIER_TAB_DIR, recursive = TRUE, showWarnings = FALSE)
 
-# name-derived timepoint (best-effort; GSE227903-style suffixes). NA where the axis doesn't apply.
-tp_from_name <- function(s) {
-  u <- toupper(s)
-  fifelse(grepl("(_|^)(DG|DX|DIAG)", u), "Dx",
-  fifelse(grepl("(_|^)MRD", u),         "MRD",
-  fifelse(grepl("(_|^)(REL|R2?)$", u),  "Relapse", NA_character_)))
-}
+# CURATED timepoint, not a name regex. The private tp_from_name() this replaces resolved 27 of 214
+# samples -- all GSE227903 -- and returned NA for 34 post-treatment and 19 relapse samples in five
+# other datasets, which 03 then dropped without a message. See TP_AXIS_LEVELS in config_hierarchy.R.
+TPMAP <- sample_timepoints()
 
 ## ---- samples that have BOTH a projection and a consensus per-cell table ----
 proj <- data.table(path = list.files(HIER_PROJ_DIR, pattern = "__bmm_percell\\.csv$", recursive = TRUE, full.names = TRUE))
@@ -81,13 +78,22 @@ for (i in seq_len(nrow(man))) {
   full[is.na(n_cells), `:=`(n_cells = 0L, n_evaluable = 0L, n_malignant = 0L, frac_high_error = NA_real_)]
   full[, in_ccc_graph := !(hierarchy_bin %in% c("Stromal", "Unassigned"))]  # authoritative: only these two are non-nodes
   full[, malignant_frac := fifelse(n_evaluable > 0, round(n_malignant / n_evaluable, 4), NA_real_)]
-  full[, `:=`(dataset = ds, sample = sid, timepoint = tp_from_name(sid))]
-  per_bin[[i]] <- full[, .(dataset, sample, timepoint, hierarchy_bin, in_ccc_graph,
+  .tp <- TPMAP[dataset == ds & sample == sid]
+  full[, `:=`(dataset = ds, sample = sid,
+              timepoint = if (nrow(.tp)) .tp$timepoint[1] else NA_character_,
+              tp_axis   = if (nrow(.tp)) .tp$tp_axis[1]   else NA_character_,
+              patient   = if (nrow(.tp)) .tp$uid_patient[1] else NA_character_)]
+  per_bin[[i]] <- full[, .(dataset, sample, timepoint, tp_axis, patient, hierarchy_bin, in_ccc_graph,
                            n_cells, n_evaluable, n_malignant, malignant_frac, frac_high_error)]
 }
 
 pb <- rbindlist(per_bin, fill = TRUE)
 jq <- rbindlist(join_qc, fill = TRUE)
+# A silent NA here is what shrank the longitudinal cohort from 28 patients to 6.
+.cov <- mean(!is.na(pb$timepoint))
+if (.cov < 0.95) stop(sprintf("curated timepoint covers only %.1f%% of per-bin rows", 100 * .cov))
+message(sprintf("[timepoint] curated for %.1f%% of rows | axis: %s", 100 * .cov,
+                paste(sprintf("%s=%d", names(table(pb$tp_axis)), table(pb$tp_axis)), collapse = " ")))
 fwrite_safe(pb, file.path(HIER_TAB_DIR, "per_bin_malignant.csv"))
 fwrite_safe(jq, file.path(HIER_TAB_DIR, "per_bin_malignant_joinQC.csv"))
 

@@ -31,7 +31,12 @@ opt <- parse_args(OptionParser(option_list = list(
 CCC_BINS   <- setdiff(HIERARCHY_BINS, "Stromal")         # 7 hematopoietic CCC nodes
 STEM_BINS  <- "HSC_MPP"
 PRIM_BINS  <- c("HSC_MPP", "LMPP_GMP")
-TP_LEVELS  <- c("Dx", "MRD", "Relapse")
+# THE AXIS COMES FROM THE CONFIG, NOT FROM A LITERAL HERE. c("Dx","MRD","Relapse") was a third
+# vocabulary, matching neither CANONICAL_TIMEPOINTS nor the Python stages, and "MRD" was retired on
+# 2026-08-04. Combined with 02's name-derived timepoint it restricted this whole analysis to the 27
+# GSE227903 samples whose names happened to carry a suffix -- and the published
+# "stem_frac Dx->MRD, n_pairs=6, p=0.0313" was then described as "all longitudinal samples".
+TP_LEVELS  <- TP_AXIS_LEVELS
 
 pb <- fread(file.path(HIER_TAB_DIR, "per_bin_malignant.csv"))
 ccc <- pb[in_ccc_graph == TRUE & hierarchy_bin %in% CCC_BINS]
@@ -39,8 +44,12 @@ ccc <- pb[in_ccc_graph == TRUE & hierarchy_bin %in% CCC_BINS]
 ## ---- per-sample normalized malignant distribution ----
 ccc[, tot_mal := sum(n_malignant), by = .(dataset, sample)]
 ccc[, mal_dist := fifelse(tot_mal > 0, n_malignant / tot_mal, NA_real_)]
-# patient id = sample minus the timepoint suffix (_Dg/_Dx/_MRD/_R/_R2/_Relapse)
-ccc[, patient := sub("_(Dg|Dx|Diag|MRD|Rel(apse)?|R[0-9]*)$", "", sample, ignore.case = TRUE)]
+# CURATED patient id and timepoint. Deriving the patient by stripping a suffix has the same
+# failure as deriving the timepoint that way: it only works for samples whose names encode it, and
+# it silently merges or splits patients everywhere else. uid_patient is in the manifest.
+ccc <- add_timepoint(ccc)            # -> timepoint, tp_axis, patient, uid_patient (stops on poor coverage)
+ccc[, patient := fifelse(!is.na(uid_patient) & nzchar(uid_patient), uid_patient, patient)]
+ccc[, timepoint := tp_axis]          # this script works on the 3-level axis
 
 dist <- dcast(ccc, dataset + patient + sample + timepoint + tot_mal ~ hierarchy_bin, value.var = "mal_dist")
 for (b in setdiff(CCC_BINS, names(dist))) dist[, (b) := NA_real_]   # ensure all 7 columns exist
@@ -62,13 +71,26 @@ if ("patient_resolved" %in% names(.man)) {
   .un <- .man[patient_resolved == FALSE, .(dataset, sample = Sample)]
   if (nrow(.un)) {
     .before <- nrow(dist)
+    .hit <- dist[.un, on = .(dataset, sample), nomatch = 0L]$sample   # those actually IN the set
     dist <- dist[!.un, on = .(dataset, sample)]
-    message(sprintf("[dist] dropped %d sample(s) with patient_resolved=FALSE: %s",
-                    .before - nrow(dist), paste(.un$sample, collapse = ", ")))
+    # list what was DROPPED, not every unresolved sample in the manifest. Printing 30 candidate
+    # names next to "dropped 0" reads as a silent 30-sample loss.
+    message(sprintf("[dist] dropped %d of %d sample(s) with patient_resolved=FALSE%s",
+                    .before - nrow(dist), nrow(.un),
+                    if (length(.hit)) paste0(": ", paste(head(.hit, 8), collapse = ", ")) else
+                      " (none were in the analysis set)"))
   }
 } else warning("manifest has no patient_resolved column -- re-run 01_dataset_roles.R", call. = FALSE)
 
-## ---- longitudinal cohort (patients with >=2 timepoints among Dx/MRD/Relapse) ----
+## ---- longitudinal cohort (patients with >=2 timepoints on the treatment axis) ----
+# HOW THE PAIR COUNT IS ARRIVED AT, so n_pairs is interpretable rather than merely small:
+#   23  Diagnosis -> post-treatment patient pairs exist in the curated manifest
+#   16  survive --min_malignant (default 50 malignant cells in BOTH samples)
+#   14  survive the restriction to the 7 CCC graph bins (Stromal and Unassigned carry malignant
+#       calls but are not nodes, so their cells do not count toward tot_mal)
+# Until 2026-08-20 this read 6, from ONE dataset, because the timepoint came from a regex over the
+# sample name that only matched GSE227903 suffixes -- and the output was described as "all
+# longitudinal samples".
 lon <- dist[ok & timepoint %in% TP_LEVELS]
 lon[, tp := factor(timepoint, levels = TP_LEVELS)]
 setorder(lon, dataset, patient, tp)
@@ -97,9 +119,23 @@ paired_test <- function(score, t1, t2) {
              median_delta = round(median(d), 4), mean_delta = round(mean(d), 4),
              n_up = sum(d > 0), n_down = sum(d < 0), p_value = round(p, 4))
 }
+# COMPARISONS DERIVED FROM THE AXIS, NOT RE-LISTED. These call sites still read
+# ("Dx","MRD"),("MRD","Relapse"),("Dx","Relapse") after TP_LEVELS moved to the canonical vocabulary,
+# so paired_test()'s `!all(c(t1,t2) %in% names(w))` guard returned NULL for all three and the run
+# wrote an EMPTY distribution_shift_tests.csv while every other section printed normally. The guard
+# did its job; the literal is what was wrong. Consecutive steps plus first-to-last.
+CMP <- c(lapply(seq_len(length(TP_LEVELS) - 1L), function(i) TP_LEVELS[c(i, i + 1L)]),
+         if (length(TP_LEVELS) > 2L) list(TP_LEVELS[c(1L, length(TP_LEVELS))]) else NULL)
 tests <- rbindlist(lapply(c("stem_frac", "primitive_frac"), function(s)
-  rbindlist(list(paired_test(s, "Dx", "MRD"), paired_test(s, "MRD", "Relapse"), paired_test(s, "Dx", "Relapse")), fill = TRUE)),
-  fill = TRUE)
+  rbindlist(lapply(CMP, function(cc) paired_test(s, cc[1], cc[2])), fill = TRUE)), fill = TRUE)
+
+# AN EMPTY RESULT IS A FAILURE, NOT AN OUTPUT. fwrite on a 0-column table warns and leaves the
+# previous file in place, so a broken run looks like a successful one that simply changed nothing.
+if (!nrow(tests) || !ncol(tests))
+  stop(sprintf(paste0("paired tests produced nothing. Axis levels are %s; the trajectory table has ",
+                      "columns %s. A comparison naming a level that is not on the axis returns NULL ",
+                      "silently."), paste(TP_LEVELS, collapse = "/"),
+               paste(setdiff(names(traj_stem), c("dataset", "patient")), collapse = "/")))
 fwrite_safe(tests, file.path(HIER_TAB_DIR, "distribution_shift_tests.csv"))
 
 cat("\n================ paired shift tests (Wilcoxon signed-rank; n small -> read as descriptive) ================\n")

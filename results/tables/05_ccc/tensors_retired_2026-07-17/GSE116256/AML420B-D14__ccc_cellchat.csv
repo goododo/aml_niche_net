@@ -1,0 +1,9 @@
+sample,dataset,timepoint,engine,sender_bin,receiver_bin,ligand,receptor,prob,pval,n_sender,n_receiver
+AML420B-D14,GSE116256,Post_treatment,cellchat,T_NK,B_Plasma,MIF,CD74_CXCR4,0.0189151472676696,0,569,218
+AML420B-D14,GSE116256,Post_treatment,cellchat,B_Plasma,B_Plasma,MIF,CD74_CXCR4,0.0492834095785301,0,218,218
+AML420B-D14,GSE116256,Post_treatment,cellchat,T_NK,B_Plasma,MIF,CD74_CD44,0.0173880511750346,0,569,218
+AML420B-D14,GSE116256,Post_treatment,cellchat,B_Plasma,B_Plasma,MIF,CD74_CD44,0.0454180619622495,0,218,218
+AML420B-D14,GSE116256,Post_treatment,cellchat,B_Plasma,B_Plasma,CADM1,CADM1,0.00978283899526823,0,218,218
+AML420B-D14,GSE116256,Post_treatment,cellchat,B_Plasma,B_Plasma,MPZL1,MPZL1,0.00662458031153437,0,218,218
+AML420B-D14,GSE116256,Post_treatment,cellchat,B_Plasma,B_Plasma,PECAM1,PECAM1,0.181369551133695,0,218,218
+AML420B-D14,GSE116256,Post_treatment,cellchat,B_Plasma,B_Plasma,PECAM1,CD38,0.0446726516293665,0,218,218

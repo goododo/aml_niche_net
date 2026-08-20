@@ -1,7 +1,7 @@
 score,comparison,n_pairs,median_delta,mean_delta,n_up,n_down,p_value
-stem_frac,Dx -> MRD,6,-0.1323,-0.1378,0,6,0.0313
-stem_frac,MRD -> Relapse,5,0.0559,0.0461,5,0,0.0625
-stem_frac,Dx -> Relapse,6,-0.0493,-0.0659,1,5,0.1563
-primitive_frac,Dx -> MRD,6,-0.4563,-0.4748,0,6,0.0313
-primitive_frac,MRD -> Relapse,5,0.3223,0.3598,5,0,0.0625
-primitive_frac,Dx -> Relapse,6,-0.0427,-0.0019,2,4,0.6875
+stem_frac,Diagnosis -> Post_treatment,14,-0.0922,-0.0841,2,12,0.0166
+stem_frac,Post_treatment -> Relapse,6,0.02,0.0671,5,1,0.0625
+stem_frac,Diagnosis -> Relapse,8,-0.0021,-0.0295,2,5,0.3525
+primitive_frac,Diagnosis -> Post_treatment,14,-0.3179,-0.2762,2,12,0.004
+primitive_frac,Post_treatment -> Relapse,6,0.0656,0.2563,6,0,0.0313
+primitive_frac,Diagnosis -> Relapse,8,-0.0108,-0.0918,3,4,0.3525

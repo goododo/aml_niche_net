@@ -10,6 +10,9 @@ suppressPackageStartupMessages({ library(data.table); library(ggplot2); library(
 suppressPackageStartupMessages({ library(here) })
 source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "config", "config_cnmf.R"))
+source(here::here("scripts", "config", "config_qc.R"))
+source(here::here("scripts", "config", "config_hierarchy.R"))
+source(here::here("scripts", "config", "utils.R"))
 
 TAB <- CNMF_TAB_DIR; FIG <- CNMF_FIG_DIR; dir.create(FIG, recursive = TRUE, showWarnings = FALSE)
 sig  <- fread(file.path(TAB, "malignant_metaprograms.tsv"))
@@ -25,9 +28,12 @@ save_fig <- function(p, name, w, h) {
   ggsave(file.path(FIG, paste0(name, ".png")), p, width = w, height = h, dpi = 150)
   message("[fig] ", name)
 }
-tp_from_name <- function(s) { u <- toupper(s)
-  fifelse(grepl("(_|^)(DG|DX|DIAG)", u), "Dx", fifelse(grepl("(_|^)MRD", u), "MRD",
-  fifelse(grepl("(_|^)REL|(_|^)R[0-9]*$", u), "Relapse", NA_character_))) }
+# CURATED timepoint (third and last copy of the private tp_from_name regex; see
+# TP_AXIS_LEVELS in config_hierarchy.R and sample_timepoints() in utils.R). Restricting this
+# figure to GSE227903 was never a scientific choice -- it is the only dataset whose sample NAMES
+# encode a timepoint, which is all the regex could read. On the curated column the same axis
+# covers 28 longitudinal patients across five datasets.
+TPMAP <- sample_timepoints()
 
 ## ---- merged overview TABLE (CSV always; the master reference) ----
 ov <- Reduce(function(a, b) merge(a, b, all.x = TRUE),
@@ -117,15 +123,15 @@ tryCatch({
   save_fig(p4, "fig4_mp_usage_composition", 11, 6)
 }, error = function(e) message("[fig4 skip] ", conditionMessage(e)))
 
-## ---- Fig 5: robust tumor-specific MP usage along Dx -> MRD -> Relapse (GSE227903) ----
+## ---- Fig 5: robust tumor-specific MP usage along the treatment axis (all datasets) ----
 tryCatch({
   robust <- lab[confidence == "robust_tumor"]$MP
-  u2 <- u[dataset == "GSE227903"]; u2[, tp := tp_from_name(sample)]
-  u2 <- u2[tp %in% c("Dx", "MRD", "Relapse")]
+  u2 <- merge(u, TPMAP[, .(dataset, sample, tp = tp_axis)], by = c("dataset", "sample"), all.x = TRUE)
+  u2 <- u2[tp %in% TP_AXIS_LEVELS]
   meas <- intersect(robust, names(u2))
   long <- melt(u2, id.vars = c("cell", "sample", "tp"), measure.vars = meas, variable.name = "MP", value.name = "score")
   long <- merge(long, lab[, .(MP, biological_label)], by = "MP")
-  long[, tp := factor(tp, levels = c("Dx", "MRD", "Relapse"))]
+  long[, tp := factor(tp, levels = TP_AXIS_LEVELS)]
   agg <- long[, .(mean = mean(score, na.rm = TRUE),
                   se = sd(score, na.rm = TRUE) / sqrt(.N)), by = .(tp, biological_label)]
   p5 <- ggplot(agg, aes(tp, mean, colour = biological_label, group = biological_label)) +

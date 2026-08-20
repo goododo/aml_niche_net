@@ -109,13 +109,37 @@ score_one <- function(rds, ds, sid, verbose) {
   out
 }
 
+n_fail <- 0L; failed_samples <- character(0)
 for (i in seq_len(nrow(R))) {
   ds <- R$dataset[i]; sid <- R$sample[i]; dst <- dst_of(ds, sid)
-  if (file.exists(dst) && !opt$force) { message(sprintf("[%d/%d] %s::%s done", i, nrow(R), ds, sid)); next }
+  # FRESHNESS, not existence. 33 of these files (GSE147989 4, GSE185991 29; 78,315 cells) were
+  # written BEFORE their consensus existed and carry malignant = NA permanently; the validation
+  # below filters !is.na(malignant) and so silently reports on a subset of the cohort.
+  .ins <- c(R$rds[i], proj_of(ds, sid), cons_of(ds, sid))
+  if (!is_stale(dst, .ins, force = opt$force)) {
+    message(sprintf("[%d/%d] %s::%s current", i, nrow(R), ds, sid)); next
+  }
+  if (file.exists(dst))
+    message(sprintf("[%d/%d] %s::%s RECOMPUTE -- %s", i, nrow(R), ds, sid, stale_reason(dst, .ins, force = opt$force)))
   message(sprintf("[%d/%d] %s::%s", i, nrow(R), ds, sid))
   x <- tryCatch(score_one(R$rds[i], ds, sid, verbose = (i == 1)),
-                error = function(e) { message("  [FAIL] ", conditionMessage(e)); NULL })
-  if (is.null(x)) next
+                error = function(e) { message("  [retry] ", conditionMessage(e)); NULL })
+  if (is.null(x)) {
+    # RETRY SINGLE-THREADED. The failures are forked-worker faults, not data faults: a different
+    # handful of samples fails on each run of the same code over the same inputs. Retrying with one
+    # core removes the fork entirely, at the cost of ~17x on that one sample.
+    .saved <- CELLSTATE_NCORES; CELLSTATE_NCORES <<- 1L
+    x <- tryCatch(score_one(R$rds[i], ds, sid, verbose = FALSE),
+                  error = function(e) { message("  [FAIL] ", conditionMessage(e)); NULL })
+    CELLSTATE_NCORES <<- .saved
+    if (!is.null(x)) message("  [ok] recovered single-threaded")
+  }
+  # A PER-SAMPLE FAILURE LEAVES THE PREVIOUS, STALE FILE ON DISK. Without this tally the run
+  # continued, validated over a MIXTURE of freshly rebuilt and stale outputs, printed
+  # "positive controls PASS" and exited 0. Measured: 5 samples failed transiently (forked UCell
+  # workers under memory pressure on a shared node) and their 2026-08-14 files survived a rebuild
+  # that reported success.
+  if (is.null(x)) { n_fail <- n_fail + 1L; failed_samples <- c(failed_samples, paste0(ds, "::", sid)); next }
   dir.create(dirname(dst), recursive = TRUE, showWarnings = FALSE)
   fwrite_safe(x, dst)
 }
@@ -123,6 +147,13 @@ for (i in seq_len(nrow(R))) {
 ## ---------------------------------------------------------------------------------------------
 ## validation
 ## ---------------------------------------------------------------------------------------------
+if (n_fail > 0) {
+  cat(sprintf("\n[!] %d of %d samples FAILED and kept their previous output: %s\n",
+              n_fail, nrow(R), paste(utils::head(failed_samples, 10), collapse = ", ")))
+  cat("    Refusing to validate: the tables below would mix fresh and stale files, which is how a\n")
+  cat("    broken rebuild reports PASS. Failures here are usually transient -- re-run and retry.\n")
+  quit(save = "no", status = 1)
+}
 done <- R[file.exists(dst_of(dataset, sample))]
 if (!nrow(done)) { message("[!] nothing scored"); quit(save = "no", status = 1) }
 A <- rbindlist(lapply(seq_len(nrow(done)), function(i)

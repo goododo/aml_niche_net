@@ -1,4 +1,2 @@
 tp,n_malignant,HSPC_core,LSC17,vanGalen_HSC_like,vanGalen_HSC_Prog,vanGalen_HSCprog_like,grp
-Dx,4231,-0.017,0.057,0.036,0.397,0.147,malignant_by_tp
-MRD,9045,-0.017,0.014,0.055,0.21,0.074,malignant_by_tp
-Relapse,1936,-0.046,0.034,0.043,0.383,0.107,malignant_by_tp
+Relapse,3102,-0.041,0.031,0.055,0.349,0.095,malignant_by_tp

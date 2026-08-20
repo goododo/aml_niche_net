@@ -95,13 +95,24 @@ score_one <- function(rds, ds, sid) {
 }
 
 t0 <- Sys.time()
+n_fail <- 0L; failed_samples <- character(0)
 for (i in seq_len(nrow(R))) {
   ds <- R$dataset[i]; sid <- R$sample[i]; dst <- dst_of(ds, sid)
-  if (file.exists(dst) && !opt$force) { message(sprintf("[%d/%d] %s::%s done", i, nrow(R), ds, sid)); next }
+  # FRESHNESS, not existence. 33 of these files (GSE147989 4, GSE185991 29; 78,315 cells) were
+  # written BEFORE their consensus existed and carry malignant = NA permanently; the validation
+  # below filters !is.na(malignant) and so silently reports on a subset of the cohort.
+  .ins <- c(R$rds[i], proj_of(ds, sid), cons_of(ds, sid))
+  if (!is_stale(dst, .ins, force = opt$force)) {
+    message(sprintf("[%d/%d] %s::%s current", i, nrow(R), ds, sid)); next
+  }
+  if (file.exists(dst))
+    message(sprintf("[%d/%d] %s::%s RECOMPUTE -- %s", i, nrow(R), ds, sid, stale_reason(dst, .ins, force = opt$force)))
   message(sprintf("[%d/%d] %s::%s", i, nrow(R), ds, sid))
   x <- tryCatch(score_one(R$rds[i], ds, sid),
                 error = function(e) { message("  [FAIL] ", conditionMessage(e)); NULL })
-  if (is.null(x)) next
+  # see 09_cellstate_score.R: a failed sample keeps its stale file, so validating afterwards mixes
+  # fresh and stale outputs and reports PASS on a rebuild that did not happen
+  if (is.null(x)) { n_fail <- n_fail + 1L; failed_samples <- c(failed_samples, paste0(ds, "::", sid)); next }
   dir.create(dirname(dst), recursive = TRUE, showWarnings = FALSE)
   fwrite_safe(x, dst)
   if (i == 1) message(sprintf("  [timing] first sample took %.1f min",
@@ -111,6 +122,13 @@ for (i in seq_len(nrow(R))) {
 ## ---------------------------------------------------------------------------------------------
 ## validation
 ## ---------------------------------------------------------------------------------------------
+if (n_fail > 0) {
+  cat(sprintf("\n[!] %d of %d samples FAILED and kept their previous output: %s\n",
+              n_fail, nrow(R), paste(utils::head(failed_samples, 10), collapse = ", ")))
+  cat("    Refusing to validate: the tables below would mix fresh and stale files, which is how a\n")
+  cat("    broken rebuild reports PASS. Failures here are usually transient -- re-run and retry.\n")
+  quit(save = "no", status = 1)
+}
 done <- R[file.exists(dst_of(dataset, sample))]
 if (!nrow(done)) { message("[!] nothing scored"); quit(save = "no", status = 1) }
 P <- rbindlist(lapply(seq_len(nrow(done)), function(i)

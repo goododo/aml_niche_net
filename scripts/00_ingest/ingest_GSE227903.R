@@ -57,7 +57,12 @@ message("    ", length(mat_files), " samples to process")
 # "GSM7110543_1216_Dg_count_mat.txt.gz" -> "1216_Dg"
 sample_of <- function(f) sub("_count_mat\\.txt\\.gz$", "", sub("^GSM\\d+_", "", basename(f)))
 
-TP_LABEL <- c(Dg = "Diagnosis", MRD = "MRD", R = "Relapse", R2 = "Relapse2")
+# "MRD" was RETIRED from CANONICAL_TIMEPOINTS on 2026-08-04; curation resolved these seven draws
+# to Post_treatment_unspecified, which is what the manifest carries today. This map was never
+# updated, so re-running this ingest would emit a label config_qc.R's canonical check rejects --
+# a loud failure rather than a silent one, but it means the dataset could not be re-ingested.
+TP_LABEL <- c(Dg = "Diagnosis", MRD = "Post_treatment_unspecified", R = "Relapse", R2 = "Relapse2")
+stopifnot(all(TP_LABEL %in% CANONICAL_TIMEPOINTS))   # cannot drift from the vocabulary again
 
 parse_pt_tp <- function(sid) {
   tp_tok  <- stringr::str_extract(sid, "(Dg|MRD|R2|R)$")            # R2 before R

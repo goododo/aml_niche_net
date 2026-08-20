@@ -34,9 +34,20 @@ opt <- parse_args(OptionParser(option_list = list(
 out_index <- file.path(DIR_FGW, "fgw_input_index.csv")
 out_nodes <- file.path(DIR_FGW, "fgw_nodes_long.csv")
 out_edges <- file.path(DIR_FGW, "fgw_edges_long.csv")
-if (all(file.exists(out_index, out_nodes, out_edges)) && !opt$force) {
-  message("[skip] outputs exist; --force to rebuild"); quit(status = 0)
+# FRESHNESS, not existence. This guard printed "[skip]" and exited 0 on a superseded cohort:
+# results/tables/07_fgw/patient_scores.csv holds 148 rows of which 55 name samples that have
+# left the cohort, and 47 current samples have never entered CCC at all. Re-running the chain
+# hit five of these guards in a row and reported success.
+# the exact four files read at lines below -- a guard that names a file the stage does not read
+# certifies nothing, and a non-existent path is silently ignored by is_stale()
+.ins <- c(file.path(DIR_DISTANCE, "edge_distance.csv"),
+          file.path(DIR_DISTANCE, "edge_qc.csv"),
+          file.path(DIR_CCC, "ccc_node_features.csv"),
+          file.path(DIR_CCC, "ccc_sample_manifest.csv"))
+if (!is_stale(c(out_index, out_nodes, out_edges), .ins, force = opt$force)) {
+  message("[skip] FGW inputs are current"); quit(status = 0)
 }
+if (file.exists(out_index)) message("[recompute] ", stale_reason(c(out_index, out_nodes, out_edges), .ins, force = opt$force))
 
 ## -- Step 1. load inputs ----
 message("[1] loading edge distance / node features / qc / manifest")

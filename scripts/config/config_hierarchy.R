@@ -173,7 +173,12 @@ CELLSTATE_DIR       <- HIER_PROJ_DIR   # per-cell scores sit beside the projecti
 # is not recentred. (The node feature in use is LSC17, so this is not the explanation for the null
 # stemness result -- but it is a reason not to build NEW cross-sample features that way.)
 CELLSTATE_MAXRANK   <- 1500L   # UCell rank horizon; genes below this rank contribute nothing
-CELLSTATE_NCORES    <- 8L      # measured 646.6s (1 core) vs 38.5s (8) on an 8,469-cell sample
+# Overridable from the environment. UCell forks its workers and the conda R links a threaded BLAS;
+# on this shared node forked workers die under other users' memory peaks and surface as
+# "wrong args for environment subassignment" -- a DIFFERENT handful of samples each run over
+# identical code and inputs, which is the signature of a resource fault, not a data fault.
+# 09 retries any failed sample single-threaded rather than leaving its stale file in place.
+CELLSTATE_NCORES    <- as.integer(Sys.getenv("CELLSTATE_NCORES", "8"))  # 646.6s (1 core) vs 38.5s (8)
 
 # Single genes reported as mean log-normalised expression rather than a UCell score. A rank-based
 # score over one gene is meaningless, but the MCL1-vs-BCL2 balance is exactly the quantity the
@@ -279,3 +284,40 @@ CYTOTRACE_CONTRASTS <- data.table::data.table(
 # must correlate NEGATIVELY. A positive correlation means one of them is inverted, which is exactly
 # the kind of error that survives when only one estimator exists.
 CYTOTRACE_MAX_BMM_COR <- -0.20
+
+## =====================================================================================
+## The longitudinal (treatment) axis -- DERIVED, never re-listed
+## =====================================================================================
+# 02_per_bin_malignant.R and 04_stemness_score.R each carried a private tp_from_name() that read
+# the timepoint off the SAMPLE NAME with a regex for GSE227903-style suffixes. Measured over the
+# 214-sample roster it resolved 27 samples, all GSE227903, and returned NA for the other 187 --
+# including 34 post-treatment and 19 relapse samples in five other datasets. 03's longitudinal
+# filter then dropped every NA silently, so `distribution_shift_tests.csv` published
+# "stem_frac Dx->MRD, n_pairs=6, p=0.0313" and 03 described it as "all longitudinal samples". It
+# is six patients from one dataset on one platform. The curated Timepoint supports 28 longitudinal
+# patients across five datasets: 23 Diagnosis->post-treatment pairs and 14 Diagnosis->relapse.
+#
+# Two further hazards the private copies carried: their regexes were NOT identical (02 used
+# "(_|^)(REL|R2?)$", 04 used "(_|^)REL|(_|^)R[0-9]*$"), so the two stages could disagree about the
+# same sample -- they happen not to on this cohort, which is luck, not design. And their output
+# vocabulary ("Dx"/"MRD"/"Relapse") was a THIRD vocabulary, agreeing with neither
+# CANONICAL_TIMEPOINTS nor the Python literal; "MRD" was retired on 2026-08-04.
+#
+# TP_POST_TREATMENT is a SET DIFFERENCE, not a list. A label added to CANONICAL_TIMEPOINTS lands
+# in the post-treatment arm automatically instead of silently becoming NA -- which is precisely
+# how the Python vocabulary drifted (see scripts/config/fgw_vocab.py).
+TP_AXIS_DIAGNOSIS  <- "Diagnosis"
+TP_AXIS_RELAPSE    <- c("Relapse", "Relapse2")
+TP_POST_TREATMENT  <- setdiff(CANONICAL_TIMEPOINTS,
+                              c("Healthy", "Unknown", TP_AXIS_DIAGNOSIS, TP_AXIS_RELAPSE))
+TP_AXIS_LEVELS     <- c("Diagnosis", "Post_treatment", "Relapse")   # ordered: pre -> on/post -> relapse
+stopifnot(length(TP_POST_TREATMENT) ==
+          length(CANONICAL_TIMEPOINTS) - 2L - length(TP_AXIS_DIAGNOSIS) - length(TP_AXIS_RELAPSE))
+
+# Collapse a canonical Timepoint onto the 3-level axis. Anything unrecognised returns NA loudly
+# via the caller's coverage check rather than being quietly binned.
+tp_axis <- function(tp) {
+  data.table::fifelse(tp %in% TP_AXIS_DIAGNOSIS, "Diagnosis",
+  data.table::fifelse(tp %in% TP_POST_TREATMENT, "Post_treatment",
+  data.table::fifelse(tp %in% TP_AXIS_RELAPSE,   "Relapse", NA_character_)))
+}

@@ -70,7 +70,13 @@ if (opt$workers > 1L) {
 run_one <- function(ds, smp, tp) {
   out_tensor <- file.path(CCC_TENSOR_DIR, ds, paste0(smp, "__ccc_cellchat.csv"))
   out_obj    <- file.path(CCC_GRAPH_DIR,  ds, paste0(smp, "__cellchat.rds"))
-  if (file.exists(out_tensor) && !opt$force) { message("  [skip] ", ds, "/", smp); return(invisible()) }
+  # freshness, not existence: the tensor must postdate the QC object and the projection it is built from
+  .ins <- c(file.path(CCC_QC_OBJ_DIR, ds, paste0(smp, ".rds")),
+            file.path(CCC_BMM_DIR,    ds, paste0(smp, "__bmm_percell.csv")))
+  if (!is_stale(out_tensor, .ins, force = opt$force)) {
+    message("  [skip] ", ds, "/", smp, " current"); return(invisible())
+  }
+  if (file.exists(out_tensor)) message("  [recompute] ", ds, "/", smp, " -- ", stale_reason(out_tensor, .ins, force = opt$force))
   set.seed(SEED)
 
   ## load QC object + attach labels by exact barcode join

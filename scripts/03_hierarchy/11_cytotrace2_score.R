@@ -96,7 +96,12 @@ score_one <- function(rds, ds, sid) {
 t0 <- Sys.time()
 for (i in seq_len(nrow(R))) {
   ds <- R$dataset[i]; sid <- R$sample[i]; dst <- dst_of(ds, sid)
-  if (file.exists(dst) && !opt$force) { message(sprintf("[%d/%d] %s::%s done", i, nrow(R), ds, sid)); next }
+  .ins <- c(R$rds[i], anno_of(ds, sid))
+  if (!is_stale(dst, .ins, force = opt$force)) {
+    message(sprintf("[%d/%d] %s::%s current", i, nrow(R), ds, sid)); next
+  }
+  if (file.exists(dst))
+    message(sprintf("[%d/%d] %s::%s RECOMPUTE -- %s", i, nrow(R), ds, sid, stale_reason(dst, .ins, force = opt$force)))
   message(sprintf("[%d/%d] %s::%s", i, nrow(R), ds, sid))
   x <- tryCatch(score_one(R$rds[i], ds, sid),
                 error = function(e) { message("  [FAIL] ", conditionMessage(e)); NULL })

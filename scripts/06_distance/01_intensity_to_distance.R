@@ -16,6 +16,7 @@
 # (DIST_MIN_EDGES_FLAG) + platform covariates + the count sensitivity arm. Accepted cost of per-sample rank.
 #
 # INPUT  : CCC_TENSOR_DIR/<ds>/<sample>__ccc_cellchat.csv   (05_ccc/02 output; all edges + pval)
+#          DIR_CCC/ccc_sample_manifest.csv                   (ccc_eligible decides which tensors are admitted)
 # OUTPUT : DIR_DISTANCE/edge_distance.csv  (long: dataset,sample,timepoint,sender_bin,receiver_bin,
 #            weight_probsum,n_lr_sig,rank_pct,C ; 49 rows/sample, node order = CCC_NODES)
 #          DIR_DISTANCE/edge_qc.csv        (per-sample: n_edges_present, total_weight, sparse_flag)
@@ -31,15 +32,41 @@ opt <- parse_args(OptionParser(option_list = list(
 
 out_dist <- file.path(DIR_DISTANCE, "edge_distance.csv")
 out_qc   <- file.path(DIR_DISTANCE, "edge_qc.csv")
-if (file.exists(out_dist) && file.exists(out_qc) && !opt$force) {
-  message("[skip] outputs exist; --force to rebuild"); quit(status = 0)
+# FRESHNESS, not existence. This guard printed "[skip]" and exited 0 on a superseded cohort:
+# results/tables/07_fgw/patient_scores.csv holds 148 rows of which 55 name samples that have
+# left the cohort, and 47 current samples have never entered CCC at all. Re-running the chain
+# hit five of these guards in a row and reported success.
+.ins <- c(file.path(DIR_CCC, "ccc_node_features.csv"),
+          file.path(DIR_CCC, "ccc_sample_manifest.csv"),
+          list.files(CCC_TENSOR_DIR, pattern = "__ccc_cellchat\\.csv$", recursive = TRUE, full.names = TRUE))
+if (!is_stale(c(out_dist, out_qc), .ins, force = opt$force)) {
+  message("[skip] distance outputs are current"); quit(status = 0)
 }
+if (file.exists(out_dist)) message("[recompute] ", stale_reason(c(out_dist, out_qc), .ins, force = opt$force))
 
 ## -- fixed directed edge grid (49 = 7x7 incl self-loops) ----
 grid <- CJ(sender_bin = CCC_NODES, receiver_bin = CCC_NODES)
 
 tfiles <- list.files(CCC_TENSOR_DIR, pattern = "__ccc_cellchat\\.csv$", recursive = TRUE, full.names = TRUE)
-message("[1] tensors found: ", length(tfiles))
+message("[1] tensors on disk: ", length(tfiles))
+stopifnot(length(tfiles) > 0L)
+
+# The glob is not the cohort. On 2026-08-20 CCC_TENSOR_DIR still held 70 tensors written against a
+# superseded 220-row manifest (55 pre-merge sublibrary names + 15 now-ineligible samples); nothing
+# downstream would have rejected them. Admission is decided by the manifest, not by what is on disk.
+MAN <- fread(file.path(DIR_CCC, "ccc_sample_manifest.csv"))
+elig <- MAN[ccc_eligible == TRUE, paste(dataset, sample)]
+tkey <- paste(basename(dirname(tfiles)), sub("__ccc_cellchat\\.csv$", "", basename(tfiles)))
+drop <- tfiles[!tkey %in% elig]
+if (length(drop)) {
+  message("[1] NOT in the eligible manifest, dropped: ", length(drop))
+  message("      ", paste(head(sub(paste0(CCC_TENSOR_DIR, "/"), "", drop), 10), collapse = "\n      "))
+}
+tfiles <- tfiles[tkey %in% elig]
+miss <- setdiff(elig, tkey)
+if (length(miss)) message("[1] eligible but NO tensor: ", length(miss), " -> ",
+                          paste(head(miss, 10), collapse = ", "))
+message("[1] tensors admitted: ", length(tfiles), " / ", length(elig), " eligible samples")
 stopifnot(length(tfiles) > 0L)
 
 process_one <- function(f) {

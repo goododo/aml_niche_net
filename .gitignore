@@ -62,3 +62,7 @@ __pycache__/
 
 # ── Auto-commit script's own log (else it self-triggers infinitely) ──
 /00_project/git_autocommit.log
+
+# ── Insurance: never let the private coaching/career notes into a PUBLIC repo ──
+*handoff*.md
+career_*.md

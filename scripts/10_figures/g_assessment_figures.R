@@ -23,6 +23,17 @@ suppressPackageStartupMessages({
 
 ROOT <- "/FAST/gr10634/gaozy/aml_niche_net"
 TBL  <- file.path(ROOT, "results", "tables")
+
+# The treatment-axis vocabulary must come from the config, not be re-listed here. These figure
+# scripts were standalone, so TP_AXIS_LEVELS would otherwise be undefined at runtime -- and the
+# literal they used to carry, c("Dx","MRD","Relapse"), matches only "Relapse" against the rebuilt
+# tables and would empty the panel without erroring.
+suppressPackageStartupMessages({
+  source(file.path(ROOT, "scripts", "config", "config_paths.R"))
+  source(file.path(ROOT, "scripts", "config", "config_qc.R"))
+  source(file.path(ROOT, "scripts", "config", "config_hierarchy.R"))
+})
+stopifnot(exists("TP_AXIS_LEVELS"))
 FIG  <- file.path(ROOT, "results", "figures", "11_assessment")
 dir.create(FIG, recursive = TRUE, showWarnings = FALSE)
 
@@ -303,15 +314,18 @@ save_fig(p4, "g04_h2_decisive", 10.6, 9.4)
 ## ══════════════════════════════════════════════════════════════════
 stem <- fread(file.path(TBL, "03_hierarchy", "stemness_by_timepoint.csv"))
 md   <- fread(file.path(TBL, "03_hierarchy", "malignant_distribution.csv"))[ok == TRUE]
-dom  <- md[timepoint %in% c("Dx", "MRD", "Relapse"),
+# The axis comes from config (TP_AXIS_LEVELS). c("Dx","MRD","Relapse") was a third
+# vocabulary and "MRD" was retired on 2026-08-04; against the rebuilt tables it matches
+# only "Relapse", which would empty this figure without erroring.
+dom  <- md[timepoint %in% TP_AXIS_LEVELS,
            .(n_pat = uniqueN(patient), tot = sum(tot_mal), top = max(tot_mal)), by = timepoint]
 dom[, share := top / tot]
-mrd_share <- dom[timepoint == "MRD", share]
+mrd_share <- dom[timepoint == "Post_treatment", share]
 
 sl <- melt(stem, id.vars = c("tp", "n_malignant"),
            measure.vars = c("LSC17", "vanGalen_HSC_Prog", "vanGalen_HSC_like", "HSPC_core"),
            variable.name = "signature", value.name = "score")
-sl[, tp := factor(tp, levels = c("Dx", "MRD", "Relapse"))]
+sl[, tp := factor(tp, levels = TP_AXIS_LEVELS)]
 sl[, shape := fifelse(signature %in% c("LSC17", "vanGalen_HSC_Prog"), "V-shaped", "not V-shaped")]
 xlab_n <- dom[match(levels(sl$tp), timepoint)]
 # Keep labels short -- the first draft used "Dx\n8 patients | 4,136 malignant cells", which
@@ -331,7 +345,7 @@ p5a <- ggplot(sl, aes(tp, score, colour = signature, group = signature)) +
          "(vanGalen_HSC_like peaks at MRD, HSPC_core declines monotonically).\n",
          "These are cell-level pooled means (Dx/MRD/Relapse: %s / %s / %s malignant cells): %.0f%% of MRD\n",
          "malignant cells come from one patient (6323), so the 'V' may be a single-sample effect."),
-         comma(dom[timepoint == "Dx", tot]), comma(dom[timepoint == "MRD", tot]),
+         comma(dom[timepoint == "Diagnosis", tot]), comma(dom[timepoint == "Post_treatment", tot]),
          comma(dom[timepoint == "Relapse", tot]), 100 * mrd_share),
        x = NULL, y = "mean signature score") +
   theme_a() + theme(panel.grid.major.x = element_blank())

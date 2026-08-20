@@ -167,6 +167,27 @@ chk(length(users) == length(loads),
 cat(sprintf("  %d Python stages scanned, %d consume the timepoint vocabulary, %d load it\n",
             length(py_files), length(users), length(loads)))
 
+## -- and no R stage may re-derive the timepoint from the SAMPLE NAME --------------------------
+# Three private tp_from_name() copies (02_per_bin_malignant.R, 04_stemness_score.R,
+# 04_cnmf/04_cnmf_figures.R) parsed the timepoint out of the sample name with a regex. Between
+# them they resolved 27 of 214 samples, all GSE227903, and their regexes were not even identical.
+# The curated Timepoint covers 214/214 and supports 28 longitudinal patients across 5 datasets.
+cat("\n=========== timepoint is curated, not parsed from sample names ===========\n")
+r_files <- unlist(lapply(c("02_malignancy", "03_hierarchy", "04_cnmf", "05_ccc", "06_distance", "07_fgw"),
+                         function(d) list.files(file.path(SCRIPTS_DIR, d), pattern = "\\.R$", full.names = TRUE)))
+r_files <- r_files[!grepl("recon_", basename(r_files))]
+name_derived <- character(0)
+for (f in r_files) {
+  L <- readLines(f, warn = FALSE); L <- L[!grepl("^\\s*#", L)]
+  if (any(grepl("tp_from_name", L))) name_derived <- c(name_derived, basename(f))
+}
+chk(length(name_derived) == 0,
+    "no R stage derives the timepoint from the sample name",
+    sprintf("%d file(s): %s", length(name_derived), paste(name_derived, collapse = ", ")))
+chk(length(r_files) >= 20, "the R scan covers the pipeline stages (not vacuous)",
+    sprintf("%d .R files scanned", length(r_files)))
+cat(sprintf("  %d R stage files scanned\n", length(r_files)))
+
 cat(sprintf("\n=========== BATCH 1: %d checks, %d failed ===========\n", N, FAIL))
 if (FAIL > 0) quit(save = "no", status = 1)
 cat("batch 1 PASS\n")

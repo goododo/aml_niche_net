@@ -23,9 +23,15 @@ opt <- parse_args(OptionParser(option_list = list(
 
 out_manifest <- file.path(DIR_CCC, "ccc_sample_manifest.csv")
 out_presence <- file.path(DIR_CCC, "ccc_node_presence.csv")
-if (file.exists(out_manifest) && file.exists(out_presence) && !opt$force) {
-  message("[skip] outputs exist; use --force to rebuild"); quit(status = 0)
+# FRESHNESS, not existence -- see is_stale() in utils.R. Existence-only guards pinned this whole
+# chain to the July cohort: re-running it printed "[skip]" five times and exited 0 while
+# patient_scores.csv still named 55 samples that had left the cohort.
+.ins <- c(opt$manifest,
+          list.files(CCC_BMM_DIR, pattern = "__bmm_percell\\.csv$", recursive = TRUE, full.names = TRUE))
+if (!is_stale(c(out_manifest, out_presence), .ins, force = opt$force)) {
+  message("[skip] CCC sample manifest is current"); quit(status = 0)
 }
+if (file.exists(out_manifest)) message("[recompute] ", stale_reason(c(out_manifest, out_presence), .ins, force = opt$force))
 
 ## -- Step 1. per-(dataset,sample,bin) cell counts from BMM projection ----
 # Only cells that will actually seed CCC: in_ccc_graph & !high_error.

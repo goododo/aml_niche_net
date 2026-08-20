@@ -27,17 +27,20 @@ source(here::here("scripts", "config", "utils.R"))
 
 opt <- parse_args(OptionParser(option_list = list(
   make_option("--datasets", type = "character", default = "", help = "comma-separated dataset filter (run GSE227903 first)"),
-  make_option("--limit",    type = "integer",   default = 0L, help = "first N samples (0=all)")
+  make_option("--limit",    type = "integer",   default = 0L, help = "first N samples (0=all)"),
+  # THERE WAS NO --force. Combined with the existence-only guard below, the 68 stemness files
+  # dated 2026-07-17 could not be refreshed by any invocation of this script.
+  make_option("--force",    action = "store_true", default = FALSE, help = "rebuild regardless of freshness")
 )))
 
 sig <- load_stemness()                       # signature, gene, weight
 sigs <- split(sig, sig$signature)
 message("[sig] ", paste(sprintf("%s(%d genes)", names(sigs), sapply(sigs, nrow)), collapse = ", "))
 
-tp_from_name <- function(s) { u <- toupper(s)
-  fifelse(grepl("(_|^)(DG|DX|DIAG)", u), "Dx",
-  fifelse(grepl("(_|^)MRD", u), "MRD",
-  fifelse(grepl("(_|^)REL|(_|^)R[0-9]*$", u), "Relapse", NA_character_))) }
+# CURATED timepoint (see 02_per_bin_malignant.R and TP_AXIS_LEVELS). The regex this replaces was
+# not even identical to 02's copy -- 02 used "(_|^)(REL|R2?)$", this one "(_|^)REL|(_|^)R[0-9]*$" --
+# so the two stages could disagree about the same sample. They happen not to on this cohort.
+TPMAP <- sample_timepoints()
 
 .data_mat <- function(seu) tryCatch(SeuratObject::LayerData(seu, assay = "RNA", layer = "data"),
                                     error = function(e) Seurat::GetAssayData(seu, assay = "RNA", slot = "data"))
@@ -77,14 +80,25 @@ score_one <- function(seu, sid, ds, first) {
 for (i in seq_len(nrow(man))) {
   ds <- man$dataset[i]; sid <- man$sample[i]
   dst <- file.path(HIER_PROJ_DIR, ds, paste0(sid, "__stemness_percell.csv"))
-  if (file.exists(dst)) { message(sprintf("[%d/%d] %s::%s done", i, nrow(man), ds, sid)); next }
+  # FRESHNESS, not existence. All three inputs postdate the 2026-07-17 outputs (QC objects
+  # 08-05, projection 08-07, consensus 08-13/14/17) and 48,087 cells in them no longer exist.
+  if (!is_stale(dst, c(man$rds[i], man$cons[i], man$proj[i]), force = opt$force)) {
+    message(sprintf("[%d/%d] %s::%s current", i, nrow(man), ds, sid)); next
+  }
+  if (file.exists(dst))
+    message(sprintf("[%d/%d] %s::%s RECOMPUTE -- %s", i, nrow(man), ds, sid,
+                    stale_reason(dst, c(man$rds[i], man$cons[i], man$proj[i]), force = opt$force)))
   message(sprintf("[%d/%d] %s::%s", i, nrow(man), ds, sid))
   seu <- readRDS(man$rds[i])
   sc  <- score_one(seu, sid, ds, first = (i == 1))
   mal <- fread(man$cons[i], select = c("cell", "malignant"))
   bin <- fread(man$proj[i], select = c("cell", "hierarchy_bin"))
   sc  <- merge(merge(sc, mal, by = "cell", all.x = TRUE), bin, by = "cell", all.x = TRUE)
-  sc[, `:=`(sample = sid, dataset = ds, timepoint = tp_from_name(sid))]
+  .tp <- TPMAP[dataset == ds & sample == sid]
+  sc[, `:=`(sample = sid, dataset = ds,
+            timepoint = if (nrow(.tp)) .tp$timepoint[1] else NA_character_,
+            tp_axis   = if (nrow(.tp)) .tp$tp_axis[1]   else NA_character_,
+            patient   = if (nrow(.tp)) .tp$uid_patient[1] else NA_character_)]
   fwrite_safe(sc, dst)
   rm(seu, sc); gc(verbose = FALSE)
 }
@@ -92,8 +106,12 @@ for (i in seq_len(nrow(man))) {
 ## ---- aggregate + the two key comparisons ----
 allsc <- rbindlist(lapply(file.path(man$dataset, man$sample), function(x)
   fread(file.path(HIER_PROJ_DIR, dirname(x), paste0(basename(x), "__stemness_percell.csv")))), fill = TRUE)
-lon <- allsc[timepoint %in% c("Dx", "MRD", "Relapse")]
-lon[, tp := factor(timepoint, levels = c("Dx", "MRD", "Relapse"))]
+# THE AXIS, NOT A LITERAL. This line still read c("Dx","MRD","Relapse") after the per-cell
+# timepoint moved to the curated vocabulary, so only "Relapse" matched and
+# stemness_by_timepoint.csv silently went from three rows to one. Caught by comparing the
+# rebuilt table against its own snapshot, not by any error.
+lon <- allsc[tp_axis %in% TP_AXIS_LEVELS]
+lon[, tp := factor(tp_axis, levels = TP_AXIS_LEVELS)]
 
 if (nrow(lon)) {
   sig_cols <- intersect(names(sigs), names(lon))   # all scored signatures present

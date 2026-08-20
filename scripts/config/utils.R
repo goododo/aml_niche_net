@@ -113,3 +113,89 @@ list_datasets <- function() {
   f <- list.files(RDS_INGEST_DIR, pattern = "\\.rds$", full.names = FALSE)
   sub("\\.rds$", "", f)
 }
+
+
+## ---------------------------------------------------------------------------------------------
+## curated per-sample timepoint / patient -- the ONE source
+## ---------------------------------------------------------------------------------------------
+# Replaces three private tp_from_name() copies (02_per_bin_malignant.R, 04_stemness_score.R,
+# 04_cnmf/04_cnmf_figures.R) that parsed the timepoint out of the SAMPLE NAME. Between them they
+# resolved 27 of 214 samples, all from one dataset, and used a vocabulary ("Dx"/"MRD"/"Relapse")
+# that matched neither CANONICAL_TIMEPOINTS nor the Python stages. The patient id was derived the
+# same way -- by stripping a suffix -- when the manifest carries uid_patient directly.
+#
+# Returns dataset, sample, timepoint (canonical), tp_axis (3-level), patient, uid_patient.
+sample_timepoints <- function(manifest_csv = NULL) {
+  if (is.null(manifest_csv))
+    manifest_csv <- file.path(FAST_DIR, "results/tables/01_preprocess/01_sample_role_manifest.csv")
+  if (!file.exists(manifest_csv)) stop("no curated manifest at ", manifest_csv)
+  M <- data.table::fread(manifest_csv)
+  need <- c("dataset", "Sample", "Timepoint")
+  miss <- setdiff(need, names(M))
+  if (length(miss)) stop("manifest is missing column(s): ", paste(miss, collapse = ", "))
+  out <- M[, .(dataset, sample = Sample, timepoint = as.character(Timepoint),
+               patient    = if ("Patient_ID"  %in% names(M)) as.character(Patient_ID)  else NA_character_,
+               uid_patient= if ("uid_patient" %in% names(M)) as.character(uid_patient) else NA_character_)]
+  out[, tp_axis := tp_axis(timepoint)]
+  unique(out, by = c("dataset", "sample"))
+}
+
+# Join the curated timepoint onto a table and REFUSE to proceed on poor coverage. A silent NA here
+# is what turned a 28-patient longitudinal cohort into a 6-patient one.
+add_timepoint <- function(DT, min_cov = 0.95, manifest_csv = NULL) {
+  stopifnot(all(c("dataset", "sample") %in% names(DT)))
+  TP <- sample_timepoints(manifest_csv)
+  for (cc in c("timepoint", "tp_axis", "patient", "uid_patient"))
+    if (cc %in% names(DT)) DT[, (cc) := NULL]
+  out <- merge(DT, TP, by = c("dataset", "sample"), all.x = TRUE)
+  cov <- mean(!is.na(out$timepoint))
+  if (cov < min_cov)
+    stop(sprintf(paste0("curated timepoint covers only %.1f%% of rows (need >= %.0f%%). ",
+                        "Unmatched: %s. A name-derived fallback is exactly the bug this replaces."),
+                 100 * cov, 100 * min_cov,
+                 paste(utils::head(unique(out[is.na(timepoint)]$sample), 5), collapse = ", ")))
+  message(sprintf("[timepoint] curated labels joined for %d of %d rows (%.1f%%); axis: %s",
+                  sum(!is.na(out$timepoint)), nrow(out), 100 * cov,
+                  paste(sprintf("%s=%d", names(table(out$tp_axis)), table(out$tp_axis)), collapse = " ")))
+  out[]
+}
+
+
+## ---------------------------------------------------------------------------------------------
+## resume guards must test FRESHNESS, not existence
+## ---------------------------------------------------------------------------------------------
+# Generalises the idiom already used at 02_malignancy/44_infercnv_run_one.R:62-73 and
+# 03_hierarchy/01_bmm_project.R:114, which every stage after 03 was missing. Existence-only guards
+# pinned published tables to superseded inputs: 68 stemness files dated 2026-07-17 whose three
+# inputs all postdate them (QC objects 08-05, projection 08-07, consensus 08-13/14/17) and which
+# reference 48,087 cells that no longer exist; 33 cellstate files written before their consensus
+# existed and therefore carrying malignant=NA permanently; and the whole 05_ccc -> 06 -> 07 -> 08
+# chain, where results/tables/07_fgw/patient_scores.csv holds 148 rows of which 55 name samples
+# that left the cohort. Re-running the chain printed "[skip]" five times and exited 0.
+#
+# Returns TRUE when `out` must be rebuilt. Missing inputs are IGNORED rather than treated as fresh:
+# an input that is not there yet cannot certify an output as current.
+is_stale <- function(out, inputs, force = FALSE) {
+  if (isTRUE(force)) return(TRUE)
+  out <- out[nzchar(out)]
+  if (!length(out) || !all(file.exists(out))) return(TRUE)
+  inputs <- unique(inputs[nzchar(inputs)])
+  inputs <- inputs[file.exists(inputs)]
+  if (!length(inputs)) return(FALSE)
+  min(file.mtime(out)) < max(file.mtime(inputs))
+}
+
+# Print WHICH input made it stale. "[recompute]" with no reason is how a stale-output problem
+# becomes invisible again the next time someone reads the log.
+stale_reason <- function(out, inputs, force = FALSE) {
+  # `force` must be reported as force. Without it the log reads "RECOMPUTE -- up to date", which is
+  # a contradiction, and a reader cannot tell a forced rebuild from a genuine staleness detection.
+  if (isTRUE(force)) return("forced (--force)")
+  out <- out[nzchar(out) & file.exists(out)]
+  inputs <- unique(inputs[nzchar(inputs)]); inputs <- inputs[file.exists(inputs)]
+  if (!length(out) || !length(inputs)) return("output missing")
+  newer <- inputs[file.mtime(inputs) > min(file.mtime(out))]
+  if (!length(newer)) return("up to date")
+  sprintf("%d newer input(s), e.g. %s (%s) > output (%s)", length(newer), basename(newer[1]),
+          format(file.mtime(newer[1]), "%m-%d %H:%M"), format(min(file.mtime(out)), "%m-%d %H:%M"))
+}

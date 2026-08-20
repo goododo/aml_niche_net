@@ -20,6 +20,17 @@ suppressPackageStartupMessages({
 
 ROOT <- "/FAST/gr10634/gaozy/aml_niche_net"
 TBL  <- file.path(ROOT, "results", "tables")
+
+# The treatment-axis vocabulary must come from the config, not be re-listed here. These figure
+# scripts were standalone, so TP_AXIS_LEVELS would otherwise be undefined at runtime -- and the
+# literal they used to carry, c("Dx","MRD","Relapse"), matches only "Relapse" against the rebuilt
+# tables and would empty the panel without erroring.
+suppressPackageStartupMessages({
+  source(file.path(ROOT, "scripts", "config", "config_paths.R"))
+  source(file.path(ROOT, "scripts", "config", "config_qc.R"))
+  source(file.path(ROOT, "scripts", "config", "config_hierarchy.R"))
+})
+stopifnot(exists("TP_AXIS_LEVELS"))
 FIG  <- file.path(ROOT, "results", "figures", "12_deck")
 dir.create(FIG, recursive = TRUE, showWarnings = FALSE)
 
@@ -174,7 +185,10 @@ stem <- fread(file.path(TBL,"03_hierarchy","stemness_by_timepoint.csv"))
 sl <- melt(stem, id.vars=c("tp","n_malignant"),
            measure.vars=c("LSC17","vanGalen_HSC_Prog","vanGalen_HSC_like","HSPC_core"),
            variable.name="signature", value.name="score")
-sl[, tp := factor(tp, levels=c("Dx","MRD","Relapse"))]
+# The axis comes from config (TP_AXIS_LEVELS). c("Dx","MRD","Relapse") was a third
+# vocabulary and "MRD" was retired on 2026-08-04; against the rebuilt tables it matches
+# only "Relapse", which would empty this figure without erroring.
+sl[, tp := factor(tp, levels = TP_AXIS_LEVELS)]
 sl[, vshape := signature %in% c("LSC17","vanGalen_HSC_Prog")]
 d5a <- ggplot(sl, aes(tp, score, colour = signature, group = signature, linetype = vshape)) +
   geom_line(linewidth = 1.2) + geom_point(size = 3.2) +

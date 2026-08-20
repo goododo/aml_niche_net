@@ -50,7 +50,11 @@ message(sprintf("[0] %d sample(s) -> %s", nrow(R), ANNO_OBJ_DIR))
 
 one <- function(ds, sid, rds) {
   out <- file.path(ANNO_OBJ_DIR, ds, paste0(sid, ".rds"))
-  if (file.exists(out) && !opt$force) { message("[skip] ", sid); return(NULL) }
+  # freshness, not existence: the annotated object must postdate both the QC object it wraps and
+  # the reconciled table it carries, or it ships a stale annotation under a current filename
+  .ins <- c(rds, file.path(ANNO_RECONCILED_DIR, ds, paste0(sid, "__anno_percell.csv")))
+  if (!is_stale(out, .ins, force = opt$force)) { message("[skip] ", sid, " current"); return(NULL) }
+  if (file.exists(out)) message("[recompute] ", sid, " -- ", stale_reason(out, .ins, force = opt$force))
   af <- file.path(ANNO_RECONCILED_DIR, ds, paste0(sid, "__anno_percell.csv"))
   if (!file.exists(af)) { message("[skip] no reconciled table: ", sid); return(NULL) }
   A <- fread(af)

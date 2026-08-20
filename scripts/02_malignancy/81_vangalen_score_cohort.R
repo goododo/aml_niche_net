@@ -231,6 +231,25 @@ P[hierarchy_bin %in% VG_CALL_BINS, vg_call := as.integer(vg_malignant > vg_thr)]
 # D was taken before vg_call existed; rebuild it so every section below sees the same table
 D <- P[hierarchy_bin %in% VG_CALL_BINS]
 
+## -- PERSIST THE CALL NEXT TO THE SCORE -------------------------------------------------------
+# vg_call and vg_thr were computed here and existed only in memory, so the per-cell files on disk
+# carried the SCORE but never the CALL. Any consumer wanting "is this cell malignant by the van
+# Galen axis" had either to re-derive the threshold itself -- getting the pooled one wrong for
+# Seq-Well, a 0.26 shift -- or to give up: 05_ccc/03_node_features.R asked for vg_call, found no
+# such column, and emitted frac_malignant_vg as NA for 100% of rows without failing.
+# The threshold is a property of the cohort, so it can only be written after every sample is
+# scored; hence a second pass rather than writing it in the scoring loop.
+for (i in seq_len(nrow(done))) {
+  f <- dst_of(done$dataset[i], done$sample[i])
+  x <- fread(f)
+  x[, c("vg_thr", "vg_call") := NULL]
+  x[, vg_thr := thr_for(done$dataset[i])]
+  x[, vg_call := NA_integer_]
+  x[hierarchy_bin %in% VG_CALL_BINS, vg_call := as.integer(vg_malignant > vg_thr)]
+  fwrite_safe(x, f)
+}
+message(sprintf("[persist] vg_thr + vg_call written back to %d per-cell files", nrow(done)))
+
 cat("\n================ 3. SENSITIVITY, on genotyped cells ================\n")
 # van Galen's own single-cell genotyping. mut+ is malignant beyond argument; wt-only is NOT a
 # negative, because allelic dropout makes a malignant cell fail to show its mutant read routinely.
