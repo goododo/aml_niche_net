@@ -38,6 +38,28 @@ FGW_FEATURES    <- CCC_NODE_FEATURES        # c("frac_malignant","mean_stemness"
 FGW_SCALE_FEATURES <- TRUE                  # z-score each feature across nodes-x-samples before FGW
 FGW_ZERO_HEALTHY_MAL <- TRUE                # set frac_malignant = 0 for Disease_state/timepoint == Healthy
 
+## -- CANDIDATE node features (emitted, NOT used by FGW) ----
+# Carried into fgw_nodes_long.csv, z-scored the same way, so 08_scoring/07_feature_decomposition.py can
+# test them. They are deliberately NOT in FGW_FEATURES: a feature earns its way in by surviving the
+# decomposition first. Adding one here changes no FGW result -- only what 07 is able to ask about.
+#
+# WHY THESE SIX. The alpha sweep put the whole H2 signal in the FEATURE term (alpha=1 pure topology:
+# within-dataset p=0.966), so "which feature" is now the question the project turns on. Each candidate
+# attacks a specific alternative explanation for the surviving stemness signal:
+#   frac_malignant_vg        transcriptional malignancy (van Galen axis), NOT zeroed for healthy ->
+#                            the non-circular counterpart to frac_malignant. HSC_MPP only (the only
+#                            compartment where the axis passed held-out AUC); elsewhere NA -> neutral.
+#   mean_cnv_burden          continuous CNV signal instead of the thresholded call
+#   mean_stemness_malignant  is the stemness signal just "blasts are stem-like"? (near-circular)
+#   mean_stemness_normal     or is it carried by NON-malignant cells? (a microenvironment result)
+#   mean_cytotrace_normal    same split under an independent potency estimate that never saw LSC17
+#   mean_cytotrace_malignant
+# The stemness_normal vs stemness_malignant contrast is the decisive one.
+FGW_CANDIDATE_FEATURES <- c("frac_malignant_vg", "mean_cnv_burden",
+                            "mean_stemness_normal", "mean_stemness_malignant",
+                            "mean_cytotrace_normal", "mean_cytotrace_malignant")
+stopifnot(!any(FGW_CANDIDATE_FEATURES %in% FGW_FEATURES))   # a candidate is by definition not yet in use
+
 ## -- barycenter grouping ----
 # Which sample groups get a consensus barycenter (built on the fixed 7-node vocab).
 # DERIVED from CANONICAL_TIMEPOINTS rather than re-listed, so the v2 vocabulary change (MRD and

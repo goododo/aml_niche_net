@@ -46,7 +46,8 @@ BLAST_BINS=["HSC_MPP","LMPP_GMP","Mono_DC"]
 AML_TP = None  # set from fgw_vocab.json below -- see scripts/config/fgw_vocab.py
 DEFAULT_ROOT="/FAST/gr10634/gaozy/aml_niche_net/results/tables"; SEED=491638
 
-SUBSETS={
+# CORE: the three features actually in FGW_FEATURES. This is the original circularity test.
+CORE_SUBSETS={
  "all3":          ["frac_malignant","mean_stemness","n_cells"],
  "no_frac_mal":   ["mean_stemness","n_cells"],
  "only_frac_mal": ["frac_malignant"],
@@ -54,16 +55,51 @@ SUBSETS={
  "only_ncells":   ["n_cells"],
 }
 
+# CANDIDATES: emitted by 07_fgw/01 as FGW_CANDIDATE_FEATURES but NOT part of the FGW distance. A feature
+# earns its way into FGW_FEATURES by surviving here first.
+#
+# WHY EACH ONE EXISTS. The alpha sweep put the entire H2 signal in the feature term (alpha=1 pure
+# topology: within-dataset p=0.966), and only_stemness survived the circularity test (p=0.0063) while
+# only_ncells did not (p=0.410). So the live question is WHICH stemness -- and whether a malignancy axis
+# we did NOT encode by hand behaves like the one we did.
+#
+#   only_vg_mal          transcriptional malignancy (van Galen), NEVER zeroed for healthy. If this
+#                        separates, malignancy is a real signal and not just our encoding. This is the
+#                        honest counterpart to only_frac_mal.
+#   only_cnv_burden      continuous CNV instead of the thresholded call
+#   only_stem_normal     <- DECISIVE. Stemness of NON-malignant cells. If this carries the signal, the
+#                        finding is about the microenvironment.
+#   only_stem_malignant  <- DECISIVE. Stemness of malignant cells. If the signal is only here, the
+#                        finding reduces to "blasts are stem-like" -- known, and near-circular with
+#                        malignancy itself.
+#   only_cyto_normal / only_cyto_malignant   the same split under CytoTRACE2, which never saw LSC17.
+#                        Agreement across two independent potency estimates is the reproducibility arm.
+#   noncircular          everything we did NOT encode by hand, together.
+CANDIDATE_SUBSETS={
+ "only_vg_mal":         ["frac_malignant_vg"],
+ "only_cnv_burden":     ["mean_cnv_burden"],
+ "only_stem_normal":    ["mean_stemness_normal"],
+ "only_stem_malignant": ["mean_stemness_malignant"],
+ "only_cyto_normal":    ["mean_cytotrace_normal"],
+ "only_cyto_malignant": ["mean_cytotrace_malignant"],
+ "noncircular":         ["frac_malignant_vg","mean_stemness_normal"],
+}
+
 ap=argparse.ArgumentParser()
 ap.add_argument("--root",default=DEFAULT_ROOT)
 ap.add_argument("--n_perm",type=int,default=10000)
 ap.add_argument("--alphas",default="0,0.5")
+ap.add_argument("--subsets",default="all",choices=["core","candidates","all"],
+                help="core = the 3 features in FGW_FEATURES; candidates = FGW_CANDIDATE_FEATURES")
 ap.add_argument("--max_iter",type=int,default=1000)
 args=ap.parse_args(); rng=np.random.default_rng(SEED)
 ALPHAS=[float(x) for x in args.alphas.split(",")]
 D_FGW=os.path.join(args.root,"07_fgw"); D_OUT=os.path.join(args.root,"08_scoring"); os.makedirs(D_OUT,exist_ok=True)
 _VOCAB = load_vocab(D_FGW)
 AML_TP = _VOCAB["aml_timepoints"]
+
+SUBSETS = dict(CORE_SUBSETS) if args.subsets in ("core","all") else {}
+if args.subsets in ("candidates","all"): SUBSETS.update(CANDIDATE_SUBSETS)
 
 
 edges=pd.read_csv(os.path.join(D_FGW,"fgw_edges_long.csv"))
@@ -74,6 +110,21 @@ idx=pd.read_csv(os.path.join(D_FGW,"fgw_input_index.csv"))
 # timepoint is not an error -- it is a sample that quietly stops being AML and stops
 # being healthy, and therefore stops existing for every test below.
 assert_index_covered(idx, _VOCAB)
+
+# A subset naming a column that fgw_nodes_long.csv does not carry must abort, not silently produce a
+# zero-variance feature. Candidate columns only appear once 07_fgw/01 has been re-run with
+# FGW_CANDIDATE_FEATURES set, and a missing column would otherwise read as "this feature has no signal".
+_want = sorted({c for f in SUBSETS.values() for c in f})
+_missing = [c for c in _want if c not in nodes.columns]
+if _missing:
+    raise SystemExit(
+        f"fgw_nodes_long.csv lacks column(s): {', '.join(_missing)}\n"
+        f"  Re-run scripts/07_fgw/01_build_fgw_inputs.R (it emits FGW_CANDIDATE_FEATURES).\n"
+        f"  Columns present: {', '.join(nodes.columns)}")
+_const = [c for c in _want if float(nodes[c].std(skipna=True) or 0.0) == 0.0]
+if _const:
+    raise SystemExit(f"column(s) constant across all nodes, cannot be tested: {', '.join(_const)}")
+print(f"[0] subsets={args.subsets} -> {len(SUBSETS)} sets over {len(_want)} distinct feature columns")
 
 _cache={}
 def build_one(ds,smp,feats):
@@ -182,4 +233,51 @@ elif p_no<0.05:
     print(f"       only_stemness p={g('only_stemness','p_strat'):.5f} | only_ncells p={g('only_ncells','p_strat'):.5f}")
 else:
     print("    -> neither subset is significant on its own; the signal needs the full feature combination.")
+
+# no_frac_mal bundles a non-encoded feature (stemness) with a null one (n_cells), so it answers two
+# questions at once and answers neither well. The single-feature rows are what the decision rests on.
+if any(k in z.index for k in CANDIDATE_SUBSETS):
+    print("\n[5] CANDIDATE FEATURES (alpha=0, within-dataset model)")
+    for k in CANDIDATE_SUBSETS:
+        if k in z.index:
+            print(f"    {k:<20} beta={g(k,'beta_strat'):+.5f}  p={g(k,'p_strat'):.5f}"
+                  f"   healthy={g(k,'mean_healthy'):.4f} AML={g(k,'mean_aml'):.4f}")
+    pn, pm = g("only_stem_normal","p_strat"), g("only_stem_malignant","p_strat")
+    if np.isfinite(pn) and np.isfinite(pm):
+        print("\n    DECISIVE CONTRAST -- which cells carry the stemness signal?")
+        if pn<0.05 and pm>=0.05:
+            print("    -> NON-MALIGNANT cells. The residual hematopoiesis is shifted; this is a")
+            print("       microenvironment finding and is not reducible to blast content.")
+        elif pm<0.05 and pn>=0.05:
+            print("    -> MALIGNANT cells only. This reduces to 'blasts are stem-like' -- already known,")
+            print("       and near-circular with malignancy itself. Weak as a finding.")
+        elif pn<0.05 and pm<0.05:
+            print("    -> BOTH compartments. Report the normal-cell arm as the novel part; the malignant")
+            print("       arm is expected and should be presented as a positive control, not a result.")
+        else:
+            print("    -> NEITHER survives once split. The pooled stemness signal was carried by the")
+            print("       mixture itself (composition), not by either compartment.")
+    # A feature imputed on most nodes is near-constant after scaling, so a null result measures the
+    # ENCODING, not the biology. frac_malignant_vg is the live case: the van Galen axis passed held-out
+    # AUC in HSC_MPP only, so 86% of its nodes are imputed and its post-z sd is ~0.37 against ~0.95 for
+    # the others. Reporting "malignancy does not separate" off that row would be wrong -- the same axis
+    # separates at SAMPLE level (AUC 0.822, scripts/02_malignancy/81). Say so instead of concluding.
+    IMPUTED_MAX = 0.50
+    imp = {c: float((nodes[c] == 0.0).mean()) for c in _want}
+    pv = g("only_vg_mal","p_strat")
+    if np.isfinite(pv):
+        iv = imp.get("frac_malignant_vg", 0.0)
+        print(f"\n    only_vg_mal p={pv:.5f} -- malignancy WITHOUT the hand-coded healthy zero.")
+        if iv > IMPUTED_MAX:
+            print(f"    UNINFORMATIVE: {iv:.1%} of its nodes are imputed (axis validated in HSC_MPP only),")
+            print( "    so as a 7-node feature it is near-constant. This tests the encoding, not malignancy.")
+            print( "    Draw no conclusion here; use the sample-level test in 02_malignancy/81 instead.")
+        elif pv < 0.05:
+            print("    Malignancy separates on its own merits; only_frac_mal was not pure artifact.")
+        else:
+            print("    Does not separate. The only_frac_mal result was the encoding, not malignancy.")
+    heavy = {c: v for c, v in imp.items() if v > IMPUTED_MAX}
+    if heavy:
+        print("\n    imputation warning (>50% of nodes imputed -> null results uninformative):")
+        for c, v in sorted(heavy.items(), key=lambda kv: -kv[1]): print(f"      {c:<26} {v:.1%}")
 print(f"\n[done] wrote {os.path.join(D_OUT,'feature_decomposition.csv')}")

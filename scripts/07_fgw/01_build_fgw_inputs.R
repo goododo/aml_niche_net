@@ -75,21 +75,37 @@ mass[, mass := m / sum(m), by = .(dataset, sample)]     # normalize to 1 within 
 
 ## -- Step 3. GLOBAL feature z-score (Healthy frac_malignant -> 0 first) ----
 feat <- merge(nf[has_graph == TRUE], man_ds, by = c("dataset","sample"), all.x = TRUE)
+
+# ZEROING APPLIES TO frac_malignant ONLY. frac_malignant_vg is deliberately left untouched: it is the
+# non-circular counterpart, and zeroing it for healthy would rebuild the very circularity that
+# 08_scoring/07 exists to test. Keep the two apart.
 if (FGW_ZERO_HEALTHY_MAL) feat[healthy == TRUE, frac_malignant := 0]
+
+# Candidates ride the same scaling path but never reach FGW (see config_fgw.R).
+missing_cand <- setdiff(FGW_CANDIDATE_FEATURES, names(feat))
+if (length(missing_cand))
+  stop("ccc_node_features.csv lacks candidate feature column(s): ", paste(missing_cand, collapse = ", "),
+       "\n  Rebuild scripts/05_ccc/03_node_features.R first.")
+ALL_FEATURES <- c(FGW_FEATURES, FGW_CANDIDATE_FEATURES)
+
 zpar <- list()
-for (fcol in FGW_FEATURES) {
+for (fcol in ALL_FEATURES) {
   mu <- mean(feat[[fcol]], na.rm = TRUE); sdv <- sd(feat[[fcol]], na.rm = TRUE)
   if (!is.finite(sdv) || sdv == 0) sdv <- 1
+  n_na <- sum(is.na(feat[[fcol]]))                      # report it: a candidate that is 90% imputed
   feat[is.na(get(fcol)), (fcol) := mu]                  # neutral impute (pre-scale)
   if (FGW_SCALE_FEATURES) feat[, (fcol) := (get(fcol) - mu) / sdv]
-  zpar[[fcol]] <- c(mean = mu, sd = sdv)
+  zpar[[fcol]] <- c(mean = mu, sd = sdv, n_imputed = n_na)
 }
 message("[3] global z-score params:")
-for (fcol in FGW_FEATURES) message("    ", fcol, ": mean=", round(zpar[[fcol]]['mean'],4), " sd=", round(zpar[[fcol]]['sd'],4))
+for (fcol in ALL_FEATURES)
+  message("    ", if (fcol %in% FGW_FEATURES) "[use] " else "[cand] ", fcol,
+          ": mean=", round(zpar[[fcol]]['mean'], 4), " sd=", round(zpar[[fcol]]['sd'], 4),
+          " imputed=", zpar[[fcol]]['n_imputed'], "/", nrow(feat))
 
 ## -- Step 4. assemble long tables ----
 nodes_long <- merge(
-  feat[, c("dataset","sample","timepoint","hierarchy_bin","healthy", FGW_FEATURES), with = FALSE],
+  feat[, c("dataset","sample","timepoint","hierarchy_bin","healthy", ALL_FEATURES), with = FALSE],
   mass[, .(dataset, sample, hierarchy_bin, n_cells_raw, present, mass)],
   by = c("dataset","sample","hierarchy_bin"))
 nodes_long <- merge(nodes_long, qc_key, by = c("dataset","sample"), all.x = TRUE)
@@ -147,6 +163,7 @@ vocab <- list(
   all_timepoints     = CANONICAL_TIMEPOINTS,
   nodes              = FGW_NODES,
   features           = FGW_FEATURES,
+  candidate_features = FGW_CANDIDATE_FEATURES,   # emitted for 08/07 only; NOT part of the FGW distance
   generated_by       = "scripts/07_fgw/01_build_fgw_inputs.R"
 )
 out_vocab <- file.path(DIR_FGW, "fgw_vocab.json")

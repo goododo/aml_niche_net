@@ -5,5 +5,6 @@
   "all_timepoints": ["Healthy", "Diagnosis", "Refractory", "On_treatment", "Post_induction", "Post_consolidation", "Post_transplant", "Post_treatment_unspecified", "Relapse", "Relapse2", "Unknown"],
   "nodes": ["HSC_MPP", "LMPP_GMP", "Mono_DC", "Erythroid", "Megakaryocyte", "T_NK", "B_Plasma"],
   "features": ["frac_malignant", "mean_stemness", "n_cells"],
+  "candidate_features": ["frac_malignant_vg", "mean_cnv_burden", "mean_stemness_normal", "mean_stemness_malignant", "mean_cytotrace_normal", "mean_cytotrace_malignant"],
   "generated_by": "scripts/07_fgw/01_build_fgw_inputs.R"
 }
