@@ -83,6 +83,10 @@ STEM_SIG <- CCC_STEMNESS_SIG
 n_stem_ok <- 0L
 
 ## -- Step 2. per-sample per-bin aggregation ----
+# Counted, not silent: an exclusion list that matches nothing (a renamed label, a typo) would otherwise
+# look identical to one that is working.
+.excluded_cells <- 0L
+
 build_one <- function(ds, smp, tp) {
   # BINS FROM THE RECONCILED ANNOTATION, not the raw projection. This read CCC_BMM_DIR's
   # __bmm_percell.csv, which predates 06_reconcile_annotation.R: on GSE116256 alone 6.8% of cells
@@ -97,11 +101,20 @@ build_one <- function(ds, smp, tp) {
   icnv_f <- file.path(INFERCNV_ROOT,       ds, smp, paste0(smp, "__infercnv_percell.csv"))
   if (!file.exists(ann_f)) { warning("no reconciled annotation for ", ds, "/", smp); return(NULL) }
 
-  d <- fread(ann_f, select = c("cell", "hierarchy_bin", "in_ccc_graph", "high_error"))
+  d <- fread(ann_f, select = c("cell", "hierarchy_bin", "in_ccc_graph", "high_error", "bmm_broad"))
   # fwrite writes NA as "" and fread returns "" -- normalise or every is.na() below is FALSE
   d[!nzchar(trimws(hierarchy_bin)), hierarchy_bin := NA_character_]
   d[, `:=`(in_ccc_graph = as.logical(in_ccc_graph), high_error = as.logical(high_error))]
   d <- d[in_ccc_graph == TRUE & high_error == FALSE & hierarchy_bin %in% CCC_NODES]
+  # Drop projection labels that do not mean what they say (see CCC_EXCLUDE_FINE in config_ccc.R).
+  # Filtered on bmm_broad, i.e. on what the PROJECTION called the cell, because that is where the
+  # ambiguity lives -- reconciliation may since have moved the cell to another bin, and the concern
+  # travels with it either way.
+  if (length(CCC_EXCLUDE_FINE)) {
+    n_before <- nrow(d)
+    d <- d[!(bmm_broad %in% CCC_EXCLUDE_FINE)]
+    .excluded_cells <<- .excluded_cells + (n_before - nrow(d))
+  }
   if (!nrow(d)) return(NULL)
 
   if (file.exists(con_f)) d <- fread(con_f, select = c("cell", "malignant"))[d, on = "cell"]
@@ -176,6 +189,13 @@ graph_keys <- if (length(gfiles)) {
              sample  = sub("__ccc_cellchat\\.csv$", "", basename(gfiles)))[, key := paste(dataset, sample)]$key
 } else character(0)
 feats[, has_graph := paste(dataset, sample) %in% graph_keys]
+
+if (length(CCC_EXCLUDE_FINE)) {
+  message("[3] CCC_EXCLUDE_FINE = ", paste(CCC_EXCLUDE_FINE, collapse = ", "),
+          " -> dropped ", .excluded_cells, " cells from node features")
+  if (.excluded_cells == 0L)
+    stop("CCC_EXCLUDE_FINE matched 0 cells -- the label is misspelled or gone from bmm_broad")
+}
 
 setcolorder(feats, c("dataset","sample","timepoint","hierarchy_bin","has_graph",
                      "n_cells","n_evaluable","n_malignant","frac_malignant",

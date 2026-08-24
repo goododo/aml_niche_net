@@ -55,6 +55,23 @@ CCC_MIN_TOTAL_CELLS       <- 300L                    # == MIN_CELLS_SAMPLE (conf
 ## -- Per-node presence threshold (WITHIN a sample's graph) ----
 # Below this a node is 'missing' in that sample (NOT dropped) -> unbalanced FGW. Also = CellChat
 # filterCommunication(min.cells=) floor (aligned: groups < min.cells are auto-excluded by CellChat).
+## -- fine labels excluded from NODE FEATURES ----
+# A projection label that does not mean what it says must not contribute to a node's features.
+# `Early Lymphoid` is the live case (2026-08-21): bmm_bin_map.tsv already flags it AMBIGUOUS
+# (CLP-like, upstream of BOTH T_NK and B_Plasma), and it behaves like a progenitor, not a lymphocyte --
+# CytoTRACE2 potency 0.446 against 0.064-0.071 for real T/NK, LSC17 0.123 against ~0.013, the worst
+# mapping_error in the node. It is 0.95% of the healthy non-malignant T_NK pool but 10.64% of the AML
+# one (11x), which alone accounts for about half the T_NK stemness difference.
+#
+# EXCLUDED FROM FEATURES, NOT FROM THE GRAPH. CellChat has already attributed these cells' edges to
+# T_NK; undoing that means changing bmm_bin_map.tsv's in_ccc_graph and re-running 05_ccc/02 for all 138
+# samples, which also costs 8 samples their T_NK node (7 AML / 1 healthy) and widens the node-presence
+# gap from +8.7pp to +10.4pp. Do that only if the finding survives this cheaper test. Note that node
+# MASS follows n_cells, so masses do shift here even though the edges do not -- that is the intended
+# direction (a node with fewer real T/NK cells should carry less mass), but it is a partial change,
+# and the edge/feature inconsistency is real until the graph is rebuilt.
+CCC_EXCLUDE_FINE <- c("Early Lymphoid")
+
 CCC_MIN_CELLS_PER_NODE <- 10L
 
 ## -- Per-sample OCCUPANCY gate (the constraint that actually binds for a 7-node graph) ----

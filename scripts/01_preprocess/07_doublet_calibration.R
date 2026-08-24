@@ -107,10 +107,20 @@ load_pre_doublet <- function(ds, sm) {
   obj <- seu[, cells]; rm(seu); gc(verbose = FALSE)
   keep <- mad_keep(obj@meta.data)
   if (!any(keep)) return(NULL)
-  obj[, keep]
+  # JOIN THE LAYERS. A multi-sublibrary sample arrives as an Assay5 with counts.1, counts.2, ... and
+  # GetAssayData refuses to read a multi-layer v5 assay, so BOTH callers threw and the sample vanished
+  # from the table (scDblFinder: "GetAssayData doesn't work for multiple layers in v5 assay";
+  # DoubletFinder: "subscript out of bounds"). That silently cost this calibration all 4 Chen2023
+  # samples and 2 of 3 GSE185381 -- 6 of 28 -- and Chen2023 is one of the three datasets holding BOTH
+  # healthy and AML labels, i.e. one of the three every within-dataset result rests on. The production
+  # path in 03_per_sample_qc.R already calls ensure_joined() (lines 194, 346); this script sourced that
+  # file, had the helper in scope, and never used it. Actual doublet REMOVAL was therefore fine -- only
+  # the calibration measurement was blind to those samples.
+  ensure_joined(obj[, keep])
 }
 
 res <- vector("list", nrow(sel))
+.fail <- list()          # sample -> reason; a silent `next` is how 6 of 28 disappeared
 cache_ds <- NULL
 for (i in seq_len(nrow(sel))) {
   ds <- sel$dataset[i]; sm <- sel$Sample[i]
@@ -122,9 +132,9 @@ for (i in seq_len(nrow(sel))) {
   # Expected rate is computed on the RAW barcode count for this sample, matching
   # 03_per_sample_qc.R, which derives it from how many barcodes were LOADED.
   rate <- sel$dbl_rate_exp[i]
-  sc <- tryCatch(call_sc(obj, rate, DBR_SD), error = function(e) { message("  sc fail: ", conditionMessage(e)); NULL })
-  df <- tryCatch(call_doubletfinder(obj, rate), error = function(e) { message("  df fail: ", conditionMessage(e)); NULL })
-  if (is.null(sc) || is.null(df)) next
+  sc <- tryCatch(call_sc(obj, rate, DBR_SD), error = function(e) { message("  sc fail: ", conditionMessage(e)); .fail[[paste(ds, sm)]] <<- paste("sc:", conditionMessage(e)); NULL })
+  df <- tryCatch(call_doubletfinder(obj, rate), error = function(e) { message("  df fail: ", conditionMessage(e)); .fail[[paste(ds, sm)]] <<- paste("df:", conditionMessage(e)); NULL })
+  if (is.null(sc) || is.null(df)) { rm(obj); gc(verbose = FALSE); next }
 
   sc <- sc[colnames(obj)]; df <- df[colnames(obj)]; n <- length(sc)
   res[[i]] <- data.table(
@@ -140,6 +150,24 @@ for (i in seq_len(nrow(sel))) {
 
 D <- rbindlist(res)
 if (!nrow(D)) stop("no samples produced calls")
+
+## -- account for EVERY selected sample ----
+# The adopted slope in config_qc.R cites "n=22 samples across 11 datasets". That 22 was 28 minus 6
+# silent failures, and nothing in the old output said so. Attempted vs succeeded is now printed, and a
+# dataset that is selected but wholly absent from the table is an ERROR, not a sampling outcome.
+message(sprintf("\n[2] selected %d | produced calls %d | failed %d",
+                nrow(sel), nrow(D), length(.fail)))
+if (length(.fail)) {
+  message("    FAILED samples and reasons:")
+  for (k in names(.fail)) message("      ", k, "  ->  ", .fail[[k]])
+}
+sel_ds  <- sort(unique(sel$dataset)); got_ds <- sort(unique(D$dataset))
+lost_ds <- setdiff(sel_ds, got_ds)
+message("    datasets selected ", length(sel_ds), " | represented in the table ", length(got_ds))
+if (length(lost_ds))
+  stop("dataset(s) selected but entirely absent from the calibration: ", paste(lost_ds, collapse = ", "),
+       "\n  Every slope below would be fitted without them. Fix the failure, do not lower the bar.")
+D[, `:=`(n_selected = nrow(sel), n_failed = length(.fail))]
 for (k in c("sc", "df", "union", "inter"))
   D[[paste0("ratio_", k)]] <- D[[paste0("rate_", k)]] / D$rate_exp
 
