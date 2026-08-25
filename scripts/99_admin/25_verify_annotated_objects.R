@@ -43,12 +43,20 @@ run_start <- min(file.mtime(objs))
 qc_newer  <- R[file.mtime(rds) > run_start]
 chk(nrow(qc_newer) == 0, "no QC object was written during/after the annotation run",
     sprintf("%d newer", nrow(qc_newer)))
-# and the inferCNV freshness guard must still consider every burden CSV current
-tasks <- rbindlist(lapply(list.files(".", pattern = "^infercnv_tasks(_healthy)?\\.tsv$"),
-                          function(p) fread(p, header = FALSE, col.names = c("dataset", "sample"))))
+# and the inferCNV freshness guard must still consider every burden CSV current.
+#
+# THE ROSTER IS R, NOT THE TASK FILES. This used to glob ^infercnv_tasks(_healthy)?\.tsv$, which
+# matches 2 of the 6 task files in the tree and covers 179 of the 212 samples that have burden
+# CSVs -- so 33 samples were a blind spot while the check reported PASS. That is the same failure
+# 22_verify_malignancy_percell.R already hit and documents: a roster extended by hand every time
+# work is queued silently shrinks the audit exactly when new work needs auditing. R comes from
+# qc_rds_roster(), the roster every producing script uses, so it cannot drift from them.
+tasks <- R[, .(dataset, sample, q = rds)]
 tasks[, b := file.path(INFERCNV_BURDEN_ROOT, dataset, paste0(sample, "_infercnv_burden.csv"))]
-tasks[, q := file.path(QC_RDS_DIR, dataset, paste0(sample, ".rds"))]
 tk <- tasks[file.exists(b) & file.exists(q)]
+# NON-VACUITY: a check that reaches 0 samples passes for the wrong reason.
+chk(nrow(tk) >= 200, "the burden-freshness check actually reaches the cohort",
+    sprintf("%d of %d roster samples have both a burden CSV and a QC object", nrow(tk), nrow(tasks)))
 stale <- tk[file.mtime(b) < file.mtime(q)]
 chk(nrow(stale) == 0, "no burden CSV became stale (the whole reason for a separate directory)",
     sprintf("%d would recompute", nrow(stale)))
