@@ -541,22 +541,43 @@ DOUBLET_CONSENSUS <- "union"
 DOUBLET_MIN_CELLS <- 100L
 
 ## -- scDblFinder: treat the expected rate as an EXPECTATION, not a hint ----
-# MEASURED, not assumed (07_doublet_calibration.R, n=22 samples spanning 314-13,918
-# cells across 11 datasets, run on pre-doublet-removal input). Ratio = cells called
+# MEASURED, not assumed (07_doublet_calibration.R, n=28 samples spanning 425-13,918
+# cells across 12 datasets, run on pre-doublet-removal input). Ratio = cells called
 # / cells expected; slope = change in that ratio per 10x more cells, which is the
 # number that matters because composition is the FGW node marginal and a sloped
 # removal rate writes a library-size gradient into exactly what H2 measures:
 #
 #   rule                     median   range        slope/decade
-#   union, dbr.sd = 0          1.24   1.01-1.55         +0.030    <- adopted
-#   DoubletFinder alone        0.86   0.57-0.91         +0.105
-#   scDblFinder alone, sd=0    0.65   0.37-1.00         +0.211
-#   intersection, sd = 0       0.21   0.00-0.64         +0.217
-#   union, dbr.sd = default    2.11   1.38-6.03         -1.773    <- was in use
+#   union, dbr.sd = 0          1.24   0.45-1.59         +0.100    <- adopted
+#   DoubletFinder alone        0.86   0.45-0.94         +0.140
+#   scDblFinder alone, sd=0    0.67   0.00-1.00         +0.238
+#   intersection, sd = 0       0.21   0.00-0.64         +0.279
+#   union, dbr.sd = default    2.11   1.38-7.68         -2.155    <- was in use
+#
+# THESE NUMBERS REPLACE AN n=22 TABLE (2026-08-25). That run selected 28 samples and
+# silently produced 22: both callers threw on every multi-sublibrary sample, because
+# an Assay5 with counts.1/counts.2 is unreadable by GetAssayData, and the loop's
+# `next` left no trace. It cost all 4 Chen2023 and 2 of 3 GSE185381. 07 now joins the
+# layers and ERRORS if a selected dataset is wholly absent from the table.
+# What actually changed, and what did not:
+#   - The RANKING is unchanged. union/dbr.sd=0 is still the flattest rule by ~40%,
+#     and still 20x flatter than the default that was in use. The decision stands.
+#   - The adopted slope is 3.3x steeper than believed: +0.030 -> +0.100. Over this
+#     cohort's 1.52-decade size range that is a 0.15 swing on a median of 1.24 (12%),
+#     not the "nearly flat" the old number implied.
+#   - Chen2023 was NOT the cause: dropping it makes the slope WORSE (+0.123). The
+#     driver is GSE185381 (+0.010 without it), whose two smallest samples were among
+#     the six that failed -- the failure preferentially removed the evidence of the
+#     gradient it was measuring.
+#   - It does not threaten H2. Sample size does not track the disease label
+#     (AUC 0.522 cohort-wide; 0.350 / 0.487 / 0.359 within the three datasets every
+#     within-dataset result uses), so this gradient is orthogonal to the contrast
+#     rather than aligned with it. Where it does tilt, healthy samples are the LARGER
+#     ones, so more gets removed from the healthy arm -- the conservative direction.
 #
 # Two conclusions the numbers force:
-#   1. The old default was the WORST rule in the table. Over this cohort's ~40x
-#      size range a slope of -1.77/decade swings the removal multiplier by ~2.8.
+#   1. The old default was the WORST rule in the table. Over this cohort's 1.52-decade
+#      size range a slope of -2.155/decade swings the removal multiplier by ~3.3.
 #   2. INTERSECTION IS NOT A CONSERVATIVE FILTER, IT IS AN ABSENT ONE. Its minimum
 #      is 0.00 -- on some samples it removes nothing at all -- and the two callers
 #      overlap at Jaccard 0.15 (itself size-dependent, rho +0.74), so there is no
@@ -567,9 +588,13 @@ DOUBLET_MIN_CELLS <- 100L
 # nExp = rate*n*(1-homotypic), so all of it came from scDblFinder, where dbr is a
 # soft prior (dbr.sd defaults to 40% of dbr and thresholding is ultimately driven
 # by artificial-doublet misclassification). Setting dbr.sd = 0 removes that degree
-# of freedom and leaves union nearly flat. A residual constant offset of ~1.24 is
-# acceptable; a gradient is not, because a constant is absorbed and a gradient is
-# read as biology.
+# of freedom and takes union from -2.155 to +0.100 per decade. A residual constant
+# offset of ~1.24 is acceptable; a gradient is not, because a constant is absorbed and
+# a gradient is read as biology. +0.100 is NOT flat -- it is 12% of the median across
+# the size range -- and it is tolerated only because size is orthogonal to the disease
+# label here (see the AUCs above). That premise is a property of THIS cohort: adding
+# samples whose size correlates with disease state would make this gradient a confound,
+# so re-check the AUC before extending the cohort, not after.
 DBL_SCDBLFINDER_DBR_SD <- 0
 DBL_RATE_PER_1K   <- 0.008           # ~0.8% per 1000 cells -- a 10x DROPLET-loading model
 DBL_RATE_CAP      <- 0.10
