@@ -116,6 +116,37 @@ if (nrow(degraded)) {
   cat(sprintf("  degraded numbat files: %d (correctly abstaining)\n", nrow(degraded)))
 } else cat("  [skip] no degraded numbat files found\n")
 
+cat("\n=========== 3.4b the consensus is not DRIVEN by the non-primary arm ===========\n")
+# 3.4 asks whether a DEGRADED numbat file is counted. It never asked what a USABLE one does to the
+# answer, and that is where the problem was. inferCNV is the primary caller (CLAUDE.md); numbat is
+# retained only where it ran cleanly. Measured 2026-08-25 over the 8 numbat-armed samples: inferCNV
+# alone calls a median 0.067 malignant there, indistinguishable from the 0.048 of the 189
+# inferCNV-only samples -- so those 8 are NOT a high-blast selection. Their consensus median is
+# 0.334. The lift is numbat's votes. In two of them inferCNV calls ZERO malignant cells and the
+# consensus follows numbat wholesale (3853_Dg 0.000 -> 0.765; 6323_Dg 0.000 -> 0.497). All 8 are
+# ccc_eligible, so this reaches the analysis cohort.
+narm <- S[exp_numbat == TRUE]
+if (nrow(narm)) {
+  drv <- rbindlist(lapply(seq_len(nrow(narm)), function(i) {
+    d <- fread(sub("__consensus_summary\\.csv$", "__consensus_percell.csv", narm$cons[i]))
+    if (!all(c("m_infercnv", "malignant") %in% names(d))) return(NULL)
+    obs <- d[is.na(is_ref) | is_ref == FALSE]
+    data.table(sample = narm$sample[i],
+               icnv = mean(obs$m_infercnv == 1, na.rm = TRUE),
+               cons = mean(obs$malignant  == 1, na.rm = TRUE))
+  }), fill = TRUE)
+  drv[, driven := icnv < 0.02 & cons > 0.10]
+  for (i in seq_len(nrow(drv)))
+    cat(sprintf("    %-24s inferCNV %.3f -> consensus %.3f%s\n", drv$sample[i], drv$icnv[i], drv$cons[i],
+                if (drv$driven[i]) "   <-- DRIVEN BY THE SECONDARY ARM" else ""))
+  chk(nrow(drv) > 0, "the driven-arm check reaches the numbat-armed samples",
+      sprintf("%d samples examined", nrow(drv)))
+  chk(sum(drv$driven) == 0,
+      "no sample gets its malignancy from the secondary arm while inferCNV calls ~none",
+      sprintf("%d sample(s): %s -- either numbat stops voting, or CLAUDE.md stops calling inferCNV the primary caller",
+              sum(drv$driven), paste(drv[driven == TRUE]$sample, collapse = ", ")))
+} else cat("  [skip] no usable numbat file in the roster\n")
+
 cat("\n=========== 3.5 rollup covers exactly the per-sample records ===========\n")
 # Counted straight off the filesystem as well as through the roster. If the two ever disagree the
 # roster is wrong, and the roster is what the rest of this batch trusts -- so a roster-only count
