@@ -193,16 +193,42 @@ if (!has_pt) {
   cat("         one). Until it does, CytoTRACE2 is an UNCHECKED second estimate, not a validated one.\n")
 } else {
   ptcol <- ptcol[1]
+  # OFF-TRAJECTORY CELLS ARE EXCLUDED, and this is not a convenience. BMM pseudotime exists only
+  # along the HSPC trajectory; the six classes in BMM_PSEUDOTIME_OFFTRAJ carry a placeholder zero,
+  # identical to HSC/MPP, despite being terminally differentiated (see config_hierarchy.R for the
+  # reference measurement). Comparing a potency estimate against a placeholder is not a test of
+  # either estimator. Both columns are reported so the contamination stays visible.
+  # Guard on COMPLETE PAIRS, not on row count. A sample can hold plenty of on-trajectory rows and
+  # still have no usable pair: predicted_Pseudotime is NA wherever mapping_error_QC == "Fail".
+  .rho <- function(a, b, min_pairs = 50L) {
+    keep <- is.finite(a) & is.finite(b)
+    if (sum(keep) < min_pairs) return(NA_real_)
+    suppressWarnings(cor(a[keep], b[keep], method = "spearman"))
+  }
   CO <- rbindlist(lapply(seq_len(nrow(ptf)), function(i) {
-    d <- fread(pt_of(ptf$dataset[i], ptf$sample[i]), select = c("cell", ptcol))
+    d <- fread(pt_of(ptf$dataset[i], ptf$sample[i]), select = c("cell", ptcol, "bmm_broad"))
     j <- merge(P[sample == ptf$sample[i], .(cell, sc = get(SC))], d, by = "cell")
+    on <- j[!(bmm_broad %in% BMM_PSEUDOTIME_OFFTRAJ)]
     if (nrow(j) < 50) return(NULL)
-    data.table(sample = ptf$sample[i], n = nrow(j),
-               rho = suppressWarnings(cor(j$sc, j[[ptcol]], method = "spearman", use = "complete.obs")))
+    data.table(sample = ptf$sample[i], n = nrow(j), n_on = nrow(on),
+               rho_all = .rho(j$sc,  j[[ptcol]]),
+               rho     = .rho(on$sc, on[[ptcol]]))
   }), fill = TRUE)
+  n_dropped <- CO[is.na(rho), .N]
+  if (n_dropped > 0)
+    cat(sprintf("  [note] %d sample(s) have <50 usable on-trajectory pairs and are not scored\n", n_dropped))
   CO <- CO[!is.na(rho)]
-  cat(sprintf("  samples with both estimates: %d | median within-sample Spearman = %+.3f\n",
-              nrow(CO), median(CO$rho)))
+  # NON-VACUITY: if the filter removed nothing, the label spelling has drifted from the reference
+  # and the gate below would be the old, broken comparison wearing a new name.
+  n_removed <- sum(CO$n) - sum(CO$n_on)
+  if (n_removed <= 0)
+    stop("BMM_PSEUDOTIME_OFFTRAJ matched 0 cells -- bmm_broad labels no longer match the reference ",
+         "class names. Fix the list; do not let the gate pass on an unfiltered comparison.")
+  cat(sprintf("  samples with both estimates: %d | cells %s, on-trajectory %s (%.0f%% kept)\n",
+              nrow(CO), format(sum(CO$n), big.mark = ","), format(sum(CO$n_on), big.mark = ","),
+              100 * sum(CO$n_on) / sum(CO$n)))
+  cat(sprintf("  median within-sample Spearman: on-trajectory %+.3f | all cells %+.3f\n",
+              median(CO$rho), median(CO$rho_all, na.rm = TRUE)))
   cat(sprintf("  samples with the expected NEGATIVE correlation: %d / %d\n", CO[rho < 0, .N], nrow(CO)))
   okc <- nrow(CO) > 0 && median(CO$rho) <= CYTOTRACE_MAX_BMM_COR
   if (!okc) FAIL <- FAIL + 1L

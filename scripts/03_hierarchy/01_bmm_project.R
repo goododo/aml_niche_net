@@ -11,8 +11,18 @@
 # INPUT  : QC objects under QC_RDS_DIR/<Dataset>/<sample>.rds ; BMM scaffold (BMM_SCAFFOLD_RDS + BMM_UWOT)
 # OUTPUT : HIER_PROJ_DIR/<Dataset>/<sample>__bmm_percell.csv
 #            cell, bmm_fine, bmm_prob, bmm_broad, hierarchy_bin, in_ccc_graph,
-#            mapping_error, mapping_error_QC, high_error, author_anno, sample, dataset
+#            mapping_error, mapping_error_QC, high_error, predicted_Pseudotime, author_anno,
+#            sample, dataset
+#          HIER_PROJ_DIR/<Dataset>/<sample>__umap_projected.csv  (embedding matrix only)
 #          HIER_PROJ_SUMMARY_CSV (one row per sample: bin composition + projection QC)
+#
+# DO NOT USE predicted_Pseudotime AS A GLOBAL DIFFERENTIATION AXIS. The reference defines
+# pseudotime along the HSPC trajectory only; six terminally differentiated classes (Naive T,
+# CD4/CD8 Memory T, NK, Plasma Cell, Stromal -- 30.7% of the reference) carry a PLACEHOLDER ZERO,
+# the same value as HSC/MPP. Ordering cells by this column reads mature lymphocytes as the least
+# differentiated cells in the sample. Filter on BMM_PSEUDOTIME_OFFTRAJ (config_hierarchy.R, which
+# carries the measurement) before any cross-lineage use. NA here means something different and
+# narrower: mapping_error_QC == "Fail", the cells already excluded from the CCC graph.
 #
 # QC flag (PRIMARY): high_error <- bmm_prob < MIN_PROJ_PROB (scale-free KNN agreement).
 # mapping_error / mapping_error_QC from calculate_MappingError are kept as reference columns.

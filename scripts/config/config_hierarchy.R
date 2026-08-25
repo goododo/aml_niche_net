@@ -285,6 +285,31 @@ CYTOTRACE_CONTRASTS <- data.table::data.table(
 # the kind of error that survives when only one estimator exists.
 CYTOTRACE_MAX_BMM_COR <- -0.20
 
+# BMM PSEUDOTIME IS NOT A GLOBAL DIFFERENTIATION AXIS. It is defined along the HSPC trajectory
+# only. Cell types that sit off that trajectory were not given a pseudotime -- they were given a
+# PLACEHOLDER ZERO, the same value as HSC/MPP. In BoneMarrowMap_SymphonyReference.rds (measured
+# 2026-08-25 over its 263,159 cells) these six classes are >95% pinned at exactly 0:
+#
+#   class            n       median Pseudotime   % exactly 0
+#   Naive T          32,565  0.00                100.0
+#   CD4 Memory T     21,051  0.00                100.0
+#   CD8 Memory T     16,362  0.00                100.0
+#   NK                7,921  0.00                100.0
+#   Plasma Cell       2,539  0.00                100.0
+#   Stromal             213  0.00                100.0
+#
+# 80,697 reference cells, 30.7% of the reference, and they are TERMINALLY DIFFERENTIATED. Reading
+# predicted_Pseudotime as "how far along is this cell" therefore inverts the answer for a third of
+# the map. It cost a real false alarm: the CytoTRACE2 concordance gate in 11_cytotrace2_score.R
+# failed at median rho = -0.095 with only 123/213 samples negative, and the failure was entirely
+# these cells -- worst in HEALTHY marrow, which has the most mature lymphocytes. Restricted to
+# on-trajectory cells (77% of query cells) the same comparison gives -0.510: AML -0.490 (94%
+# negative), healthy -0.628 (100% negative).
+#
+# Any consumer of predicted_Pseudotime must filter on this. Derived from bmm_broad, which every
+# __bmm_percell.csv already carries, so nothing needs re-projecting.
+BMM_PSEUDOTIME_OFFTRAJ <- c("Naive T", "CD4 Memory T", "CD8 Memory T", "NK", "Plasma Cell", "Stromal")
+
 ## =====================================================================================
 ## The longitudinal (treatment) axis -- DERIVED, never re-listed
 ## =====================================================================================
