@@ -66,3 +66,7 @@ __pycache__/
 # ── Insurance: never let the private coaching/career notes into a PUBLIC repo ──
 *handoff*.md
 career_*.md
+
+# Snakemake bookkeeping (DAG state, per-run logs). Regenerated; never a result.
+.snakemake/
+logs/snakemake/
