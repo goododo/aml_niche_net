@@ -71,6 +71,15 @@ project_one <- function(seu, sample_id, dataset, first) {
   q <- calculate_MappingError(q, reference = ref, MAD_threshold = MAD_THRESHOLD_BMM)
   q <- predict_CellTypes(query_obj = q, ref_obj = ref, ref_label = BMM_REF_LABEL,
                          k = BMM_KNN_K, include_broad = TRUE)
+  # PSEUDOTIME. The scaffold carries a Pseudotime column (range 0-22.363, 0 NA over 263,159 reference
+  # cells) and BoneMarrowMap ships predict_Pseudotime, but this script never called it -- so
+  # 11_cytotrace2_score.R has been printing [SKIP] for its concordance test and CytoTRACE2 has stood
+  # as an UNCHECKED second potency estimate. predict_Pseudotime needs the umap_projected embedding,
+  # which lives only on the in-memory query object, which is why this cannot be backfilled from the
+  # per-cell CSVs and needs the projection itself re-run.
+  # It sets NA wherever mapping_error_QC is a Fail, so the column is deliberately incomplete.
+  q <- predict_Pseudotime(query_obj = q, ref_obj = ref, pseudotime_label = "Pseudotime",
+                          k = BMM_KNN_K, mapQC_class = "mapping_error_QC")
   qm <- q@meta.data
 
   if (first) message("    [verify] projected metadata columns: ", paste(names(qm), collapse = ", "))
@@ -92,7 +101,20 @@ project_one <- function(seu, sample_id, dataset, first) {
     mapping_error    = if (!is.na(c_err)) as.numeric(qm[[c_err]]) else NA_real_,
     mapping_error_QC = if (!is.na(c_qc)) as.character(qm[[c_qc]]) else NA_character_,
     author_anno  = if (!is.na(c_auth)) as.character(md[[c_auth]][match(rownames(qm), rownames(md))]) else NA_character_,
+    predicted_Pseudotime = if ("predicted_Pseudotime" %in% names(qm)) as.numeric(qm[["predicted_Pseudotime"]]) else NA_real_,
     sample = sample_id, dataset = dataset)
+
+  # SAVE THE EMBEDDING, NOT THE OBJECT. predict_Pseudotime and anything else derived from the
+  # projection (KNN, trajectories, further label transfer) needs umap_projected, and until now nothing
+  # was persisted -- 0 .rds on disk -- so every such question cost a full 3h48m re-projection. The
+  # coordinates are n_cells x 2 numerics, a few hundred KB per sample; the Seurat objects would be
+  # orders of magnitude larger for no extra information.
+  emb <- tryCatch(Seurat::Embeddings(q, reduction = "umap_projected"), error = function(e) NULL)
+  if (!is.null(emb)) {
+    ed <- data.table(cell = rownames(emb), UMAP_1 = emb[, 1], UMAP_2 = emb[, 2],
+                     sample = sample_id, dataset = dataset)
+    fwrite_safe(ed, file.path(HIER_PROJ_DIR, dataset, paste0(sample_id, "__umap_projected.csv")))
+  } else message("    [warn] no umap_projected reduction to save")
 
   # roll broad -> 8-bin + in_ccc_graph; PRIMARY QC flag = prob-based
   dt[bin_map, `:=`(hierarchy_bin = i.hierarchy_bin, in_ccc_graph = i.in_ccc_graph), on = c(bmm_broad = "CellType_Broad")]
