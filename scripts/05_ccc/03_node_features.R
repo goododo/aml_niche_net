@@ -52,6 +52,13 @@ source(here::here("scripts", "config", "config_hierarchy.R"))
 source(here::here("scripts", "config", "config_malignancy.R"))
 source(here::here("scripts", "config", "utils.R"))
 
+
+# Panel column names must be valid and collision-free: PROGENy ships "JAK-STAT", which is not a
+# usable data.table column name, and two panels (cs, mt) read the SAME file, so an unprefixed name
+# would collide. Prefix by panel key and replace anything that is not alphanumeric or underscore.
+.clean_panel_names <- function(pk, cols) paste0(pk, "_", gsub("[^A-Za-z0-9_]", "_", cols))
+.panel_found <- list()
+
 opt <- parse_args(OptionParser(option_list = list(
   make_option("--force", action = "store_true", default = FALSE)
 )))
@@ -68,7 +75,12 @@ out_feat <- file.path(DIR_CCC, "ccc_node_features.csv")
           list.files(CCC_TENSOR_DIR, pattern = "__ccc_cellchat\\.csv$", recursive = TRUE, full.names = TRUE),
           list.files(CCC_BMM_DIR, pattern = "__bmm_percell\\.csv$", recursive = TRUE, full.names = TRUE),
           list.files(DIR_MALIGNANCY, pattern = "__consensus_percell\\.csv$", recursive = TRUE, full.names = TRUE),
-          list.files(CCC_BMM_DIR, pattern = "__stemness_percell\\.csv$", recursive = TRUE, full.names = TRUE))
+          list.files(CCC_BMM_DIR, pattern = "__stemness_percell\\.csv$", recursive = TRUE, full.names = TRUE),
+          # Every panel file is an input too. Leaving them out is how ccc_node_features.csv got built
+          # from 78 of 138 samples on 2026-08-25 and then printed "[skip] is current" over the answer.
+          unlist(lapply(unique(vapply(CCC_PANELS, function(z) z$suffix, character(1))), function(sfx)
+            list.files(get(CCC_PANELS[[which(vapply(CCC_PANELS, function(z) z$suffix, character(1)) == sfx)[1]]]$dir),
+                       pattern = paste0(gsub("\\.", "\\\\.", sfx), "$"), recursive = TRUE, full.names = TRUE))))
 if (!is_stale(out_feat, .ins, force = opt$force)) {
   message("[skip] ", out_feat, " is current"); quit(status = 0)
 }
@@ -155,6 +167,46 @@ build_one <- function(ds, smp, tp) {
   }, by = .(hierarchy_bin = as.character(hierarchy_bin))]
   agg[, frac_malignant := fifelse(n_evaluable > 0L, n_malignant / n_evaluable, NA_real_)]
 
+  ## -- candidate panels (CCC_PANELS): aggregate every declared per-cell score to the node ----
+  # Kept as a SEPARATE aggregation, merged in afterwards, so a panel that is missing or malformed
+  # cannot disturb the columns the pipeline already depends on. Each score yields three columns:
+  # the node mean, and the same restricted to non-malignant / malignant cells -- the normal-vs-
+  # malignant contrast is what made the stemness result interpretable, so every candidate gets it.
+  for (pk in names(CCC_PANELS)) {
+    spec <- CCC_PANELS[[pk]]
+    f <- file.path(get(spec$dir), ds, paste0(smp, spec$suffix))
+    newn <- .clean_panel_names(pk, spec$cols)
+    if (!file.exists(f)) { for (n in c(newn, paste0(newn,"_normal"), paste0(newn,"_malignant"))) agg[, (n) := NA_real_]; next }
+    hdr  <- names(fread(f, nrows = 0L))
+    have <- spec$cols[spec$cols %in% hdr]
+    if (!length(have)) { for (n in c(newn, paste0(newn,"_normal"), paste0(newn,"_malignant"))) agg[, (n) := NA_real_]; next }
+    x <- fread(f, select = c("cell", have))
+    setnames(x, have, .clean_panel_names(pk, have))
+    dd <- x[d[, .(cell, hierarchy_bin, malignant)], on = "cell"]
+    pc <- .clean_panel_names(pk, have)
+    # pseudotime is only defined along the HSPC trajectory; the reference pins six terminally
+    # differentiated classes at exactly 0. Averaging over them inverts the meaning of the column.
+    if (pk == "pt") {
+      bb <- d[, .(cell, bmm_broad)]
+      dd <- merge(dd, bb, by = "cell", all.x = TRUE)
+      dd[bmm_broad %in% BMM_PSEUDOTIME_OFFTRAJ, (pc) := NA_real_]
+    }
+    pagg <- dd[, {
+      isN <- !is.na(malignant) & malignant == 0L
+      isM <- !is.na(malignant) & malignant == 1L
+      c(lapply(.SD, function(v) .m(v, rep(TRUE, .N))),
+        lapply(.SD, function(v) .m(v, isN)),
+        lapply(.SD, function(v) .m(v, isM)))
+    }, by = .(hierarchy_bin = as.character(hierarchy_bin)), .SDcols = pc]
+    setnames(pagg, c("hierarchy_bin", pc, paste0(pc, "_normal"), paste0(pc, "_malignant")))
+    agg <- merge(agg, pagg, by = "hierarchy_bin", all.x = TRUE)
+    miss <- setdiff(spec$cols, have)
+    if (length(miss)) for (n in c(.clean_panel_names(pk, miss), paste0(.clean_panel_names(pk, miss), "_normal"),
+                                  paste0(.clean_panel_names(pk, miss), "_malignant"))) agg[, (n) := NA_real_]
+    .panel_found[[pk]] <<- unique(c(.panel_found[[pk]], have))
+  }
+
+
   # frac_malignant_vg needs the CALL, not the score; recompute it from the per-cell call column so
   # the threshold stays the dataset-matched one 81 chose rather than being re-derived here.
   if (vg_ok && file.exists(vg_f) && "vg_call" %in% names(fread(vg_f, nrows = 0L))) {
@@ -204,6 +256,23 @@ setcolorder(feats, c("dataset","sample","timepoint","hierarchy_bin","has_graph",
                      "mean_cytotrace","mean_cytotrace_normal","mean_cytotrace_malignant",
                      "stemness_sig","stemness_available","vg_available",
                      "cytotrace_available","burden_available"))
+# NON-VACUITY: a panel that matched no column in any file would emit 3 all-NA columns per score and
+# every downstream test on it would be silently empty. Say what was actually found.
+message("[3] candidate panels:")
+for (pk in names(CCC_PANELS)) {
+  want <- CCC_PANELS[[pk]]$cols
+  got  <- .panel_found[[pk]]
+  cols <- .clean_panel_names(pk, want)
+  filled <- vapply(cols, function(cn) if (cn %in% names(feats)) mean(!is.na(feats[[cn]])) else 0, numeric(1))
+  message(sprintf("    %s  %2d/%2d columns found | node-rows non-NA: %.0f%%%s",
+                  pk, length(got), length(want), 100 * mean(filled),
+                  if (length(got) < length(want))
+                    paste0("  MISSING: ", paste(setdiff(want, got), collapse = ", ")) else ""))
+  if (!length(got))
+    stop("panel '", pk, "' matched no column in any file -- the column names in CCC_PANELS are wrong, ",
+         "and every test on this panel would be an empty result reported as a null.")
+}
+
 setorder(feats, dataset, sample, hierarchy_bin)
 fwrite_safe(feats, out_feat)
 message("[3] wrote ", out_feat, "  (", nrow(feats), " rows = ", uniqueN(feats[, .(dataset,sample)]), " samples x ", length(CCC_NODES), " nodes)")

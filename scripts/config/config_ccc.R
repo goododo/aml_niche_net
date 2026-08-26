@@ -21,6 +21,46 @@ CCC_NODES <- c("HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK"
 CCC_NODE_FEATURES <- c("frac_malignant","mean_stemness","n_cells")
 # WARNING: frac_malignant is UNRELIABLE for lymphoid receiver bins (T_NK/B_Plasma) -- inferCNV false
 # positives (recon [3]: T_NK 36/194 "malignant"). Do NOT biologically interpret malignancy there.
+## -- CANDIDATE node-feature panels (computed by 03, tested by 08_scoring/07, NOT in the FGW distance) --
+# These are per-cell scores the pipeline already computes and has never aggregated to the node level.
+# Adding a panel here changes no FGW result: 07_fgw/01 only puts FGW_FEATURES into the distance, and a
+# feature earns its way in by surviving the decomposition first.
+#
+# WHY THESE, AND WHY GROUPED. The groups are the multiple-testing units. Testing ~38 features x 3 strata
+# as one family would spend the correction on unrelated hypotheses; each group below is one question:
+#
+#   st  extra stemness signatures  -- LSC17 is already in use. These are ROBUSTNESS, not discovery:
+#                                     if the finding is real it should not depend on which signature.
+#   pg  PROGENy pathway activity   -- the direct candidates for "AML remodels its niche": NFkB, TNFa,
+#                                     TGFb, Hypoxia, JAK-STAT. 14 pathways, one hypothesis.
+#   cs  cell-state signatures      -- immune tone (exhaustion, cytotoxicity, interferon, MHC),
+#                                     BM retention (CXCL12/CXCR4 axis), senescence/SASP.
+#   mt  metabolism + drug target   -- glycolysis / OXPHOS / fatty-acid oxidation, and the venetoclax
+#                                     axis BCL2 / MCL1 / BCL2L1. Split out from cs because it is a
+#                                     separate hypothesis, not because it lives in a separate file.
+#   pt  BMM pseudotime             -- ON-TRAJECTORY CELLS ONLY. The reference pins six terminally
+#                                     differentiated classes at exactly 0 (see BMM_PSEUDOTIME_OFFTRAJ
+#                                     in config_hierarchy.R); averaging over them would report mature
+#                                     lymphocytes as the least differentiated cells in the node.
+#
+# Each entry: list(dir = <config var name>, suffix = <file suffix>, cols = <columns to average>).
+CCC_PANELS <- list(
+  st = list(dir = "CCC_BMM_DIR",    suffix = "__stemness_percell.csv",
+            cols = c("HSPC_core", "vanGalen_HSC_like", "vanGalen_HSC_Prog", "vanGalen_HSCprog_like")),
+  pg = list(dir = "CELLSTATE_DIR",  suffix = "__progeny_percell.csv",
+            cols = c("Androgen","EGFR","Estrogen","Hypoxia","JAK-STAT","MAPK","NFkB","p53",
+                     "PI3K","TGFb","TNFa","Trail","VEGF","WNT")),
+  cs = list(dir = "CELLSTATE_DIR",  suffix = "__cellstate_percell.csv",
+            cols = c("antiapoptotic","apoptotic_priming","cytotoxicity","exhaustion",
+                     "interferon_I","interferon_II","mhc_i","mhc_ii","naive_memory",
+                     "retention_ligand","retention_receptor","sasp","senescence")),
+  mt = list(dir = "CELLSTATE_DIR",  suffix = "__cellstate_percell.csv",
+            cols = c("glycolysis","oxphos","fatty_acid_oxidation",
+                     "expr_BCL2","expr_MCL1","expr_BCL2L1")),
+  pt = list(dir = "CCC_BMM_DIR",    suffix = "__bmm_percell.csv",
+            cols = c("predicted_Pseudotime"))
+)
+
 CCC_STEMNESS_SIG <- "LSC17"   # signature column used for the mean_stemness node feature (swappable;
                               # stemness_percell has LSC17 + HSPC_core + vanGalen_*). RAW per-node means
                               # are written by 03; feature scaling/normalization for FGW is deferred to 07.
