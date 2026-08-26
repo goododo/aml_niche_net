@@ -18,7 +18,8 @@
 # INPUT  : CCC_TENSOR_DIR/<ds>/<sample>__ccc_cellchat.csv   (05_ccc/02 output; all edges + pval)
 #          DIR_CCC/ccc_sample_manifest.csv                   (ccc_eligible decides which tensors are admitted)
 # OUTPUT : DIR_DISTANCE/edge_distance.csv  (long: dataset,sample,timepoint,sender_bin,receiver_bin,
-#            weight_probsum,n_lr_sig,rank_pct,C ; 49 rows/sample, node order = CCC_NODES)
+#            weight_probsum,n_lr_sig,rank_pct,C,detected,weight_per_lr,C_perlr ;
+#            49 rows/sample, node order = CCC_NODES)
 #          DIR_DISTANCE/edge_qc.csv        (per-sample: n_edges_present, total_weight, sparse_flag)
 # Usage  : Rscript scripts/06_distance/01_intensity_to_distance.R [--force]
 suppressPackageStartupMessages({ library(optparse); library(data.table); library(here) })
@@ -88,6 +89,37 @@ process_one <- function(f) {
   e[, rank_pct := frank(weight_probsum, ties.method = "average") / N]
   e[, C := 1 - rank_pct]
 
+  ## -- size-independent companion weight, and an explicit detection flag --
+  #
+  # weight_probsum CONFLATES two things, and measurement (2026-08-26, 6,762 sample-edges) says which
+  # part carries the node-size dependency:
+  #
+  #   cor(weight_probsum, min node size)          +0.688   over ALL edges
+  #   cor(weight_probsum, min node size)          +0.119   over DETECTED edges only
+  #   cor(n_lr_sig,       min node size)          +0.136   over DETECTED edges only
+  #   cor(weight_probsum / n_lr_sig, min size)    +0.015   <- essentially independent
+  #
+  # So CellChat's per-pair probability is fine. The dependency is almost entirely PRESENCE: a node
+  # with ~10 cells produces an unstable triMean, nboot=100 cannot reach pval < 0.05 on any LR pair,
+  # and the edge is recorded as weight 0. That zero then ranks low and becomes C ~ 0.68 -- a numeric
+  # DISTANCE standing in for "we could not look". The two are not the same statement.
+  #
+  # weight_per_lr is the mean strength of the channels that WERE detected, which the measurement
+  # above shows is not a function of how many cells were available to detect them. n_lr_sig keeps
+  # the channel COUNT, which is the size-confounded part, so the two stay separable downstream.
+  # `detected` exists so a consumer can mask rather than impute -- see C_perlr below.
+  e[, detected := n_lr_sig > 0L]
+  e[, weight_per_lr := fifelse(detected, weight_probsum / pmax(n_lr_sig, 1L), NA_real_)]
+
+  # C_perlr ranks ONLY the detected edges among themselves; undetected edges stay NA instead of
+  # being handed the rank an absent measurement would earn. A consumer that cannot take NA must say
+  # so and choose an imputation explicitly, which is the point.
+  nd <- sum(e$detected)
+  e[, C_perlr := NA_real_]
+  if (nd > 0L)
+    e[detected == TRUE,
+      C_perlr := 1 - frank(weight_per_lr, ties.method = "average") / nd]
+
   e[, `:=`(dataset = ds, sample = smp, timepoint = tp)]
   e[, sender_bin   := factor(sender_bin,   levels = CCC_NODES)]  # enforce node order for 07 matrix assembly
   e[, receiver_bin := factor(receiver_bin, levels = CCC_NODES)]
@@ -107,7 +139,8 @@ qc <- res[, .(n_edges_present = sum(weight_probsum > 0),
 qc[, sparse_flag := n_edges_present < DIST_MIN_EDGES_FLAG]
 
 setcolorder(res, c("dataset","sample","timepoint","sender_bin","receiver_bin",
-                   "weight_probsum","n_lr_sig","rank_pct","C"))
+                   "weight_probsum","n_lr_sig","rank_pct","C",
+                   "detected","weight_per_lr","C_perlr"))
 fwrite_safe(res, out_dist)
 fwrite_safe(qc,  out_qc)
 message("[2] wrote ", out_dist, "  (", nrow(res), " rows = ",
