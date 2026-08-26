@@ -71,3 +71,35 @@ def assert_index_covered(idx, vocab, tp_col="timepoint"):
     print("[vocab] %d AML, %d healthy, %d excluded (of %d rows in the index)"
           % (n_aml, n_heal, n_other, len(idx)))
     return n_aml, n_heal, n_other
+
+
+def load_features(d_fgw):
+    """The feature set that is actually IN the FGW distance, from fgw_vocab.json.
+
+    WHY THIS EXISTS. The module docstring above describes how nine Python files hard-coded the
+    timepoint set and silently diverged from the R config. The identical thing was true of the
+    FEATURE set until 2026-08-26: eight files carried the literal
+
+        FGW_FEATURES = ["frac_malignant", "mean_stemness", "n_cells"]
+
+    while 01_build_fgw_inputs.R had been writing the real set into fgw_vocab.json all along. Change
+    FGW_FEATURES in config_fgw.R and every one of those files keeps scoring the old set, with no
+    error -- the R side and the Python side simply stop describing the same model. It surfaced when
+    a run built with a single feature made all five alphas raise KeyError, and the script still
+    wrote its output and exited 0.
+
+    Returns a list even when the vocab holds a single feature: jsonlite writes a length-1 R vector
+    as a bare string, not an array.
+    """
+    v = load_vocab(d_fgw)
+    f = v.get("features")
+    if f is None:
+        raise VocabError(
+            "fgw_vocab.json carries no 'features' key: %s\n"
+            "  rebuild the inputs with 07_fgw/01_build_fgw_inputs.R -- do NOT fall back to a "
+            "literal, which is the bug this function replaces." % d_fgw)
+    if isinstance(f, str):
+        f = [f]
+    if not f:
+        raise VocabError("fgw_vocab.json lists an empty feature set: %s" % d_fgw)
+    return list(f)

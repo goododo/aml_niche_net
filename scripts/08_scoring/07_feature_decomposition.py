@@ -36,7 +36,7 @@ import ot
 # The timepoint vocabulary is LOADED, not literal. A hard-coded set here silently deleted 34 of
 # 214 samples (64% of the treated arm) after CANONICAL_TIMEPOINTS changed on 2026-08-04.
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
-from fgw_vocab import load_vocab, assert_index_covered
+from fgw_vocab import load_vocab, load_features, assert_index_covered
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)   # alpha=0 divide-by-zero in POT's log term only
 
@@ -96,6 +96,15 @@ args=ap.parse_args(); rng=np.random.default_rng(SEED)
 ALPHAS=[float(x) for x in args.alphas.split(",")]
 D_FGW=os.path.join(args.root,"07_fgw"); D_OUT=os.path.join(args.root,"08_scoring"); os.makedirs(D_OUT,exist_ok=True)
 _VOCAB = load_vocab(D_FGW)
+# The subset definitions below are DELIBERATELY literal: "all3" names a specific model we compare
+# candidates against. But if the inputs were built with a different feature set, that name lies --
+# so say so loudly rather than silently reporting "all3" for a model that is not all of anything.
+_IN_MODEL = load_features(D_FGW)
+if sorted(_IN_MODEL) != sorted(["frac_malignant", "mean_stemness", "n_cells"]):
+    print("[!] these inputs were built with features %s, not the production triple." % _IN_MODEL)
+    print("    The subset named 'all3' below is therefore NOT the model that produced this root's")
+    print("    alpha sweep. Read the subset rows as standalone feature tests, not as a decomposition")
+    print("    of the fitted model.")
 AML_TP = _VOCAB["aml_timepoints"]
 
 SUBSETS = dict(CORE_SUBSETS) if args.subsets in ("core","all") else {}

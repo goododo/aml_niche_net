@@ -16,13 +16,14 @@
 # INPUT  : <root>/07_fgw/fgw_{nodes,edges,input_index}_long.csv
 # OUTPUT : <root>/07_fgw/rls_grouped.csv  (per relapse sample: d_to_Bdx, d_to_Brel, RLS_grp)
 # Usage  : python scripts/07_fgw/04_rls_grouped.py [--root .../results/tables] [--alpha 0.5]
-import argparse, os
+import argparse, os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
+from fgw_vocab import load_features
 import numpy as np
 import pandas as pd
 import ot
 
 FGW_NODES = ["HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK","B_Plasma"]
-FGW_FEATURES = ["frac_malignant","mean_stemness","n_cells"]
 DEFAULT_ROOT = "/FAST/gr10634/gaozy/aml_niche_net/results/tables"
 DS = "GSE227903"; SEED = 491638
 
@@ -31,6 +32,9 @@ ap.add_argument("--root", default=DEFAULT_ROOT)
 ap.add_argument("--alpha", type=float, default=0.5)
 args = ap.parse_args()
 D_FGW = os.path.join(args.root, "07_fgw")
+# The FEATURE set is LOADED, not literal -- same reason fgw_vocab.py exists for timepoints.
+# Eight files carried the hard-coded triple while 01 wrote the real set into fgw_vocab.json.
+FGW_FEATURES = load_features(D_FGW)
 
 edges = pd.read_csv(os.path.join(D_FGW, "fgw_edges_long.csv"))
 nodes = pd.read_csv(os.path.join(D_FGW, "fgw_nodes_long.csv"))

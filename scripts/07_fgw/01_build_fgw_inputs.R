@@ -27,13 +27,31 @@ source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "config", "config_fgw.R"))   # FGW_* ; pulls CCC_NODES, DIR_DISTANCE, DIR_CCC
 source(here::here("scripts", "config", "utils.R"))
 
+# --out_dir and --features exist so an ALTERNATIVE FEATURE SET can be built and scored without
+# touching the production results. The Python side was already parameterised (08_scoring/* take
+# --root, 07_fgw/02 takes --input_dir); this stage was the only one that could not be redirected,
+# which is why every previous feature question had to be answered from 08/07's decomposition alone
+# -- and that only reports the alpha=0 term, never the alpha sweep or the barycenter.
 opt <- parse_args(OptionParser(option_list = list(
-  make_option("--force", action = "store_true", default = FALSE)
+  make_option("--force",    action = "store_true", default = FALSE),
+  make_option("--out_dir",  type = "character", default = DIR_FGW,
+              help = "where to write; default the production DIR_FGW"),
+  make_option("--features", type = "character", default = "",
+              help = "comma-separated feature set to put IN the FGW distance; default FGW_FEATURES")
 )))
 
-out_index <- file.path(DIR_FGW, "fgw_input_index.csv")
-out_nodes <- file.path(DIR_FGW, "fgw_nodes_long.csv")
-out_edges <- file.path(DIR_FGW, "fgw_edges_long.csv")
+# A feature named here must exist in ccc_node_features.csv and must not be silently dropped later.
+FEATURES <- if (nzchar(opt$features)) trimws(strsplit(opt$features, ",")[[1]]) else FGW_FEATURES
+if (!identical(FEATURES, FGW_FEATURES))
+  message("[cfg] NON-DEFAULT feature set: ", paste(FEATURES, collapse = " + "),
+          "\n      (production set is ", paste(FGW_FEATURES, collapse = " + "), ")")
+if (!identical(normalizePath(opt$out_dir, mustWork = FALSE), normalizePath(DIR_FGW, mustWork = FALSE)))
+  message("[cfg] writing to ", opt$out_dir, " -- production DIR_FGW untouched")
+dir.create(opt$out_dir, recursive = TRUE, showWarnings = FALSE)
+
+out_index <- file.path(opt$out_dir, "fgw_input_index.csv")
+out_nodes <- file.path(opt$out_dir, "fgw_nodes_long.csv")
+out_edges <- file.path(opt$out_dir, "fgw_edges_long.csv")
 # FRESHNESS, not existence. This guard printed "[skip]" and exited 0 on a superseded cohort:
 # results/tables/07_fgw/patient_scores.csv holds 148 rows of which 55 name samples that have
 # left the cohort, and 47 current samples have never entered CCC at all. Re-running the chain
@@ -86,7 +104,7 @@ missing_cand <- setdiff(FGW_CANDIDATE_FEATURES, names(feat))
 if (length(missing_cand))
   stop("ccc_node_features.csv lacks candidate feature column(s): ", paste(missing_cand, collapse = ", "),
        "\n  Rebuild scripts/05_ccc/03_node_features.R first.")
-ALL_FEATURES <- c(FGW_FEATURES, FGW_CANDIDATE_FEATURES)
+ALL_FEATURES <- unique(c(FEATURES, FGW_CANDIDATE_FEATURES))
 
 zpar <- list()
 for (fcol in ALL_FEATURES) {
@@ -99,7 +117,7 @@ for (fcol in ALL_FEATURES) {
 }
 message("[3] global z-score params:")
 for (fcol in ALL_FEATURES)
-  message("    ", if (fcol %in% FGW_FEATURES) "[use] " else "[cand] ", fcol,
+  message("    ", if (fcol %in% FEATURES) "[use] " else "[cand] ", fcol,
           ": mean=", round(zpar[[fcol]]['mean'], 4), " sd=", round(zpar[[fcol]]['sd'], 4),
           " imputed=", zpar[[fcol]]['n_imputed'], "/", nrow(feat))
 
@@ -162,11 +180,13 @@ vocab <- list(
   excluded_timepoints= "Unknown",
   all_timepoints     = CANONICAL_TIMEPOINTS,
   nodes              = FGW_NODES,
-  features           = FGW_FEATURES,
-  candidate_features = FGW_CANDIDATE_FEATURES,   # emitted for 08/07 only; NOT part of the FGW distance
+  features           = FEATURES,
+  # A candidate that has been promoted INTO the distance for this run must not also be listed as a
+  # candidate, or 08/07 would test it as if it were still outside the model it is now inside.
+  candidate_features = setdiff(FGW_CANDIDATE_FEATURES, FEATURES),
   generated_by       = "scripts/07_fgw/01_build_fgw_inputs.R"
 )
-out_vocab <- file.path(DIR_FGW, "fgw_vocab.json")
+out_vocab <- file.path(opt$out_dir, "fgw_vocab.json")
 writeLines(jsonlite::toJSON(vocab, auto_unbox = TRUE, pretty = TRUE), out_vocab)
 
 message(sprintf("[vocab] %s : %d AML timepoints, %d present in this index",

@@ -36,11 +36,10 @@ import ot
 # The timepoint vocabulary is LOADED, not literal. A hard-coded set here silently deleted 34 of
 # 214 samples (64% of the treated arm) after CANONICAL_TIMEPOINTS changed on 2026-08-04.
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
-from fgw_vocab import load_vocab, assert_index_covered
+from fgw_vocab import load_vocab, load_features, assert_index_covered
 
 
 FGW_NODES=["HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK","B_Plasma"]
-FGW_FEATURES=["frac_malignant","mean_stemness","n_cells"]
 AML_TP = None  # set from fgw_vocab.json below -- see scripts/config/fgw_vocab.py
 DEFAULT_ROOT="/FAST/gr10634/gaozy/aml_niche_net/results/tables"; SEED=491638
 
@@ -55,6 +54,10 @@ ap.add_argument("--n_perm",type=int,default=10000); ap.add_argument("--max_iter"
 args=ap.parse_args(); rng=np.random.default_rng(SEED)
 D_FGW=os.path.join(args.root,"07_fgw"); D_OUT=os.path.join(args.root,"08_scoring"); os.makedirs(D_OUT,exist_ok=True)
 _VOCAB = load_vocab(D_FGW)
+# The FEATURE set is LOADED, not literal -- same reason as the timepoints above. Eight files
+# carried the hard-coded triple while 01 wrote the real set into fgw_vocab.json; changing
+# FGW_FEATURES in config_fgw.R silently left every one of them scoring the old model.
+FGW_FEATURES = load_features(D_FGW)
 AML_TP = _VOCAB["aml_timepoints"]
 
 

@@ -22,13 +22,14 @@
 #          <root>/07_fgw/fgw_input_index.csv (sparse_flag) , <root>/07_fgw/patient_scores.csv (HDS/ATS)
 # OUTPUT : <root>/07_fgw/paired_rls_scs.csv  (per patient: RLS, HDS/ATS + deltas, SCS + delta, sparse)
 # Usage  : python scripts/07_fgw/03_rls_scs.py [--root .../results/tables] [--alpha 0.5]
-import argparse, os
+import argparse, os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
+from fgw_vocab import load_features
 import numpy as np
 import pandas as pd
 import ot
 
 FGW_NODES = ["HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK","B_Plasma"]
-FGW_FEATURES = ["frac_malignant","mean_stemness","n_cells"]
 PRIMITIVE = ["HSC_MPP","LMPP_GMP"]
 IMMUNE    = ["T_NK","B_Plasma","Mono_DC"]
 DEFAULT_ROOT = "/FAST/gr10634/gaozy/aml_niche_net/results/tables"
@@ -38,6 +39,9 @@ ap.add_argument("--root", default=DEFAULT_ROOT)
 ap.add_argument("--alpha", type=float, default=0.5)
 args = ap.parse_args()
 D_FGW = os.path.join(args.root, "07_fgw"); D_DIST = os.path.join(args.root, "06_distance"); D_CCC = os.path.join(args.root, "05_ccc")
+# The FEATURE set is LOADED, not literal -- same reason fgw_vocab.py exists for timepoints.
+# Eight files carried the hard-coded triple while 01 wrote the real set into fgw_vocab.json.
+FGW_FEATURES = load_features(D_FGW)
 
 ed    = pd.read_csv(os.path.join(D_DIST, "edge_distance.csv"))        # C + weight_probsum
 nodes = pd.read_csv(os.path.join(D_FGW, "fgw_nodes_long.csv"))        # z F + mass
