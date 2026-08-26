@@ -116,36 +116,60 @@ if (nrow(degraded)) {
   cat(sprintf("  degraded numbat files: %d (correctly abstaining)\n", nrow(degraded)))
 } else cat("  [skip] no degraded numbat files found\n")
 
-cat("\n=========== 3.4b the consensus is not DRIVEN by the non-primary arm ===========\n")
-# 3.4 asks whether a DEGRADED numbat file is counted. It never asked what a USABLE one does to the
-# answer, and that is where the problem was. inferCNV is the primary caller (CLAUDE.md); numbat is
-# retained only where it ran cleanly. Measured 2026-08-25 over the 8 numbat-armed samples: inferCNV
-# alone calls a median 0.067 malignant there, indistinguishable from the 0.048 of the 189
-# inferCNV-only samples -- so those 8 are NOT a high-blast selection. Their consensus median is
-# 0.334. The lift is numbat's votes. In two of them inferCNV calls ZERO malignant cells and the
-# consensus follows numbat wholesale (3853_Dg 0.000 -> 0.765; 6323_Dg 0.000 -> 0.497). All 8 are
-# ccc_eligible, so this reaches the analysis cohort.
-narm <- S[exp_numbat == TRUE]
-if (nrow(narm)) {
-  drv <- rbindlist(lapply(seq_len(nrow(narm)), function(i) {
-    d <- fread(sub("__consensus_summary\\.csv$", "__consensus_percell.csv", narm$cons[i]))
-    if (!all(c("m_infercnv", "malignant") %in% names(d))) return(NULL)
-    obs <- d[is.na(is_ref) | is_ref == FALSE]
-    data.table(sample = narm$sample[i],
-               icnv = mean(obs$m_infercnv == 1, na.rm = TRUE),
-               cons = mean(obs$malignant  == 1, na.rm = TRUE))
-  }), fill = TRUE)
-  drv[, driven := icnv < 0.02 & cons > 0.10]
-  for (i in seq_len(nrow(drv)))
-    cat(sprintf("    %-24s inferCNV %.3f -> consensus %.3f%s\n", drv$sample[i], drv$icnv[i], drv$cons[i],
-                if (drv$driven[i]) "   <-- DRIVEN BY THE SECONDARY ARM" else ""))
-  chk(nrow(drv) > 0, "the driven-arm check reaches the numbat-armed samples",
-      sprintf("%d samples examined", nrow(drv)))
-  chk(sum(drv$driven) == 0,
-      "no sample gets its malignancy from the secondary arm while inferCNV calls ~none",
-      sprintf("%d sample(s): %s -- either numbat stops voting, or CLAUDE.md stops calling inferCNV the primary caller",
-              sum(drv$driven), paste(drv[driven == TRUE]$sample, collapse = ", ")))
-} else cat("  [skip] no usable numbat file in the roster\n")
+cat("\n=========== 3.4b where the CNV caller is blind, and whether anything rescues it ===========\n")
+# THIS CHECK WAS WRONG WHEN FIRST WRITTEN (2026-08-25) AND IS INVERTED HERE.
+#
+# It originally FAILED on 3853_Dg and 6323_Dg because inferCNV called 0.000 malignant there while
+# the consensus called 0.765 / 0.497, and read that as numbat overriding the primary caller. The
+# karyotypes say otherwise:
+#
+#   3853_Dg   46,XX,t(6;9)(p22;q34)/46,XX   balanced translocation, COPY-NUMBER NEUTRAL   blast 85%
+#   6323_Dg   46,XX                          normal karyotype                              blast 50%
+#
+# Both marrows are full of leukaemia and neither carries a copy-number change. inferCNV can only
+# see copy number, so 0.000 is the CORRECT inferCNV answer -- it is blind to this disease, not
+# wrong about it. numbat uses allelic imbalance and can see it. The consensus following numbat is
+# the right outcome, and the old check punished it.
+#
+# The real failure mode is the opposite one: a sample where the caller sees nothing and NOTHING
+# rescues it. Measured over the 59 AML samples with a recorded clinical blast percentage:
+# inferCNV malignant_frac has NO relationship to clinical blast burden (Spearman rho = +0.093,
+# p = 0.52 restricted to unsorted diagnosis samples; median clinical blast 65.5% vs median called
+# 0.072, a ~9x under-call), and 23 of 59 have < 5% called against >= 20% clinical blasts. None of
+# the 5 samples carrying a second arm is in that group.
+#
+# The baseline below counts the FULL roster, not the CCC-eligible subset: 39 of the 88 samples that
+# carry a clinical blast percentage. The 23/59 figure above is the same measurement restricted to
+# the 138-sample analysis cohort, which is the number that matters for the results.
+#
+# Under-detection on this scale does NOT explain the stemness finding, and that was tested without
+# reusing inferCNV: if elevated stemness in the non-malignant pool were uncalled blasts, it would
+# rise with how much leukaemia the caller missed. It does not -- Spearman rho = -0.036, p = 0.79
+# over 59 samples, flat in every dataset separately, and flat across under-call tertiles (median
+# stemness 0.0145 / 0.0181 / 0.0165 while median under-call goes 0.006 -> 0.465 -> 0.743). That
+# test is worth more than the earlier CNV-burden purity sweep, which purified using the very
+# signal inferCNV is blind to and was therefore circular.
+BLIND_BASELINE <- 39L   # recorded debt, not an approval -- this must not grow silently
+if (nrow(S)) {
+  bl <- merge(S[, .(dataset, sample, exp_numbat, exp_author, cons)],
+              fread("results/tables/01_preprocess/00_curated_manifest.csv")[, .(sample, blast_pct_clinical)],
+              by = "sample")
+  bl <- bl[!is.na(blast_pct_clinical)]
+  bl[, mfrac := vapply(cons, function(p) { d <- fread(p); as.numeric(d$malignant_frac[1]) }, numeric(1))]
+  bl[, rescued := exp_numbat | exp_author]
+  bl[, blind := is.finite(mfrac) & mfrac < 0.05 & blast_pct_clinical >= 20]
+  cat(sprintf("  samples with a clinical blast %%: %d | blind: %d | of those, rescued by a 2nd arm: %d\n",
+              nrow(bl), sum(bl$blind), bl[blind == TRUE & rescued == TRUE, .N]))
+  chk(nrow(bl) >= 40, "the blind-caller check reaches enough samples to mean anything",
+      sprintf("only %d samples carry a clinical blast %%", nrow(bl)))
+  chk(sum(bl$blind) <= BLIND_BASELINE,
+      sprintf("the blind-caller count has not grown past its recorded %d", BLIND_BASELINE),
+      sprintf("now %d -- a new sample lost its malignancy call; find out which caller stopped seeing it",
+              sum(bl$blind)))
+  chk(bl[blind == TRUE & rescued == TRUE, .N] == 0,
+      "no sample with a second evidence arm is left blind",
+      sprintf("%d rescued sample(s) still blind", bl[blind == TRUE & rescued == TRUE, .N]))
+} else cat("  [skip] no consensus summaries\n")
 
 cat("\n=========== 3.5 rollup covers exactly the per-sample records ===========\n")
 # Counted straight off the filesystem as well as through the roster. If the two ever disagree the
