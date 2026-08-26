@@ -8,9 +8,11 @@
 #        rank-distance (autocrine, e.g. HSC_MPP->HSC_MPP CD99 is real). [decision ii] Python builds the
 #        7x7 by reindexing on FGW_NODES; no diagonal override.
 #   F  : frac_malignant / mean_stemness / n_cells. Healthy frac_malignant forced 0 (FGW_ZERO_HEALTHY_MAL).
-#        z-scored GLOBALLY across all node x sample rows (FGW_SCALE_FEATURES) so the 3 disparate scales are
-#        comparable (n_cells won't dominate); MUST be global (per-sample scaling erases between-sample
-#        signal). Missing-node feature NA -> imputed to global mean BEFORE z-score (neutral -> 0 post-scale).
+#        scaled per FGW_FEATURE_SCALE. Default is within_sample_rank (BLUEPRINT_v1.1_PATCH M8
+#        discipline 1). This header used to assert "MUST be global (per-sample scaling erases
+#        between-sample signal)"; measured 2026-08-26 that is wrong -- within-sample ranking takes
+#        H2 from p=0.017 to p=0.0001, because most of the between-sample level signal was platform
+#        offset. Missing-node feature NA -> imputed to the global mean BEFORE scaling.
 #   p  : from RAW n_cells (NOT the z-scored feature). FGW_MASS_MODE "ncells" ~ n_cells / "uniform" = present
 #        equal. Absent node -> FGW_EPS_MASS. Renormalized to sum 1 within sample.
 #   Only has_graph==TRUE samples assembled. sparse_flag carried (02 excludes from barycenter but still
@@ -36,6 +38,8 @@ opt <- parse_args(OptionParser(option_list = list(
   make_option("--force",    action = "store_true", default = FALSE),
   make_option("--out_dir",  type = "character", default = DIR_FGW,
               help = "where to write; default the production DIR_FGW"),
+  make_option("--feature_scale", type = "character", default = "",
+              help = "global_z | within_sample_rank; default FGW_FEATURE_SCALE"),
   make_option("--features", type = "character", default = "",
               help = "comma-separated feature set to put IN the FGW distance; default FGW_FEATURES")
 )))
@@ -106,13 +110,27 @@ if (length(missing_cand))
        "\n  Rebuild scripts/05_ccc/03_node_features.R first.")
 ALL_FEATURES <- unique(c(FEATURES, FGW_CANDIDATE_FEATURES))
 
+# See FGW_FEATURE_SCALE in config_fgw.R for why this is a switch and not a settled choice: the
+# v1.1 patch requires within-sample rank-percentile, this file's own header requires global
+# z-scoring, and each is right about something the other ignores.
+SCALE_MODE <- if (nzchar(opt$feature_scale)) opt$feature_scale else FGW_FEATURE_SCALE
+stopifnot(SCALE_MODE %in% c("global_z", "within_sample_rank"))
+message("[3] feature scaling: ", SCALE_MODE,
+        if (SCALE_MODE != FGW_FEATURE_SCALE) paste0("  (config default is ", FGW_FEATURE_SCALE, ")") else "")
+
 zpar <- list()
 for (fcol in ALL_FEATURES) {
   mu <- mean(feat[[fcol]], na.rm = TRUE); sdv <- sd(feat[[fcol]], na.rm = TRUE)
   if (!is.finite(sdv) || sdv == 0) sdv <- 1
   n_na <- sum(is.na(feat[[fcol]]))                      # report it: a candidate that is 90% imputed
   feat[is.na(get(fcol)), (fcol) := mu]                  # neutral impute (pre-scale)
-  if (FGW_SCALE_FEATURES) feat[, (fcol) := (get(fcol) - mu) / sdv]
+  if (SCALE_MODE == "global_z") {
+    if (FGW_SCALE_FEATURES) feat[, (fcol) := (get(fcol) - mu) / sdv]
+  } else {
+    # Rank inside the sample over its own nodes. Centred so that "middle-ranked" is 0 and the scale
+    # matches z-scored features roughly in spread; the ordering is what carries the information.
+    feat[, (fcol) := (frank(get(fcol), ties.method = "average") / .N - 0.5) * 2, by = .(dataset, sample)]
+  }
   zpar[[fcol]] <- c(mean = mu, sd = sdv, n_imputed = n_na)
 }
 # With ~120 candidates the old per-feature listing is unreadable, so print the in-use features in

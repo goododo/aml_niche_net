@@ -20,7 +20,8 @@
 #
 # INPUT  : <input_dir>/fgw_{nodes,edges,input_index}_long.csv   (from 01; default DIR_FGW)
 # OUTPUT : <input_dir>/barycenters.npz        (C_healthy,F_healthy,C_aml,F_aml,p,nodes,features,alpha)
-#          <input_dir>/patient_scores.csv     (dataset,sample,timepoint,sparse_flag,HDS,ATS,alpha,mass_mode)
+#          <input_dir>/patient_scores.csv     (dataset,sample,timepoint,sparse_flag,HDS,ATS,
+#                                             HDS_norm,HDS_par,HDS_perp,cos_theta,alpha,mass_mode)
 # Usage  : python scripts/07_fgw/02_fgw_align.py [--input_dir DIR] [--alpha 0.5] [--test N]
 import argparse, os, sys, json
 import numpy as np
@@ -127,17 +128,74 @@ def fgw_dist(C, F, p, Cb, Fb, pb):
     return float(ot.gromov.fused_gromov_wasserstein2(M, C, Cb, p, pb, loss_fun="square_loss",
                                                      alpha=args.alpha, symmetric=False))
 
-print("[3] scoring all samples (HDS to B_healthy, ATS to B_AML)")
+def fgw_coupling(C, F, p, Cb, Fb, pb):
+    """FGW distance AND the optimal coupling T that produced it."""
+    M = ot.dist(F, Fb); M = M / (M.max() + 1e-9)
+    T, log = ot.gromov.fused_gromov_wasserstein(M, C, Cb, p, pb, loss_fun="square_loss",
+                                                alpha=args.alpha, symmetric=False, log=True)
+    return T, float(log.get("fgw_dist", np.nan))
+
+
+def pullback(C, T, pb):
+    """Push a sample's cost matrix onto the barycenter's node vocabulary through the coupling.
+
+    C_tilde[j,l] = sum_{i,k} T[i,j] T[k,l] C[i,k] / (pb[j] pb[l])
+
+    This is what makes the difference vector below live in a FIXED coordinate system: without it,
+    d_p for two samples would be expressed in two different node orderings and could not be
+    projected onto a common axis.
+    """
+    den = np.outer(pb, pb)
+    den[den <= 0] = 1e-12
+    return (T.T @ C @ T) / den
+
+
+# M6 (BLUEPRINT_v1.1_PATCH.md section 7). HDS as a single scalar answers only "how far", and the
+# patch is explicit about the cost: "没有方向分量，B 和 C 无法与 A 区分" -- a sample that has moved
+# FARTHER along the healthy->AML axis and one that has moved OFF that axis get the same number.
+#
+# DEVIATION, deliberate: the patch writes vec_triangle (upper triangle). Our C is DIRECTED and 55%
+# of node pairs disagree between the two directions, so an upper-triangle vectorisation would throw
+# away exactly the asymmetry M6 exists to measure. We vectorise the full 7x7 = 49 entries.
+#
+# Also: HDS_norm below is ||d_p||, which the patch calls "equivalent to the original GW distance".
+# It is NOT identical -- the FGW distance also carries the feature term and is a different
+# functional -- so both are reported and neither is presented as the other.
+U = (C_aml - C_healthy).reshape(-1)
+u_norm = float(np.linalg.norm(U))
+if u_norm <= 0:
+    raise SystemExit("the two barycenters have identical structure; there is no healthy->AML axis "
+                     "to project onto, and the direction components below would be meaningless.")
+U = U / u_norm
+print(f"[3] healthy->AML structural axis: ||C_aml - C_healthy|| = {u_norm:.4f} over 49 directed edges")
+
+print("[3] scoring all samples (HDS to B_healthy, ATS to B_AML, + direction components)")
 rows = []
 scan = idx.head(args.test*2) if args.test > 0 else idx
 for _, r in scan.iterrows():
     C, F, p = build_one(r.dataset, r["sample"])
-    hds = fgw_dist(C, F, p, C_healthy, F_healthy, p_bar)
-    ats = fgw_dist(C, F, p, C_aml,     F_aml,     p_bar)
+    T, hds = fgw_coupling(C, F, p, C_healthy, F_healthy, p_bar)
+    ats = fgw_dist(C, F, p, C_aml, F_aml, p_bar)
+    d = (pullback(C, T, p_bar) - C_healthy).reshape(-1)
+    mag = float(np.linalg.norm(d))
+    par = float(d @ U)
+    perp = float(np.sqrt(max(0.0, mag**2 - par**2)))
+    cos = par / mag if mag > 0 else np.nan
     rows.append(dict(dataset=r.dataset, sample=r["sample"], timepoint=r.timepoint,
                      sparse_flag=bool(r.sparse_flag) if pd.notna(r.sparse_flag) else None,
-                     HDS=hds, ATS=ats, alpha=args.alpha, mass_mode=r.get("mass_mode","")))
+                     HDS=hds, ATS=ats,
+                     HDS_norm=mag, HDS_par=par, HDS_perp=perp, cos_theta=cos,
+                     alpha=args.alpha, mass_mode=r.get("mass_mode","")))
 scores = pd.DataFrame(rows)
+
+# NON-VACUITY: if the pullback collapsed, every d_p is the same vector and the decomposition is a
+# constant dressed as four readouts.
+if scores["HDS_norm"].std() < 1e-9:
+    raise SystemExit("HDS_norm is constant across samples -- the pullback produced the same matrix "
+                     "for every sample. The coupling is degenerate; do not report the components.")
+print(f"[3] direction components: cos_theta ranges {scores.cos_theta.min():+.3f} to "
+      f"{scores.cos_theta.max():+.3f}, HDS_perp / HDS_norm median "
+      f"{(scores.HDS_perp / scores.HDS_norm).median():.3f}")
 
 ## -- (3) sanity: mean HDS by timepoint (healthy should be low; disease -> higher = H3 preview) ----
 print("[3] mean HDS / ATS by timepoint:")

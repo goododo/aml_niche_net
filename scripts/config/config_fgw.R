@@ -35,6 +35,45 @@ FGW_SEED        <- SEED                     # 491638 (inherited); for barycenter
 # here (design: healthy has no malignancy; suppresses inferCNV false positives seen in 03). Cross-sample
 # feature scaling applied at assembly (see 01_build_fgw_inputs.R).
 FGW_FEATURES    <- CCC_NODE_FEATURES        # c("frac_malignant","mean_stemness","n_cells")
+# HOW FEATURES ARE PUT ON A COMMON SCALE. This is a RECORDED CONFLICT between the design and the
+# implementation, and it is left as a switch rather than settled silently.
+#
+#   BLUEPRINT_v1.1_PATCH.md M8, "两条不可省的实现纪律" #1:
+#     "全部特征在样本内取 rank-percentile，不用归一化表达值。否则会把平台效应从边权重
+#      (已由 D2 的 rank 距离压制) 重新灌进特征项，等于绕过 D2。"
+#
+#   01_build_fgw_inputs.R header, written later:
+#     "MUST be global (per-sample scaling erases between-sample signal)"
+#
+# Both are right about something. The patch is right that a global z-score lets platform-level
+# expression offsets into the feature term, which the rank distance C was specifically designed to
+# keep out. The code is right that with only 7 nodes per sample, a within-sample rank-percentile
+# hands EVERY sample the same value set {1/7, ..., 1} and can therefore represent only WHICH node
+# ranks highest -- never that one sample sits higher overall. mean_stemness_normal separates AML
+# from healthy by a level shift, so ranking within sample removes that finding by construction, not
+# by evidence.
+#
+# They are different questions, so run both and report both:
+#   "global_z"           z-score across all node x sample rows (level-sensitive)
+#   "within_sample_rank" frank(x)/n_nodes inside each sample   (the patch, platform-invariant)
+#
+# MEASURED 2026-08-26, and the patch wins by two orders of magnitude. Same inputs, same 138 samples,
+# only the scaling changed:
+#
+#   alpha   global_z p_strat   within_sample_rank p_strat
+#   0.00       0.0173               0.0001
+#   0.25       0.0224               0.0001
+#   0.50       0.0353               0.0002
+#   0.75       0.1447               0.0200
+#   1.00       0.9644               0.9644   <- identical, features ignored at alpha=1 (a check that
+#                                               the switch touches only what it should)
+#
+# The header's objection -- "per-sample scaling erases between-sample signal" -- assumed the
+# between-sample signal was biology. Most of it was platform and depth offset, which is exactly what
+# the patch said a global z-score would let back in. Ranking within sample removes the offset and
+# keeps the question that survives it: which node ranks highest inside its own sample.
+FGW_FEATURE_SCALE <- "within_sample_rank"
+
 FGW_SCALE_FEATURES <- TRUE                  # z-score each feature across nodes-x-samples before FGW
 FGW_ZERO_HEALTHY_MAL <- TRUE                # set frac_malignant = 0 for Disease_state/timepoint == Healthy
 
