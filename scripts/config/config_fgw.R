@@ -55,10 +55,44 @@ FGW_ZERO_HEALTHY_MAL <- TRUE                # set frac_malignant = 0 for Disease
 #   mean_cytotrace_normal    same split under an independent potency estimate that never saw LSC17
 #   mean_cytotrace_malignant
 # The stemness_normal vs stemness_malignant contrast is the decisive one.
-FGW_CANDIDATE_FEATURES <- c("frac_malignant_vg", "mean_cnv_burden",
-                            "mean_stemness_normal", "mean_stemness_malignant",
-                            "mean_cytotrace_normal", "mean_cytotrace_malignant")
+FGW_CORE_CANDIDATES <- c("frac_malignant_vg", "mean_cnv_burden",
+                         "mean_stemness_normal", "mean_stemness_malignant",
+                         "mean_cytotrace_normal", "mean_cytotrace_malignant")
+
+## -- PANEL candidates: the scores 05_ccc/03 aggregates from CCC_PANELS ----
+# 38 per-cell scores x {all, non-malignant, malignant} = 114 columns the pipeline already computes
+# and never tested. Derived from CCC_PANELS rather than re-listed, so the two cannot drift.
+#
+# THESE ARE EXPLORATORY AND THE STATISTICS MUST SAY SO. Everything above this line tests a
+# hypothesis fixed before the data were seen. A sweep over 114 features does not, so two rules bind
+# from here on:
+#   1. Correction is BH-FDR WITHIN each panel family (st / pg / cs / mt / pt), not across all 114.
+#      The families are five separate questions; pooling them would spend the correction on
+#      unrelated hypotheses and bury the stemness robustness arm under 14 PROGENy pathways.
+#   2. Screening happens on the DISCOVERY arm only. A dataset-level 70/30 split has existed since
+#      2026-08-04 in 01_preprocess/02_sample_split.csv and no analysis has respected it; that was
+#      tolerable while the feature set was fixed a priori, and stops being tolerable here.
+#      Only 23 healthy samples exist cohort-wide, so the healthy controls are SHARED and only the
+#      AML side is genuinely held out. Say that in the Methods; do not let it pass silently.
+FGW_PANEL_CANDIDATES <- unlist(lapply(names(CCC_PANELS), function(pk) {
+  base <- paste0(pk, "_", gsub("[^A-Za-z0-9_]", "_", CCC_PANELS[[pk]]$cols))
+  c(base, paste0(base, "_normal"), paste0(base, "_malignant"))
+}), use.names = FALSE)
+
+# Which family each candidate belongs to -- 08_scoring/07 corrects within these.
+FGW_CANDIDATE_FAMILY <- c(
+  setNames(rep("core", length(FGW_CORE_CANDIDATES)), FGW_CORE_CANDIDATES),
+  setNames(sub("^([a-z]{2})_.*$", "\\1", FGW_PANEL_CANDIDATES), FGW_PANEL_CANDIDATES))
+
+# Imputation ceiling. Above this a column is mostly the cohort mean wearing a feature's name.
+# In-use features exceeding it are a hard stop in 01; candidates are flagged and kept, because the
+# decomposition should still be able to say "not measurable here" out loud.
+FGW_MAX_IMPUTED <- 0.50
+
+FGW_CANDIDATE_FEATURES <- c(FGW_CORE_CANDIDATES, FGW_PANEL_CANDIDATES)
 stopifnot(!any(FGW_CANDIDATE_FEATURES %in% FGW_FEATURES))   # a candidate is by definition not yet in use
+stopifnot(!anyDuplicated(FGW_CANDIDATE_FEATURES))
+stopifnot(all(FGW_CANDIDATE_FEATURES %in% names(FGW_CANDIDATE_FAMILY)))
 
 ## -- barycenter grouping ----
 # Which sample groups get a consensus barycenter (built on the fixed 7-node vocab).

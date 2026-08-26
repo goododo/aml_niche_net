@@ -115,11 +115,44 @@ for (fcol in ALL_FEATURES) {
   if (FGW_SCALE_FEATURES) feat[, (fcol) := (get(fcol) - mu) / sdv]
   zpar[[fcol]] <- c(mean = mu, sd = sdv, n_imputed = n_na)
 }
+# With ~120 candidates the old per-feature listing is unreadable, so print the in-use features in
+# full and summarise the candidates by family. What must never be silent is the IMPUTATION rate:
+# a column that is mostly imputed is mostly the cohort mean wearing a feature's name, and every
+# test on it measures the imputation rather than the biology. frac_malignant_vg is the standing
+# example at 833/966 = 86%, and its p=0.569 is not evidence of no effect -- it is no measurement.
 message("[3] global z-score params:")
-for (fcol in ALL_FEATURES)
-  message("    ", if (fcol %in% FEATURES) "[use] " else "[cand] ", fcol,
-          ": mean=", round(zpar[[fcol]]['mean'], 4), " sd=", round(zpar[[fcol]]['sd'], 4),
+.imp <- function(fc) as.numeric(zpar[[fc]]['n_imputed']) / nrow(feat)
+for (fcol in FEATURES)
+  message("    [use]  ", fcol, ": mean=", round(zpar[[fcol]]['mean'], 4),
+          " sd=", round(zpar[[fcol]]['sd'], 4),
           " imputed=", zpar[[fcol]]['n_imputed'], "/", nrow(feat))
+cands <- setdiff(ALL_FEATURES, FEATURES)
+if (length(cands)) {
+  fam <- if (exists("FGW_CANDIDATE_FAMILY")) FGW_CANDIDATE_FAMILY[cands] else setNames(rep("cand", length(cands)), cands)
+  fam[is.na(fam)] <- "cand"
+  for (fm in unique(fam)) {
+    cc <- names(fam)[fam == fm]
+    ir <- vapply(cc, .imp, numeric(1))
+    message(sprintf("    [cand] %-5s %3d columns | imputed: median %.0f%%, worst %.0f%% (%s)",
+                    fm, length(cc), 100 * median(ir), 100 * max(ir), cc[which.max(ir)]))
+  }
+  heavy <- cands[vapply(cands, .imp, numeric(1)) > FGW_MAX_IMPUTED]
+  if (length(heavy)) {
+    message(sprintf("    [cand] %d column(s) exceed the %.0f%% imputation ceiling and are FLAGGED, not dropped:",
+                    length(heavy), 100 * FGW_MAX_IMPUTED))
+    for (h in heavy) message(sprintf("             %-34s %.0f%% imputed", h, 100 * .imp(h)))
+    message("           They stay in the file so the decomposition can report them, but a null from")
+    message("           one of these is an absence of measurement, not an absence of effect.")
+  }
+}
+# An IN-USE feature is different: it enters the FGW distance, so a mostly-imputed one silently
+# turns the distance into a constant for those nodes. That is a hard stop, not a warning.
+bad_use <- FEATURES[vapply(FEATURES, .imp, numeric(1)) > FGW_MAX_IMPUTED]
+if (length(bad_use))
+  stop("feature(s) in the FGW distance exceed the ", round(100 * FGW_MAX_IMPUTED),
+       "% imputation ceiling: ", paste(sprintf("%s (%.0f%%)", bad_use,
+       100 * vapply(bad_use, .imp, numeric(1))), collapse = ", "),
+       "\n  A mostly-imputed feature contributes the cohort mean, not a measurement.")
 
 ## -- Step 4. assemble long tables ----
 nodes_long <- merge(

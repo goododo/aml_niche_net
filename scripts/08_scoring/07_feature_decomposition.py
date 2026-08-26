@@ -85,11 +85,35 @@ CANDIDATE_SUBSETS={
  "noncircular":         ["frac_malignant_vg","mean_stemness_normal"],
 }
 
+# PANEL_SUBSETS is built from the vocabulary at run time, not listed here: 05_ccc/03 decides which
+# scores exist and config_fgw.R derives the candidate names from the same CCC_PANELS declaration.
+# Re-listing ~114 names in a third place is how the timepoint bug happened (see fgw_vocab.py).
+def panel_subsets(cand):
+    """One single-feature subset per panel candidate, tagged with its family for FDR."""
+    out = {}
+    for c in cand:
+        if c in ("frac_malignant_vg","mean_cnv_burden","mean_stemness_normal",
+                 "mean_stemness_malignant","mean_cytotrace_normal","mean_cytotrace_malignant"):
+            continue
+        out["only_" + c] = [c]
+    return out
+
+def family_of(name):
+    """Family key for BH correction. Panel candidates are prefixed st_/pg_/cs_/mt_/pt_."""
+    f = name[len("only_"):] if name.startswith("only_") else name
+    return f[:2] if f[:2] in ("st","pg","cs","mt","pt") and f[2:3] == "_" else "core"
+
 ap=argparse.ArgumentParser()
 ap.add_argument("--root",default=DEFAULT_ROOT)
 ap.add_argument("--n_perm",type=int,default=10000)
 ap.add_argument("--alphas",default="0,0.5")
-ap.add_argument("--subsets",default="all",choices=["core","candidates","all"],
+ap.add_argument("--split",default="all",choices=["all","discovery","validation"],
+    help="which arm of the dataset-level 70/30 split to use. 'all' reproduces every analysis before "
+         "2026-08-26 and is the right choice ONLY for a hypothesis fixed in advance. A sweep over the "
+         "panel families is selection and must run on 'discovery'.")
+ap.add_argument("--split_csv",default=None,
+    help="path to 01_preprocess/02_sample_split.csv; defaults to <root>/01_preprocess/02_sample_split.csv")
+ap.add_argument("--subsets",default="all",choices=["core","candidates","panels","all"],
                 help="core = the 3 features in FGW_FEATURES; candidates = FGW_CANDIDATE_FEATURES")
 ap.add_argument("--max_iter",type=int,default=1000)
 args=ap.parse_args(); rng=np.random.default_rng(SEED)
@@ -113,6 +137,17 @@ if args.subsets in ("candidates","all"): SUBSETS.update(CANDIDATE_SUBSETS)
 
 edges=pd.read_csv(os.path.join(D_FGW,"fgw_edges_long.csv"))
 nodes=pd.read_csv(os.path.join(D_FGW,"fgw_nodes_long.csv"))
+
+# Panel subsets are added HERE, after nodes is read, because they are defined by what the vocabulary
+# lists AND what the file actually carries -- a candidate named in the vocab but absent from the
+# table would otherwise become a hard failure in the column check below rather than a skipped test.
+if args.subsets in ("panels","all"):
+    _cand = [c for c in _VOCAB.get("candidate_features", []) if c in nodes.columns]
+    _absent = [c for c in _VOCAB.get("candidate_features", []) if c not in nodes.columns]
+    SUBSETS.update(panel_subsets(_cand))
+    if _absent:
+        print(f"[0] {len(_absent)} vocab candidate(s) absent from fgw_nodes_long.csv, skipped: "
+              f"{', '.join(_absent[:6])}{' ...' if len(_absent) > 6 else ''}")
 idx=pd.read_csv(os.path.join(D_FGW,"fgw_input_index.csv"))
 
 # Fail loudly on a label the vocabulary does not cover. Without this an unrecognised
@@ -189,6 +224,33 @@ for b in FGW_NODES:
     if b not in nc: nc[b]=0
 nc["total"]=nc[FGW_NODES].sum(axis=1); nc["blast_proxy"]=nc[BLAST_BINS].sum(axis=1)/nc["total"].clip(lower=1)
 d=d.merge(nc[["dataset","sample","blast_proxy"]],on=["dataset","sample"],how="left").dropna(subset=["blast_proxy"]).reset_index(drop=True)
+# THE SPLIT. A dataset-level 70/30 Discovery/Validation assignment has existed since 2026-08-04 and
+# no analysis respected it, which was tolerable only while the feature set was fixed a priori. A
+# sweep over the panel families IS selection, so it must run on one arm.
+# Healthy donors carry their own split label ("Healthy") because there are only 23 of them
+# cohort-wide; splitting those would leave both arms underpowered, so controls are SHARED and only
+# the AML side is genuinely held out. That limitation belongs in the Methods, not in a footnote.
+if args.split != "all":
+    sp_csv = args.split_csv or os.path.join(args.root, "01_preprocess", "02_sample_split.csv")
+    if not os.path.exists(sp_csv):
+        raise SystemExit(f"--split {args.split} needs the split table, not found: {sp_csv}\n"
+                         f"  Pass --split_csv, or run with --split all and say so when reporting.")
+    sp = pd.read_csv(sp_csv)[["dataset","Sample","split_sample"]].rename(columns={"Sample":"sample"})
+    sp = sp.drop_duplicates(subset=["dataset","sample"])
+    before = len(d)
+    d = d.merge(sp, on=["dataset","sample"], how="left")
+    unlabelled = int(d["split_sample"].isna().sum())
+    if unlabelled:
+        raise SystemExit(f"{unlabelled} sample(s) carry no split label. Assigning them here would be "
+                         f"choosing the arm after seeing the data; fix 02_sample_split.csv instead.")
+    keep = {"discovery": {"Discovery","Healthy"}, "validation": {"Validation","Healthy"}}[args.split]
+    d = d[d["split_sample"].isin(keep)].reset_index(drop=True)
+    n_aml = int((d.is_aml==1).sum()); n_h = int((d.is_aml==0).sum())
+    print(f"[1] SPLIT={args.split}: {len(d)} of {before} samples | AML={n_aml} healthy={n_h} "
+          f"(controls are shared between arms)")
+    if n_aml < 20 or n_h < 8:
+        raise SystemExit(f"arm too small to test: AML={n_aml}, healthy={n_h}")
+
 heal_all=[(r.dataset,r["sample"]) for _,r in d[d.is_aml==0].iterrows()]
 heal_bary=[(r.dataset,r["sample"]) for _,r in d[(d.is_aml==0)&(~d["sparse_flag"].fillna(False))].iterrows()]
 aml_all=[(r.dataset,r["sample"]) for _,r in d[d.is_aml==1].iterrows()]
@@ -222,7 +284,40 @@ for alpha in ALPHAS:
               f"| global b={bA:+.5f} p={pA:.5f} | within-ds b={bB:+.5f} p={pB:.5f}",flush=True)
 
 res=pd.DataFrame(rows)
+
+# BH-FDR WITHIN each panel family, not across all of them. The families are five separate questions
+# (stemness robustness / PROGENy pathways / cell state / metabolism+drug target / pseudotime);
+# pooling them would spend the correction on unrelated hypotheses and bury the stemness arm under 14
+# PROGENy pathways. The core subsets are a pre-registered hypothesis and are NOT corrected here --
+# correcting a pre-specified test against an exploratory sweep would be the same mistake inverted.
+def _bh(pv):
+    pv = np.asarray(pv, float); n = len(pv); o = np.argsort(pv)
+    q = np.empty(n); q[o] = np.minimum.accumulate((pv[o] * n / np.arange(1, n+1))[::-1])[::-1]
+    return np.minimum(q, 1.0)
+
+res["family"] = [family_of(n) for n in res["feature_set"]]
+res["q_strat"] = np.nan
+for (al, fam), g in res.groupby(["alpha","family"]):
+    if fam == "core" or len(g) < 2:
+        continue
+    res.loc[g.index, "q_strat"] = _bh(g["p_strat"].to_numpy())
+res["split"] = args.split
 res.to_csv(os.path.join(D_OUT,"feature_decomposition.csv"),index=False)
+
+fams = [f for f in res["family"].unique() if f != "core"]
+if fams:
+    print("\n[3b] PANEL FAMILIES -- BH-FDR within each family, alpha=0, within-dataset model")
+    a0 = res[res.alpha == min(ALPHAS)]
+    for fam in sorted(fams):
+        g = a0[a0.family == fam].sort_values("p_strat")
+        n_sig = int((g["q_strat"] < 0.05).sum())
+        print(f"  {fam}: {len(g)} features tested | q<0.05: {n_sig}")
+        for _, r in g.head(3).iterrows():
+            mark = " *" if r["q_strat"] < 0.05 else ""
+            print(f"      {r['feature_set'][:44]:46s} beta={r['beta_strat']:+.4f} "
+                  f"p={r['p_strat']:.4f} q={r['q_strat']:.4f}{mark}")
+    if not (a0[a0.family != "core"]["q_strat"] < 0.05).any():
+        print("  nothing survives FDR in any family. Report that, not the smallest raw p.")
 print("\n[3] FEATURE DECOMPOSITION")
 print(res[["alpha","feature_set","mean_healthy","mean_aml","beta_global","p_global","beta_strat","p_strat"]].round(5).to_string(index=False))
 
