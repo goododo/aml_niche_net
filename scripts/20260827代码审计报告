@@ -1,0 +1,565 @@
+00_ingest 审计报告
+0. 范围说明
+00_ingest 由 13 个 ingest_<dataset>.R 脚本 + 1 个共享库 00_common_readers.R + 1 个汇总脚本 ingest_MASTER_summary.R + 1 个 SLURM 提交脚本 submit_J1_ingest.sbatch（array=1-13，逐数据集跑）组成。所有路径常量来自单一源 config_paths.R。我逐一读取了全部 13 个数据集脚本（并行审计），下面按你要求的四点汇报。磁盘上我核对了实际产物：LARGE1 的 13 个 .rds 与 FAST 的 13 组 QC 表时间戳一致（均为 2026-08-04），与 13 个脚本一一对应。
+
+1. 📥 Input
+根目录（均来自 config_paths.R，无硬编码绕过）：
+
+原始表达矩阵：LARGE1_DIR/00_raw/public/GEO/<dataset>_RAW/（GEO 系）或 LARGE1_DIR/00_raw/public/Zenodo/<DOI>/（Chen2023、Petti2019）
+官方 curated metadata：LARGE1_DIR/00_raw/metadata/<dataset>/meta_<dataset>_v2.3.csv|xlsx
+格式因数据集而异（无统一格式）：
+
+数据集	输入格式
+Chen2023	10x mtx triplet，Zenodo 7z 解包后的分库目录
+E-MTAB-11536	每 donor 一个 .h5，运行时探测是 10x h5 还是 AnnData h5ad
+GSE116256	稠密文本矩阵 .dem.txt.gz + 配对 .anno.txt.gz
+GSE147989	10x .h5（每库一个文件）
+GSE185381	CITE-seq 10x mtx（前缀式平铺目录）+ 每库 _metadata.csv.gz
+GSE185991	10x mtx triplet，前缀式平铺目录
+GSE201966	10x mtx triplet，genes.tsv.gz 而非标准 features.tsv.gz
+GSE207356	10x mtx triplet，前缀式平铺目录
+GSE227903	转置稠密文本矩阵（cells×genes，非标准头）
+GSE239721	不是原始矩阵 —— 直接读取作者预构建好的 Seurat .RDS
+GSE253355	10x mtx triplet，前缀式平铺目录
+GSE289435	10x mtx triplet，点分隔前缀
+Petti2019	10x mtx triplet（Zenodo），genes.tsv.gz
+关键发现（重要，影响第 4 点）：LARGE1/00_raw/metadata/<dataset>/meta_<dataset>_v2.3.csv|xlsx 这批"官方"curated metadata 文件，13 个脚本里没有一个在运行时真正读取它们。patient/timepoint/disease 的实际来源是：
+
+对文件名做正则解析（多数脚本，如 GSE147989/GSE201966/GSE207356/GSE253355/GSE289435/Petti2019/Chen2023）
+脚本内手写的硬编码查找表（GSE185991 的 PT_MAP 42 条、GSE185381 的 SAMPLE_MAP 63 条、E-MTAB-11536 的 EXPECTED_BM_DONORS 10 条）
+原始 GEO 数据本身随附的 per-cell/per-sample 注释文件（GSE116256 的 .anno.txt.gz、GSE227903 的 _meta.txt.gz、GSE185381 的 _metadata.csv.gz）——这些是随原始数据打包的，不是 curated metadata 目录里的文件
+E-MTAB-11536 和 GSE207356 的脚本注释里明确提到 meta_E-MTAB-11536_v2.3.csv / meta_GSE207356_v2.3.csv 是硬编码值的"依据"，但脚本本身从未 read.csv() 这些文件——是人工誊抄进代码的。
+
+2. 📤 Output
+大对象 → LARGE1（✅ 与你的预期一致）：RDS_INGEST_DIR = LARGE1_DIR/01_processed_counts/rds/<dataset>.rds，13/13 脚本都通过共享函数 write_qc_outputs() 落盘，磁盘核实 13 个文件齐全、时间戳一致（2026-08-04，44MB～3.1GB 不等）。
+
+但存在你的预期没提到的第二输出面：每个脚本同时把 QC 表写到 FAST（不是 LARGE1）：
+
+DIR_INGEST = FAST_DIR/results/tables/00_ingest/<dataset>_qc_percell.csv.gz（逐细胞）
+DIR_INGEST/<dataset>_qc_summary.csv（逐样本汇总）
+ingest_MASTER_summary.R 再把这 13 个 summary 合并成 00_MASTER_qc_summary.csv/xlsx
+这批表我在磁盘上核实存在，与 RDS 同批时间戳。这是设计如此（FAST 注释为 "small files, tables... PURGEABLE scratch"），但如果你的预期是"结果都进 LARGE1"，这里是一个偏差点。
+
+GSE239721 稍特殊：它没有走"读原始矩阵"路径，而是 readRDS() 作者已建好的 Seurat 对象、UpdateSeuratObject()，再手工补齐 make_seurat() 本该设置的列——输出路径仍然合规（走同一个 write_qc_outputs()），但对象构建方式脱离了共享管线。
+
+3. ⚙️ 代码内容与参数
+共用主干（00_common_readers.R，13 个脚本里 12 个遵循，GSE239721 除外）：
+
+source config 层（config_paths.R/config_qc.R/utils.R）
+逐样本/逐库读取原始矩阵（用哪个 reader 因格式而异：read_10x_dir/read_10x_h5/read_mtx_prefixed/read_dense_txt/自定义 reader）
+make_seurat() 建对象 —— 关键参数：min.cells=0, min.features=0，即不做任何细胞过滤，QC 指标（percent.mt/ribo/hb）在 merge 前逐样本算好
+merge_samples() 用 add.cell.ids 合并成一个数据集级对象
+write_qc_outputs() 写出
+值得指出的硬编码参数/特例（按类型归类，非穷举）：
+
+跨数据集硬编码依赖：REF_FEATURES_2020A 固定指向 GEO_RAW_DIR/GSE289435_RAW/GSM8791432_MLL_14666.features.tsv.gz——这是全项目基因符号反 sanitize 的参考文件，却物理上寄生在 GSE289435 的原始下载目录里，被其他数据集的 normalize_symbols() 默认引用。
+样本排除，部分在脚本内可见、只是 warning 不 stop：Chen2023（donor 少于 2 个 pool 只警告）、E-MTAB-11536（10 个 curated donor 中 2 个本地缺失，脚本继续用 8 个跑）、GSE185991（GSM 不在 PT_MAP 里则 next 跳过，无硬性计数断言）、GSE227903（metadata 与矩阵条码零重叠只警告）。
+样本排除，委托给本次未读取的 config_qc.R::INGEST_EXCLUDE / ingest_keep()：GSE185381（5' scTCR 臂）、GSE289435（PDX 样本 MLL_29512_PDX）、Petti2019（ND_*/Normal_sorted_* 健康供者）、E-MTAB-11536（-BLD 血液库）。这几处的实际排除清单在本次审计范围外，需要另外读 config_qc.R 才能核实。
+disease 参数普遍缺失：GSE116256/GSE147989/GSE185991/GSE201966/GSE207356/GSE253355/GSE289435/Chen2023 调用 make_seurat() 时都没传 disease 参数（只有 Petti2019 显式传了 disease=cl$state），Disease_state 落到共享函数的默认值，未逐数据集验证。
+有一处脚本注释与代码疑似矛盾：GSE227903 注释说"'MRD' 已从 CANONICAL_TIMEPOINTS 中退役，这张映射表从未更新，重跑会报错"，但紧接着那行代码的 TP_LABEL 已经把 MRD 映射成 "Post_treatment_unspecified" 而非字面 "MRD"——注释和代码对不上，建议你自己核实这处。
+4. 🔍 预期一致性比对
+吻合的部分：
+
+✅ 每个数据集都读取某种形式的原始单细胞表达矩阵（GSE239721 例外，见下）
+✅ 都转换成 Seurat 对象（CreateSeuratObject），且都保存到 LARGE1（RDS_INGEST_DIR），13/13 磁盘核实存在
+✅ 路径全部经由 config_paths.R 派生，没有发现硬编码绕过 LARGE1/FAST 根目录的情况
+偏离预期 / 需要你关注的风险点：
+
+"读取 metadata" 与实际不符：你预期是读原始矩阵和 metadata；实际是 13 个脚本没有一个程序化读取 00_raw/metadata/ 下那批 curated 文件，patient/timepoint/disease 靠文件名正则或脚本内硬编码表得出。如果 curated metadata 文件将来更新，这些硬编码表不会自动同步——这是一个静默过期风险，尤其 E-MTAB-11536/GSE207356 两处注释直接点名某个 csv 是"依据"却从不读它。
+
+隐藏的第二输出面：QC 表（per-cell + summary + master）实际写在 FAST 而非 LARGE1，你的预期只提到"存到 LARGE1"，这里存在遗漏或需要你确认是否算在预期内。
+
+数据完整性问题多处只警告不阻断：E-MTAB-11536 健康供者臂缺 2/10（只 warning() 继续跑 8 个）、Chen2023 pool 数不对只警告、GSE185991 未知 GSM 静默 next 跳过且无硬性数量断言——这些都会导致"看起来跑成功了"但实际样本数比预期少，且不查日志不会发现。
+
+跨数据集硬编码依赖：REF_FEATURES_2020A 借用 GSE289435 原始目录里的一个特定文件作为全项目基因符号参考，属于隐性耦合，若 GSE289435 原始目录被清理/重排会静默影响所有其他数据集的基因名。
+
+GSE239721 完全绕开 make_seurat()：改为手工构造 metadata 列（脚本注释自己承认此前因此出过 "Tissue 全部为空" 的 bug）。这是自文档化的偏差，功能上打了补丁，但意味着未来 make_seurat() 若新增标准列，这个数据集不会自动跟进。
+
+disease 参数普遍未显式传递（见第 3 点）——这是否是预期设计（默认值已经够用）还是遗漏，建议你确认。
+
+委托给 config_qc.R::INGEST_EXCLUDE 的排除逻辑本次未验证：GSE185381/GSE289435/Petti2019/E-MTAB-11536 的关键样本排除清单实际内容在 config_qc.R 里，不在本次审计的 00_ingest 脚本文件内——如果你需要确认这些排除是否符合预期，需要我下一步单独审计 config_qc.R。
+
+一处疑似注释/代码矛盾：GSE227903 关于 MRD timepoint 的注释与紧邻代码不一致（见第 3 点最后一条），建议你亲自核实这是否是遗留未清理的注释。
+
+01_preprocess 审计报告
+范围说明
+覆盖 01_preprocess/ 下全部 10 个 R 脚本（00_curated_manifest.R、01_dataset_roles.R、02_study_split.R、03_per_sample_qc.R、04_export_role_split_xlsx.R、05_qc_landing_check.R、06_qc_figures.R、07_doublet_calibration.R、90_dryrun_chen2023.R、91_smoke_test_all.R）+ 相关 config_qc.R 阈值/查表定义，并核对了磁盘上的实际产物。
+
+1. 📥 Input
+脚本	读取内容	FAST / LARGE1
+00_curated_manifest.R	LARGE1/00_raw/metadata/<dataset>/ 下的 curated 表 + config 规则推导值，两边比对，curated 优先	读 LARGE1 curated + FAST config
+01_dataset_roles.R（Task1）	直接 readRDS(RDS_INGEST_DIR/<ds>.rds) 逐数据集读 meta.data（13 个数据集）；+ config_qc.R 里硬编码的 ROLE_TABLE（study 级角色表）	LARGE1（ingest RDS）+ 硬编码表
+02_study_split.R（Task2）	DIR_PREPROCESS/01_sample_role_manifest.csv（Task1 输出）	FAST
+03_per_sample_qc.R（Task3）	逐数据集 readRDS(RDS_INGEST_DIR/<ds>.rds)	LARGE1
+04_export_role_split_xlsx.R	01_study_role_summary.csv / 02_study_split.csv / 02_sample_split.csv（均 Task1/2 输出）	FAST
+05_qc_landing_check.R	QC_RDS_DIR（LARGE1）目录列表 + 03_qc_report__*.csv（FAST）	两边都读，做交叉核对
+06_qc_figures.R	03_qc_report__ALL.csv（必需）+ 01_sample_role_manifest.csv（可选）	FAST
+07_doublet_calibration.R	03_qc_report__ALL.csv 筛 PASS 样本 + 重新从 RDS_INGEST_DIR 读原始对象	FAST + LARGE1
+90_dryrun_chen2023.R / 91_smoke_test_all.R	RDS_INGEST_DIR/<ds>.rds，复用 03_per_sample_qc.R 里的真实函数（非 mock）	LARGE1
+关键点：Task1/Task2/Task3 都是直接从 00_ingest 的原始 RDS 拉 Disease_state/Timepoint/Tissue 等字段，没有一个走 00_curated_manifest.R 协调后的结果（见第 4 点第 5 条，含磁盘实证）。
+
+2. 📤 Output
+脚本	输出	路径	落盘核实
+00_curated_manifest.R	00_curated_manifest.csv / _join_map.tsv / _diff.csv	FAST results/tables/01_preprocess/	✅ 存在，2026-08-05 12:52
+Task1	01_sample_metadata_raw.csv（缓存）、01_sample_role_manifest.csv、01_study_role_summary.csv	FAST	✅ 存在，2026-08-04 15:49
+Task2	02_study_split.csv（study 级）、02_sample_split.csv（样本级 join）	FAST	✅ 存在，2026-08-04 15:49
+Task3	PASS 样本对象 <Sample>.rds	LARGE1 02_seurat_objects/01_per_sample_qc/<dataset>/	✅ 13 个数据集目录齐全（Chen2023:10、GSE116256:27、GSE185381:52、GSE185991:31、GSE227903:27、GSE239721:17、GSE289435:12、GSE253355:12、E-MTAB-11536:7、GSE201966:7、GSE147989:4、GSE207356:3、Petti2019:5）
+Task3	03_qc_report__<ds>.csv、03_P2_exclude__<ds>.csv、03_qc_report__ALL.csv、QC 小提琴图	FAST（表）+ FAST（图，非 LARGE1）	✅ 存在，2026-08-05
+04_export…xlsx	AML_Phase1_roles_and_split.xlsx（3 个 sheet）	FAST	✅ 存在
+05_qc_landing_check.R	04_qc_landing_check__summary.csv（注意脚本叫 05，产物文件却叫 04 前缀）	FAST	✅ 存在
+06_qc_figures.R	Q1–Q5 图 + 06_qc_composition.csv、06_qc_filter_strength_spread.csv	FAST	✅ 存在
+90_dryrun	仅写入沙盒目录 QC_RDS_DIR/_dryrun/（LARGE1，隔离，不进生产目录）	LARGE1（沙盒）	设计如此
+91_smoke_test_all.R	91_smoke_test.csv；不落盘任何 RDS	FAST	未逐一核实，脚本逻辑上不写 LARGE1
+LARGE1/FAST 分工与 00_ingest 一致：真正的大对象（per-sample QC 后的 Seurat）落 LARGE1，所有表格/图/审计产物落 FAST。这一点与你的整体预期吻合。
+
+3. ⚙️ 代码内容与参数
+A. Study 级 70/30 split（02_study_split.R）
+Study 级（非样本级）随机池 = discovery_candidate==TRUE & is_longitudinal==FALSE 的数据集
+Healthy-control / Reference 确定性分配，不参与随机
+is_longitudinal==TRUE 的数据集被强制分入 Validation（ROLE_TABLE 里硬编码于 config_qc.R 第 293-308 行）：
+GSE116256（van Galen）、GSE185991（Naldini）、GSE147989（Riether）、GSE227903（Ennis）、GSE201966、GSE207356 均标 is_longitudinal=TRUE
+按 subtype_stratum 分层，disc_frac = 0.70：n_disc = max(1, round(n*0.70))
+兜底：若随机结果导致 Validation 池为空，随机降级一个 Discovery study
+种子：set.seed(SEED)，SEED = 491638L（项目全局种子）
+候选池实际只有 5 个 study（Chen2023、GSE239721、GSE289435、Petti2019、GSE185381），其 subtype_stratum 分别为 NPM1 / other / other / other / other —— 即分层名义上按"遗传亚型"，但 5 个里 4 个都落在同一个笼统的 "other" 桶。
+
+B. Per-sample QC（03_per_sample_qc.R）
+数据驱动 MAD 过滤：scater::isOutlier，MAD_NMADS=3，对 log10(nCount_RNA)/log10(nFeature_RNA) 双尾、percent.mt 单尾（高）、percent.hb 单尾（高，可选）
+绝对阈值（与 MAD 叠加，两者都要过）：ABS_MIN_NCOUNT=500、ABS_MIN_NFEAT=200、ABS_MAX_MT=20
+Doublet 去除：scDblFinder + DoubletFinder 双 caller，DOUBLET_CONSENSUS="union"（config_qc.R 实际值），DBL_SCDBLFINDER_DBR_SD=0；expected rate 用 10x droplet 模型（DBL_RATE_PER_1K=0.008，cap 0.10）或 Seq-Well 平坦模型（DBL_RATE_FLAT["SeqWell"]=0.02）
+样本层 gate：MIN_CELLS_SAMPLE=300（QC+doublet 之后）
+低复杂度 gate（真正会丢样本，不只是打标）：FLAG_MIN_MED_NCOUNT=500、FLAG_MIN_MED_NFEAT=500、FLAG_LOWCOMPLEXITY_DROP=TRUE
+Demux 预过滤（针对 GSE185381）、dataset 级完整性 floor（INTEGRITY_MIN_MED_NCOUNT=100）
+4. 🔍 预期一致性比对
+吻合的部分：
+
+✅ Study 级（非样本级）划分，70% 比例（disc_frac=0.70）完全一致
+✅ 你点名的 4 个纵向/复发数据集（Ennis=GSE227903、GSE201966、van Galen=GSE116256、Naldini=GSE185991）在 ROLE_TABLE 里全部标 is_longitudinal=TRUE，且代码逻辑确实把它们强制分进 Validation —— 这一条完全吻合
+✅ 最低 UMI（ABS_MIN_NCOUNT=500）、线粒体%阈值（ABS_MAX_MT=20）都存在
+✅ 样本层 gate 存在，命名甚至完全一致（"P2-exclude"）
+不一致 / 需要你关注的风险点：
+
+Doublet 方法不是 Scrublet：实际是 scDblFinder+DoubletFinder 双 caller consensus（union），全代码库搜索 "Scrublet" 零命中。这不是遗漏——07_doublet_calibration.R 有一整套实测校准（n=28 样本、12 数据集）证明 union+dbr.sd=0 是随文库大小漂移最小的规则，且明确指出"intersection 不是保守，是形同虚设"（intersection 中位召回率仅 0.21，Jaccard 只有 0.15）。但方法确实与你预期的 Scrublet 不同，需要你确认这个替代是否可接受。
+
+样本总细胞数阈值：你预期 ≥500，代码实际是 300。config_qc.R 里明确写着 MIN_CELLS_SAMPLE <- 300L  # Lowered from 500，并给出理由：过去单纯用 500 这一条线时，既留下了大而差的样本（如 GSE201966 AML01M4_P：6000 细胞但仅 182 genes/cell），又误删了小而好的样本（GSE227903 3822_R：462 细胞、1650 genes/cell，只差 38 个细胞就过线）；质量把关现在交给独立的低复杂度 gate（500 genes/UMI 中位数）负责。有意思的是：05_qc_landing_check.R 这个后续交叉核查脚本里仍然硬编码 MIN_CELLS <- 500L，注释写的是"来自 blueprint"——即你记忆中的 500 确实是最初设计蓝图的值，03 的生产阈值后来改成 300 并有文档说明，但 05 没有同步更新，目前用两个不同的数字在审计同一件事。
+
+"恶性细胞 ≥200" 这条 gate 在 01_preprocess 里完全不存在。Task3 的样本层 gate 只看总细胞数（300）+ 低复杂度，不涉及恶性细胞判定——这在结构上是必然的，因为此时 02_malignancy（恶性判定）还没跑。config_qc.R 第 519-521 行明确写着："binding constraint for L2 is per-bin occupancy (>=3 bins with >=30 cells), which can only be evaluated after 03_hierarchy — apply it there, not here"。也就是说代码作者自己也认为类似的占用度约束应该放到 03_hierarchy 之后，而不是 01_preprocess。如果你的预期是这条 gate 应该卡在这一步，目前是缺失的；如果预期本来就是放到后面阶段，那需要我下一步去 02_malignancy/03_hierarchy 里确认它是否真的存在。
+
+文档与实际配置互相矛盾：03_per_sample_qc.R 文件头注释写"scDblFinder + DoubletFinder, intersection by default"，但 config_qc.R 里真正生效的是 DOUBLET_CONSENSUS <- "union"。这是一处需要你确认的过期注释。
+
+Curated metadata 的时序缺口（有磁盘实证）：00_curated_manifest.R 负责把 curated 元数据（LARGE1/00_raw/metadata）与 config 规则推导值做协调（curated 优先），但它的产物 00_curated_manifest.csv 时间戳是 2026-08-05 12:52，晚于 Task1 的 01_sample_role_manifest.csv（2026-08-04 15:49）、Task2 的 02_study_split.csv（同上），甚至晚于 Task3 全量报告 03_qc_report__ALL.csv（2026-08-05 12:03）。也就是说 study split 和 per-sample QC 用的 Timepoint/Disease_state 等字段，来自尚未经过 curated 校对的原始 ingest 值。当前 00_curated_diff.csv 里确实记录着 4 条活跃冲突（例如 GSE201966 GSM6085176_AML01M4_CR 的 timepoint，curated 是 "Post_transplant"，config 推导是 "Post_treatment_unspecified"；GSE227903 6323_R2 curated="Relapse" vs config="Relapse2"），这些冲突目前不会反映到 study split / QC 决策里。
+
+04_export_role_split_xlsx.R 内部两处不一致（代码质量层面，不影响预期比对结论）：Sheet1 判断 "Treatment-axis" 大小写敏感，Sheet2 的 to_lane() 用了 ignore.case=TRUE，两处标准不一致；Sheet1 的 lane_key 未经 to_lane() 白名单校验就直接拿 split 原始值去查颜色表，如果 split 出现新枚举值会直接报错中断。
+
+脚本编号与产物文件名不一致：05_qc_landing_check.R 写出的文件叫 04_qc_landing_check__summary.csv（04 前缀，而非脚本自身的 05）。
+
+无硬编码路径绕过 config_paths.R：10 个脚本全部核实，路径均经由 DIR_PREPROCESS/FIG_PREPROCESS/RDS_INGEST_DIR/QC_RDS_DIR 等 config 常量派生，没有发现绕过 LARGE1/FAST 根目录的硬编码绝对路径。
+
+02_malignancy 审计报告
+范围说明
+覆盖 02_malignancy/ 下全部脚本（约 30 个：realignment 前置 02–04/10/11/93_check_bams、inferCNV 全套 00/01/40/41/44/45/90/91、reference-normal 20、备用表达型 caller 42/43、Numbat 30/92、编排 run_consensus_all.sh/51、共识核心 50_consensus_malignancy.R、汇总 60、残留病 70、van Galen 轴 80/81、校准诊断 93/94/96/97/98/99）+ config_malignancy.R，并核对了 LARGE1/FAST 磁盘实际产物（含关键表格内容，而非仅文件名）。
+
+1. 📥 Input
+子流程	实际读取	位置
+M2 重比对（02/03/04/10/11）	SRA/ENA FASTQ（三级 fallback：ENA fastq_ftp → 作者原始10x BAM 经 bamtofastq → prefetch+fasterq-dump）；STAR 索引、v2/v3 barcode whitelist	外部 SRA/ENA + LARGE1 索引
+inferCNV（00/40/44）	QC_RDS_DIR/<ds>/<sample>.rds（01_preprocess 产物）；外部参考 BMM_ANNOTATED_RDS（Zenodo）；基因序 gencode_GRCh38_gene_order.txt；自体参考细胞 REFNORM_REF_CELL_DIR/*_ref_norm_cells.txt（来自 20）	LARGE1
+Reference-normal（20）	同上 QC RDS + SingleR 训练参考（BMM 聚合伪批次）	LARGE1
+Numbat（30）	STARsolo 输出的 star_filtered/ 矩阵 + pileup_and_phase.R(cellsnp-lite+Eagle2) 生成的 allele_counts.tsv.gz	LARGE1（仅 2 个数据集有此输入，见第 4 点）
+VarTrix	无——config_malignancy.R 明确写着 "Most datasets lack matched genotyping/VarTrix input... 48_vartrix_run.R is a placeholder"；仓库里确实不存在任何 48_vartrix_run.R 或 vartrix 调用脚本	无
+备用表达型 caller（42/43）	42直接跑 CopyKAT/SCEVAN；43把作者已有的 CNV/malignancy 列（如原始数据自带的 CopyKAT 标签）搬进标准 schema，不跑任何算法	LARGE1 QC RDS
+共识（50）	上述各 arm 的 *_percell.csv + QC RDS 细胞集	混合
+Van Galen 轴（80/81，⚠️ 见第 4 点）	GSE116256 原始 *.anno.txt.gz（含 PredictionRefined 恶性标签）—— 这是你设计之外的第三条恶性判定轴，不基于拷贝数	LARGE1 raw + FAST
+2. 📤 Output
+内容	路径	LARGE1/FAST	磁盘核实
+inferCNV 完整运行目录	LARGE1/05_cnv_snv/infercnv/<ds>/<sample>/	LARGE1 ✅	存在，覆盖多数数据集
+inferCNV burden 表	LARGE1/05_cnv_snv/infercnv_burden/<ds>/<sample>_infercnv_burden.csv	LARGE1 ✅	存在
+Numbat 输出（含 BAM/allele_counts/clone 树等大文件）	LARGE1/03_cnv_snv/numbat/<ds>/<sample>/	LARGE1 ✅	仅 GSE227903(28样本)+GSE289435(12样本)＝2/13 数据集
+cellsnp pileup	LARGE1/03_cnv_snv/cellsnp/	LARGE1 ✅	与 Numbat 覆盖范围一致
+VarTrix	LARGE1/03_cnv_snv/vartrix/{input,output,logs}	LARGE1	只有空目录骨架，无任何样本产物
+共识每细胞/每样本表	FAST/results/tables/02_malignancy/<ds>/*.csv	FAST ✅	13 数据集齐全
+全队列汇总	.../ALL_consensus_summary.csv（212 行）	FAST ✅	存在，2026-08-18
+H3 残留病分层	.../residual_stratum.csv	FAST	不存在（见第 4 点，calibration gate 未通过，脚本拒绝写出）
+Calibration 证据	.../residual_calibration.csv	FAST	存在但日期 2026-07-29，早于 08-14 的参考方法修复
+健康供者 FPR	.../malignancy_fpr_healthy.csv / _by_bin.csv / _by_bin_dataset.csv	FAST ✅	存在，2026-08-18（新鲜）
+van Galen 轴产物	.../vg_calibration.csv / vg_sample_summary.csv / vangalen_heldout_auc.csv 等	FAST ✅	存在
+LARGE1/FAST 分工正确：大对象（BAM、Numbat 树、inferCNV 全输出）在 LARGE1，表格在 FAST，与项目整体约定一致。
+
+3. ⚙️ 代码内容与参数
+实际执行链：20(自体正常参考鉴定) → 00/40/44(inferCNV，含 lineage-matched 外部参考) → 30(仅 2 数据集，Numbat) → 41/42/43(转标准 schema) → 50(共识) → 60(汇总) → 70(H3 分层，被 gate 挡住)。另有独立的 80/81(van Galen 表达签名轴)。
+
+共识核心参数（config_malignancy.R + 50_consensus_malignancy.R）：
+
+CONSENSUS_MIN_TOOLS = 1L（"pilot: single-type allowed... Raise for strict >=2/3"——代码自己承认当前值不是严格 ≥2/3）
+CONSENSUS_UNION_MODE = TRUE（"PRODUCTION DEFAULT": ≥2 证据类型时，任一类型阳性即判恶性——是"并集"不是"多数一致"）
+SNV_ARM_ACTIVE = FALSE
+Evidence TYPE 定义：expression{inferCNV,CopyKAT,SCEVAN,author} 算一种类型；allele{Numbat}；SNV{VarTrix}——50 头注释明确写"blueprint 的'≥2/3'指 3 种证据类型中≥2种，不是 N 个工具中≥2个"，这点与你的原意在概念上是对齐的
+TIER_CONFLICT_MAX=0.10、CONSENSUS_MIN_CALLED_FRAC=0.90（覆盖率不足打 D_low_coverage 层级）
+inferCNV：INFERCNV_SCORE_Q=0.95（P95 阈值）、INFERCNV_REF_PER_LINEAGE=TRUE（按谱系分组做参考，2026-08-14 修复的关键假阳性对策）、INFERCNV_MATCHED_REF=FALSE（自体健康参考经测试后关闭，见第 4 点）、REF_FLATNESS_MAX=0.02
+Numbat：NUMBAT_T=1e-5、NUMBAT_MAX_ENTROPY=0.5（0.8 测试过导致灾难性假阳性）
+H3 校准 gate：RESIDUAL_CALIB_MAX_HEALTHY_MEDIAN=0.05、RESIDUAL_CALIB_MIN_AUC=0.70、RESIDUAL_CALIB_MAX_HEALTHY_FPR=0.20
+4. 🔍 预期一致性比对
+4.1 核心：三方共识 + "≥2/3 一致即malignant"
+你的预期	代码实际
+inferCNV + Numbat + VarTrix 三方	VarTrix 完全未激活（SNV_ARM_ACTIVE=FALSE，无 runner 脚本，212 行共识数据里 0 行出现 vartrix）。Numbat 仅覆盖 2/13 数据集（GSE227903、GSE289435，共 40 个样本）
+≥2/3 一致即 malignant	实际规则是并集（union）：≥2 种类型存在时，任一阳性即判恶性，不要求"一致"；且 CONSENSUS_MIN_TOOLS=1 允许单一类型（纯 inferCNV）直接出具恶性判定
+无 SNV 样本用 CNV+allelic 双证据	未强制——磁盘实测（2026-08-18，212 样本）：189 例纯 inferCNV，15 例 inferCNV+author（仍是同一"表达型"证据类型），仅 8 例（3.8%）达到 ≥2 种证据类型（numbat+infercnv）。90.6% 样本处于代码自己定义的 C_single（低置信度）层级，3 型共识从未在任何样本上真正发生过
+这不是遗漏——代码里有大量文档说明这是刻意的工程妥协（union 规则是因为 majority 规则会漏掉 CN-normal 的 NPM1 突变型 AML），但实际运行的判定规则和覆盖率与你描述的"三方≥2/3"设计有实质性差距，需要你确认这个妥协是否可接受。
+
+校准状态（关键，需要你关注）：residual_calibration.csv 显示 3 项 gate 中 2 项 FAIL（健康供者中位 malignant_frac=0.135 > 0.05 上限；健康-vs-诊断 AUC=0.546 < 0.70 要求），但该文件日期是 2026-07-29，早于 config_malignancy.R 记录的 2026-08-14 谱系匹配参考修复，而负责重新计算这个 gate 的 70_residual_stratum.R 自那以后也没有被重跑过。也就是说：当前（修复后）的共识是否真的能区分健康与 AML 骨髓，目前在磁盘上是未知的——residual_stratum.csv（H3 分层的主产物）因此不存在，被 gate 挡住。建议重跑 70_residual_stratum.R 才能知道真实现状，而不是依赖这份过期文件下结论。（同期新鲜的 malignancy_fpr_healthy.csv 显示个别健康样本 FPR 仍高达 30–60%。）
+
+4.2 M2（BAM 前置重比对）
+✅ 确认真实存在、工程扎实：10_prealign_one_sample.sh 实现了完整的 STARsolo 重比对 → cellsnp-lite/Eagle2 phasing → Numbat 链路，含三级 FASTQ 下载 fallback、条码长度自动判定 chemistry（26bp=v2/28bp=v3）、下载完整性校验（大小+md5+samtools quickcheck）。
+
+⚠️ 但只对 2 个数据集执行（GSE227903、GSE289435），其余 11 个数据集没有可用 BAM/FASTQ（与项目根 CLAUDE.md 所述"多数公共数据集不提供可用原始数据"一致）。该链路目前只服务 Numbat，没有配套的 VarTrix 步骤——即使 M2 的重比对本身完成了，也没有下游脚本把它接到 SNV 证据上。脚本自己的注释也承认：STARsolo 的细胞集尚未与 QC 通过的细胞集做交集，这一步是手工/未来动作，不是自动化的一部分。
+
+4.3 M3（Lasry/GSE185381 排除、Bailur 仅作 comparator）
+Bailur：全仓库搜索无一处提及——这个数据集根本不在当前 13 个数据集的队列里，与此相关的策略无从谈起。
+Lasry(GSE185381) 排除逻辑：在 config_ccc.R 和 scripts/05_ccc/ 下搜索 "GSE185381"/"Lasry" 均无结果。这条策略目前未在代码中以此名义实现——但这本质上是 CCC（细胞通讯）阶段的"sender/receiver角色划分"问题，不属于 02_malignancy 的职责范围，所以在这一步找不到不代表被遗漏，需要我下一步专门审计 05_ccc 才能确认。
+4.4 R2（恶性正交叠加于 hierarchy 之上，报告每 bin malignant fraction + 置信度）
+✅ 这条吻合得很好：
+
+config_malignancy.R 明确写着"malignancy is still called on ALL cells by inferCNV+Numbat+VarTrix (blueprint R2 preserved)"——reference-normal 鉴定只影响谁被当作 inferCNV 参考，不影响谁被纳入判定，恶性判定与层级投影分开进行
+每 bin 的 malignant fraction / FPR 报告确实存在且相当成熟：malignancy_fpr_by_bin.csv、malignancy_fpr_by_bin_dataset.csv，并且代码里有一次自我发现并修正的具体案例——早期版本用"全细胞"作分母计算 per-bin FPR，导致被强制标记为 malignant=0 的参考细胞把 T_NK bin 的表观 FPR 拉低到 0.056（而排除参考细胞后的真实 FPR 更高），一度让"最脏的bin看起来最干净"，现已改为同时报告 padded 和排除参考细胞两个版本
+置信度分级（evidence_tier: A_concordant/B_multi_partial/C_single/D_low_coverage，映射到 high/medium/low）在每细胞和每样本层级都存在
+4.5 其他需要你知道的风险点（未在你的预期中提及，但影响可信度）
+多出一条你设计之外的第三判定轴：80/81_vangalen_*.R 基于表达签名（UCell 打分，非拷贝数）训练了一个"malignant-state"轴，专门用来补 inferCNV 对细胞遗传学正常型 AML 的盲区，只在 HSC_MPP 这一个 bin 生效（因为只有这个 bin 通过了留一法 AUC≥0.70 的验证）。这是一个真实存在、工程质量很高的第四种证据来源，但完全不在你的三方共识设计里，建议你确认是否要正式纳入设计文档。
+
+inferCNV 路由逻辑存在内部不一致：2026-08-14 修复了一个曾经静默丢弃 33 个样本（GSE185991 全部+GSE147989 全部，因被误判为"sorted_guard→skip"）的路由 bug，修复后的正确函数 infercnv_routes() 只被 44_infercnv_run_one.R（SLURM 阵列版，注释称其为"实际产出全队列的那个"）调用；但 40_infercnv_run.R（串行版）、90_preflight_infercnv.R、91_check_infercnv.R 三个脚本仍各自内联着修复前的旧逻辑——如果有人还在用 40/90/91 做校验或补跑，会得到与 44 不一致、且遗漏这 33 个样本的结果。
+
+CopyKAT/SCEVAN（42）目前对最终共识没有可见贡献：212 行共识数据里没有一行 arms 字段包含 copykat 或 scevan，只有走"author"标签路径（43）贡献了第二个表达型来源（15 例 infercnv+author）。
+
+一处硬编码路径绕过 config：99_genotype_concordance.R 里 RAW 是硬编码绝对路径字符串，未经 LARGE1_DIR 变量派生（对照同类脚本 93 是正确经由 file.path(LARGE1_DIR,...) 构造的）——如果 LARGE1 挂载路径变化，这个脚本会静默失效。
+
+03_hierarchy 审计报告
+范围说明
+覆盖 03_hierarchy/ 全部 13 个脚本（00_node_status、01_bmm_project、02_per_bin_malignant、03_malignant_distribution_shift、04_stemness_score、05_marker_annotate、06_reconcile_annotation、07_write_annotated_objects、08_validate_annotation、09_cellstate_score、10_progeny_score、11_cytotrace2_score、13_tnk_composition_diagnostic）+ config_hierarchy.R + bmm_bin_map.tsv/stemness_signatures.tsv，并核对了磁盘上的实际产物内容（不只是文件名）。
+
+1. 📥 Input
+子步骤	实际读取	位置
+投影（01）	QC_RDS_DIR/<ds>/<sample>.rds；BMM 参考 BMM_SCAFFOLD_RDS(Symphony)+BMM_UWOT	LARGE1
+节点存在性（00）	00_curated_manifest.csv（协议元数据：sorting/cell_prep/tissue）	FAST
+每 bin 恶性分数（02）	01的投影表 + 02_malignancy的共识表	LARGE1×2
+纵向分布偏移（03）	02的输出 + 01_sample_role_manifest.csv	FAST
+Stemness（04）	QC RDS + 共识表 + 投影表 + stemness_signatures.tsv	LARGE1×3+脚本内表
+Marker 兜底（05）	原始计数 + 策展 marker 表	LARGE1+REF
+协调（06）	01的投影 + 05的marker结果	LARGE1×2
+写最终对象（07）	QC RDS + 06的协调表	LARGE1×2
+验证（08）	GSE116256 原始 *.anno.txt.gz（van Galen 金标准）+ 06输出	LARGE1×2
+功能打分（09/10）	QC RDS + 01投影 + 02_malignancy共识	LARGE1×3
+CytoTRACE2（11）	QC RDS + 06协调表(bin) + 共识 + 01投影(pseudotime)	LARGE1×4
+T/NK诊断（13）	01投影 + 共识 + 04stemness + 11CytoTRACE2 + CCC样本清单	LARGE1×4+FAST
+2. 📤 Output
+内容	路径	LARGE1/FAST	磁盘核实
+每细胞投影表+UMAP坐标	LARGE1/02_seurat_objects/03_bmm_projected/	LARGE1 ✅	13 数据集齐全
+Marker 兜底结果	LARGE1/02_seurat_objects/03_marker_annotated/	LARGE1 ✅	13 目录（但实际只对 GSE253355 有意义使用）
+协调后每细胞注释	LARGE1/02_seurat_objects/03_annotation_reconciled/	LARGE1 ✅	13 数据集齐全
+最终带注释 Seurat 对象	LARGE1/02_seurat_objects/04_annotated/	LARGE1 ✅	13 数据集齐全（故意不含恶性列，见第4点）
+CytoTRACE2 每细胞	LARGE1/02_seurat_objects/03_cytotrace2/	LARGE1 ✅	13 数据集齐全
+每 bin 恶性分数、分布偏移、stemness、cellstate、PROGENy、验证、节点状态、CytoTRACE2一致性、T/NK诊断 等 18 张表	FAST/results/tables/03_hierarchy/	FAST ✅	全部存在
+LARGE1/FAST 分工正确。
+
+3. ⚙️ 代码内容与参数
+执行链：01(BMM/Symphony 投影→8bin) → 00(协议层面节点mask，与01并行) → 05(仅GSE253355的marker兜底) → 06(bin以投影为准，marker只补细分型) → 07(写最终对象，恶性单独) → 02(每bin恶性分数) → 03(纵向V型检验) → 04(stemness) → 09/10(功能/通路打分) → 11(CytoTRACE2) → 13(T/NK子结构诊断) → 08(对 van Galen 验证)。
+
+关键参数：
+
+8 个 hierarchy bin：HSC_MPP, LMPP_GMP, Mono_DC, Erythroid, Megakaryocyte, T_NK, B_Plasma, Stromal（Stromal 不进 CCC 图）
+投影 QC 主标志：bmm_prob < MIN_PROJ_PROB(0.50)（KNN一致概率，取代不稳定的绝对 mapping_error）
+Stemness：5 个签名（LSC17 权重加和 + HSPC_core/vanGalen_HSC_like/vanGalen_HSC_Prog/vanGalen_HSCprog_like 用 AddModuleScore）
+09 的功能打分改用 UCell（而非 AddModuleScore），理由是跨样本可比性
+CytoTRACE2：单核心/进程（CYTOTRACE_NCORES=1，避免 fork 死锁）、种子 42、分块重试梯度、CYTOTRACE_MAX_BMM_COR=-0.20（与BMM pseudotime应负相关的门限）
+Marker 兜底：Louvain resolution=1.0，最少 200 细胞/样本，正负marker打分，MARKER_ANNO_MIN_MARGIN=0.25
+4. 🔍 预期一致性比对
+4.1 投影方法 + bin 数量 —— ✅ 吻合
+用 BoneMarrowMap R 包（封装 Symphony+uwot）做参考投影，8 个 bin（在你要求的 5–8 个范围内，比你举例的 6 类更细）。scArches 未使用，但你原话是"或"，不算偏差。
+
+4.2 Palantir pseudotime 与熵 —— ❌ 实质性方法替换
+全仓库搜索 "Palantir"、"diffusion"（扩散映射）、"entropy"（熵）零命中。实际使用的是 BoneMarrowMap 参考自带的 predict_Pseudotime()（沿 HSPC 轨迹预定义的伪时间，不是在你的数据上重新跑 Palantir）。代码里有详尽且诚实的文档说明这个方法的已知缺陷：参考图谱中 30.7%（80,697 个细胞，六个终末分化类型：Naive T/CD4/CD8 Memory T/NK/Plasma Cell/Stromal）的 pseudotime 是"占位符 0"，与 HSC/MPP 的真实值 0 无法区分，若不先按 BMM_PSEUDOTIME_OFFTRAJ 过滤会把成熟淋巴细胞误读成"最原始细胞"。这不是遗漏——是经过一次真实校准循环发现并诊断出来的（见 4.4）——但确实是与你点名方法（Palantir, Setty et al., 2019）的实质性偏离，需要你确认是否接受。
+
+另外，pseudotime 目前只被用作与 CytoTRACE2 的一致性检验变量，我在 13 个脚本里没有找到任何一处把它用于"bin 内排序"（你设计里 pseudotime 唯一被允许的用途）——即它现在是一个 QC/校验量，还不是一个真正驱动下游排序分析的变量。
+
+4.3 R7（pseudotime 不可靠，多方法一致性校验）—— ⚠️ 精神吻合，工具不同
+代码里确实做了你要求的"多方法一致性检验"，但用的是 CytoTRACE2（一个独立训练的潜能估计模型）而不是"Palantir + 扩散映射"。而且这个校验不是摆设——它真的跑出了结果并且诊断出了根因：
+
+第一次校验失败（中位 rho=-0.095，213 样本中只有 123 个方向正确）
+排查后发现问题完全出在 4.2 提到的占位符 0 细胞上
+排除这些细胞后，一致性恢复到 rho=-0.510（AML组 -0.490/94%负相关，健康组 -0.628/100%负相关），通过了 CYTOTRACE_MAX_BMM_COR=-0.20 的门限
+这个具体、量化、磁盘可核实（cytotrace2_bmm_concordance.csv 213 行）的排查过程，其实比你原设计里"Palantir+扩散映射"更扎实地实现了"不依赖单一轨迹"的精神——但方法名称确实不同，需要你确认这个替代是否可以接受写进方法学部分。
+
+4.4 LSC17 + van Galen stemness 签名 —— ✅ 吻合，甚至更丰富
+stemness_signatures.tsv 里实际有 5 个签名（LSC17 + HSPC_core + vanGalen_HSC_like + vanGalen_HSC_Prog + vanGalen_HSCprog_like），全部被 04_stemness_score.R 自动读取打分（虽然该脚本自己的头注释还停留在"只有LSC17/HSPC_core，van Galen待添加"的过期说法，但代码逻辑是通用的，实际已经在跑全部 5 个）。
+
+4.5 LSC-like 操作性定义（恶性 + 位于HSC/MPP/LMPP bin + 高stemness）—— ❌ 未落地为具体变量
+"LSC-like"这个词在整个 03_hierarchy 目录里只出现一次，是 02_per_bin_malignant.R 头注释里描述下游假设的一句话，不是一个被计算出来的列。构成这个定义的三个原料（hierarchy_bin、malignant 判定、stemness 分数）都存在且在 04_stemness_score.R 里被交叉制表打印（例如"HSC_MPP bin 内，按时间点×malignant划分的stemness"），但没有任何脚本把它们合成一个正式的 LSC_like 布尔/分类列写入任何输出表。如果你需要这个标签作为后续分析（如 CCC 建图）的正式变量，目前需要额外补一步。
+
+4.6 仅可视化整合（scVI/Harmony）—— 未找到，但有替代方案
+全仓库搜索 "scVI"、"Harmony" 零命中。目前保存的 UMAP 坐标（__umap_projected.csv）直接来自 BMM/Symphony 投影本身的 embedding，不是一个独立的整合步骤。这与你"避免队列内重整合"的设计原则并不矛盾（因为压根没有做队列内整合），但字面上你点名的两个工具确实都没有用到，如果你需要专门的可视化整合层，目前是空的。
+
+4.7 每 bin malignant fraction + 置信度报告 —— ⚠️ 一半实现
+✅ 每 bin malignant fraction 确实存在：per_bin_malignant.csv（02_per_bin_malignant.R 输出）给出每样本×每bin的 n_cells/n_evaluable/n_malignant/malignant_frac，磁盘核实存在。
+❌ 但没有置信度：config_hierarchy.R 里其实定义了一整套置信度框架（N_MIN_BIN=20、FRAC_ERR_MAX=0.50、TIER2CONF=c(A="high",B="medium",C="low")），但我在 13 个脚本里没有找到任何一处实际使用这三个常量——这套置信度分级目前是"死配置"，没有被接到 per_bin_malignant.csv 或任何输出表里。frac_high_error 列本身存在（映射质量指标），但没有被转换成一个正式的"置信度"标签。
+你要的"orthogonal 叠加"设计本身实现得很好：07_write_annotated_objects.R 明确说明恶性判定"仍在变动中"，故意完全不写入最终注释对象的 meta.data，避免有人误用未定稿的标签——这比"正交但共存"走得更远，是刻意的隔离。
+4.8 其他需要你关注的风险点
+一个当前存在的活跃 bug：06_reconcile_annotation.R 第 173 行计算 corrected = mean(anno_source == "marker_corrected") 并写入 FAST 上的 annotation_agreement_by_dataset.csv，但 "marker_corrected" 这个值从未被这个脚本实际赋值过（它只会产生 concordant/bmm_over_marker/bmm_only/marker_fill/unassigned 这 5 种），所以这一列永远是 0，是一个名不副实的死列。08_validate_annotation.R 在 2026-08-18 修过一处几乎一样的过期图例问题，但没有覆盖到 06 自己这处。
+Marker 兜底方案已被正式验证并否决为"选 bin"用途：08_validate_annotation.R 用 van Galen 金标准测得 BMM 投影准确率 0.875 vs marker 兜底 0.664（marker 出错比出对多 5.5 倍），因此 2026-08-14 起 06 改为永远以 BMM 投影的 bin 为准，marker 表只用来在该 bin 内部提供细分亚型（主要服务于 GSE253355 的 80% 队列基质细胞亚型划分）。这是良好、有实证支撑的工程决策。
+纵向时间轴曾经历一次严重的静默 bug 并已修复：早期版本里 02 和 03 各自维护一份不一致的正则表达式来从样本名猜时间点，214 个样本里只解析出 27 个（全部来自 GSE227903），其余 187 个（含 34 个疗后+19个复发样本）静默变 NA；一篇曾发表的"stem_frac Dx→MRD, n_pairs=6, p=0.0313"结果被误称为"全部纵向样本"，实际只是一个数据集的 6 个病人。现已改用策展的 TP_AXIS_LEVELS 词表并加了硬断言防止再犯，纵向队列现在正确覆盖 5 个数据集 28 个病人。
+两个同名为"timepoint"但语义不同的列：02_per_bin_malignant.R 输出的 timepoint 是原始时间点字符串；03_malignant_distribution_shift.R 输出的同名列 timepoint 实际被覆盖成了 3 级 tp_axis（Diagnosis/Post_treatment/Relapse）——按列名做跨表比对会被误导。
+统计严谨性较弱之处：03 的 6 个 Wilcoxon 检验、09 的 9 个正对照检验均无多重比较校正；per_bin_malignant.csv 的 malignant_frac 无置信区间/标准误（呼应 4.7）。
+
+04_cnmf 审计报告
+范围说明
+04_cnmf/ 只有 4 个脚本（01_nmf_per_sample.R、02_metaprogram_aggregate.R、03_score_metaprograms.R、04_cnmf_figures.R）+ config_cnmf.R + 人工标注表 mp_labels.tsv，规模不大，我逐行读完了全部代码并核对了磁盘产物。另有一个已被取代的旧实现在 scripts/以前06_hierarchy/（e05/e10/e20），不属于当前 04_cnmf 管线，仅作背景说明。
+
+1. 📥 Input
+脚本	读取	位置
+01（per-sample NMF）	QC RDS + 02_malignancy共识表(malignant) + 03_hierarchy投影表(hierarchy_bin)	LARGE1×3
+02（meta-program聚合）	01的 nmf_res.rds	LARGE1
+03（打分）	02的 meta-program 签名表 + QC RDS + 共识 + 投影	FAST+LARGE1×3
+04（图表）	02/03的所有产出 + 人工标注表 mp_labels.tsv	FAST
+细胞筛选：malignant==1(或0) 且 hierarchy_bin 属于 7 个 CCC bin（排除 Stromal/Unassigned），每样本 ≥100 细胞才进入 NMF。
+
+2. 📤 Output
+内容	路径	LARGE1/FAST	磁盘核实
+每样本 NMF 原始结果（大对象）	LARGE1/04_cnmf/{malignant,normal}/nmf_res.rds	LARGE1 ✅	存在，恶性臂/正常臂各一份
+Meta-program 聚合结果对象	LARGE1/04_cnmf/{malignant,normal}/metaprograms.rds	LARGE1 ✅	存在
+每细胞 MP 打分	LARGE1/04_cnmf/malignant/mp_usage/<ds>/<sample>__mp_usage.csv	LARGE1 ✅	覆盖 9/13 个数据集（GSE147989/GSE185991/GSE253355/E-MTAB-11536 未出现——这几个是 CD34分选/参考/纯健康数据集，本就没有足量恶性细胞进入此步骤）
+MP 基因签名、指标、恶性vs正常相似度、标注、总览表	FAST/results/tables/04_cnmf/*.csv	FAST ✅	全部存在
+图表（5张）	FAST/results/figures/04_cnmf/	FAST	未逐一核实但脚本逻辑清楚
+LARGE1/FAST 分工正确。
+
+3. ⚙️ 代码内容与参数
+01：GeneNMF::multiNMF，每样本独立跑（不跨样本整合表达），K=4:9，HVG=2000，屏蔽线粒体/核糖体/血红蛋白基因；恶性臂与正常臂分开跑（各自单独的 --compartment 调用）
+02：GeneNMF::getMetaPrograms()（Gavish 2023 风格的跨样本聚合），Jaccard 作相似度度量，产出每 compartment 10 个（CNMF_NMP=10）meta-program；随后恶性 vs 正常 MP 做 Jaccard 比对：Jaccard > 0.20(CNMF_MP_SIM_MAX) → 标记该恶性 MP 为 normal_like（挪用/污染），否则 tumor_specific
+03：对所有 MP（不预筛选）用 AddModuleScore 给每个恶性细胞打分，记录 top_MP + 其类别
+04：合并所有表 + 人工标注表 mp_labels.tsv 生成总览图表
+关键参数：CNMF_K_RANGE=4:9、CNMF_NFEATURES=2000、CNMF_MIN_CELLS=100、CNMF_NMP=10、CNMF_METRIC="jaccard"、CNMF_MIN_CONF=0.5（GeneNMF内部丢弃不稳定簇的阈值）、CNMF_MP_SIM_MAX=0.20
+
+最终"哪些MP可信"的判定方式：mp_labels.tsv 是一张人工填写的表——10 个原始恶性MP中，人工判定 1 个是技术性伪影（drop，单基因JUN），5 个是"正常/谱系"程序（normal：单核/中性粒、NK/T细胞毒性、细胞周期、粒系祖细胞、应激早期基因），1 个是弥散无主导bin的疑似污染（likely_contaminant：浆/B细胞），只有 3 个（MP5/MP6/MP10）被判定为 robust_tumor——且这 3 个全部是单核系主导（91%/95%/97% 落在 Mono_DC bin）。
+
+4. 🔍 预期一致性比对
+吻合的部分：
+
+✅ GeneNMF（非跨样本整合），K=4–9，方法学参照 Kotliar et al. 2019 的"不整合、每样本独立跑"原则——完全一致
+✅ 跨样本聚合用 getMetaPrograms()，确系 Gavish et al. 2023 泛癌共识程序方法学的正式实现（同一作者团队维护的R包）——一致
+✅ 恶性 vs 正常 MP 的 Jaccard 比较，功能上部分实现了你要的"healthy-match 评分（区分'被挪用'vs'新涌现'）"——虽然是二元分类（tumor_specific/normal_like）而不是连续分数，且比较对象是本队列内部的正常细胞而非外部健康图谱，但方向是对的
+不一致 / 缺失的部分（这是本次审计里偏差最大的一步）：
+
+SRRS（双层可复现性评分）完全不存在：全仓库搜索 "SRRS" 零命中。Global SRRS 公式（对独立研究集合 S 取 max Jaccard ≥ τ 的比例、≥0.6 保留）、Conditional SRRS、证据加权公式 w_cond——都没有被实现。实际使用的"可信度"依据是三样东西的组合：GeneNMF 自带的 sampleCoverage（多少比例的样本——不是研究——支持该MP）+ silhouette（聚类紧密度）+ 人工目测判断（写进 mp_labels.tsv）。核心区别：sampleCoverage 按样本计数，不按独立研究计数——你的设计明确要求按"研究"（数据集）算比例正是为了防止一个大数据集（比如52样本的GSE185381）单独把一个MP的复现率"刷"上去；当前实现完全没有这层保护。
+
+τ=0.2 敏感性区间（0.15–0.30）、Jaccard 阈值扫描：不存在。虽然 CNMF_MP_SIM_MAX=0.20 这个数值恰好和你预设的 τ=0.2 一样，但它的用途完全不同——它是"恶性MP vs 正常MP"污染判定阈值，不是"MP在独立研究间复现"的阈值，两者概念上不能混为一谈。
+
+M4（Conditional SRRS 阈值下调方案）完全未实现：全仓库搜索 "NPM1"、"TP53"、"KMT2A"（在 04_cnmf 范围内）零命中。没有任何按遗传亚型分层的可复现性计算，你为 M4 设计的"≥3个独立研究才算conditional、否则标注single-study、用证据加权代替硬阈值"这整套修订方案目前没有一行代码对应。
+
+HSI（hierarchy specificity index）没有被系统计算：搜索 "HSI"、"hierarchy_specific" 零命中。但有意思的是，这个概念的原始数据其实已经算出来了——03_score_metaprograms.R 按 hierarchy_bin 记录了每细胞的 top_MP，mp_labels.tsv 的 note 列里人工写了"91% Mono_DC bin"这类数字——即人在标注时手动算了一次类似HSI的东西，但没有变成一个系统性、对每个MP都自动计算并持久化的指标列。
+
+healthy-match 评分：如上所述，部分实现（tumor_specific/normal_like 二元分类），但不是连续"评分"，且对比对象是队列内正常细胞而非独立健康图谱。
+
+实质性的科学发现，需要你知道：经过人工筛选后，10个原始恶性meta-program里只有3个被判定为真正"稳健的肿瘤特异"程序，而且这3个全部是单核系（Mono_DC）主导——目前这个cNMF步骤还没有发现/验证出任何HSC样、红系或其他谱系的可靠肿瘤特异程序。这直接影响你后续要在"层级特异性"和"多亚型可复现性"上做的分析——目前的程序库在谱系覆盖上是偏的。
+
+风险点/需要你决定的事情：
+
+当前的 MP 筛选依赖人工标注（mp_labels.tsv 由人工填写 confidence 列），不是自动化、可重复的统计流程——如果换人标注或重新审视原始基因列表，结果可能不同，且没有代码路径来复现这个人工判断。
+sampleCoverage/silhouette 只是在控制台打印的"参考建议"（comment: "trust MPs with high sampleCoverage (>~0.3) AND silhouette (>0)"），代码里没有任何硬性 gate 会自动丢弃低于这些值的 MP——过滤完全是下游/人工决定。
+09 个数据集（占13个中的绝大多数AML队列）进入了此步骤，但 4 个数据集（GSE147989/GSE185991/GSE253355/E-MTAB-11536）没有——这是预期内的（分选/参考/健康数据集本来就没有足量恶性细胞），但如果你的下游分析假设"全队列覆盖"，需要注意这个缺口。
+总结：这一步的软件选型和总体两阶段结构（per-sample NMF → cross-sample meta-program，Gavish风格）与你的设计完全吻合；但你为保证"跨研究可复现性"设计的整个统计框架（SRRS 双层结构、τ敏感性扫描、亚型分层证据加权、HSI）目前是空的，实际替代方案是"GeneNMF 内部稳定性指标 + 人工目测标注"。这是否可以接受，还是需要补一版实现你的 SRRS 框架，需要你来决定。
+05_ccc 审计报告
+范围说明
+覆盖 05_ccc/ 全部脚本（01_define_ccc_samples.R、02_run_cellchat.R、03_node_features.R、04_stemness_purity_sweep.R、05_undercall_contamination.R、recon_ccc_probe.R 及其探测记录 recon_ccc_probe.txt）+ config_ccc.R，并核对了磁盘实际产物。
+
+1. 📥 Input
+脚本	读取	位置
+01（定义CCC样本）	01_sample_role_manifest.csv（含l2_capable）+ 投影表(bmm_percell)	FAST+LARGE1
+02（CellChat）	01的样本清单 + QC RDS + 投影表	FAST+LARGE1×2
+03（节点特征）	协调后注释表+共识表+stemness/CytoTRACE2/van Galen/inferCNV burden 各per-cell表	LARGE1×多
+04（stemness纯度扫描）	inferCNV burden + 共识 + stemness per-cell表	LARGE1×3
+05（漏检污染检验）	03节点特征 + 共识汇总 + 00_curated_manifest.csv(临床blast%、核型)	FAST
+2. 📤 Output
+内容	路径	LARGE1/FAST	磁盘核实
+CellChat 完整对象	LARGE1/05_ccc_graphs/<ds>/<sample>__cellchat.rds	LARGE1 ✅	208 个对象，覆盖 10/13 数据集
+标准化 LR 长张量	FAST/results/tables/05_ccc/tensors/<ds>/<sample>__ccc_cellchat.csv	FAST ✅	138 个（与合格样本数一致）
+样本清单/节点存在性/节点特征/纯度扫描/污染检验 等表	FAST/results/tables/05_ccc/	FAST ✅	全部存在
+合格样本数：214 个已投影样本中 138 个 CCC-eligible	—	—	与代码逻辑吻合
+LARGE1/FAST 分工正确（大对象CellChat.rds在LARGE1，表格在FAST）。另注意 results/tables/05_ccc/ 目录下还混有 ccc_edge_distance.csv/ccc_lr_*.csv/cooption/ 等文件，从命名看应属于下游 06_distance/08_scoring 阶段的产物，与 05_ccc 自身脚本共用了同一输出目录，不是本步骤脚本写的。
+
+3. ⚙️ 代码内容与参数
+执行链：01(纯元数据门控定义合格样本) → 02(CellChat推断) → 03(节点特征聚合) → 04/05(对stemness节点特征做污染/漏检的稳健性检验)。
+
+关键参数：
+
+节点词表（固定7个，无角色拆分）：HSC_MPP, LMPP_GMP, Mono_DC, Erythroid, Megakaryocyte, T_NK, B_Plasma
+合格性门控（纯元数据驱动，非组成驱动）：l2_capable==TRUE + 非sorted子库 + total_cells≥300 + n_bins_occupied≥3（每bin≥30细胞）
+节点内"present"阈值：CCC_MIN_CELLS_PER_NODE=10（低于此标记missing，不合并）
+CellChat 参数：type="triMean", population.size=FALSE, distance.use=FALSE（强制非空间模式）, nboot=100, raw.use=TRUE（无PPI平滑，因build不含projectData）, DB仅用 Secreted Signaling+ECM-Receptor+Cell-Cell Contact（排除代谢物/离子）
+CCC_ENGINE_DEFAULT <- "cellchat"（LIANA臂标注为"02b"，计划中）
+4. 🔍 预期一致性比对
+4.1 Main图节点设计 —— ❌ 结构性偏离
+你的设计：节点 = Hierarchy-bin × Role(sender/receiver)，10–16个节点。
+实际代码：config_ccc.R 明确写着 [locked] Main graph = 7 hierarchy bins; malignancy is a NODE FEATURE, not a node split——节点就是7个bin本身，没有按sender/receiver拆成独立节点。CellChat的方向性（谁发谁收）体现在边的 sender_bin/receiver_bin 属性上，不是节点身份的一部分。这是一个标注了"[locked]"（已锁定决策）的主动设计选择，不是遗漏。
+
+4.2 Secondary图（Hierarchy-bin × 主导MP状态 × Role，30–50节点）—— ❌ 完全未实现
+全仓库搜索 05_ccc/ 目录下 "MP"、"mp_usage"、"dominant_MP"、"04_cnmf" 零命中。04_cnmf 已经产出的每细胞主导meta-program结果（mp_usage/<ds>/<sample>__mp_usage.csv）在 05_ccc 里完全没有被读取过。这个"更丰富、按可行性细分"的第二张图目前不存在。
+
+4.3 MP活性作为Main图节点特征 —— ❌ 未实现
+config_ccc.R 里的候选节点特征库（CCC_PANELS）设计得很完整：stemness变体、PROGENy 14条通路、cellstate签名、代谢/药物靶点、pseudotime——五个候选特征族，唯独没有MP（meta-program）活性这一项。这与4.2是同一个根因：04_cnmf的产出没有被接入这一步。
+
+4.4 LIANA+ 作主方法、CellChat作敏感性对照 —— ❌ 方向完全反了
+生产管线里唯一实际运行的方法是 CellChat（02_run_cellchat.R），没有"aggregated rank consensus"字样，也没有任何LIANA相关的计算逻辑。
+config_ccc.R 里写得很清楚：CCC_ENGINE_DEFAULT <- "cellchat" # liana arm = 02b ... liana 0.1.14 installed——LIANA臂被命名为"02b"、写进了计划，但这个文件在目录里根本不存在。
+关键：这不是因为环境里没装LIANA。项目自己做的探测记录 recon_ccc_probe.txt（[5]节）明确显示 liana loadable=TRUE version=0.1.14、nichenetr loadable=TRUE version=2.2.1.1——两个包都装好了、能加载。目前只跑CellChat是一个尚未落地的计划，不是技术限制。
+你原设计是"LIANA+为主、CellChat为敏感性对照"；实际是"CellChat为唯一生产方法、LIANA+是命名但未写的第二臂"——方向正好相反，而且目前只有一种方法。
+NicheNet 仅出现在 recon_ccc_probe.R 这个明确标注"RECON ONLY (not part of the 05_ccc pipeline)"的探索脚本里，生产代码里完全没有引用。
+4.5 R3（双法一致性 + 置换零分布剔除组成驱动边）—— ❌ 两项关键缓解措施都缺失
+双法一致性门（LIANA+与CellChat边进barycenter前需一致）：因为LIANA+根本没跑（见4.4），这个门无从谈起——目前只有CellChat单一方法的边。
+组成置换零分布（打乱细胞标签重算S，剔除纯丰度驱动的边）：全目录搜索没有找到任何对CCC边概率S做置换检验的代码。目录里唯一的置换检验在 04_stemness_purity_sweep.R，但它检验的是完全不同的问题——"AML非恶性细胞的干性得分升高是不是inferCNV漏检母细胞的假象"，跟CCC边的组成置换零分布不是一回事。
+✅ 部分实现的替代缓解：CCC_POPULATION_SIZE=FALSE（CellChat的"intrinsic signaling"模式，让通讯概率不直接正比于细胞丰度）是一个真实、有原则的部分缓解，配置注释里明确写着这是应对R3的手段之一，但"rank距离抑制深度膨胀"被写明推迟到下游07_fgw阶段，不在05_ccc里实现。
+4.6 R9（per-sample图只来自L2-capable库）—— ✅ 完全吻合
+CCC_ELIGIBLE_REQUIRES_L2 <- TRUE，合格性门控直接读取上游策展的 l2_capable 字段，逻辑清晰、注释详尽（还专门记录了一次因为"existence-only"缓存导致清单没刷新的历史bug并修复）。这条完全按你的设计实现。
+
+4.7 每样本<15–20细胞节点的处理 —— ⚠️ 部分吻合
+你说"合并或标missing"；实际只实现了"标missing"一半（低于10细胞的节点标 present=FALSE，进下游"unbalanced FGW"处理），没有"合并"这个分支。具体阈值也不同：节点内"present"用10细胞（不是15-20），样本级"occupied"用30细胞/bin（这是一个新增的、你原方案没有的第二层门槛，用来判断整张图是否够格生成，而不只是单个节点是否存在）。
+
+4.8 意外但重要的发现（超出你原设计范围，但直接影响可信度）
+CNV共识的恶性比例在这一步仍然是反的：03_node_features.R 的注释里直接写着当前实测数字——健康供者的中位 frac_malignant=0.113，AML样本反而是0.037（健康>AML！）。这与我在 02_malignancy 审计里发现的校准失败（健康中位0.135 > 诊断0.115）互相印证，说明到05_ccc这一步为止，基于CNV的恶性判定依然没有真正区分开健康和AML。项目的应对是诚实的：保留 frac_malignant（继续算，但标注不可信）的同时，引入基于表达（van Galen轴）的 frac_malignant_vg 作为可信的替代（健康中位0.049 vs AML 0.399，AUC=0.822），把"用哪个"的决定推迟到08_scoring阶段。这不是05_ccc的锅，但你需要知道恶性节点特征目前有两套并存、口径不同的数字。
+
+额外的严谨工作（超出你的设计，值得知道）：04和05两个脚本专门为了追查"08_scoring里那个干性(H2)信号是不是因为inferCNV漏检母细胞造成的假象"做了两轮独立稳健性检验（CNV负荷纯化扫描 + 用临床blast%这个inferCNV完全看不到的外部证据做交叉验证），方法论相当扎实，但这属于验证下游H2发现的诚信检查，不是CCC建图本身的一部分。
+
+06_distance 审计报告
+1. 📥 Input
+内容	路径	FAST/LARGE1	用途
+每样本LR强度长表	results/tables/05_ccc/tensors/<ds>/<sample>__ccc_cellchat.csv	FAST	主输入，含pval/prob/sender_bin/receiver_bin
+CCC合格样本清单	results/tables/05_ccc/ccc_sample_manifest.csv	FAST	只保留ccc_eligible==TRUE的(dataset,sample)
+CCC节点特征表	results/tables/05_ccc/ccc_node_features.csv	FAST	仅用于mtime新鲜度检查，从未被读入变量、从未参与计算
+无 LARGE1 读取（全部输入都是05_ccc落在FAST上的表格产物）。
+
+2. 📤 Output
+文件	路径	FAST/LARGE1	磁盘核实
+edge_distance.csv	results/tables/06_distance/	FAST ✅	6762行数据（138样本×49条有向边），2026-08-26 11:20
+edge_qc.csv	results/tables/06_distance/	FAST ✅	138行（每样本一行），同时刻
+放置正确；且时间戳晚于其所有05_ccc张量输入（最新2026-08-20），不是stale产物。
+
+3. ⚙️ 代码内容与参数
+关键步骤：
+
+用ccc_sample_manifest.csv的ccc_eligible字段过滤张量文件（"the glob is not the cohort"——直接沿用了之前几步反复验证过的纪律）
+固定有向7×7=49边网格（CJ(sender_bin, receiver_bin)，含自环/autocrine）
+显式显著性过滤：sig <- t[pval < DIST_PVAL_THRESH]（上游02_run_cellchat保留了全部边，这里第一次做显著性截断）
+聚合：weight_probsum = sum(prob), n_lr_sig = .N，按(sender_bin,receiver_bin)分组，左连接到固定49边网格（缺失填0）
+主距离（样本内排名）：rank_pct = frank(weight_probsum)/49; C = 1 - rank_pct
+伴生轨道：detected = n_lr_sig>0；weight_per_lr = weight_probsum/n_lr_sig（仅detected）；C_perlr只在detected边内部排名，未检出边留NA（不填补）
+每样本QC：sparse_flag = n_edges_present < 10
+关键参数：DIST_PVAL_THRESH=0.05、DIST_MIN_EDGES_FLAG=10L（仅标记，"07 decides"）、DIST_EDGE_WEIGHT="probsum"（纯文档字符串，代码里从未真正读取分支）、CCC_NODES沿用05_ccc的7个bin。
+
+代码里有一段很扎实的经验依据（2026-08-26，6762个样本-边样本量）：weight_probsum把"有没有信号"（跟节点细胞数强相关，cor=0.688）和"信号强度"（剔除有无之后，cor=0.015，近乎独立）混在一起——这是保留detected/weight_per_lr/C_perlr这条伴生轨道、而不是直接改造主C的依据。方法论是合理的。
+
+4. 🔍 预期一致性比对
+先确认了你原始蓝图（AML_niche_CCC_OT_blueprint_zh.md 第139-141行）里Phase 5的原文，及两份PATCH文档是否修订过它：v1.1补丁的Phase 5-6修订（M8）只动了节点特征聚合方式（块等权、样本内rank-percentile），完全没有提到过强度→距离的S→C变换本身；v1.2补丁全部内容在Phase 7-8之后，跟Phase 5无关。 也就是说，下面的偏离没有一条是被补丁正式修订过的——不像前几步里常见的"[locked]决策"，这一步的代码注释本身也没有为这些偏离辩护。
+
+预期项	实际情况	判断
+主：rank-percentile距离 C=1-rank_pct(S)	完全按此实现	✅ 一致
+副：log归一化+min-max距离 C=-log(S̃+ε)	代码里完全不存在，也不在config_distance.R的参数里	❌ 缺失，且原始蓝图和两份补丁都没有说要去掉它
+两种C定义的稳健性/一致性检验	因为副定义根本不存在，检验也无从谈起	❌ 缺失
+sender/receiver节点拆分保证GW对称性	06_distance头部注释写"deferred to 07 (FGW-prep)"——但我抽查了07_fgw/02_fgw_align.py，它调用FGW时显式传symmetric=False，即07也没有做对称化，而是主动保留了方向性（这与v1.1补丁M8前的M6条款"偏离方向cosθ携带额外判别信息"是吻合的，说明这是一次真实的设计演进，而不是遗漏）。	⚠️ 06_distance注释里"deferred"的说法已经过时/不准确——不是"推迟"，是被后续设计主动否决了
+节点质量∝细胞数	06_distance里没有；07_fgw/01_build_fgw_inputs.R里确实实现了（FGW_MASS_MODE="ncells"，缺失节点用FGW_EPS_MASS兜底后归一化）	✅ 存在，只是比你以为的位置晚一步
+每样本pseudobulk经LIANA+算S，CellChat作对照	这是05_ccc层面的问题（已在上一份报告指出LIANA+未运行），06_distance只是原样消费05_ccc给的CellChat强度表，不重新计算	（同上一步已报告的问题，此处只是继承）
+额外风险点：
+
+伴生轨道疑似断头：我快速检查了07_fgw/01_build_fgw_inputs.R，它从edge_distance.csv里只读了C列（第185行 ed[, .(dataset, sample, sender_bin, receiver_bin, C)]），完全没有引用C_perlr/weight_per_lr/detected。也就是说06_distance精心设计的"排除节点大小混淆"的第二条轨道，目前看不到任何下游脚本消费它（我没有查08_scoring，不能排除那里用到，但至少FGW构建这一步没用）。
+流程进度提醒：磁盘核实发现07_fgw和08_scoring都已经存在且跑完（输出日期2026-08-27，也就是今天），说明流程已经跑到比这一步靠后两个阶段。上面第2条（副距离缺失）不是"还没写"，而是流程已经越过这一步、且从未实现过——如果FGW结果已经被用来出图或写结论，这个空缺现在才发现就比较被动。
+DIST_EDGE_WEIGHT="probsum"是纯文档常量，代码没有真正按它分支——如果以后想切换主权重定义（比如切到count而非probsum），改这个变量不会有任何效果，容易造成"改了配置但行为没变"的误解。
+
+07_fgw 审计报告
+1. 📥 Input
+脚本	读取	FAST/LARGE1
+01_build_fgw_inputs.R	06_distance/edge_distance.csv+edge_qc.csv；05_ccc/ccc_node_features.csv+ccc_sample_manifest.csv	全部FAST
+02_fgw_align.py	01产出的fgw_nodes_long.csv/fgw_edges_long.csv/fgw_input_index.csv+fgw_vocab.json（经scripts/config/fgw_vocab.py加载器读取，非直接打开）	全部FAST
+03_rls_scs.py/04_rls_grouped.py	同上几张表 + 02产出的patient_scores.csv；硬编码只处理GSE227903一个数据集	全部FAST
+整个07_fgw阶段完全不碰LARGE1（矩阵规模小，合理）。
+
+2. 📤 Output
+文件	脚本	磁盘核实
+fgw_nodes_long.csv/fgw_edges_long.csv/fgw_input_index.csv/fgw_vocab.json	01	966节点行/6762边行/138样本，均2026-08-27生成，晚于06_distance(08-26)，不stale
+barycenters.npz+patient_scores.csv	02	npz含C_healthy/F_healthy/C_aml/F_aml/p/nodes/features/alpha；138样本评分表
+paired_rls_scs.csv	03	磁盘上是9个配对患者，但脚本自己的代码注释写的是"n=8"——见4.4节
+rls_grouped.csv	04	9行，与03一致
+全部正确落在FAST的results/tables/07_fgw/，无路径问题。
+
+3. ⚙️ 代码内容与参数
+01（构建FGW输入）：从05_ccc/06_distance组装C(7×7有向)/F(7×k特征)/p(质量)三张长表。
+
+质量：FGW_MASS_MODE="ncells"（∝细胞数）或"uniform"；缺失/零质量节点用FGW_EPS_MASS=1e-6兜底后归一化
+特征缩放：within_sample_rank（样本内排名，默认）vs global_z（全局z分数）——代码里记录了一次2026-08-26的实测A/B比较，样本内排名让H2的p值提升约2个数量级，因此改为默认，并明确承认脚本自己早期头部注释"必须用global"的判断是错的
+特征插补上限FGW_MAX_IMPUTED=0.50：正式使用的特征超过50%插补率硬停；候选特征超过则只标记不丢弃
+实际进入FGW距离的特征只有3维：FGW_FEATURES = c("frac_malignant","mean_stemness","n_cells")——与v1.0原始设计完全一致
+另外计算并写出120个候选特征（FGW_CANDIDATE_FEATURES，6个核心候选+114个panel候选）到fgw_nodes_long.csv供08_scoring用，但不参与当前的FGW距离计算
+02（FGW对齐核心）：
+
+alpha：CLI默认固定0.5，本文件内没有任何扫描/循环
+symmetric=False：所有3处OT调用（barycenter、pairwise fgw_dist、fgw_coupling）全部保持有向
+loss_fun="square_loss"；全文件没有Sinkhorn/entropic正则（只用POT的精确/条件梯度求解器）；没有unbalanced OT（ot.unbalanced未导入，质量全部归一化为1，标注为"balanced"）
+分别在健康/AML子集（排除sparse_flag样本）上算两个重心，重心初始化用输入矩阵的逐元素均值（因为节点已跨样本对齐，不用随机init）
+额外实现了v1.1补丁"M6"方向分解（HDS_par/HDS_perp/cos_theta），并内置两个简并保护（重心结构完全相同、或HDS_norm方差为0则直接SystemExit）
+03/04（RLS/SCS，仅GSE227903）：RLS=FGW2(G_Dx,G_Relapse)；SCS=Σ_{i∈原始}Σ_{j∈免疫} frac_malignant[i](RAW)·weight_probsum[i,j]；统计仅用单侧Wilcoxon符号秩检验，无置换/bootstrap。代码注释明确这两个脚本是"H3的探索性double-check"，n=8/9样本量"诚实报告"（不假装有效力）。
+
+4. 🔍 预期一致性比对
+先确认了原始蓝图Phase 6原文（第145-151行，完整公式+R4条款）及两份补丁：v1.1的M8修订（Phase5-6）只动了节点特征的定义（3维→7语义块、块等权聚合），FGW公式本身、α扫描、unbalanced、重心算法、Sinkhorn、benchmark计划全部原样保留、未被修订；v1.2完全不涉及Phase 6。也就是说下面的多数偏离没有补丁背书。
+
+预期项	实际情况	判断
+α在{0,0.25,0.5,0.75,1}扫描，主设0.5	02_fgw_align.py本身只跑固定0.5（npz里alpha确认是0维标量，非数组）；真正的5点扫描存在，但被挪到了下一阶段08_scoring/06_alpha_sweep.py	⚠️ 扫描存在但不在07_fgw里，且其中alpha_sweep_uniform.csv是7月27日的stale版本，早于本次06/07的重跑
+节点缺失时用unbalanced FGW	没有调用ot.unbalanced，用的是eps-mass替代（缺失节点给1e-6质量，让balanced OT近似达到同等效果）；代码注释承认真正的fused_unbalanced_gromov_wasserstein"作为pairwise稳健性检验保留"（即：知道要做，还没做）	❌ 名义上的unbalanced FGW不存在，是一个有意的近似替代
+GW/FGW重心算法+Sinkhorn正则	重心算法有（ot.gromov.fgw_barycenters），但全文件零处使用Sinkhorn/entropic正则，全部是精确解	❌ Sinkhorn部分完全缺失
+sender/receiver节点拆分保证对称性	完全没有——symmetric=False贯穿所有OT调用，包括重心本身。这比代码自己"M6 DEVIATION, deliberate"注释承认的范围更大：那条注释只解释了"为什么用完整49维向量化而不是上三角"，但v1.1的M6方向分解设计（HDS_par/HDS_perp/cos_theta）前提是重心B_H/B_A本身仍是对称的（方向性只体现在患者相对两个固定对称重心的偏离向量上），而实际代码让重心自己也是有向的。也就是说代码的偏离比它自己注释里承认的更深一层	❌ 不一致，且比代码自陈的更严重
+节点特征包含MP活性向量、细胞丰度、hierarchy位置	实际进入FGW距离的特征仍是v1.0的3维原始版（frac_malignant, mean_stemness, n_cells），没有MP活性（04_cnmf的meta-program结果链路到07_fgw为止仍未被消费，与之前几步的发现一致）。v1.1补丁M8明确批评过"3维特征让FGW的融合项几乎不承载信息、等价于纯GW、α扫描会近乎平坦"——这正是v1.1想解决的方法学软肋，代码收集了120个候选特征弹药，但还没真正换弹（未选入FGW_FEATURES）	❌ 这是最核心的一条偏离：v1.1明确要求解决的问题，代码目前还没解决
+健康/AML barycenter在Main图固定节点词汇上算	完全按此实现，两个重心分别在排除sparse样本后的健康/AML子集上算，节点词汇固定7个bin	✅ 一致
+与Frobenius/cosine/纯Wasserstein做benchmark	07_fgw里完全没有找到	❌ 缺失（未检查08_scoring是否补上，需下一步确认）
+R4：样本级bootstrap CI	07_fgw没有（这本来就属于Phase 8范畴，08_scoring已存在但本次未审）	（待下一步核实）
+R4：置换零分布	07_fgw没有找到；03/04只用Wilcoxon符号秩检验，全文件零处出现permutation/bootstrap	❌ 缺失（同上，待08_scoring核实）
+R4：报告每条barycenter边的样本支持度	barycenter()函数只打印了贡献重心的样本总数（如n=len(Ch)），没有逐边（49条边分别有多少样本贡献了非零质量）的支持度输出	❌ 明确缺失
+额外发现：
+
+M6方向分解已经补上：你原始Phase 6文本本身没提M6，但v1.1补丁加了这个（HDS_par/HDS_perp/cos_theta），v1.2补丁（7月29日）里还写着"M6方向分数未建"——而我审的这份代码（8月27日）已经把它实现了，说明这块从v1.2之后有实质进展，值得记一笔正面进度。
+两处简并保护（重心完全相同/HDS_norm零方差时直接SystemExit）是对R4"重心被少数样本主导"担忧的一种轻量替代——能拦截彻底退化的极端情况，但不能像bootstrap CI/置换检验那样量化"有多稳健"，属于部分而非完整的应对。
+文档与磁盘不一致：03_rls_scs.py代码注释里写"n=8"配对患者，但paired_rls_scs.csv磁盘上实际是9行——需要确认是注释过期还是队列口径有变。
+沿用了之前几步反复出现的纪律：特征/时间点词汇从fgw_vocab.json加载而非硬编码（防止此前发生过的"34/214样本因CANONICAL_TIMEPOINTS迁移被硬编码常量默默丢弃"事故重演）；插补率超限硬停；写文件前先做词汇校验（此前也发生过"校验放在写文件之后，导致一套完整但词汇过期的输出文件躺在磁盘上、还带着非零退出码"的历史bug，现已修复顺序）。
+
+08_scoring 审计报告
+1. 📥 Input
+全部10个脚本只读FAST，零LARGE1：主要来自07_fgw/（fgw_edges_long.csv/fgw_nodes_long.csv/fgw_input_index.csv/fgw_vocab.json/patient_scores.csv）、06_distance/edge_distance.csv、05_ccc/ccc_node_features.csv。唯一例外：07_feature_decomposition.py会在--split discovery|validation时读取01_preprocess/02_sample_split.csv——这是全流程（00_ingest到08_scoring）目前发现的唯一一处真正连到Discovery/Validation 70/30划分代码路径的地方。
+
+2. 📤 Output
+10个CSV + block_null.npz，全部落在FAST/results/tables/08_scoring/，无LARGE1需求（合理）。两个sbatch（02_submit_permutation/03_submit_block_permutation）都是单任务（无--array），--no-requeue（因为置换循环没有断点续算）。时间戳链条干净（08-27 10:0414:17，晚于07_fgw的08-27 10:0310:04），唯一例外是alpha_sweep_uniform.csv（7月27日，stale，与results_v1里的版本字节级相同，证实本轮从未重跑过）。
+
+3. ⚙️ 代码内容与参数
+这是目前审过的所有阶段里最大的一个诊断集合，核心是反复复用同一套"FGW barycenter + Frisch-Waugh-Lovell偏回归 + 置换检验"框架（每个脚本各自本地重新实现一遍，非共享库），固定SEED=491638：
+
+脚本	一句话作用	关键参数
+01_h2_blast_regression.py	H2核心检验：HDS_clean ~ blast_proxy + is_aml，LOO去循环，标签置换	n_perm=2000；blast_proxy=HSC_MPP+LMPP_GMP+Mono_DC细胞比例（非inferCNV）
+05_h2_platform_control.py	给H2加数据集固定效应+组内置换（R6部分防线）	n_perm=10000；引用04的发现"0/49边在平台控制后显著"
+02_permutation_emergent.py	逐边(49)置换检验AML-健康barycenter差异，+跨数据集符号一致性投票	n_perm=500（sbatch覆盖为2000）；is_emergent=(perm_p<0.05)&(n_concordant≥2)——用未校正的perm_p而非同时算出的BH-q
+03_block_permutation.py	把49边聚成5个预设边组（非study/platform分组）重算置换检验找功效	n_perm=10000（磁盘block_null.npz确认真实是10000×5，不是100）
+04_edge_regression.py	用113个样本（非barycenter坍缩）做逐边回归，含数据集分层置换	n_perm=10000；"robust"边=global+strat都显著且同号
+06_alpha_sweep.py	预注册α∈{0,0.25,0.5,0.75,1}×质量模式扫描——R5的决定性检验	α=1(纯拓扑)得到p=0.271/0.966，说明信号在特征项而非拓扑
+07_feature_decomposition.py	逐特征(3核心+7候选+~114 panel)拆解到底哪个特征驱动H2信号；首个使用Discovery/Validation split的脚本	panel内BH-FDR；核心5个不做多重校正
+08_raw_vs_rank.py	比较raw log1p(weight)与rank C两套指标的逐边/整体检验	不是log-based C，只是敏感性对照，代码自己承认"不是蓝图specified的rank-vs-log C一致性检验"
+09_clr_redistribution.py	对49边做CLR变换，检验08发现的raw信号是"真重排"还是"全局尺度漂移"	结论：44/49边同方向升高=尺度漂移，非重排——验证了rank变换的合理性
+10_planted_effect_power.py	合成阳性对照功效标定：植入已知效应量，测最小可检测delta	deltas={0,.25,.5,1,2,4}, ks={1,3,6}；内置2个强制自检（reimplementation必须bit-for-bit复现06_distance的C；delta=0必须复现06_alpha_sweep存档数字）
+4. 🔍 预期一致性比对
+先确认蓝图Phase 8原文（"### Phase 8 — 稳健性与交叉验证"5条）及R4/R6/R8条款，以及v1.1/v1.2补丁对Phase 8的全部修订。结论：绝大多数v1.0原始Phase 8清单条目在代码里完全找不到，但代码里也确实存在几个方法上更扎实、只是形式不同的替代方案。
+
+蓝图要求	实际情况	判断
+拓扑扰动：边丢弃30%+节点遮蔽20%，100次bootstrap，高质量边≥70%恢复率	全盘检索dropout/mask/perturb/recovery零命中（唯一命中是一张无关的doublet QC图）	❌ 完全不存在
+样本级bootstrap：80%子集重算重心(n=100)，输出边级CI	全盘检索bootstrap/edge_ci零命中	❌ 完全不存在——这是R4指名要的交付物，目前彻底缺失
+外部验证：Validation重心 vs Discovery重心的FGW距离	完全不存在。feature_decomposition.csv确实有split列、代码里也确实实现了--split discovery|validation分支，但磁盘上252行结果的split列清一色是"all"——这是"基础设施建了、从未真正跑过"的最直接证据	❌ 代码路径存在，从未执行
+emergent边独立复现检验	02_permutation_emergent.py用的是跨数据集符号一致性投票（≥2个AML数据集同向），不是Discovery/Validation外部复现	⚠️ 用了一个合理但不同的替代机制
+平台/批次稳健性：平台+study作随机效应；rank vs log两种C一致性	全部"平台控制"实现方式是数据集哑变量固定效应+组内分层置换（04/05/08/09/06都是这个模式），没有一处是真正的混合效应/随机效应模型；rank-vs-log检验不存在（06_distance从没有log-based C），代替它的是08(raw-vs-rank)+09(CLR重排检验)——这两个反而更细致，但检验的是不同的问题	❌ 随机效应模型缺失；log-based C对照缺失（有替代但非同一检验）
+空间交叉检验（可选，Xenium/Visium）	全盘检索zero命中，FAST和LARGE1都没有任何空间数据	❌ 缺失（v1.0标"可选"，但v1.2补丁已把这项升级为"必需验证"——用于M10 co-option分析，所以现在的缺失比原始文本看起来更重）
+R4六条要求（固定词汇/unbalanced FGW/bootstrap CI/置换零分布/vs简单距离benchmark/每边样本支持度）	固定词汇✅(07_fgw已做)；unbalanced FGW❌(eps-mass替代)；bootstrap CI❌(不存在)；置换零分布✅✅✅(这是全阶段做得最扎实的一条，几乎每个脚本都有)；vs简单距离benchmark❌(仍未找到)；每边样本支持度❌(仍未找到)	6条里1条扎实+1条上游已做+4条缺失
+R6五重防线（study级train/val划分/跨队列复现/平台协变量/rank不变性/置换零分布）	train/val划分⚠️(基础设施在，未真正跑)；跨队列复现⚠️(用跨数据集投票代替)；平台协变量✅(多处扎实实现)；rank不变性✅(08+09更细致地做了)；置换零分布✅(全阶段最强项)	R6是覆盖最好的条款：3/5扎实，2/5是"建了但没跑"
+R8（cNMF K共识/恶性细胞下限/回退仅hierarchy不依赖MP）	不是08_scoring的职责范围；"回退不依赖MP"这一条自动满足，因为MP特征从07_fgw起就从未被接入FGW距离（此前几步已确认）	（非本阶段问题，顺带满足）
+额外发现：
+
+v1.1/v1.2补丁新增的Phase 8模块（M9接收端生物学证伪检验、S9功能轴归属稳健性、S10特征块消融、M10 co-option零模型）在08_scoring里一个都找不到——但这与补丁自己的状态说明一致（v1.2明确写"scripts/09_robustness/05_cooption_null.py # M10零模型，待建"），说明这些是补丁自己也承认"还没做"的未来工作，不算意外的缺口。
+block_null.npz实测是10000次置换×5个边组，不是蓝图Phase 8(b)提到的"n=100"——这里要提醒一下：n=10000是标签置换次数，蓝图的"n=100"说的是样本子集bootstrap重算重心的次数，这是两个不同的稳健性概念，不要把"10000次置换已做"误读成"100次bootstrap的替代已经完成"。
+10_planted_effect_power.py是一个蓝图完全没要求、但方法上很扎实的额外工作：合成阳性对照功效标定，代码自己记录了一次真实抓到的harness bug（乘法模式无法移动结构性为零的边，之前版本会误报"管线测不出拓扑信号"）。这类自我修正的工程文化在这个阶段反复出现，是好现象。
+代码重复是个可维护性隐患：build_one/barycenter/fgw2/fwl_perm这套核心逻辑在10个脚本里几乎每个都本地重新实现了一遍（而非从07_fgw或一个共享模块import），意味着将来任何一处修复都需要人工同步到其余9份拷贝。
+稀疏样本(sparse_flag)处理口径不统一：06_alpha_sweep.py只在建重心时排除稀疏样本（打分时仍包含），08_raw_vs_rank.py默认把稀疏样本从整个队列里剔除——同一个边界条件两个姊妹脚本处理方式不同。
+emergent_edges.csv的is_emergent标志用的是未经多重比较校正的原始perm_p<0.05，尽管BH-q_bh同时被计算并写入了表格——如果下游引用"emergent边"列表时假设它已经过FDR校正，会产生误解。
