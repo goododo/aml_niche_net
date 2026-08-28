@@ -26,7 +26,8 @@
 # INPUT  : <root>/07_fgw/fgw_{nodes,edges,input_index}_long.csv
 # OUTPUT : <root>/08_scoring/alpha_sweep.csv  (per alpha: beta/p for both models + group means)
 # Usage  : python scripts/08_scoring/06_alpha_sweep.py [--n_perm 10000] [--alphas 0,0.25,0.5,0.75,1]
-import argparse, os
+import argparse, hashlib, os, warnings
+from contextlib import contextmanager
 import sys
 import numpy as np
 import pandas as pd
@@ -53,7 +54,17 @@ ap.add_argument("--max_iter",type=int,default=1000)
 # retains through the masses, so alpha=1 + uniform is the fully cell-count-free topology test.
 ap.add_argument("--mass_mode",choices=["ncells","uniform"],default="ncells")
 ap.add_argument("--out",default="alpha_sweep.csv")
-args=ap.parse_args(); rng=np.random.default_rng(SEED)
+args=ap.parse_args()
+# ONE INDEPENDENT PERMUTATION STREAM PER TEST, keyed on the test's stable identity (alpha, mass mode,
+# model) and never on loop position. With a single shared module-level rng a given alpha's p depended
+# on how many alphas ran before it: --alphas 0.5 and --alphas 0,0.25,0.5 gave p_strat 0.03598 vs
+# 0.03998 with beta bit-identical. MASS_MODE is in the key so that the --mass_mode uniform run is a
+# genuinely independent control rather than sharing the ncells run's Monte-Carlo error.
+# Do NOT "fix" this by reseeding one rng inside the loop: that gives every test the SAME permutations,
+# which is worse. And do not key on the loop INDEX -- inserting an alpha ahead of another would then
+# silently re-roll every p below it.
+def _lab(s): return int.from_bytes(hashlib.blake2b(s.encode(),digest_size=8).digest(),"big")
+def _rng(alpha,mass_mode,model): return np.random.default_rng([SEED,_lab(f"{alpha:g}|{mass_mode}|{model}")])
 MASS_MODE=args.mass_mode; EPS_MASS=1e-6
 ALPHAS=[float(x) for x in args.alphas.split(",")]
 D_FGW=os.path.join(args.root,"07_fgw"); D_OUT=os.path.join(args.root,"08_scoring"); os.makedirs(D_OUT,exist_ok=True)
@@ -92,21 +103,33 @@ def build_one(ds,smp):
     p=p/p.sum()
     _cache[k]=(C,F,p); return _cache[k]
 
+# Silence ONLY the expected POT alpha=0 log-term 0/0, and only at the two call sites that raise it.
+# Not process-wide: a blanket warnings.filterwarnings would also hide overflow or an invalid value in
+# our own arithmetic, and the chain gates on unexpected warnings in this log.
+@contextmanager
+def pot_quiet():
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=RuntimeWarning, message="divide by zero encountered")
+        warnings.filterwarnings("ignore", category=RuntimeWarning, message="invalid value encountered")
+        yield
+
 def barycenter(keys,alpha):
     Cs=[];Fs=[];ps=[]
     for k in keys:
         C,F,p=build_one(*k); Cs.append(C);Fs.append(F);ps.append(p)
     m=len(Cs); n=7
-    out=ot.gromov.fgw_barycenters(n,Fs,Cs,ps,lambdas=[1.0/m]*m,alpha=alpha,loss_fun="square_loss",
-        symmetric=False,max_iter=args.max_iter,p=np.ones(n)/n,init_C=np.mean(np.stack(Cs),0),
-        init_X=np.mean(np.stack(Fs),0),random_state=SEED,log=True)
+    with pot_quiet():
+        out=ot.gromov.fgw_barycenters(n,Fs,Cs,ps,lambdas=[1.0/m]*m,alpha=alpha,loss_fun="square_loss",
+            symmetric=False,max_iter=args.max_iter,p=np.ones(n)/n,init_C=np.mean(np.stack(Cs),0),
+            init_X=np.mean(np.stack(Fs),0),random_state=SEED,log=True)
     return np.asarray(out[1]),np.asarray(out[0]),np.ones(n)/n
 
 def fgw2(C,F,p,Cb,Fb,pb,alpha):
     M=ot.dist(F,Fb); mx=M.max()
     M=M/(mx+1e-9) if mx>0 else M
-    return float(ot.gromov.fused_gromov_wasserstein2(M,C,Cb,p,pb,loss_fun="square_loss",
-                                                     alpha=alpha,symmetric=False))
+    with pot_quiet():
+        return float(ot.gromov.fused_gromov_wasserstein2(M,C,Cb,p,pb,loss_fun="square_loss",
+                                                         alpha=alpha,symmetric=False))
 
 ## -- cohort definition (identical to 08/01) ----
 d=idx.copy()
@@ -163,14 +186,14 @@ for alpha in ALPHAS:
     dd["HDS"]=[hds[(r.dataset,r["sample"])] for _,r in dd.iterrows()]
     y=dd["HDS"].to_numpy(float); a=dd["is_aml"].to_numpy(float)
     X0=np.column_stack([np.ones(len(dd)),dd["blast_proxy"].to_numpy(float)])
-    bA,pA=fwl_perm(y,X0,a,None,args.n_perm,rng)
+    bA,pA=fwl_perm(y,X0,a,None,args.n_perm,_rng(alpha,MASS_MODE,"global"))
 
     both=[ds for ds,g in dd.groupby("dataset") if g.is_aml.nunique()==2]
     db=dd[dd.dataset.isin(both)].reset_index(drop=True)
     yb=db["HDS"].to_numpy(float); ab=db["is_aml"].to_numpy(float)
     dums=pd.get_dummies(db["dataset"],drop_first=True).to_numpy(float)
     X0b=np.column_stack([np.ones(len(db)),db["blast_proxy"].to_numpy(float),dums])
-    bB,pB=fwl_perm(yb,X0b,ab,db["dataset"].to_numpy(),args.n_perm,rng)
+    bB,pB=fwl_perm(yb,X0b,ab,db["dataset"].to_numpy(),args.n_perm,_rng(alpha,MASS_MODE,"strat"))
 
     rows.append(dict(alpha=alpha,status="ok",n_global=len(dd),n_strat=len(db),
                      mean_healthy=float(y[a==0].mean()),mean_aml=float(y[a==1].mean()),

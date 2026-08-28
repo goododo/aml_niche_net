@@ -118,6 +118,17 @@ stopifnot(SCALE_MODE %in% c("global_z", "within_sample_rank"))
 message("[3] feature scaling: ", SCALE_MODE,
         if (SCALE_MODE != FGW_FEATURE_SCALE) paste0("  (config default is ", FGW_FEATURE_SCALE, ")") else "")
 
+# PROMOTE INTEGER FEATURE COLUMNS TO DOUBLE BEFORE SCALING. Both branches below assign a fractional
+# value back into the SAME column. Under the grouped `:=` of the within_sample_rank branch, data.table
+# sub-assigns in place and TRUNCATES toward zero on an integer column instead of promoting it. n_cells
+# is integer, so its rank-percentile (-0.714 ... +1.0) collapsed to {0, 1}: production
+# fgw_nodes_long.csv carried exactly 138 ones -- one per sample -- making n_cells a "which bin is
+# largest" one-hot rather than a rank. global_z has no `by=` and silently escaped this, so the bug
+# existed ONLY in the scaling that production actually used.
+for (fcol in ALL_FEATURES)
+  if (!is.double(feat[[fcol]])) set(feat, j = fcol, value = as.numeric(feat[[fcol]]))
+n_distinct_raw <- vapply(ALL_FEATURES, function(f) length(unique(feat[[f]])), integer(1))
+
 zpar <- list()
 for (fcol in ALL_FEATURES) {
   mu <- mean(feat[[fcol]], na.rm = TRUE); sdv <- sd(feat[[fcol]], na.rm = TRUE)
@@ -132,6 +143,29 @@ for (fcol in ALL_FEATURES) {
     feat[, (fcol) := (frank(get(fcol), ties.method = "average") / .N - 0.5) * 2, by = .(dataset, sample)]
   }
   zpar[[fcol]] <- c(mean = mu, sd = sdv, n_imputed = n_na)
+}
+# DID THE ASSIGNMENT LOSE PRECISION? Not "did the distinct count drop" -- under within_sample_rank it
+# MUST drop, because 7 bins admit only 13 possible rank positions and 907 raw values legitimately
+# collapse onto them. The failure mode is narrower: a fractional value written back into an integer
+# column, which truncates instead of promoting. Two checks catch exactly that and nothing else.
+.stillint <- vapply(ALL_FEATURES, function(f) !is.double(feat[[f]]), logical(1))
+if (any(.stillint))
+  stop("scaling left column(s) integer-typed, so every value was truncated: ",
+       paste(names(which(.stillint)), collapse = ", "))
+if (SCALE_MODE == "within_sample_rank") {
+  # A rank over 7 bins with any within-sample variation lands on >= 7 distinct positions cohort-wide
+  # (13 with tie averages). The truncation bug produced exactly 2 ({0, 1}). A feature that is
+  # genuinely constant within every sample is the one honest way to sit below 5, so name it.
+  .nd <- vapply(ALL_FEATURES, function(f) length(unique(feat[[f]])), integer(1))
+  .flat <- .nd < 5L & n_distinct_raw >= 5L
+  if (any(.flat)) {
+    .bad <- names(which(.flat))
+    .msg <- paste0(sprintf("      %s: %d raw values -> %d rank positions",
+                           .bad, n_distinct_raw[.bad], .nd[.bad]), collapse = "\n")
+    if (length(intersect(.bad, FEATURES)))
+      stop("rank scaling produced too few positions for an in-use feature:\n", .msg)
+    warning("rank scaling produced too few positions for candidate feature(s):\n", .msg, call. = FALSE)
+  }
 }
 # With ~120 candidates the old per-feature listing is unreadable, so print the in-use features in
 # full and summarise the candidates by family. What must never be silent is the IMPUTATION rate:

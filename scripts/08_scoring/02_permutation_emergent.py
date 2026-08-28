@@ -138,13 +138,26 @@ order=res["perm_p"].rank(method="first").astype(int); m=len(res)
 res=res.sort_values("perm_p").reset_index(drop=True)
 res["q_bh"]=(res["perm_p"]*m/(np.arange(1,m+1))).clip(upper=1.0)
 res["q_bh"]=res["q_bh"][::-1].cummin()[::-1]
-res["is_emergent"]=(res["perm_p"]<0.05)&(res["n_concordant"]>=2)
+# THE VERDICT USES q_bh, NOT perm_p. 49 edges are tested at once; the BH correction is computed two
+# lines up and used to be discarded here, so "emergent" meant "uncorrected p < 0.05" -- a label that
+# 2.45 edges earn by chance. That is not hypothetical: the count on disk went 5 -> 1 -> 5 across three
+# runs of this script while the corrected answer was 0 every time. Keep the uncorrected column so the
+# nominal count stays visible, but do not let it name anything.
+res["is_nominal"]=(res["perm_p"]<0.05)&(res["n_concordant"]>=2)
+res["is_emergent"]=(res["q_bh"]<0.05)&(res["n_concordant"]>=2)
 res.to_csv(os.path.join(D_OUT,"emergent_edges.csv"),index=False)
 
-n_sig=int((res.perm_p<0.05).sum()); n_emg=int(res.is_emergent.sum())
-print(f"\n[4] edges: perm-significant(p<0.05)={n_sig} | ALSO cross-dataset-reproducible(>=2)= EMERGENT ={n_emg}")
-print("[4] EMERGENT edges (perm-sig + >=2 datasets concordant):")
-em=res[res.is_emergent].sort_values("dC_real")
+n_sig=int((res.perm_p<0.05).sum()); n_nom=int(res.is_nominal.sum()); n_emg=int(res.is_emergent.sum())
+print(f"\n[4] edges of {len(res)}: nominally significant (uncorrected p<0.05) = {n_sig}"
+      f"  [expected by chance at this cutoff: {0.05*len(res):.1f}]")
+print(f"[4]   ...of those, cross-dataset-concordant(>=2) = {n_nom}   <- NOMINAL, not a result")
+print(f"[4] EMERGENT (BH q<0.05 AND >=2 datasets concordant) = {n_emg}")
 cols=["sender_bin","receiver_bin","dC_real","direction","perm_p","q_bh","n_concordant"]
-print(em[cols].round(4).to_string(index=False) if len(em) else "    (none)")
+em=res[res.is_emergent].sort_values("dC_real")
+print(em[cols].round(4).to_string(index=False) if len(em) else "    (none survive correction)")
+if n_emg==0 and n_nom>0:
+    print(f"\n[4] The {n_nom} nominal edge(s), shown ONLY so the gap between the two counts is visible.")
+    print("    They do not survive multiple-testing correction and must not be reported as findings:")
+    print(res[res.is_nominal].sort_values("perm_p")[cols].round(4).to_string(index=False))
+    print(f"    smallest q_bh over all {len(res)} edges = {res.q_bh.min():.4f}")
 print(f"\n[done] wrote {os.path.join(D_OUT,'emergent_edges.csv')}")

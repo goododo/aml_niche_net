@@ -31,7 +31,7 @@
 # INPUT  : <root>/06_distance/edge_distance.csv , <root>/07_fgw/fgw_{nodes,input_index}_long.csv
 # OUTPUT : <root>/08_scoring/planted_effect_power.csv
 # Usage  : python scripts/08_scoring/10_planted_effect_power.py [--deltas 0,0.25,0.5,1,2,4] [--ks 1,3,6]
-import argparse, os, sys, warnings
+import argparse, hashlib, os, sys, warnings
 import numpy as np
 import pandas as pd
 import ot
@@ -62,7 +62,20 @@ args = ap.parse_args()
 DELTAS = [float(x) for x in args.deltas.split(",")]
 KS = [int(x) for x in args.ks.split(",")]
 MODES = [m.strip() for m in args.modes.split(",")]
-rng = np.random.default_rng(SEED)
+# ONE INDEPENDENT PERMUTATION STREAM PER TEST, keyed on WHAT THE TEST ACTUALLY DEPENDS ON.
+# The shared module-level rng this replaces made a cell's p depend on how many cells ran before it,
+# and it broke the null self-check below in a way nothing was watching.
+#
+# _spec IS THE POINT. At delta = 0 nothing is planted -- Wp is W_NP untouched, so Cm is bit-identical
+# across every mode x k. Those six rows are therefore THE SAME TEST ON THE SAME DATA and must agree.
+# With a shared stream they did not: the shipped table reported 4 distinct omni_p (0.964018 /
+# 0.971014 / 0.971514 / 0.972514) and 2 distinct edge_min_p per k, on rows whose mean_abs_dC was
+# exactly 0.0. Collapsing the key at delta = 0 is not a convenience -- it is what turns those rows
+# into a free, always-on null control: omni_p must be ONE value, and edge_min_p ONE value per k
+# (the k subsets differ, so their minima legitimately do).
+def _lab(s): return int.from_bytes(hashlib.blake2b(s.encode(), digest_size=8).digest(), "big")
+def _rng(label): return np.random.default_rng([SEED, _lab(label)])
+def _spec(mode, k, delta): return "null" if delta == 0 else f"{mode}|{k}|{delta:g}"
 
 D_DIST = os.path.join(args.root, "06_distance")
 D_FGW  = os.path.join(args.root, "07_fgw")
@@ -164,7 +177,7 @@ def fgw2(C, p, Cb, Fb, alpha):
     return float(ot.gromov.fused_gromov_wasserstein2(M, C, Cb, p, np.ones(7)/7,
                                                      loss_fun="square_loss", alpha=alpha, symmetric=False))
 
-def fwl_perm(y, X0, a, groups, n_perm):
+def fwl_perm(y, X0, a, groups, n_perm, rng):
     Q, _ = np.linalg.qr(X0)
     res = lambda v: v - Q @ (Q.T @ v)
     ry = res(y); ra = res(a); den = float(ra @ ra)
@@ -189,7 +202,7 @@ def bh(pv):
         run = min(run, p[o[i]] * n / (i+1)); q[o[i]] = run
     return q
 
-def omnibus_alpha1(Cmat):
+def omnibus_alpha1(Cmat, spec):
     """alpha=1 pure GW: healthy barycenter (LOO for healthy) + within-dataset regression."""
     Cby = mats(Cmat)
     heal_all = [k for k, a in zip(KEY, d.is_aml) if a == 0]
@@ -208,10 +221,10 @@ def omnibus_alpha1(Cmat):
     yb = y[mask_both]; ab = a[mask_both]
     dums = pd.get_dummies(db["dataset"], drop_first=True).to_numpy(float)
     X0b = np.column_stack([np.ones(len(db)), db["blast_proxy"].to_numpy(float), dums])
-    b, p = fwl_perm(yb, X0b, ab, db["dataset"].to_numpy(), args.n_perm)
+    b, p = fwl_perm(yb, X0b, ab, db["dataset"].to_numpy(), args.n_perm, _rng(f"omni|{spec}"))
     return float(y[a == 0].mean()), float(y[a == 1].mean()), b, p
 
-def per_edge(Cmat, planted):
+def per_edge(Cmat, planted, spec):
     """within-dataset per-edge regression, BH over all 49 -- the same test 04_edge_regression runs."""
     db = d[sel].reset_index(drop=True)
     dums = pd.get_dummies(db["dataset"], drop_first=True).to_numpy(float)
@@ -219,7 +232,7 @@ def per_edge(Cmat, planted):
     ab = db.is_aml.to_numpy(float); gb = db["dataset"].to_numpy()
     ps = []
     for j in range(len(EDGES)):
-        _, p = fwl_perm(Cmat[sel, j], X0, ab, gb, args.n_perm)
+        _, p = fwl_perm(Cmat[sel, j], X0, ab, gb, args.n_perm, _rng(f"peredge|{spec}|{EDGES[j]}"))
         ps.append(p)
     q = bh(ps)
     ji = [EDGES.index(e) for e in planted]
@@ -257,8 +270,9 @@ for mode in MODES:
             dC = np.abs(Cm[np.ix_(AMLROW, ji)] - C0[np.ix_(AMLROW, ji)])
             frac_moved = float((dC > 0).mean()); mean_dC = float(dC.mean())
 
-            p_edge, q_edge, n_pl_sig, n_any_sig = per_edge(Cm, planted)
-            mh, ma, b_om, p_om = omnibus_alpha1(Cm)
+            spec = _spec(mode, k, delta)
+            p_edge, q_edge, n_pl_sig, n_any_sig = per_edge(Cm, planted, spec)
+            mh, ma, b_om, p_om = omnibus_alpha1(Cm, spec)
             rows.append(dict(mode=mode, k=k, delta=delta, planted=";".join(planted),
                              frac_cells_moved=frac_moved, mean_abs_dC=mean_dC,
                              edge_min_p=p_edge, edge_min_q=q_edge,

@@ -27,7 +27,7 @@
 # INPUT  : <root>/07_fgw/fgw_{nodes,edges,input_index}_long.csv
 # OUTPUT : <root>/08_scoring/feature_decomposition.csv
 # Usage  : python scripts/08_scoring/07_feature_decomposition.py [--n_perm 10000]
-import argparse, os, warnings
+import argparse, hashlib, os, warnings
 import sys
 import numpy as np
 import pandas as pd
@@ -38,7 +38,22 @@ import ot
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
 from fgw_vocab import load_vocab, load_features, assert_index_covered
 
-warnings.filterwarnings("ignore", category=RuntimeWarning)   # alpha=0 divide-by-zero in POT's log term only
+# SUPPRESS THE POT alpha=0 DIVIDE-BY-ZERO AT THE CALL SITE, NOT PROCESS-WIDE. The previous line here
+# was a module-level warnings.filterwarnings("ignore", RuntimeWarning), which silenced the expected
+# ot/gromov/_gw.py log-term 0/0 at alpha=0 AND every other RuntimeWarning in the process -- overflow,
+# invalid value in our own arithmetic, a numpy division we did not intend. A blanket filter is how an
+# honest "expected warning" note turns into a blindfold. This context manager covers only the two POT
+# entry points that actually raise it; anything else still reaches the log, where the chain's
+# gate_no_warnings can act on it.
+from contextlib import contextmanager
+@contextmanager
+def pot_quiet():
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=RuntimeWarning,
+                                message="divide by zero encountered")
+        warnings.filterwarnings("ignore", category=RuntimeWarning,
+                                message="invalid value encountered")
+        yield
 
 FGW_NODES=["HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK","B_Plasma"]
 ALL_FEATURES=["frac_malignant","mean_stemness","n_cells"]
@@ -116,7 +131,16 @@ ap.add_argument("--split_csv",default=None,
 ap.add_argument("--subsets",default="all",choices=["core","candidates","panels","all"],
                 help="core = the 3 features in FGW_FEATURES; candidates = FGW_CANDIDATE_FEATURES")
 ap.add_argument("--max_iter",type=int,default=1000)
-args=ap.parse_args(); rng=np.random.default_rng(SEED)
+args=ap.parse_args()
+# ONE RNG PER (alpha, subset, model), KEYED ON A STABLE LABEL. A single shared stream made a subset's
+# permutation p depend on how many subsets ran before it: --subsets panels and --subsets all disagreed
+# on 113 of 114 panel p_strat (median |dp|=0.0030, max 0.0135) while beta was bit-identical, and that
+# flipped 3 BH-FDR verdicts on 2026-08-26. Keying on the LOOP INDEX would fix the symptom and
+# reintroduce the bug the moment SUBSETS is reordered or a subset is inserted ahead of another; keying
+# on the label survives both. Do NOT "fix" this by reseeding one rng inside the loop -- that makes
+# every subset share the same permutations, which is a worse bug (see test T3 below).
+def _lab(s): return int.from_bytes(hashlib.blake2b(s.encode(),digest_size=8).digest(),"big")
+def _rng(alpha,name,model): return np.random.default_rng([SEED,_lab(f"{alpha:g}|{name}|{model}")])
 ALPHAS=[float(x) for x in args.alphas.split(",")]
 D_FGW=os.path.join(args.root,"07_fgw"); D_OUT=os.path.join(args.root,"08_scoring"); os.makedirs(D_OUT,exist_ok=True)
 _VOCAB = load_vocab(D_FGW)
@@ -188,14 +212,16 @@ def barycenter(keys,alpha,feats):
     for k in keys:
         C,F,p=build_one(*k,feats); Cs.append(C);Fs.append(F);ps.append(p)
     m=len(Cs); n=7
-    out=ot.gromov.fgw_barycenters(n,Fs,Cs,ps,lambdas=[1.0/m]*m,alpha=alpha,loss_fun="square_loss",
-        symmetric=False,max_iter=args.max_iter,p=np.ones(n)/n,init_C=np.mean(np.stack(Cs),0),
-        init_X=np.mean(np.stack(Fs),0),random_state=SEED,log=True)
+    with pot_quiet():
+        out=ot.gromov.fgw_barycenters(n,Fs,Cs,ps,lambdas=[1.0/m]*m,alpha=alpha,loss_fun="square_loss",
+            symmetric=False,max_iter=args.max_iter,p=np.ones(n)/n,init_C=np.mean(np.stack(Cs),0),
+            init_X=np.mean(np.stack(Fs),0),random_state=SEED,log=True)
     return np.asarray(out[1]),np.asarray(out[0]),np.ones(n)/n
 
 def fgw2(C,F,p,Cb,Fb,pb,alpha):
     M=ot.dist(F,Fb); mx=M.max(); M=M/(mx+1e-9) if mx>0 else M
-    return float(ot.gromov.fused_gromov_wasserstein2(M,C,Cb,p,pb,loss_fun="square_loss",alpha=alpha,symmetric=False))
+    with pot_quiet():
+        return float(ot.gromov.fused_gromov_wasserstein2(M,C,Cb,p,pb,loss_fun="square_loss",alpha=alpha,symmetric=False))
 
 def fwl_perm(y,X0,a,groups,n_perm,rng):
     Q,_=np.linalg.qr(X0)
@@ -270,13 +296,13 @@ for alpha in ALPHAS:
         dd=d.copy(); dd["HDS"]=[hds[(r.dataset,r["sample"])] for _,r in dd.iterrows()]
         y=dd["HDS"].to_numpy(float); a=dd["is_aml"].to_numpy(float)
         X0=np.column_stack([np.ones(len(dd)),dd["blast_proxy"].to_numpy(float)])
-        bA,pA=fwl_perm(y,X0,a,None,args.n_perm,rng)
+        bA,pA=fwl_perm(y,X0,a,None,args.n_perm,_rng(alpha,name,"global"))
         both=[ds for ds,g in dd.groupby("dataset") if g.is_aml.nunique()==2]
         db=dd[dd.dataset.isin(both)].reset_index(drop=True)
         yb=db["HDS"].to_numpy(float); ab=db["is_aml"].to_numpy(float)
         dums=pd.get_dummies(db["dataset"],drop_first=True).to_numpy(float)
         X0b=np.column_stack([np.ones(len(db)),db["blast_proxy"].to_numpy(float),dums])
-        bB,pB=fwl_perm(yb,X0b,ab,db["dataset"].to_numpy(),args.n_perm,rng)
+        bB,pB=fwl_perm(yb,X0b,ab,db["dataset"].to_numpy(),args.n_perm,_rng(alpha,name,"strat"))
         rows.append(dict(alpha=alpha,feature_set=name,features="+".join(feats),
                          mean_healthy=float(y[a==0].mean()),mean_aml=float(y[a==1].mean()),
                          beta_global=bA,p_global=pA,beta_strat=bB,p_strat=pB))

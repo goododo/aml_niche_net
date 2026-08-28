@@ -32,7 +32,7 @@
 # INPUT  : <root>/06_distance/edge_distance.csv (weight_probsum + C) , <root>/07_fgw/fgw_{nodes,input_index}_long.csv
 # OUTPUT : <root>/08_scoring/raw_vs_rank.csv (per-edge results) + printed omnibus table
 # Usage  : python scripts/08_scoring/08_raw_vs_rank.py [--n_perm 10000]
-import argparse, os
+import argparse, hashlib, os
 import sys
 import numpy as np
 import pandas as pd
@@ -52,7 +52,14 @@ ap=argparse.ArgumentParser()
 ap.add_argument("--root",default=DEFAULT_ROOT)
 ap.add_argument("--n_perm",type=int,default=10000)
 ap.add_argument("--include_sparse",action="store_true")
-args=ap.parse_args(); rng=np.random.default_rng(SEED)
+args=ap.parse_args()
+# ONE INDEPENDENT PERMUTATION STREAM PER (matrix, model) TEST, keyed on identity not loop position.
+# With a single shared module-level rng, swapping the order of the two matrices in the loop below
+# moved all 49 edges' q (max |dq| 0.122 at n_perm=2000) with every beta bit-identical. Nothing in the
+# script reorders those two today, so this changes no conclusion -- it is here so the file cannot
+# acquire the defect the moment someone adds a third matrix, and so it matches 07_feature_decomposition.
+def _lab(s): return int.from_bytes(hashlib.blake2b(s.encode(),digest_size=8).digest(),"big")
+def _rng(label,model): return np.random.default_rng([SEED,_lab(f"{label}|{model}")])
 D_DIST=os.path.join(args.root,"06_distance"); D_FGW=os.path.join(args.root,"07_fgw")
 D_OUT=os.path.join(args.root,"08_scoring"); os.makedirs(D_OUT,exist_ok=True)
 _VOCAB = load_vocab(D_FGW)
@@ -129,6 +136,21 @@ def bh(p):
     q[o]=np.minimum.accumulate((p[o]*M/np.arange(1,M+1))[::-1])[::-1]
     return np.clip(q,0,1)
 
+def bh_undecided(p,n_perm,alpha=0.05):
+    """How many of the M BH memberships are Monte-Carlo coin flips at this n_perm.
+
+    A COUNT OF SIGNIFICANT EDGES IS A STEP FUNCTION of the p-vector, so any p within sampling reach
+    of its own BH threshold flips the count between reruns. A permutation p carries sd
+    sqrt(p(1-p)/n_perm); rank k is tested against k*alpha/M. Return how many sit within 2 sd of their
+    own threshold. This exists because the printed "global=5/49" was quoted as a result for weeks
+    while its n_perm->infinity value is 4: the 5th edge (HSC_MPP->Erythroid) has p = 0.005187 against
+    a rank-5 threshold of 0.005102, and across 200 seeds at n_perm=10000 the count ranged 2-6.
+    """
+    p=np.asarray(p); M=len(p); ps=np.sort(p)
+    thr=(np.arange(1,M+1)*alpha)/M
+    sd=np.sqrt(np.clip(ps,1e-12,None)*(1-ps)/max(n_perm,1))
+    return int((np.abs(ps-thr)<2*sd).sum())
+
 ## -- model matrices ----
 n=len(s); a=s["is_aml"].to_numpy(float)
 X0_glob=np.column_stack([np.ones(n),s["blast_proxy"].to_numpy(float)])
@@ -141,13 +163,15 @@ print(f"[2] within-dataset model uses {both} -> n={len(sb)}")
 
 results={}; omni_rows=[]
 for label,Y in (("raw_logweight",Y_raw),("rank_C",Y_rank)):
-    bG,pG,oG,poG=analyze(Y,X0_glob,a,None,args.n_perm,rng,label)
-    bS,pS,oS,poS=analyze(Y[mask],X0_strat,ab,sb["dataset"].to_numpy(),args.n_perm,rng,label)
+    bG,pG,oG,poG=analyze(Y,X0_glob,a,None,args.n_perm,_rng(label,"global"),label)
+    bS,pS,oS,poS=analyze(Y[mask],X0_strat,ab,sb["dataset"].to_numpy(),args.n_perm,_rng(label,"strat"),label)
     results[label]=dict(bG=bG,pG=pG,qG=bh(pG),bS=bS,pS=pS,qS=bh(pS))
     omni_rows.append(dict(matrix=label,model="global",stat=oG,p=poG,n=n))
     omni_rows.append(dict(matrix=label,model="within_dataset",stat=oS,p=poS,n=len(sb)))
-    print(f"[3] {label:14s} | per-edge q<0.05: global={int((bh(pG)<0.05).sum())}/49 "
-          f"within-ds={int((bh(pS)<0.05).sum())}/49 | OMNIBUS p: global={poG:.5f} within-ds={poS:.5f}",flush=True)
+    print(f"[3] {label:14s} | per-edge q<0.05: global={int((bh(pG)<0.05).sum())}/49"
+          f" (+{bh_undecided(pG,args.n_perm)} undecided at n_perm={args.n_perm})"
+          f" within-ds={int((bh(pS)<0.05).sum())}/49 (+{bh_undecided(pS,args.n_perm)} undecided)"
+          f" | OMNIBUS p: global={poG:.5f} within-ds={poS:.5f}",flush=True)
 
 rows=[]
 for j,e in enumerate(edge_cols):
@@ -166,6 +190,25 @@ print(om.round(5).to_string(index=False))
 print("\n[5] top 8 edges by raw-weight within-dataset q:")
 cols=["edge","raw_logweight_beta_strat","raw_logweight_q_strat","rank_C_beta_strat","rank_C_q_strat"]
 print(res[cols].head(8).round(5).to_string(index=False))
+
+# WHAT TO QUOTE, AND WHAT NOT TO. "N of 49 edges are significant" is the wrong summary: it is a step
+# function of 49 permutation p-values, so it moves between reruns without anything changing. The
+# omnibus test is the one the verdict below actually reads, it is a single test with no BH step to
+# straddle, and it was decisive in every replicate. Name the edges and give their q; quote the
+# omnibus p as the result.
+print("\n[5b] REPORT THESE, not a bare count:")
+for label in results:
+    R=results[label]
+    for model,q,pom in (("global",R["qG"],om[(om.matrix==label)&(om.model=="global")].p.iloc[0]),
+                        ("within-dataset",R["qS"],om[(om.matrix==label)&(om.model=="within_dataset")].p.iloc[0])):
+        sig=[(edge_cols[j],float(q[j])) for j in np.argsort(q) if q[j]<0.05]
+        und=bh_undecided(R["pG"] if model=="global" else R["pS"],args.n_perm)
+        print(f"     {label:14s} {model:15s} omnibus p={pom:.5f} | {len(sig)} edge(s) at q<0.05"
+              f", {und} membership(s) undecided at n_perm={args.n_perm}")
+        for e,qq in sig: print(f"         {e:28s} q={qq:.5f}")
+        if und:
+            print(f"         ^ the count above is NOT stable at this n_perm -- {und} edge(s) sit within")
+            print(f"           2 MC sd of their own BH threshold. Quote the omnibus p and these names.")
 
 pr=float(om[(om.matrix=="raw_logweight")&(om.model=="within_dataset")].p.iloc[0])
 pk=float(om[(om.matrix=="rank_C")&(om.model=="within_dataset")].p.iloc[0])
