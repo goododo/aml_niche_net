@@ -1,0 +1,7 @@
+# input checksums for panel_screen_v141_20260829_global_z_mp.csv
+# verified identical to results/tables/07_fgw/ at freeze time
+a1373ccd63503082981aa744f753ee80  /LARGE1/gr10634/gaozy/tmp/mp_wire/screen/07_fgw/fgw_nodes_long.csv
+d2d3138fe947b86c31a905a3c2eca220  /LARGE1/gr10634/gaozy/tmp/mp_wire/screen/07_fgw/fgw_edges_long.csv
+b3d2f94948ad02fd5ceca9220f667e01  /LARGE1/gr10634/gaozy/tmp/mp_wire/screen/07_fgw/fgw_input_index.csv
+5dbf4c768a47656e1585d08a2d96498c  /LARGE1/gr10634/gaozy/tmp/mp_wire/screen/07_fgw/fgw_vocab.json
+dc7e2fe68b2aceadd8b20a95cbae886f  /LARGE1/gr10634/gaozy/tmp/mp_wire/screen/01_preprocess/02_sample_split.csv

@@ -92,7 +92,31 @@ message("[3] datasets with both labels: ", paste(ds_both, collapse = ", "))
 BLAST_BINS <- c("HSC_MPP", "LMPP_GMP", "Mono_DC")
 BP <- cells[, .(blast_proxy = sum(hierarchy_bin %in% BLAST_BINS) / .N), by = .(dataset, sample)]
 
-fit_perm <- function(D, n_perm) {
+# PER-TEST PERMUTATION STREAMS, KEYED ON A STABLE LABEL. Without this a single set.seed(SEED) at the
+# top of the script serves every fit_perm() call in the process, so a test's p-value depends on how
+# many tests ran before it: reversing the order here moved 35 of 36 per-bin p-values while beta stayed
+# bit-identical. No verdict flipped (shifts are MC-noise scale, max |dp| 0.045 at n_perm=2000), but
+# none of the published p-values were reproducible without re-running the identical --levels list in
+# the identical order.
+#
+# WHY THIS HASH AND NOT A SIMPLER ONE. The obvious base-R template,
+#   SEED + sum(utf8ToInt(s) * seq_along(utf8ToInt(s)))
+# COLLIDES on this script's real label space -- "bin|q=17|T_NK" and "bin|q=90|T_NK" both map to
+# 499398, 21 collisions over the integer-q labels and 5037 if fractional --levels are passed. A
+# collision hands two DIFFERENT tests the SAME permutations, which is worse than the bug being fixed
+# and would invalidate any BH correction later applied across the per-bin family. The polynomial
+# rolling hash below is collision-free on every label space these scripts generate (verified), and
+# modulo 2^31-1 keeps it inside set.seed's 32-bit signed range without overflow: h*131+ch stays under
+# 2.8e11, exact in a double.
+.perm_seed <- function(label) {
+  M <- 2147483647
+  h <- 0
+  for (ch in utf8ToInt(label)) h <- (h * 131 + ch) %% M
+  as.integer((h + SEED) %% M)
+}
+
+fit_perm <- function(D, n_perm, label) {
+  set.seed(.perm_seed(label))
   # is_aml effect on per-sample mean LSC17, dataset absorbed as a fixed effect (FWL), permuting the
   # label WITHIN dataset so the null keeps each dataset's composition intact.
   # blast_proxy is in the model because every H2 result controls for it. Without it this would be a
@@ -122,7 +146,7 @@ res <- rbindlist(lapply(LEVELS, function(q) {
   S <- S[n_cells >= 20]                                  # a mean over <20 cells is noise, not a measurement
   S <- merge(S, BP, by = c("dataset", "sample"))
   D <- S[dataset %in% ds_both]
-  fp <- fit_perm(D, opt$n_perm)
+  fp <- fit_perm(D, opt$n_perm, sprintf("pooled|q=%s", q))
   data.table(level_pct = q,
              n_samples = nrow(S), n_within = nrow(D),
              n_cells_kept = nrow(kept), frac_cells_kept = nrow(kept) / nrow(keep),
@@ -189,7 +213,7 @@ res_bin <- rbindlist(lapply(LEVELS, function(q) {
     ok <- D[, .(n = uniqueN(healthy)), by = dataset][n == 2]$dataset   # a bin can lose a label at high q
     D <- D[dataset %in% ok]
     if (uniqueN(D$dataset) < 2 || uniqueN(D$healthy) < 2) return(NULL)
-    fp <- fit_perm(D, opt$n_perm)
+    fp <- fit_perm(D, opt$n_perm, sprintf("bin|q=%s|%s", q, b))
     data.table(level_pct = q, hierarchy_bin = b, n = nrow(D),
                beta_strat = fp["beta"], p_strat = fp["p"])
   }))

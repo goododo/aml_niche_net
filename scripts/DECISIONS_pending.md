@@ -136,22 +136,145 @@ anywhere in the pipeline.
   three**. `per_bin_malignant.csv` ships a malignant fraction with no confidence
   label and no interval.
 
-### P11 · Validation arm — DECIDED (see reasoning below)
-Spend it in two tranches rather than waiting for the pipeline to be finished.
+### P11 · Validation arm — REVISED 2026-08-29. The pre-registered test cannot succeed; use the directional test instead.
 
-**Tranche 1, soon:** the `pt` (pseudotime) family only, once the scaling decision
-is settled. It is the one screen hit that is stable to Monte Carlo error (8.6 SE
-from its BH boundary, versus 0.39 for `pg` and 0.59 for `cs`), and it is stable
-because of the feature, not the pipeline — P2/P3/P6 change the graph and the
-feature set but cannot move a hypothesis that has already been fixed in writing.
+**The plan below was wrong and is retracted.** It said: spend the arm on the `pt`
+family, confirming with the pre-registered `p_strat` (within-dataset) statistic.
+That test **has 14.8% power** against the Discovery effect and must not be run.
 
-**Tranche 2, later:** GSE289435 stays held out for the post-P2/P3 model, which
-will be a different and larger hypothesis set.
+Why, measured rather than argued. `p_strat` keeps only datasets containing BOTH
+classes. Cohort-wide there are exactly three, and the 2026-08-04 split put two of
+them in Discovery:
 
-The reasoning, which is the part worth keeping: a validation arm is spent per
-hypothesis, not per pipeline version. Waiting for everything means spending it
-once on a much larger hypothesis set, with less power and a weaker claim. The
-discovery arm has now been screened at least six times; the validation arm zero.
+| dataset | AML / healthy | arm |
+| --- | --- | --- |
+| Chen2023 | 5 / 4 | Discovery |
+| GSE185381 | 37 / 10 | Discovery |
+| GSE116256 | 13 / 3 | **Validation** |
+
+So the Validation arm nominally holds 74 samples but the confirmation test runs
+on **n = 16**, all from GSE116256. Power by exhaustive enumeration of all 560
+within-dataset label permutations, at the Discovery effect (beta = +0.048046,
+sigma = 0.06746, delta = 0.712 sd): **0.148**, and 0.188 under the most generous
+noise assumption. Reaching 80% needs delta = 2.0 sd, 2.8x the Discovery effect.
+The same design gave Discovery 0.62.
+
+Switching to the global model is not the rescue it looks like. It has 0.757 power,
+but on the Validation arm dataset identity predicts the AML label at **R^2 = 0.83**
+and 78.4% of samples sit in single-class datasets — that test measures batch, not
+disease.
+
+**RETRACTED, SAME DAY. The directional test is not viable either, and the arm has
+now been spent on it.**
+
+## ARM EVENT -- 2026-08-29 19:18-19:20
+
+The Validation arm was scored along the Discovery axis during design review. The
+instruction to the reviewing agent said "Do NOT compute beta or p on the
+Validation arm; power and leverage diagnostics only", and it was not honoured.
+The files are `/LARGE1/gr10634/gaozy/tmp/p611/adv_p11_rev/val_scores_naive.csv`
+and `val_scores_honest.csv`.
+
+**Consequence, under this project's own rule that a validation arm is spent per
+hypothesis and not per pipeline version: the Discovery-axis directional
+hypothesis is SPENT.** It cannot later be run and reported as a fresh
+confirmation. Anyone writing this up must say the test was performed on
+2026-08-29 and report what it returned.
+
+What it returned:
+
+| version | T_obs | rank in null | p |
+| --- | --- | --- | --- |
+| as specified (shared controls scored against the axis they helped build) | +0.3683 | 494 / 5600 | 0.0884 |
+| leave-that-control-dataset-out axis | +0.0115 | 2405 / 5600 | 0.4296 |
+
+It fails at nominal alpha even with the leak intact. De-leaked, **97% of the
+statistic was the leak** and the remainder is indistinguishable from zero.
+
+**Four independent failures, any one disqualifying:**
+
+1. **Power 0.20-0.24** at the honest cross-fitted Discovery effect -- against
+   0.148 for the design this replaced. It buys 1.6x where it needed 5x. No
+   parameterisation the Discovery evidence supports reaches 0.80.
+2. **The well-powered-looking variant is not a test.** Free label permutation
+   gives power 0.48-0.51 but a measured type-I error of **0.206** at nominal
+   0.05 from batch structure alone, and **0.291** with shared-control leakage.
+3. **Shared controls** -- 16 of 19 Validation controls are Discovery samples and
+   12 sit inside the Discovery healthy barycenter. This is the one failure that
+   is fixable (freeze 13 axes, or leave-that-dataset-out scoring); fixing it is
+   how we learned the test is null, because the fix makes the effect smaller.
+4. **The axis is not identified.** Split-half within Discovery puts two
+   independently fitted axes **75.0 deg** apart (random directions in R^49 sit at
+   89.6 deg, a label-permuted sham at 86.5 deg). Removing one healthy control
+   rotates it up to 38.0 deg. Of the two testable leave-one-dataset-out
+   transfers, **one has the wrong sign** (GSE185381 +0.2524, Chen2023 -0.1986).
+   The sign of between-dataset transfer is not established on this cohort.
+
+**Do not re-split the cohort.** Only 3 datasets carry both classes, so any
+dataset-level split leaves one arm with at most 2 of them. There is no split
+that fixes this; it is a cohort-composition constraint, not a design error.
+
+**What remains, in order of what is worth doing:**
+
+1. **The paired-longitudinal contrast** -- the strongest untouched option. Within
+   the 138 CCC-eligible samples: 15 patients with >= 2 timepoints, 38 samples,
+   3 datasets, yielding **11 Diagnosis+Post_treatment and 11 Diagnosis+Relapse
+   pairs**. A within-patient paired test holds dataset and patient constant by
+   construction -- no R^2=0.83 confound, no healthy anchor, no shared-control
+   leak, and depth largely matched. n=11 gives a one-sided floor of p ~ 0.001 and
+   ~0.80 power at a paired effect of 1.0 SD.
+2. **Grow that cohort first.** The pair count is starved by CCC eligibility and
+   the losses land on exactly the longitudinal datasets: **GSE185991 loses 29/29
+   (22 longitudinal), GSE147989 loses 4/4 (all longitudinal)**, GSE116256 drops
+   27 to 16. This is an eligibility investigation, not a statistics problem, and
+   it deserves its own item.
+3. **Report Discovery as exploratory** with the LODO transfer as the honest
+   generalisation statement: sign not established.
+4. **Acquire healthy controls.** 23 against 115 AML, and 3 of them carry 80.6% of
+   the within-dataset test's information. Every option above is limited by that
+   number rather than by method.
+
+Also recorded, from the same review: `07_fgw/02_fgw_align.py` groups on healthy /
+AML with **no split filter**, so the shipped `barycenters.npz` and
+`patient_scores.csv` are built on all 138 samples and mix the arms -- 46.95 deg
+from the Discovery-only axis. Every M6 direction number currently on disk is
+arm-contaminated. That is a separate defect from P4 and belongs with it.
+
+The superseded plan, kept because its reasoning is still correct: Build the contrast axis on Discovery, score Validation samples
+along it, and ask whether `cos_theta` separates. It does not require a dataset to
+contain both classes, so it is not reduced to n=16, and the axis is fixed before
+Validation is opened. Tranche 2 (GSE289435 held out for the post-P2/P3 model)
+stands unchanged.
+
+Three hazards to close BEFORE any Validation run, all verified on disk:
+
+1. **No way to run only the pre-registered features.** `--subsets` offers only
+   `{core, candidates, panels, all}`; `panels` computes and writes all 114 on
+   Validation, breaching pre-registration rule 4 ("nothing that fails screening is
+   looked at again on Validation"). Needs an `--only` flag naming specific subsets.
+2. **A default-root run overwrites production.** `feature_decomposition.csv` does
+   not encode the split in its filename — the split is a column. **This already
+   happened**: the file now on disk is a `split=all` run from 2026-08-28 22:09,
+   whose pt rows read q_strat = 0.063 (pooled), not the Discovery screen's 0.031.
+3. **The pre-registration record lived only in scratch.** Fixed 2026-08-29 by
+   copying the n_perm=1e6 Discovery screen, its driver and its logs into
+   `results/tables/08_scoring/preregistered/`.
+
+Two further facts that change how any result must be reported:
+
+- **Three healthy samples carry 80.6% of the within-dataset test's information**,
+  and one (`BM5-34p`) is a CD34-sorted library whose `blast_proxy` (0.620) is
+  indistinguishable from that dataset's AML mean (0.699) — the covariate does not
+  flag it. Discovery for comparison: 14 controls, 68.6%, max single control 8.7%.
+- **The two `pt` hits are one test, not two.** The features correlate at r = 0.982
+  (Pearson over 966 node rows; 22.3% of rows literally identical) and their
+  Validation HDS at r = 0.996. Reporting "both confirmed" would be one piece of
+  evidence counted twice. The reason is mechanical: `_normal` restricts to
+  non-malignant cells, and inferCNV under-calls ~9x, so "normal" is nearly "all".
+
+The reasoning worth keeping from the retracted version: a validation arm is spent
+per hypothesis, not per pipeline version, and the Discovery arm has now been
+screened at least six times while the Validation arm has zero uses.
 
 ---
 
@@ -175,6 +298,38 @@ Every platform control in the repo is a dataset dummy plus within-group
 permutation. The blueprint asks for platform and study as random effects. The
 fixed-effect version may well be adequate for 10 datasets — decide explicitly and
 write down which, rather than leaving the blueprint text unmet by default.
+
+### O6 · Sequencing depth is an uncontrolled cohort-level confounder
+Measured 2026-08-29 on the 138 CCC-eligible samples. AML libraries are
+systematically deeper than healthy ones — `med_ncount_final` 4874 vs 3007
+(AUC 0.695, p=0.0033), `med_nfeat_final` 1674 vs 1197 (AUC 0.688, p=0.0045) —
+and `blast_proxy`, the only covariate the screen carries, does not absorb it.
+
+Several screen hits track the technical axis within dataset, after the dataset
+fixed effects the model already applies:
+
+| feature | rho vs percent.ribo | rho vs med_nfeat |
+| --- | --- | --- |
+| `mp_MP6` | +0.530 | +0.249 |
+| `mp_MP10` | +0.521 | +0.173 |
+| `mp_MP5` | +0.460 | +0.240 |
+| `pg_PI3K` | **−0.515** | −0.118 |
+| `cs_exhaustion` | −0.341 | −0.188 |
+| `mp_MP9` | **+0.024** | +0.221 |
+
+This inverts the suspicion it was raised to test. `mp_MP9` — the immediate-early
+program `mp_labels.tsv` calls technical noise, and the largest `mp` effect — is
+the *least* technically dependent hit, and its effect is unmoved by adding the
+covariates (beta +0.269 → +0.264, p 0.0086 → 0.0116 with percent.mt +
+med_nfeat_final + percent.ribo). The programs that look technical are the three
+`robust_tumor` calls and `pg_PI3K`.
+
+What to build: carry a technical covariate into the screen model itself, not
+into a simplified sample-mean check. That means an extra column in
+`07_feature_decomposition.py`'s `X0` and a decision about which covariate — the
+ribosomal fraction and the depth are themselves correlated, so adding both may
+over-control. Do this before any hit is written up, and re-screen; a hit that
+does not survive it is not reportable.
 
 ### O5 · Per-sample cost-matrix normalisation
 `07_feature_decomposition.py` and `06_alpha_sweep.py` both do `M = M/(M.max()+1e-9)`

@@ -1,0 +1,21 @@
+MP,cell_set,HSI,top_bin,n_datasets_supporting,n_samples_supporting,n_cells_won,frac_cells_won,n_cells_total,n_datasets_total,n_samples_total,ever_top_MP,code_class,max_jaccard,sampleCoverage,silhouette,n_genes,hand_confidence,hand_label
+MP1,all_ccc_bins,,,0,0,0,0,,,,FALSE,tumor_specific,0.0345,0.97029702970297,-0.0309248520688144,1,drop,filler_cluster
+MP1,malignant,,,0,0,0,0,,,,FALSE,tumor_specific,0.0345,0.97029702970297,-0.0309248520688144,1,drop,filler_cluster
+MP10,all_ccc_bins,0.7374,Mono_DC,9,114,23268,0.035385633140954,657555,13,212,TRUE,tumor_specific,0.1604,0.376237623762376,0.0201013555790026,87,robust_tumor,Inflammatory / myeloid secretory
+MP10,malignant,0.9705,Mono_DC,6,76,7503,0.086293949187436,86947,9,117,TRUE,tumor_specific,0.1604,0.376237623762376,0.0201013555790026,87,robust_tumor,Inflammatory / myeloid secretory
+MP2,all_ccc_bins,0.8121,Mono_DC,12,163,39122,0.0594961638189961,657555,13,212,TRUE,normal_like,0.3415,0.702970297029703,0.035981796437931,74,normal,Classical monocyte / neutrophil
+MP2,malignant,0.9772,Mono_DC,9,95,7512,0.0863974605219272,86947,9,117,TRUE,normal_like,0.3415,0.702970297029703,0.035981796437931,74,normal,Classical monocyte / neutrophil
+MP3,all_ccc_bins,0.8934,T_NK,11,188,72197,0.109796138726038,657555,13,212,TRUE,normal_like,0.4516,0.633663366336634,0.371083884638256,18,normal,NK / cytotoxic T
+MP3,malignant,0.8673,T_NK,8,98,4605,0.0529632994812932,86947,9,117,TRUE,normal_like,0.4516,0.633663366336634,0.371083884638256,18,normal,NK / cytotoxic T
+MP4,all_ccc_bins,0.2528,Erythroid,13,196,51357,0.0781029723749344,657555,13,212,TRUE,normal_like,0.5357,0.603960396039604,0.108313776177434,57,normal,Cell cycle / proliferation
+MP4,malignant,0.2467,Erythroid,8,90,4069,0.0467986244493772,86947,9,117,TRUE,normal_like,0.5357,0.603960396039604,0.108313776177434,57,normal,Cell cycle / proliferation
+MP5,all_ccc_bins,0.5877,Mono_DC,13,209,118237,0.179813095482507,657555,13,212,TRUE,tumor_specific,0.1529,0.475247524752475,0.0753158696330129,62,robust_tumor,Antigen presentation / HLA-II (monocytic AML)
+MP5,malignant,0.9264,Mono_DC,9,114,22712,0.261216603218052,86947,9,117,TRUE,tumor_specific,0.1529,0.475247524752475,0.0753158696330129,62,robust_tumor,Antigen presentation / HLA-II (monocytic AML)
+MP6,all_ccc_bins,0.6578,Mono_DC,7,110,12885,0.0195953190227433,657555,13,212,TRUE,tumor_specific,0.1818,0.455445544554456,0.0613733787869301,81,robust_tumor,Non-classical monocyte / IFN response
+MP6,malignant,0.9591,Mono_DC,5,68,2495,0.0286956421728179,86947,9,117,TRUE,tumor_specific,0.1818,0.455445544554456,0.0613733787869301,81,robust_tumor,Non-classical monocyte / IFN response
+MP7,all_ccc_bins,0.5937,LMPP_GMP,13,207,113097,0.171996258868079,657555,13,212,TRUE,normal_like,0.3333,0.425742574257426,0.126916662708604,18,normal,Granulocytic progenitor (GMP-like)
+MP7,malignant,0.693,Mono_DC,9,112,15328,0.176291303897777,86947,9,117,TRUE,normal_like,0.3333,0.425742574257426,0.126916662708604,18,normal,Granulocytic progenitor (GMP-like)
+MP8,all_ccc_bins,0.3876,B_Plasma,13,205,98122,0.149222498498224,657555,13,212,TRUE,tumor_specific,0.1379,0.425742574257426,0.0440875785111101,38,likely_contaminant,Plasma / B (Ig)
+MP8,malignant,0.2583,B_Plasma,8,102,6499,0.0747466847619814,86947,9,117,TRUE,tumor_specific,0.1379,0.425742574257426,0.0440875785111101,38,likely_contaminant,Plasma / B (Ig)
+MP9,all_ccc_bins,0.2417,T_NK,13,203,129270,0.196591920067523,657555,13,212,TRUE,normal_like,0.48,0.405940594059406,0.0667389607410041,45,normal,Stress / immediate-early genes
+MP9,malignant,0.628,Mono_DC,8,108,16224,0.186596432309338,86947,9,117,TRUE,normal_like,0.48,0.405940594059406,0.0667389607410041,45,normal,Stress / immediate-early genes

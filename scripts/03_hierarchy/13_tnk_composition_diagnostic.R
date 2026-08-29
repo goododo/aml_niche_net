@@ -103,7 +103,31 @@ bp_src <- rbindlist(lapply(seq_len(nrow(man)), function(i) {
 ds_both <- H[, .(nh = sum(healthy), na = sum(!healthy)), by = dataset][nh > 0 & na > 0]$dataset
 message("\n[4] datasets with both labels: ", paste(ds_both, collapse = ", "))
 
-fit_perm <- function(D, n_perm) {
+# PER-TEST PERMUTATION STREAMS, KEYED ON A STABLE LABEL. Without this a single set.seed(SEED) at the
+# top of the script serves every fit_perm() call in the process, so a test's p-value depends on how
+# many tests ran before it: reversing the order here moved 35 of 36 per-bin p-values while beta stayed
+# bit-identical. No verdict flipped (shifts are MC-noise scale, max |dp| 0.045 at n_perm=2000), but
+# none of the published p-values were reproducible without re-running the identical --levels list in
+# the identical order.
+#
+# WHY THIS HASH AND NOT A SIMPLER ONE. The obvious base-R template,
+#   SEED + sum(utf8ToInt(s) * seq_along(utf8ToInt(s)))
+# COLLIDES on this script's real label space -- "bin|q=17|T_NK" and "bin|q=90|T_NK" both map to
+# 499398, 21 collisions over the integer-q labels and 5037 if fractional --levels are passed. A
+# collision hands two DIFFERENT tests the SAME permutations, which is worse than the bug being fixed
+# and would invalidate any BH correction later applied across the per-bin family. The polynomial
+# rolling hash below is collision-free on every label space these scripts generate (verified), and
+# modulo 2^31-1 keeps it inside set.seed's 32-bit signed range without overflow: h*131+ch stays under
+# 2.8e11, exact in a double.
+.perm_seed <- function(label) {
+  M <- 2147483647
+  h <- 0
+  for (ch in utf8ToInt(label)) h <- (h * 131 + ch) %% M
+  as.integer((h + SEED) %% M)
+}
+
+fit_perm <- function(D, n_perm, label) {
+  set.seed(.perm_seed(label))
   if (uniqueN(D$dataset) < 2 || uniqueN(D$healthy) < 2 || nrow(D) < 10) return(c(beta = NA, p = NA))
   X <- model.matrix(~ factor(dataset) + blast_proxy, data = D)
   Q <- qr.Q(qr(X)); rs <- function(v) v - Q %*% (t(Q) %*% v)
@@ -127,9 +151,11 @@ test_one <- function(sub, measure) {
   D <- S[dataset %in% ds_both]
   ok <- D[, .(k = uniqueN(healthy)), by = dataset][k == 2]$dataset   # a sub-label can lose a label
   D <- D[dataset %in% ok]
-  fp <- fit_perm(D, opt$n_perm)
+  fp <- fit_perm(D, opt$n_perm, paste(sub, measure, sep = "|"))
   data.table(bmm_broad = sub, measure = measure, n_samples = nrow(D),
-             n_healthy = sum(!D$healthy == TRUE & D$healthy), n_aml = sum(!D$healthy),
+             n_healthy = sum(D$healthy), n_aml = sum(!D$healthy),   # was sum(!D$healthy == TRUE & D$healthy),
+             # which R parses as !(D$healthy == TRUE) & D$healthy -- identically FALSE, so it read 0 in all 15 rows
+
              mean_healthy = D[healthy == TRUE, mean(y)], mean_aml = D[healthy == FALSE, mean(y)],
              beta = fp["beta"], p = fp["p"])
 }

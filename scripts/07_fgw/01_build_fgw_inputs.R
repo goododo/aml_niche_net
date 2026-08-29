@@ -269,6 +269,14 @@ vocab <- list(
   # A candidate that has been promoted INTO the distance for this run must not also be listed as a
   # candidate, or 08/07 would test it as if it were still outside the model it is now inside.
   candidate_features = setdiff(FGW_CANDIDATE_FEATURES, FEATURES),
+  # THE FAMILY MAP TRAVELS WITH THE VOCABULARY. 08_scoring/07 corrects for multiple testing WITHIN
+  # family, and it used to recover the family by testing a name's prefix against a hard-coded
+  # c("st","pg","cs","mt","pt"). Adding a sixth family to CCC_PANELS would therefore not have been an
+  # error -- every one of its features would have been classified "core", and the BH loop skips
+  # "core", so the whole family would have been reported UNCORRECTED with q = NaN. Emitting the map
+  # here makes config_ccc.R the single source of truth, the same discipline the timepoint vocabulary
+  # already follows after a hard-coded list silently deleted 34 of 214 samples.
+  candidate_family   = as.list(FGW_CANDIDATE_FAMILY[setdiff(FGW_CANDIDATE_FEATURES, FEATURES)]),
   generated_by       = "scripts/07_fgw/01_build_fgw_inputs.R"
 )
 out_vocab <- file.path(opt$out_dir, "fgw_vocab.json")

@@ -15,6 +15,12 @@ CCC_QC_OBJ_DIR    <- file.path(LARGE1_DIR, "02_seurat_objects/01_per_sample_qc")
 CCC_BMM_DIR       <- file.path(LARGE1_DIR, "02_seurat_objects/03_bmm_projected")   # <ds>/<sample>__bmm_percell.csv
 # consensus per-cell: DIR_MALIGNANCY/<ds>/<sample>__consensus_percell.csv (from config_paths)
 CCC_ROLE_MANIFEST <- file.path(FAST_DIR, "results/tables/01_preprocess/01_sample_role_manifest.csv")  # verified path
+# Meta-program usage from stage 04_cnmf. Scored on ALL cells in the 7 CCC bins, not on the malignant
+# subset: the malignant-only tables were keyed to a consensus call that has since been rewritten (only
+# 56% of the cells they scored are still called malignant), covered 56 of the 138 CCC-eligible samples,
+# and would have made every _normal stratum structurally all-NA. See the header of
+# 04_cnmf/03_score_metaprograms.R for the four reasons.
+CCC_MP_DIR        <- file.path(LARGE1_DIR, "04_cnmf/malignant/mp_usage_all_bins")   # <ds>/<sample>__mp_usage.csv
 
 ## -- Node vocabulary (FIXED = FGW barycenter node set) ----
 CCC_NODES <- c("HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK","B_Plasma")
@@ -58,7 +64,18 @@ CCC_PANELS <- list(
             cols = c("glycolysis","oxphos","fatty_acid_oxidation",
                      "expr_BCL2","expr_MCL1","expr_BCL2L1")),
   pt = list(dir = "CCC_BMM_DIR",    suffix = "__bmm_percell.csv",
-            cols = c("predicted_Pseudotime"))
+            cols = c("predicted_Pseudotime")),
+  # mp  cNMF meta-program activity -- the functional-state layer 04_cnmf produces and nothing has
+  #     consumed until now. ALL NINE are declared, unfiltered, deliberately: mp_labels.tsv's curation
+  #     is a hand-typed judgement whose cited numbers do not survive recomputation on this cell set
+  #     (MP5/6/10's Mono_DC specificity falls 0.93/0.96/0.97 -> 0.59/0.66/0.74, and MP8's stated
+  #     reason is refuted outright -- see 04_cnmf/05_mp_curation_metrics.R). Filtering features by an
+  #     unreproducible judgement BEFORE they are screened is exactly what the two-level
+  #     reproducibility score exists to replace, and that is not built yet (P8). Per-family BH over
+  #     27 columns costs little; a wrong pre-filter costs a program we never see.
+  #     MP1 is absent because AddModuleScore never scores it: it has one gene, below the 3-gene floor.
+  mp = list(dir = "CCC_MP_DIR",     suffix = "__mp_usage.csv",
+            cols = c("MP2","MP3","MP4","MP5","MP6","MP7","MP8","MP9","MP10"))
 )
 
 CCC_STEMNESS_SIG <- "LSC17"   # signature column used for the mean_stemness node feature (swappable;

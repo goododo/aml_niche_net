@@ -1,0 +1,264 @@
+[vocab] 115 AML, 23 healthy, 0 excluded (of 138 rows in the index)
+[0] subsets=panels -> 114 sets over 114 distinct feature columns
+[1] SPLIT=discovery: 77 of 138 samples | AML=57 healthy=20 (controls are shared between arms)
+[1] healthy=20 (barycenter 16) | AML=57 | alphas=[0.0]
+[2] alpha=0    only_st_HSPC_core | healthy=0.0269 AML=0.1124 | global b=+0.06279 p=0.02185 | within-ds b=+0.05423 p=0.04255
+[2] alpha=0    only_st_vanGalen_HSC_like | healthy=0.0281 AML=0.0928 | global b=+0.05318 p=0.02296 | within-ds b=+0.05047 p=0.04580
+[2] alpha=0    only_st_vanGalen_HSC_Prog | healthy=0.0636 AML=0.1081 | global b=+0.01039 p=0.68191 | within-ds b=+0.01290 p=0.46784
+[2] alpha=0    only_st_vanGalen_HSCprog_like | healthy=0.0351 AML=0.1116 | global b=+0.05011 p=0.06470 | within-ds b=+0.04706 p=0.04646
+[2] alpha=0    only_st_HSPC_core_normal | healthy=0.0270 AML=0.1077 | global b=+0.06144 p=0.02337 | within-ds b=+0.05316 p=0.03872
+[2] alpha=0    only_st_vanGalen_HSC_like_normal | healthy=0.0287 AML=0.1018 | global b=+0.05880 p=0.02197 | within-ds b=+0.05242 p=0.03427
+[2] alpha=0    only_st_vanGalen_HSC_Prog_normal | healthy=0.0477 AML=0.1110 | global b=+0.02100 p=0.38012 | within-ds b=+0.02107 p=0.22394
+[2] alpha=0    only_st_vanGalen_HSCprog_like_normal | healthy=0.0334 AML=0.0916 | global b=+0.04891 p=0.03311 | within-ds b=+0.04823 p=0.04071
+[2] alpha=0    only_st_HSPC_core_malignant | healthy=0.1058 AML=0.0959 | global b=-0.02871 p=0.13643 | within-ds b=-0.02567 p=0.11991
+[2] alpha=0    only_st_vanGalen_HSC_like_malignant | healthy=0.0856 AML=0.1052 | global b=-0.00268 p=0.90340 | within-ds b=+0.00219 p=0.91350
+[2] alpha=0    only_st_vanGalen_HSC_Prog_malignant | healthy=0.0742 AML=0.1278 | global b=+0.00715 p=0.77379 | within-ds b=-0.00035 p=0.98762
+[2] alpha=0    only_st_vanGalen_HSCprog_like_malignant | healthy=0.0475 AML=0.1094 | global b=+0.02499 p=0.35362 | within-ds b=+0.01531 p=0.47645
+[2] alpha=0    only_pg_Androgen | healthy=0.0607 AML=0.0934 | global b=+0.02579 p=0.11711 | within-ds b=+0.02945 p=0.16777
+[2] alpha=0    only_pg_EGFR   | healthy=0.0595 AML=0.0787 | global b=-0.00315 p=0.82861 | within-ds b=-0.00261 p=0.88426
+[2] alpha=0    only_pg_Estrogen | healthy=0.0270 AML=0.1048 | global b=+0.03787 p=0.09183 | within-ds b=+0.03981 p=0.10648
+[2] alpha=0    only_pg_Hypoxia | healthy=0.0237 AML=0.0819 | global b=+0.06066 p=0.00228 | within-ds b=+0.05447 p=0.01080
+[2] alpha=0    only_pg_JAK_STAT | healthy=0.0228 AML=0.1115 | global b=+0.09047 p=0.00529 | within-ds b=+0.08437 p=0.03261
+[2] alpha=0    only_pg_MAPK   | healthy=0.0606 AML=0.0991 | global b=+0.04072 p=0.00978 | within-ds b=+0.03226 p=0.05493
+[2] alpha=0    only_pg_NFkB   | healthy=0.0531 AML=0.1443 | global b=+0.06988 p=0.02642 | within-ds b=+0.07103 p=0.04995
+[2] alpha=0    only_pg_p53    | healthy=0.0284 AML=0.0926 | global b=+0.04874 p=0.02486 | within-ds b=+0.04504 p=0.04048
+[2] alpha=0    only_pg_PI3K   | healthy=0.0569 AML=0.0804 | global b=+0.01819 p=0.35236 | within-ds b=+0.01051 p=0.53266
+[2] alpha=0    only_pg_TGFb   | healthy=0.0391 AML=0.0951 | global b=+0.04831 p=0.04789 | within-ds b=+0.05223 p=0.02256
+[2] alpha=0    only_pg_TNFa   | healthy=0.0466 AML=0.0929 | global b=+0.04112 p=0.03767 | within-ds b=+0.03629 p=0.08029
+[2] alpha=0    only_pg_Trail  | healthy=0.0508 AML=0.0761 | global b=+0.01985 p=0.21743 | within-ds b=+0.03134 p=0.06266
+[2] alpha=0    only_pg_VEGF   | healthy=0.0567 AML=0.0786 | global b=+0.01684 p=0.26803 | within-ds b=+0.03102 p=0.07061
+[2] alpha=0    only_pg_WNT    | healthy=0.0387 AML=0.0821 | global b=+0.04613 p=0.05045 | within-ds b=+0.05078 p=0.09050
+[2] alpha=0    only_pg_Androgen_normal | healthy=0.0686 AML=0.0904 | global b=+0.01308 p=0.43760 | within-ds b=+0.01717 p=0.34699
+[2] alpha=0    only_pg_EGFR_normal | healthy=0.0573 AML=0.0830 | global b=-0.00110 p=0.92800 | within-ds b=-0.00108 p=0.94420
+[2] alpha=0    only_pg_Estrogen_normal | healthy=0.0266 AML=0.1217 | global b=+0.04742 p=0.08291 | within-ds b=+0.04687 p=0.11175
+[2] alpha=0    only_pg_Hypoxia_normal | healthy=0.0224 AML=0.0777 | global b=+0.06528 p=0.00063 | within-ds b=+0.05768 p=0.00851
+[2] alpha=0    only_pg_JAK_STAT_normal | healthy=0.0237 AML=0.1288 | global b=+0.09420 p=0.00539 | within-ds b=+0.07958 p=0.03167
+[2] alpha=0    only_pg_MAPK_normal | healthy=0.0605 AML=0.0973 | global b=+0.03970 p=0.01127 | within-ds b=+0.02822 p=0.09168
+[2] alpha=0    only_pg_NFkB_normal | healthy=0.0513 AML=0.1429 | global b=+0.07079 p=0.01729 | within-ds b=+0.06918 p=0.05302
+[2] alpha=0    only_pg_p53_normal | healthy=0.0236 AML=0.0873 | global b=+0.05310 p=0.00967 | within-ds b=+0.05081 p=0.02833
+[2] alpha=0    only_pg_PI3K_normal | healthy=0.0555 AML=0.0794 | global b=+0.01402 p=0.44043 | within-ds b=+0.01012 p=0.47671
+[2] alpha=0    only_pg_TGFb_normal | healthy=0.0342 AML=0.1103 | global b=+0.05909 p=0.04186 | within-ds b=+0.05897 p=0.02122
+[2] alpha=0    only_pg_TNFa_normal | healthy=0.0409 AML=0.1044 | global b=+0.05540 p=0.02921 | within-ds b=+0.04419 p=0.04245
+[2] alpha=0    only_pg_Trail_normal | healthy=0.0412 AML=0.0825 | global b=+0.03362 p=0.05855 | within-ds b=+0.04151 p=0.03327
+[2] alpha=0    only_pg_VEGF_normal | healthy=0.0433 AML=0.0869 | global b=+0.02492 p=0.11808 | within-ds b=+0.02522 p=0.11255
+[2] alpha=0    only_pg_WNT_normal | healthy=0.0420 AML=0.1050 | global b=+0.05597 p=0.05516 | within-ds b=+0.05534 p=0.06871
+[2] alpha=0    only_pg_Androgen_malignant | healthy=0.1029 AML=0.1144 | global b=-0.01074 p=0.63726 | within-ds b=-0.01805 p=0.43473
+[2] alpha=0    only_pg_EGFR_malignant | healthy=0.0863 AML=0.1219 | global b=+0.02058 p=0.35840 | within-ds b=+0.01367 p=0.57880
+[2] alpha=0    only_pg_Estrogen_malignant | healthy=0.0587 AML=0.1439 | global b=+0.03205 p=0.33132 | within-ds b=+0.02979 p=0.39758
+[2] alpha=0    only_pg_Hypoxia_malignant | healthy=0.0742 AML=0.1028 | global b=-0.00524 p=0.77592 | within-ds b=-0.00596 p=0.73831
+[2] alpha=0    only_pg_JAK_STAT_malignant | healthy=0.0785 AML=0.1297 | global b=-0.01011 p=0.71401 | within-ds b=-0.02143 p=0.49208
+[2] alpha=0    only_pg_MAPK_malignant | healthy=0.1096 AML=0.1320 | global b=+0.00893 p=0.73516 | within-ds b=-0.00167 p=0.95028
+[2] alpha=0    only_pg_NFkB_malignant | healthy=0.1182 AML=0.1268 | global b=-0.01506 p=0.51887 | within-ds b=-0.01475 p=0.53839
+[2] alpha=0    only_pg_p53_malignant | healthy=0.0643 AML=0.1127 | global b=+0.03215 p=0.17583 | within-ds b=+0.03775 p=0.10830
+[2] alpha=0    only_pg_PI3K_malignant | healthy=0.0868 AML=0.0905 | global b=-0.01464 p=0.41396 | within-ds b=-0.02275 p=0.27626
+[2] alpha=0    only_pg_TGFb_malignant | healthy=0.1110 AML=0.1094 | global b=-0.02555 p=0.24458 | within-ds b=-0.03261 p=0.15213
+[2] alpha=0    only_pg_TNFa_malignant | healthy=0.0901 AML=0.1244 | global b=-0.00584 p=0.83542 | within-ds b=-0.03570 p=0.23902
+[2] alpha=0    only_pg_Trail_malignant | healthy=0.1040 AML=0.1059 | global b=-0.02154 p=0.28996 | within-ds b=-0.02361 p=0.31498
+[2] alpha=0    only_pg_VEGF_malignant | healthy=0.0967 AML=0.1258 | global b=-0.01829 p=0.48184 | within-ds b=-0.01790 p=0.44610
+[2] alpha=0    only_pg_WNT_malignant | healthy=0.0667 AML=0.1009 | global b=+0.00574 p=0.81035 | within-ds b=+0.00516 p=0.83308
+[2] alpha=0    only_cs_antiapoptotic | healthy=0.0500 AML=0.0700 | global b=+0.03158 p=0.03925 | within-ds b=+0.02156 p=0.24917
+[2] alpha=0    only_cs_apoptotic_priming | healthy=0.0474 AML=0.0921 | global b=+0.01685 p=0.41007 | within-ds b=+0.01898 p=0.35486
+[2] alpha=0    only_cs_cytotoxicity | healthy=0.0728 AML=0.0761 | global b=-0.00899 p=0.48143 | within-ds b=-0.00059 p=0.97720
+[2] alpha=0    only_cs_exhaustion | healthy=0.0260 AML=0.1430 | global b=+0.06907 p=0.01374 | within-ds b=+0.05680 p=0.01771
+[2] alpha=0    only_cs_interferon_I | healthy=0.0578 AML=0.0625 | global b=+0.00625 p=0.60768 | within-ds b=+0.00432 p=0.74546
+[2] alpha=0    only_cs_interferon_II | healthy=0.0355 AML=0.1386 | global b=+0.05278 p=0.07016 | within-ds b=+0.06289 p=0.06084
+[2] alpha=0    only_cs_mhc_i  | healthy=0.0247 AML=0.0987 | global b=+0.05068 p=0.02348 | within-ds b=+0.05554 p=0.05421
+[2] alpha=0    only_cs_mhc_ii | healthy=0.0579 AML=0.0744 | global b=+0.01331 p=0.37430 | within-ds b=+0.00591 p=0.73121
+[2] alpha=0    only_cs_naive_memory | healthy=0.0498 AML=0.0834 | global b=+0.01188 p=0.60936 | within-ds b=+0.01700 p=0.57729
+[2] alpha=0    only_cs_retention_ligand | healthy=0.0521 AML=0.0836 | global b=+0.03109 p=0.04015 | within-ds b=+0.02347 p=0.21744
+[2] alpha=0    only_cs_retention_receptor | healthy=0.0325 AML=0.1031 | global b=+0.07134 p=0.00308 | within-ds b=+0.05942 p=0.03903
+[2] alpha=0    only_cs_sasp   | healthy=0.0835 AML=0.1066 | global b=-0.00077 p=0.97226 | within-ds b=-0.00968 p=0.71169
+[2] alpha=0    only_cs_senescence | healthy=0.0767 AML=0.0747 | global b=-0.02025 p=0.16612 | within-ds b=-0.00991 p=0.55528
+[2] alpha=0    only_cs_antiapoptotic_normal | healthy=0.0477 AML=0.0723 | global b=+0.03543 p=0.01567 | within-ds b=+0.02586 p=0.14521
+[2] alpha=0    only_cs_apoptotic_priming_normal | healthy=0.0566 AML=0.0917 | global b=+0.00223 p=0.90369 | within-ds b=-0.00191 p=0.92087
+[2] alpha=0    only_cs_cytotoxicity_normal | healthy=0.0735 AML=0.0943 | global b=-0.00086 p=0.95978 | within-ds b=+0.00047 p=0.97632
+[2] alpha=0    only_cs_exhaustion_normal | healthy=0.0265 AML=0.1590 | global b=+0.06298 p=0.07335 | within-ds b=+0.04957 p=0.03770
+[2] alpha=0    only_cs_interferon_I_normal | healthy=0.0588 AML=0.0766 | global b=+0.01603 p=0.32839 | within-ds b=+0.01072 p=0.38474
+[2] alpha=0    only_cs_interferon_II_normal | healthy=0.0387 AML=0.1461 | global b=+0.05215 p=0.07433 | within-ds b=+0.06262 p=0.07768
+[2] alpha=0    only_cs_mhc_i_normal | healthy=0.0247 AML=0.1050 | global b=+0.05265 p=0.03788 | within-ds b=+0.04619 p=0.05251
+[2] alpha=0    only_cs_mhc_ii_normal | healthy=0.0693 AML=0.0827 | global b=+0.00428 p=0.78881 | within-ds b=-0.00096 p=0.95475
+[2] alpha=0    only_cs_naive_memory_normal | healthy=0.0500 AML=0.1017 | global b=+0.01633 p=0.50115 | within-ds b=+0.02217 p=0.47989
+[2] alpha=0    only_cs_retention_ligand_normal | healthy=0.0547 AML=0.0997 | global b=+0.03170 p=0.09384 | within-ds b=+0.02066 p=0.28716
+[2] alpha=0    only_cs_retention_receptor_normal | healthy=0.0304 AML=0.1146 | global b=+0.07871 p=0.00775 | within-ds b=+0.06034 p=0.02855
+[2] alpha=0    only_cs_sasp_normal | healthy=0.0786 AML=0.1075 | global b=-0.00281 p=0.88977 | within-ds b=-0.01365 p=0.57717
+[2] alpha=0    only_cs_senescence_normal | healthy=0.0711 AML=0.0887 | global b=-0.01381 p=0.44185 | within-ds b=-0.01183 p=0.49348
+[2] alpha=0    only_cs_antiapoptotic_malignant | healthy=0.0898 AML=0.1085 | global b=-0.00438 p=0.84169 | within-ds b=-0.00586 p=0.78678
+[2] alpha=0    only_cs_apoptotic_priming_malignant | healthy=0.0945 AML=0.0957 | global b=-0.03249 p=0.15364 | within-ds b=-0.03592 p=0.15122
+[2] alpha=0    only_cs_cytotoxicity_malignant | healthy=0.0774 AML=0.1189 | global b=-0.00296 p=0.90084 | within-ds b=-0.00171 p=0.92943
+[2] alpha=0    only_cs_exhaustion_malignant | healthy=0.0714 AML=0.1511 | global b=+0.02561 p=0.41388 | within-ds b=+0.01600 p=0.56483
+[2] alpha=0    only_cs_interferon_I_malignant | healthy=0.0945 AML=0.1135 | global b=-0.01879 p=0.37372 | within-ds b=-0.02313 p=0.27624
+[2] alpha=0    only_cs_interferon_II_malignant | healthy=0.0664 AML=0.1418 | global b=+0.03624 p=0.18225 | within-ds b=+0.03424 p=0.24905
+[2] alpha=0    only_cs_mhc_i_malignant | healthy=0.0593 AML=0.1161 | global b=+0.00468 p=0.87865 | within-ds b=+0.00502 p=0.88483
+[2] alpha=0    only_cs_mhc_ii_malignant | healthy=0.0623 AML=0.1170 | global b=+0.02358 p=0.24448 | within-ds b=+0.01864 p=0.35877
+[2] alpha=0    only_cs_naive_memory_malignant | healthy=0.0894 AML=0.1051 | global b=-0.00252 p=0.90348 | within-ds b=+0.00490 p=0.81457
+[2] alpha=0    only_cs_retention_ligand_malignant | healthy=0.0727 AML=0.1044 | global b=+0.00662 p=0.72633 | within-ds b=+0.00550 p=0.78502
+[2] alpha=0    only_cs_retention_receptor_malignant | healthy=0.0990 AML=0.1164 | global b=-0.01041 p=0.71603 | within-ds b=-0.01992 p=0.46613
+[2] alpha=0    only_cs_sasp_malignant | healthy=0.0915 AML=0.1149 | global b=-0.02555 p=0.29736 | within-ds b=-0.02999 p=0.26394
+[2] alpha=0    only_cs_senescence_malignant | healthy=0.0818 AML=0.1159 | global b=-0.01079 p=0.65747 | within-ds b=-0.01504 p=0.54972
+[2] alpha=0    only_mt_glycolysis | healthy=0.0437 AML=0.0989 | global b=+0.02145 p=0.25203 | within-ds b=+0.02541 p=0.17918
+[2] alpha=0    only_mt_oxphos | healthy=0.0370 AML=0.0909 | global b=+0.02640 p=0.12711 | within-ds b=+0.02977 p=0.04059
+[2] alpha=0    only_mt_fatty_acid_oxidation | healthy=0.0562 AML=0.1210 | global b=+0.00846 p=0.70668 | within-ds b=+0.02310 p=0.35642
+[2] alpha=0    only_mt_expr_BCL2 | healthy=0.0373 AML=0.1033 | global b=+0.01638 p=0.41039 | within-ds b=+0.02503 p=0.27786
+[2] alpha=0    only_mt_expr_MCL1 | healthy=0.0573 AML=0.0723 | global b=+0.00790 p=0.51887 | within-ds b=+0.00945 p=0.54939
+[2] alpha=0    only_mt_expr_BCL2L1 | healthy=0.0865 AML=0.0763 | global b=+0.00206 p=0.90144 | within-ds b=+0.00846 p=0.67061
+[2] alpha=0    only_mt_glycolysis_normal | healthy=0.0479 AML=0.1077 | global b=+0.02389 p=0.22972 | within-ds b=+0.03703 p=0.06194
+[2] alpha=0    only_mt_oxphos_normal | healthy=0.0367 AML=0.1051 | global b=+0.03605 p=0.09177 | within-ds b=+0.04257 p=0.01762
+[2] alpha=0    only_mt_fatty_acid_oxidation_normal | healthy=0.0519 AML=0.1334 | global b=+0.01466 p=0.49189 | within-ds b=+0.03053 p=0.22902
+[2] alpha=0    only_mt_expr_BCL2_normal | healthy=0.0387 AML=0.1177 | global b=+0.02357 p=0.32947 | within-ds b=+0.03121 p=0.19637
+[2] alpha=0    only_mt_expr_MCL1_normal | healthy=0.0575 AML=0.0786 | global b=+0.01193 p=0.32653 | within-ds b=+0.01229 p=0.42665
+[2] alpha=0    only_mt_expr_BCL2L1_normal | healthy=0.0931 AML=0.1036 | global b=+0.01265 p=0.61188 | within-ds b=+0.01749 p=0.41716
+[2] alpha=0    only_mt_glycolysis_malignant | healthy=0.0764 AML=0.1164 | global b=-0.00265 p=0.89632 | within-ds b=-0.00821 p=0.71061
+[2] alpha=0    only_mt_oxphos_malignant | healthy=0.1204 AML=0.0988 | global b=-0.04829 p=0.03642 | within-ds b=-0.07878 p=0.00270
+[2] alpha=0    only_mt_fatty_acid_oxidation_malignant | healthy=0.0986 AML=0.1363 | global b=-0.00488 p=0.85470 | within-ds b=+0.00226 p=0.93410
+[2] alpha=0    only_mt_expr_BCL2_malignant | healthy=0.1171 AML=0.1171 | global b=-0.02324 p=0.37035 | within-ds b=-0.03354 p=0.22722
+[2] alpha=0    only_mt_expr_MCL1_malignant | healthy=0.0677 AML=0.0908 | global b=+0.00700 p=0.72559 | within-ds b=-0.00095 p=0.96090
+[2] alpha=0    only_mt_expr_BCL2L1_malignant | healthy=0.1175 AML=0.0940 | global b=-0.04546 p=0.05064 | within-ds b=-0.04644 p=0.04142
+[2] alpha=0    only_pt_predicted_Pseudotime | healthy=0.0318 AML=0.1201 | global b=+0.03361 p=0.23762 | within-ds b=+0.02611 p=0.13660
+[2] alpha=0    only_pt_predicted_Pseudotime_normal | healthy=0.0439 AML=0.1115 | global b=+0.02440 p=0.37655 | within-ds b=+0.02472 p=0.15987
+[2] alpha=0    only_pt_predicted_Pseudotime_malignant | healthy=0.0646 AML=0.1276 | global b=+0.01421 p=0.53872 | within-ds b=-0.00347 p=0.87689
+
+[3b] PANEL FAMILIES -- BH-FDR within each family, alpha=0, within-dataset model
+  cs: 39 features tested | q<0.05: 0
+      only_cs_exhaustion                             beta=+0.0568 p=0.0177 q=0.3389
+      only_cs_retention_receptor_normal              beta=+0.0603 p=0.0286 q=0.3389
+      only_cs_exhaustion_normal                      beta=+0.0496 p=0.0377 q=0.3389
+  mt: 18 features tested | q<0.05: 1
+      only_mt_oxphos_malignant                       beta=-0.0788 p=0.0027 q=0.0487 *
+      only_mt_oxphos_normal                          beta=+0.0426 p=0.0176 q=0.1586
+      only_mt_oxphos                                 beta=+0.0298 p=0.0406 q=0.1864
+  pg: 42 features tested | q<0.05: 0
+      only_pg_Hypoxia_normal                         beta=+0.0577 p=0.0085 q=0.1747
+      only_pg_Hypoxia                                beta=+0.0545 p=0.0108 q=0.1747
+      only_pg_TGFb_normal                            beta=+0.0590 p=0.0212 q=0.1747
+  pt: 3 features tested | q<0.05: 0
+      only_pt_predicted_Pseudotime                   beta=+0.0261 p=0.1366 q=0.2398
+      only_pt_predicted_Pseudotime_normal            beta=+0.0247 p=0.1599 q=0.2398
+      only_pt_predicted_Pseudotime_malignant         beta=-0.0035 p=0.8769 q=0.8769
+  st: 12 features tested | q<0.05: 0
+      only_st_vanGalen_HSC_like_normal               beta=+0.0524 p=0.0343 q=0.0929
+      only_st_HSPC_core_normal                       beta=+0.0532 p=0.0387 q=0.0929
+      only_st_vanGalen_HSCprog_like_normal           beta=+0.0482 p=0.0407 q=0.0929
+
+[3] FEATURE DECOMPOSITION
+ alpha                             feature_set  mean_healthy  mean_aml  beta_global  p_global  beta_strat  p_strat
+   0.0                       only_st_HSPC_core       0.02689   0.11244      0.06279   0.02185     0.05423  0.04255
+   0.0               only_st_vanGalen_HSC_like       0.02814   0.09282      0.05318   0.02296     0.05047  0.04580
+   0.0               only_st_vanGalen_HSC_Prog       0.06362   0.10814      0.01039   0.68191     0.01290  0.46784
+   0.0           only_st_vanGalen_HSCprog_like       0.03515   0.11164      0.05011   0.06470     0.04706  0.04646
+   0.0                only_st_HSPC_core_normal       0.02697   0.10767      0.06144   0.02337     0.05316  0.03872
+   0.0        only_st_vanGalen_HSC_like_normal       0.02866   0.10176      0.05880   0.02197     0.05242  0.03427
+   0.0        only_st_vanGalen_HSC_Prog_normal       0.04773   0.11099      0.02100   0.38012     0.02107  0.22394
+   0.0    only_st_vanGalen_HSCprog_like_normal       0.03340   0.09162      0.04891   0.03311     0.04823  0.04071
+   0.0             only_st_HSPC_core_malignant       0.10582   0.09594     -0.02871   0.13643    -0.02567  0.11991
+   0.0     only_st_vanGalen_HSC_like_malignant       0.08556   0.10521     -0.00268   0.90340     0.00219  0.91350
+   0.0     only_st_vanGalen_HSC_Prog_malignant       0.07415   0.12778      0.00715   0.77379    -0.00035  0.98762
+   0.0 only_st_vanGalen_HSCprog_like_malignant       0.04754   0.10936      0.02499   0.35362     0.01531  0.47645
+   0.0                        only_pg_Androgen       0.06070   0.09336      0.02579   0.11711     0.02945  0.16777
+   0.0                            only_pg_EGFR       0.05945   0.07872     -0.00315   0.82861    -0.00261  0.88426
+   0.0                        only_pg_Estrogen       0.02703   0.10482      0.03787   0.09183     0.03981  0.10648
+   0.0                         only_pg_Hypoxia       0.02371   0.08192      0.06066   0.00228     0.05447  0.01080
+   0.0                        only_pg_JAK_STAT       0.02276   0.11148      0.09047   0.00529     0.08437  0.03261
+   0.0                            only_pg_MAPK       0.06063   0.09906      0.04072   0.00978     0.03226  0.05493
+   0.0                            only_pg_NFkB       0.05308   0.14428      0.06988   0.02642     0.07103  0.04995
+   0.0                             only_pg_p53       0.02840   0.09258      0.04874   0.02486     0.04504  0.04048
+   0.0                            only_pg_PI3K       0.05691   0.08039      0.01819   0.35236     0.01051  0.53266
+   0.0                            only_pg_TGFb       0.03913   0.09510      0.04831   0.04789     0.05223  0.02256
+   0.0                            only_pg_TNFa       0.04659   0.09289      0.04112   0.03767     0.03629  0.08029
+   0.0                           only_pg_Trail       0.05079   0.07615      0.01985   0.21743     0.03134  0.06266
+   0.0                            only_pg_VEGF       0.05671   0.07855      0.01684   0.26803     0.03102  0.07061
+   0.0                             only_pg_WNT       0.03873   0.08215      0.04613   0.05045     0.05078  0.09050
+   0.0                 only_pg_Androgen_normal       0.06864   0.09036      0.01308   0.43760     0.01717  0.34699
+   0.0                     only_pg_EGFR_normal       0.05726   0.08301     -0.00110   0.92800    -0.00108  0.94420
+   0.0                 only_pg_Estrogen_normal       0.02661   0.12168      0.04742   0.08291     0.04687  0.11175
+   0.0                  only_pg_Hypoxia_normal       0.02236   0.07770      0.06528   0.00063     0.05768  0.00851
+   0.0                 only_pg_JAK_STAT_normal       0.02365   0.12876      0.09420   0.00539     0.07958  0.03167
+   0.0                     only_pg_MAPK_normal       0.06054   0.09735      0.03970   0.01127     0.02822  0.09168
+   0.0                     only_pg_NFkB_normal       0.05126   0.14290      0.07079   0.01729     0.06918  0.05302
+   0.0                      only_pg_p53_normal       0.02359   0.08734      0.05310   0.00967     0.05081  0.02833
+   0.0                     only_pg_PI3K_normal       0.05548   0.07935      0.01402   0.44043     0.01012  0.47671
+   0.0                     only_pg_TGFb_normal       0.03418   0.11033      0.05909   0.04186     0.05897  0.02122
+   0.0                     only_pg_TNFa_normal       0.04094   0.10442      0.05540   0.02921     0.04419  0.04245
+   0.0                    only_pg_Trail_normal       0.04124   0.08247      0.03362   0.05855     0.04151  0.03327
+   0.0                     only_pg_VEGF_normal       0.04328   0.08686      0.02492   0.11808     0.02522  0.11255
+   0.0                      only_pg_WNT_normal       0.04199   0.10498      0.05597   0.05516     0.05534  0.06871
+   0.0              only_pg_Androgen_malignant       0.10291   0.11443     -0.01074   0.63726    -0.01805  0.43473
+   0.0                  only_pg_EGFR_malignant       0.08634   0.12193      0.02058   0.35840     0.01367  0.57880
+   0.0              only_pg_Estrogen_malignant       0.05870   0.14391      0.03205   0.33132     0.02979  0.39758
+   0.0               only_pg_Hypoxia_malignant       0.07419   0.10282     -0.00524   0.77592    -0.00596  0.73831
+   0.0              only_pg_JAK_STAT_malignant       0.07849   0.12972     -0.01011   0.71401    -0.02143  0.49208
+   0.0                  only_pg_MAPK_malignant       0.10957   0.13199      0.00893   0.73516    -0.00167  0.95028
+   0.0                  only_pg_NFkB_malignant       0.11821   0.12679     -0.01506   0.51887    -0.01475  0.53839
+   0.0                   only_pg_p53_malignant       0.06429   0.11274      0.03215   0.17583     0.03775  0.10830
+   0.0                  only_pg_PI3K_malignant       0.08683   0.09048     -0.01464   0.41396    -0.02275  0.27626
+   0.0                  only_pg_TGFb_malignant       0.11105   0.10941     -0.02555   0.24458    -0.03261  0.15213
+   0.0                  only_pg_TNFa_malignant       0.09014   0.12439     -0.00584   0.83542    -0.03570  0.23902
+   0.0                 only_pg_Trail_malignant       0.10400   0.10590     -0.02154   0.28996    -0.02361  0.31498
+   0.0                  only_pg_VEGF_malignant       0.09665   0.12581     -0.01829   0.48184    -0.01790  0.44610
+   0.0                   only_pg_WNT_malignant       0.06667   0.10088      0.00574   0.81035     0.00516  0.83308
+   0.0                   only_cs_antiapoptotic       0.05001   0.07001      0.03158   0.03925     0.02156  0.24917
+   0.0               only_cs_apoptotic_priming       0.04740   0.09214      0.01685   0.41007     0.01898  0.35486
+   0.0                    only_cs_cytotoxicity       0.07280   0.07615     -0.00899   0.48143    -0.00059  0.97720
+   0.0                      only_cs_exhaustion       0.02597   0.14298      0.06907   0.01374     0.05680  0.01771
+   0.0                    only_cs_interferon_I       0.05776   0.06255      0.00625   0.60768     0.00432  0.74546
+   0.0                   only_cs_interferon_II       0.03546   0.13857      0.05278   0.07016     0.06289  0.06084
+   0.0                           only_cs_mhc_i       0.02465   0.09865      0.05068   0.02348     0.05554  0.05421
+   0.0                          only_cs_mhc_ii       0.05788   0.07440      0.01331   0.37430     0.00591  0.73121
+   0.0                    only_cs_naive_memory       0.04984   0.08335      0.01188   0.60936     0.01700  0.57729
+   0.0                only_cs_retention_ligand       0.05206   0.08359      0.03109   0.04015     0.02347  0.21744
+   0.0              only_cs_retention_receptor       0.03253   0.10306      0.07134   0.00308     0.05942  0.03903
+   0.0                            only_cs_sasp       0.08351   0.10658     -0.00077   0.97226    -0.00968  0.71169
+   0.0                      only_cs_senescence       0.07673   0.07465     -0.02025   0.16612    -0.00991  0.55528
+   0.0            only_cs_antiapoptotic_normal       0.04770   0.07229      0.03543   0.01567     0.02586  0.14521
+   0.0        only_cs_apoptotic_priming_normal       0.05661   0.09169      0.00223   0.90369    -0.00191  0.92087
+   0.0             only_cs_cytotoxicity_normal       0.07349   0.09427     -0.00086   0.95978     0.00047  0.97632
+   0.0               only_cs_exhaustion_normal       0.02650   0.15903      0.06298   0.07335     0.04957  0.03770
+   0.0             only_cs_interferon_I_normal       0.05882   0.07664      0.01603   0.32839     0.01072  0.38474
+   0.0            only_cs_interferon_II_normal       0.03873   0.14614      0.05215   0.07433     0.06262  0.07768
+   0.0                    only_cs_mhc_i_normal       0.02473   0.10504      0.05265   0.03788     0.04619  0.05251
+   0.0                   only_cs_mhc_ii_normal       0.06931   0.08270      0.00428   0.78881    -0.00096  0.95475
+   0.0             only_cs_naive_memory_normal       0.04997   0.10166      0.01633   0.50115     0.02217  0.47989
+   0.0         only_cs_retention_ligand_normal       0.05474   0.09970      0.03170   0.09384     0.02066  0.28716
+   0.0       only_cs_retention_receptor_normal       0.03043   0.11458      0.07871   0.00775     0.06034  0.02855
+   0.0                     only_cs_sasp_normal       0.07863   0.10752     -0.00281   0.88977    -0.01365  0.57717
+   0.0               only_cs_senescence_normal       0.07110   0.08871     -0.01381   0.44185    -0.01183  0.49348
+   0.0         only_cs_antiapoptotic_malignant       0.08980   0.10848     -0.00438   0.84169    -0.00586  0.78678
+   0.0     only_cs_apoptotic_priming_malignant       0.09447   0.09572     -0.03249   0.15364    -0.03592  0.15122
+   0.0          only_cs_cytotoxicity_malignant       0.07738   0.11891     -0.00296   0.90084    -0.00171  0.92943
+   0.0            only_cs_exhaustion_malignant       0.07136   0.15108      0.02561   0.41388     0.01600  0.56483
+   0.0          only_cs_interferon_I_malignant       0.09450   0.11353     -0.01879   0.37372    -0.02313  0.27624
+   0.0         only_cs_interferon_II_malignant       0.06643   0.14180      0.03624   0.18225     0.03424  0.24905
+   0.0                 only_cs_mhc_i_malignant       0.05925   0.11613      0.00468   0.87865     0.00502  0.88483
+   0.0                only_cs_mhc_ii_malignant       0.06235   0.11702      0.02358   0.24448     0.01864  0.35877
+   0.0          only_cs_naive_memory_malignant       0.08944   0.10513     -0.00252   0.90348     0.00490  0.81457
+   0.0      only_cs_retention_ligand_malignant       0.07273   0.10435      0.00662   0.72633     0.00550  0.78502
+   0.0    only_cs_retention_receptor_malignant       0.09898   0.11636     -0.01041   0.71603    -0.01992  0.46613
+   0.0                  only_cs_sasp_malignant       0.09149   0.11495     -0.02555   0.29736    -0.02999  0.26394
+   0.0            only_cs_senescence_malignant       0.08185   0.11589     -0.01079   0.65747    -0.01504  0.54972
+   0.0                      only_mt_glycolysis       0.04372   0.09886      0.02145   0.25203     0.02541  0.17918
+   0.0                          only_mt_oxphos       0.03704   0.09091      0.02640   0.12711     0.02977  0.04059
+   0.0            only_mt_fatty_acid_oxidation       0.05618   0.12104      0.00846   0.70668     0.02310  0.35642
+   0.0                       only_mt_expr_BCL2       0.03726   0.10329      0.01638   0.41039     0.02503  0.27786
+   0.0                       only_mt_expr_MCL1       0.05725   0.07226      0.00790   0.51887     0.00945  0.54939
+   0.0                     only_mt_expr_BCL2L1       0.08655   0.07628      0.00206   0.90144     0.00846  0.67061
+   0.0               only_mt_glycolysis_normal       0.04794   0.10765      0.02389   0.22972     0.03703  0.06194
+   0.0                   only_mt_oxphos_normal       0.03667   0.10506      0.03605   0.09177     0.04257  0.01762
+   0.0     only_mt_fatty_acid_oxidation_normal       0.05185   0.13338      0.01466   0.49189     0.03053  0.22902
+   0.0                only_mt_expr_BCL2_normal       0.03872   0.11770      0.02357   0.32947     0.03121  0.19637
+   0.0                only_mt_expr_MCL1_normal       0.05750   0.07862      0.01193   0.32653     0.01229  0.42665
+   0.0              only_mt_expr_BCL2L1_normal       0.09308   0.10362      0.01265   0.61188     0.01749  0.41716
+   0.0            only_mt_glycolysis_malignant       0.07636   0.11640     -0.00265   0.89632    -0.00821  0.71061
+   0.0                only_mt_oxphos_malignant       0.12042   0.09880     -0.04829   0.03642    -0.07878  0.00270
+   0.0  only_mt_fatty_acid_oxidation_malignant       0.09856   0.13634     -0.00488   0.85470     0.00226  0.93410
+   0.0             only_mt_expr_BCL2_malignant       0.11708   0.11711     -0.02324   0.37035    -0.03354  0.22722
+   0.0             only_mt_expr_MCL1_malignant       0.06766   0.09084      0.00700   0.72559    -0.00095  0.96090
+   0.0           only_mt_expr_BCL2L1_malignant       0.11746   0.09399     -0.04546   0.05064    -0.04644  0.04142
+   0.0            only_pt_predicted_Pseudotime       0.03179   0.12006      0.03361   0.23762     0.02611  0.13660
+   0.0     only_pt_predicted_Pseudotime_normal       0.04386   0.11154      0.02440   0.37655     0.02472  0.15987
+   0.0  only_pt_predicted_Pseudotime_malignant       0.06459   0.12758      0.01421   0.53872    -0.00347  0.87689
+
+[4] VERDICT (alpha=0, within-dataset model)
+    only_frac_mal : p=nan   (the feature we force to 0 for healthy)
+    no_frac_mal   : p=nan   (stemness + n_cells, no encoded label)
+    -> neither subset is significant on its own; the signal needs the full feature combination.
+
+[done] wrote /LARGE1/gr10634/gaozy/tmp/screen1e6/within_sample_rank/08_scoring/feature_decomposition.csv

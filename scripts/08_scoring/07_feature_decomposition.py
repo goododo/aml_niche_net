@@ -25,7 +25,8 @@
 # Run at alpha=0 (pure feature, cleanest attribution) and alpha=0.5 (the default setting).
 #
 # INPUT  : <root>/07_fgw/fgw_{nodes,edges,input_index}_long.csv
-# OUTPUT : <root>/08_scoring/feature_decomposition.csv
+# OUTPUT : <root>/08_scoring/feature_decomposition.csv          (--split all)
+#          <root>/08_scoring/feature_decomposition__<split>.csv (otherwise; override with --out)
 # Usage  : python scripts/08_scoring/07_feature_decomposition.py [--n_perm 10000]
 import argparse, hashlib, os, warnings
 import sys
@@ -60,6 +61,9 @@ ALL_FEATURES=["frac_malignant","mean_stemness","n_cells"]
 BLAST_BINS=["HSC_MPP","LMPP_GMP","Mono_DC"]
 AML_TP = None  # set from fgw_vocab.json below -- see scripts/config/fgw_vocab.py
 DEFAULT_ROOT="/FAST/gr10634/gaozy/aml_niche_net/results/tables"; SEED=491638
+# A node is PRESENT if its normalised mass exceeds this. FGW_EPS_MASS is 1e-6 before the within-sample
+# renormalisation, so an absent node lands near 1e-7 and a present one is orders of magnitude above.
+_PRESENT_EPS=1e-5
 
 # CORE: the three features actually in FGW_FEATURES. This is the original circularity test.
 CORE_SUBSETS={
@@ -113,10 +117,29 @@ def panel_subsets(cand):
         out["only_" + c] = [c]
     return out
 
-def family_of(name):
-    """Family key for BH correction. Panel candidates are prefixed st_/pg_/cs_/mt_/pt_."""
+def family_of(name, fam_map):
+    """Family key for BH correction, LOOKED UP in the vocabulary rather than pattern-matched.
+
+    This used to test the name's two-letter prefix against a hard-coded ("st","pg","cs","mt","pt").
+    That is a silent-failure shape: adding a sixth family to CCC_PANELS -- the `mp` family P2 calls
+    for -- would not have raised anything. Every mp_* feature would have been labelled "core", the
+    BH loop skips "core", and the whole family would have been reported with q = NaN, i.e.
+    uncorrected, while looking exactly like the other families in the output.
+
+    fam_map comes from fgw_vocab.json, which 07_fgw/01 writes from config_ccc.R's CCC_PANELS. An
+    unrecognised candidate is a hard error: the alternative is to guess, and guessing here means
+    silently skipping a multiple-testing correction.
+    """
     f = name[len("only_"):] if name.startswith("only_") else name
-    return f[:2] if f[:2] in ("st","pg","cs","mt","pt") and f[2:3] == "_" else "core"
+    if f in fam_map:
+        return fam_map[f]
+    if name in CORE_SUBSETS or name in CANDIDATE_SUBSETS or name in ("all3","no_frac_mal","noncircular"):
+        return "core"
+    raise SystemExit(
+        f"cannot assign a multiple-testing family to '{name}'.\n"
+        f"  It is not in fgw_vocab.json's candidate_family map ({len(fam_map)} entries) and is not a\n"
+        f"  core/candidate subset. Re-run scripts/07_fgw/01_build_fgw_inputs.R so the vocabulary\n"
+        f"  carries the family for every candidate CCC_PANELS declares.")
 
 ap=argparse.ArgumentParser()
 ap.add_argument("--root",default=DEFAULT_ROOT)
@@ -130,6 +153,31 @@ ap.add_argument("--split_csv",default=None,
     help="path to 01_preprocess/02_sample_split.csv; defaults to <root>/01_preprocess/02_sample_split.csv")
 ap.add_argument("--subsets",default="all",choices=["core","candidates","panels","all"],
                 help="core = the 3 features in FGW_FEATURES; candidates = FGW_CANDIDATE_FEATURES")
+ap.add_argument("--only",default="",
+    help="comma-separated subset names to run, e.g. 'only_pt_predicted_Pseudotime'. Applied AFTER "
+         "--subsets builds the candidate set, so --subsets panels --only <two names> tests exactly "
+         "those two. This exists for CONFIRMATION runs: the pre-registration says nothing that "
+         "failed screening may be looked at again on Validation, and without this flag the only way "
+         "to test a screened hit was --subsets panels, which computes, writes AND prints all 114 -- "
+         "including the 107 that failed. An unknown name is a hard error, never a silent no-op.")
+ap.add_argument("--out",default=None,
+    help="output basename under <root>/08_scoring. Defaults to feature_decomposition.csv for "
+         "--split all, and feature_decomposition__<split>.csv otherwise -- see the note at the "
+         "write site for why the split MUST be in the path and not only in a column.")
+ap.add_argument("--covar",default="none",choices=["none","depth","ribo","both"],
+    help="technical covariate added to BOTH model matrices. AML libraries are systematically deeper "
+         "than healthy (med_ncount 4874 vs 3006, AUC 0.695), and on the Discovery arm depth still "
+         "tracks the label at r=+0.284 (p=0.012) AFTER the dataset fixed effects. blast_proxy does "
+         "not absorb it. Default none reproduces the frozen screen bit-for-bit; see the 2026-08-29 "
+         "amendment in PREREGISTRATION_panel_screen.md for the rule fixed before this was run.")
+ap.add_argument("--qc_csv",default=None,
+    help="path to 01_preprocess/03_qc_report__ALL.csv for --covar; defaults to <root>/01_preprocess/")
+ap.add_argument("--absent_mask",action="store_true",
+    help="normalise the feature cost matrix by its maximum over PRESENT nodes only. Absent nodes "
+         "carry ~1e-6 mass, transport nothing, and hold imputed features -- yet a phantom row can "
+         "set the scale for the whole sample. Changes HDS by up to 12.8%% on 5 of 138 samples and "
+         "hits healthy samples (52.2%%) more often than AML (35.7%%), so the leak points toward the "
+         "hypothesis. Off by default so the baseline arm stays a reproduction.")
 ap.add_argument("--max_iter",type=int,default=1000)
 args=ap.parse_args()
 # ONE RNG PER (alpha, subset, model), KEYED ON A STABLE LABEL. A single shared stream made a subset's
@@ -172,6 +220,21 @@ if args.subsets in ("panels","all"):
     if _absent:
         print(f"[0] {len(_absent)} vocab candidate(s) absent from fgw_nodes_long.csv, skipped: "
               f"{', '.join(_absent[:6])}{' ...' if len(_absent) > 6 else ''}")
+
+# --only is applied HERE, after every source of subsets has contributed, so a name from any of them
+# resolves. Unknown names abort: a confirmation run that silently tested nothing, or tested a
+# mistyped neighbour, is the worst possible outcome for an arm that can only be spent once.
+if args.only:
+    _want_only = [x.strip() for x in args.only.split(",") if x.strip()]
+    _unknown = [x for x in _want_only if x not in SUBSETS]
+    if _unknown:
+        raise SystemExit(
+            f"--only names subset(s) that do not exist: {', '.join(_unknown)}\n"
+            f"  Available under --subsets {args.subsets}: {len(SUBSETS)} names, e.g. "
+            f"{', '.join(sorted(SUBSETS)[:6])} ...\n"
+            f"  (A hit from the panel screen needs --subsets panels or all.)")
+    SUBSETS = {k: SUBSETS[k] for k in _want_only}
+    print(f"[0] --only: restricted to {len(SUBSETS)} subset(s): {', '.join(_want_only)}")
 idx=pd.read_csv(os.path.join(D_FGW,"fgw_input_index.csv"))
 
 # Fail loudly on a label the vocabulary does not cover. Without this an unrecognised
@@ -219,7 +282,12 @@ def barycenter(keys,alpha,feats):
     return np.asarray(out[1]),np.asarray(out[0]),np.ones(n)/n
 
 def fgw2(C,F,p,Cb,Fb,pb,alpha):
-    M=ot.dist(F,Fb); mx=M.max(); M=M/(mx+1e-9) if mx>0 else M
+    M=ot.dist(F,Fb)
+    # THE SCALE MUST COME FROM NODES THAT TRANSPORT. An absent node carries FGW_EPS_MASS (1e-6 before
+    # renormalisation) and an imputed feature vector, so its row of M is a distance to something that
+    # is not there -- yet under a plain M.max() it can set the normalisation for the entire sample.
+    mx = M[p > _PRESENT_EPS].max() if (args.absent_mask and (p > _PRESENT_EPS).any()) else M.max()
+    M=M/(mx+1e-9) if mx>0 else M
     with pot_quiet():
         return float(ot.gromov.fused_gromov_wasserstein2(M,C,Cb,p,pb,loss_fun="square_loss",alpha=alpha,symmetric=False))
 
@@ -250,6 +318,31 @@ for b in FGW_NODES:
     if b not in nc: nc[b]=0
 nc["total"]=nc[FGW_NODES].sum(axis=1); nc["blast_proxy"]=nc[BLAST_BINS].sum(axis=1)/nc["total"].clip(lower=1)
 d=d.merge(nc[["dataset","sample","blast_proxy"]],on=["dataset","sample"],how="left").dropna(subset=["blast_proxy"]).reset_index(drop=True)
+
+# TECHNICAL COVARIATES. Joined on Sample (capital S in the QC report) and z-scored so the column
+# scale cannot dominate the QR. log10 of depth because library size is multiplicative.
+COVAR_COLS=[]
+if args.covar!="none":
+    qc_p = args.qc_csv or os.path.join(args.root,"01_preprocess","03_qc_report__ALL.csv")
+    if not os.path.exists(qc_p):
+        raise SystemExit(f"--covar {args.covar} needs the QC report, not found: {qc_p}\n"
+                         f"  Pass --qc_csv, or run with --covar none.")
+    qc = pd.read_csv(qc_p).rename(columns={"Sample":"sample"})
+    qc = qc[["dataset","sample","med_ncount_final"]].drop_duplicates(subset=["dataset","sample"])
+    qc["depth"]=np.log10(qc["med_ncount_final"].clip(lower=1))
+    if args.covar in ("ribo","both"):
+        raise SystemExit("--covar ribo/both needs a per-sample ribosomal fraction, which is not in "
+                         "03_qc_report__ALL.csv. It would have to be aggregated from the per-cell "
+                         "ingest QC first; do that as its own step rather than inline here.")
+    d = d.merge(qc[["dataset","sample","depth"]],on=["dataset","sample"],how="left")
+    miss=int(d["depth"].isna().sum())
+    if miss:
+        # Dropping silently would change the cohort between arms and make the comparison meaningless.
+        raise SystemExit(f"{miss} of {len(d)} sample(s) have no depth in the QC report. The arms must "
+                         f"run on the SAME cohort or the comparison is not a comparison.")
+    d["depth"]=(d["depth"]-d["depth"].mean())/d["depth"].std(ddof=0)
+    COVAR_COLS=["depth"]
+    print(f"[1] covariate: {args.covar} -> columns {COVAR_COLS} (z-scored, log10 for depth)")
 # THE SPLIT. A dataset-level 70/30 Discovery/Validation assignment has existed since 2026-08-04 and
 # no analysis respected it, which was tolerable only while the feature set was fixed a priori. A
 # sweep over the panel families IS selection, so it must run on one arm.
@@ -295,13 +388,15 @@ for alpha in ALPHAS:
             C,F,p=build_one(*k,feats); hds[k]=fgw2(C,F,p,Cb_full,Fb_full,pb,alpha)
         dd=d.copy(); dd["HDS"]=[hds[(r.dataset,r["sample"])] for _,r in dd.iterrows()]
         y=dd["HDS"].to_numpy(float); a=dd["is_aml"].to_numpy(float)
-        X0=np.column_stack([np.ones(len(dd)),dd["blast_proxy"].to_numpy(float)])
+        X0=np.column_stack([np.ones(len(dd)),dd["blast_proxy"].to_numpy(float)]
+                          +[dd[c].to_numpy(float) for c in COVAR_COLS])
         bA,pA=fwl_perm(y,X0,a,None,args.n_perm,_rng(alpha,name,"global"))
         both=[ds for ds,g in dd.groupby("dataset") if g.is_aml.nunique()==2]
         db=dd[dd.dataset.isin(both)].reset_index(drop=True)
         yb=db["HDS"].to_numpy(float); ab=db["is_aml"].to_numpy(float)
         dums=pd.get_dummies(db["dataset"],drop_first=True).to_numpy(float)
-        X0b=np.column_stack([np.ones(len(db)),db["blast_proxy"].to_numpy(float),dums])
+        X0b=np.column_stack([np.ones(len(db)),db["blast_proxy"].to_numpy(float),dums]
+                           +[db[c].to_numpy(float) for c in COVAR_COLS])
         bB,pB=fwl_perm(yb,X0b,ab,db["dataset"].to_numpy(),args.n_perm,_rng(alpha,name,"strat"))
         rows.append(dict(alpha=alpha,feature_set=name,features="+".join(feats),
                          mean_healthy=float(y[a==0].mean()),mean_aml=float(y[a==1].mean()),
@@ -321,14 +416,34 @@ def _bh(pv):
     q = np.empty(n); q[o] = np.minimum.accumulate((pv[o] * n / np.arange(1, n+1))[::-1])[::-1]
     return np.minimum(q, 1.0)
 
-res["family"] = [family_of(n) for n in res["feature_set"]]
+# The family map is LOADED from the vocabulary, never inferred from the name. jsonlite writes a
+# length-1 R list element as a bare string, so normalise to str either way.
+_FAM_MAP = {k: (v if isinstance(v, str) else v[0])
+            for k, v in (_VOCAB.get("candidate_family") or {}).items()}
+if not _FAM_MAP:
+    raise SystemExit(
+        "fgw_vocab.json carries no candidate_family map.\n"
+        "  Re-run scripts/07_fgw/01_build_fgw_inputs.R --force: it emits the map from CCC_PANELS,\n"
+        "  and without it the BH correction cannot know which features form a family.")
+res["family"] = [family_of(n, _FAM_MAP) for n in res["feature_set"]]
 res["q_strat"] = np.nan
 for (al, fam), g in res.groupby(["alpha","family"]):
     if fam == "core" or len(g) < 2:
         continue
     res.loc[g.index, "q_strat"] = _bh(g["p_strat"].to_numpy())
 res["split"] = args.split
-res.to_csv(os.path.join(D_OUT,"feature_decomposition.csv"),index=False)
+# THE SPLIT GOES IN THE FILENAME, NOT ONLY IN A COLUMN. It used to be a column alone, so every run
+# landed on the same feature_decomposition.csv regardless of --split, --subsets or --n_perm. That is
+# not hypothetical: on 2026-08-28 a --split all run silently overwrote the file that a reader would
+# take to be "the screen", leaving pt at q_strat=0.063 (pooled cohort) where the pre-registered
+# Discovery screen has 0.031. A Validation confirmation run overwriting the Discovery screen that
+# defines its own hypotheses would be unrecoverable.
+_out = args.out or ("feature_decomposition.csv" if args.split == "all"
+                    else f"feature_decomposition__{args.split}.csv")
+_only_tag = f" [--only {args.only}]" if args.only else ""
+res.to_csv(os.path.join(D_OUT,_out),index=False)
+print(f"[done] wrote {os.path.join(D_OUT,_out)}  "
+      f"({len(res)} rows, split={args.split}, n_perm={args.n_perm}){_only_tag}")
 
 fams = [f for f in res["family"].unique() if f != "core"]
 if fams:
@@ -410,4 +525,4 @@ if any(k in z.index for k in CANDIDATE_SUBSETS):
     if heavy:
         print("\n    imputation warning (>50% of nodes imputed -> null results uninformative):")
         for c, v in sorted(heavy.items(), key=lambda kv: -kv[1]): print(f"      {c:<26} {v:.1%}")
-print(f"\n[done] wrote {os.path.join(D_OUT,'feature_decomposition.csv')}")
+
