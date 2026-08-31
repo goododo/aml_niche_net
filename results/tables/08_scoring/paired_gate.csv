@@ -1,0 +1,41 @@
+gate,arm,alpha,kind,n,stat,value,p,extra
+GATE1_identity,rank,0.0,Dx_to_Relapse,11,median percentile of the true partner,0.3333333333333333,0.0615234375,top1=1/11
+GATE1_identity,rank,0.0,Dx_to_Treatment,11,median percentile of the true partner,0.2727272727272727,0.0615234375,top1=0/11
+GATE1_identity,rank,0.5,Dx_to_Relapse,11,median percentile of the true partner,0.3333333333333333,0.08740234375,top1=1/11
+GATE1_identity,rank,0.5,Dx_to_Treatment,11,median percentile of the true partner,0.18181818181818182,0.02587890625,top1=0/11
+GATE1_identity,rank,1.0,Dx_to_Relapse,11,median percentile of the true partner,0.5416666666666666,0.44287109375,top1=3/11
+GATE1_identity,rank,1.0,Dx_to_Treatment,11,median percentile of the true partner,0.36363636363636365,0.083984375,top1=0/11
+GATE1_identity,mask,0.0,Dx_to_Relapse,11,median percentile of the true partner,0.3333333333333333,0.0615234375,top1=1/11
+GATE1_identity,mask,0.0,Dx_to_Treatment,11,median percentile of the true partner,0.2727272727272727,0.0615234375,top1=0/11
+GATE1_identity,mask,0.5,Dx_to_Relapse,11,median percentile of the true partner,0.2608695652173913,0.1884765625,top1=1/11
+GATE1_identity,mask,0.5,Dx_to_Treatment,11,median percentile of the true partner,0.2727272727272727,0.12353515625,top1=0/11
+GATE1_identity,mask,1.0,Dx_to_Relapse,11,median percentile of the true partner,0.2608695652173913,0.0615234375,top1=0/11
+GATE1_identity,mask,1.0,Dx_to_Treatment,11,median percentile of the true partner,0.6363636363636364,0.71875,top1=0/11
+GATE1_identity,const,0.0,Dx_to_Relapse,11,median percentile of the true partner,0.3333333333333333,0.0615234375,top1=1/11
+GATE1_identity,const,0.0,Dx_to_Treatment,11,median percentile of the true partner,0.2727272727272727,0.0615234375,top1=0/11
+GATE1_identity,const,0.5,Dx_to_Relapse,11,median percentile of the true partner,0.3333333333333333,0.083984375,top1=1/11
+GATE1_identity,const,0.5,Dx_to_Treatment,11,median percentile of the true partner,0.13043478260869565,0.0244140625,top1=0/11
+GATE1_identity,const,1.0,Dx_to_Relapse,11,median percentile of the true partner,0.7083333333333334,0.521484375,top1=3/11
+GATE1_identity,const,1.0,Dx_to_Treatment,11,median percentile of the true partner,0.2727272727272727,0.0205078125,top1=1/11
+GATE1_identity,logs,0.0,Dx_to_Relapse,11,median percentile of the true partner,0.3333333333333333,0.0615234375,top1=1/11
+GATE1_identity,logs,0.0,Dx_to_Treatment,11,median percentile of the true partner,0.2727272727272727,0.0615234375,top1=0/11
+GATE1_identity,logs,0.5,Dx_to_Relapse,11,median percentile of the true partner,0.3333333333333333,0.0771484375,top1=1/11
+GATE1_identity,logs,0.5,Dx_to_Treatment,11,median percentile of the true partner,0.13043478260869565,0.021484375,top1=1/11
+GATE1_identity,logs,1.0,Dx_to_Relapse,11,median percentile of the true partner,0.6956521739130435,0.88623046875,top1=1/11
+GATE1_identity,logs,1.0,Dx_to_Treatment,11,median percentile of the true partner,0.2608695652173913,0.00146484375,top1=2/11
+GATE3_question,rank,0.5,Dx_to_Relapse,11,intercept of dHDS ~ dLogDepth,-0.011058033510116696,0.7581168963242794,slope=-0.1233 wilcoxon_nocovar_p=0.7646 median_dHDS=-0.0115
+GATE2_positive_control,rank,0.5,Dx_to_Treatment,11,intercept of dHDS ~ dLogDepth,-0.0750008428568861,0.026866460052619612,slope=-0.4352 wilcoxon_nocovar_p=0.1201 median_dHDS=-0.0802
+GATE3_question,rank,1.0,Dx_to_Relapse,11,intercept of dHDS ~ dLogDepth,0.006964413418153243,0.3624420640322282,slope=+0.0610 wilcoxon_nocovar_p=0.6377 median_dHDS=-0.0015
+GATE2_positive_control,rank,1.0,Dx_to_Treatment,11,intercept of dHDS ~ dLogDepth,-0.00029315090895735486,0.48641751044614057,slope=-0.0147 wilcoxon_nocovar_p=0.6177 median_dHDS=+0.0047
+GATE3_question,mask,0.5,Dx_to_Relapse,11,intercept of dHDS ~ dLogDepth,-0.019444535251110413,0.5822299341127045,slope=-0.0841 wilcoxon_nocovar_p=0.4131 median_dHDS=-0.0482
+GATE2_positive_control,mask,0.5,Dx_to_Treatment,11,intercept of dHDS ~ dLogDepth,-0.07431314126608089,0.029762998699764145,slope=-0.3496 wilcoxon_nocovar_p=0.1201 median_dHDS=-0.0510
+GATE3_question,mask,1.0,Dx_to_Relapse,11,intercept of dHDS ~ dLogDepth,-0.0007068529410236694,0.9745527763452096,slope=+0.0855 wilcoxon_nocovar_p=0.5771 median_dHDS=-0.0037
+GATE2_positive_control,mask,1.0,Dx_to_Treatment,11,intercept of dHDS ~ dLogDepth,-0.0028774141481181384,0.41006023776801365,slope=+0.0895 wilcoxon_nocovar_p=0.3501 median_dHDS=-0.0165
+GATE3_question,const,0.5,Dx_to_Relapse,11,intercept of dHDS ~ dLogDepth,-0.008566016280526874,0.8135374403577965,slope=-0.1278 wilcoxon_nocovar_p=0.7646 median_dHDS=-0.0165
+GATE2_positive_control,const,0.5,Dx_to_Treatment,11,intercept of dHDS ~ dLogDepth,-0.07666165188375126,0.029287518970037486,slope=-0.4478 wilcoxon_nocovar_p=0.1602 median_dHDS=-0.0822
+GATE3_question,const,1.0,Dx_to_Relapse,11,intercept of dHDS ~ dLogDepth,0.01034322152109102,0.2676359804008088,slope=+0.0484 wilcoxon_nocovar_p=0.4648 median_dHDS=+0.0109
+GATE2_positive_control,const,1.0,Dx_to_Treatment,11,intercept of dHDS ~ dLogDepth,-0.00422140334272273,0.407425877512123,slope=-0.0395 wilcoxon_nocovar_p=0.5508 median_dHDS=+0.0019
+GATE3_question,logs,0.5,Dx_to_Relapse,11,intercept of dHDS ~ dLogDepth,-0.007861197188492137,0.828951358585707,slope=-0.1553 wilcoxon_nocovar_p=0.9658 median_dHDS=-0.0157
+GATE2_positive_control,logs,0.5,Dx_to_Treatment,11,intercept of dHDS ~ dLogDepth,-0.0783000761428939,0.030978850242086388,slope=-0.4553 wilcoxon_nocovar_p=0.1392 median_dHDS=-0.0874
+GATE3_question,logs,1.0,Dx_to_Relapse,11,intercept of dHDS ~ dLogDepth,0.010567696019695977,0.15722801100462466,slope=-0.0200 wilcoxon_nocovar_p=0.1475 median_dHDS=+0.0100
+GATE2_positive_control,logs,1.0,Dx_to_Treatment,11,intercept of dHDS ~ dLogDepth,-0.007677371102322255,0.36209527495419364,slope=-0.0628 wilcoxon_nocovar_p=0.5508 median_dHDS=+0.0022

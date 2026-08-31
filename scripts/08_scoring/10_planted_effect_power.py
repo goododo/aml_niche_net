@@ -38,6 +38,7 @@ import ot
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
 from fgw_vocab import load_vocab, assert_index_covered
+from distance_variants import weights_to_C, ARMS as DV_ARMS
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
@@ -58,6 +59,10 @@ ap.add_argument("--modes", default="mult,add",
                      "own median non-zero weight, which can lift an absent edge into existence.")
 ap.add_argument("--n_perm", type=int, default=2000)
 ap.add_argument("--max_iter", type=int, default=1000)
+# EDGE-COST TRANSFORM, pre-registered in PREREGISTRATION_paired_gate.md. Default "rank" is the
+# production rule and keeps SELF-CHECK 1 below as a bit-for-bit reproduction of 06_distance/01.
+# The other arms give an undetected edge a cost that does not move with how many are missing.
+ap.add_argument("--distance", choices=list(DV_ARMS), default="rank")
 args = ap.parse_args()
 DELTAS = [float(x) for x in args.deltas.split(",")]
 KS = [int(x) for x in args.ks.split(",")]
@@ -114,14 +119,23 @@ C_STORED = ed.pivot(index=["dataset","sample"], columns="edge", values="C").rein
 W = W.reindex(KEY); C_STORED = C_STORED.reindex(KEY)
 assert W.notna().all().all(), "missing weight_probsum for some (sample, edge)"
 
-def rank_to_C(w_row):
-    """The rank step from 06_distance/01: rank_pct = frank(w, ties='average')/49 ; C = 1 - rank_pct."""
-    s = pd.Series(w_row)
-    return 1.0 - (s.rank(method="average").to_numpy() / len(s))
+# n_lr_sig is needed by the 'mask' arm only. Planting adds probability mass, not significant
+# LR pairs, so this matrix is the unplanted one throughout and is not re-derived per delta.
+NLR = ed.pivot(index=["dataset","sample"], columns="edge", values="n_lr_sig").reindex(columns=EDGES).reindex(KEY)
+NLR_NP = NLR.to_numpy(float)
 
-C0 = np.vstack([rank_to_C(W.iloc[i].to_numpy(float)) for i in range(len(W))])
-maxdev = float(np.max(np.abs(C0 - C_STORED.to_numpy(float))))
-print(f"[SELF-CHECK 1] re-ranked C vs stored C : max |dev| = {maxdev:.3e}")
+def rank_to_C(w_row, i=None):
+    """The pre-registered transform for the arm selected on the command line. Under the default
+    'rank' this is exactly the step in 06_distance/01, which SELF-CHECK 1 verifies."""
+    nl = None if i is None else NLR_NP[i]
+    return weights_to_C(np.asarray(w_row, float), args.distance, nl)
+
+# SELF-CHECK 1 always runs on the 'rank' path, whatever arm was requested: if the shared transform
+# has drifted from 06_distance/01 then every arm built on it is measuring the harness.
+C0_rank = np.vstack([weights_to_C(W.iloc[i].to_numpy(float), "rank", NLR_NP[i]) for i in range(len(W))])
+C0 = np.vstack([rank_to_C(W.iloc[i].to_numpy(float), i) for i in range(len(W))])
+maxdev = float(np.max(np.abs(C0_rank - C_STORED.to_numpy(float))))
+print(f"[SELF-CHECK 1] re-ranked C vs stored C : max |dev| = {maxdev:.3e}  (arm={args.distance})")
 if maxdev > 1e-9:
     raise SystemExit("the re-implemented rank step does not reproduce 06_distance/01; "
                      "every number below would be measuring the harness, not the pipeline")
@@ -135,7 +149,9 @@ sparse = d["sparse_flag"].fillna(False).to_numpy(bool)
 sel = mask_both & ~sparse
 lab_var = {}
 for j, e in enumerate(EDGES):
-    y = C0[sel, j]; g = d.dataset.to_numpy()[sel]; a = d.is_aml.to_numpy()[sel]
+    # SELECTION IS PINNED TO THE PRODUCTION TRANSFORM. Ranking edges on the arm's own C would
+    # make each arm plant on a different set, and the arms would then differ in two ways at once.
+    y = C0_rank[sel, j]; g = d.dataset.to_numpy()[sel]; a = d.is_aml.to_numpy()[sel]
     tot = float(((y - y.mean())**2).sum())
     if tot == 0: lab_var[e] = 0.0; continue
     ss = 0.0
@@ -260,7 +276,7 @@ for mode in MODES:
                     Wp[np.ix_(AMLROW, ji)] += delta * SCALE[AMLROW][:, None]
                 else:
                     raise SystemExit(f"unknown mode {mode!r}")
-            Cm = np.vstack([rank_to_C(Wp[i]) for i in range(len(Wp))])
+            Cm = np.vstack([rank_to_C(Wp[i], i) for i in range(len(Wp))])
 
             # NON-VACUITY, checked every time. The first version of this script planted
             # multiplicatively and 60.3% of the targeted cells did not move at all even at delta=8,
@@ -289,8 +305,17 @@ res.to_csv(out, index=False)
 
 ## -- SELF-CHECK 2 + verdict ----
 null = res[(res.delta == 0)].drop_duplicates(subset=["k"])
-print("\n[SELF-CHECK 2] delta=0 must reproduce 06_alpha_sweep's alpha=1 row (healthy 0.0537 / "
-      "AML 0.0442 / p 0.9659):")
+# The reference row has to follow --distance. Pinning it to the rank arm's numbers printed a
+# comparison that could not match on any other arm, which made a passing check read as a failure.
+_sw = os.path.join(D_OUT, "alpha_sweep.csv" if args.distance == "rank"
+                   else f"alpha_sweep__{args.distance}_ncells.csv")
+if os.path.exists(_sw):
+    _r = pd.read_csv(_sw).query("alpha == 1.0").iloc[0]
+    _ref = f"healthy {_r.mean_healthy:.4f} / AML {_r.mean_aml:.4f} / p {_r.p_strat:.4f}"
+else:
+    _ref = f"not on disk, run 06_alpha_sweep.py --distance {args.distance} first"
+print(f"\n[SELF-CHECK 2] delta=0 must reproduce 06_alpha_sweep's alpha=1 row for arm "
+      f"'{args.distance}' ({_ref}):")
 for _, r in null.iterrows():
     print(f"    k={r.k}: healthy={r.omni_healthy:.4f} AML={r.omni_aml:.4f} p={r.omni_p:.4f}")
 if null.omni_p.min() < 0.05:

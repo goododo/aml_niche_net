@@ -37,6 +37,7 @@ import ot
 # 214 samples (64% of the treated arm) after CANONICAL_TIMEPOINTS changed on 2026-08-04.
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
 from fgw_vocab import load_vocab, load_features, assert_index_covered
+from distance_variants import weights_to_C, ARMS as DV_ARMS
 
 
 FGW_NODES=["HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK","B_Plasma"]
@@ -54,6 +55,11 @@ ap.add_argument("--max_iter",type=int,default=1000)
 # retains through the masses, so alpha=1 + uniform is the fully cell-count-free topology test.
 ap.add_argument("--mass_mode",choices=["ncells","uniform"],default="ncells")
 ap.add_argument("--out",default="alpha_sweep.csv")
+# EDGE-COST TRANSFORM. Default "rank" is the production rule and reads the stored C column, so it
+# reproduces the frozen sweep bit-for-bit. The other three are the arms pre-registered in
+# PREREGISTRATION_paired_gate.md; they rebuild C from weight_probsum in 06_distance/edge_distance.csv,
+# because fgw_edges_long.csv carries only the already-transformed C.
+ap.add_argument("--distance",choices=list(DV_ARMS),default="rank")
 args=ap.parse_args()
 # ONE INDEPENDENT PERMUTATION STREAM PER TEST, keyed on the test's stable identity (alpha, mass mode,
 # model) and never on loop position. With a single shared module-level rng a given alpha's p depended
@@ -85,13 +91,36 @@ idx=pd.read_csv(os.path.join(D_FGW,"fgw_input_index.csv"))
 # being healthy, and therefore stops existing for every test below.
 assert_index_covered(idx, _VOCAB)
 
+## -- edge costs under the requested arm ----
+# "rank" keeps reading the stored C so the frozen sweep is reproduced exactly. Any other arm needs
+# the raw weights, which live only in 06_distance/edge_distance.csv.
+_GRID=pd.MultiIndex.from_product([FGW_NODES,FGW_NODES],names=["sender_bin","receiver_bin"])
+_CVAR={}
+if args.distance!="rank":
+    _ed=pd.read_csv(os.path.join(args.root,"06_distance","edge_distance.csv"))
+    for _k,_g in _ed.groupby(["dataset","sample"]):
+        _sub=_g.set_index(["sender_bin","receiver_bin"]).reindex(_GRID).reset_index()
+        _CVAR[_k]=weights_to_C(_sub["weight_probsum"].to_numpy(float),args.distance,
+                               _sub["n_lr_sig"].to_numpy(float)).reshape(len(FGW_NODES),len(FGW_NODES))
+    # SELF-CHECK: the same code path under "rank" must reproduce the stored C, or the rebuild is wrong.
+    _dev=0.0
+    for _k,_g in _ed.groupby(["dataset","sample"]):
+        _sub=_g.set_index(["sender_bin","receiver_bin"]).reindex(_GRID).reset_index()
+        _dev=max(_dev,float(np.abs(weights_to_C(_sub["weight_probsum"].to_numpy(float),"rank",
+                 _sub["n_lr_sig"].to_numpy(float))-_sub["C"].to_numpy(float)).max()))
+    print(f"[0] distance arm = {args.distance} | rank-path self-check vs stored C: max|diff| = {_dev:.3e}")
+    if _dev>1e-12: raise SystemExit("distance rebuild does not reproduce the stored C; aborting.")
+
 ## -- per-sample inputs (cached; alpha-independent) ----
 _cache={}
 def build_one(ds,smp):
     k=(ds,smp)
     if k in _cache: return _cache[k]
     e=edges[(edges["dataset"]==ds)&(edges["sample"]==smp)]
-    C=e.pivot(index="sender_bin",columns="receiver_bin",values="C").reindex(FGW_NODES,columns=FGW_NODES).to_numpy(float)
+    if args.distance=="rank":
+        C=e.pivot(index="sender_bin",columns="receiver_bin",values="C").reindex(FGW_NODES,columns=FGW_NODES).to_numpy(float)
+    else:
+        C=_CVAR[(ds,smp)]
     C=np.nan_to_num(C,nan=1.0)
     nd=nodes[(nodes["dataset"]==ds)&(nodes["sample"]==smp)].set_index("hierarchy_bin").reindex(FGW_NODES)
     F=np.nan_to_num(nd[FGW_FEATURES].to_numpy(float),nan=0.0)
