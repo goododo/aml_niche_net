@@ -691,25 +691,59 @@ Reported as the full **hit-count distribution** over the 1000 permutations, not
 its mean. `observed = 0` against `mean(null) = 0` carries no information, which
 is why the positive control below is mandatory and not optional.
 
-**Positive control, pre-registered numerically.** Per bin, on the real count
-matrix, a planted effect is spiked into **200 genes** drawn from the middle
-expression tertile of that bin's universe (seeded with `.perm_seed("planted|"
-+ bin)`), at **logFC = 1.0** applied to the AML arm, and the full §6 pipeline is
-rerun.
+**Positive control — SUPERSEDED. See the amendment below.** As originally
+written: per bin, on the real count matrix, a planted effect is spiked into
+**200 genes** drawn from the middle expression tertile of that bin's universe
+(seeded with `.perm_seed("planted|" + bin)`), at **logFC = 1.0** applied to the
+AML arm, with realised power = the fraction recovered under §6.5's full hit
+definition, classified power-limited below 0.50 and well-powered at or above
+0.80.
 
-- **Realised power** for a bin = the fraction of those 200 planted genes
-  recovered under §6.5's full hit definition (`q_within_bin < 0.05` **and**
-  `|logFC| >= 1`).
-- **A bin with realised power < 0.50 is declared power-limited**, and its null is
-  reported as *uninformative*, not as a null.
-- **A bin with realised power >= 0.80 supports the strong statement**: no effect
-  of |logFC| >= 1 at this prevalence is present.
-- Between 0.50 and 0.80, the null is reported with the power number attached and
-  no strong statement.
+#### Amendment 2026-09-16, made after running the control at logFC = 1.0
 
-These thresholds are fixed now, before the effect size is known, precisely so
-that a post-hoc choice of planted logFC cannot make the power read high or low at
-will.
+**Also written after seeing a result.** This is the second post-hoc amendment to
+this document (the first is in §8.2). Each has a defensible reason, but a
+pre-registration amended twice after the fact is weaker evidence than one that
+was not, and that cost is carried into the Methods as a stated limitation rather
+than absorbed silently.
+
+**The defect.** §6.5 defines a hit as `|logFC| >= 1`. The control planted the
+effect at **exactly** logFC = 1.0 — on the decision boundary. Roughly half the
+planted genes' *estimated* logFC therefore falls below the cutoff through
+sampling noise alone, so recovery is pinned near 0.50 **by construction,
+independent of sample size**. The three primary bins returned 0.485, 0.505 and
+0.475 at n = 54, 53, 54 — a constancy that is the signature of a threshold
+artifact, not of power. Two checks confirm it: the same Mono_DC bin recovers
+**0.965 at logFC = 2.0**, and at logFC = 1.0 scored on `q < 0.05` alone, without
+the `|logFC|` condition, it recovers **0.790**.
+
+Applied as written, the rule would have classified Mono_DC's 385 hits and
+B_Plasma's 28 as arising in a power-limited bin whose null is uninformative —
+a conclusion now known to be false.
+
+**The replacement.** The planted set is unchanged (200 genes, middle expression
+tertile, same seed). What changes is that it is spiked at **every point of a
+fixed grid — logFC in {0.5, 1.0, 1.5, 2.0, 3.0} — and the entire recovery curve
+is reported**, per bin, under both the full hit rule and `q < 0.05` alone.
+
+Define **LFC80** = the smallest grid point at which recovery reaches 0.80.
+
+- A bin's null is reported as: *no effect of |logFC| >= LFC80 at this
+  prevalence.* The power statement and the effect size it refers to are one
+  quantity, not two.
+- A bin with **no** grid point reaching 0.80 is **power-limited** and its null is
+  reported as uninformative rather than as a null.
+
+**Why a curve rather than a better single point.** Moving the single plant to
+1.5 would also work numerically and was rejected: 1.5 would have been chosen by
+looking at the curve, which is the objection the amendment is trying to answer.
+Reporting the whole grid removes the choice — there is no point left to pick,
+and the threshold artifact is visible in the table instead of hidden inside one
+number. The grid is fixed now and is not extended, trimmed or re-centred later.
+
+**What it does not change.** Not the hit definition (§6.5), not the depth gate
+(§7.1), not the nulls above, not the tier assignment, not the gene universe, and
+no p-value.
 
 ### 8.4 Seeding
 

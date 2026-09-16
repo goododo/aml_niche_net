@@ -24,12 +24,17 @@
 #                   not exchangeable either. Neither null alone is right; both are reported.
 #               Report the full hit-count DISTRIBUTION, not its mean. 0-vs-0 carries no information.
 #
-#               POSITIVE CONTROL, numerically pre-registered: 200 genes from the MIDDLE EXPRESSION
-#               TERTILE, logFC = 1.0 spiked into the AML arm, full pipeline rerun. Realised power =
-#               fraction of those 200 recovered under the FULL hit definition (q < 0.05 AND
-#               |logFC| >= 1). power < 0.50 -> bin is POWER-LIMITED and its null is uninformative,
-#               not a null. power >= 0.80 -> the strong statement is available. In between, the null
-#               is reported with the power attached and no strong statement.
+#               POSITIVE CONTROL, per the 2026-09-16 amendment: 200 genes from the MIDDLE
+#               EXPRESSION TERTILE, spiked at EVERY point of the fixed grid logFC in
+#               {0.5, 1, 1.5, 2, 3}, whole recovery curve reported per bin under both the full hit
+#               rule and q<0.05 alone. LFC80 = smallest grid point reaching 0.80 recovery; the bin's
+#               null then reads "no effect of |logFC| >= LFC80 at this prevalence". No grid point
+#               reaching 0.80 -> POWER-LIMITED, null uninformative.
+#               The original spec planted a SINGLE effect at logFC = 1.0, which is exactly §6.5's
+#               hit threshold: half the planted genes fall below the cutoff by sampling noise, so
+#               recovery is pinned near 0.50 regardless of n (observed: 0.485/0.505/0.475 at
+#               n = 54/53/54). Mono_DC recovers 0.965 at logFC 2.0 and 0.790 at logFC 1.0 scored on
+#               q alone. The grid is fixed and is not re-centred after the fact.
 #
 #   PREREG 8.4  Per-test seeds via .perm_seed(label), NOT one set.seed(SEED) for the process. A
 #               single stream makes a test's p-value depend on how many tests ran before it; that
@@ -57,9 +62,10 @@ source(here::here("scripts", "config", "config_malignancy.R"))
 opt <- parse_args(OptionParser(option_list = list(
   make_option("--n_perm", type = "integer", default = 1000L),
   make_option("--n_planted", type = "integer", default = 200L),
-  make_option("--planted_lfc", type = "double", default = 1.0)
+  make_option("--planted_grid", type = "character", default = "0.5,1,1.5,2,3")
 )))
 N_PERM <- opt$n_perm; Q_CUT <- 0.05; LFC_CUT <- 1.0
+GRID   <- as.numeric(strsplit(opt$planted_grid, ",")[[1]])
 MIN_CELLS <- CCC_MIN_CELLS_PER_OCCUPIED_BIN
 
 # PREREG 8.4 -- verbatim from 05_ccc/04_stemness_purity_sweep.R:111-116. The polynomial rolling hash
@@ -192,26 +198,30 @@ for (i in seq_len(nrow(SUMM))) {
                     if (nullname == "sample_within_dataset") n_units_samp else n_units_lib))
   }
 
-  ## PREREG 8.3 positive control: middle expression tertile, logFC = 1.0 into the AML arm.
+  ## PREREG 8.3 positive control, amended: the whole grid, not one point on the threshold.
   set.seed(.perm_seed(paste0("planted|", bin)))
-  mu <- rowMeans(O$v$E)
+  mu  <- rowMeans(O$v$E)
   ter <- cut(rank(mu, ties.method = "first"), 3, labels = FALSE)
-  pool <- rownames(O$v$E)[ter == 2L]
-  planted <- sample(pool, min(opt$n_planted, length(pool)))
-  E2 <- O$v$E
-  E2[planted, md$arm == "AML"] <- E2[planted, md$arm == "AML"] + opt$planted_lfc   # voom E is log2-CPM
-  r <- refit_hits(O, md, md$arm, E = E2)
-  rec <- r$tt[gene %in% planted & adj.P.Val < Q_CUT & abs(logFC) >= LFC_CUT, .N]
-  power <- rec / length(planted)
-  cls <- if (power < 0.50) "POWER-LIMITED: null is uninformative, not a null"
-         else if (power >= 0.80) "WELL-POWERED: strong statement available"
-         else "INTERMEDIATE: report null with power attached, no strong statement"
-  pow_rows[[bin]] <- data.table(tier, hierarchy_bin = bin, n_planted = length(planted),
-                                planted_lfc = opt$planted_lfc, n_recovered = rec,
-                                realised_power = round(power, 3), classification = cls,
-                                observed_hits = O$n_hits)
-  message(sprintf("[%s/%s] PLANTED lfc=%.1f n=%d -> recovered %d, power %.3f -- %s",
-                  tier, bin, opt$planted_lfc, length(planted), rec, power, cls))
+  planted <- sample(rownames(O$v$E)[ter == 2L], min(opt$n_planted, sum(ter == 2L)))
+  curve <- rbindlist(lapply(GRID, function(L) {
+    E2 <- O$v$E
+    E2[planted, md$arm == "AML"] <- E2[planted, md$arm == "AML"] + L   # voom E is log2-CPM
+    r <- refit_hits(O, md, md$arm, E = E2)
+    data.table(tier, hierarchy_bin = bin, n_samples = nrow(md), planted_lfc = L,
+               n_planted = length(planted),
+               recovery_full  = r$tt[gene %in% planted & adj.P.Val < Q_CUT & abs(logFC) >= LFC_CUT, .N] / length(planted),
+               recovery_qonly = r$tt[gene %in% planted & adj.P.Val < Q_CUT, .N] / length(planted))
+  }))
+  ok <- curve[recovery_full >= 0.80]
+  lfc80 <- if (nrow(ok)) min(ok$planted_lfc) else NA_real_
+  curve[, `:=`(LFC80 = lfc80,
+               classification = if (is.na(lfc80)) "POWER-LIMITED: null is uninformative, not a null"
+                                else sprintf("null reads: no effect of |logFC| >= %.1f at this prevalence", lfc80),
+               observed_hits = O$n_hits)]
+  pow_rows[[bin]] <- curve
+  message(sprintf("[%s/%s] PLANTED curve (full rule): %s | LFC80 = %s",
+                  tier, bin, paste(sprintf("%.1f:%.3f", curve$planted_lfc, curve$recovery_full), collapse = " "),
+                  ifelse(is.na(lfc80), "none in grid -> POWER-LIMITED", sprintf("%.1f", lfc80))))
 }
 
 fwrite(rbindlist(null_rows), file.path(DIR_PSEUDOBULK, "perm_null.csv"))
