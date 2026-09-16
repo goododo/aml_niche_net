@@ -1,0 +1,11 @@
+tier,hierarchy_bin,null,observed_hits,null_median,null_mean,null_p95,null_max,p_empirical,n_valid_perm,permutable_units,min_attainable_p
+primary,Mono_DC,sample_within_dataset,537,0,3.3,3,646,0.001998001998002,1000,401963598036,0.000999000999000999
+primary,Mono_DC,library_arm_pure,537,0,4.5,25.05,277,0.000999000999000999,1000,15120,0.000999000999000999
+primary,T_NK,sample_within_dataset,1,0,2.1,2,315,0.101898101898102,1000,312638354028,0.000999000999000999
+primary,T_NK,library_arm_pure,1,0,0.8,3,33,0.31968031968032,1000,102816,0.000999000999000999
+primary,B_Plasma,sample_within_dataset,37,0,3,13,224,0.024975024975025,1000,401963598036,0.000999000999000999
+primary,B_Plasma,library_arm_pure,37,0,3,14,160,0.022977022977023,1000,17136,0.000999000999000999
+secondary,LMPP_GMP,sample_within_dataset,431,0,11.9,3,431,0.00699300699300699,1000,126,0.0078740157480315
+secondary,LMPP_GMP,library_arm_pure,431,0,13.8,3,431,0.00899100899100899,1000,126,0.0078740157480315
+secondary,HSC_MPP,sample_within_dataset,0,0,0.1,1,1,1,1000,70,0.0140845070422535
+secondary,HSC_MPP,library_arm_pure,0,0,0.1,1,1,1,1000,70,0.0140845070422535

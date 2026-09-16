@@ -1,0 +1,26 @@
+tier,hierarchy_bin,n_samples,planted_lfc,n_planted,recovery_full,recovery_qonly,LFC80,classification,observed_hits
+primary,Mono_DC,54,0.5,200,0.08,0.425,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,537
+primary,Mono_DC,54,1,200,0.485,0.79,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,537
+primary,Mono_DC,54,1.5,200,0.875,0.92,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,537
+primary,Mono_DC,54,2,200,0.965,0.965,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,537
+primary,Mono_DC,54,3,200,1,1,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,537
+primary,T_NK,53,0.5,200,0.005,0.335,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,1
+primary,T_NK,53,1,200,0.505,0.845,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,1
+primary,T_NK,53,1.5,200,0.905,0.96,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,1
+primary,T_NK,53,2,200,0.995,1,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,1
+primary,T_NK,53,3,200,1,1,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,1
+primary,B_Plasma,54,0.5,200,0.05,0.29,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,37
+primary,B_Plasma,54,1,200,0.475,0.865,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,37
+primary,B_Plasma,54,1.5,200,0.96,0.975,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,37
+primary,B_Plasma,54,2,200,0.995,0.995,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,37
+primary,B_Plasma,54,3,200,1,1,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,37
+secondary,LMPP_GMP,9,0.5,200,0.165,0.195,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,431
+secondary,LMPP_GMP,9,1,200,0.57,0.64,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,431
+secondary,LMPP_GMP,9,1.5,200,0.855,0.875,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,431
+secondary,LMPP_GMP,9,2,200,0.95,0.95,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,431
+secondary,LMPP_GMP,9,3,200,0.98,0.98,1.5,null reads: no effect of |logFC| >= 1.5 at this prevalence,431
+secondary,HSC_MPP,8,0.5,200,0,0,2,null reads: no effect of |logFC| >= 2.0 at this prevalence,0
+secondary,HSC_MPP,8,1,200,0,0,2,null reads: no effect of |logFC| >= 2.0 at this prevalence,0
+secondary,HSC_MPP,8,1.5,200,0.46,0.46,2,null reads: no effect of |logFC| >= 2.0 at this prevalence,0
+secondary,HSC_MPP,8,2,200,0.825,0.825,2,null reads: no effect of |logFC| >= 2.0 at this prevalence,0
+secondary,HSC_MPP,8,3,200,0.96,0.96,2,null reads: no effect of |logFC| >= 2.0 at this prevalence,0

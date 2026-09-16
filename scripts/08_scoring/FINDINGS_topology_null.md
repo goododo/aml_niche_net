@@ -1,12 +1,15 @@
 # Findings: the communication-graph topology line
 
-Last result produced 2026-09-02; comparison section A added 2026-09-16 with no new analysis, only
-the numbers already on disk assembled in one place. Every number is reproduced by a named script on
-a named sample set. Nothing here is an estimate or a recollection. Where a result is mixed or
+Last result produced 2026-09-16. Section A (comparison of everything in this project) and section B
+(the external method, scACCorDiON, run against a pre-registration) were both added that day; A
+assembles numbers already on disk, B is new analysis. Every number is reproduced by a named script
+on a named sample set. Nothing here is an estimate or a recollection. Where a result is mixed or
 unresolved it is written as mixed or unresolved.
 
 **Start at section A** for the whole comparison in one table; the numbered sections give the
-reasoning, the self-checks and the limitations behind each cell of it.
+reasoning, the self-checks and the limitations behind each cell of it. **Section B** is the one
+result that comes from somebody else's method rather than this pipeline, and it is the only place
+where a run was stopped by its own positive control rather than by its outcome.
 
 The hypothesis was that AML bone marrow differs from healthy marrow in the **topology** of its
 cell-cell communication graph, and that this topology shifts with treatment and relapse.
@@ -25,6 +28,21 @@ last one is a pattern, not a result; section 14 says exactly how much weight it 
 **Where the whole line stands**: the original hypothesis is answered and the answer is no. What
 survives is a methodological finding about why a common OT formulation is blind here, and one
 untested lead about node mass.
+
+**And the null is not a detection-limit null** - that was the last live alternative explanation and
+section B.6 closes it. Split-half retesting of 37 samples puts between-sample distances at
+**3.9-5.6x** measurement noise and within-patient distances at **2.9-4.2x**, on five different
+distances including a published one. The measurement is real and reproducible; what it reproduces
+is large idiosyncratic variation between patients that is not disease.
+
+**The one design that survived that reasoning has now been run too** (B.7). GATE 1, the
+within-patient identity test, passes for Dx-to-Relapse in all six representation arms, and a
+1000-draw permutation of the whole table confirms it (6 of 12 cells against a null mean of 0.55,
+p < 0.001). But the strongest arm is **seven cell-type proportions with no communication in them**;
+no transport arm improves on it (paired p 0.23-0.56); and dropping the two samples from the smaller
+of the two contributing datasets removes every communication arm while composition survives. So the
+line closes the way it ran: what is reproducible about a patient is their cell composition, and the
+communication graph adds nothing measurable on top of it.
 
 ---
 
@@ -263,12 +281,20 @@ max-over-k null p95 of 0.0240:
 | `dwot_fixed` | **0.1738** | **0.3416** | 0.791 |
 
 Registered reading: an arm whose disease ARI does not exceed its support ARI has not shown a
-communication result. **Every edge-based arm fails that**, `dwot_fixed` by a factor of two. The
-clustering is recovering *how many edges were callable in a sample*, not how the sample communicates.
+communication result. **Every edge-based arm fails that**, `dwot_fixed` by a factor of two.
 
-This is a competing axis, not disease relabelled: cohort-wide, support is **not** associated with
-disease (Mann-Whitney p = 0.226, AUC 0.420). It *is* inside GSE185381 (p = 0.030, AUC 0.273), which
-is why that dataset's higher `tabular` ARI (0.2398) cannot be read as a clean within-dataset result.
+**Care is needed in reading *why* it fails, because the two axes are orthogonal.**
+ARI(support median-split, disease) = **−0.0099**, and cohort-wide support is not associated with
+disease (Mann-Whitney p = 0.226, AUC 0.420). So this is *not* the case the screen was designed to
+catch — the disease signal is not detection sparsity wearing a disease label. Both readings are
+true at once: the **dominant** axis of the distance is how many edges a sample had callable
+(ARI 0.34), and there is a **separate, weaker** disease axis (ARI 0.17) that survives on top of it.
+What the screen establishes is that the method spends most of its resolving power on a nuisance
+axis, not that the disease signal it finds is spurious.
+
+Support *is* associated with disease inside GSE185381 (p = 0.030, AUC 0.273), which is why that
+dataset's higher `tabular` ARI (0.2398) cannot be read as a clean within-dataset result — there,
+and only there, the two axes are confounded.
 
 **Optimal transport contributes nothing here.** `tabular` (0.1669, no transport) ≈ `dwot_fixed`
 (0.1738, full construction); within GSE185381 `tabular` (0.2398) beats `dwot_fixed` (0.0995).
@@ -279,8 +305,9 @@ is why that dataset's higher `tabular` ARI (0.2398) cannot be read as a clean wi
 demonstrated on the authors' own cohort as well as ours, with the structural reason. (ii) The
 shipped implementation disagrees with its paper in three named ways and misorders its own cost
 matrix. (iii) On this cohort the method fails a planted-effect control that a transport-free
-baseline on the same vector passes. (iv) What separation exists tracks edge detectability, not
-communication strength.
+baseline on the same vector passes. (iv) Most of the method's resolving power on this cohort goes
+to a nuisance axis — how many edges were callable in a sample — which is twice the disease axis and
+statistically independent of it.
 
 **Cannot claim.** That this cohort has no AML-vs-healthy communication signal. The registration is
 explicit: a representation that cannot see an effect deliberately planted in it may not be used to
@@ -292,7 +319,132 @@ max-over-k null p95 exceeds 0.12, so nothing below ~0.2 would mean anything. The
 scored by this project's registered paired test instead — registered in §8 of the pre-registration,
 not yet run.
 
-### B.6 Provenance
+### B.6 The noise floor — closing the question B.3 left open
+
+B.3 measured a ceiling: a 5× planted effect moves the between-group distance by 3.4%, because
+sample-to-sample distances are already ~0.56 on a 0–1 scale. That says the effect would have to be
+enormous, but it does not say **what the 0.56 is**. Two readings with opposite consequences:
+
+(a) it is **measurement noise** → the approach sits below its detection limit and the line closes;
+(b) it is **real between-sample variation that is not disease** → the measurement is sound, and the
+fix is a design that removes between-patient variance.
+
+`05_ccc/06_split_half_reliability.R` already put the answer on disk: each of the 37 paired samples
+had its graph-eligible cells split in two, stratified by hierarchy bin, and the identical CellChat
+path re-run on each half (74 SLURM tasks, all completed 2026-09-01). Two halves of **one** sample
+differ by measurement error alone.
+
+**The answer is (b), and it is not close.** `16_scaccordion_noise_floor.py`, 37 samples,
+15 patients, all distances in the production cohort geometry:
+
+| arm | retest d(A_i,B_i) | between-sample | within-patient | **SNR between** | **SNR within-patient** |
+|---|---|---|---|---|---|
+| `tv` | 0.1316 | 0.5622 | 0.4477 | **4.27** | 3.40 |
+| `tabular` | 0.0702 | 0.2730 | 0.2038 | **3.89** | 2.90 |
+| `corrot` | 0.0675 | 0.3747 | 0.2845 | **5.55** | 4.22 |
+| `dwot_shipped` | 0.0400 | 0.1710 | 0.1370 | **4.27** | 3.42 |
+| `dwot_fixed` | 0.0343 | 0.1593 | 0.1321 | **4.65** | 3.85 |
+
+Paired per sample (is a sample further from other patients than from its own other half?):
+Wilcoxon **p = 7.3e-12** for four arms and 1.5e-11 for `dwot_fixed`; 37 of 37 samples in the
+expected direction.
+
+**Three confounds were controlled, because this exact comparison has gone wrong here before** (the
+D5 edge-set mismatch, which moved the published per-edge ratios from 2.75/1.50 to 3.88/2.44):
+
+1. **Depth.** Halves occupy a median of 21 of the 39 cohort slots against a full sample's 25. Every
+   ratio above divides a half-depth number by a half-depth number; the full-depth columns are
+   carried separately and never used in a ratio.
+2. **Composition.** The split is stratified by hierarchy bin, so the halves should have identical
+   composition — measured: composition TV between halves median **0.0013**, max 0.0118, cell-count
+   ratio 1.003. The halves differ in *which cells landed where*, not in what they contain, so the
+   retest distance is pure ligand-receptor detection noise. (This is also why the `prop7` arm is
+   excluded here: its noise floor would be ~0 by construction rather than by measurement.)
+3. **Half asymmetry.** The retest is an A-vs-B comparison while its baseline is A-vs-A. Measured on
+   `tv`: between-sample median 0.5622 (A vs A) against 0.5573 (A vs B), 0.9%; across all five arms
+   the A/B-to-A/A ratio spans 0.982–1.016, so at most 1.8% and in both directions. There is no
+   systematic half effect inflating the retest. The script asserts this at 5% for every arm.
+
+**What this settles.** The pipeline measures something real and reproducible: between-sample
+distances are 3.9–5.6× measurement noise, and within-patient longitudinal distances are 2.9–4.2×
+it. The failure across sections A and B is **not** a detection-limit failure. It is that the large,
+real, reproducible variation this measurement captures is *between patients* and is not disease —
+which is the same conclusion section 2 reached per-edge (within-patient change 3.88×/2.44× the
+noise floor, with no shared direction), now confirmed at the whole-distance level and on five
+different distances including a published one.
+
+**What it does not settle.** That a within-patient design *will* work — only that it is not
+excluded by the noise floor, and that it is the only design left whose variance structure is
+favourable. GATE 1 is that design, and section 14 says how much weight its current result carries.
+
+### B.7 The last registered cell: GATE 1 with the scACCorDiON distance
+
+Registered in `PREREGISTRATION_scaccordion.md` §8. B.6 left exactly one design standing — a
+within-patient comparison, the only one whose variance structure is favourable once between-patient
+variation is known to dominate. GATE 1 is that design, and its rule is copied verbatim from
+`PREREGISTRATION_paired_gate.md` / `11_paired_gate.py:213-239`: for a patient with graphs at two
+timepoints, does the true partner rank closer than **same-dataset, other-patient** AML graphs?
+Only the distance is substituted; FGW's alpha grid has no analogue, so the six representation arms
+take its place.
+
+**Sample set**: 22 pairs (11 Dx→Relapse, 11 Dx→Treatment) over 37 distinct samples from 15
+patients. Relapse pairs are 9 GSE227903 + 2 GSE201966; treatment pairs are 7 GSE227903 + 4
+GSE116256.
+
+| arm | Dx→Relapse med pct | p | top5 | Dx→Treatment med pct | p | d_true / noise floor |
+|---|---|---|---|---|---|---|
+| `prop7` | 0.174 | **0.0049** | 9/11 | 0.545 | 0.509 | n/a |
+| `tabular` | 0.130 | **0.0220** | 8/11 | 0.478 | 0.176 | 2.21 |
+| `tv` | 0.125 | **0.0273** | 7/11 | 0.478 | 0.125 | 2.18 |
+| `corrot` | 0.125 | **0.0298** | 7/11 | 0.435 | 0.154 | 2.33 |
+| `dwot_shipped` | 0.125 | **0.0273** | 6/11 | 0.435 | 0.160 | 2.18 |
+| `dwot_fixed` | 0.125 | **0.0352** | 6/11 | 0.478 | 0.374 | 2.35 |
+
+**Dx→Relapse passes in all six arms; Dx→Treatment in none.** The within-patient distances are
+2.2–3.8× the split-half measurement floor from B.6, so unlike the cells B.6 warned about, these are
+above the noise.
+
+**The family-level test, because BH is the wrong instrument here.** The six arms are six versions of
+one distance on one dataset — their correlation against total variation runs 0.89 to 1.00 — so BH
+over twelve cells treats strongly dependent tests as independent. It gives **0 survivors**, which is
+not informative. Replacing the true partner with a random same-dataset AML graph, 1000 draws, gives
+the null of the whole table: **observed 6 of 12 cells passing against a null mean of 0.55, p < 0.001**;
+restricted to relapse, **6 of 6 against a null mean of 0.27, p < 0.001**. The pattern is real.
+
+**But it is not a communication result, for three independent reasons.**
+
+1. **The strongest arm contains no communication at all.** `prop7` is seven cell-type proportions.
+   It has the smallest p (0.0049) and the best retrieval (top-5 9/11), beating every optimal-transport
+   arm.
+2. **No CCC arm improves on composition.** Paired Wilcoxon of per-patient percentiles against
+   `prop7`, 11 patients: p = 0.23–0.56, and each CCC arm is *better* than composition in only 3–4
+   patients and worse in 6–7.
+3. **Only composition survives dropping one dataset.** Restricted to GSE227903 alone (9 of the 11
+   relapse pairs), `prop7` holds at p = 0.0137 while **every** CCC arm falls out: 0.066, 0.084,
+   0.086, 0.084, 0.106. The CCC arms' significance rests on the two GSE201966 pairs, which are
+   perfect hits (percentile 0.000 in all five).
+
+**What this licenses.** A patient's relapse sample is identifiable from their diagnosis sample above
+chance, and that is a genuine, permutation-confirmed result. What carries the identity is cell
+composition; the communication graph adds nothing measurable on top of it, and what it does show
+does not replicate across the two datasets available. GATE 1's own registration is explicit that
+this gate "assumes no biology at all — it asks only whether the representation is reproducible
+within a donor", so even the positive half is a reproducibility statement, not a relapse-biology
+statement.
+
+**What closes here.** This was the last registered cell. It repeats, for the third time and now on
+the one design that was supposed to be favourable, the pattern that runs through sections A and B:
+the mandatory composition control matches or beats every communication distance tried.
+
+**A reproducibility note worth keeping.** The percentile is a ratio of small integers, so the
+signed-rank test meets exact ties — with a pool of 23, percentiles 4/23 and 19/23 sit the same
+distance either side of 0.5 (both 15/46). In binary those distances differ by one ULP, which turns
+a real tie into two ranks and moved the `prop7` relapse p between 0.0034 and 0.0049 depending on
+whether the values had been through a CSV. The verdict never changed, but the number was not
+reproducible; `17_scaccordion_gate1.py` now rounds percentiles to 12 decimals so the tie is
+deterministic.
+
+### B.8 Provenance
 
 `scripts/config/scaccordion_geometry.py` · `scripts/06_distance/03_scaccordion_distance.py` ·
 `scripts/08_scoring/15_scaccordion_benchmark.py` · `PREREGISTRATION_scaccordion.md`.

@@ -3,7 +3,7 @@
 # INPUT  : <root>/05_ccc/tensors/<ds>/<sample>__ccc_cellchat.csv  (LR-level: prob, pval, bins)
 #          <root>/05_ccc/ccc_node_presence.csv                    (per-sample per-bin n_cells)
 #          <root>/06_distance/edge_distance.csv                   (production weight_probsum; check only)
-# OUTPUT : <root>/06_distance/scaccordion_pmat.csv                (line-graph slot x sample)
+# OUTPUT : <root>/06_distance/scaccordion_pmat.csv               (line-graph slot x sample)
 #          <root>/06_distance/scaccordion_cost__<arm>.csv         (slot x slot, OT arms only)
 #          <root>/06_distance/scaccordion_distance__<arm>.csv     (sample x sample, every arm)
 #          <root>/06_distance/scaccordion_qc.csv                  (one row per arm)
