@@ -781,10 +781,17 @@ as a null. §2 pre-commits to this distinction so it cannot be blurred afterward
 scripts/12_pseudobulk_de/
   PREREGISTRATION_pseudobulk_de.md   this file
   01_aggregate.R                     Stage A: (sample, bin) -> raw summed counts + per-bin depth
-  01_aggregate.sbatch                SLURM array, modeled on 05_ccc/02_run_cellchat.sbatch
   02_de_limma.R                      Stage B: primary tier (blocked voom) + secondary tier (~ arm)
   03_permute.R                       both nulls + planted-effect positive control
 ```
+
+**Amendment 2026-09-16, implementation only, no design content.** This section
+originally listed `01_aggregate.sbatch`, a SLURM array modeled on
+`05_ccc/02_run_cellchat.sbatch`. Stage A turned out to run the whole 67-sample
+roster serially in ~7 minutes (6-9 s per sample; it is a `rowSums` over a counts
+matrix, not the CellChat fit the array was sized for), so the array was not
+written. Nothing about the cell set, the model, or any decision rule changes.
+Recorded here rather than silently dropped.
 
 Paths come from `scripts/config/config_paths.R` (+ the `.sh` mirror, edited
 together), `config_ccc.R`, and `config_hierarchy.R`. Nothing is hardcoded.

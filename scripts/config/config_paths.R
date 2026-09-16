@@ -38,6 +38,7 @@ ZENODO_DIR      <- file.path(RAW_PUBLIC_DIR, "Zenodo")                          
 # Canonical GRCh38-2020-A symbol reference (36601 genes) for make.names() de-sanitising.
 REF_FEATURES_2020A <- file.path(GEO_RAW_DIR, "GSE289435_RAW", "GSM8791432_MLL_14666.features.tsv.gz")
 RDS_INGEST_DIR  <- file.path(LARGE1_DIR, "01_processed_counts/rds")             # 00_ingest out: <dataset>.rds (merged)
+PB_RDS_DIR      <- file.path(LARGE1_DIR, "12_pseudobulk_de")                    # 12_pseudobulk_de out: <ds>/<sample>__pseudobulk.rds (genes x bin counts)
 QC_RDS_DIR      <- file.path(LARGE1_DIR, "02_seurat_objects/01_per_sample_qc")  # 01_preprocess out: <ds>/<sample>.rds
 PROJ_OBJ_DIR    <- file.path(LARGE1_DIR, "02_seurat_objects/04_bmm_projected")  # 03_hierarchy: projected <ds>/<sample>.rds
 CNV_ROOT        <- file.path(LARGE1_DIR, "03_cnv_snv")                          # numbat/cellsnp/vartrix/author/copykat
@@ -62,6 +63,7 @@ DIR_MALIGNANCY  <- file.path(TAB_DIR, "02_malignancy")   # (migrated from legacy
 DIR_HIERARCHY   <- file.path(TAB_DIR, "03_hierarchy")    # (migrated from legacy 04_hierarchy)
 DIR_CNMF        <- file.path(TAB_DIR, "04_cnmf")         # (migrated from legacy 05_cnmf)
 DIR_ROBUSTNESS  <- file.path(TAB_DIR, "09_robustness")
+DIR_PSEUDOBULK  <- file.path(TAB_DIR, "12_pseudobulk_de")  # pseudobulk AML-vs-healthy DE: manifest, per-bin depth, DE tables
 
 ## -- stage figure dirs + key cross-stage files ----
 FIG_INGEST      <- file.path(FIG_DIR, "00_ingest")
@@ -77,7 +79,7 @@ PERCELL_BINNED_DIR <- file.path(DIR_HIERARCHY, "percell_binned")       # <ds>/<s
 ## -- ensure output table + figure dirs exist (idempotent; FAST is purgeable scratch) ----
 # Central creation so any script writing with a bare fwrite() won't fail on a missing dir.
 for (.d in c(DIR_INGEST, DIR_PREPROCESS, DIR_MALIGNANCY, DIR_HIERARCHY, DIR_CNMF, DIR_ROBUSTNESS,
-             FIG_INGEST, FIG_PREPROCESS)) {
+             DIR_PSEUDOBULK, FIG_INGEST, FIG_PREPROCESS)) {
   if (!dir.exists(.d)) dir.create(.d, recursive = TRUE, showWarnings = FALSE)
 }
 rm(.d)
