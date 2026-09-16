@@ -433,6 +433,39 @@ Two gene classes are removed from every universe before filtering:
 - Nothing else. In particular mitochondrial and ribosomal genes stay in; see
   §7.1 on why ribosomal fraction is not a second gate.
 
+#### Amendment 2026-09-16, written after Stage A and before any p-value exists
+
+Stage A revealed a fact the original §6.4 did not account for: **the three
+datasets do not share a gene set.** Chen2023 carries 33694 genes, GSE185381
+36601, GSE116256 27899 — these are what the public deposits contain, not a
+filtering artifact. A per-bin count matrix cannot be built across datasets
+without intersecting, so the gene universe is an unavoidable decision, and
+because it is a BH denominator it is fixed here rather than at run time.
+
+**The whole Discovery side — primary tier and secondary tier alike — uses one
+common base universe: `intersect(Chen2023, GSE185381)` = 21934 genes, minus 91
+sex-chromosome genes present in it, = 21843.**
+
+The alternative was to let the Chen2023-only secondary tier draw on its full
+33694 genes. Rejected: it would give the smaller, weaker tier a denominator 1.5x
+the primary tier's and make the two non-comparable, which is the exact
+degree of freedom §6.5 exists to remove. The ~11.8k genes it forgoes are genes
+absent from GSE185381's deposit entirely.
+
+Validation keeps its own universe (GSE116256, 27899 genes) because it is a
+different cohort tested under a different rule; `Discovery ∩ Validation` = 20438,
+and §3.4(c) already requires the genes lost to that intersection to be counted
+and reported.
+
+`filterByExpr(design)` then runs per bin **on top of** this common base, so the
+per-bin universe is a subset of 21843 in every tier and every bin.
+
+Sex-chromosome genes are identified from `INFERCNV_GENE_ORDER`
+(`config_malignancy.R:250`, the gencode GRCh38 gene-order file the inferCNV
+stage already uses — no new dependency): 111 chrY genes, plus `XIST`. That file
+covers 99.84% of the Discovery universe; the 0.16% it does not name are retained,
+since a gene absent from the gencode annotation is not thereby a sex gene.
+
 ### 6.5 Multiple testing: BH **within bin** is primary
 
 This **reverses** the handoff's recommendation (`HANDOFF_v1.md` G3), for reasons

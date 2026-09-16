@@ -1,0 +1,21 @@
+tier,hierarchy_bin,arm,marker,n_samples,rank,mean_cpm,criterion,pass,arm_pass
+primary,Mono_DC,healthy,LYZ,14,5,12433.7804205238,top 50 by mean CPM,TRUE,TRUE
+primary,Mono_DC,healthy,S100A8,14,6,10609.2068850476,top 50 by mean CPM,TRUE,TRUE
+primary,Mono_DC,AML,LYZ,40,2,12114.5051356037,top 50 by mean CPM,TRUE,TRUE
+primary,Mono_DC,AML,S100A8,40,23,5117.37725336813,top 50 by mean CPM,TRUE,TRUE
+primary,T_NK,healthy,CD3E,14,217,447.805734026318,top 50 by mean CPM,FALSE,FALSE
+primary,T_NK,healthy,CD3D,14,187,547.770488101545,top 50 by mean CPM,FALSE,FALSE
+primary,T_NK,AML,CD3E,39,228,422.477494513054,top 50 by mean CPM,FALSE,FALSE
+primary,T_NK,AML,CD3D,39,206,470.918297803236,top 50 by mean CPM,FALSE,FALSE
+primary,B_Plasma,healthy,MS4A1,14,150,690.357030963227,top 50 by mean CPM,FALSE,FALSE
+primary,B_Plasma,healthy,CD79A,14,154,660.518030508101,top 50 by mean CPM,FALSE,FALSE
+primary,B_Plasma,AML,MS4A1,40,169,588.10842974188,top 50 by mean CPM,FALSE,FALSE
+primary,B_Plasma,AML,CD79A,40,147,732.216001055801,top 50 by mean CPM,FALSE,FALSE
+secondary,LMPP_GMP,healthy,CD34,4,1224,86.9575144537824,above bin median,TRUE,TRUE
+secondary,LMPP_GMP,AML,CD34,5,5245,18.4737226080629,above bin median,TRUE,TRUE
+secondary,HSC_MPP,healthy,CD34,4,806,120.831636661298,above bin median,TRUE,TRUE
+secondary,HSC_MPP,AML,CD34,4,1455,73.4417347858303,above bin median,TRUE,TRUE
+secondary,Erythroid,healthy,HBB,3,305,329.563564110941,top 50 by mean CPM,FALSE,FALSE
+secondary,Erythroid,healthy,HBA1,3,7331,9.64598558156744,top 50 by mean CPM,FALSE,FALSE
+secondary,Erythroid,AML,HBB,3,9945,2.40318181272004,top 50 by mean CPM,FALSE,FALSE
+secondary,Erythroid,AML,HBA1,3,11812,0,top 50 by mean CPM,FALSE,FALSE
