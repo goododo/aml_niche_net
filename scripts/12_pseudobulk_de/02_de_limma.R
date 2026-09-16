@@ -121,8 +121,16 @@ marker_gate <- function(bin, B) {
                  rank = rk[["CD34"]], mean_cpm = mu[["CD34"]],
                  criterion = "above bin median", pass = mu[["CD34"]] > median(mu))
     } else {
+      # PREREG 8.2 amendment: detection floor + arm symmetry. The original "top 50 by mean CPM"
+      # asked whether a lineage marker outranks the ribosome (88% of T_NK's top 50 is RP*/MT-),
+      # which tests abundance, not the arm asymmetry the section is about. `other` is the same
+      # marker's mean CPM in the opposite arm, so the ratio is computed per marker across arms.
+      other <- rowMeans(cpm_all[, which(B$meta$arm != a), drop = FALSE])[mk]
       data.table(hierarchy_bin = bin, arm = a, marker = mk, n_samples = length(idx),
-                 rank = rk[mk], mean_cpm = mu[mk], criterion = "top 50 by mean CPM", pass = rk[mk] <= 50)
+                 rank = rk[mk], mean_cpm = mu[mk], cpm_other_arm = other,
+                 log2_arm_ratio = log2(mu[mk] / other),
+                 criterion = "mean CPM >= 100 both arms & |log2 arm ratio| <= 1",
+                 pass = mu[mk] >= 100 & other >= 100 & abs(log2(mu[mk] / other)) <= 1)
     }
   }))
   # "At least one marker of each named pair must clear it, in each arm" (PREREG 8.2).

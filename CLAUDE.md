@@ -24,9 +24,19 @@ Design document lives under `*_project_context/`.
 These are the rules that matter most. Follow them even when a different
 approach would be technically cleaner.
 
-### Never work directly on `main`
+### Branch policy: `main`, because of the 23:30 cron
 
-`main` holds work that already runs. All changes go on a branch.
+This rule used to read "never work directly on `main`". It is amended because it
+conflicts with `scripts/99_admin/daily_commit.sh`, which at 23:30 runs
+`git add -A` on **whatever branch is checked out** and pushes. A working branch
+left checked out at that moment sweeps the entire day's output into it.
+
+So: **commit to `main`**, and keep each commit small and self-describing, since
+the safety net is the commit message rather than the branch.
+
+Branch only when you can guarantee returning to `main` before 23:30, or after
+`daily_commit.sh` is changed to target `main` explicitly. Do not change that
+script in the middle of an analysis task.
 
 ### Incremental, never wholesale
 

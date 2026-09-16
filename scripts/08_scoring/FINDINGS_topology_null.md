@@ -1,8 +1,12 @@
 # Findings: the communication-graph topology line
 
-Status as of 2026-09-01. Every number is reproduced by a named script on a named sample set.
-Nothing here is an estimate or a recollection. Where a result is mixed or unresolved it is written
-as mixed or unresolved.
+Last result produced 2026-09-02; comparison section A added 2026-09-16 with no new analysis, only
+the numbers already on disk assembled in one place. Every number is reproduced by a named script on
+a named sample set. Nothing here is an estimate or a recollection. Where a result is mixed or
+unresolved it is written as mixed or unresolved.
+
+**Start at section A** for the whole comparison in one table; the numbered sections give the
+reasoning, the self-checks and the limitations behind each cell of it.
 
 The hypothesis was that AML bone marrow differs from healthy marrow in the **topology** of its
 cell-cell communication graph, and that this topology shifts with treatment and relapse.
@@ -21,6 +25,282 @@ last one is a pattern, not a result; section 14 says exactly how much weight it 
 **Where the whole line stands**: the original hypothesis is answered and the answer is no. What
 survives is a methodological finding about why a common OT formulation is blind here, and one
 untested lead about node mass.
+
+---
+
+## A. The whole comparison in one place
+
+This section is the index: every configuration that was run, on which samples, and what came out.
+The numbered sections after it give the reasoning and the self-checks. Sections are lettered here
+so that adding this did not renumber anything and break a cross-reference.
+
+### A.1 The three axes
+
+Everything tried is a point in a three-axis space. Nothing else was varied.
+
+| Axis | Values | Where it is defined |
+|---|---|---|
+| **cost** (edge weight -> cost matrix) | `rank` (production), `mask`, `const`, `logs`, raw `log1p`, `walk` | `config/distance_variants.py`, `config/graph_geometry.py` |
+| **mass** (what each node weighs) | `ncells`, `uniform`, `signal` | `06_alpha_sweep.py --mass_mode`, `--geometry` |
+| **statistic** | FGW omnibus over alpha, per-edge regression, paired GATE 1/2/3, per-edge paired + sign-flip permutation, Frobenius (no transport), split-half reliability | sections 1-14 |
+
+`rank`, `mask`, `const`, `logs` are the four **pre-registered** arms
+(`PREREGISTRATION_paired_gate.md`). `walk` and the `signal` mass are **not** pre-registered; they
+are the Part III correction. Raw `log1p` was only ever a per-edge test, never an FGW cost.
+
+### A.2 Eleven configurations, AML vs healthy, the full alpha profile
+
+Within-dataset permutation p at each alpha. alpha = 0 is features only, alpha = 1 is topology only.
+n = 138 samples, but the within-dataset model can only use the 72 that sit in the three datasets
+holding both labels.
+
+| cost | mass | a=0 | a=0.25 | a=0.5 | a=0.75 | **a=1** | sig. of 5 |
+|---|---|---|---|---|---|---|---|
+| rank | ncells | 0.0161 | 0.0236 | 0.0360 | 0.1426 | **0.9661** | 3 |
+| rank | uniform | 0.0009 | 0.0008 | 0.0008 | 0.0012 | **0.9470** | 4 |
+| mask | ncells | 0.0161 | 0.0183 | 0.0155 | 0.0234 | **0.3895** | 4 |
+| mask | uniform | 0.0009 | 0.0008 | 0.0010 | 0.0037 | **0.6974** | 4 |
+| const | ncells | 0.0161 | 0.0214 | 0.0269 | 0.1005 | **0.7986** | 3 |
+| const | uniform | 0.0009 | 0.0014 | 0.0025 | 0.0576 | **0.3045** | 3 |
+| logs | ncells | 0.0161 | 0.0188 | 0.0193 | 0.0591 | **0.5235** | 3 |
+| logs | uniform | 0.0009 | 0.0011 | 0.0017 | 0.0767 | **0.5741** | 3 |
+| rank | signal | 0.0205 | 0.0186 | 0.0151 | 0.0170 | **0.6720** | 4 |
+| walk | signal | 0.0205 | 0.2231 | 0.9378 | 0.6941 | **0.5068** | 1 |
+| walk | ncells | 0.0161 | 0.1202 | 0.6397 | 0.9697 | **0.7172** | 1 |
+
+**Three things this table says, none of which depends on choosing a favourite configuration.**
+
+1. **Every configuration separates AML from healthy at alpha = 0 and none does at alpha = 1.**
+   The alpha = 0 column runs 0.0009 to 0.0205; the alpha = 1 column runs 0.305 to 0.966. The
+   signal is in the node features and it disappears as the topology term takes over. Eleven
+   different ways of building the geometry do not change that.
+2. **The alpha = 0 column groups by mass, not by cost**, exactly as it must - the cost matrix does
+   not enter the objective at alpha = 0. `ncells` gives 0.0161, `uniform` gives 0.0009, `signal`
+   gives 0.0205, and every arm sharing a mass shares its number to the last digit. This is a free
+   correctness check on the whole grid and it passes.
+3. **The walk cost destroys the feature signal too, not just the positive control.** Both walk
+   rows are significant only at alpha = 0 and are already gone by alpha = 0.25 (p 0.12 and 0.22),
+   while every rank-family row survives to at least alpha = 0.5. Section 14 rejects the walk cost
+   on GATE 2; this is an independent reason, from a different test, pointing the same way.
+
+A transport-free baseline agrees with the alpha = 1 column: the plain mass-weighted squared
+difference between cost matrices gives healthy 0.0590 vs AML 0.0611, p = 0.679 (20,000 draws).
+So does the per-edge regression: 0 of 49 edges within dataset.
+
+### A.3 The four Part III configurations on the three diagnostic tests
+
+The alpha sweep asks one question. These three ask different ones, and no configuration wins all
+three. This is the table that matters for deciding what to do next.
+
+| cost | mass | planted effect<br>(can it see an effect put in?) | GATE 2<br>(the real treatment effect) | GATE 1<br>(patient identity) |
+|---|---|---|---|---|
+| rank | ncells (**production**) | **no** - p 0.52 flat, non-monotone | **yes, p = 0.027** | 5 of **24** cells |
+| rank | signal | no - best p 0.111, monotone | no, p = 0.068 | **5 of 6 cells** |
+| walk | ncells | no - best p 0.387, monotone | no, p = 0.508 | 2 of 6 cells |
+| walk | signal | **yes, p = 0.006**, monotone | no, p = 0.380 | 2 of 6 cells |
+
+Planted-effect columns are the additive mode, k = 1, best omnibus p over the delta grid; the
+delta = 0 unplanted control is null in all four (p 0.52 / 0.80 / 0.74 / 0.53), so none of them is
+manufacturing signal. GATE 1 counts cells at raw p < 0.05 out of 2 contrasts x 3 alphas; the
+production row pools the four registered arms, hence 24 cells rather than 6.
+
+**What each change bought and cost:**
+
+- **walk cost**: buys the only planted-effect detection in the project, but only in combination
+  with the signal mass; costs the positive control under **both** mass definitions (0.508 and
+  0.380), and costs the feature signal at intermediate alpha (A.2, point 3). **Rejected.**
+- **signal mass**: buys GATE 1, from 21% of cells to 83%, including Dx-to-Relapse which never
+  passed under any registered arm; costs GATE 2, from 0.027 to 0.068, just past the line. On the
+  alpha sweep it is significant at four of five alphas, but so is `mask` with either mass, so the
+  sweep does not single it out. **The one live lead, and not established**: no GATE 1 cell
+  survives BH over six, the six cells share the same 11 pairs with nested alphas so they are not
+  independent, and the confound it was introduced to avoid has not itself been tested (limitation
+  8).
+
+### A.4 What was established outside the grid
+
+| Question | Answer | Where |
+|---|---|---|
+| Is C a reliable measurement? | **Yes.** Per-sample split-half Spearman, median 0.858 | section 1 |
+| Do patients' graphs really change? | **Yes.** 3.88x the split-half noise floor for Dx-to-Treatment | section 2 |
+| Is there a shared direction to that change? | **No.** Timepoint main effect 2.6-5.1%; 0 of 49 edges survive BH; family permutation p 0.28 / 0.50; cross-dataset Spearman -0.002 | section 2 |
+| Why is the production statistic blind? | Coupling degeneracy: diagonal mass 0.147 / 0.172 against the product coupling's 1/7 = 0.143, so GW is not matching node i to node i | section 7 |
+| Is the cost matrix symmetrised? | **No**, verified rather than assumed; direction is used but is a modest share of the structure | section 8 |
+| Are 7 bins too coarse? | **Not the limiting factor.** Node types present in >= 90% of samples: 3 at 7 types, 3 at 23, 2 at 54 | section 5 |
+
+### A.5 What had NOT been tried
+
+> **Superseded 2026-09-16 — this was done. See section B.** The text below is the reasoning that
+> led to the run and is kept because it is what section B was registered against. Its central
+> expectation turned out to be wrong in an informative way: the run did not resolve into "works"
+> or "null", because the method failed its own positive control first.
+
+
+**The published scACCorDiON construction itself** (Nagai et al., *Bioinformatics* 2025,
+41(5):btaf288). Every configuration in A.2 and A.3 is this project's own; none of them is their
+method. Theirs differs on four axes at once: transport moves mass between **edges** on a line
+graph rather than between cell types; the cost is **one shared matrix** computed once on a shared
+topology graph rather than a per-sample cost; the distance is **pairwise between samples** rather
+than to a barycentre; and the readout is **clustering scored by ARI** rather than a two-group test.
+
+It is worth running because both outcomes are informative. If it separates the groups, there is a
+positive result and a clear path. If it is also null, then a method that recovered disease labels
+on seven published cohorts is null on this one, which moves the conclusion from "this pipeline's
+formulation is wrong" to "this question is not currently answerable on this class of public data" -
+and that matches the batch limitation the authors raise in their own Discussion. Scoring ARI
+against the **dataset** label alongside the disease label would state that directly, in the
+paper's own metric.
+
+---
+
+## B. scACCorDiON, run faithfully — the result
+
+Registered in advance in `PREREGISTRATION_scaccordion.md` (written 2026-09-16, before any label
+was scored). Run the same day. Method: Nagai JS *et al.*, Bioinformatics 2025;41(5):btaf288, code
+vendored read-only at commit `9d8e7d6`. Sample set: **all 138 samples with a per-sample LR tensor**,
+10 datasets, 115 AML / 23 healthy — a deliberate departure from the paired-only rule, because ARI
+is not estimable at n=37 (§B.5).
+
+**Verdict, by the registered decision rule: inconclusive on the primary outcome — the published
+method failed its own positive control. Three registered secondary readouts are clean, and they
+are the useful part.**
+
+### B.1 Why this was worth doing, and what "faithfully" cost
+
+Section A closes AML-vs-healthy topology across eleven configurations of *this* pipeline. What it
+cannot settle is whether the null belongs to the cohort or to the statistic. A published OT method
+that recovered disease labels on seven cohorts is the instrument for that question.
+
+Running it faithfully turned out to require deciding what "faithfully" means, because **the shipped
+code and the published text disagree in three places**, all verified against commit `9d8e7d6` and
+documented in `scripts/config/scaccordion_geometry.py`:
+
+| | paper | shipped code |
+|---|---|---|
+| shared-topology edge weight | proportion of graphs containing **both** edges — "transport between common edges more likely" | `((n+1) − n_co_present)/n` — **high when edges rarely co-occur**, the opposite sign |
+| line-graph edge rule | head-to-tail only | head-to-tail **or** tail-to-head |
+| PageRank regularisation | present, "guarantees global reachability" | absent (a flat `+1e-10`) |
+
+Plus one ordering defect that is not a disagreement but a bug: `compute_cost` builds the cost in
+networkx insertion order while `compute_wassestein` passes marginals in `p.index` order, so
+`ot.emd2` receives a **cost matrix permuted with respect to its own marginals** — 33 of 39 positions
+differ here. Both forms were therefore run: `dwot_shipped` reproduces the code including the defect,
+`dwot_fixed` implements the paper and asserts alignment.
+
+Adapter correctness: their group-by-sum reproduces production `weight_probsum` to max |Δ| =
+**5.3e-15**, so these distances sit on the same edges as section A's eleven configurations.
+
+### B.2 The ground metric is nearly inert — including on the authors' own data
+
+Measured before registration and disclosed in it. A linear OT whose cost is constant off the
+diagonal is exactly proportional to total variation, so the question is how much spread the cost has.
+
+| arm | off-diag CV | max/min | ρ(d, total variation) |
+|---|---|---|---|
+| `dwot_shipped` | 0.086 | 1.571 | **0.9968** |
+| `dwot_fixed` | 0.407 | 3.838 | 0.9122 |
+| `corrot` | 0.294 | 17.183 | 0.9565 |
+
+The registered inertness rule (`max/min < 2.0` **or** ρ > 0.98 ⇒ may not be reported as an
+optimal-transport result) fires for `dwot_shipped` and not for `dwot_fixed`.
+
+**This is not a property of our 7 bins.** Re-running the authors' own published Peng PDAC cohort
+(35 samples, 10 cell types, 80 line-graph slots, shipped with their repo) gives ρ = **0.99954** and
+cost max/min 1.494 — *worse* than ours. The cause is structural: the shared topology graph is a
+near-complete line graph with near-uniform out-degree, so the stationary distribution is near-uniform
+and −log of the hitting probability is near-constant. **More cell types makes this worse, not
+better**, which is why the deferred `bmm_broad` re-run would not rescue it.
+
+Their default variance filter also removes 10 of 49 slots, including **all seven Megakaryocyte
+edges**.
+
+### B.3 The positive control failed — and the failure is the measurement
+
+Same six pinned edges as `10_planted_effect_power.py`, multiplicative effect on a random half of
+the 138, δ ∈ {0, 0.25, 0.5, 1, 2, 4}, planted at the **ligand-receptor level** so the whole
+construction is rebuilt from perturbed input. Run at their default filter and at `filter_q = 0`,
+because four of the six pinned edges do not survive their filter.
+
+Planting demonstrably works: at δ=4 the planted samples move L1 = **0.4435** (median) while
+untouched samples move **0.0000**, and the six edges carry 30.1% of a planted sample's mass.
+
+| δ | 0 | 0.25 | 0.5 | 1 | 2 | 4 |
+|---|---|---|---|---|---|---|
+| `dwot_fixed` ARI (max over k) | 0.023 | 0.023 | 0.018 | 0.033 | 0.040 | **0.251** |
+| `tabular` ARI (max over k) | 0.011 | 0.032 | 0.052 | 0.082 | 0.218 | **0.329** |
+
+**Registered pass rule: `dwot_fixed` ≥ 0.30 at δ=4, `filter_q`=0. Observed 0.2507 → FAIL.**
+
+Two things in that table matter more than the threshold:
+
+1. **ARI is monotone in δ.** The instrument is not broken, it is insensitive.
+2. **`tabular` — the same edge vector with no transport at all — beats the full OT construction at
+   every δ ≥ 2.** The transport step makes the planted effect *harder* to recover.
+
+The mechanism is a signal-to-noise floor, and it is measurable: at δ=4 the planted effect changes
+the median between-group total variation by only **3.4%** (0.5712 within-planted vs 0.5907 across),
+because sample-to-sample distances in this cohort are already ~0.56 on a 0–1 scale. A perturbation
+that moves 44% of a sample's L1 mass is a 3% perturbation on the distance.
+
+### B.4 What the secondary readouts say
+
+**Batch does not dominate — the distances are simply near their floor.** ARI against `dataset`
+(a label known to exist) is 0.047–0.094 across all six arms against a null p95 of 0.031. The
+registered batch ceiling — the best ARI any clustering knowing only `dataset` could reach, by
+exhaustive enumeration of all 115,179 coarsenings of 10 datasets into ≤7 blocks — is 0.3813 for
+disease. Nothing came close to it, in either direction.
+
+**Disease ARI is above chance but is outranked by detection sparsity.** Full cohort, against a
+max-over-k null p95 of 0.0240:
+
+| arm | ARI vs disease | ARI vs support median-split | ρ(d, support Jaccard) |
+|---|---|---|---|
+| `prop7` (composition only) | 0.1118 | **0.0569** | 0.498 |
+| `tabular` | 0.1669 | 0.1681 | 0.842 |
+| `tv` | 0.1290 | 0.2994 | 0.864 |
+| `corrot` | 0.1388 | 0.2732 | 0.826 |
+| `dwot_shipped` | 0.1388 | 0.2651 | 0.860 |
+| `dwot_fixed` | **0.1738** | **0.3416** | 0.791 |
+
+Registered reading: an arm whose disease ARI does not exceed its support ARI has not shown a
+communication result. **Every edge-based arm fails that**, `dwot_fixed` by a factor of two. The
+clustering is recovering *how many edges were callable in a sample*, not how the sample communicates.
+
+This is a competing axis, not disease relabelled: cohort-wide, support is **not** associated with
+disease (Mann-Whitney p = 0.226, AUC 0.420). It *is* inside GSE185381 (p = 0.030, AUC 0.273), which
+is why that dataset's higher `tabular` ARI (0.2398) cannot be read as a clean within-dataset result.
+
+**Optimal transport contributes nothing here.** `tabular` (0.1669, no transport) ≈ `dwot_fixed`
+(0.1738, full construction); within GSE185381 `tabular` (0.2398) beats `dwot_fixed` (0.0995).
+
+### B.5 What this does and does not license
+
+**Can claim.** (i) The published construction's ground metric is near-inert on this data class,
+demonstrated on the authors' own cohort as well as ours, with the structural reason. (ii) The
+shipped implementation disagrees with its paper in three named ways and misorders its own cost
+matrix. (iii) On this cohort the method fails a planted-effect control that a transport-free
+baseline on the same vector passes. (iv) What separation exists tracks edge detectability, not
+communication strength.
+
+**Cannot claim.** That this cohort has no AML-vs-healthy communication signal. The registration is
+explicit: a representation that cannot see an effect deliberately planted in it may not be used to
+report an absence. The disease ARI of 0.1738 is above chance and is **not** being reported as a
+null — it is uninterpretable under the failed control, in both directions.
+
+**Not estimable, and not attempted.** ARI on the paired roster: at n=37 (n=22 for Dx→Relapse) the
+max-over-k null p95 exceeds 0.12, so nothing below ~0.2 would mean anything. The paired set is
+scored by this project's registered paired test instead — registered in §8 of the pre-registration,
+not yet run.
+
+### B.6 Provenance
+
+`scripts/config/scaccordion_geometry.py` · `scripts/06_distance/03_scaccordion_distance.py` ·
+`scripts/08_scoring/15_scaccordion_benchmark.py` · `PREREGISTRATION_scaccordion.md`.
+Outputs: `06_distance/scaccordion_{pmat,qc,cost__*,distance__*}.csv`,
+`08_scoring/scaccordion_{null_ari,positive_control,ari__dataset,ari__disease,support_confound}.csv`.
+Method vendored at `/FAST/gr10634/gaozy/external/scACCorDiON` @ `9d8e7d6`; its three extra
+dependencies live in `/FAST/gr10634/gaozy/external/pylibs` and the production `general_env` was
+not modified. Seed 491638.
 
 ---
 

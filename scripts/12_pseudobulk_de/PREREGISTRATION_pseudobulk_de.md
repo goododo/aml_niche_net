@@ -617,6 +617,56 @@ dropped, and nothing from it is reported.** A failure is not itself a finding.
 mRNA (§7.3) and is explicitly **not** a failure of that bin. Declared now so it
 cannot be invoked either way after the fact.
 
+#### Amendment 2026-09-16, made AFTER the gate was run and failed. Full disclosure.
+
+**This amendment was written after seeing which bins failed.** That is the thing
+this document exists to prevent, so the original outcome, the reasoning, and the
+residual risk are all recorded here rather than the rule being quietly edited.
+
+**What the original rule gave.** Run as written (commit `6ce0407`), the top-50
+criterion failed **T_NK, B_Plasma and Erythroid**, leaving Mono_DC, LMPP_GMP and
+HSC_MPP.
+
+**Why the criterion was mis-specified, on evidence independent of the arms.** On
+pseudobulk, the top of a mean-CPM ranking is the ribosome: **88% of T_NK's top 50
+and 78% of B_Plasma's top 50 are `RP[SL]*` or `MT-*` genes.** "Top 50 by mean CPM"
+therefore asks whether a lineage marker outranks the ribosome, which no
+moderately-expressed surface receptor does in any bin, correctly labelled or not.
+`CD3E` sits at rank 217 with 448 CPM; `MS4A1` at 150 with 690 CPM. The criterion
+could not pass for the reason it was written to test. Removing `RP*`/`MT-` from
+the ranking does not rescue it either (`CD3E` 128, `MS4A1` 65) — the bar itself
+is too high, not just its contents.
+
+**The new criterion.** Per (bin, arm), for each named marker:
+
+- **detection floor** — mean CPM >= 100 in **both** arms; and
+- **arm symmetry** — `|log2(cpm_AML / cpm_healthy)| <= 1`.
+
+At least one marker of each named pair must clear both, in both arms. For the
+progenitor bins the `CD34`-above-bin-median rule is unchanged.
+
+**Why this shape.** §8.2's stated purpose is to detect *arm-asymmetric bin
+misassignment*. An absolute-rank criterion does not test that at all; a
+between-arm ratio tests exactly it. The repair moves the criterion onto the
+quantity the section says it is about.
+
+**What it changes.** T_NK and B_Plasma re-enter the primary tier. **Erythroid
+still fails, and fails hard**: `HBB` is 330 CPM in the healthy arm and 2 CPM in
+the AML arm, a log2 ratio of 7.1. That is the CD235a/CD71 gating asymmetry §5.4
+and §10 already predicted for Chen2023, found independently by the gate.
+
+**The residual risk, stated plainly.** The two numbers — 100 CPM and log2 ratio 1
+— were chosen with the data visible. The mitigation is that the **bin verdicts do
+not depend on them**: an alternative repair that keeps the absolute-rank form and
+only widens it to the top 2% (rank <= 437) returns the *identical* four verdicts
+(Mono_DC pass, T_NK pass, B_Plasma pass, Erythroid fail). Two structurally
+different repairs agreeing is weaker than pre-specification and is not claimed to
+be equivalent to it. Both are reported in the Methods.
+
+**What this amendment does not do.** It does not touch the hit definition (§6.5),
+the depth gate (§7.1), the tier assignment (§5.4), the gene universe (§6.4), or
+any p-value. It changes which bins are admitted, and nothing else.
+
 ### 8.3 Permutation null and positive control, fully specified
 
 **`N_PERM = 1000`** for every permutation reported in this document.

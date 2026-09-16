@@ -1,7 +1,7 @@
 tier,hierarchy_bin,gate,n_AML,n_healthy,n_libraries_healthy,design,n_genes_tested,min_sample_size,dupcor_consensus,hits_baseline,hits_after_depth,struck_by_depth
 primary,Mono_DC,PASS,40,14,11,~ dataset + arm,11029,7.043,0.1694,537,385,152
-primary,T_NK,FAIL,39,14,,,,,,,,
-primary,B_Plasma,FAIL,40,14,,,,,,,,
+primary,T_NK,PASS,39,14,11,~ dataset + arm,9281,7.036,0.2239,1,1,0
+primary,B_Plasma,PASS,40,14,11,~ dataset + arm,7734,7.043,0.2137,37,28,9
 secondary,LMPP_GMP,PASS,5,4,4,~ arm,9497,4,,431,304,127
 secondary,HSC_MPP,PASS,4,4,4,~ arm,8981,4,,0,0,0
 secondary,Erythroid,FAIL,3,3,,,,,,,,
