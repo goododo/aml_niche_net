@@ -43,6 +43,7 @@ from scipy import stats
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
 from fgw_vocab import load_vocab, load_features, assert_index_covered
 from distance_variants import weights_to_C, LOG_EPS
+from graph_geometry import walk_geometry
 
 from contextlib import contextmanager
 @contextmanager
@@ -98,6 +99,16 @@ print("[0] %d graphs | %d patients | arms %s" % (len(idx), idx.patient_id.nuniqu
 ## -- the four cost transforms. Same w in, four C out. ----
 GRID = pd.MultiIndex.from_product([FGW_NODES, FGW_NODES], names=["sender_bin", "receiver_bin"])
 
+# 'walk' is NOT a fifth weight-to-cost transform. It changes WHICH QUANTITY IS THE COST: the damped
+# random walk of the graph supplies the cost and the LR signal supplies the mass, instead of the
+# other way round. It is therefore reported separately from the four registered arms, and it is
+# NOT part of the pre-registration -- 10_planted_effect_power.py --geometry walk is its validation,
+# where the omnibus first detects a planted effect monotonically.
+# 'walk'        = walk cost + LR-signal mass (both roles swapped together)
+# 'walk_ncells' = walk cost + production cell-count mass (the ablation that separates them)
+# 'rank_signal' = production cost + LR-signal mass: the fourth cell of the 2x2.
+WALK_ARMS = ("walk", "walk_ncells", "rank_signal")
+
 def build_C(sub, arm):
     """sub: the 49 rows of one sample, already on the fixed grid order. Returns 7x7.
     The transforms themselves live in scripts/config/distance_variants.py so that this
@@ -120,7 +131,25 @@ for k, g in nodes.groupby(["dataset", "sample"]):
     p = np.nan_to_num(nd["mass"].to_numpy(float), nan=1e-6); p = p / p.sum()
     ND[k] = (F, p)
 
-CBANK = {arm: {k: build_C(E[k], arm) for k in KEY} for arm in ARMS}
+CBANK = {}
+PBANK = {}                 # per-arm node mass: only the walk arm departs from the production mass
+for arm in ARMS:
+    if arm in WALK_ARMS:
+        CBANK[arm] = {}; PBANK[arm] = {}
+        for k in KEY:
+            Wm = E[k]["weight_probsum"].to_numpy(float).reshape(len(FGW_NODES), len(FGW_NODES))
+            _, Cg, m = walk_geometry(Wm)
+            CBANK[arm][k] = build_C(E[k], "rank") if arm == "rank_signal" else Cg
+            PBANK[arm][k] = ND[k][1] if arm == "walk_ncells" else m
+    else:
+        CBANK[arm] = {k: build_C(E[k], arm) for k in KEY}
+        PBANK[arm] = {k: ND[k][1] for k in KEY}
+
+
+def FP(arm, k):
+    """(features, mass) for one sample under one arm. Kept as a function so the walk arm's mass
+    can never leak into another arm through a shared mutable dict."""
+    return ND[k][0], PBANK[arm][k]
 
 ## -- SELF-CHECK 1: the rank arm must reproduce the stored C bit for bit ----
 if "rank" in ARMS and not args.skip_selfcheck:
@@ -141,7 +170,7 @@ def fgw2(Ca, Fa, pa, Cb, Fb, pb, alpha):
             M, Ca, Cb, pa, pb, loss_fun="square_loss", alpha=alpha, symmetric=False))
 
 def barycenter(keys, arm, alpha):
-    Cs = [CBANK[arm][k] for k in keys]; Fs = [ND[k][0] for k in keys]; ps = [ND[k][1] for k in keys]
+    Cs = [CBANK[arm][k] for k in keys]; Fs = [ND[k][0] for k in keys]; ps = [PBANK[arm][k] for k in keys]
     m = len(Cs); n = len(FGW_NODES)
     with pot_quiet():
         out = ot.gromov.fgw_barycenters(
@@ -157,7 +186,7 @@ def hds_all(arm, alpha):
     sparse = dict(zip(KEY, idx.sparse_flag.fillna(False)))
     bar_keys = [k for k in heal if not sparse[k]]
     Cb, Fb, pb = barycenter(bar_keys, arm, alpha)
-    return {k: fgw2(CBANK[arm][k], ND[k][0], ND[k][1], Cb, Fb, pb, alpha) for k in KEY}
+    return {k: fgw2(CBANK[arm][k], ND[k][0], PBANK[arm][k], Cb, Fb, pb, alpha) for k in KEY}
 
 if "rank" in ARMS and not args.skip_selfcheck:
     ref = pd.read_csv(os.path.join(D_FGW, "patient_scores.csv"))
@@ -194,8 +223,8 @@ for arm in ARMS:
                 if len(pool) < 3:
                     print("      [skip] %s/%s only %d same-dataset distractors" % (r.dataset, r.patient, len(pool)))
                     continue
-                d_true = fgw2(CBANK[arm][ka], *ND[ka], CBANK[arm][kb], *ND[kb], alpha)
-                d_pool = np.array([fgw2(CBANK[arm][ka], *ND[ka], CBANK[arm][g], *ND[g], alpha) for g in pool])
+                d_true = fgw2(CBANK[arm][ka], *FP(arm, ka), CBANK[arm][kb], *FP(arm, kb), alpha)
+                d_pool = np.array([fgw2(CBANK[arm][ka], *FP(arm, ka), CBANK[arm][g], *FP(arm, g), alpha) for g in pool])
                 pct = float((d_pool < d_true).sum()) / len(d_pool)
                 pcts.append(pct); top1 += int(pct == 0.0)
                 rank_rows.append(dict(arm=arm, alpha=alpha, kind=kind, dataset=r.dataset,

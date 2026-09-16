@@ -39,6 +39,7 @@ import ot
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
 from fgw_vocab import load_vocab, assert_index_covered
 from distance_variants import weights_to_C, ARMS as DV_ARMS
+from graph_geometry import walk_geometry
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
@@ -63,6 +64,14 @@ ap.add_argument("--max_iter", type=int, default=1000)
 # production rule and keeps SELF-CHECK 1 below as a bit-for-bit reproduction of 06_distance/01.
 # The other arms give an undetected edge a cost that does not move with how many are missing.
 ap.add_argument("--distance", choices=list(DV_ARMS), default="rank")
+# THE CORRECTED FORMULATION. 'rank' is the production arm: the LR signal becomes the cost and the
+# cell counts the mass. 'walk' swaps the two roles back -- the damped-walk geometry of the graph
+# becomes the cost and the LR signal becomes the mass -- which is the arrangement Nagai et al.
+# (Bioinformatics 2025, btaf288) use. Under 'walk' BOTH are rebuilt from the planted weights at
+# every delta, because planting changes the graph and therefore changes its geometry too.
+# ABLATION: 'walk_ncells' keeps the walk cost but restores the production cell-count mass, so the
+# detection gain can be attributed to the cost change or the mass change rather than to both.
+ap.add_argument("--geometry", choices=["rank", "walk", "walk_ncells", "rank_signal"], default="rank")
 args = ap.parse_args()
 DELTAS = [float(x) for x in args.deltas.split(",")]
 KS = [int(x) for x in args.ks.split(",")]
@@ -133,7 +142,6 @@ def rank_to_C(w_row, i=None):
 # SELF-CHECK 1 always runs on the 'rank' path, whatever arm was requested: if the shared transform
 # has drifted from 06_distance/01 then every arm built on it is measuring the harness.
 C0_rank = np.vstack([weights_to_C(W.iloc[i].to_numpy(float), "rank", NLR_NP[i]) for i in range(len(W))])
-C0 = np.vstack([rank_to_C(W.iloc[i].to_numpy(float), i) for i in range(len(W))])
 maxdev = float(np.max(np.abs(C0_rank - C_STORED.to_numpy(float))))
 print(f"[SELF-CHECK 1] re-ranked C vs stored C : max |dev| = {maxdev:.3e}  (arm={args.distance})")
 if maxdev > 1e-9:
@@ -173,6 +181,35 @@ for (ds, smp), g in nodes.groupby(["dataset","sample"]):
     gg = g.set_index("hierarchy_bin").reindex(FGW_NODES)
     p = np.nan_to_num(gg["mass"].to_numpy(float), nan=EPS_MASS); p = p / p.sum()
     NODE_F[(ds, smp)] = p
+
+NODE_F_PROD = dict(NODE_F)   # the production cell-count mass, untouched by any planting
+
+
+def build_C_and_mass(Wp):
+    """Cost rows for every sample, plus the node masses, under the chosen geometry.
+
+    Under 'rank' the mass is the production cell-fraction mass and does not depend on the weights.
+    Under 'walk' the cost and the mass both come from the (possibly planted) weight matrix through
+    the shared kernel in config/graph_geometry.py, so a planted edge changes the geometry it is
+    supposed to change."""
+    if args.geometry == "rank":
+        return np.vstack([rank_to_C(Wp[i], i) for i in range(len(Wp))]), NODE_F_PROD
+    if args.geometry == "rank_signal":
+        # production cost, signal mass. The mass is rebuilt from the planted weights, since
+        # planting changes the signal and therefore changes the mass it carries.
+        Cs = np.vstack([rank_to_C(Wp[i], i) for i in range(len(Wp))])
+        return Cs, {KEY[i]: walk_geometry(Wp[i].reshape(7, 7))[2] for i in range(len(Wp))}
+    Cs = np.empty((len(Wp), 49))
+    mass = {}
+    for i in range(len(Wp)):
+        _, Cg, m = walk_geometry(Wp[i].reshape(7, 7))
+        Cs[i] = Cg.ravel()
+        mass[KEY[i]] = m if args.geometry == "walk" else NODE_F_PROD[KEY[i]]
+    return Cs, mass
+
+
+C0, _ = build_C_and_mass(W.to_numpy(float))   # unplanted baseline, in the chosen geometry
+
 
 def mats(Cmat):
     return {k: Cmat[i].reshape(7, 7) for i, k in enumerate(KEY)}
@@ -276,7 +313,7 @@ for mode in MODES:
                     Wp[np.ix_(AMLROW, ji)] += delta * SCALE[AMLROW][:, None]
                 else:
                     raise SystemExit(f"unknown mode {mode!r}")
-            Cm = np.vstack([rank_to_C(Wp[i], i) for i in range(len(Wp))])
+            Cm, NODE_F = build_C_and_mass(Wp)
 
             # NON-VACUITY, checked every time. The first version of this script planted
             # multiplicatively and 60.3% of the targeted cells did not move at all even at delta=8,

@@ -33,7 +33,17 @@ opt <- parse_args(OptionParser(option_list = list(
   make_option("--nboot",   type = "integer",   default = CCC_NBOOT),
   make_option("--workers", type = "integer",   default = CCC_WORKERS),
   make_option("--list",    action = "store_true", default = FALSE),
-  make_option("--force",   action = "store_true", default = FALSE)
+  make_option("--force",   action = "store_true", default = FALSE),
+  # SPLIT-HALF RELIABILITY (08_scoring D5). Both default to absent, and when absent this script
+  # behaves exactly as before and writes exactly where it wrote before. --cell_subset restricts
+  # the run to a listed set of barcodes AFTER the standard in_ccc_graph / high_error / node
+  # filters, so the subset is drawn from the same population production uses. --out_suffix
+  # diverts the outputs to a parallel directory so a diagnostic run can never overwrite a
+  # production tensor.
+  make_option("--cell_subset", type = "character", default = NA_character_,
+              help = "CSV with a 'cell' column; keep only these barcodes"),
+  make_option("--out_suffix",  type = "character", default = NA_character_,
+              help = "write to <CCC_TENSOR_DIR>__<suffix> instead of the production directory")
 )))
 
 ## -- Step 0. eligible sample list (deterministic order = stable --row indexing) ----
@@ -68,8 +78,9 @@ if (opt$workers > 1L) {
 
 ## -- per-sample worker ----
 run_one <- function(ds, smp, tp) {
-  out_tensor <- file.path(CCC_TENSOR_DIR, ds, paste0(smp, "__ccc_cellchat.csv"))
-  out_obj    <- file.path(CCC_GRAPH_DIR,  ds, paste0(smp, "__cellchat.rds"))
+  .sfx <- if (is.na(opt$out_suffix)) "" else paste0("__", opt$out_suffix)
+  out_tensor <- file.path(paste0(CCC_TENSOR_DIR, .sfx), ds, paste0(smp, "__ccc_cellchat.csv"))
+  out_obj    <- file.path(paste0(CCC_GRAPH_DIR,  .sfx), ds, paste0(smp, "__cellchat.rds"))
   # freshness, not existence: the tensor must postdate the QC object and the projection it is built from
   .ins <- c(file.path(CCC_QC_OBJ_DIR, ds, paste0(smp, ".rds")),
             file.path(CCC_BMM_DIR,    ds, paste0(smp, "__bmm_percell.csv")))
@@ -92,6 +103,16 @@ run_one <- function(ds, smp, tp) {
   ## keep only real CCC nodes, QC-pass cells (drops Stromal/Unassigned/high_error)
   keep <- obj$in_ccc_graph %in% TRUE & obj$high_error %in% FALSE & obj$hierarchy_bin %in% CCC_NODES
   obj  <- obj[, keep]
+  # Subset AFTER the production filters, so a half is a half OF THE SAME POPULATION production
+  # scores. Doing it earlier would make the two halves differ from production in two ways at once.
+  if (!is.na(opt$cell_subset)) {
+    want <- fread(opt$cell_subset)$cell
+    hit  <- colnames(obj) %in% want
+    if (sum(hit) == 0L) stop("--cell_subset matched 0 cells of ", ncol(obj), " for ", ds, "/", smp,
+                             " -- barcode convention has drifted, do not report this run")
+    message("  [subset] ", sum(hit), " / ", ncol(obj), " cells kept from ", basename(opt$cell_subset))
+    obj <- obj[, hit]
+  }
   gs   <- as.data.table(obj@meta.data)[, .(n = .N), by = .(bin = as.character(hierarchy_bin))]
   usable <- gs[n >= CCC_MIN_CELLS_PER_NODE]
   if (nrow(usable) < 2L) { message("  [skip] ", ds, "/", smp, " : < 2 usable nodes"); return(invisible()) }

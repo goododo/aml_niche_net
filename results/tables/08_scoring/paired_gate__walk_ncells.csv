@@ -1,0 +1,11 @@
+gate,arm,alpha,kind,n,stat,value,p,extra
+GATE1_identity,walk_ncells,0.0,Dx_to_Relapse,11,median percentile of the true partner,0.3333333333333333,0.0615234375,top1=1/11
+GATE1_identity,walk_ncells,0.0,Dx_to_Treatment,11,median percentile of the true partner,0.2727272727272727,0.0615234375,top1=0/11
+GATE1_identity,walk_ncells,0.5,Dx_to_Relapse,11,median percentile of the true partner,0.2608695652173913,0.02880859375,top1=1/11
+GATE1_identity,walk_ncells,0.5,Dx_to_Treatment,11,median percentile of the true partner,0.391304347826087,0.31103515625,top1=2/11
+GATE1_identity,walk_ncells,1.0,Dx_to_Relapse,11,median percentile of the true partner,0.21739130434782608,0.04248046875,top1=1/11
+GATE1_identity,walk_ncells,1.0,Dx_to_Treatment,11,median percentile of the true partner,0.391304347826087,0.50830078125,top1=0/11
+GATE3_question,walk_ncells,0.5,Dx_to_Relapse,11,intercept of dHDS ~ dLogDepth,0.0030985091627214094,0.9396540223786516,slope=-0.2438 wilcoxon_nocovar_p=0.7646 median_dHDS=+0.0180
+GATE2_positive_control,walk_ncells,0.5,Dx_to_Treatment,11,intercept of dHDS ~ dLogDepth,0.002583195275517509,0.5079664892468163,slope=-0.4241 wilcoxon_nocovar_p=0.5508 median_dHDS=-0.1551
+GATE3_question,walk_ncells,1.0,Dx_to_Relapse,11,intercept of dHDS ~ dLogDepth,0.0353549360062519,0.16872498972748778,slope=-0.0961 wilcoxon_nocovar_p=0.1748 median_dHDS=+0.0480
+GATE2_positive_control,walk_ncells,1.0,Dx_to_Treatment,11,intercept of dHDS ~ dLogDepth,0.1731761650023267,0.7771868638227886,slope=+0.0226 wilcoxon_nocovar_p=0.5845 median_dHDS=+0.0135

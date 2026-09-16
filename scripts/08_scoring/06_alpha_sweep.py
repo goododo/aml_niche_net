@@ -38,6 +38,7 @@ import ot
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'config'))
 from fgw_vocab import load_vocab, load_features, assert_index_covered
 from distance_variants import weights_to_C, ARMS as DV_ARMS
+from graph_geometry import walk_geometry
 
 
 FGW_NODES=["HSC_MPP","LMPP_GMP","Mono_DC","Erythroid","Megakaryocyte","T_NK","B_Plasma"]
@@ -54,6 +55,14 @@ ap.add_argument("--max_iter",type=int,default=1000)
 # "uniform" = equal mass on every present node -- removes the cell-count channel that even alpha=1
 # retains through the masses, so alpha=1 + uniform is the fully cell-count-free topology test.
 ap.add_argument("--mass_mode",choices=["ncells","uniform"],default="ncells")
+# THE CORRECTED FORMULATION. Under "walk" the two roles are swapped back: the damped-walk geometry
+# of the graph supplies the COST and the LR signal supplies the MASS, so --mass_mode does not apply
+# and is reported as superseded. Validated first in 10_planted_effect_power.py --geometry walk,
+# where the omnibus detects a planted effect monotonically (p .533 -> .006) for the first time.
+# ABLATION. 'walk' changes the cost AND the mass together, so a failure cannot be attributed.
+# 'walk_ncells' keeps the walk cost but restores the production cell-count mass, which separates
+# the two halves of the swap. See PART III section 13 of FINDINGS_topology_null.md.
+ap.add_argument("--geometry",choices=["rank","walk","walk_ncells","rank_signal"],default="rank")
 ap.add_argument("--out",default="alpha_sweep.csv")
 # EDGE-COST TRANSFORM. Default "rank" is the production rule and reads the stored C column, so it
 # reproduces the frozen sweep bit-for-bit. The other three are the arms pre-registered in
@@ -95,8 +104,22 @@ assert_index_covered(idx, _VOCAB)
 # "rank" keeps reading the stored C so the frozen sweep is reproduced exactly. Any other arm needs
 # the raw weights, which live only in 06_distance/edge_distance.csv.
 _GRID=pd.MultiIndex.from_product([FGW_NODES,FGW_NODES],names=["sender_bin","receiver_bin"])
-_CVAR={}
-if args.distance!="rank":
+_CVAR={}; _WVAR={}
+if args.geometry in ("walk","walk_ncells","rank_signal"):
+    _ed=pd.read_csv(os.path.join(args.root,"06_distance","edge_distance.csv"))
+    for _k,_g in _ed.groupby(["dataset","sample"]):
+        _sub=_g.set_index(["sender_bin","receiver_bin"]).reindex(_GRID).reset_index()
+        _WVAR[_k]=_sub["weight_probsum"].to_numpy(float).reshape(len(FGW_NODES),len(FGW_NODES))
+    if args.geometry=="walk":
+        print(f"[0] geometry = walk | cost from the damped walk, mass from LR signal strength; "
+              f"--mass_mode {args.mass_mode} is SUPERSEDED and not used")
+    elif args.geometry=="walk_ncells":
+        print(f"[0] geometry = walk_ncells | cost from the damped walk, mass = production "
+              f"--mass_mode {args.mass_mode} (ablation: cost changed, mass unchanged)")
+    else:
+        print(f"[0] geometry = rank_signal | cost = production rank C, mass from LR signal "
+              f"strength (ablation: mass changed, cost unchanged)")
+elif args.distance!="rank":
     _ed=pd.read_csv(os.path.join(args.root,"06_distance","edge_distance.csv"))
     for _k,_g in _ed.groupby(["dataset","sample"]):
         _sub=_g.set_index(["sender_bin","receiver_bin"]).reindex(_GRID).reset_index()
@@ -117,6 +140,22 @@ def build_one(ds,smp):
     k=(ds,smp)
     if k in _cache: return _cache[k]
     e=edges[(edges["dataset"]==ds)&(edges["sample"]==smp)]
+    nd0=nodes[(nodes["dataset"]==ds)&(nodes["sample"]==smp)].set_index("hierarchy_bin").reindex(FGW_NODES)
+    if args.geometry in ("walk","walk_ncells","rank_signal"):
+        _,C,p_sig=walk_geometry(_WVAR[(ds,smp)])
+        F=np.nan_to_num(nd0[FGW_FEATURES].to_numpy(float),nan=0.0)
+        if args.geometry=="rank_signal":
+            C=e.pivot(index="sender_bin",columns="receiver_bin",values="C").reindex(FGW_NODES,columns=FGW_NODES).to_numpy(float)
+            C=np.nan_to_num(C,nan=1.0)
+        if args.geometry in ("walk","rank_signal"):
+            p=p_sig
+        else:                                   # walk_ncells: production mass, unchanged
+            if MASS_MODE=="uniform":
+                p=np.where(nd0["present"].fillna(False).to_numpy(bool),1.0,EPS_MASS)
+            else:
+                p=np.nan_to_num(nd0["mass"].to_numpy(float),nan=EPS_MASS)
+            p=p/p.sum()
+        _cache[k]=(C,F,p); return _cache[k]
     if args.distance=="rank":
         C=e.pivot(index="sender_bin",columns="receiver_bin",values="C").reindex(FGW_NODES,columns=FGW_NODES).to_numpy(float)
     else:
