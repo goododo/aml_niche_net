@@ -1,0 +1,4 @@
+hierarchy_bin,evaluable,reason,n_hits_frozen,n_tested,n_lost,n_same_sign,frac_same_sign,binom_p,n_AML,n_healthy,min_sample_size,n_genes_tested
+Mono_DC,TRUE,,385,211,174,163,0.772511848341232,3.83804104396271e-16,7,2,2,8706
+T_NK,FALSE,no frozen hit survived the Validation universe,1,0,1,0,0,,4,2,2,4099
+B_Plasma,TRUE,,28,13,15,11,0.846153846153846,0.01123046875,3,1,1,5904
