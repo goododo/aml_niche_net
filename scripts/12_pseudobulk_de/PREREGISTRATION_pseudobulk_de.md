@@ -688,7 +688,25 @@ run and both are reported:
   assumed.
 
 Reported as the full **hit-count distribution** over the 1000 permutations, not
-its mean. `observed = 0` against `mean(null) = 0` carries no information, which
+its mean.
+
+> **CORRECTION 2026-09-24 — the secondary tier's p in `perm_summary.csv` is wrong
+> and is superseded.** `N_PERM = 1000` was drawn *with replacement* from a space
+> that holds only `C(9,4) = 126` distinct arrangements for LMPP_GMP and
+> `C(8,4) = 70` for HSC_MPP. The reported LMPP_GMP p of **0.00699 is below that
+> design's own minimum attainable p** of `1/127 = 0.00787`, which is impossible and
+> is the tell. `06_secondary_robustness.R` enumerates both spaces **exactly**; use
+> `secondary_exhaustive_perm.csv`, not `perm_summary.csv`, for these two bins.
+> Exact values: LMPP_GMP **1/126 = 0.0079** under the frozen-voom scheme and
+> **2/126 = 0.0159** under full refit (the more correct one, and the one to quote);
+> HSC_MPP **70/70 = 1.0** under both.
+>
+> Also corrected: for the secondary tier the two nulls above are **one null**.
+> Chen2023's `library_id` is 1:1 with sample (9 samples, 9 libraries), so
+> permuting samples and permuting arm-pure libraries enumerate an identical set.
+> `perm_summary.csv`'s 0.00699 vs 0.00899 for LMPP_GMP was two noisy estimates of
+> a single quantity, not two independent tests. The distinction remains real and
+> remains reported for the **primary** tier, where GSE185381's lanes make it bite. `observed = 0` against `mean(null) = 0` carries no information, which
 is why the positive control below is mandatory and not optional.
 
 **Positive control — SUPERSEDED. See the amendment below.** As originally
@@ -899,8 +917,17 @@ scripts/12_pseudobulk_de/
   PREREGISTRATION_pseudobulk_de.md   this file
   01_aggregate.R                     Stage A: (sample, bin) -> raw summed counts + per-bin depth
   02_de_limma.R                      Stage B: primary tier (blocked voom) + secondary tier (~ arm)
-  03_permute.R                       both nulls + planted-effect positive control
+  03_permute.R                       both nulls + planted-effect power curve
+  04_validation.R                    step 7: sign concordance on the frozen primary hit lists
+  06_secondary_robustness.R          8.5 leave-one-out + 8.3 exhaustive permutation (secondary tier)
+  07_confound_tables.R               the 7.2 / 7.3 / 6.4 standing tables
 ```
+
+`05_hox_axis.R` and `PREREGISTRATION_hox_axis.md` also live in this directory but
+are **not part of this pre-registration**. That analysis is post-hoc in origin,
+carries its own pre-registration written before its script, and treats this
+document's hit lists, universes and Discovery/Validation boundary as frozen
+inputs it does not recompute.
 
 **Amendment 2026-09-16, implementation only, no design content.** This section
 originally listed `01_aggregate.sbatch`, a SLURM array modeled on
