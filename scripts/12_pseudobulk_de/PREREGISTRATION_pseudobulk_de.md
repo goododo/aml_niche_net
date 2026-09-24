@@ -695,7 +695,7 @@ its mean.
 > that holds only `C(9,4) = 126` distinct arrangements for LMPP_GMP and
 > `C(8,4) = 70` for HSC_MPP. The reported LMPP_GMP p of **0.00699 is below that
 > design's own minimum attainable p** of `1/127 = 0.00787`, which is impossible and
-> is the tell. `06_secondary_robustness.R` enumerates both spaces **exactly**; use
+> is the tell. `07_secondary_robustness.R` enumerates both spaces **exactly**; use
 > `secondary_exhaustive_perm.csv`, not `perm_summary.csv`, for these two bins.
 > Exact values: LMPP_GMP **1/126 = 0.0079** under the frozen-voom scheme and
 > **2/126 = 0.0159** under full refit (the more correct one, and the one to quote);
@@ -919,12 +919,19 @@ scripts/12_pseudobulk_de/
   02_de_limma.R                      Stage B: primary tier (blocked voom) + secondary tier (~ arm)
   03_permute.R                       both nulls + planted-effect power curve
   04_validation.R                    step 7: sign concordance on the frozen primary hit lists
-  06_secondary_robustness.R          8.5 leave-one-out + 8.3 exhaustive permutation (secondary tier)
-  07_confound_tables.R               the 7.2 / 7.3 / 6.4 standing tables
+  07_secondary_robustness.R          8.5 leave-one-out + 8.3 exhaustive permutation (secondary tier)
+  08_confound_tables.R               the 7.2 / 7.3 / 6.4 standing tables
 ```
 
-`05_hox_axis.R` and `PREREGISTRATION_hox_axis.md` also live in this directory but
-are **not part of this pre-registration**. That analysis is post-hoc in origin,
+**Numbering note, 2026-09-24.** `07_secondary_robustness.R` and `08_confound_tables.R` were first
+written as `06_` and `07_`. The `06_` clashed with `06_hox_compartment.R`, which belongs to the
+HOX-axis line and was written in a parallel session the same day, so both scripts moved up one.
+Only the filenames changed: inputs, outputs and logic are untouched, the output CSVs keep their
+original names and were not regenerated, and every result quoted against them still stands.
+
+`05_hox_axis.R`, `06_hox_compartment.R` and their pre-registrations
+(`PREREGISTRATION_hox_axis.md`, `PREREGISTRATION_hox_compartment.md`) also live in this directory
+but are **not part of this pre-registration**. That analysis is post-hoc in origin,
 carries its own pre-registration written before its script, and treats this
 document's hit lists, universes and Discovery/Validation boundary as frozen
 inputs it does not recompute.

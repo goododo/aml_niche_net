@@ -484,8 +484,8 @@ permutation null.
 | §8.2 marker gate, per-bin DE, depth arm, frozen hit list, pooled-BH arm | `02_de_limma.R` | `marker_gate.csv`, `de/*.csv`, `de_summary.csv`, `hitlist_frozen.csv`, `sensitivity_pooled_bh.csv` |
 | Both §8.3 nulls, planted-effect power curve, LFC80 | `03_permute.R` | `perm_null.csv`, `perm_summary.csv`, `power.csv` |
 | Validation sign concordance | `04_validation.R` | `validation_concordance.csv`, `validation/*.csv` |
-| §8.5 leave-one-out, §8.3 exhaustive permutation | `06_secondary_robustness.R` | `secondary_leave_one_out.csv`, `secondary_exhaustive_perm.csv` |
-| §7.2 / §7.3 / §6.4 confounder tables | `07_confound_tables.R` | `confound_mapping_error.csv`, `confound_composition.csv`, `confound_inferred_sex.csv` |
+| §8.5 leave-one-out, §8.3 exhaustive permutation | `07_secondary_robustness.R` | `secondary_leave_one_out.csv`, `secondary_exhaustive_perm.csv` |
+| §7.2 / §7.3 / §6.4 confounder tables | `08_confound_tables.R` | `confound_mapping_error.csv`, `confound_composition.csv`, `confound_inferred_sex.csv` |
 | §11 item 6 depth-struck list | inline, from `de/*.csv` | `depth_struck_hits.csv` |
 | HOX axis, separate pre-registration | `PREREGISTRATION_hox_axis.md`, `05_hox_axis.R` | `hox_axis_*.csv` |
 
