@@ -6,10 +6,10 @@ existed. Every number below is reproduced by a named script on a named sample se
 here is an estimate or a recollection. Where a result is mixed or unresolved it is written as mixed
 or unresolved.
 
-**Why this line exists.** Eric Verbeke (Yachie lab) pointed out in September 2026 that he could not
-tell how much of the single-cell data actually enters the analysis, since everything is reduced to
-7 nodes, and that node vectors should be built from real expression rather than derived scores. He
-was right: the node vector is 150 features, ~141 of them bin-level means of signature, pathway,
+**Why this line exists.** Two questions were raised about the analysis in September 2026: how much
+of the single-cell data actually enters it, given that everything is reduced to 7 nodes, and whether
+node vectors should be built from real expression rather than from derived scores. Both were
+well founded. The node vector is 150 features, ~141 of them bin-level means of signature, pathway,
 cNMF-program, pseudotime or CNV scores, and only 9 gene-expression features (3 genes x 3 strata). A
 repo-wide search confirmed **no cohort-wide, full-transcriptome, model-based DE had ever been run
 here** — no `edgeR`, `limma`, `DESeq2`, `muscat` or `FindMarkers` call existed in `scripts/`. This
