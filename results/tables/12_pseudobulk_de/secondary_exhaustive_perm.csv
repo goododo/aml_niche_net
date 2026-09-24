@@ -1,0 +1,5 @@
+hierarchy_bin,scheme,n_arrangements,n_valid,observed_hits,null_median,null_mean,null_p95,null_max,n_ge_observed,p_exact,resolution,note
+LMPP_GMP,frozen_voom,126,126,431,0,13.78,3,431,1,0.00793650793650794,0.00793650793650794,both PREREG 8.3 nulls coincide here: Chen2023 library_id is 1:1 with sample
+LMPP_GMP,full_refit,126,126,431,0,13.75,1,458,2,0.0158730158730159,0.00793650793650794,both PREREG 8.3 nulls coincide here: Chen2023 library_id is 1:1 with sample
+HSC_MPP,frozen_voom,70,70,0,0,0.09,1,1,70,1,0.0142857142857143,both PREREG 8.3 nulls coincide here: Chen2023 library_id is 1:1 with sample
+HSC_MPP,full_refit,70,70,0,0,0.03,0,1,70,1,0.0142857142857143,both PREREG 8.3 nulls coincide here: Chen2023 library_id is 1:1 with sample
