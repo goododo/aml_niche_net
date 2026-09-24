@@ -263,9 +263,41 @@ composition-confounded.
   "the two cannot be separated with this design". That remains true. Nothing here upgrades it.
 - The obvious external anchor — blast burden — has been tried and is **unresolved** (§14).
 
-**So: the composition reading is the most economical explanation of the gene content, and it is not
-established.** It is the strongest available lead and the right target for the next
-pre-registration.
+**So: the composition reading is the most economical explanation of the gene content, and this
+document cannot establish it.** It was the right target for the next pre-registration — and that
+pre-registration has since been written and run.
+
+### 7.1 Update 2026-09-24 — `PREREGISTRATION_hox_compartment.md` answered it
+
+The question above is no longer open. `06_hox_compartment.R`, on 36 samples / 9 NPM1-mutants
+(GSE185381 + GSE116256; Chen2023 excluded for having zero within-dataset contrast at 5/5 mutant),
+asked whether the Mono_DC HOX signal is separable from the LMPP/GMP blast compartment:
+
+| | AUC for NPM1 | permutation p |
+| --- | --- | --- |
+| Mono_DC, raw (reference) | 0.893 | — |
+| LMPP_GMP, raw (reference) | 0.975 | — |
+| **Mono_DC adjusted for LMPP_GMP** | **0.490** | **0.549** |
+| LMPP_GMP adjusted for Mono_DC | 0.733 | 0.021 |
+
+**Adjusted for the blast compartment, Mono_DC lands at exactly chance, and the reverse direction
+survives.** Three pre-registered controls agree: a Set D repeat using 12 Discovery-frozen genes
+instead of 19 locus-defined ones gives 0.523 / p 0.36 and 0.753 / p 0.0075; a T_NK negative control
+does not add (0.429, p 0.71), so the "adding" is not generic; and cell count is not a confound
+(rho −0.225 and −0.170 against a 0.40 threshold). Compartment collinearity was rho 0.822 / 0.857,
+under the pre-registered 0.90 stop.
+
+**What this settles, at the wording ceiling that document fixed in advance:** the Mono_DC
+compartment's HOX signal is **not separable** from the LMPP/GMP compartment's. The 385 genes are
+**not a microenvironment finding**. The composition reading of §7 is therefore supported rather than
+merely economical — and §13's first bullet should be read with that constraint attached.
+
+**What it still does not settle:** that the cells carrying the signal are malignant. That needs the
+cell-level malignancy call which `scripts/FINDINGS_project_status.md` N4 records as not existing in
+this project (inferCNV vs clinical blast %, n=59, rho = −0.069, p = 0.605).
+
+See `scripts/FINDINGS_project_status.md` §2.6 for this result in its cross-line context; it is the
+project-level synthesis and this document is the line-level one.
 
 ## 8. How this relates to the topology null
 
