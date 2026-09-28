@@ -59,11 +59,27 @@ source(here::here("scripts", "config", "utils.R"))
 .clean_panel_names <- function(pk, cols) paste0(pk, "_", gsub("[^A-Za-z0-9_]", "_", cols))
 .panel_found <- list()
 
+# SPLIT-HALF ARM (2026-09-28). The node-feature distance built from this table beats cell-type
+# composition on GATE 1 and survives depth deconfounding, but it has no measurement-noise floor:
+# 16_scaccordion_noise_floor.py covered the five EDGE-based arms only. These three options let the
+# identical aggregation run on half a sample's cells, so the floor can be measured the same way.
+# Defaults absent => this script behaves exactly as before and writes exactly where it wrote before.
 opt <- parse_args(OptionParser(option_list = list(
-  make_option("--force", action = "store_true", default = FALSE)
+  make_option("--force", action = "store_true", default = FALSE),
+  make_option("--split_half_dir", type = "character", default = NA_character_,
+              help = "directory of <ds>__<sample>__<A|B>.csv cell assignments (05_ccc/06 output)"),
+  make_option("--half", type = "character", default = NA_character_, help = "A or B"),
+  make_option("--out_suffix", type = "character", default = NA_character_,
+              help = "write ccc_node_features__<suffix>.csv instead of the production table")
 )))
+if (!is.na(opt$split_half_dir)) {
+  if (!opt$half %in% c("A", "B")) stop("--split_half_dir requires --half=A or --half=B")
+  if (is.na(opt$out_suffix))
+    stop("--split_half_dir requires --out_suffix, so a half can never overwrite the production table")
+}
 
-out_feat <- file.path(DIR_CCC, "ccc_node_features.csv")
+out_feat <- file.path(DIR_CCC, if (is.na(opt$out_suffix)) "ccc_node_features.csv"
+                               else sprintf("ccc_node_features__%s.csv", opt$out_suffix))
 # FRESHNESS, not existence. This guard printed "[skip]" and exited 0 on a superseded cohort:
 # results/tables/07_fgw/patient_scores.csv holds 148 rows of which 55 name samples that have
 # left the cohort, and 47 current samples have never entered CCC at all. Re-running the chain
@@ -128,6 +144,18 @@ build_one <- function(ds, smp, tp) {
     .excluded_cells <<- .excluded_cells + (n_before - nrow(d))
   }
   if (!nrow(d)) return(NULL)
+
+  # Subset AFTER the production filters, so a half is a half OF THE SAME POPULATION the production
+  # table aggregates. Doing it earlier would make the halves differ from production in two ways at
+  # once. A sample with no assignment file is skipped: only the 37 paired samples have halves.
+  if (!is.na(opt$split_half_dir)) {
+    .sf <- file.path(opt$split_half_dir, sprintf("%s__%s__%s.csv", ds, smp, opt$half))
+    if (!file.exists(.sf)) return(NULL)
+    .want <- fread(.sf)$cell
+    .n0 <- nrow(d); d <- d[cell %in% .want]
+    if (!nrow(d)) { warning("half ", opt$half, " matched 0 cells for ", ds, "/", smp); return(NULL) }
+    message("  [half ", opt$half, "] ", ds, "/", smp, ": ", nrow(d), " / ", .n0, " cells")
+  }
 
   if (file.exists(con_f)) d <- fread(con_f, select = c("cell", "malignant"))[d, on = "cell"]
   else d[, malignant := NA_integer_]

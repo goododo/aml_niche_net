@@ -41,8 +41,17 @@ opt <- parse_args(OptionParser(option_list = list(
   make_option("--feature_scale", type = "character", default = "",
               help = "global_z | within_sample_rank; default FGW_FEATURE_SCALE"),
   make_option("--features", type = "character", default = "",
-              help = "comma-separated feature set to put IN the FGW distance; default FGW_FEATURES")
+              help = "comma-separated feature set to put IN the FGW distance; default FGW_FEATURES"),
+  # --node_features completes the redirection the --out_dir comment above describes: the node table
+  # was the one input that could not be pointed elsewhere, which blocked building FGW inputs from a
+  # split half. Added 2026-09-28 for the node-feature noise floor.
+  make_option("--node_features", type = "character", default = "",
+              help = "path to a ccc_node_features csv; default DIR_CCC/ccc_node_features.csv")
 )))
+NODE_FEAT_CSV <- if (nzchar(opt$node_features)) opt$node_features else
+  file.path(DIR_CCC, "ccc_node_features.csv")
+if (!file.exists(NODE_FEAT_CSV)) stop("node feature table not found: ", NODE_FEAT_CSV)
+if (nzchar(opt$node_features)) message("[cfg] node features from ", NODE_FEAT_CSV)
 
 # A feature named here must exist in ccc_node_features.csv and must not be silently dropped later.
 FEATURES <- if (nzchar(opt$features)) trimws(strsplit(opt$features, ",")[[1]]) else FGW_FEATURES
@@ -64,7 +73,7 @@ out_edges <- file.path(opt$out_dir, "fgw_edges_long.csv")
 # certifies nothing, and a non-existent path is silently ignored by is_stale()
 .ins <- c(file.path(DIR_DISTANCE, "edge_distance.csv"),
           file.path(DIR_DISTANCE, "edge_qc.csv"),
-          file.path(DIR_CCC, "ccc_node_features.csv"),
+          NODE_FEAT_CSV,
           file.path(DIR_CCC, "ccc_sample_manifest.csv"))
 if (!is_stale(c(out_index, out_nodes, out_edges), .ins, force = opt$force)) {
   message("[skip] FGW inputs are current"); quit(status = 0)
@@ -75,7 +84,7 @@ if (file.exists(out_index)) message("[recompute] ", stale_reason(c(out_index, ou
 message("[1] loading edge distance / node features / qc / manifest")
 ed  <- fread(file.path(DIR_DISTANCE, "edge_distance.csv"))
 qc  <- fread(file.path(DIR_DISTANCE, "edge_qc.csv"))
-nf  <- fread(file.path(DIR_CCC, "ccc_node_features.csv"))
+nf  <- fread(NODE_FEAT_CSV)
 man <- fread(file.path(DIR_CCC, "ccc_sample_manifest.csv"))
 if (!"sample" %in% names(man) && "Sample" %in% names(man)) setnames(man, "Sample", "sample")
 

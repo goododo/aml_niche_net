@@ -1,6 +1,7 @@
 # Findings: where the project stands
 
-Last result produced **2026-09-24** (`12_pseudobulk_de/06_hox_compartment.R`).
+Last result produced **2026-09-28** (`08_scoring/23_node_feature_noise_floor.py`). This document is
+now a **closing record**: the benchmark line is not being developed further on this cohort (§4).
 
 **What this document is.** A synthesis across two lines of work that each have their own detailed
 findings document. It exists at `scripts/` root rather than inside a stage because it spans stages;
@@ -20,7 +21,7 @@ cannot currently be reproduced from disk.
 
 ## 1. The whole thing in one table
 
-### Six negatives — all pre-registered or proven, none of them a failure to measure
+### Seven negatives — none of them a failure to measure (N7 closes a post-hoc lead)
 
 | | claim | headline number | file |
 |---|---|---|---|
@@ -30,6 +31,7 @@ cannot currently be reproduced from disk.
 | **N4** | No working cell-level malignancy call exists in this project | inferCNV vs clinical blast %, n=59: ρ = **−0.069**, p = 0.605 | `05_ccc/05_undercall_contamination.R` |
 | **N5** | A reference-free "distance to healthy" also fails against blast % | ρ ≈ 0 — **NOT CITABLE, see §2.5** | *(output cleared)* |
 | **N6** | The Mono_DC expression signal is reducible to the blast compartment | Mono_DC adjusted for LMPP_GMP: AUC **0.490**, perm p = 0.549 | `12_pseudobulk_de/06_hox_compartment.R` |
+| **N7** | The node-feature arm's GATE 1 win fails its own reliability gate | SNR **2.37** vs composition's **24.16**; discriminating gap 4.64 < retest noise 11.02; ρ(A,B) 0.797 | `08_scoring/23_node_feature_noise_floor.py` |
 
 ### Four positives — two of them are what make the negatives mean something
 
@@ -42,7 +44,7 @@ cannot currently be reproduced from disk.
 
 ---
 
-## 2. The six negatives
+## 2. The seven negatives
 
 ### 2.1 N1 — composition matches or beats communication, four independent times
 
@@ -211,8 +213,8 @@ citable or is withdrawn.
 
 ### 2.6 N6 — the Mono_DC signal is real, replicates, and is a shadow of the blast compartment
 
-This is the newest result and the most consequential, because it closes the only line that had
-produced a positive.
+This is the most consequential expression-line result, because it closes the only positive that
+line had produced.
 
 **The signal is real.** Pseudobulk AML-vs-healthy DE in the Mono_DC bin, pre-registered before any
 p-value existed: 537 hits at baseline, **385 after the mandatory depth-sensitivity arm**,
@@ -253,6 +255,73 @@ advance: the Mono_DC compartment's HOX signal is **not** separable from the LMPP
 The 385 genes are not a microenvironment finding.
 **What it does not:** it does not establish that the cells carrying the signal are malignant. That
 would need the cell-level call N4 says does not exist.
+
+### 2.7 N7 — the node-feature arm: opened as the one candidate positive, closed as unreliable (2026-09-28)
+
+**Origin, marked post hoc where it was post hoc.** AMENDMENT 1 to `PREREGISTRATION_scaccordion.md`
+added `node_feat` — a plain Euclidean distance between per-bin feature vectors (7 bins × 47
+per-population state scores: 4 stemness, 14 PROGENy, 13 cell-state, 6 metabolism, 1 pseudotime,
+9 cNMF meta-programs; `n_cells`, `mass`, `frac_malignant` all excluded), no transport, no
+communication (`06_distance/04_node_feature_distance.py`) — because the registered ladder went
+from cell counts straight to edge slots. It promptly produced the strongest GATE 1 result in the
+project: Dx→Relapse median percentile **0.043**, p_BH = **0.0039**, 4/11 patients top-1 against
+chance 1.06 (`scaccordion_gate1.csv`; the 150-feature sensitivity arm agrees). For four days this
+was the candidate positive claim — per-population expression state beats counting cells. Three
+gates were then run. It cleared the two about *confounding* and failed the one about
+*reliability*.
+
+**Gate A — which features carry it** (`21_feature_family_ablation.py`, 60 arms, each scored
+against size-matched random feature subsets; every row tagged `exploratory_screen`):
+
+- **No family is necessary.** All six leave-one-family-out arms keep median percentile ≤ 0.087 at
+  p_raw = 0.00049.
+- **Two families are sufficient but not special.** `only_pg` (14 PROGENy) and `only_cs` (13
+  cell-state) reach median percentile 0.0 — but sit at the **17.4th / 20.0th percentile** of
+  size-matched random subsets, i.e. roughly one in five random subsets of the same size does as
+  well.
+- **Stemness alone fails** (p = 0.128) and is *worse than 99.8%* of size-matched subsets; four
+  single features (pg_TNFa, pg_VEGF, cs_cytotoxicity, mp_MP7) each match the full 47-feature
+  arm's percentile on their own.
+- Verdict: the signal is **diffuse** — broadly redundant covariance, not a nameable biological
+  axis.
+
+**Gate B — depth is not the explanation** (`22_depth_deconfound.py`). node_feat stays ahead of
+`prop7` in all four modes — raw, residual (features regressed on log10 median nFeature),
+`matched_pool` (assumption-free: distractors restricted to those closer in depth than the true
+partner), and both combined — medians 0.043–0.065 against prop7's 0.174–0.333. The 200-draw
+placebo runs the healthy direction: real depth degrades the residualisation more than shuffled
+depth in **98%** of draws.
+
+**Gate C — split-half reliability: FAILED** (`23_node_feature_noise_floor.py`; the same
+37-sample, bin-stratified split as P3, rebuilt end-to-end through `03_node_features.R
+--split_half_dir` and `01_build_fgw_inputs.R --node_features` so no production file is touched):
+
+| arm | retest (same sample, A vs B) | between-sample | within-patient | SNR between | SNR within-pt | ρ(A-matrix, B-matrix) |
+|---|---|---|---|---|---|---|
+| `node_feat` | **11.02** | 26.17 | 21.54 | **2.37** | **1.95** | **0.797** |
+| `prop7` | 0.18 | 4.38 | 3.60 | **24.16** | 19.87 | 0.982 |
+| edge arms (P3, for reference) | — | — | — | 3.9–5.6 | 2.9–4.2 | — |
+
+The number that closes it: the discriminating gap GATE 1 lives on (between − within-patient) is
+**4.64 for node_feat against its own retest noise of 11.02 — a ratio of 0.42**; composition's
+gap is 0.78 against noise 0.18, ratio 4.3. And the arm's distance matrix itself is unstable:
+recomputed on the other half of each sample's cells, rank agreement is ρ = 0.797 against
+composition's 0.982. **This is the same yardstick P3 used to make N1–N3 citable. Applied evenly,
+it refuses node_feat as a positive.** (Technical note: halves are standardised on pooled
+half-A+half-B moments so they are commensurable; 1 of 329 columns degenerate, per-column SD ratio
+A/B median 1.016 — the correction is not the source of the result.)
+
+**Stated both ways.** Half-cell floors overstate noise, so every SNR here is a conservative lower
+bound — but equally for all arms, so the ranking stands. And noise *attenuates* matching, so
+q = 0.0039 despite SNR 2.4 implies some real signal underneath. What fails is not "there is
+nothing there"; it is "this measurement, at this cohort size, cannot carry the paper's positive
+claim".
+
+**What it licenses:** on this cohort, composition remains the only representation that is both
+reliable (SNR 24) and passing (GATE 1); the node-feature win is diffuse in content and
+unreproducible at the distance-matrix level.
+**What it does not:** that per-population expression state carries no patient identity. A larger
+paired cohort could resolve it (O6).
 
 ---
 
@@ -335,7 +404,7 @@ to the three primary bins.
 
 ## 4. Why this is a benchmark result and not an inconclusive one
 
-The six negatives would individually each admit the reading "we could not measure it". P3 and P4
+The negatives would individually each admit the reading "we could not measure it". P3 and P4
 remove that reading for all of them: the distance measurements sit 3–6× above their own split-half
 noise, and the expression measurements recover 87–90% of a planted |logFC| 1.5. P1 and P2 then
 supply what a benchmark needs and a limits paper lacks — **a positive control that works**: the
@@ -353,6 +422,17 @@ structural drift in population state so that cell states no longer correspond on
 **not supported on this data**. N6 is the closest this project came to testing it, and the drifted
 compartment turned out to be a shadow of the undrifted one.
 
+**Closing addendum, 2026-09-28.** The one candidate that could have upgraded this record into a
+positive paper — a representation richer than counting cells that beats it — was the node-feature
+arm, and §2.7 records how it was examined: it survived the feature-ablation and depth gates and
+failed the reliability gate, judged by the same yardstick (P3) that makes the negatives citable.
+With it set aside, **the benchmark line is closed as a paper main line on this cohort**: the
+negatives stand and are archived here, but at n = 11 paired patients (9 of 11 from one dataset),
+with wide fine-bin equivalence bounds and no reliable positive twist, what remains is a record and
+possibly a short methods note, not a main-line publication. Every rescue path runs through
+external data (O6, and the scACCorDiON-cohort rerun). No further analysis is planned on this
+cohort under this line.
+
 ---
 
 ## 5. Open items
@@ -364,6 +444,7 @@ compartment turned out to be a shadow of the undrifted one.
 | **O3** | LMPP_GMP has 304 frozen hits and **no Validation arm** | pre-registered: GSE116256 gives that bin 1–2 controls (`PREREGISTRATION_pseudobulk_de.md` §5.3). Its permutation null max equals its observed count (431 = 431) |
 | **O4** | The P2 numbers outside GSE116256 are exploratory | the GSE185381 ranking was seen before the p-value was computed; only the GSE116256 arm is a registered test |
 | **O5** | Whether the LMPP_GMP HOX→NPM1 result can be made a registered test | `driver_mutations` exists for 166/244 samples, which was not known when `PREREGISTRATION_hox_axis.md` was written; a fresh held-out split is possible but has not been designed |
+| **O6** | The node_feat lead is closed on this cohort, not everywhere | rescue needs an external cohort with more paired patients; no run is planned, and any revisit must clear the §2.7 reliability gate before claiming anything |
 
 ---
 
@@ -383,6 +464,8 @@ compartment turned out to be a shadow of the undrifted one.
 | P1 | `12_pseudobulk_de/04_validation.R` | `validation_concordance.csv`, `validation/*.csv` |
 | P3 noise floor | `08_scoring/16_scaccordion_noise_floor.py` | `results/tables/08_scoring/` |
 | P4 power, permutation | `12_pseudobulk_de/03_permute.R` | `power.csv`, `perm_summary.csv`, `perm_null.csv` |
+| N7 arm + gate A | `06_distance/04_node_feature_distance.py`, `08_scoring/21_feature_family_ablation.py` | `scaccordion_distance__node_feat*.csv`, `feature_family_ablation.csv` |
+| N7 gates B, C | `08_scoring/22_depth_deconfound.py`, `23_node_feature_noise_floor.py` | `depth_deconfound.csv`, `node_feature_noise_floor.csv` |
 
 Pre-registrations, all committed before the code they govern existed:
 `08_scoring/PREREGISTRATION_{scaccordion,paired_gate,panel_screen}.md`,
