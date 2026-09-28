@@ -219,3 +219,70 @@ comparison, making it directly comparable as a **twelfth row** in FINDINGS secti
 | vendored method | `/FAST/gr10634/gaozy/external/scACCorDiON` @ `9d8e7d6` |
 | extra deps | `/FAST/gr10634/gaozy/external/pylibs` (kmedoids, genieclust, pydiffmap + 2 transitive); the production `general_env` is untouched |
 | seed | 491638 (`config_paths.sh`) |
+
+---
+
+## AMENDMENT 1 — 2026-09-24 — a node-feature rung, added after the ladder's results were known
+
+**This is post hoc and is recorded as such.** Rungs 1-6 were run, and section B of
+`FINDINGS_topology_null.md` is written, before this amendment existed. Nothing below may be
+promoted to primary; §7.4 stands.
+
+### Why it is being added
+
+An outside reader (Eric Verbeke, Yachie lab) proposed comparing the graphs directly as
+`D = D_nodes + D_edges`, with `D_nodes` a Euclidean distance between corresponding node vectors,
+and observed that since the data is already reduced to 7 nodes there is no cost reason not to use
+many features per node.
+
+Checked against the ladder as registered: rung 1 is 7 bin cell **counts** and rung 2 is already
+**edge** slots. The ladder therefore has no rung for *node features richer than counting cells*,
+and `D_edges` is already covered twice (rung 2, plus the transport-free Frobenius baseline in
+FINDINGS section A). The missing rung is exactly the one that tests this project's own summary
+claim, that "when node correspondence is fixed and meaningful, direct distances — and in the limit,
+counting cells — are sufficient."
+
+### The rung
+
+| # | arm | mass | ground cost | transport |
+|---|---|---|---|---|
+| 1b | `node_feat` | 7 bins x 47 all-cell panel features, global-z | — | — (Euclidean) |
+
+Primary feature set is the **47 all-cells panel features** (`st` 4, `pg` 14, `cs` 13, `mt` 6,
+`pt` 1, `mp` 9), i.e. the base stratum only. The `_normal` / `_malignant` strata are excluded
+because they are computed downstream of a malignancy call this project has measured as
+non-functional (N4: inferCNV vs clinical blast %, n=59, rho = -0.069). `n_cells` and
+`frac_malignant` are excluded by construction — the first **is** rung 1 and would make the
+comparison circular, the second is forced to 0 in healthy samples.
+
+`node_feat150` (all 150 features minus those two) is a **sensitivity arm**, reported beside the
+primary and not counted separately in §7.4's family.
+
+### The prediction, fixed before the run
+
+**`node_feat` will not beat `prop7` on GATE 1.** Stated plainly because the incentive here runs
+backwards from the usual post-hoc risk: the outcome that *supports* this project's existing claim
+is the **null**. A rung added after the fact that can only weaken the author's own conclusion is a
+different object from a rung added to find a hit, and that asymmetry is the reason this amendment
+is defensible at all. It does not make it pre-registered.
+
+### What each outcome licenses
+
+- **`node_feat` does not beat `prop7`** — the summary claim survives a test it had not previously
+  been given, and "counting cells is sufficient" stops being an assertion about untried
+  alternatives.
+- **`node_feat` beats `prop7`** — the claim is wrong as stated and must be narrowed to "counting
+  cells beats every *communication* distance tried". The FGW/GW negative results are unaffected
+  either way, since they concern a different statistic.
+- **Either way**, the first thing checked is sparsity: `fgw_nodes_long.csv` mean-imputes absent
+  bins before z-scoring, so a bin with no cells contributes ~0 to every feature and sparse samples
+  drift toward the cohort centroid. Correlation of the distance with the difference in present-bin
+  count is a mandatory companion readout, on the same footing as §7.3's.
+
+### Provenance
+
+| item | file |
+|---|---|
+| distance | `scripts/06_distance/04_node_feature_distance.py` |
+| input | `results/tables/07_fgw/fgw_nodes_long.csv` (138 samples x 7 bins, global-z) |
+| scored by | `scripts/08_scoring/17_scaccordion_gate1.py`, arm added, rule unchanged |

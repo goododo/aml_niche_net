@@ -698,6 +698,17 @@ p (x) q has diagonal mass 1/7 = 0.1429 and the identity coupling has 1.0. Measur
 | paired | 37 | 0.153 | 1.011 | 0.384 |
 | all AML | 115 | 0.172 | 0.998 | 0.380 |
 
+> **Correction, 2026-09-24.** "Collapsed toward the uninformative solution" was the wrong reading
+> of this table, caught in external review: diagonal mass near 1/7 means "does not favour
+> identity", not "is near p ⊗ q", and the converged cost is in fact **56% below** the cost at the
+> product coupling — the optimum is not the product, so the section-6 moment identity (valid only
+> at that point) cannot carry the blindness claim. The claim now rests on construction plus
+> measurement: GW is relabelling-invariant by definition, and `08_scoring/18_solver_controls.py`
+> shows the label-respecting coupling is strictly worse than the label-ignoring optimum in
+> 138/138 samples (median +44%), with solver artifacts excluded (exact CG, one-hot control at
+> 100% of cap, 7 initialisations agreeing to 1e-16). The planted-effect result below stands
+> unchanged and is the demonstration.
+
 **Confirmed by measurement, not inference.** The same planting scored two ways:
 
 | delta | GW (alpha=1, optimal T) | Frobenius (no transport) |

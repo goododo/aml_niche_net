@@ -35,7 +35,9 @@ import pandas as pd
 from scipy import stats
 
 DEFAULT_ROOT = "/FAST/gr10634/gaozy/aml_niche_net/results/tables"
-ARMS = ["prop7", "tabular", "tv", "corrot", "dwot_shipped", "dwot_fixed"]
+# prop7 must stay first: SAMPLES is taken from ARMS[0] and every other arm is reindexed onto it.
+# node_feat / node_feat150 are PREREGISTRATION_scaccordion.md AMENDMENT 1 (post hoc, secondary).
+ARMS = ["prop7", "node_feat", "node_feat150", "tabular", "tv", "corrot", "dwot_shipped", "dwot_fixed"]
 REL_TP = {"Relapse", "Relapse2"}                       # 11_paired_gate.py lines 59-61, copied
 TRT_TP = {"On_treatment", "Post_induction", "Post_consolidation",
           "Post_treatment_unspecified", "Refractory"}
@@ -43,14 +45,30 @@ MIN_POOL = 3
 MIN_PATIENTS = 5
 SEED = 491638
 
-root = DEFAULT_ROOT
+import argparse
+ap = argparse.ArgumentParser()
+ap.add_argument("--root", default=DEFAULT_ROOT)
+# --suffix: run the identical gate on a parallel distance set (06_distance/03 --suffix), writing
+# suffixed outputs. Added 2026-09-24 for the bmm_broad robustness arm (~22 fine types). This mode
+# is NOT the registered 7-bin run: it answers "does composition still suffice at finer bins", and
+# its outputs carry the suffix so the two can never be conflated. The split-half noise floor was
+# measured on 7-bin halves only, so the d_true/floor column is n/a here.
+ap.add_argument("--suffix", type=str, default="")
+args = ap.parse_args()
+root = args.root
+SFX = ("__" + args.suffix) if args.suffix else ""
 D_DST = os.path.join(root, "06_distance")
 D_SCO = os.path.join(root, "08_scoring")
 rng = np.random.default_rng(SEED)
 
 AML_TP = set(json.load(open(os.path.join(root, "07_fgw", "fgw_vocab.json")))["aml_timepoints"])
 
-D0 = pd.read_csv(os.path.join(D_DST, "scaccordion_distance__%s.csv" % ARMS[0]), index_col=0)
+if args.suffix:
+    have = [a for a in ARMS if os.path.exists(os.path.join(D_DST, "scaccordion_distance__%s%s.csv" % (a, SFX)))]
+    print("[0] suffix mode '%s': %d of %d arms present (%s)"
+          % (args.suffix, len(have), len(ARMS), ", ".join(have)))
+    ARMS = have
+D0 = pd.read_csv(os.path.join(D_DST, "scaccordion_distance__%s%s.csv" % (ARMS[0], SFX)), index_col=0)
 SAMPLES = list(D0.index)
 man = pd.read_csv(os.path.join(root, "05_ccc", "ccc_sample_manifest.csv")).set_index("sample")
 idx = man.reindex(SAMPLES)[["dataset", "uid_patient", "Timepoint"]]
@@ -122,7 +140,7 @@ res, rankrows = [], []
 print("\n[2] %-13s %-16s %3s %9s %9s %8s %8s %10s"
       % ("arm", "contrast", "n", "med pct", "p", "top1", "top5", "d_true/floor"))
 for arm in ARMS:
-    Dnp = pd.read_csv(os.path.join(D_DST, "scaccordion_distance__%s.csv" % arm),
+    Dnp = pd.read_csv(os.path.join(D_DST, "scaccordion_distance__%s%s.csv" % (arm, SFX)),
                       index_col=0).reindex(index=SAMPLES, columns=SAMPLES).to_numpy(float)
     for kind, grp in P.groupby("kind"):
         pcts, t1, t5, rows = gate1(Dnp, grp)
@@ -134,7 +152,8 @@ for arm in ARMS:
         chance1 = float(np.mean([1.0 / r["n_pool"] for r in rows]))
         chance5 = float(np.mean([min(5, r["n_pool"]) / r["n_pool"] for r in rows]))
         # how big is the within-patient distance relative to THIS arm's split-half noise floor?
-        fl = float(floor.loc[arm, "retest_half_median"]) if arm in floor.index else np.nan
+        fl = np.nan if args.suffix else (
+            float(floor.loc[arm, "retest_half_median"]) if arm in floor.index else np.nan)
         ratio = float(np.median([r["d_true"] for r in rows]) / fl) if fl and fl > 0 else np.nan
         res.append(dict(arm=arm, contrast=kind, n=len(pcts), median_pct=float(np.median(pcts)),
                         p_raw=float(w.pvalue), top1=t1, top1_chance=chance1 * len(pcts),
@@ -154,8 +173,8 @@ m = len(R)
 adj = np.empty(m)
 adj[o] = np.minimum.accumulate((R.p_raw.to_numpy()[o] * m / (np.arange(m) + 1))[::-1])[::-1]
 R["p_bh"] = np.minimum(adj, 1.0)
-R.to_csv(os.path.join(D_SCO, "scaccordion_gate1.csv"), index=False)
-pd.DataFrame(rankrows).to_csv(os.path.join(D_SCO, "scaccordion_gate1_ranks.csv"), index=False)
+R.to_csv(os.path.join(D_SCO, "scaccordion_gate1%s.csv" % SFX), index=False)
+pd.DataFrame(rankrows).to_csv(os.path.join(D_SCO, "scaccordion_gate1_ranks%s.csv" % SFX), index=False)
 
 ## -- FAMILY-LEVEL NULL. Two problems the per-cell p cannot handle, both handled here by the same
 ## -- permutation. (1) The six arms are six versions of ONE distance on ONE dataset -- their
@@ -169,7 +188,7 @@ N_PERM = 1000
 print("\n[SELF-CHECK] family-level null: true partner replaced by a random same-dataset AML")
 print("             graph, %d draws. Counts how often the shuffled table looks like the real one."
       % N_PERM)
-DBANK = {a: pd.read_csv(os.path.join(D_DST, "scaccordion_distance__%s.csv" % a),
+DBANK = {a: pd.read_csv(os.path.join(D_DST, "scaccordion_distance__%s%s.csv" % (a, SFX)),
                         index_col=0).reindex(index=SAMPLES, columns=SAMPLES).to_numpy(float)
          for a in ARMS}
 CELLS = [(a, k) for a in ARMS for k, _ in P.groupby("kind")]
@@ -187,13 +206,13 @@ for t in range(N_PERM):
                 null_rel[t] += int(kind == "Dx_to_Relapse")
 p_fam = float((null_pass >= obs_pass).mean())
 p_rel = float((null_rel >= obs_rel).mean())
-print("    cells passing raw p<0.05 : observed %d of 12 ; null mean %.2f ; p = %.4f"
-      % (obs_pass, null_pass.mean(), p_fam))
-print("    of those, Dx_to_Relapse  : observed %d of 6  ; null mean %.2f ; p = %.4f"
-      % (obs_rel, null_rel.mean(), p_rel))
+print("    cells passing raw p<0.05 : observed %d of %d ; null mean %.2f ; p = %.4f"
+      % (obs_pass, len(CELLS), null_pass.mean(), p_fam))
+print("    of those, Dx_to_Relapse  : observed %d of %d ; null mean %.2f ; p = %.4f"
+      % (obs_rel, len(ARMS), null_rel.mean(), p_rel))
 R["family_p_all_cells"] = p_fam
 R["family_p_relapse"] = p_rel
-R.to_csv(os.path.join(D_SCO, "scaccordion_gate1.csv"), index=False)
+R.to_csv(os.path.join(D_SCO, "scaccordion_gate1%s.csv" % SFX), index=False)
 
 print("\n[3] REGISTERED READING")
 print("    PASS = one-sided Wilcoxon p < 0.05 with the true partner ranking closer.")

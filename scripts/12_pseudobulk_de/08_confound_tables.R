@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# 07_confound_tables.R ----
+# 08_confound_tables.R ----
 # The three standing tables the pseudobulk pre-registration promised to report alongside the DE
 # result and never produced. None of them is a gate: no hit is added or removed by this script. They
 # exist because PREREG 7.2, 7.3 and 6.4 each commit to reporting a confounder, and a confounder that
@@ -13,7 +13,14 @@
 # OUTPUT : DIR_PSEUDOBULK/confound_mapping_error.csv   PREREG 7.2, per bin x arm
 #          DIR_PSEUDOBULK/confound_composition.csv     PREREG 7.3, per bin, mp_*/pt_* arm shift
 #          DIR_PSEUDOBULK/confound_inferred_sex.csv    PREREG 6.4, per sample + arm cross-tab
-# Usage  : Rscript scripts/12_pseudobulk_de/07_confound_tables.R
+# Usage  : Rscript scripts/12_pseudobulk_de/08_confound_tables.R
+#
+# RENUMBERED 2026-09-24: 07_confound_tables.R -> 08_confound_tables.R.
+# The original number collided with `06_hox_compartment.R`, which belongs to the HOX-axis line and
+# was written in a parallel session the same day, so both files were briefly numbered 06. Nothing
+# about this script's inputs, outputs or logic changed -- only the filename. Its output CSVs under
+# results/tables/12_pseudobulk_de/ keep their original names and were NOT regenerated, so every
+# result already quoted against them still stands.
 #
 #   PREREG 7.2  "reported as a standing table -- per bin, per arm: frac_high_error, pre-filter and
 #               post-filter cell counts". The repo only carries frac_high_error per SAMPLE

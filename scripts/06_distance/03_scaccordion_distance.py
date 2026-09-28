@@ -55,7 +55,15 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--root", default=DEFAULT_ROOT)
 ap.add_argument("--pval", type=float, default=PVAL_THRESH)
 ap.add_argument("--filter_q", type=float, default=VAR_FILTER_Q)
+# --suffix: run the identical ladder on a parallel tensor set (05_ccc/tensors__<suffix>), writing
+# every output with the same suffix. Added 2026-09-24 for the bmm_broad arm (paper gap sec 8 item
+# 3): same cells, ~22 fine types instead of 7. In suffix mode the node universe is taken from the
+# tensors themselves, the composition rung is built from the tensors' n_sender/n_receiver counts
+# (ccc_node_presence.csv is 7-bin-only), and SELF-CHECK 1 is skipped because the production
+# edge_distance.csv it compares against does not exist at this vocabulary.
+ap.add_argument("--suffix", type=str, default="")
 args = ap.parse_args()
+SFX = ("__" + args.suffix) if args.suffix else ""
 D_CCC = os.path.join(args.root, "05_ccc")
 D_DST = os.path.join(args.root, "06_distance")
 
@@ -66,7 +74,7 @@ if os.path.exists(sha_f):
 print("[0] scACCorDiON vendored at %s\n    commit %s" % (SCACC_REPO, sha))
 
 # ---- 1. adapter -------------------------------------------------------------------------------
-paths = sorted(glob.glob(os.path.join(D_CCC, "tensors", "*", "*__ccc_cellchat.csv")))
+paths = sorted(glob.glob(os.path.join(D_CCC, "tensors" + SFX, "*", "*__ccc_cellchat.csv")))
 tbls = tables_from_tensors(paths, pval_thresh=args.pval)
 empty = [k for k, v in tbls.items() if len(v) == 0]
 if empty:
@@ -75,29 +83,38 @@ if empty:
 SAMPLES = sorted(tbls)
 print("[1] %d samples -> scACCorDiON input tables (pval < %.3g)" % (len(SAMPLES), args.pval))
 
-P_FULL = pmat(tbls, nodes=CCC_NODES)
+NODES = CCC_NODES if not args.suffix else \
+    sorted({b for v in tbls.values() if len(v) for b in set(v["source"]) | set(v["target"])})
+if args.suffix:
+    print("[1] node universe derived from the tensors: %d types" % len(NODES))
+P_FULL = pmat(tbls, nodes=NODES)
 P = variance_filter(P_FULL, q=args.filter_q)[SAMPLES]
 dropped = [s for s in P_FULL.index if s not in set(P.index)]
 print("[1] line-graph slots: %d built -> %d kept after Accordion's filter=%.2f"
       % (P_FULL.shape[0], P.shape[0], args.filter_q))
 print("    dropped by the variance filter (%d): %s" % (len(dropped), ", ".join(dropped)))
-P.to_csv(os.path.join(D_DST, "scaccordion_pmat.csv"))
+P.to_csv(os.path.join(D_DST, "scaccordion_pmat%s.csv" % SFX))
 
 ## -- SELF-CHECK 1: their aggregation must reproduce our production edge weights ----------------
 ## If this fails, the distance below is not being computed on the pipeline's own edges and none
 ## of it is comparable to the eleven configurations already in FINDINGS section A.
-ed = pd.read_csv(os.path.join(D_DST, "edge_distance.csv"))
-prod = (ed.pivot_table(index=["sender_bin", "receiver_bin"], columns="sample",
+if args.suffix:
+    print("\n[SELF-CHECK 1] SKIPPED in --suffix mode: production edge_distance.csv is 7-bin and")
+    print("               cannot certify a %d-type aggregation. The adapter itself is unchanged" % len(NODES))
+    print("               and was certified at 5.3e-15 on the production vocabulary.")
+ed = None if args.suffix else pd.read_csv(os.path.join(D_DST, "edge_distance.csv"))
+if ed is not None:
+    prod = (ed.pivot_table(index=["sender_bin", "receiver_bin"], columns="sample",
                        values="weight_probsum", fill_value=0.0))
-prod.index = ["%s$%s" % (a, b) for a, b in prod.index]
-common_s = [s for s in SAMPLES if s in prod.columns]
-common_e = [e for e in P_FULL.index if e in prod.index]
-delta = np.abs(P_FULL.loc[common_e, common_s].to_numpy() - prod.loc[common_e, common_s].to_numpy())
-print("\n[SELF-CHECK 1] scACCorDiON's groupby-sum vs production weight_probsum")
-print("               compared %d slots x %d samples ; max |difference| = %.3e"
-      % (len(common_e), len(common_s), delta.max()))
-if delta.max() > 1e-8:
-    raise SystemExit("the adapter does not reproduce production edge weights; stop")
+    prod.index = ["%s$%s" % (a, b) for a, b in prod.index]
+    common_s = [s for s in SAMPLES if s in prod.columns]
+    common_e = [e for e in P_FULL.index if e in prod.index]
+    delta = np.abs(P_FULL.loc[common_e, common_s].to_numpy() - prod.loc[common_e, common_s].to_numpy())
+    print("\n[SELF-CHECK 1] scACCorDiON's groupby-sum vs production weight_probsum")
+    print("               compared %d slots x %d samples ; max |difference| = %.3e"
+          % (len(common_e), len(common_s), delta.max()))
+    if delta.max() > 1e-8:
+        raise SystemExit("the adapter does not reproduce production edge weights; stop")
 
 # ---- 2. the ladder ----------------------------------------------------------------------------
 A = P.to_numpy(float)
@@ -108,9 +125,26 @@ D, C_OF = {}, {}
 
 # rung 1 -- composition only. No communication at all: if this separates the groups as well as
 # anything above it, the ladder has no methodological finding and the signal is blast fraction.
-np_ = pd.read_csv(os.path.join(D_CCC, "ccc_node_presence.csv"))
-comp = (np_.pivot_table(index="sample", columns="hierarchy_bin", values="n_cells", fill_value=0)
-        .reindex(index=SAMPLES, columns=CCC_NODES).fillna(0.0).to_numpy(float))
+if args.suffix:
+    # fine-bin cell counts live only in the tensors (n_sender/n_receiver per bin); a bin absent
+    # from a sample's graph (under 10 cells, or no significant edge) counts 0 + the pseudocount,
+    # i.e. the composition rung is the composition OF THE GRAPH'S OWN NODE MASSES -- the exact
+    # quantity the transport arms are given.
+    cnt = []
+    for f in paths:
+        d = pd.read_csv(f, usecols=["sample", "sender_bin", "receiver_bin", "n_sender", "n_receiver"])
+        if not len(d):
+            continue
+        a = d[["sample", "sender_bin", "n_sender"]].rename(columns={"sender_bin": "bin", "n_sender": "n"})
+        b = d[["sample", "receiver_bin", "n_receiver"]].rename(columns={"receiver_bin": "bin", "n_receiver": "n"})
+        cnt.append(pd.concat([a, b]).drop_duplicates(["sample", "bin"]))
+    np_ = pd.concat(cnt)
+    comp = (np_.pivot_table(index="sample", columns="bin", values="n", fill_value=0)
+            .reindex(index=SAMPLES, columns=NODES).fillna(0.0).to_numpy(float))
+else:
+    np_ = pd.read_csv(os.path.join(D_CCC, "ccc_node_presence.csv"))
+    comp = (np_.pivot_table(index="sample", columns="hierarchy_bin", values="n_cells", fill_value=0)
+            .reindex(index=SAMPLES, columns=CCC_NODES).fillna(0.0).to_numpy(float))
 comp = comp + COMP_PSEUDO
 clr = np.log(comp) - np.log(comp).mean(1, keepdims=True)
 D["prop7"] = squareform(pdist(clr, "euclidean"))
@@ -195,14 +229,16 @@ print("    geometry is inert and that arm may not be credited with an optimal-tr
 # ---- 3. write ---------------------------------------------------------------------------------
 for arm in ARMS:
     pd.DataFrame(D[arm], index=SAMPLES, columns=SAMPLES).to_csv(
-        os.path.join(D_DST, "scaccordion_distance__%s.csv" % arm))
+        os.path.join(D_DST, "scaccordion_distance__%s%s.csv" % (arm, SFX)))
 for arm, C in C_OF.items():
     pd.DataFrame(C, index=list(P.index), columns=list(P.index)).to_csv(
-        os.path.join(D_DST, "scaccordion_cost__%s.csv" % arm))
+        os.path.join(D_DST, "scaccordion_cost__%s%s.csv" % (arm, SFX)))
 qcdf = pd.DataFrame(qc)
 qcdf["n_misordered_shipped"] = n_misordered
+qcdf["n_nodes"] = len(NODES)
+qcdf["suffix"] = args.suffix
 qcdf["filter_q"] = args.filter_q
 qcdf["pval_thresh"] = args.pval
-qcdf.to_csv(os.path.join(D_DST, "scaccordion_qc.csv"), index=False)
+qcdf.to_csv(os.path.join(D_DST, "scaccordion_qc%s.csv" % SFX), index=False)
 print("\n[done] %d distance matrices, %d cost matrices, %d samples x %d slots"
       % (len(ARMS), len(C_OF), len(SAMPLES), P.shape[0]))

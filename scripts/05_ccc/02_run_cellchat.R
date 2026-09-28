@@ -18,6 +18,7 @@
 #   Rscript scripts/05_ccc/02_run_cellchat.R --list                       # print eligible rows + count
 #   Rscript scripts/05_ccc/02_run_cellchat.R --dataset=GSE227903 --sample=3904_R --nboot=20   # smoke test one
 #   Rscript scripts/05_ccc/02_run_cellchat.R --row=$SLURM_ARRAY_TASK_ID   # array element (production)
+#   Rscript scripts/05_ccc/02_run_cellchat.R --row=N --bins=bmm_broad --out_suffix=bmm_broad  # fine-bin arm
 suppressPackageStartupMessages({
   library(optparse); library(data.table); library(here); library(Seurat); library(future)
 })
@@ -43,8 +44,18 @@ opt <- parse_args(OptionParser(option_list = list(
   make_option("--cell_subset", type = "character", default = NA_character_,
               help = "CSV with a 'cell' column; keep only these barcodes"),
   make_option("--out_suffix",  type = "character", default = NA_character_,
-              help = "write to <CCC_TENSOR_DIR>__<suffix> instead of the production directory")
+              help = "write to <CCC_TENSOR_DIR>__<suffix> instead of the production directory"),
+  # BMM-BROAD ARM (paper gap sec 8 item 3, approved 2026-09-24). Same cells as production (the
+  # in_ccc_graph / high_error / CCC_NODES filters are unchanged), regrouped at the finer bmm_broad
+  # vocabulary (~30 types), minus CCC_EXCLUDE_FINE ("Early Lymphoid", the established artifact bin)
+  # and NA. This answers "7 bins is too coarse" for EDGE-LEVEL distances, which the structural
+  # hitting-time argument does not cover.
+  make_option("--bins", type = "character", default = "hierarchy_bin",
+              help = "grouping column: hierarchy_bin (production 7-bin) or bmm_broad")
 )))
+if (!opt$bins %in% c("hierarchy_bin", "bmm_broad")) stop("--bins must be hierarchy_bin or bmm_broad")
+if (opt$bins != "hierarchy_bin" && is.na(opt$out_suffix))
+  stop("--bins=bmm_broad requires --out_suffix, so it can never overwrite a production tensor")
 
 ## -- Step 0. eligible sample list (deterministic order = stable --row indexing) ----
 stopifnot(file.exists(opt$sample_manifest))
@@ -92,16 +103,20 @@ run_one <- function(ds, smp, tp) {
 
   ## load QC object + attach labels by exact barcode join
   obj <- readRDS(file.path(CCC_QC_OBJ_DIR, ds, paste0(smp, ".rds")))
-  bmm <- fread(file.path(CCC_BMM_DIR, ds, paste0(smp, "__bmm_percell.csv")),
-               select = c("cell","hierarchy_bin","in_ccc_graph","high_error"))
+  .cols <- c("cell","hierarchy_bin","in_ccc_graph","high_error")
+  if (opt$bins == "bmm_broad") .cols <- c(.cols, "bmm_broad")
+  bmm <- fread(file.path(CCC_BMM_DIR, ds, paste0(smp, "__bmm_percell.csv")), select = .cols)
   bc  <- colnames(obj); j <- match(bc, bmm$cell)
   if (mean(!is.na(j)) < 0.999) warning("  BMM join < 0.999 for ", smp, " (", round(mean(!is.na(j)), 4), ")")
   obj$hierarchy_bin <- bmm$hierarchy_bin[j]
   obj$in_ccc_graph  <- as.logical(bmm$in_ccc_graph[j])
   obj$high_error    <- as.logical(bmm$high_error[j])
+  if (opt$bins == "bmm_broad") obj$bmm_broad <- bmm$bmm_broad[j]
 
   ## keep only real CCC nodes, QC-pass cells (drops Stromal/Unassigned/high_error)
   keep <- obj$in_ccc_graph %in% TRUE & obj$high_error %in% FALSE & obj$hierarchy_bin %in% CCC_NODES
+  if (opt$bins == "bmm_broad")
+    keep <- keep & !is.na(obj$bmm_broad) & obj$bmm_broad != "" & !(obj$bmm_broad %in% CCC_EXCLUDE_FINE)
   obj  <- obj[, keep]
   # Subset AFTER the production filters, so a half is a half OF THE SAME POPULATION production
   # scores. Doing it earlier would make the two halves differ from production in two ways at once.
@@ -113,7 +128,8 @@ run_one <- function(ds, smp, tp) {
     message("  [subset] ", sum(hit), " / ", ncol(obj), " cells kept from ", basename(opt$cell_subset))
     obj <- obj[, hit]
   }
-  gs   <- as.data.table(obj@meta.data)[, .(n = .N), by = .(bin = as.character(hierarchy_bin))]
+  obj$node_bin <- if (opt$bins == "bmm_broad") as.character(obj$bmm_broad) else as.character(obj$hierarchy_bin)
+  gs   <- as.data.table(obj@meta.data)[, .(n = .N), by = .(bin = as.character(node_bin))]
   usable <- gs[n >= CCC_MIN_CELLS_PER_NODE]
   if (nrow(usable) < 2L) { message("  [skip] ", ds, "/", smp, " : < 2 usable nodes"); return(invisible()) }
   message("  [", ds, "/", smp, "] cells=", ncol(obj), " nodes>=",
@@ -124,11 +140,19 @@ run_one <- function(ds, smp, tp) {
   data.input <- tryCatch(SeuratObject::LayerData(obj, assay = "RNA", layer = "data"),
                          error = function(e) GetAssayData(obj, assay = "RNA", slot = "data"))
   meta <- obj@meta.data
-  meta$hierarchy_bin <- droplevels(factor(as.character(meta$hierarchy_bin), levels = CCC_NODES))
   meta$samples <- factor(smp)   # explicit single-sample label; suppresses CellChat v2 auto-add warning
 
-  ## build CellChat from matrix + meta (sidesteps Seurat-v5 layered-object extraction quirks)
-  cc <- createCellChat(object = data.input, meta = meta, group.by = "hierarchy_bin")
+  ## build CellChat from matrix + meta (sidesteps Seurat-v5 layered-object extraction quirks).
+  ## Production path unchanged; the bmm_broad arm groups by the finer per-sample vocabulary
+  ## (no fixed level set at this stage -- the cohort vocabulary is assembled downstream, exactly
+  ## as sender_bin/receiver_bin strings are pivoted for the 7-bin tensors).
+  if (opt$bins == "bmm_broad") {
+    meta$node_bin <- droplevels(factor(as.character(meta$node_bin)))
+    cc <- createCellChat(object = data.input, meta = meta, group.by = "node_bin")
+  } else {
+    meta$hierarchy_bin <- droplevels(factor(as.character(meta$hierarchy_bin), levels = CCC_NODES))
+    cc <- createCellChat(object = data.input, meta = meta, group.by = "hierarchy_bin")
+  }
 
   ## DB = protein L-R only (manual interaction subset; robust vs subsetDB signature drift)
   db <- CellChatDB.human

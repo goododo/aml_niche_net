@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# 06_secondary_robustness.R ----
+# 07_secondary_robustness.R ----
 # Closes the two gaps that affect whether the SECONDARY tier's hits are reportable at all:
 # PREREG 8.5's leave-one-out label (never run) and PREREG 8.3's permutation p-value (run at a
 # resolution the design does not support). Touches nothing in the primary tier.
@@ -8,7 +8,14 @@
 #          DIR_PSEUDOBULK/depth/*.csv, DIR_PSEUDOBULK/hitlist_frozen.csv, de_summary.csv
 # OUTPUT : DIR_PSEUDOBULK/secondary_leave_one_out.csv   per frozen hit: folds survived, robust|contingent
 #          DIR_PSEUDOBULK/secondary_exhaustive_perm.csv exact permutation p, all arrangements enumerated
-# Usage  : Rscript scripts/12_pseudobulk_de/06_secondary_robustness.R
+# Usage  : Rscript scripts/12_pseudobulk_de/07_secondary_robustness.R
+#
+# RENUMBERED 2026-09-24: 06_secondary_robustness.R -> 07_secondary_robustness.R.
+# The original number collided with `06_hox_compartment.R`, which belongs to the HOX-axis line and
+# was written in a parallel session the same day, so both files were briefly numbered 06. Nothing
+# about this script's inputs, outputs or logic changed -- only the filename. Its output CSVs under
+# results/tables/12_pseudobulk_de/ keep their original names and were NOT regenerated, so every
+# result already quoted against them still stands.
 #
 # GAP 1 -- PREREG 8.5 WAS NEVER RUN. It says: "within the secondary tier, leave-one-out over each
 #   healthy sample in turn. A secondary hit is reported as ROBUST only if it remains a hit (§6.5,

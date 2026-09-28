@@ -63,4 +63,5 @@ CCC_R="${PROJECT_ROOT}/scripts/05_ccc/02_run_cellchat.R"
 [[ -f "${CCC_R}" ]] || { echo "ERROR: 02_run_cellchat.R not found at ${CCC_R}"; exit 1; }
 
 echo "TASK ${SLURM_ARRAY_TASK_ID}: running CellChat for eligible sample row ${SLURM_ARRAY_TASK_ID}"
-srun --export=ALL -n 1 Rscript "${CCC_R}" --row="${SLURM_ARRAY_TASK_ID}" --nboot=100 --workers=1
+# EXTRA_ARGS: optional passthrough (e.g. --bins=bmm_broad --out_suffix=bmm_broad). Unset = production.
+srun --export=ALL -n 1 Rscript "${CCC_R}" --row="${SLURM_ARRAY_TASK_ID}" --nboot=100 --workers=1 ${EXTRA_ARGS:-}
