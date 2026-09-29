@@ -1,0 +1,11 @@
+check,expected,observed,pass
+patients,200,200,TRUE
+OS complete,200,200,TRUE
+deceased,133,133,TRUE
+NPM1-mutant patients,54,54,TRUE
+FLT3-ITD patients,30,30,TRUE
+FLT3-TKD patients,17,17,TRUE
+ITD and TKD overlap,0,0,TRUE
+Set-14 genes matched,14,14,TRUE
+expression samples,173,173,TRUE
+instrument_auc_set14,>=0.75,0.976,TRUE

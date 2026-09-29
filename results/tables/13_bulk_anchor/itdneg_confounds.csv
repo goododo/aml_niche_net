@@ -1,0 +1,8 @@
+cohort,variable,n_like,median_like,median_wtlow,p,kind_of_evidence
+TCGA-LAML,age,1,76,59,0.162769190504778,mandatory_caveat
+TCGA-LAML,blast,1,91,67,0.135724326985058,mandatory_caveat
+BeatAML,age,7,62,61,0.607484258318635,mandatory_caveat
+BeatAML,blast,6,49,60.5,0.623402474570311,mandatory_caveat
+BeatAML,tp53,7,0,0,0.248405569526368,mandatory_caveat
+BeatAML,runx1,7,0,0,0.895073753032135,mandatory_caveat
+BeatAML,asxl1,7,0,0,0.255381782869753,mandatory_caveat
