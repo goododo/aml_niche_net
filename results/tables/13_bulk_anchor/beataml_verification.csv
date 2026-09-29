@@ -1,0 +1,21 @@
+check,expected,observed,pass
+specimens (rows),942,942,TRUE
+patients (unique dbgap_subject),805,805,TRUE
+RNA-seq specimens,698,698,TRUE
+analysis-grade RNA,671,671,TRUE
+WES/targeted specimens,903,903,TRUE
+drug specimens (analysisDrug),631,631,TRUE
+drug patients,569,569,TRUE
+"RNA x drug (loose flags, recon's number)",542,542,TRUE
+RNA x drug specimens (analysis-grade),520,520,TRUE
+RNA x WES x drug specimens (analysis),494,494,TRUE
+RNA x WES x drug patients (analysis),458,458,TRUE
+vitalStatus Dead,565,565,TRUE
+vitalStatus Alive,345,345,TRUE
+vitalStatus Unknown,32,32,TRUE
+karyotype non-missing,842,842,TRUE
+single-agent inhibitors,166,166,TRUE
+mutation rows,11721,11721,TRUE
+counts and norm same sample set,TRUE,TRUE,TRUE
+counts integer (20 sampled columns),TRUE,TRUE,TRUE
+matrix columns linked via mapping,1,1,TRUE

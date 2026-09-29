@@ -1,0 +1,9 @@
+file,bytes,md5,fetched
+beataml_drug_families.xlsx,59330,8030f4a3800ba182007b680e1333d073,2026-09-29
+beataml_probit_curve_fits_v4_dbgap.txt,19047078,e17bee701ee42b84e3e98d8a6b117ffd,2026-09-29
+beataml_waves1to4_counts_dbgap.txt,122488199,bd42568e4a9dc3e5831f16254ae648d2,2026-09-29
+beataml_waves1to4_norm_exp_dbgap.txt,281337180,da30e3483cf238b862fba926fcebfbe6,2026-09-29
+beataml_waves1to4_sample_mapping.xlsx,72038,72daf17dcfac5cfbb6190ea166a0c82a,2026-09-29
+beataml_wes_wv1to4_mutations_dbgap.txt,3668996,aed2e5a49914d73c8cb30c931a647604,2026-09-29
+beataml_wv1to4_clinical.xlsx,488278,e66c8e191b7446ab6cb47f648049230d,2026-09-29
+beataml_wv1to4_raw_inhibitor_v4_dbgap.txt,49363676,dc582d021c129342be6827f848c704db,2026-09-29
