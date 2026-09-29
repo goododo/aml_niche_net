@@ -1,0 +1,4 @@
+drug,n_like,n_wtlow,median_like,median_wtlow,diff_sdss,p,npm1mut_minus_wt_anchor,direction,kind_of_evidence
+_instrument_,15,48,,,0.793650793650794,,,auc_in_diff_column,external_direction_gate
+Venetoclax,13,32,5.66,5.5,0.16,0.474602520800678,8.365,same_as_beataml,external_direction_gate
+Palbociclib,13,41,2.66,2.23,0.43,0.959648804964167,1.835,same_as_beataml,external_direction_gate

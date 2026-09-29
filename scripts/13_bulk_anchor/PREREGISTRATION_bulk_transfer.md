@@ -122,3 +122,47 @@ cohort (TCGA-LAML + AMLCG GSE146173 + Leucegene) rather than a different statist
 (3) only then a second program (the 7-compartment atlas programs).
 No re-definition of NPM1-like was performed after seeing outcomes; the 25th-percentile rule
 stands as registered, and the post-hoc FLT3 adjustment is labelled post hoc here.
+
+## 8. External direction gate in FIMM (2026-09-29, `13.4_fimm_external_gate.R`)
+
+**Gate result: NOT PASSED for either lead — direction consistent, effect absent.**
+
+Mapping note first, because the registered stop rule fired twice on the way in. FIMM's CPM matrix
+is keyed by Ensembl id, so the symbol match gave 0/17 and the script stopped as registered. After
+fixing the mapping through BeatAML's own `stable_id`↔`display_label` annotation, **14 of 17** Set L
+genes exist in FIMM's 18,203-row matrix; the 3 absent are lncRNAs (HOXA10-AS, HOXB-AS1, HOXB-AS3),
+missing because that quantification is protein-coding-centric. The registered threshold fires read
+as an absolute count (14 < 15) and passes read as a fraction (82% > 15/19 = 79%); **both readings
+are recorded and no gene was substituted**. To take the gene set out of the comparison, the
+BeatAML side was recomputed on the same 14: **Q0 AUC 0.923, identical to the 17-gene version**, and
+its two leads keep their effects (venetoclax median AUC diff −83.4, p = 7.4e-4; palbociclib −56.3,
+p = 0.0031). So the discovery side is not gene-set-fragile.
+
+FIMM instrument: **AUC 0.794** for NPM1-mut vs WT (16 vs 63 at diagnosis) — above the 0.70 floor,
+below the 0.80 pass line, so this cohort's arm is `EXPLORATORY` by the registered rule. The sDSS
+sign convention was verified before judging (higher = more sensitive; NPM1-mut vs WT anchor is
+**+8.37** for venetoclax, the textbook direction, confirming the convention and that FIMM's
+genotype labels behave).
+
+| lead | FIMM n (like / WT-low) | median sDSS diff | p | direction vs BeatAML |
+|---|---|---|---|---|
+| Venetoclax | 13 / 32 | **+0.16** | 0.47 | same sign |
+| Palbociclib | 13 / 41 | **+0.43** | 0.96 | same sign |
+
+Both differences point the same way as BeatAML, but their magnitudes are **negligible against the
+scale of the same table's own positive control** (venetoclax NPM1-mut vs WT = +8.37; the NPM1-like
+effect is 2% of that). At 13 NPM1-like samples this is not a powered refutation — but the
+registered gate required same-direction *evidence* before a lead may be called a finding, and a
++0.16 sDSS shift at p = 0.47 is not that.
+
+**Conclusion, recorded at the registered wording ceiling: neither venetoclax nor palbociclib
+graduates past `exploratory_screen`. The NPM1-like HOX state is not an externally replicated
+drug-response phenotype.** What survived the whole chain is the instrument: the single-cell-derived
+HOX program reads NPM1 genotype in two independent bulk cohorts (BeatAML AUC 0.923, FIMM 0.794),
+with the same specificity control. That is a transfer-machinery result, not a discovery.
+
+**What this rules out and what it does not.** Ruled out on present data: a large, cohort-portable
+drug-sensitivity phenotype attached to NPM1-like HOX expression in NPM1-WT AML. Not ruled out: a
+modest effect, or one confined to FLT3-ITD-negative disease (§7's collinearity), both of which need
+a genotype-conditioned design in a larger cohort (TCGA-LAML + AMLCG GSE146173 + Leucegene) rather
+than more analysis of these two.
