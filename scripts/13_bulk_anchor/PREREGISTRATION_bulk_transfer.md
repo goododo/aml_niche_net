@@ -75,3 +75,50 @@ first question).
 `transfer_q0_gate.csv`, `transfer_q1_q2.csv`, `transfer_q3_screen.csv` — every row carrying
 `kind_of_evidence`. Implementing script: `13.3_hox_transfer.R`, to be written only after this
 document is approved and committed.
+
+---
+
+## 7. Pilot results (2026-09-29, run of `13.3_hox_transfer.R`, gates in registered order)
+
+**Instrument: PASS, strongly.** Set L matched 17/17 symbols in the BeatAML matrix; Q0
+**AUC 0.923** for NPM1-mut vs WT (128 vs 330), beating **100.0%** of 1000 size- and
+expression-decile-matched random gene sets (G1 threshold 97.5%). The single-cell-derived HOX
+program is legible in bulk. `tag = registered_primary`.
+
+**Grouping: the design's weak point, and it is a numbers problem.** The registered threshold
+(25th percentile of the mutant score distribution) leaves only **17 NPM1-like** of 330 WT
+(15 with venetoclax fits). Every downstream estimate rests on those 15.
+
+**G2 confound table fired before any outcome was read**: NPM1-like are **58.8% FLT3-ITD+ vs
+14.4%** in WT-low (Fisher **p = 5.9e-5**); blasts_bm and TP53 balanced, age not significant.
+
+**Q1 venetoclax (primary).** NPM1-like are more sensitive: median AUC difference **−90.8**,
+Wilcoxon **p = 0.0014**; age-adjusted beta −59.3 (p = 0.0082). But the pre-stated
+composition-analogue adjustment already softens it (age + blasts_bm, n = 183: beta −41.9,
+**p = 0.060**), and the **post-hoc FLT3-ITD adjustment that G2 mandates** leaves
+**beta −40.9, p = 0.073** while FLT3-ITD itself carries p = 0.0027. Stratified: ITD-negative
+NPM1-like n = 6 (p = 0.30), ITD-positive n = 9 (p = 0.065) — consistent direction in both, but
+neither stratum is powered. The continuous sensitivity across all WT is weak (rho −0.111,
+p = 0.088).
+**Reading, at the registered wording ceiling: the venetoclax association is REAL but NOT
+SEPARABLE from FLT3-ITD at this n.** It is not yet a phenotype claim about the HOX state.
+
+**Q2 survival: null.** Cox OS, 314 patients / 189 events: **HR 0.87 [0.41–1.86], p = 0.73**.
+
+**Q3 exploratory screen: 22 of 112 drugs at q_BH < 0.10**, every one in the same direction
+(NPM1-like more sensitive), led by Vandetanib (q 0.012), Palbociclib (0.015), Canertinib
+(0.015), Sunitinib (0.026), Sorafenib (0.027). Four of the top five are multi-kinase / FLT3-
+active agents, and with FLT3-ITD in the model their betas survive (p 0.003–0.035) while FLT3
+itself is also significant — the same entanglement as Q1. **Palbociclib (CDK4/6, not
+FLT3-active; beta −42.4, p = 0.0037 with FLT3 adjusted) is the one lead that is not obviously
+an ITD story** and is the single item worth carrying to the external FIMM gate.
+
+**Pilot verdict.** The transfer machinery works end to end and the instrument gate is
+comfortably cleared — that part is now established. The biology is blocked by the grouping's n
+and by FLT3-ITD collinearity, neither of which is fixable by re-cutting this cohort. Next steps
+that follow, in order: (1) the external FIMM direction gate on Palbociclib and venetoclax;
+(2) a genotype-conditioned design — NPM1-like *within* ITD-negative AML, which needs a larger
+cohort (TCGA-LAML + AMLCG GSE146173 + Leucegene) rather than a different statistic;
+(3) only then a second program (the 7-compartment atlas programs).
+No re-definition of NPM1-like was performed after seeing outcomes; the 25th-percentile rule
+stands as registered, and the post-hoc FLT3 adjustment is labelled post hoc here.

@@ -1,0 +1,3 @@
+check,value,verdict,kind_of_evidence
+Q0_auc,0.922833806818182,PASS,registered_primary
+G1_pct_beaten,1,PASS,registered_primary
