@@ -1,0 +1,17 @@
+arm,metric,contrast,kind_of_evidence,n,median_pct,p_raw,top1,null_p5,frac_null_at_least_as_good
+prop7_mine,cos,Dx_to_Relapse,new_rung,11,0.304347826087,0.01708984375,1,,
+prop7_mine,cos,Dx_to_Treatment,new_rung,11,0.636363636364,0.8232421875,0,,
+prop7_mine,eucl1,Dx_to_Relapse,new_rung,11,0.304347826087,0.02099609375,1,,
+prop7_mine,eucl1,Dx_to_Treatment,new_rung,11,0.636363636364,0.88427734375,0,,
+ab_only,cos,Dx_to_Relapse,new_rung,11,0.304347826087,0.01708984375,1,,
+ab_only,cos,Dx_to_Treatment,new_rung,11,0.636363636364,0.8232421875,0,,
+ab_only,eucl1,Dx_to_Relapse,new_rung,11,0.260869565217,0.05029296875,2,,
+ab_only,eucl1,Dx_to_Treatment,new_rung,11,0.695652173913,0.9677734375,0,,
+cellchat_w,cos,Dx_to_Relapse,new_rung,11,0.130434782609,0.02197265625,3,,
+cellchat_w,cos,Dx_to_Treatment,new_rung,11,0.478260869565,0.13818359375,3,,
+cellchat_w,eucl1,Dx_to_Relapse,new_rung,11,0.136363636364,0.02197265625,3,,
+cellchat_w,eucl1,Dx_to_Treatment,new_rung,11,0.434782608696,0.15283203125,3,,
+ccc_x_ab,cos,Dx_to_Relapse,new_rung,11,0.25,0.04443359375,3,0.136363636364,0.18
+ccc_x_ab,cos,Dx_to_Treatment,new_rung,11,0.636363636364,0.5771484375,1,0.391304347826,0.465
+ccc_x_ab,eucl1,Dx_to_Relapse,new_rung,11,0.217391304348,0.08447265625,3,0.173913043478,0.235
+ccc_x_ab,eucl1,Dx_to_Treatment,new_rung,11,0.545454545455,0.83544921875,1,0.49891304347825005,0.115

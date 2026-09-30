@@ -21,7 +21,7 @@ cannot currently be reproduced from disk.
 
 ## 1. The whole thing in one table
 
-### Seven negatives — none of them a failure to measure (N7 closes a post-hoc lead)
+### Eight negatives — none of them a failure to measure (N7, N8 close post-hoc leads)
 
 | | claim | headline number | file |
 |---|---|---|---|
@@ -32,6 +32,7 @@ cannot currently be reproduced from disk.
 | **N5** | A reference-free "distance to healthy" also fails against blast % | ρ ≈ 0 — **NOT CITABLE, see §2.5** | *(output cleared)* |
 | **N6** | The Mono_DC expression signal is reducible to the blast compartment | Mono_DC adjusted for LMPP_GMP: AUC **0.490**, perm p = 0.549 | `12_pseudobulk_de/06_hox_compartment.R` |
 | **N7** | The node-feature arm's GATE 1 win fails its own reliability gate | SNR **2.37** vs composition's **24.16**; discriminating gap 4.64 < retest noise 11.02; ρ(A,B) 0.797 | `08_scoring/23_node_feature_noise_floor.py` |
+| **N8** | Multiplying CCC edges by co-abundance opportunity does not rescue them, and degrades them | `ccc_x_ab` 0.2500 vs `cellchat_w` 0.1304; shuffled-molecular null p5 0.1364, real at the 18th percentile of its own null | `06_distance/05_opportunity_distance.py` |
 
 ### Four positives — two of them are what make the negatives mean something
 
