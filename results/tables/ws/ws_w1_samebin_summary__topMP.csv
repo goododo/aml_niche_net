@@ -1,0 +1,7 @@
+dataset,arm,combos,scope
+GSE185381,primary,334,all_bins
+GSE239721,primary,48,all_bins
+GSE289435,primary,2,all_bins
+GSE185381,fallback,450,all_bins
+GSE239721,fallback,76,all_bins
+GSE289435,fallback,10,all_bins
