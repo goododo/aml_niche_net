@@ -1,0 +1,16 @@
+check,expected,observed,pass
+atlas cells,808539,808539,TRUE
+atlas samples,161,161,TRUE
+atlas datasets,12,12,TRUE
+samples whose SampleType changes,8,8,TRUE
+cells relabelled,51613,51613,TRUE
+all relabelled are PMID37470778,TRUE,TRUE,TRUE
+all relabelled go AML -> Control,TRUE,TRUE,TRUE
+cells kept from the atlas,728092,728092,TRUE
+datasets kept,8,8,TRUE
+GSE185381 objects on disk,52,52,TRUE
+GSE185381 cells,167136,167136,TRUE
+GSE185381 samples,52,52,TRUE
+datasets prepared,9,9,TRUE
+samples prepared,182,182,TRUE
+cells prepared,895228,895228,TRUE

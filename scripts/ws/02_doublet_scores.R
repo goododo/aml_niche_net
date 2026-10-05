@@ -28,7 +28,12 @@ args <- commandArgs(TRUE)
 cfg <- file.path(dirname(sub("--file=", "", grep("--file=", commandArgs(FALSE), value = TRUE)[1])),
                  "..", "config", "config_paths.R")
 source(cfg); set.seed(SEED)
+# call_doubletfinder lives in 03_per_sample_qc.R and is reused verbatim so the pANN/class match the
+# 28-sample calibration. call_sc does NOT live there (it is defined in 07_doublet_calibration.R, a
+# top-level analysis script that must not be sourced), so scDblFinder is called directly below --
+# once, returning score and class together, instead of the two separate runs the first version did.
 suppressMessages(source(file.path(SCRIPTS_DIR, "01_preprocess", "03_per_sample_qc.R")))
+stopifnot(exists("call_doubletfinder"))        # fail loudly, not 95 times in a row
 
 AN_DIR  <- file.path(LARGE1_DIR, "02_seurat_objects/04_annotated")
 OUT_DIR <- file.path(TAB_DIR, "ws"); dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
@@ -98,7 +103,10 @@ for (k in names(LIBS)) {
   }, error = function(e) { message("  assemble fail ", k, ": ", conditionMessage(e)); NULL })
   if (is.null(obj) || ncol(obj) < MIN_LIB_CELL) {
     skipped <- c(skipped, sprintf("%s(n=%s)", k, if (is.null(obj)) "NA" else ncol(obj))); next }
-  obj <- suppressWarnings(JoinLayers(obj))
+  # GSE239721 stores a Seurat v3 Assay; the other four studies store Assay5. JoinLayers only has a
+  # method for Assay5, and a v3 assay has a single counts slot with nothing to join.
+  if (inherits(obj[["RNA"]], "Assay5") && length(SeuratObject::Layers(obj[["RNA"]])) > 1L)
+    obj <- suppressWarnings(JoinLayers(obj))
   n <- ncol(obj)
 
   # donor shares inside this library -> the exact post-demux surviving-doublet fraction
@@ -117,11 +125,13 @@ for (k in names(LIBS)) {
   rate_raw <- nraw * RATE_PER_CELL
   rate <- min(0.4, rate_raw * same_donor)
 
-  sc <- tryCatch(call_sc(obj, rate, 0), error = function(e) { message("  sc fail ", k, ": ", conditionMessage(e)); NULL })
-  sc_s <- tryCatch({ sce <- Seurat::as.SingleCellExperiment(obj)
-                     sce <- scDblFinder::scDblFinder(sce, dbr = rate, dbr.sd = 0)
-                     setNames(sce$scDblFinder.score, colnames(sce)) },
-                   error = function(e) NULL)
+  scr <- tryCatch({ sce <- Seurat::as.SingleCellExperiment(obj)
+                    sce <- scDblFinder::scDblFinder(sce, dbr = rate, dbr.sd = 0)   # dbr.sd=0: dbr is the rate
+                    list(score = setNames(sce$scDblFinder.score, colnames(sce)),
+                         class = setNames(as.character(sce$scDblFinder.class) == "doublet", colnames(sce))) },
+                  error = function(e) { message("  sc fail ", k, ": ", conditionMessage(e)); NULL })
+  sc   <- if (is.null(scr)) NULL else scr$class
+  sc_s <- if (is.null(scr)) NULL else scr$score
   df <- tryCatch(call_doubletfinder(obj, rate), error = function(e) { message("  df fail ", k, ": ", conditionMessage(e)); NULL })
   if (is.null(sc) && is.null(df)) { skipped <- c(skipped, paste0(k, "(both callers failed)")); rm(obj); gc(FALSE); next }
 
@@ -131,7 +141,8 @@ for (k in names(LIBS)) {
                         sc_score = if (is.null(sc_s)) NA_real_ else as.numeric(sc_s[cn]),
                         sc_class = if (is.null(sc))   NA        else as.logical(sc[cn]),
                         df_class = if (is.null(df))   NA        else as.logical(df[cn]))
-  LB[[k]] <- data.table(dataset = ds, library = L$library, n_donors = length(shares), n_cells = n,
+  LB[[k]] <- data.table(dataset = ds, library = L$library, assay_class = class(obj[["RNA"]])[1],
+                        n_donors = length(shares), n_cells = n,
                         n_raw_used = round(nraw), same_donor_frac = round(same_donor, 4),
                         rate_before_demux = round(rate_raw, 5), rate_used = round(rate, 5),
                         rate_basis = basis,
