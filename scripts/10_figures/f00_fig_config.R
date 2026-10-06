@@ -15,8 +15,11 @@ if (!exists("FAST_DIR"))   FAST_DIR   <- "/FAST/gr10634/gaozy/aml_niche_net"
 ## -- inputs (USER-FILL where noted) ----
 RAW_OBJ_DIR      <- file.path(LARGE1_DIR, "01_processed_counts", "rds")          # before QC
 FILTERED_OBJ_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "01_per_sample_qc") # after QC
-QC_REPORT_CSV    <- "/FAST/gr10634/gaozy/aml_niche_net/results/tables/01_qc/03_qc_report__ALL.csv"        # <-- POINT to your CSV
-REFNORM_SUMMARY_CSV <- "/FAST/gr10634/gaozy/aml_niche_net/results/tables/03_malignancy/ref_norm_summary.csv"
+# 01_qc -> 01_preprocess and 03_malignancy -> 02_malignancy: config_paths.R renamed these
+# directories ("migrated from legacy ..."), these two strings were not updated with it, and the
+# resulting file-not-found looked like the tables had been deleted. They had not. (2026-10-06)
+QC_REPORT_CSV    <- file.path(FAST_DIR, "results/tables/01_preprocess/03_qc_report__ALL.csv")
+REFNORM_SUMMARY_CSV <- file.path(FAST_DIR, "results/tables/02_malignancy/ref_norm_summary.csv")
 
 ## -- outputs ----
 FIG_DIR <- file.path(FAST_DIR, "results", "figures")
