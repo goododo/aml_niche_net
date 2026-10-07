@@ -1,0 +1,5 @@
+check,expected,got,pass
+cells,895228,895228,TRUE
+embedding rows match metadata,TRUE,TRUE,TRUE
+datasets,9,9,TRUE
+SampleType levels,2,2,TRUE

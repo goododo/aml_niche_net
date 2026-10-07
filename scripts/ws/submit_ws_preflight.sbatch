@@ -7,6 +7,10 @@
 #SBATCH -e /FAST/gr10634/gaozy/aml_niche_net/00_project/logs/%x_%j.err
 #SBATCH --no-requeue
 set -eu -o pipefail
+# future's globals guard defaults to 500 MiB and killed two jobs at this cell count
+# (3641248 after 6h45m in IntegrateData, 3641585 after 1m in FindNeighbors). The env var
+# sets the option for every script run from here, so a new script cannot forget it.
+export R_FUTURE_GLOBALS_MAXSIZE=68719476736   # 64 GiB
 export PYTHONNOUSERSITE=1 R_LIBS_USER=
 module load miniforge3
 source "$(conda info --base)/etc/profile.d/conda.sh"

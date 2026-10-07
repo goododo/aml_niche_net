@@ -1,0 +1,15 @@
+check,expected,got,pass
+intersection genes read,32042,32042,TRUE
+MT- genes dropped,13,13,TRUE
+gene axis used,32029,32029,TRUE
+drop accounts for every gene,TRUE,TRUE,TRUE
+input objects found,9,9,TRUE
+checkpoint datasets,9,9,TRUE
+checkpoint anchor features,3000,3000,TRUE
+cells survive integration,895228,895228,TRUE
+integrated assay features,3000,3000,TRUE
+cells with a duplicate PCA embedding,0,0,TRUE
+mixing improved (median after > median before),TRUE,TRUE,TRUE
+RNA counts are still integers,TRUE,TRUE,TRUE
+datasets in the output,9,9,TRUE
+samples in the output,182,182,TRUE

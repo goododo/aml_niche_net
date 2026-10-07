@@ -1,12 +1,14 @@
 #!/bin/bash
-#SBATCH --job-name=ws_prep_inte
+#SBATCH -J ws_mixdiag
 #SBATCH -p gr10634c
-#SBATCH --rsc p=1:t=1:c=8:m=1024G
-#SBATCH --time=12:00:00
+#SBATCH -t 6:00:00
+#SBATCH --rsc p=1:t=1:c=8:m=512G
+#SBATCH -o /FAST/gr10634/gaozy/aml_niche_net/00_project/logs/%x_%j.out
+#SBATCH -e /FAST/gr10634/gaozy/aml_niche_net/00_project/logs/%x_%j.err
 #SBATCH --no-requeue
-#SBATCH --output=/FAST/gr10634/gaozy/aml_niche_net/00_project/logs/ws_prep_inte_%j.out
-#SBATCH --error=/FAST/gr10634/gaozy/aml_niche_net/00_project/logs/ws_prep_inte_%j.err
-set -euo pipefail
+# Reads the integrated object once, writes a small PCA+metadata sidecar, and recomputes mixing
+# within each SampleType. Deletes nothing; does not modify the integrated object.
+set -eu -o pipefail
 # future's globals guard defaults to 500 MiB and killed two jobs at this cell count
 # (3641248 after 6h45m in IntegrateData, 3641585 after 1m in FindNeighbors). The env var
 # sets the option for every script run from here, so a new script cannot forget it.
@@ -18,6 +20,4 @@ conda activate /FAST/gr10634/gaozy/general_env
 export TMPDIR=/LARGE1/gr10634/gaozy/tmp/${SLURM_JOB_ID}; mkdir -p "$TMPDIR"
 trap 'rm -rf "$TMPDIR"' EXIT
 cd /FAST/gr10634/gaozy/aml_niche_net
-echo "=== prepare re-integration input  $(date -Is)"
-Rscript scripts/ws/03_prepare_integration_input.R
-echo "=== finished $(date -Is)"
+Rscript scripts/ws/06_mixing_diagnostic.R

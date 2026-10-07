@@ -34,6 +34,13 @@ SMOKE  <- as.integer(.get("smoke", "0"))       # >0: subsample each dataset to t
 MIX_N  <- as.integer(.get("mix_n", if (SMOKE > 0) "3000" else "30000"))
 SFX    <- if (SMOKE > 0) "_smoke" else ""      # a smoke run never touches a production path
 set.seed(1234)
+# Job 3641248 ran 6h45m and died in the LAST merge of IntegrateData: future's globals check
+# refused a 575.61 MiB export against its 500 MiB default. The data was fine and memory was not
+# the constraint (peak 408 of 1024 GB) -- it is purely this guard rail. future 1.70's plan()
+# takes maxSizeOfObjects only through `...`, so this option is the real control. (2026-10-07)
+options(future.globals.maxSize = 64 * 1024^3)   # 64 GiB
+message(sprintf("[cfg] future.globals.maxSize = %.0f GiB | plan = %s",
+                getOption("future.globals.maxSize")/1024^3, class(future::plan())[1]))
 if (SMOKE > 0) message("** SMOKE RUN: ", SMOKE, " cells per dataset; outputs suffixed ", SFX, " **")
 
 ROOT <- "/FAST/gr10634/gaozy/aml_niche_net"

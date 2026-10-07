@@ -1,0 +1,9 @@
+check,expected,got,pass
+cells,895228,895228,TRUE
+PCA dims used,30,30,TRUE
+metadata aligned to the embedding,TRUE,TRUE,TRUE
+datasets,9,9,TRUE
+graph is square over all cells,TRUE,TRUE,TRUE
+one column per resolution,12,12,TRUE
+composition rows cover every resolution,12,12,TRUE
+overlap rows cover every resolution,12,12,TRUE
