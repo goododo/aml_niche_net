@@ -1,0 +1,6 @@
+check,expected,got,pass
+every cluster has a final label,57,57,TRUE
+every cluster in one of the 8 groups,0,0,TRUE
+UMAP has two dimensions,2,2,TRUE
+cells plotted,895228,895228,TRUE
+"PDF is a usable size (rasterised, not 465 MB of vector points)",TRUE,TRUE,TRUE

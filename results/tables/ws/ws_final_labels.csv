@@ -1,0 +1,58 @@
+cl,cluster_size,label,provenance,old_label,auto_mk3,final,lineage
+0,65624,"",disputed,HSPC: CLP/Early lymphoid,T: Pan (CD3+),T/NK,T/NK
+1,58328,"",disputed,Mono: Classical,Blast-like: Pro-monocyte,Mono: Classical,Myeloid
+2,38846,B: Naive,agreed,B: Naive,B: Naive,B: Naive,B/plasma
+3,35554,CD8 T: Effector/Cytotoxic,adopted,Ambiguous,CD8 T: Effector/Cytotoxic,CD8 T: Effector/Cytotoxic,T/NK
+4,35131,Blast-like: GMP,agreed,Blast-like: GMP,Blast-like: GMP,Blast-like: GMP,Blast-like
+5,34556,Blast-like: HSC/MPP,agreed,Blast-like: HSC/MPP,Blast-like: GMP,Blast-like: HSC/MPP,Blast-like
+6,34511,Blast-like: HSC/MPP,agreed,Blast-like: HSC/MPP,Blast-like: HSC/MPP,Blast-like: HSC/MPP,Blast-like
+7,34243,"",disputed,Mono: Classical,Blast-like: Pro-monocyte,Mono: Classical,Myeloid
+8,32373,Blast-like: HSC/MPP,agreed,Blast-like: HSC/MPP,Blast-like: HSC/MPP,Blast-like: HSC/MPP,Blast-like
+9,31729,T: Pan (CD3+),adopted,Ambiguous,T: Pan (CD3+),T: Pan (CD3+),T/NK
+10,29963,Plasma: Plasmablast/Plasma,agreed,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,B/plasma
+11,26252,"",disputed,Blast-like: HSC/MPP,Stroma: Adipogenic progenitor / Preadipocyte,"Blast-like (BAALC+, normal karyotype)",Blast-like
+12,26079,Granulocyte: Mast,agreed,Granulocyte: Mast,Granulocyte: Mast,Granulocyte: Mast,Myeloid
+13,23949,"",disputed,Blast-like: GMP,T/NK,T/NK,T/NK
+14,23681,Blast-like: GMP,agreed,Blast-like: GMP,Blast-like: GMP,Blast-like: GMP,Blast-like
+15,23017,"",disputed,Mono: Classical,Myeloid: Generic,Mono: Classical,Myeloid
+16,21650,"",disputed,HSPC: CLP/Early lymphoid,T: Pan (CD3+),T/NK or CLP,T/NK
+17,21618,Blast-like: HSC/MPP,agreed,Blast-like: HSC/MPP,Blast-like: GMP,Blast-like: HSC/MPP,Blast-like
+18,20545,Erythroid: Late/Mature,agreed,Erythroid: Late/Mature,Erythroid: Early (CFU-E),Erythroid: Late/Mature,Ery/Mega
+19,19980,Ery/Meg prog: MEP/MkP,agreed,Ery/Meg prog: MEP/MkP,Ery/Meg prog: MEP/MkP,Ery/Meg prog: MEP/MkP,Ery/Mega
+20,19497,Stroma: MSC (CXCL12+LEPR+PDGFRA+),agreed,Stroma: MSC (CXCL12+LEPR+PDGFRA+),Stroma: BMSC (CXCL12+LEPR+PDGFRA+),Stroma: MSC (CXCL12+LEPR+PDGFRA+),Niche (stroma/vessel/bone)
+21,16903,Blast-like: HSC/MPP,agreed,Blast-like: HSC/MPP,Blast-like: HSC/MPP,Blast-like: HSC/MPP,Blast-like
+22,13680,Erythroid: Late/Mature,agreed,Erythroid: Late/Mature,Erythroid: Late/Mature,Erythroid: Late/Mature,Ery/Mega
+23,12874,DC: pDC,agreed,DC: pDC,DC: pDC,DC: pDC,Myeloid
+24,12004,Erythroid: Late/Mature,agreed,Erythroid: Late/Mature,Erythroid: Late/Mature,Erythroid: Late/Mature,Ery/Mega
+25,11780,Granulocyte: Neutrophil,agreed,Granulocyte: Neutrophil,Granulocyte: Neutrophil,Granulocyte: Neutrophil,Myeloid
+26,11716,"",disputed,Blast-like: GMP,Myeloid: Generic,Myeloid: Generic,Myeloid
+27,11464,Blast-like: GMP,adopted,Unassigned,Blast-like: GMP,Blast-like: GMP,Blast-like
+28,11444,"",disputed,Blast-like: GMP,Myeloid: Generic,Unresolved (homotypic doublet),Unresolved/excluded
+29,11090,"",disputed,Mono: Non-classical,Blast-like: Monocyte,Mono: Non-classical,Myeloid
+30,10440,HSPC: LMPP,adopted,Ambiguous,HSPC: LMPP,Blast-like primitive progenitor (BAALC+DNTT+PROM1),Blast-like
+31,10422,"",disputed,Blast-like: cDC,DC: cDC2,DC: cDC2,Myeloid
+32,9843,Bone: Osteoblast,agreed,Bone: Osteoblast,Bone: Osteoblast,Bone: Osteoblast,Niche (stroma/vessel/bone)
+33,8166,B: Pro/Pre-B,agreed,B: Pro/Pre-B,B: Pro/Pre-B,B: Pro/Pre-B,B/plasma
+34,7974,"",disputed,Blast-like: HSC/MPP,Erythroid: Late/Mature,Interferon-response state,Unresolved/excluded
+35,7943,Megakaryocyte,agreed,Megakaryocyte,Megakaryocyte,Megakaryocyte,Ery/Mega
+36,7159,Blast-like: GMP,agreed,Blast-like: GMP,Blast-like: GMP,Blast-like: GMP,Blast-like
+37,6980,Vascular: Endothelial (sinusoidal),agreed,Vascular: Endothelial (sinusoidal),Vascular: Endothelial (sinusoidal),Vascular: Endothelial (sinusoidal),Niche (stroma/vessel/bone)
+38,6913,"",disputed,Mono: Classical,Myeloid: Generic,Mono: activated,Myeloid
+39,5787,B: Pro/Pre-B,agreed,B: Pro/Pre-B,B: Pro/Pre-B,B: Pro/Pre-B,B/plasma
+40,5696,Blast-like: HSC/MPP,agreed,Blast-like: HSC/MPP,Blast-like: HSC/MPP,Blast-like: HSC/MPP,Blast-like
+41,4703,Blast-like: cDC,agreed,Blast-like: cDC,Blast-like: Pro-monocyte,Blast-like: cDC,Blast-like
+42,4294,Vascular: Mural (Pericyte/SMC),agreed,Vascular: Mural (Pericyte/SMC),Vascular: Mural (Pericyte/SMC),Vascular: Mural (Pericyte/SMC),Niche (stroma/vessel/bone)
+43,4221,B: Naive,agreed,B: Naive,B: Naive,B: Naive,B/plasma
+44,3794,"",disputed,Mono: Classical,Blast-like: Pro-monocyte,Mono/macrophage,Myeloid
+45,3467,Stroma: Fibroblast-like stroma,adopted,Ambiguous,Stroma: Fibroblast-like stroma,Stroma: Fibroblast-like stroma,Niche (stroma/vessel/bone)
+46,3234,"",disputed,Mono: Classical,Myeloid: Generic,"Excluded (low quality, single library)",Unresolved/excluded
+47,2858,CD4 T helper: Th1,adopted,Ambiguous,CD4 T helper: Th1,CD4 T helper: Th1,T/NK
+48,2768,"",disputed,Granulocyte: Mast,HSPC: LMPP,"Blast-like (basophil/mast features, PRAME+)",Blast-like
+49,2447,HSPC: LMPP,adopted,Unassigned,HSPC: LMPP,Blast-like,Blast-like
+50,1818,"",disputed,HSPC: CLP/Early lymphoid,T: Pan (CD3+),T cell,T/NK
+51,1671,Blast-like: GMP,agreed,Blast-like: GMP,Blast-like: GMP,Blast-like: GMP,Blast-like
+52,812,"",disputed,Megakaryocyte,Granulocyte: Mast,Mast/basophil (TPSB2+),Myeloid
+53,626,Plasma: Plasmablast/Plasma,agreed,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,B/plasma
+54,548,"",disputed,T/NK,CD8 T: Effector/Cytotoxic,NK,T/NK
+55,372,Plasma: Plasmablast/Plasma,agreed,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,B/plasma
+56,191,Blast-like: HSC/MPP,agreed,Blast-like: HSC/MPP,Blast-like: Pro-monocyte,Blast-like: HSC/MPP,Blast-like

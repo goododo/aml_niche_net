@@ -1,0 +1,4 @@
+check,expected,got,pass
+cells,895228,895228,TRUE
+clusters,57,57,TRUE
+exclusive marker pairs usable,6,6,TRUE

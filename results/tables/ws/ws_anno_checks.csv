@@ -1,0 +1,14 @@
+check,expected,got,pass
+marker entries,514,514,TRUE
+cell types,71,71,TRUE
+roles are positive/negative only,TRUE,TRUE,TRUE
+ZFP423/KITL renamed,0,0,TRUE
+HBA expanded to HBA1 + HBA2,0,0,TRUE
+supportive now weighted as support,10,10,TRUE
+cells,895228,895228,TRUE
+clusters at res 1.0,57,57,TRUE
+cells carrying an old label,728092,728092,TRUE
+cached cells are the same set as the cluster table,TRUE,TRUE,TRUE
+scaled matrix aligned to the cluster table,TRUE,TRUE,TRUE
+marker genes scaled,242,242,TRUE
+cell types with no usable marker on the axis,0,0,TRUE

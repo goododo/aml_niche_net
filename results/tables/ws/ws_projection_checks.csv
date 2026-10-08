@@ -1,0 +1,6 @@
+check,expected,got,pass
+mapping_error present,TRUE,TRUE,TRUE
+high_error present,TRUE,TRUE,TRUE
+mapping_error non-NA,TRUE,TRUE,TRUE
+cells,895228,895228,TRUE
+Control high_error rate is near the designed 5%,TRUE,TRUE,TRUE

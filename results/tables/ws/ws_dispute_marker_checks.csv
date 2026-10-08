@@ -1,0 +1,5 @@
+check,expected,got,pass
+target clusters,22,22,TRUE
+cells,895228,895228,TRUE
+every cell has a cluster,0,0,TRUE
+targets with markers,22,22,TRUE

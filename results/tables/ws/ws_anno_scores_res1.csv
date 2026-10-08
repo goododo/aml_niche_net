@@ -1,0 +1,4048 @@
+cl,cell_type,score,z_across_clusters
+0,T: Pan (CD3+),1.5316,2.75
+0,CD8 T: Naive/Early,1.0768,2.91
+0,CD4 T: Naive/TCM,0.9982,2.94
+0,B: Memory,0.6384,1.52
+0,DC: Migratory (LAMP3+CCR7+),0.6325,2.71
+0,HSPC: CLP/Early lymphoid,0.4108,0.98
+0,NK: CD56bright (CD16-/low),0.3436,1.05
+0,CD4 T helper: Th2,0.2204,1.83
+0,T: MAIT,0.1152,1.01
+0,CD4 T: Tfh,0.083,0.53
+0,Stroma: Periosteal SSC (ITM2A+),0.081,0.47
+0,Stroma: Adipogenic progenitor / Preadipocyte,0.0754,0.54
+0,Stroma: Adipocyte,0.0378,0.34
+0,Erythroid: Late/Mature,0.024,-0.01
+0,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.024,0.19
+0,CD4 T helper: Th17,-0.0018,1.02
+0,Stroma: Adipogenic lineage precursor,-0.0111,-0.03
+0,Bone: Osteocyte,-0.0235,-0.3
+0,Granulocyte: Eosinophil,-0.0267,-0.35
+0,Cartilage: Superficial/articular-like,-0.0426,-0.28
+0,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0477,-0.27
+0,Cartilage: Chondrocyte,-0.0544,-0.33
+0,CD4 T helper: Th1,-0.0554,-0.2
+0,Vascular: Mural (Pericyte/SMC),-0.0562,-0.18
+0,Vascular: Endothelial (arteriolar/arterial),-0.0632,-0.34
+0,T: TCR????,-0.064,-0.48
+0,Vascular: Endothelial (sinusoidal),-0.0765,-0.23
+0,Stroma: MSC/perivascular (MCAM+),-0.0778,-0.17
+0,Bone: Osteoclast,-0.079,-0.67
+0,Megakaryocyte,-0.0841,-0.2
+0,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0847,-0.44
+0,Erythroid: Early (CFU-E),-0.088,-0.21
+0,Platelet,-0.0895,-0.21
+0,DC: ASDC (AXL+SIGLEC6+),-0.0902,-0.32
+0,Blast-like: cDC,-0.1037,-0.4
+0,Stroma: Fibroblast-like stroma,-0.1062,-0.27
+0,DC: ASDC (AXLSIGLEC6+),-0.1086,-0.24
+0,HSPC: HSC/MPP,-0.109,-0.49
+0,DC: cDC1,-0.1177,-0.91
+0,Cartilage: Hypertrophic chondrocyte,-0.1302,-0.75
+0,DC: cDC2,-0.1311,-0.28
+0,Bone: Osteoblast,-0.1371,-0.36
+0,CD8 T: Effector/Cytotoxic,-0.1431,-0.2
+0,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.148,-0.28
+0,Ery/Meg prog: MEP/MkP,-0.1509,-0.33
+0,B: Pro/Pre-B,-0.1516,-0.33
+0,B: Naive,-0.1541,-0.32
+0,Mono: Non-classical,-0.1544,-0.56
+0,Stroma: MSC/perivascular,-0.1558,-0.25
+0,CD4 T: Treg,-0.1711,-2.05
+0,HSPC: LMPP,-0.1737,-0.62
+0,Bone: Osteogenic progenitor,-0.1785,-0.65
+0,Granulocyte: Basophil,-0.1819,-0.73
+0,Plasma: Plasmablast/Plasma,-0.2027,-0.63
+0,Mono: Proliferating (Cycling),-0.2383,-0.45
+0,Mono: Inflammatory (CCL3/4+),-0.2387,-0.62
+0,DC: pDC,-0.2472,-0.67
+0,Granulocyte: Mast,-0.2477,-0.66
+0,Granulocyte: Neutrophil,-0.2655,-0.57
+0,"NK: CD56dim (CD16+, cytotoxic)",-0.2733,-0.46
+0,Granulocyte: Neutrophil (CST7+),-0.2777,-0.36
+0,Blast-like: HSC/MPP,-0.2805,-0.8
+0,T/NK,-0.2961,-0.77
+0,Blast-like: Monocyte,-0.327,-0.61
+0,Mono: Classical,-0.3537,-0.66
+0,Blast-like: GMP,-0.3575,-0.65
+0,DC: DC3,-0.3591,-0.6
+0,Mono: VCAN+,-0.378,-0.6
+0,Blast-like: Pro-monocyte,-0.4188,-0.62
+0,Myeloid: Generic,-0.5568,-0.81
+0,Mono: Antigen-presenting (HLA-II+),-0.6494,-1.14
+1,Mono: VCAN+,1.9568,2.75
+1,Blast-like: Pro-monocyte,1.937,2.73
+1,Mono: Classical,1.5923,2.89
+1,DC: DC3,1.5506,2.59
+1,Myeloid: Generic,1.4283,1.89
+1,Blast-like: Monocyte,1.3718,2.31
+1,Mono: Antigen-presenting (HLA-II+),0.9728,1.66
+1,Granulocyte: Neutrophil,0.9416,1.98
+1,Mono: Inflammatory (CCL3/4+),0.8488,1.96
+1,"NK: CD56dim (CD16+, cytotoxic)",0.2282,0.41
+1,Mono: Non-classical,0.1137,0.28
+1,Bone: Osteoclast,0.063,0.48
+1,DC: cDC2,0.0554,0.12
+1,Erythroid: Early (CFU-E),0.0361,0
+1,CD4 T: Tfh,0.0267,0.17
+1,Platelet,0.0101,-0.03
+1,DC: cDC1,-0.0058,-0.09
+1,Vascular: Endothelial (arteriolar/arterial),-0.0073,-0.08
+1,Vascular: Endothelial (sinusoidal),-0.0095,-0.06
+1,Cartilage: Hypertrophic chondrocyte,-0.0121,-0.16
+1,CD4 T helper: Th17,-0.0136,-0.47
+1,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0193,0.03
+1,CD4 T: Treg,-0.0216,-0.31
+1,Bone: Osteocyte,-0.0233,-0.29
+1,Granulocyte: Eosinophil,-0.0258,-0.32
+1,Stroma: Adipocyte,-0.0352,-0.05
+1,Stroma: Periosteal SSC (ITM2A+),-0.0398,-0.02
+1,Cartilage: Superficial/articular-like,-0.046,-0.31
+1,Blast-like: cDC,-0.0528,-0.18
+1,Cartilage: Chondrocyte,-0.0556,-0.33
+1,T: TCR????,-0.0662,-0.5
+1,Megakaryocyte,-0.071,-0.17
+1,Stroma: Adipogenic lineage precursor,-0.0752,-0.47
+1,T: MAIT,-0.0793,-0.33
+1,CD4 T helper: Th1,-0.0799,-0.27
+1,DC: ASDC (AXL+SIGLEC6+),-0.0876,-0.32
+1,CD4 T helper: Th2,-0.0895,-0.47
+1,Stroma: MSC/perivascular (MCAM+),-0.1019,-0.19
+1,DC: ASDC (AXLSIGLEC6+),-0.1052,-0.24
+1,Stroma: Fibroblast-like stroma,-0.1113,-0.28
+1,HSPC: HSC/MPP,-0.1126,-0.51
+1,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1184,-0.24
+1,Bone: Osteoblast,-0.1246,-0.34
+1,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.1313,-0.66
+1,Ery/Meg prog: MEP/MkP,-0.1324,-0.29
+1,Blast-like: GMP,-0.134,-0.28
+1,Vascular: Mural (Pericyte/SMC),-0.1342,-0.29
+1,Granulocyte: Basophil,-0.1383,-0.56
+1,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.1408,-0.66
+1,Bone: Osteogenic progenitor,-0.1496,-0.57
+1,CD4 T: Naive/TCM,-0.1538,-0.2
+1,Stroma: MSC/perivascular,-0.157,-0.25
+1,CD8 T: Effector/Cytotoxic,-0.1572,-0.23
+1,DC: Migratory (LAMP3+CCR7+),-0.1594,-0.42
+1,B: Pro/Pre-B,-0.1666,-0.36
+1,B: Naive,-0.1739,-0.35
+1,B: Memory,-0.1755,-0.32
+1,DC: pDC,-0.1757,-0.51
+1,NK: CD56bright (CD16-/low),-0.1816,-0.39
+1,Erythroid: Late/Mature,-0.2162,-0.35
+1,Mono: Proliferating (Cycling),-0.2229,-0.43
+1,Plasma: Plasmablast/Plasma,-0.2277,-0.69
+1,HSPC: CLP/Early lymphoid,-0.2323,-0.61
+1,CD8 T: Naive/Early,-0.236,-0.44
+1,Granulocyte: Mast,-0.2498,-0.66
+1,Blast-like: HSC/MPP,-0.2755,-0.79
+1,Stroma: Adipogenic progenitor / Preadipocyte,-0.2758,-1.46
+1,T/NK,-0.2861,-0.75
+1,HSPC: LMPP,-0.3024,-0.93
+1,T: Pan (CD3+),-0.3331,-0.36
+1,Granulocyte: Neutrophil (CST7+),-0.342,-0.46
+2,B: Naive,2.0186,3.31
+2,B: Pro/Pre-B,1.3795,2.02
+2,Mono: Antigen-presenting (HLA-II+),0.9035,1.54
+2,DC: Migratory (LAMP3+CCR7+),0.4229,1.88
+2,B: Memory,0.3821,0.94
+2,CD4 T: Tfh,0.3698,2.37
+2,CD4 T: Naive/TCM,0.2959,1.03
+2,CD8 T: Naive/Early,0.2589,0.82
+2,DC: pDC,0.1866,0.29
+2,DC: cDC2,0.1365,0.3
+2,Stroma: Adipogenic progenitor / Preadipocyte,0.0903,0.62
+2,DC: cDC1,0.0778,0.53
+2,Cartilage: Hypertrophic chondrocyte,0.068,0.24
+2,Stroma: Adipocyte,0.0501,0.4
+2,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0496,0.29
+2,Blast-like: cDC,0.042,0.23
+2,Bone: Osteoclast,0.0338,0.24
+2,Stroma: Periosteal SSC (ITM2A+),0.0321,0.27
+2,CD4 T: Treg,0.0125,0.09
+2,Stroma: Adipogenic lineage precursor,2e-04,0.04
+2,CD4 T helper: Th17,-0.0132,-0.42
+2,Bone: Osteocyte,-0.0196,-0.2
+2,Granulocyte: Eosinophil,-0.0251,-0.29
+2,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0354,-0.22
+2,Cartilage: Superficial/articular-like,-0.0426,-0.28
+2,Vascular: Mural (Pericyte/SMC),-0.0435,-0.16
+2,Vascular: Endothelial (arteriolar/arterial),-0.052,-0.29
+2,Cartilage: Chondrocyte,-0.0521,-0.32
+2,Platelet,-0.0566,-0.15
+2,Megakaryocyte,-0.0597,-0.15
+2,DC: ASDC (AXL+SIGLEC6+),-0.0629,-0.27
+2,Vascular: Endothelial (sinusoidal),-0.0633,-0.2
+2,T: TCR????,-0.0662,-0.5
+2,CD4 T helper: Th1,-0.0692,-0.24
+2,Mono: Non-classical,-0.0702,-0.3
+2,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0704,-0.38
+2,T: MAIT,-0.0776,-0.31
+2,CD4 T helper: Th2,-0.086,-0.44
+2,Stroma: Fibroblast-like stroma,-0.0981,-0.26
+2,Stroma: MSC/perivascular (MCAM+),-0.0981,-0.19
+2,DC: ASDC (AXLSIGLEC6+),-0.1136,-0.25
+2,HSPC: HSC/MPP,-0.1263,-0.57
+2,Ery/Meg prog: MEP/MkP,-0.1325,-0.29
+2,Bone: Osteoblast,-0.1384,-0.36
+2,Erythroid: Late/Mature,-0.1426,-0.25
+2,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.149,-0.28
+2,Stroma: MSC/perivascular,-0.155,-0.25
+2,Plasma: Plasmablast/Plasma,-0.1673,-0.55
+2,Granulocyte: Basophil,-0.1674,-0.67
+2,NK: CD56bright (CD16-/low),-0.1709,-0.36
+2,Erythroid: Early (CFU-E),-0.1741,-0.36
+2,Bone: Osteogenic progenitor,-0.1906,-0.69
+2,HSPC: CLP/Early lymphoid,-0.2228,-0.59
+2,CD8 T: Effector/Cytotoxic,-0.2232,-0.34
+2,Mono: Proliferating (Cycling),-0.2246,-0.43
+2,Mono: Inflammatory (CCL3/4+),-0.2417,-0.63
+2,Granulocyte: Mast,-0.2455,-0.65
+2,Granulocyte: Neutrophil,-0.2695,-0.58
+2,Blast-like: HSC/MPP,-0.281,-0.8
+2,T/NK,-0.2849,-0.75
+2,Blast-like: Monocyte,-0.3165,-0.59
+2,T: Pan (CD3+),-0.3219,-0.34
+2,HSPC: LMPP,-0.329,-1
+2,"NK: CD56dim (CD16+, cytotoxic)",-0.3298,-0.55
+2,Blast-like: GMP,-0.3404,-0.62
+2,Granulocyte: Neutrophil (CST7+),-0.3584,-0.49
+2,Mono: Classical,-0.3603,-0.67
+2,Mono: VCAN+,-0.3749,-0.59
+2,DC: DC3,-0.3768,-0.63
+2,Blast-like: Pro-monocyte,-0.4293,-0.64
+2,Myeloid: Generic,-0.622,-0.9
+3,CD8 T: Effector/Cytotoxic,2.7708,4.73
+3,"NK: CD56dim (CD16+, cytotoxic)",2.7449,4.74
+3,Granulocyte: Neutrophil (CST7+),2.5663,4.02
+3,T: Pan (CD3+),0.9651,1.81
+3,CD4 T helper: Th1,0.8934,2.44
+3,Mono: Inflammatory (CCL3/4+),0.7443,1.71
+3,NK: CD56bright (CD16-/low),0.7087,2.05
+3,T: MAIT,0.6161,4.47
+3,Mono: Non-classical,0.38,1.12
+3,DC: pDC,0.3029,0.55
+3,CD4 T helper: Th2,0.2377,1.96
+3,T: TCR????,0.1678,2
+3,CD4 T: Treg,0.1421,1.59
+3,Stroma: Periosteal SSC (ITM2A+),0.028,0.26
+3,Blast-like: Monocyte,0.0229,-0.01
+3,Plasma: Plasmablast/Plasma,0.0188,-0.13
+3,Stroma: Adipocyte,0.0048,0.16
+3,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0102,0.06
+3,CD4 T helper: Th17,-0.0114,-0.19
+3,Stroma: Adipogenic progenitor / Preadipocyte,-0.0217,-0.01
+3,Bone: Osteocyte,-0.0244,-0.32
+3,Granulocyte: Eosinophil,-0.0266,-0.35
+3,Cartilage: Superficial/articular-like,-0.0481,-0.32
+3,Cartilage: Chondrocyte,-0.0553,-0.33
+3,Stroma: Adipogenic lineage precursor,-0.0559,-0.34
+3,CD8 T: Naive/Early,-0.0653,-0.01
+3,Platelet,-0.0664,-0.17
+3,Erythroid: Late/Mature,-0.0673,-0.14
+3,CD4 T: Tfh,-0.0678,-0.43
+3,Megakaryocyte,-0.0729,-0.18
+3,Bone: Osteoclast,-0.0737,-0.63
+3,DC: cDC1,-0.0845,-0.67
+3,HSPC: CLP/Early lymphoid,-0.088,-0.26
+3,DC: ASDC (AXL+SIGLEC6+),-0.0916,-0.33
+3,Vascular: Mural (Pericyte/SMC),-0.093,-0.23
+3,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0935,-0.48
+3,CD4 T: Naive/TCM,-0.0967,-0.04
+3,Stroma: MSC/perivascular (MCAM+),-0.1001,-0.19
+3,Vascular: Endothelial (arteriolar/arterial),-0.1009,-0.51
+3,Blast-like: cDC,-0.1046,-0.41
+3,DC: ASDC (AXLSIGLEC6+),-0.1117,-0.24
+3,Vascular: Endothelial (sinusoidal),-0.1229,-0.35
+3,Cartilage: Hypertrophic chondrocyte,-0.1235,-0.72
+3,DC: cDC2,-0.1318,-0.28
+3,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.1334,-0.63
+3,DC: Migratory (LAMP3+CCR7+),-0.1356,-0.33
+3,Bone: Osteoblast,-0.14,-0.37
+3,HSPC: HSC/MPP,-0.14,-0.63
+3,Ery/Meg prog: MEP/MkP,-0.141,-0.31
+3,Stroma: Fibroblast-like stroma,-0.1418,-0.34
+3,Stroma: MSC/perivascular,-0.1454,-0.24
+3,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1467,-0.28
+3,B: Naive,-0.1567,-0.32
+3,B: Memory,-0.1593,-0.28
+3,B: Pro/Pre-B,-0.16,-0.35
+3,Erythroid: Early (CFU-E),-0.1771,-0.37
+3,Granulocyte: Basophil,-0.1807,-0.72
+3,Bone: Osteogenic progenitor,-0.1885,-0.68
+3,Mono: Proliferating (Cycling),-0.2256,-0.43
+3,Granulocyte: Neutrophil,-0.2299,-0.5
+3,HSPC: LMPP,-0.2391,-0.78
+3,Granulocyte: Mast,-0.2428,-0.64
+3,Blast-like: HSC/MPP,-0.2815,-0.8
+3,T/NK,-0.2871,-0.75
+3,Blast-like: GMP,-0.3464,-0.63
+3,Mono: Classical,-0.3499,-0.65
+3,Mono: VCAN+,-0.3671,-0.58
+3,DC: DC3,-0.369,-0.62
+3,Blast-like: Pro-monocyte,-0.4208,-0.63
+3,Mono: Antigen-presenting (HLA-II+),-0.4601,-0.81
+3,Myeloid: Generic,-0.6077,-0.88
+4,Blast-like: GMP,1.18,1.9
+4,Granulocyte: Mast,0.7077,2.16
+4,T: TCR????,0.1912,2.25
+4,HSPC: LMPP,0.0964,0.05
+4,Stroma: Adipogenic lineage precursor,0.0903,0.65
+4,Stroma: Periosteal SSC (ITM2A+),0.0767,0.45
+4,Bone: Osteogenic progenitor,0.0741,0.08
+4,Stroma: Adipogenic progenitor / Preadipocyte,0.0697,0.51
+4,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0658,0.35
+4,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.0622,0.14
+4,Granulocyte: Neutrophil (CST7+),0.0585,0.16
+4,Stroma: Adipocyte,0.0552,0.43
+4,Stroma: Fibroblast-like stroma,0.0148,-0.05
+4,HSPC: HSC/MPP,0.0027,0
+4,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0079,-0.09
+4,CD4 T helper: Th17,-0.0136,-0.47
+4,Vascular: Endothelial (arteriolar/arterial),-0.0184,-0.13
+4,CD4 T: Treg,-0.0186,-0.28
+4,Granulocyte: Eosinophil,-0.0189,-0.06
+4,Granulocyte: Basophil,-0.0194,-0.12
+4,Bone: Osteoclast,-0.0234,-0.22
+4,Bone: Osteocyte,-0.0234,-0.3
+4,Vascular: Mural (Pericyte/SMC),-0.024,-0.13
+4,Vascular: Endothelial (sinusoidal),-0.0264,-0.1
+4,Plasma: Plasmablast/Plasma,-0.0331,-0.25
+4,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.035,-0.12
+4,Cartilage: Superficial/articular-like,-0.0361,-0.24
+4,Cartilage: Chondrocyte,-0.051,-0.31
+4,Blast-like: HSC/MPP,-0.0643,-0.27
+4,DC: ASDC (AXL+SIGLEC6+),-0.0742,-0.29
+4,Mono: Non-classical,-0.0797,-0.33
+4,T: MAIT,-0.0859,-0.37
+4,CD4 T helper: Th2,-0.09,-0.47
+4,Megakaryocyte,-0.0914,-0.21
+4,Platelet,-0.0957,-0.22
+4,Cartilage: Hypertrophic chondrocyte,-0.0978,-0.59
+4,Blast-like: cDC,-0.0991,-0.38
+4,Stroma: MSC/perivascular (MCAM+),-0.1,-0.19
+4,DC: ASDC (AXLSIGLEC6+),-0.102,-0.23
+4,CD4 T helper: Th1,-0.1041,-0.33
+4,Bone: Osteoblast,-0.1065,-0.3
+4,CD4 T: Tfh,-0.1076,-0.68
+4,"NK: CD56dim (CD16+, cytotoxic)",-0.1095,-0.17
+4,Myeloid: Generic,-0.1109,-0.2
+4,DC: cDC1,-0.1117,-0.86
+4,DC: cDC2,-0.1297,-0.28
+4,Ery/Meg prog: MEP/MkP,-0.1547,-0.33
+4,DC: Migratory (LAMP3+CCR7+),-0.1551,-0.4
+4,Stroma: MSC/perivascular,-0.1569,-0.25
+4,DC: pDC,-0.1599,-0.48
+4,Erythroid: Early (CFU-E),-0.1623,-0.34
+4,B: Pro/Pre-B,-0.1692,-0.36
+4,CD8 T: Effector/Cytotoxic,-0.1749,-0.26
+4,NK: CD56bright (CD16-/low),-0.1836,-0.39
+4,B: Naive,-0.1873,-0.37
+4,Granulocyte: Neutrophil,-0.188,-0.41
+4,Mono: Inflammatory (CCL3/4+),-0.1982,-0.53
+4,Mono: Proliferating (Cycling),-0.2094,-0.41
+4,CD4 T: Naive/TCM,-0.2121,-0.36
+4,HSPC: CLP/Early lymphoid,-0.2129,-0.56
+4,T/NK,-0.239,-0.65
+4,CD8 T: Naive/Early,-0.2436,-0.46
+4,Erythroid: Late/Mature,-0.2453,-0.39
+4,Blast-like: Monocyte,-0.2484,-0.47
+4,B: Memory,-0.2895,-0.58
+4,Mono: Classical,-0.2951,-0.55
+4,DC: DC3,-0.3313,-0.56
+4,T: Pan (CD3+),-0.3484,-0.38
+4,Mono: VCAN+,-0.3845,-0.6
+4,Blast-like: Pro-monocyte,-0.3956,-0.59
+4,Mono: Antigen-presenting (HLA-II+),-0.6012,-1.06
+5,Blast-like: GMP,0.4529,0.7
+5,Granulocyte: Mast,0.4147,1.3
+5,HSPC: LMPP,0.1776,0.25
+5,Blast-like: HSC/MPP,0.1695,0.3
+5,T: TCR????,0.164,1.96
+5,HSPC: HSC/MPP,0.1147,0.49
+5,Granulocyte: Basophil,0.0787,0.25
+5,Plasma: Plasmablast/Plasma,0.0709,-0.02
+5,Granulocyte: Neutrophil (CST7+),0.0683,0.17
+5,Bone: Osteogenic progenitor,0.0609,0.04
+5,Stroma: Adipogenic lineage precursor,0.0529,0.4
+5,Stroma: Adipocyte,0.0286,0.29
+5,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.0143,-0.05
+5,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0107,0.14
+5,Stroma: Periosteal SSC (ITM2A+),0.0074,0.17
+5,Stroma: Adipogenic progenitor / Preadipocyte,0.0059,0.14
+5,Vascular: Endothelial (arteriolar/arterial),-0.0087,-0.08
+5,CD4 T: Treg,-0.0088,-0.16
+5,CD4 T helper: Th17,-0.0133,-0.43
+5,Vascular: Endothelial (sinusoidal),-0.015,-0.07
+5,Bone: Osteoclast,-0.0208,-0.2
+5,Bone: Osteocyte,-0.0208,-0.23
+5,Granulocyte: Eosinophil,-0.0246,-0.28
+5,Cartilage: Hypertrophic chondrocyte,-0.0317,-0.26
+5,Vascular: Mural (Pericyte/SMC),-0.0334,-0.14
+5,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0402,-0.24
+5,Cartilage: Superficial/articular-like,-0.0419,-0.28
+5,Stroma: Fibroblast-like stroma,-0.0496,-0.17
+5,Cartilage: Chondrocyte,-0.0497,-0.3
+5,Megakaryocyte,-0.0553,-0.15
+5,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.0579,-0.15
+5,DC: ASDC (AXL+SIGLEC6+),-0.0601,-0.26
+5,DC: pDC,-0.0658,-0.27
+5,Platelet,-0.0779,-0.19
+5,T: MAIT,-0.0833,-0.35
+5,Bone: Osteoblast,-0.0854,-0.27
+5,CD4 T helper: Th2,-0.0879,-0.46
+5,Blast-like: cDC,-0.0934,-0.36
+5,Stroma: MSC/perivascular (MCAM+),-0.0981,-0.19
+5,CD4 T helper: Th1,-0.0997,-0.32
+5,DC: ASDC (AXLSIGLEC6+),-0.1032,-0.23
+5,T/NK,-0.1042,-0.36
+5,DC: cDC1,-0.1043,-0.81
+5,CD4 T: Tfh,-0.1218,-0.78
+5,Myeloid: Generic,-0.1229,-0.22
+5,"NK: CD56dim (CD16+, cytotoxic)",-0.1262,-0.2
+5,DC: cDC2,-0.1264,-0.27
+5,HSPC: CLP/Early lymphoid,-0.1299,-0.36
+5,Ery/Meg prog: MEP/MkP,-0.1339,-0.29
+5,B: Pro/Pre-B,-0.1396,-0.32
+5,Mono: Non-classical,-0.1463,-0.53
+5,B: Naive,-0.1475,-0.31
+5,Stroma: MSC/perivascular,-0.1587,-0.26
+5,DC: Migratory (LAMP3+CCR7+),-0.1605,-0.43
+5,Erythroid: Early (CFU-E),-0.1633,-0.35
+5,NK: CD56bright (CD16-/low),-0.183,-0.39
+5,Blast-like: Monocyte,-0.184,-0.36
+5,Granulocyte: Neutrophil,-0.1919,-0.42
+5,Erythroid: Late/Mature,-0.1956,-0.32
+5,CD4 T: Naive/TCM,-0.2065,-0.34
+5,Mono: Proliferating (Cycling),-0.2073,-0.41
+5,CD8 T: Effector/Cytotoxic,-0.2135,-0.32
+5,CD8 T: Naive/Early,-0.2278,-0.42
+5,DC: DC3,-0.2389,-0.4
+5,B: Memory,-0.2411,-0.47
+5,Mono: Inflammatory (CCL3/4+),-0.2676,-0.69
+5,Mono: Classical,-0.2784,-0.52
+5,Blast-like: Pro-monocyte,-0.3248,-0.49
+5,T: Pan (CD3+),-0.342,-0.37
+5,Mono: VCAN+,-0.3925,-0.62
+5,Mono: Antigen-presenting (HLA-II+),-0.4152,-0.74
+6,Blast-like: HSC/MPP,0.8125,1.87
+6,HSPC: HSC/MPP,0.4898,2.15
+6,Blast-like: cDC,0.4807,2.13
+6,DC: cDC1,0.4152,3
+6,Mono: Antigen-presenting (HLA-II+),0.3154,0.53
+6,Granulocyte: Basophil,0.1687,0.59
+6,T/NK,0.1643,0.21
+6,HSPC: LMPP,0.1307,0.13
+6,Stroma: Adipogenic progenitor / Preadipocyte,0.1169,0.77
+6,DC: cDC2,0.0623,0.14
+6,Vascular: Endothelial (sinusoidal),0.0492,0.09
+6,Stroma: Adipocyte,0.0452,0.38
+6,CD4 T helper: Th2,0.0274,0.4
+6,HSPC: CLP/Early lymphoid,0.0153,0
+6,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0152,0.16
+6,Mono: Non-classical,0.0113,-0.04
+6,Stroma: Adipogenic lineage precursor,0.0059,0.08
+6,Stroma: Periosteal SSC (ITM2A+),0.0042,0.16
+6,DC: pDC,0.004,-0.11
+6,CD4 T: Treg,2e-04,-0.06
+6,Vascular: Endothelial (arteriolar/arterial),-0.0057,-0.07
+6,CD4 T helper: Th17,-0.0129,-0.38
+6,Cartilage: Hypertrophic chondrocyte,-0.0204,-0.2
+6,Bone: Osteocyte,-0.0211,-0.24
+6,Granulocyte: Eosinophil,-0.0239,-0.25
+6,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0342,-0.21
+6,Megakaryocyte,-0.0432,-0.13
+6,Cartilage: Superficial/articular-like,-0.0434,-0.29
+6,Granulocyte: Mast,-0.0464,-0.06
+6,Vascular: Mural (Pericyte/SMC),-0.0465,-0.16
+6,Cartilage: Chondrocyte,-0.0521,-0.32
+6,DC: ASDC (AXLSIGLEC6+),-0.0598,-0.18
+6,DC: ASDC (AXL+SIGLEC6+),-0.0624,-0.27
+6,T: TCR????,-0.0635,-0.47
+6,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0637,-0.35
+6,Bone: Osteoclast,-0.083,-0.7
+6,T: MAIT,-0.0846,-0.36
+6,Stroma: MSC/perivascular (MCAM+),-0.0967,-0.19
+6,Stroma: Fibroblast-like stroma,-0.0972,-0.26
+6,Platelet,-0.1029,-0.23
+6,Myeloid: Generic,-0.1059,-0.2
+6,Bone: Osteogenic progenitor,-0.1073,-0.44
+6,Bone: Osteoblast,-0.111,-0.31
+6,CD4 T helper: Th1,-0.1182,-0.37
+6,CD4 T: Tfh,-0.1205,-0.77
+6,Plasma: Plasmablast/Plasma,-0.121,-0.45
+6,CD4 T: Naive/TCM,-0.1225,-0.11
+6,Ery/Meg prog: MEP/MkP,-0.1356,-0.3
+6,B: Naive,-0.1383,-0.29
+6,B: Pro/Pre-B,-0.1505,-0.33
+6,Stroma: MSC/perivascular,-0.1583,-0.26
+6,Erythroid: Late/Mature,-0.159,-0.27
+6,DC: Migratory (LAMP3+CCR7+),-0.1598,-0.42
+6,B: Memory,-0.1768,-0.32
+6,NK: CD56bright (CD16-/low),-0.188,-0.41
+6,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1936,-0.34
+6,Blast-like: Monocyte,-0.2116,-0.41
+6,CD8 T: Naive/Early,-0.2146,-0.39
+6,Granulocyte: Neutrophil,-0.2264,-0.49
+6,Mono: Proliferating (Cycling),-0.2394,-0.46
+6,Mono: Classical,-0.2501,-0.47
+6,CD8 T: Effector/Cytotoxic,-0.2548,-0.39
+6,DC: DC3,-0.2658,-0.45
+6,Erythroid: Early (CFU-E),-0.2673,-0.53
+6,Mono: Inflammatory (CCL3/4+),-0.2747,-0.71
+6,Blast-like: GMP,-0.3104,-0.57
+6,Blast-like: Pro-monocyte,-0.3467,-0.52
+6,T: Pan (CD3+),-0.3513,-0.39
+6,"NK: CD56dim (CD16+, cytotoxic)",-0.3555,-0.6
+6,Granulocyte: Neutrophil (CST7+),-0.3643,-0.5
+6,Mono: VCAN+,-0.3935,-0.62
+7,Blast-like: Pro-monocyte,1.38,1.93
+7,DC: DC3,1.247,2.09
+7,Myeloid: Generic,1.1356,1.49
+7,Mono: VCAN+,1.0685,1.48
+7,Mono: Classical,0.9707,1.75
+7,Blast-like: Monocyte,0.7525,1.25
+7,Granulocyte: Neutrophil,0.7142,1.5
+7,Mono: Antigen-presenting (HLA-II+),0.5099,0.86
+7,Mono: Inflammatory (CCL3/4+),0.2832,0.61
+7,Mono: Non-classical,0.2448,0.69
+7,"NK: CD56dim (CD16+, cytotoxic)",0.1277,0.23
+7,Blast-like: GMP,0.0664,0.06
+7,Platelet,0.0601,0.05
+7,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0357,0.23
+7,DC: cDC2,0.0067,0.02
+7,Cartilage: Hypertrophic chondrocyte,0.0018,-0.09
+7,Vascular: Endothelial (sinusoidal),-0.0014,-0.04
+7,Vascular: Endothelial (arteriolar/arterial),-0.0017,-0.05
+7,Stroma: Adipocyte,-0.0039,0.11
+7,Stroma: Periosteal SSC (ITM2A+),-0.0042,0.13
+7,Stroma: Adipogenic lineage precursor,-0.0061,0
+7,CD4 T helper: Th17,-0.0131,-0.41
+7,CD4 T: Treg,-0.0235,-0.33
+7,Bone: Osteocyte,-0.0236,-0.3
+7,Granulocyte: Eosinophil,-0.0251,-0.29
+7,Bone: Osteoclast,-0.0263,-0.24
+7,DC: cDC1,-0.0349,-0.3
+7,Megakaryocyte,-0.0355,-0.11
+7,Bone: Osteogenic progenitor,-0.0422,-0.25
+7,Cartilage: Superficial/articular-like,-0.0459,-0.3
+7,CD4 T: Tfh,-0.0537,-0.34
+7,Cartilage: Chondrocyte,-0.0551,-0.33
+7,Stroma: Fibroblast-like stroma,-0.0602,-0.19
+7,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0608,-0.34
+7,T: TCR????,-0.0639,-0.48
+7,Mono: Proliferating (Cycling),-0.0645,-0.19
+7,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0709,-0.38
+7,Blast-like: cDC,-0.0743,-0.27
+7,Granulocyte: Basophil,-0.0803,-0.35
+7,HSPC: HSC/MPP,-0.083,-0.38
+7,DC: ASDC (AXL+SIGLEC6+),-0.084,-0.31
+7,Vascular: Mural (Pericyte/SMC),-0.0843,-0.22
+7,T: MAIT,-0.085,-0.37
+7,CD4 T helper: Th1,-0.0854,-0.28
+7,CD4 T helper: Th2,-0.0904,-0.48
+7,Erythroid: Early (CFU-E),-0.0949,-0.23
+7,Stroma: MSC/perivascular (MCAM+),-0.1001,-0.19
+7,Ery/Meg prog: MEP/MkP,-0.1016,-0.23
+7,Bone: Osteoblast,-0.1035,-0.3
+7,DC: ASDC (AXLSIGLEC6+),-0.1056,-0.24
+7,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1441,-0.27
+7,CD8 T: Effector/Cytotoxic,-0.1517,-0.22
+7,Stroma: MSC/perivascular,-0.1539,-0.25
+7,DC: Migratory (LAMP3+CCR7+),-0.159,-0.42
+7,B: Pro/Pre-B,-0.1733,-0.37
+7,B: Naive,-0.1744,-0.35
+7,DC: pDC,-0.1753,-0.51
+7,Stroma: Adipogenic progenitor / Preadipocyte,-0.1786,-0.91
+7,T/NK,-0.1814,-0.53
+7,NK: CD56bright (CD16-/low),-0.187,-0.4
+7,B: Memory,-0.1967,-0.37
+7,Blast-like: HSC/MPP,-0.2205,-0.66
+7,CD4 T: Naive/TCM,-0.2284,-0.4
+7,Granulocyte: Mast,-0.2313,-0.61
+7,HSPC: LMPP,-0.2329,-0.76
+7,HSPC: CLP/Early lymphoid,-0.2332,-0.61
+7,CD8 T: Naive/Early,-0.248,-0.47
+7,Plasma: Plasmablast/Plasma,-0.2539,-0.74
+7,Erythroid: Late/Mature,-0.2993,-0.47
+7,Granulocyte: Neutrophil (CST7+),-0.3139,-0.42
+7,T: Pan (CD3+),-0.3478,-0.38
+8,Blast-like: HSC/MPP,0.6645,1.51
+8,HSPC: LMPP,0.5419,1.15
+8,Granulocyte: Mast,0.4051,1.27
+8,T/NK,0.376,0.66
+8,HSPC: HSC/MPP,0.2596,1.13
+8,Mono: Antigen-presenting (HLA-II+),0.2027,0.33
+8,HSPC: CLP/Early lymphoid,0.1655,0.37
+8,Stroma: Adipogenic progenitor / Preadipocyte,0.1353,0.88
+8,Plasma: Plasmablast/Plasma,0.0867,0.02
+8,DC: cDC1,0.0488,0.31
+8,Stroma: Adipocyte,0.0403,0.35
+8,Stroma: Adipogenic lineage precursor,0.0399,0.31
+8,Blast-like: GMP,0.0323,0
+8,Blast-like: cDC,0.0304,0.18
+8,Vascular: Endothelial (sinusoidal),0.0222,0.02
+8,DC: pDC,0.0189,-0.08
+8,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.018,0.17
+8,Vascular: Endothelial (arteriolar/arterial),0.015,0.03
+8,Stroma: Periosteal SSC (ITM2A+),0.012,0.19
+8,CD4 T: Treg,-0.0038,-0.1
+8,Erythroid: Late/Mature,-0.006,-0.05
+8,CD4 T helper: Th17,-0.0127,-0.36
+8,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0127,-0.15
+8,Bone: Osteocyte,-0.0164,-0.12
+8,Granulocyte: Eosinophil,-0.024,-0.25
+8,Cartilage: Hypertrophic chondrocyte,-0.0248,-0.23
+8,Bone: Osteogenic progenitor,-0.0253,-0.21
+8,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0283,-0.18
+8,B: Pro/Pre-B,-0.035,-0.15
+8,Vascular: Mural (Pericyte/SMC),-0.0375,-0.15
+8,T: TCR????,-0.0386,-0.21
+8,Cartilage: Superficial/articular-like,-0.046,-0.31
+8,Bone: Osteoblast,-0.0472,-0.19
+8,Cartilage: Chondrocyte,-0.0509,-0.31
+8,Bone: Osteoclast,-0.0514,-0.45
+8,Granulocyte: Basophil,-0.0592,-0.27
+8,CD4 T helper: Th2,-0.0644,-0.28
+8,DC: ASDC (AXL+SIGLEC6+),-0.0784,-0.3
+8,Megakaryocyte,-0.08,-0.19
+8,T: MAIT,-0.0847,-0.36
+8,Stroma: MSC/perivascular (MCAM+),-0.0848,-0.18
+8,Stroma: Fibroblast-like stroma,-0.0903,-0.24
+8,Platelet,-0.095,-0.22
+8,DC: ASDC (AXLSIGLEC6+),-0.1003,-0.23
+8,Mono: Non-classical,-0.1063,-0.41
+8,CD4 T: Tfh,-0.109,-0.69
+8,DC: cDC2,-0.1097,-0.23
+8,B: Naive,-0.113,-0.25
+8,CD4 T: Naive/TCM,-0.1142,-0.09
+8,CD4 T helper: Th1,-0.1152,-0.36
+8,Granulocyte: Neutrophil (CST7+),-0.1253,-0.13
+8,Myeloid: Generic,-0.1379,-0.24
+8,Ery/Meg prog: MEP/MkP,-0.1431,-0.31
+8,DC: Migratory (LAMP3+CCR7+),-0.153,-0.4
+8,Granulocyte: Neutrophil,-0.1553,-0.34
+8,Stroma: MSC/perivascular,-0.159,-0.26
+8,Mono: Proliferating (Cycling),-0.1615,-0.34
+8,NK: CD56bright (CD16-/low),-0.1863,-0.4
+8,B: Memory,-0.1936,-0.36
+8,Erythroid: Early (CFU-E),-0.1952,-0.4
+8,CD8 T: Effector/Cytotoxic,-0.2059,-0.31
+8,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.2092,-0.36
+8,CD8 T: Naive/Early,-0.2175,-0.4
+8,Blast-like: Monocyte,-0.2423,-0.46
+8,Mono: Inflammatory (CCL3/4+),-0.2636,-0.68
+8,Mono: Classical,-0.268,-0.51
+8,"NK: CD56dim (CD16+, cytotoxic)",-0.275,-0.46
+8,DC: DC3,-0.3028,-0.51
+8,T: Pan (CD3+),-0.3449,-0.38
+8,Blast-like: Pro-monocyte,-0.3761,-0.56
+8,Mono: VCAN+,-0.3902,-0.61
+9,Granulocyte: Neutrophil (CST7+),1.8675,2.94
+9,T: Pan (CD3+),1.8528,3.29
+9,NK: CD56bright (CD16-/low),1.7169,4.81
+9,CD8 T: Effector/Cytotoxic,1.267,2.18
+9,CD4 T helper: Th1,0.6348,1.72
+9,"NK: CD56dim (CD16+, cytotoxic)",0.4849,0.85
+9,Mono: Inflammatory (CCL3/4+),0.4445,1
+9,B: Memory,0.4361,1.06
+9,T: MAIT,0.4307,3.19
+9,CD4 T helper: Th2,0.3905,3.1
+9,CD4 T: Naive/TCM,0.3201,1.09
+9,HSPC: CLP/Early lymphoid,0.2973,0.7
+9,CD8 T: Naive/Early,0.2137,0.7
+9,CD4 T: Tfh,0.0855,0.55
+9,T: TCR????,0.0657,0.91
+9,CD4 T: Treg,0.0637,0.68
+9,Stroma: Periosteal SSC (ITM2A+),0.0627,0.4
+9,Stroma: Adipogenic progenitor / Preadipocyte,0.0176,0.21
+9,Plasma: Plasmablast/Plasma,0.015,-0.14
+9,CD4 T helper: Th17,0.0134,2.94
+9,DC: Migratory (LAMP3+CCR7+),0.0041,0.22
+9,Stroma: Adipocyte,-0.0151,0.05
+9,Bone: Osteocyte,-0.0215,-0.25
+9,Granulocyte: Eosinophil,-0.0262,-0.34
+9,Erythroid: Late/Mature,-0.0379,-0.1
+9,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0388,-0.04
+9,Cartilage: Superficial/articular-like,-0.04,-0.27
+9,Cartilage: Chondrocyte,-0.0537,-0.32
+9,Stroma: MSC/perivascular,-0.0583,-0.13
+9,Stroma: MSC/perivascular (MCAM+),-0.064,-0.16
+9,Bone: Osteoclast,-0.0675,-0.58
+9,Stroma: Adipogenic lineage precursor,-0.0801,-0.5
+9,Platelet,-0.0876,-0.2
+9,DC: ASDC (AXL+SIGLEC6+),-0.0902,-0.32
+9,Megakaryocyte,-0.0932,-0.21
+9,Mono: Non-classical,-0.1024,-0.4
+9,Vascular: Endothelial (arteriolar/arterial),-0.1024,-0.52
+9,Blast-like: cDC,-0.1044,-0.4
+9,DC: cDC1,-0.1049,-0.81
+9,DC: ASDC (AXLSIGLEC6+),-0.1092,-0.24
+9,Vascular: Mural (Pericyte/SMC),-0.1102,-0.25
+9,HSPC: HSC/MPP,-0.1114,-0.51
+9,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.1137,-0.58
+9,Cartilage: Hypertrophic chondrocyte,-0.1223,-0.71
+9,Vascular: Endothelial (sinusoidal),-0.1269,-0.36
+9,Bone: Osteoblast,-0.1333,-0.35
+9,DC: cDC2,-0.1336,-0.28
+9,B: Naive,-0.1405,-0.3
+9,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.141,-0.27
+9,B: Pro/Pre-B,-0.1442,-0.32
+9,Ery/Meg prog: MEP/MkP,-0.1528,-0.33
+9,Erythroid: Early (CFU-E),-0.1535,-0.33
+9,Stroma: Fibroblast-like stroma,-0.1576,-0.37
+9,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.1586,-0.73
+9,Granulocyte: Basophil,-0.1823,-0.73
+9,Bone: Osteogenic progenitor,-0.1877,-0.68
+9,HSPC: LMPP,-0.197,-0.67
+9,DC: pDC,-0.2013,-0.57
+9,Mono: Proliferating (Cycling),-0.2227,-0.43
+9,Granulocyte: Mast,-0.2465,-0.65
+9,Granulocyte: Neutrophil,-0.262,-0.57
+9,Blast-like: HSC/MPP,-0.2799,-0.8
+9,T/NK,-0.2851,-0.75
+9,Blast-like: Monocyte,-0.3066,-0.57
+9,Mono: Classical,-0.3452,-0.65
+9,Blast-like: GMP,-0.3515,-0.64
+9,DC: DC3,-0.3531,-0.59
+9,Mono: VCAN+,-0.3757,-0.59
+9,Mono: Antigen-presenting (HLA-II+),-0.4109,-0.73
+9,Blast-like: Pro-monocyte,-0.4268,-0.63
+9,Myeloid: Generic,-0.6238,-0.9
+10,Plasma: Plasmablast/Plasma,1.6894,3.61
+10,B: Memory,1.521,3.51
+10,DC: pDC,0.3376,0.62
+10,B: Naive,0.2141,0.3
+10,DC: Migratory (LAMP3+CCR7+),0.1386,0.76
+10,Stroma: Adipogenic progenitor / Preadipocyte,0.1218,0.8
+10,HSPC: LMPP,0.1156,0.1
+10,Vascular: Endothelial (arteriolar/arterial),0.0931,0.39
+10,Vascular: Endothelial (sinusoidal),0.0858,0.19
+10,Stroma: Periosteal SSC (ITM2A+),0.0706,0.43
+10,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0688,0.36
+10,Stroma: Adipocyte,0.0673,0.5
+10,Cartilage: Hypertrophic chondrocyte,0.0431,0.11
+10,Stroma: MSC/perivascular (MCAM+),0.0413,-0.07
+10,Stroma: Adipogenic lineage precursor,0.0295,0.24
+10,CD4 T helper: Th17,0.0088,2.36
+10,CD4 T: Treg,0.0044,-0.01
+10,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.0023,-0.04
+10,Mono: Non-classical,-8e-04,-0.08
+10,B: Pro/Pre-B,-0.0046,-0.11
+10,Cartilage: Superficial/articular-like,-0.0071,-0.05
+10,Vascular: Mural (Pericyte/SMC),-0.0079,-0.11
+10,Bone: Osteocyte,-0.0139,-0.06
+10,Granulocyte: Eosinophil,-0.0232,-0.22
+10,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0248,-0.2
+10,CD4 T: Naive/TCM,-0.0269,0.15
+10,Cartilage: Chondrocyte,-0.0437,-0.27
+10,DC: cDC1,-0.0454,-0.38
+10,Stroma: Fibroblast-like stroma,-0.0524,-0.17
+10,Bone: Osteoclast,-0.0638,-0.55
+10,T: TCR????,-0.0669,-0.51
+10,Blast-like: cDC,-0.0687,-0.25
+10,CD4 T helper: Th2,-0.0728,-0.35
+10,T: MAIT,-0.0767,-0.31
+10,DC: ASDC (AXL+SIGLEC6+),-0.0827,-0.31
+10,CD4 T helper: Th1,-0.0912,-0.3
+10,DC: ASDC (AXLSIGLEC6+),-0.0949,-0.22
+10,Platelet,-0.0972,-0.22
+10,CD4 T: Tfh,-0.1034,-0.66
+10,Megakaryocyte,-0.1034,-0.23
+10,Bone: Osteoblast,-0.1074,-0.31
+10,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1273,-0.25
+10,Stroma: MSC/perivascular,-0.1365,-0.23
+10,DC: cDC2,-0.1372,-0.29
+10,Ery/Meg prog: MEP/MkP,-0.1607,-0.34
+10,NK: CD56bright (CD16-/low),-0.1737,-0.37
+10,Granulocyte: Basophil,-0.1738,-0.7
+10,CD8 T: Naive/Early,-0.1772,-0.29
+10,Bone: Osteogenic progenitor,-0.185,-0.67
+10,HSPC: CLP/Early lymphoid,-0.2291,-0.6
+10,Mono: Inflammatory (CCL3/4+),-0.2357,-0.62
+10,CD8 T: Effector/Cytotoxic,-0.2462,-0.38
+10,Granulocyte: Mast,-0.2468,-0.66
+10,Mono: Proliferating (Cycling),-0.2493,-0.47
+10,Erythroid: Late/Mature,-0.2545,-0.41
+10,Blast-like: HSC/MPP,-0.2813,-0.8
+10,Erythroid: Early (CFU-E),-0.2842,-0.56
+10,T/NK,-0.3036,-0.79
+10,Granulocyte: Neutrophil,-0.3081,-0.66
+10,T: Pan (CD3+),-0.3336,-0.36
+10,Mono: Classical,-0.3501,-0.65
+10,HSPC: HSC/MPP,-0.356,-1.58
+10,"NK: CD56dim (CD16+, cytotoxic)",-0.3618,-0.61
+10,Blast-like: GMP,-0.3639,-0.66
+10,Blast-like: Monocyte,-0.3664,-0.68
+10,Granulocyte: Neutrophil (CST7+),-0.3724,-0.51
+10,DC: DC3,-0.3759,-0.63
+10,Mono: VCAN+,-0.3852,-0.61
+10,Blast-like: Pro-monocyte,-0.4952,-0.73
+10,Myeloid: Generic,-0.6711,-0.96
+10,Mono: Antigen-presenting (HLA-II+),-0.7242,-1.27
+11,Stroma: Adipogenic progenitor / Preadipocyte,0.1372,0.89
+11,Blast-like: HSC/MPP,0.125,0.19
+11,Erythroid: Late/Mature,0.123,0.13
+11,HSPC: LMPP,0.0576,-0.05
+11,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0562,0.31
+11,Stroma: Periosteal SSC (ITM2A+),0.0558,0.37
+11,Granulocyte: Mast,0.0548,0.23
+11,HSPC: HSC/MPP,0.0452,0.19
+11,Stroma: Adipocyte,0.0417,0.36
+11,Stroma: Adipogenic lineage precursor,0.041,0.32
+11,T/NK,0.0302,-0.08
+11,CD4 T helper: Th17,-0.0136,-0.47
+11,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0165,-0.17
+11,Stroma: MSC/perivascular (MCAM+),-0.02,-0.12
+11,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0221,-0.16
+11,Bone: Osteocyte,-0.0246,-0.33
+11,Mono: Antigen-presenting (HLA-II+),-0.0248,-0.06
+11,CD4 T: Treg,-0.0252,-0.35
+11,Granulocyte: Eosinophil,-0.0272,-0.37
+11,Vascular: Mural (Pericyte/SMC),-0.0323,-0.14
+11,DC: pDC,-0.0368,-0.2
+11,Vascular: Endothelial (arteriolar/arterial),-0.0369,-0.22
+11,Vascular: Endothelial (sinusoidal),-0.0405,-0.14
+11,Cartilage: Superficial/articular-like,-0.0442,-0.29
+11,Bone: Osteogenic progenitor,-0.0482,-0.27
+11,Bone: Osteoblast,-0.0513,-0.2
+11,Cartilage: Chondrocyte,-0.0554,-0.33
+11,HSPC: CLP/Early lymphoid,-0.0587,-0.18
+11,T: TCR????,-0.0629,-0.47
+11,Granulocyte: Neutrophil (CST7+),-0.0681,-0.04
+11,Cartilage: Hypertrophic chondrocyte,-0.0791,-0.5
+11,T: MAIT,-0.0817,-0.34
+11,Stroma: Fibroblast-like stroma,-0.0823,-0.23
+11,Blast-like: GMP,-0.0829,-0.19
+11,Bone: Osteoclast,-0.0841,-0.71
+11,CD4 T helper: Th2,-0.0861,-0.44
+11,CD4 T: Tfh,-0.0909,-0.58
+11,DC: ASDC (AXL+SIGLEC6+),-0.0917,-0.33
+11,Blast-like: cDC,-0.0985,-0.38
+11,Megakaryocyte,-0.1,-0.22
+11,Platelet,-0.1016,-0.23
+11,Plasma: Plasmablast/Plasma,-0.107,-0.42
+11,DC: cDC1,-0.1101,-0.85
+11,DC: ASDC (AXLSIGLEC6+),-0.1137,-0.25
+11,CD4 T helper: Th1,-0.1148,-0.36
+11,Granulocyte: Basophil,-0.1168,-0.48
+11,DC: cDC2,-0.1338,-0.28
+11,Erythroid: Early (CFU-E),-0.1349,-0.3
+11,DC: Migratory (LAMP3+CCR7+),-0.1474,-0.37
+11,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1518,-0.28
+11,Mono: Non-classical,-0.1534,-0.56
+11,Granulocyte: Neutrophil,-0.1591,-0.35
+11,Ery/Meg prog: MEP/MkP,-0.1593,-0.34
+11,Stroma: MSC/perivascular,-0.1594,-0.26
+11,B: Pro/Pre-B,-0.1646,-0.35
+11,NK: CD56bright (CD16-/low),-0.168,-0.35
+11,B: Memory,-0.1797,-0.33
+11,Mono: Proliferating (Cycling),-0.1841,-0.37
+11,B: Naive,-0.1883,-0.38
+11,CD4 T: Naive/TCM,-0.2138,-0.36
+11,CD8 T: Naive/Early,-0.2254,-0.42
+11,CD8 T: Effector/Cytotoxic,-0.2365,-0.36
+11,Myeloid: Generic,-0.2376,-0.37
+11,Mono: Inflammatory (CCL3/4+),-0.2685,-0.7
+11,"NK: CD56dim (CD16+, cytotoxic)",-0.3138,-0.53
+11,Mono: Classical,-0.3195,-0.6
+11,Blast-like: Monocyte,-0.3266,-0.61
+11,T: Pan (CD3+),-0.3406,-0.37
+11,Mono: VCAN+,-0.3637,-0.57
+11,DC: DC3,-0.3941,-0.66
+11,Blast-like: Pro-monocyte,-0.437,-0.65
+12,Granulocyte: Mast,1.3954,4.19
+12,Granulocyte: Basophil,0.9117,3.39
+12,DC: cDC2,0.4478,0.97
+12,Blast-like: cDC,0.3222,1.45
+12,Ery/Meg prog: MEP/MkP,0.3029,0.52
+12,Megakaryocyte,0.2088,0.29
+12,Blast-like: HSC/MPP,0.1958,0.36
+12,Granulocyte: Eosinophil,0.1704,7.03
+12,DC: ASDC (AXL+SIGLEC6+),0.1325,0.14
+12,Stroma: Adipogenic progenitor / Preadipocyte,0.1052,0.71
+12,HSPC: LMPP,0.0982,0.05
+12,Stroma: MSC/perivascular (MCAM+),0.0699,-0.04
+12,Stroma: Periosteal SSC (ITM2A+),0.0663,0.41
+12,Stroma: Adipocyte,0.0594,0.45
+12,CD4 T: Treg,0.0554,0.59
+12,HSPC: HSC/MPP,0.0512,0.21
+12,Stroma: Adipogenic lineage precursor,0.0509,0.38
+12,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0268,0.2
+12,Vascular: Endothelial (arteriolar/arterial),0.0139,0.02
+12,Vascular: Endothelial (sinusoidal),0.0092,-0.01
+12,T/NK,0.004,-0.13
+12,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0054,-0.12
+12,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0104,-0.1
+12,CD4 T helper: Th17,-0.0134,-0.44
+12,Platelet,-0.0137,-0.08
+12,Vascular: Mural (Pericyte/SMC),-0.0155,-0.12
+12,Plasma: Plasmablast/Plasma,-0.0162,-0.21
+12,Bone: Osteocyte,-0.0196,-0.2
+12,Cartilage: Superficial/articular-like,-0.0218,-0.15
+12,Mono: Non-classical,-0.0326,-0.18
+12,T: TCR????,-0.0363,-0.18
+12,Cartilage: Chondrocyte,-0.0434,-0.27
+12,CD4 T helper: Th2,-0.0498,-0.17
+12,DC: ASDC (AXLSIGLEC6+),-0.0543,-0.18
+12,Cartilage: Hypertrophic chondrocyte,-0.0552,-0.38
+12,Bone: Osteogenic progenitor,-0.0567,-0.3
+12,Stroma: Fibroblast-like stroma,-0.0655,-0.2
+12,Bone: Osteoclast,-0.0748,-0.64
+12,DC: cDC1,-0.0818,-0.65
+12,T: MAIT,-0.0838,-0.36
+12,HSPC: CLP/Early lymphoid,-0.0918,-0.26
+12,CD4 T helper: Th1,-0.103,-0.33
+12,Bone: Osteoblast,-0.1087,-0.31
+12,Erythroid: Late/Mature,-0.1121,-0.2
+12,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1138,-0.23
+12,CD4 T: Tfh,-0.1154,-0.73
+12,DC: pDC,-0.1214,-0.39
+12,Erythroid: Early (CFU-E),-0.1455,-0.31
+12,DC: Migratory (LAMP3+CCR7+),-0.155,-0.4
+12,B: Pro/Pre-B,-0.1552,-0.34
+12,Stroma: MSC/perivascular,-0.1571,-0.26
+12,B: Naive,-0.1656,-0.34
+12,NK: CD56bright (CD16-/low),-0.1799,-0.38
+12,Mono: Proliferating (Cycling),-0.18,-0.37
+12,CD8 T: Naive/Early,-0.1968,-0.34
+12,Blast-like: GMP,-0.2029,-0.39
+12,CD4 T: Naive/TCM,-0.2261,-0.4
+12,CD8 T: Effector/Cytotoxic,-0.2342,-0.36
+12,Mono: Inflammatory (CCL3/4+),-0.2387,-0.62
+12,Mono: Antigen-presenting (HLA-II+),-0.2466,-0.44
+12,Granulocyte: Neutrophil,-0.2501,-0.54
+12,"NK: CD56dim (CD16+, cytotoxic)",-0.2564,-0.43
+12,Myeloid: Generic,-0.2565,-0.4
+12,Granulocyte: Neutrophil (CST7+),-0.2604,-0.34
+12,B: Memory,-0.2631,-0.52
+12,Mono: Classical,-0.2804,-0.53
+12,Blast-like: Monocyte,-0.2952,-0.55
+12,T: Pan (CD3+),-0.3477,-0.38
+12,DC: DC3,-0.3581,-0.6
+12,Mono: VCAN+,-0.3851,-0.61
+12,Blast-like: Pro-monocyte,-0.4182,-0.62
+13,Mono: Proliferating (Cycling),1.3728,1.95
+13,T/NK,1.0678,2.13
+13,Blast-like: GMP,0.65,1.02
+13,Granulocyte: Mast,0.398,1.25
+13,HSPC: LMPP,0.379,0.75
+13,Blast-like: HSC/MPP,0.3152,0.65
+13,Granulocyte: Neutrophil (CST7+),0.1531,0.3
+13,Plasma: Plasmablast/Plasma,0.1422,0.14
+13,DC: pDC,0.1414,0.19
+13,Stroma: Adipogenic progenitor / Preadipocyte,0.1164,0.77
+13,HSPC: HSC/MPP,0.0773,0.33
+13,Stroma: Adipogenic lineage precursor,0.0728,0.53
+13,DC: cDC1,0.0614,0.41
+13,Stroma: Periosteal SSC (ITM2A+),0.0505,0.35
+13,Stroma: Adipocyte,0.0501,0.4
+13,Bone: Osteogenic progenitor,0.0478,0.01
+13,HSPC: CLP/Early lymphoid,0.0415,0.07
+13,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0359,0.23
+13,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.033,0.03
+13,Granulocyte: Basophil,0.0231,0.04
+13,T: TCR????,0.0154,0.37
+13,Vascular: Endothelial (sinusoidal),0.013,0
+13,Vascular: Endothelial (arteriolar/arterial),0.0128,0.02
+13,Blast-like: cDC,0.004,0.07
+13,Mono: Antigen-presenting (HLA-II+),-0.0021,-0.02
+13,Bone: Osteocyte,-0.0108,0.02
+13,CD4 T: Treg,-0.012,-0.2
+13,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0122,-0.11
+13,CD4 T helper: Th17,-0.0123,-0.31
+13,B: Pro/Pre-B,-0.0169,-0.13
+13,Granulocyte: Eosinophil,-0.0177,-0.02
+13,Vascular: Mural (Pericyte/SMC),-0.0203,-0.12
+13,Cartilage: Superficial/articular-like,-0.0387,-0.26
+13,Cartilage: Chondrocyte,-0.0394,-0.25
+13,Bone: Osteoblast,-0.0418,-0.18
+13,Cartilage: Hypertrophic chondrocyte,-0.0425,-0.31
+13,Bone: Osteoclast,-0.0487,-0.43
+13,DC: ASDC (AXL+SIGLEC6+),-0.0516,-0.24
+13,Stroma: Fibroblast-like stroma,-0.0538,-0.17
+13,DC: ASDC (AXLSIGLEC6+),-0.0716,-0.2
+13,DC: cDC2,-0.0748,-0.16
+13,CD4 T helper: Th2,-0.0755,-0.37
+13,Megakaryocyte,-0.0766,-0.18
+13,Myeloid: Generic,-0.0803,-0.16
+13,Platelet,-0.0809,-0.19
+13,Stroma: MSC/perivascular (MCAM+),-0.0832,-0.18
+13,T: MAIT,-0.085,-0.37
+13,CD4 T helper: Th1,-0.1064,-0.34
+13,Erythroid: Late/Mature,-0.1114,-0.2
+13,CD4 T: Tfh,-0.1125,-0.72
+13,Mono: Non-classical,-0.1165,-0.44
+13,B: Naive,-0.1286,-0.28
+13,DC: Migratory (LAMP3+CCR7+),-0.1315,-0.31
+13,Ery/Meg prog: MEP/MkP,-0.1358,-0.3
+13,CD4 T: Naive/TCM,-0.1435,-0.17
+13,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1574,-0.29
+13,Stroma: MSC/perivascular,-0.1579,-0.26
+13,CD8 T: Effector/Cytotoxic,-0.1728,-0.25
+13,Granulocyte: Neutrophil,-0.1807,-0.39
+13,NK: CD56bright (CD16-/low),-0.1834,-0.39
+13,Erythroid: Early (CFU-E),-0.1873,-0.39
+13,"NK: CD56dim (CD16+, cytotoxic)",-0.2098,-0.35
+13,CD8 T: Naive/Early,-0.2144,-0.39
+13,B: Memory,-0.2181,-0.41
+13,Blast-like: Monocyte,-0.2334,-0.45
+13,Mono: Inflammatory (CCL3/4+),-0.2425,-0.63
+13,Mono: Classical,-0.2683,-0.51
+13,DC: DC3,-0.2802,-0.47
+13,T: Pan (CD3+),-0.3382,-0.36
+13,Blast-like: Pro-monocyte,-0.3707,-0.55
+13,Mono: VCAN+,-0.3895,-0.61
+14,Blast-like: GMP,1.0827,1.74
+14,Mono: Proliferating (Cycling),1.0392,1.45
+14,Myeloid: Generic,0.6798,0.87
+14,DC: DC3,0.5903,0.99
+14,T/NK,0.5864,1.11
+14,Blast-like: Pro-monocyte,0.4276,0.58
+14,Mono: Antigen-presenting (HLA-II+),0.3416,0.57
+14,Mono: Classical,0.2989,0.53
+14,Granulocyte: Neutrophil,0.2887,0.6
+14,DC: cDC1,0.0955,0.66
+14,Bone: Osteogenic progenitor,0.0882,0.12
+14,HSPC: LMPP,0.0796,0.01
+14,"NK: CD56dim (CD16+, cytotoxic)",0.0704,0.13
+14,Blast-like: Monocyte,0.0635,0.06
+14,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0621,0.33
+14,Granulocyte: Neutrophil (CST7+),0.0612,0.16
+14,Stroma: Adipogenic lineage precursor,0.049,0.37
+14,Mono: VCAN+,0.0415,0.01
+14,Stroma: Adipocyte,0.0243,0.26
+14,Stroma: Periosteal SSC (ITM2A+),0.0209,0.23
+14,Vascular: Endothelial (sinusoidal),0.018,0.01
+14,Vascular: Endothelial (arteriolar/arterial),0.0158,0.03
+14,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.0071,-0.07
+14,Granulocyte: Basophil,0.0031,-0.03
+14,DC: cDC2,-0.0063,-0.01
+14,CD4 T helper: Th17,-0.0135,-0.46
+14,DC: ASDC (AXLSIGLEC6+),-0.0161,-0.13
+14,T: TCR????,-0.0182,0.01
+14,Bone: Osteocyte,-0.0185,-0.17
+14,Cartilage: Hypertrophic chondrocyte,-0.0209,-0.21
+14,DC: ASDC (AXL+SIGLEC6+),-0.0227,-0.18
+14,CD4 T: Treg,-0.0228,-0.32
+14,Granulocyte: Eosinophil,-0.0242,-0.26
+14,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0309,-0.2
+14,Plasma: Plasmablast/Plasma,-0.0325,-0.25
+14,Bone: Osteoclast,-0.0364,-0.33
+14,Blast-like: cDC,-0.0374,-0.11
+14,Mono: Non-classical,-0.0396,-0.2
+14,Vascular: Mural (Pericyte/SMC),-0.0446,-0.16
+14,Cartilage: Superficial/articular-like,-0.0447,-0.3
+14,Stroma: Fibroblast-like stroma,-0.0468,-0.16
+14,Stroma: Adipogenic progenitor / Preadipocyte,-0.0485,-0.17
+14,Platelet,-0.0489,-0.14
+14,Cartilage: Chondrocyte,-0.0552,-0.33
+14,Bone: Osteoblast,-0.0594,-0.22
+14,Mono: Inflammatory (CCL3/4+),-0.0594,-0.2
+14,CD8 T: Effector/Cytotoxic,-0.0667,-0.07
+14,DC: pDC,-0.0769,-0.29
+14,CD4 T: Tfh,-0.0786,-0.5
+14,CD4 T helper: Th2,-0.0801,-0.4
+14,T: MAIT,-0.0837,-0.36
+14,Megakaryocyte,-0.0927,-0.21
+14,CD4 T helper: Th1,-0.0953,-0.31
+14,Stroma: MSC/perivascular (MCAM+),-0.0974,-0.19
+14,B: Pro/Pre-B,-0.0988,-0.25
+14,HSPC: HSC/MPP,-0.1045,-0.47
+14,Blast-like: HSC/MPP,-0.1243,-0.42
+14,Granulocyte: Mast,-0.1423,-0.35
+14,HSPC: CLP/Early lymphoid,-0.1428,-0.39
+14,DC: Migratory (LAMP3+CCR7+),-0.1445,-0.36
+14,Erythroid: Early (CFU-E),-0.1465,-0.32
+14,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1487,-0.28
+14,Ery/Meg prog: MEP/MkP,-0.1492,-0.32
+14,B: Naive,-0.1494,-0.31
+14,Stroma: MSC/perivascular,-0.1585,-0.26
+14,B: Memory,-0.1733,-0.31
+14,NK: CD56bright (CD16-/low),-0.1851,-0.4
+14,CD4 T: Naive/TCM,-0.1933,-0.31
+14,Erythroid: Late/Mature,-0.221,-0.36
+14,CD8 T: Naive/Early,-0.2305,-0.43
+14,T: Pan (CD3+),-0.343,-0.37
+15,Myeloid: Generic,1.3201,1.74
+15,Blast-like: Pro-monocyte,1.2486,1.75
+15,Mono: VCAN+,1.0674,1.48
+15,Mono: Classical,1.0291,1.86
+15,DC: DC3,1.0275,1.72
+15,Mono: Antigen-presenting (HLA-II+),0.7331,1.25
+15,Granulocyte: Neutrophil,0.6704,1.41
+15,Mono: Inflammatory (CCL3/4+),0.6625,1.52
+15,Blast-like: Monocyte,0.6621,1.09
+15,"NK: CD56dim (CD16+, cytotoxic)",0.1787,0.32
+15,CD4 T: Tfh,0.0706,0.45
+15,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0279,0.2
+15,Stroma: Adipocyte,0.0263,0.28
+15,Stroma: Periosteal SSC (ITM2A+),0.0236,0.24
+15,Mono: Non-classical,0.0208,-0.01
+15,Vascular: Endothelial (arteriolar/arterial),0.0208,0.05
+15,Bone: Osteoclast,0.014,0.08
+15,Vascular: Endothelial (sinusoidal),0.01,-0.01
+15,Stroma: Adipogenic lineage precursor,0.0028,0.06
+15,DC: cDC1,-0.0113,-0.13
+15,CD4 T helper: Th17,-0.0139,-0.51
+15,DC: cDC2,-0.0146,-0.03
+15,Bone: Osteocyte,-0.0215,-0.25
+15,CD4 T: Treg,-0.0243,-0.34
+15,Granulocyte: Basophil,-0.0244,-0.14
+15,Granulocyte: Eosinophil,-0.0272,-0.37
+15,Platelet,-0.0293,-0.1
+15,CD4 T helper: Th1,-0.0365,-0.14
+15,Cartilage: Superficial/articular-like,-0.0449,-0.3
+15,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0482,-0.29
+15,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0517,-0.29
+15,Cartilage: Chondrocyte,-0.0555,-0.33
+15,Stroma: Fibroblast-like stroma,-0.0588,-0.18
+15,CD4 T helper: Th2,-0.0662,-0.3
+15,T: TCR????,-0.0662,-0.5
+15,Blast-like: cDC,-0.0679,-0.25
+15,Vascular: Mural (Pericyte/SMC),-0.0687,-0.19
+15,DC: ASDC (AXL+SIGLEC6+),-0.075,-0.29
+15,T: MAIT,-0.0838,-0.36
+15,Cartilage: Hypertrophic chondrocyte,-0.0841,-0.52
+15,DC: ASDC (AXLSIGLEC6+),-0.0863,-0.21
+15,Erythroid: Early (CFU-E),-0.0863,-0.21
+15,Megakaryocyte,-0.0907,-0.21
+15,Stroma: MSC/perivascular (MCAM+),-0.0911,-0.18
+15,Bone: Osteoblast,-0.0957,-0.28
+15,HSPC: HSC/MPP,-0.119,-0.54
+15,Blast-like: GMP,-0.1202,-0.25
+15,DC: Migratory (LAMP3+CCR7+),-0.1231,-0.28
+15,Bone: Osteogenic progenitor,-0.1255,-0.5
+15,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1377,-0.26
+15,Plasma: Plasmablast/Plasma,-0.1403,-0.49
+15,Ery/Meg prog: MEP/MkP,-0.1518,-0.33
+15,CD8 T: Effector/Cytotoxic,-0.1546,-0.22
+15,Stroma: MSC/perivascular,-0.1572,-0.26
+15,B: Pro/Pre-B,-0.1638,-0.35
+15,CD4 T: Naive/TCM,-0.1708,-0.25
+15,Stroma: Adipogenic progenitor / Preadipocyte,-0.1711,-0.86
+15,B: Naive,-0.1778,-0.36
+15,B: Memory,-0.1809,-0.33
+15,NK: CD56bright (CD16-/low),-0.1848,-0.4
+15,DC: pDC,-0.2094,-0.58
+15,Mono: Proliferating (Cycling),-0.213,-0.42
+15,CD8 T: Naive/Early,-0.2138,-0.39
+15,HSPC: CLP/Early lymphoid,-0.2254,-0.6
+15,Granulocyte: Mast,-0.2381,-0.63
+15,HSPC: LMPP,-0.2605,-0.83
+15,Erythroid: Late/Mature,-0.2664,-0.42
+15,Blast-like: HSC/MPP,-0.2692,-0.77
+15,T/NK,-0.2712,-0.72
+15,Granulocyte: Neutrophil (CST7+),-0.3223,-0.43
+15,T: Pan (CD3+),-0.3466,-0.38
+16,T: Pan (CD3+),2.2774,4
+16,CD8 T: Naive/Early,2.0886,5.49
+16,CD4 T: Naive/TCM,1.9264,5.48
+16,DC: Migratory (LAMP3+CCR7+),1.323,5.44
+16,B: Memory,1.1552,2.68
+16,HSPC: CLP/Early lymphoid,0.8112,1.97
+16,NK: CD56bright (CD16-/low),0.6744,1.96
+16,CD4 T helper: Th2,0.3752,2.99
+16,CD4 T: Tfh,0.2939,1.88
+16,T: MAIT,0.1378,1.17
+16,Stroma: Periosteal SSC (ITM2A+),0.0633,0.4
+16,CD4 T helper: Th17,0.0236,4.22
+16,Stroma: Adipogenic progenitor / Preadipocyte,0.0168,0.21
+16,Cartilage: Superficial/articular-like,-0.0183,-0.13
+16,Bone: Osteocyte,-0.0218,-0.26
+16,Stroma: Adipocyte,-0.0218,0.02
+16,Bone: Osteoclast,-0.0256,-0.24
+16,Granulocyte: Eosinophil,-0.0263,-0.34
+16,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.031,-0.02
+16,CD4 T helper: Th1,-0.0319,-0.13
+16,Plasma: Plasmablast/Plasma,-0.0359,-0.26
+16,HSPC: LMPP,-0.0478,-0.31
+16,Cartilage: Chondrocyte,-0.0533,-0.32
+16,Stroma: MSC/perivascular (MCAM+),-0.0568,-0.15
+16,T: TCR????,-0.0642,-0.48
+16,Stroma: Adipogenic lineage precursor,-0.0791,-0.5
+16,DC: ASDC (AXL+SIGLEC6+),-0.0861,-0.31
+16,Erythroid: Late/Mature,-0.0924,-0.17
+16,Megakaryocyte,-0.0925,-0.21
+16,Platelet,-0.0983,-0.22
+16,DC: ASDC (AXLSIGLEC6+),-0.103,-0.23
+16,Vascular: Mural (Pericyte/SMC),-0.1048,-0.24
+16,Blast-like: cDC,-0.1062,-0.41
+16,HSPC: HSC/MPP,-0.1102,-0.5
+16,Vascular: Endothelial (arteriolar/arterial),-0.1104,-0.56
+16,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.1108,-0.56
+16,DC: cDC1,-0.1161,-0.9
+16,Cartilage: Hypertrophic chondrocyte,-0.1214,-0.71
+16,Bone: Osteoblast,-0.1221,-0.33
+16,CD4 T: Treg,-0.1246,-1.51
+16,DC: cDC2,-0.1353,-0.29
+16,Vascular: Endothelial (sinusoidal),-0.136,-0.38
+16,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1404,-0.27
+16,B: Naive,-0.1479,-0.31
+16,Stroma: MSC/perivascular,-0.1531,-0.25
+16,CD8 T: Effector/Cytotoxic,-0.1546,-0.22
+16,Bone: Osteogenic progenitor,-0.1552,-0.58
+16,Stroma: Fibroblast-like stroma,-0.1581,-0.37
+16,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.1584,-0.72
+16,Mono: Non-classical,-0.1589,-0.57
+16,Ery/Meg prog: MEP/MkP,-0.1609,-0.34
+16,B: Pro/Pre-B,-0.1616,-0.35
+16,Granulocyte: Basophil,-0.178,-0.71
+16,Erythroid: Early (CFU-E),-0.2296,-0.46
+16,Mono: Proliferating (Cycling),-0.2367,-0.45
+16,Granulocyte: Mast,-0.248,-0.66
+16,Granulocyte: Neutrophil (CST7+),-0.2499,-0.32
+16,DC: pDC,-0.2609,-0.7
+16,Mono: Inflammatory (CCL3/4+),-0.2689,-0.7
+16,Blast-like: HSC/MPP,-0.2708,-0.78
+16,T/NK,-0.2939,-0.77
+16,Granulocyte: Neutrophil,-0.3002,-0.65
+16,"NK: CD56dim (CD16+, cytotoxic)",-0.3117,-0.52
+16,Blast-like: Monocyte,-0.3322,-0.62
+16,Blast-like: GMP,-0.3662,-0.66
+16,Mono: Classical,-0.3673,-0.69
+16,Mono: VCAN+,-0.3838,-0.6
+16,DC: DC3,-0.3897,-0.66
+16,Blast-like: Pro-monocyte,-0.4564,-0.68
+16,Myeloid: Generic,-0.6085,-0.88
+16,Mono: Antigen-presenting (HLA-II+),-0.6575,-1.15
+17,Blast-like: GMP,1.0564,1.7
+17,Blast-like: HSC/MPP,0.6384,1.44
+17,Granulocyte: Neutrophil (CST7+),0.5946,0.98
+17,HSPC: LMPP,0.5785,1.24
+17,T/NK,0.4052,0.72
+17,Granulocyte: Mast,0.2977,0.95
+17,Stroma: Adipogenic progenitor / Preadipocyte,0.2537,1.55
+17,Bone: Osteogenic progenitor,0.2467,0.58
+17,HSPC: HSC/MPP,0.1995,0.87
+17,Mono: Antigen-presenting (HLA-II+),0.1685,0.27
+17,Plasma: Plasmablast/Plasma,0.1465,0.15
+17,HSPC: CLP/Early lymphoid,0.1224,0.27
+17,Stroma: Adipogenic lineage precursor,0.0771,0.56
+17,Myeloid: Generic,0.0551,0.02
+17,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.052,0.1
+17,Stroma: Periosteal SSC (ITM2A+),0.0425,0.31
+17,Stroma: Adipocyte,0.0286,0.29
+17,CD4 T: Treg,0.0077,0.03
+17,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0068,0.13
+17,Vascular: Endothelial (arteriolar/arterial),0.0039,-0.02
+17,Vascular: Endothelial (sinusoidal),0.0022,-0.03
+17,Granulocyte: Basophil,-0.0065,-0.07
+17,T: TCR????,-0.0112,0.09
+17,CD4 T helper: Th17,-0.0134,-0.44
+17,Erythroid: Late/Mature,-0.0168,-0.07
+17,CD4 T helper: Th1,-0.0195,-0.1
+17,Bone: Osteocyte,-0.0221,-0.26
+17,Granulocyte: Eosinophil,-0.0232,-0.22
+17,Vascular: Mural (Pericyte/SMC),-0.0303,-0.14
+17,Bone: Osteoblast,-0.0307,-0.16
+17,Megakaryocyte,-0.0325,-0.11
+17,Stroma: MSC/perivascular (MCAM+),-0.0336,-0.13
+17,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0377,-0.23
+17,Cartilage: Superficial/articular-like,-0.043,-0.29
+17,Cartilage: Hypertrophic chondrocyte,-0.0442,-0.32
+17,"NK: CD56dim (CD16+, cytotoxic)",-0.0449,-0.06
+17,Bone: Osteoclast,-0.0517,-0.45
+17,Cartilage: Chondrocyte,-0.0525,-0.32
+17,Mono: Non-classical,-0.0559,-0.25
+17,Stroma: Fibroblast-like stroma,-0.056,-0.18
+17,DC: ASDC (AXL+SIGLEC6+),-0.0566,-0.25
+17,DC: ASDC (AXLSIGLEC6+),-0.0736,-0.2
+17,Platelet,-0.0832,-0.2
+17,T: MAIT,-0.0863,-0.37
+17,CD4 T helper: Th2,-0.0879,-0.46
+17,Erythroid: Early (CFU-E),-0.089,-0.22
+17,DC: cDC1,-0.0928,-0.73
+17,Blast-like: cDC,-0.0945,-0.36
+17,Granulocyte: Neutrophil,-0.0973,-0.22
+17,CD4 T: Tfh,-0.1064,-0.68
+17,DC: cDC2,-0.1306,-0.28
+17,B: Pro/Pre-B,-0.1309,-0.3
+17,Ery/Meg prog: MEP/MkP,-0.1351,-0.3
+17,B: Naive,-0.1405,-0.3
+17,DC: Migratory (LAMP3+CCR7+),-0.1554,-0.41
+17,Stroma: MSC/perivascular,-0.1593,-0.26
+17,CD8 T: Effector/Cytotoxic,-0.1674,-0.24
+17,Mono: Inflammatory (CCL3/4+),-0.1697,-0.46
+17,B: Memory,-0.1865,-0.34
+17,NK: CD56bright (CD16-/low),-0.1868,-0.4
+17,CD4 T: Naive/TCM,-0.1869,-0.29
+17,DC: pDC,-0.1943,-0.55
+17,CD8 T: Naive/Early,-0.2021,-0.36
+17,Blast-like: Monocyte,-0.2038,-0.4
+17,Mono: Proliferating (Cycling),-0.2123,-0.42
+17,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.2143,-0.37
+17,Mono: Classical,-0.2277,-0.43
+17,DC: DC3,-0.2998,-0.51
+17,T: Pan (CD3+),-0.3213,-0.34
+17,Blast-like: Pro-monocyte,-0.3652,-0.55
+17,Mono: VCAN+,-0.3691,-0.58
+18,Erythroid: Early (CFU-E),1.6888,2.9
+18,Erythroid: Late/Mature,1.3824,1.93
+18,Mono: Proliferating (Cycling),1.3267,1.88
+18,Ery/Meg prog: MEP/MkP,1.1289,2.07
+18,T/NK,0.6775,1.3
+18,Stroma: Adipogenic progenitor / Preadipocyte,0.1686,1.07
+18,Stroma: Adipogenic lineage precursor,0.1288,0.91
+18,Stroma: Adipocyte,0.1195,0.77
+18,Bone: Osteoclast,0.0892,0.69
+18,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.0723,0.18
+18,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.0562,0.2
+18,Vascular: Endothelial (sinusoidal),0.0557,0.11
+18,Vascular: Mural (Pericyte/SMC),0.0437,-0.03
+18,Stroma: Fibroblast-like stroma,-0.0016,-0.08
+18,Vascular: Endothelial (arteriolar/arterial),-0.0055,-0.07
+18,CD4 T helper: Th17,-0.0129,-0.38
+18,Bone: Osteocyte,-0.0216,-0.25
+18,CD4 T: Treg,-0.0228,-0.32
+18,Granulocyte: Eosinophil,-0.0245,-0.27
+18,Cartilage: Superficial/articular-like,-0.036,-0.24
+18,Stroma: Periosteal SSC (ITM2A+),-0.0377,-0.01
+18,Megakaryocyte,-0.0463,-0.13
+18,Platelet,-0.048,-0.14
+18,Cartilage: Chondrocyte,-0.0518,-0.31
+18,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0583,-0.12
+18,T: TCR????,-0.0674,-0.51
+18,T: MAIT,-0.0793,-0.33
+18,CD4 T helper: Th2,-0.0873,-0.45
+18,DC: ASDC (AXL+SIGLEC6+),-0.0894,-0.32
+18,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.0913,-0.2
+18,Cartilage: Hypertrophic chondrocyte,-0.0979,-0.59
+18,Blast-like: cDC,-0.0986,-0.38
+18,Stroma: MSC/perivascular (MCAM+),-0.0999,-0.19
+18,DC: ASDC (AXLSIGLEC6+),-0.1083,-0.24
+18,CD4 T helper: Th1,-0.1148,-0.36
+18,CD4 T: Tfh,-0.1148,-0.73
+18,DC: cDC1,-0.1162,-0.9
+18,HSPC: HSC/MPP,-0.1183,-0.54
+18,Bone: Osteoblast,-0.1244,-0.34
+18,DC: cDC2,-0.1266,-0.27
+18,Granulocyte: Mast,-0.1301,-0.31
+18,DC: Migratory (LAMP3+CCR7+),-0.1474,-0.37
+18,Stroma: MSC/perivascular,-0.1511,-0.25
+18,B: Pro/Pre-B,-0.161,-0.35
+18,Mono: Non-classical,-0.162,-0.58
+18,Granulocyte: Basophil,-0.1707,-0.69
+18,Bone: Osteogenic progenitor,-0.1732,-0.64
+18,B: Naive,-0.1807,-0.36
+18,NK: CD56bright (CD16-/low),-0.1828,-0.39
+18,DC: pDC,-0.1906,-0.54
+18,CD8 T: Naive/Early,-0.1918,-0.33
+18,HSPC: CLP/Early lymphoid,-0.2198,-0.58
+18,CD8 T: Effector/Cytotoxic,-0.2319,-0.35
+18,Granulocyte: Neutrophil,-0.2548,-0.55
+18,Blast-like: HSC/MPP,-0.2602,-0.75
+18,Mono: Inflammatory (CCL3/4+),-0.2607,-0.68
+18,CD4 T: Naive/TCM,-0.2689,-0.51
+18,Plasma: Plasmablast/Plasma,-0.2771,-0.8
+18,B: Memory,-0.319,-0.64
+18,HSPC: LMPP,-0.3203,-0.98
+18,Blast-like: GMP,-0.3307,-0.6
+18,T: Pan (CD3+),-0.3355,-0.36
+18,"NK: CD56dim (CD16+, cytotoxic)",-0.3382,-0.57
+18,Granulocyte: Neutrophil (CST7+),-0.3521,-0.48
+18,Blast-like: Monocyte,-0.3541,-0.66
+18,Mono: Classical,-0.3636,-0.68
+18,Mono: VCAN+,-0.3735,-0.59
+18,DC: DC3,-0.397,-0.67
+18,Blast-like: Pro-monocyte,-0.4439,-0.66
+18,Myeloid: Generic,-0.5981,-0.86
+18,Mono: Antigen-presenting (HLA-II+),-0.6603,-1.16
+19,Ery/Meg prog: MEP/MkP,1.0518,1.92
+19,Megakaryocyte,0.4765,0.74
+19,Mono: Proliferating (Cycling),0.4178,0.53
+19,T/NK,0.3674,0.64
+19,Granulocyte: Basophil,0.3624,1.32
+19,Granulocyte: Mast,0.282,0.91
+19,DC: cDC2,0.2481,0.54
+19,Erythroid: Early (CFU-E),0.19,0.27
+19,Blast-like: cDC,0.1762,0.81
+19,Stroma: Adipogenic progenitor / Preadipocyte,0.1415,0.91
+19,Blast-like: HSC/MPP,0.1292,0.2
+19,Erythroid: Late/Mature,0.1132,0.12
+19,Stroma: Adipocyte,0.091,0.62
+19,Stroma: Adipogenic lineage precursor,0.0856,0.62
+19,HSPC: LMPP,0.08,0.01
+19,Stroma: Periosteal SSC (ITM2A+),0.0276,0.25
+19,Vascular: Endothelial (arteriolar/arterial),0.0231,0.06
+19,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.0187,-0.03
+19,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.0169,0.02
+19,Vascular: Endothelial (sinusoidal),0.0109,-0.01
+19,Vascular: Mural (Pericyte/SMC),-0.0017,-0.1
+19,CD4 T: Treg,-0.0097,-0.17
+19,Bone: Osteocyte,-0.0105,0.03
+19,Granulocyte: Eosinophil,-0.0125,0.18
+19,Cartilage: Hypertrophic chondrocyte,-0.0127,-0.17
+19,CD4 T helper: Th17,-0.0127,-0.36
+19,Plasma: Plasmablast/Plasma,-0.0238,-0.23
+19,Cartilage: Chondrocyte,-0.0288,-0.2
+19,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0321,-0.02
+19,Cartilage: Superficial/articular-like,-0.0385,-0.26
+19,Stroma: Fibroblast-like stroma,-0.0471,-0.16
+19,Bone: Osteoclast,-0.0575,-0.5
+19,Platelet,-0.0578,-0.15
+19,HSPC: HSC/MPP,-0.0622,-0.29
+19,T: TCR????,-0.0665,-0.51
+19,CD4 T: Tfh,-0.0699,-0.44
+19,HSPC: CLP/Early lymphoid,-0.0801,-0.24
+19,DC: ASDC (AXL+SIGLEC6+),-0.0832,-0.31
+19,T: MAIT,-0.0839,-0.36
+19,CD4 T helper: Th2,-0.0867,-0.45
+19,Bone: Osteogenic progenitor,-0.0872,-0.39
+19,DC: cDC1,-0.0919,-0.72
+19,Stroma: MSC/perivascular (MCAM+),-0.0968,-0.19
+19,DC: ASDC (AXLSIGLEC6+),-0.1012,-0.23
+19,CD4 T helper: Th1,-0.1181,-0.37
+19,Bone: Osteoblast,-0.1227,-0.33
+19,Mono: Non-classical,-0.1231,-0.46
+19,DC: pDC,-0.1286,-0.41
+19,B: Pro/Pre-B,-0.1439,-0.32
+19,DC: Migratory (LAMP3+CCR7+),-0.1558,-0.41
+19,Stroma: MSC/perivascular,-0.1586,-0.26
+19,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1604,-0.3
+19,CD8 T: Naive/Early,-0.1651,-0.26
+19,B: Naive,-0.182,-0.37
+19,NK: CD56bright (CD16-/low),-0.186,-0.4
+19,CD8 T: Effector/Cytotoxic,-0.2458,-0.38
+19,Mono: Classical,-0.2459,-0.46
+19,CD4 T: Naive/TCM,-0.2605,-0.49
+19,Granulocyte: Neutrophil (CST7+),-0.2699,-0.35
+19,B: Memory,-0.2753,-0.54
+19,Mono: Inflammatory (CCL3/4+),-0.2789,-0.72
+19,Mono: Antigen-presenting (HLA-II+),-0.2854,-0.51
+19,Granulocyte: Neutrophil,-0.2857,-0.62
+19,Blast-like: GMP,-0.2956,-0.54
+19,Blast-like: Monocyte,-0.3166,-0.59
+19,"NK: CD56dim (CD16+, cytotoxic)",-0.3473,-0.58
+19,T: Pan (CD3+),-0.349,-0.38
+19,DC: DC3,-0.3899,-0.66
+19,Mono: VCAN+,-0.3929,-0.62
+19,Myeloid: Generic,-0.4126,-0.61
+19,Blast-like: Pro-monocyte,-0.446,-0.66
+20,Stroma: MSC/perivascular,5.151,6.49
+20,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),4.1336,5.76
+20,Stroma: Fibroblast-like stroma,2.3924,4.41
+20,Bone: Osteoblast,1.5329,2.71
+20,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),1.4063,5.42
+20,Bone: Osteogenic progenitor,1.3156,3.69
+20,Mono: VCAN+,1.2391,1.72
+20,Stroma: Adipocyte (ADIPOQ+PLIN1+),1.1078,5.03
+20,DC: ASDC (AXLSIGLEC6+),0.8952,0.94
+20,Vascular: Mural (Pericyte/SMC),0.8025,1.04
+20,Cartilage: Chondrocyte,0.7385,3.65
+20,DC: ASDC (AXL+SIGLEC6+),0.467,0.85
+20,Stroma: MSC/perivascular (MCAM+),0.4338,0.27
+20,Bone: Osteoclast,0.2904,2.31
+20,HSPC: HSC/MPP,0.2898,1.26
+20,Cartilage: Hypertrophic chondrocyte,0.2172,0.98
+20,Granulocyte: Mast,0.1768,0.59
+20,CD4 T: Tfh,0.1578,1.01
+20,Blast-like: Pro-monocyte,0.1469,0.18
+20,DC: pDC,0.0561,0
+20,Blast-like: HSC/MPP,0.0476,0
+20,Stroma: Adipogenic progenitor / Preadipocyte,0.0373,0.32
+20,Cartilage: Superficial/articular-like,0.0363,0.22
+20,Stroma: Periosteal SSC (ITM2A+),0.0356,0.29
+20,CD4 T: Treg,0.0243,0.22
+20,CD8 T: Naive/Early,0.0155,0.2
+20,NK: CD56bright (CD16-/low),0.0121,0.14
+20,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0041,0.08
+20,Bone: Osteocyte,-0.009,0.06
+20,CD4 T helper: Th17,-0.0127,-0.36
+20,Granulocyte: Eosinophil,-0.0135,0.14
+20,Megakaryocyte,-0.0155,-0.08
+20,DC: cDC1,-0.0277,-0.25
+20,Stroma: Adipogenic lineage precursor,-0.0315,-0.17
+20,Mono: Classical,-0.0502,-0.11
+20,Mono: Non-classical,-0.0581,-0.26
+20,CD4 T helper: Th2,-0.0614,-0.26
+20,T: TCR????,-0.0623,-0.46
+20,T: MAIT,-0.0682,-0.25
+20,Platelet,-0.0838,-0.2
+20,Vascular: Endothelial (arteriolar/arterial),-0.0914,-0.47
+20,CD8 T: Effector/Cytotoxic,-0.1004,-0.13
+20,Blast-like: cDC,-0.1065,-0.41
+20,Erythroid: Early (CFU-E),-0.1076,-0.25
+20,CD4 T helper: Th1,-0.1194,-0.38
+20,Ery/Meg prog: MEP/MkP,-0.1377,-0.3
+20,DC: cDC2,-0.1379,-0.29
+20,B: Naive,-0.1397,-0.29
+20,Granulocyte: Basophil,-0.1401,-0.57
+20,DC: Migratory (LAMP3+CCR7+),-0.1424,-0.35
+20,Mono: Inflammatory (CCL3/4+),-0.1554,-0.43
+20,B: Pro/Pre-B,-0.1566,-0.34
+20,Plasma: Plasmablast/Plasma,-0.2234,-0.68
+20,HSPC: CLP/Early lymphoid,-0.2262,-0.6
+20,CD4 T: Naive/TCM,-0.248,-0.46
+20,Mono: Proliferating (Cycling),-0.2504,-0.47
+20,Blast-like: Monocyte,-0.2662,-0.5
+20,B: Memory,-0.2914,-0.58
+20,T/NK,-0.3026,-0.79
+20,Granulocyte: Neutrophil,-0.3141,-0.68
+20,Erythroid: Late/Mature,-0.3348,-0.52
+20,T: Pan (CD3+),-0.3459,-0.38
+20,Blast-like: GMP,-0.3511,-0.64
+20,HSPC: LMPP,-0.3619,-1.08
+20,"NK: CD56dim (CD16+, cytotoxic)",-0.371,-0.62
+20,Granulocyte: Neutrophil (CST7+),-0.3824,-0.52
+20,Vascular: Endothelial (sinusoidal),-0.4014,-1.07
+20,Mono: Antigen-presenting (HLA-II+),-0.4233,-0.75
+20,DC: DC3,-0.465,-0.78
+20,Stroma: Adipocyte,-0.5793,-2.97
+20,Myeloid: Generic,-0.6364,-0.92
+21,Blast-like: HSC/MPP,0.6261,1.41
+21,HSPC: LMPP,0.6048,1.3
+21,T: TCR????,0.3439,3.88
+21,T/NK,0.3102,0.52
+21,Mono: Antigen-presenting (HLA-II+),0.2665,0.44
+21,HSPC: HSC/MPP,0.2536,1.1
+21,Granulocyte: Basophil,0.2524,0.91
+21,Blast-like: GMP,0.1827,0.25
+21,Myeloid: Generic,0.1755,0.19
+21,Granulocyte: Mast,0.1046,0.38
+21,HSPC: CLP/Early lymphoid,0.0894,0.18
+21,Bone: Osteogenic progenitor,0.0676,0.06
+21,Plasma: Plasmablast/Plasma,0.0566,-0.05
+21,Cartilage: Hypertrophic chondrocyte,0.0476,0.13
+21,DC: pDC,0.0206,-0.08
+21,Bone: Osteoblast,-0.0027,-0.11
+21,"NK: CD56dim (CD16+, cytotoxic)",-0.0031,0.01
+21,Vascular: Endothelial (arteriolar/arterial),-0.0033,-0.06
+21,Vascular: Endothelial (sinusoidal),-0.0033,-0.04
+21,Mono: Inflammatory (CCL3/4+),-0.0054,-0.07
+21,Erythroid: Early (CFU-E),-0.0059,-0.07
+21,CD4 T helper: Th17,-0.0134,-0.44
+21,Granulocyte: Eosinophil,-0.0177,-0.02
+21,CD4 T: Treg,-0.0192,-0.28
+21,Bone: Osteocyte,-0.0223,-0.27
+21,Cartilage: Superficial/articular-like,-0.0298,-0.2
+21,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0307,-0.01
+21,Bone: Osteoclast,-0.0314,-0.29
+21,Stroma: Adipogenic lineage precursor,-0.0321,-0.18
+21,Stroma: Adipocyte,-0.0351,-0.05
+21,CD4 T helper: Th1,-0.0404,-0.16
+21,Stroma: Adipogenic progenitor / Preadipocyte,-0.0538,-0.2
+21,Cartilage: Chondrocyte,-0.0552,-0.33
+21,DC: cDC1,-0.0572,-0.46
+21,Mono: Non-classical,-0.0577,-0.26
+21,DC: ASDC (AXL+SIGLEC6+),-0.0658,-0.27
+21,Megakaryocyte,-0.0696,-0.17
+21,Vascular: Mural (Pericyte/SMC),-0.0747,-0.2
+21,Platelet,-0.0753,-0.18
+21,Stroma: Periosteal SSC (ITM2A+),-0.0768,-0.17
+21,DC: ASDC (AXLSIGLEC6+),-0.077,-0.2
+21,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.0829,-0.19
+21,T: MAIT,-0.0838,-0.36
+21,CD4 T helper: Th2,-0.0881,-0.46
+21,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0881,-0.45
+21,Stroma: MSC/perivascular (MCAM+),-0.0954,-0.19
+21,Blast-like: cDC,-0.0965,-0.37
+21,CD4 T: Tfh,-0.0992,-0.63
+21,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.1046,-0.53
+21,DC: Migratory (LAMP3+CCR7+),-0.1158,-0.25
+21,Granulocyte: Neutrophil (CST7+),-0.1192,-0.12
+21,B: Pro/Pre-B,-0.1211,-0.29
+21,Blast-like: Monocyte,-0.122,-0.26
+21,DC: cDC2,-0.1291,-0.27
+21,Stroma: Fibroblast-like stroma,-0.1349,-0.33
+21,Ery/Meg prog: MEP/MkP,-0.1463,-0.32
+21,DC: DC3,-0.1465,-0.25
+21,B: Memory,-0.1508,-0.26
+21,B: Naive,-0.1514,-0.31
+21,Stroma: MSC/perivascular,-0.1572,-0.26
+21,CD8 T: Effector/Cytotoxic,-0.1593,-0.23
+21,CD4 T: Naive/TCM,-0.1655,-0.23
+21,Mono: Classical,-0.1769,-0.34
+21,NK: CD56bright (CD16-/low),-0.1844,-0.4
+21,Granulocyte: Neutrophil,-0.1848,-0.4
+21,Mono: Proliferating (Cycling),-0.1876,-0.38
+21,CD8 T: Naive/Early,-0.2127,-0.38
+21,Erythroid: Late/Mature,-0.2222,-0.36
+21,Blast-like: Pro-monocyte,-0.2321,-0.36
+21,Mono: VCAN+,-0.3353,-0.53
+21,T: Pan (CD3+),-0.347,-0.38
+22,Erythroid: Late/Mature,3.5576,5.02
+22,Erythroid: Early (CFU-E),2.6764,4.63
+22,Mono: Proliferating (Cycling),2.6317,3.83
+22,T/NK,1.4707,2.99
+22,Ery/Meg prog: MEP/MkP,1.1457,2.1
+22,Platelet,0.3799,0.6
+22,Vascular: Endothelial (sinusoidal),0.3395,0.84
+22,Bone: Osteoclast,0.2262,1.8
+22,Stroma: Adipogenic progenitor / Preadipocyte,0.1656,1.05
+22,Stroma: Adipocyte,0.1233,0.8
+22,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.1071,0.5
+22,Stroma: Adipogenic lineage precursor,0.0991,0.71
+22,Stroma: Periosteal SSC (ITM2A+),0.0838,0.48
+22,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.0535,0.19
+22,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.0369,0.04
+22,Vascular: Mural (Pericyte/SMC),0.0186,-0.07
+22,CD4 T helper: Th17,-0.0136,-0.47
+22,CD4 T: Treg,-0.0204,-0.3
+22,Stroma: Fibroblast-like stroma,-0.0215,-0.11
+22,Bone: Osteocyte,-0.0248,-0.33
+22,Granulocyte: Eosinophil,-0.0269,-0.36
+22,Cartilage: Superficial/articular-like,-0.0481,-0.32
+22,Cartilage: Chondrocyte,-0.0556,-0.33
+22,T: TCR????,-0.0658,-0.5
+22,T: MAIT,-0.0721,-0.28
+22,CD4 T helper: Th2,-0.0825,-0.42
+22,Megakaryocyte,-0.0886,-0.2
+22,DC: ASDC (AXL+SIGLEC6+),-0.0926,-0.33
+22,Blast-like: cDC,-0.1028,-0.4
+22,Stroma: MSC/perivascular (MCAM+),-0.104,-0.19
+22,CD4 T helper: Th1,-0.1088,-0.35
+22,HSPC: HSC/MPP,-0.1103,-0.5
+22,DC: ASDC (AXLSIGLEC6+),-0.1156,-0.25
+22,DC: cDC1,-0.1172,-0.91
+22,CD4 T: Tfh,-0.1221,-0.78
+22,Cartilage: Hypertrophic chondrocyte,-0.1276,-0.74
+22,DC: cDC2,-0.1302,-0.28
+22,Vascular: Endothelial (arteriolar/arterial),-0.1311,-0.65
+22,DC: Migratory (LAMP3+CCR7+),-0.1341,-0.32
+22,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1432,-0.27
+22,Bone: Osteoblast,-0.1443,-0.37
+22,Stroma: MSC/perivascular,-0.157,-0.25
+22,B: Pro/Pre-B,-0.1595,-0.35
+22,Mono: Non-classical,-0.1671,-0.6
+22,B: Naive,-0.1684,-0.34
+22,NK: CD56bright (CD16-/low),-0.1729,-0.36
+22,Granulocyte: Basophil,-0.1803,-0.72
+22,Bone: Osteogenic progenitor,-0.1925,-0.69
+22,CD8 T: Effector/Cytotoxic,-0.2013,-0.3
+22,DC: pDC,-0.2138,-0.59
+22,Granulocyte: Mast,-0.2233,-0.59
+22,CD8 T: Naive/Early,-0.2239,-0.41
+22,HSPC: CLP/Early lymphoid,-0.2246,-0.59
+22,Mono: Inflammatory (CCL3/4+),-0.2426,-0.63
+22,Granulocyte: Neutrophil,-0.2505,-0.54
+22,CD4 T: Naive/TCM,-0.2581,-0.48
+22,Blast-like: HSC/MPP,-0.2796,-0.8
+22,Blast-like: GMP,-0.3006,-0.55
+22,Plasma: Plasmablast/Plasma,-0.3013,-0.85
+22,"NK: CD56dim (CD16+, cytotoxic)",-0.3028,-0.51
+22,B: Memory,-0.3031,-0.61
+22,T: Pan (CD3+),-0.3117,-0.32
+22,Granulocyte: Neutrophil (CST7+),-0.3453,-0.47
+22,HSPC: LMPP,-0.3471,-1.04
+22,Blast-like: Monocyte,-0.3477,-0.64
+22,Mono: Classical,-0.3599,-0.67
+22,Mono: VCAN+,-0.3788,-0.6
+22,DC: DC3,-0.3888,-0.65
+22,Blast-like: Pro-monocyte,-0.4398,-0.65
+22,Myeloid: Generic,-0.5923,-0.86
+22,Mono: Antigen-presenting (HLA-II+),-0.6885,-1.21
+23,DC: pDC,2.7952,6.04
+23,Granulocyte: Basophil,0.9649,3.59
+23,Mono: Antigen-presenting (HLA-II+),0.7023,1.2
+23,Plasma: Plasmablast/Plasma,0.6672,1.32
+23,"NK: CD56dim (CD16+, cytotoxic)",0.4166,0.73
+23,DC: cDC1,0.4138,2.99
+23,CD8 T: Effector/Cytotoxic,0.2976,0.54
+23,DC: cDC2,0.1898,0.42
+23,DC: ASDC (AXL+SIGLEC6+),0.161,0.2
+23,Bone: Osteocyte,0.1588,4.24
+23,Blast-like: cDC,0.1367,0.64
+23,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.1087,0.51
+23,DC: ASDC (AXLSIGLEC6+),0.0786,-0.02
+23,Bone: Osteogenic progenitor,0.0696,0.07
+23,Cartilage: Hypertrophic chondrocyte,0.0666,0.23
+23,Stroma: Periosteal SSC (ITM2A+),0.0409,0.31
+23,Stroma: Adipogenic lineage precursor,0.0121,0.12
+23,Bone: Osteoclast,0.011,0.06
+23,HSPC: LMPP,0.0093,-0.16
+23,CD4 T helper: Th17,0.0021,1.51
+23,DC: Migratory (LAMP3+CCR7+),-0.0011,0.2
+23,Vascular: Endothelial (arteriolar/arterial),-0.0076,-0.08
+23,Vascular: Endothelial (sinusoidal),-0.0096,-0.06
+23,Bone: Osteoblast,-0.0115,-0.13
+23,CD4 T: Treg,-0.0128,-0.21
+23,CD4 T: Naive/TCM,-0.0196,0.17
+23,B: Naive,-0.0206,-0.1
+23,Granulocyte: Eosinophil,-0.0228,-0.21
+23,Mono: Non-classical,-0.0253,-0.15
+23,Stroma: Adipocyte,-0.0277,-0.01
+23,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0283,-0.18
+23,B: Pro/Pre-B,-0.0341,-0.15
+23,Cartilage: Superficial/articular-like,-0.0383,-0.26
+23,Vascular: Mural (Pericyte/SMC),-0.0416,-0.15
+23,T: TCR????,-0.0504,-0.33
+23,Platelet,-0.0521,-0.14
+23,Cartilage: Chondrocyte,-0.0529,-0.32
+23,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0562,-0.32
+23,Myeloid: Generic,-0.0641,-0.14
+23,Stroma: Adipogenic progenitor / Preadipocyte,-0.0722,-0.3
+23,Megakaryocyte,-0.0737,-0.18
+23,T: MAIT,-0.0754,-0.3
+23,B: Memory,-0.0763,-0.09
+23,CD4 T helper: Th2,-0.0784,-0.39
+23,Erythroid: Early (CFU-E),-0.0845,-0.21
+23,CD8 T: Naive/Early,-0.091,-0.07
+23,Stroma: Fibroblast-like stroma,-0.094,-0.25
+23,Stroma: MSC/perivascular (MCAM+),-0.0946,-0.19
+23,CD4 T: Tfh,-0.0986,-0.63
+23,CD4 T helper: Th1,-0.1047,-0.33
+23,NK: CD56bright (CD16-/low),-0.1293,-0.24
+23,HSPC: HSC/MPP,-0.132,-0.6
+23,Ery/Meg prog: MEP/MkP,-0.1338,-0.29
+23,Mono: Proliferating (Cycling),-0.1339,-0.3
+23,HSPC: CLP/Early lymphoid,-0.1389,-0.38
+23,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1538,-0.29
+23,Stroma: MSC/perivascular,-0.1579,-0.26
+23,T/NK,-0.1749,-0.51
+23,Erythroid: Late/Mature,-0.1811,-0.3
+23,Granulocyte: Mast,-0.1842,-0.47
+23,Blast-like: HSC/MPP,-0.1946,-0.59
+23,DC: DC3,-0.2099,-0.35
+23,Mono: Inflammatory (CCL3/4+),-0.2239,-0.59
+23,Mono: Classical,-0.2563,-0.48
+23,Blast-like: Monocyte,-0.2648,-0.5
+23,Granulocyte: Neutrophil,-0.2667,-0.58
+23,Blast-like: GMP,-0.3034,-0.56
+23,T: Pan (CD3+),-0.3082,-0.31
+23,Granulocyte: Neutrophil (CST7+),-0.3627,-0.49
+23,Mono: VCAN+,-0.3784,-0.6
+23,Blast-like: Pro-monocyte,-0.3886,-0.58
+24,Erythroid: Late/Mature,3.0829,4.35
+24,Erythroid: Early (CFU-E),2.4251,4.19
+24,Ery/Meg prog: MEP/MkP,0.8575,1.56
+24,Vascular: Endothelial (sinusoidal),0.2018,0.49
+24,Stroma: Adipogenic progenitor / Preadipocyte,0.1693,1.07
+24,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.1263,0.57
+24,Stroma: Adipocyte,0.1253,0.81
+24,Stroma: Adipogenic lineage precursor,0.0967,0.69
+24,Stroma: Periosteal SSC (ITM2A+),0.0912,0.51
+24,Bone: Osteoclast,0.0829,0.64
+24,Platelet,0.0724,0.07
+24,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.0543,0.2
+24,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.0344,0.03
+24,Vascular: Mural (Pericyte/SMC),0.019,-0.07
+24,CD4 T helper: Th17,-0.0128,-0.37
+24,CD4 T: Treg,-0.0224,-0.32
+24,Stroma: Fibroblast-like stroma,-0.0234,-0.12
+24,Bone: Osteocyte,-0.0254,-0.35
+24,Granulocyte: Eosinophil,-0.0264,-0.34
+24,Cartilage: Superficial/articular-like,-0.0466,-0.31
+24,Cartilage: Chondrocyte,-0.0547,-0.33
+24,T: MAIT,-0.0661,-0.24
+24,T: TCR????,-0.0665,-0.51
+24,Vascular: Endothelial (arteriolar/arterial),-0.0699,-0.37
+24,CD4 T helper: Th2,-0.0862,-0.45
+24,DC: ASDC (AXL+SIGLEC6+),-0.0922,-0.33
+24,Megakaryocyte,-0.0987,-0.22
+24,Blast-like: cDC,-0.1018,-0.39
+24,Stroma: MSC/perivascular (MCAM+),-0.1056,-0.2
+24,CD4 T helper: Th1,-0.1069,-0.34
+24,HSPC: HSC/MPP,-0.1128,-0.51
+24,DC: ASDC (AXLSIGLEC6+),-0.1129,-0.25
+24,CD4 T: Tfh,-0.114,-0.73
+24,DC: cDC1,-0.1172,-0.91
+24,DC: cDC2,-0.1268,-0.27
+24,Cartilage: Hypertrophic chondrocyte,-0.1301,-0.75
+24,Mono: Proliferating (Cycling),-0.1327,-0.3
+24,DC: Migratory (LAMP3+CCR7+),-0.145,-0.36
+24,Bone: Osteoblast,-0.1477,-0.38
+24,B: Pro/Pre-B,-0.1499,-0.33
+24,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1522,-0.28
+24,Stroma: MSC/perivascular,-0.1578,-0.26
+24,NK: CD56bright (CD16-/low),-0.1611,-0.33
+24,B: Naive,-0.1678,-0.34
+24,Mono: Non-classical,-0.169,-0.61
+24,Granulocyte: Basophil,-0.1824,-0.73
+24,CD8 T: Effector/Cytotoxic,-0.1902,-0.28
+24,Bone: Osteogenic progenitor,-0.2053,-0.73
+24,HSPC: CLP/Early lymphoid,-0.2162,-0.57
+24,DC: pDC,-0.2224,-0.61
+24,T/NK,-0.2283,-0.63
+24,CD8 T: Naive/Early,-0.2288,-0.43
+24,Mono: Inflammatory (CCL3/4+),-0.2363,-0.62
+24,Granulocyte: Mast,-0.2408,-0.64
+24,Granulocyte: Neutrophil,-0.2588,-0.56
+24,CD4 T: Naive/TCM,-0.2591,-0.49
+24,Blast-like: HSC/MPP,-0.2805,-0.8
+24,T: Pan (CD3+),-0.2921,-0.29
+24,B: Memory,-0.2935,-0.59
+24,"NK: CD56dim (CD16+, cytotoxic)",-0.2968,-0.5
+24,Blast-like: GMP,-0.3242,-0.59
+24,Plasma: Plasmablast/Plasma,-0.3382,-0.93
+24,Granulocyte: Neutrophil (CST7+),-0.3445,-0.47
+24,Blast-like: Monocyte,-0.3482,-0.65
+24,HSPC: LMPP,-0.3538,-1.06
+24,Mono: Classical,-0.361,-0.67
+24,Mono: VCAN+,-0.3795,-0.6
+24,DC: DC3,-0.3803,-0.64
+24,Blast-like: Pro-monocyte,-0.4326,-0.64
+24,Myeloid: Generic,-0.6165,-0.89
+24,Mono: Antigen-presenting (HLA-II+),-0.6752,-1.18
+25,Granulocyte: Neutrophil,2.223,4.7
+25,DC: DC3,1.1224,1.88
+25,Blast-like: Pro-monocyte,0.9207,1.28
+25,Mono: Classical,0.3572,0.63
+25,Bone: Osteoclast,0.2594,2.06
+25,Blast-like: Monocyte,0.204,0.3
+25,CD4 T: Tfh,0.1218,0.78
+25,Bone: Osteogenic progenitor,0.0361,-0.03
+25,Bone: Osteoblast,0.0306,-0.05
+25,Cartilage: Superficial/articular-like,0.0299,0.18
+25,Mono: VCAN+,0.002,-0.05
+25,CD4 T helper: Th17,-0.0136,-0.47
+25,Vascular: Endothelial (arteriolar/arterial),-0.0174,-0.12
+25,Bone: Osteocyte,-0.0187,-0.18
+25,CD4 T: Treg,-0.0232,-0.33
+25,Granulocyte: Eosinophil,-0.0238,-0.25
+25,Cartilage: Chondrocyte,-0.0387,-0.25
+25,Mono: Inflammatory (CCL3/4+),-0.0467,-0.17
+25,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0481,-0.08
+25,Stroma: MSC/perivascular (MCAM+),-0.0534,-0.15
+25,Granulocyte: Neutrophil (CST7+),-0.0545,-0.02
+25,T: TCR????,-0.0677,-0.52
+25,Stroma: Periosteal SSC (ITM2A+),-0.0774,-0.17
+25,T: MAIT,-0.0864,-0.38
+25,DC: ASDC (AXL+SIGLEC6+),-0.0877,-0.32
+25,Cartilage: Hypertrophic chondrocyte,-0.089,-0.55
+25,Mono: Non-classical,-0.0908,-0.36
+25,Platelet,-0.0908,-0.21
+25,CD4 T helper: Th2,-0.0911,-0.48
+25,DC: cDC1,-0.0935,-0.73
+25,Blast-like: cDC,-0.0943,-0.36
+25,"NK: CD56dim (CD16+, cytotoxic)",-0.0954,-0.15
+25,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.0967,-0.21
+25,Megakaryocyte,-0.1025,-0.23
+25,CD4 T helper: Th1,-0.103,-0.33
+25,DC: ASDC (AXLSIGLEC6+),-0.1031,-0.23
+25,HSPC: HSC/MPP,-0.1116,-0.51
+25,Granulocyte: Basophil,-0.1145,-0.47
+25,Vascular: Endothelial (sinusoidal),-0.1239,-0.35
+25,Stroma: MSC/perivascular,-0.1247,-0.21
+25,DC: cDC2,-0.1359,-0.29
+25,Stroma: Adipocyte,-0.1444,-0.64
+25,Vascular: Mural (Pericyte/SMC),-0.1458,-0.3
+25,Stroma: Fibroblast-like stroma,-0.1468,-0.35
+25,Stroma: Adipogenic lineage precursor,-0.1512,-0.98
+25,B: Naive,-0.1558,-0.32
+25,Ery/Meg prog: MEP/MkP,-0.1575,-0.34
+25,DC: Migratory (LAMP3+CCR7+),-0.161,-0.43
+25,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.1628,-0.8
+25,B: Pro/Pre-B,-0.1729,-0.37
+25,Myeloid: Generic,-0.1742,-0.29
+25,DC: pDC,-0.1788,-0.52
+25,CD4 T: Naive/TCM,-0.1869,-0.29
+25,NK: CD56bright (CD16-/low),-0.1872,-0.4
+25,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.1937,-0.86
+25,CD8 T: Effector/Cytotoxic,-0.2157,-0.33
+25,Mono: Proliferating (Cycling),-0.2314,-0.44
+25,Stroma: Adipogenic progenitor / Preadipocyte,-0.2317,-1.21
+25,HSPC: CLP/Early lymphoid,-0.2369,-0.62
+25,Granulocyte: Mast,-0.2443,-0.65
+25,CD8 T: Naive/Early,-0.2584,-0.5
+25,Blast-like: HSC/MPP,-0.2776,-0.79
+25,Erythroid: Early (CFU-E),-0.285,-0.56
+25,T/NK,-0.2911,-0.76
+25,Plasma: Plasmablast/Plasma,-0.2943,-0.84
+25,Blast-like: GMP,-0.3122,-0.57
+25,B: Memory,-0.3229,-0.65
+25,HSPC: LMPP,-0.3505,-1.05
+25,T: Pan (CD3+),-0.3527,-0.39
+25,Erythroid: Late/Mature,-0.3761,-0.58
+25,Mono: Antigen-presenting (HLA-II+),-0.5611,-0.99
+26,Myeloid: Generic,1.2511,1.65
+26,Blast-like: Pro-monocyte,0.9082,1.26
+26,Mono: VCAN+,0.7883,1.08
+26,DC: DC3,0.7718,1.29
+26,Blast-like: GMP,0.6492,1.02
+26,Mono: Classical,0.628,1.13
+26,Granulocyte: Neutrophil,0.4502,0.94
+26,Mono: Inflammatory (CCL3/4+),0.4235,0.95
+26,Blast-like: Monocyte,0.3264,0.51
+26,Mono: Antigen-presenting (HLA-II+),0.2005,0.33
+26,Mono: Non-classical,0.1789,0.49
+26,"NK: CD56dim (CD16+, cytotoxic)",0.1328,0.24
+26,CD4 T: Tfh,0.1052,0.68
+26,Bone: Osteogenic progenitor,0.0587,0.04
+26,DC: cDC1,0.0568,0.37
+26,Bone: Osteoclast,0.0284,0.2
+26,Vascular: Endothelial (arteriolar/arterial),0.0066,-0.01
+26,Vascular: Endothelial (sinusoidal),0.0054,-0.02
+26,HSPC: LMPP,-6e-04,-0.19
+26,CD4 T helper: Th1,-0.0084,-0.07
+26,CD4 T helper: Th17,-0.0136,-0.47
+26,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0143,0.05
+26,Platelet,-0.0172,-0.08
+26,Bone: Osteocyte,-0.0231,-0.29
+26,CD4 T: Treg,-0.0237,-0.34
+26,Stroma: Adipogenic lineage precursor,-0.024,-0.12
+26,Granulocyte: Eosinophil,-0.0247,-0.28
+26,Granulocyte: Basophil,-0.0356,-0.18
+26,Stroma: Periosteal SSC (ITM2A+),-0.0404,-0.02
+26,Erythroid: Early (CFU-E),-0.0437,-0.14
+26,T: TCR????,-0.0463,-0.29
+26,Stroma: Adipocyte,-0.0469,-0.12
+26,Cartilage: Superficial/articular-like,-0.0476,-0.32
+26,Cartilage: Hypertrophic chondrocyte,-0.0507,-0.36
+26,DC: Migratory (LAMP3+CCR7+),-0.0528,0
+26,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0529,-0.31
+26,Cartilage: Chondrocyte,-0.0551,-0.33
+26,HSPC: HSC/MPP,-0.0599,-0.28
+26,DC: ASDC (AXL+SIGLEC6+),-0.0718,-0.28
+26,CD4 T helper: Th2,-0.0816,-0.41
+26,T: MAIT,-0.085,-0.37
+26,Megakaryocyte,-0.0915,-0.21
+26,Blast-like: cDC,-0.0954,-0.37
+26,Stroma: Fibroblast-like stroma,-0.0961,-0.25
+26,Stroma: MSC/perivascular (MCAM+),-0.0981,-0.19
+26,Bone: Osteoblast,-0.0986,-0.29
+26,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0995,-0.51
+26,CD8 T: Effector/Cytotoxic,-0.1021,-0.13
+26,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.103,-0.21
+26,DC: ASDC (AXLSIGLEC6+),-0.105,-0.24
+26,Plasma: Plasmablast/Plasma,-0.1106,-0.42
+26,DC: cDC2,-0.1127,-0.24
+26,Vascular: Mural (Pericyte/SMC),-0.1167,-0.26
+26,Mono: Proliferating (Cycling),-0.1446,-0.31
+26,Ery/Meg prog: MEP/MkP,-0.1517,-0.33
+26,Stroma: MSC/perivascular,-0.1574,-0.26
+26,CD4 T: Naive/TCM,-0.1607,-0.22
+26,CD8 T: Naive/Early,-0.167,-0.27
+26,Blast-like: HSC/MPP,-0.1702,-0.53
+26,Stroma: Adipogenic progenitor / Preadipocyte,-0.1736,-0.88
+26,B: Pro/Pre-B,-0.1741,-0.37
+26,B: Naive,-0.1764,-0.36
+26,NK: CD56bright (CD16-/low),-0.1827,-0.39
+26,B: Memory,-0.1967,-0.37
+26,DC: pDC,-0.2128,-0.59
+26,Granulocyte: Mast,-0.2325,-0.61
+26,HSPC: CLP/Early lymphoid,-0.2352,-0.62
+26,T/NK,-0.2381,-0.65
+26,Erythroid: Late/Mature,-0.2559,-0.41
+26,Granulocyte: Neutrophil (CST7+),-0.331,-0.45
+26,T: Pan (CD3+),-0.3465,-0.38
+27,Blast-like: GMP,0.3333,0.5
+27,Mono: Proliferating (Cycling),0.1805,0.17
+27,HSPC: LMPP,0.1207,0.11
+27,Granulocyte: Neutrophil,0.1005,0.2
+27,Bone: Osteogenic progenitor,0.0834,0.11
+27,CD4 T helper: Th1,0.0444,0.08
+27,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0425,0.26
+27,T/NK,0.0278,-0.08
+27,Stroma: Periosteal SSC (ITM2A+),0.0083,0.18
+27,Granulocyte: Mast,7e-04,0.08
+27,Stroma: Adipogenic progenitor / Preadipocyte,1e-04,0.11
+27,HSPC: HSC/MPP,-0.0011,-0.02
+27,Cartilage: Hypertrophic chondrocyte,-0.0038,-0.12
+27,Stroma: Adipogenic lineage precursor,-0.0054,0
+27,CD4 T: Treg,-0.0065,-0.14
+27,Cartilage: Superficial/articular-like,-0.0069,-0.05
+27,CD4 T helper: Th17,-0.0112,-0.17
+27,Granulocyte: Eosinophil,-0.0132,0.15
+27,DC: cDC1,-0.0139,-0.15
+27,Mono: Non-classical,-0.0149,-0.12
+27,Blast-like: HSC/MPP,-0.0158,-0.15
+27,Bone: Osteocyte,-0.0178,-0.16
+27,Stroma: Adipocyte,-0.0279,-0.01
+27,Plasma: Plasmablast/Plasma,-0.0284,-0.24
+27,Vascular: Endothelial (arteriolar/arterial),-0.031,-0.19
+27,DC: ASDC (AXL+SIGLEC6+),-0.0311,-0.2
+27,T: TCR????,-0.0334,-0.15
+27,Cartilage: Chondrocyte,-0.0435,-0.27
+27,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.047,-0.29
+27,Vascular: Endothelial (sinusoidal),-0.0473,-0.15
+27,Vascular: Mural (Pericyte/SMC),-0.0508,-0.17
+27,Bone: Osteoblast,-0.0518,-0.2
+27,Bone: Osteoclast,-0.0592,-0.51
+27,Erythroid: Early (CFU-E),-0.061,-0.17
+27,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.062,-0.34
+27,CD4 T: Tfh,-0.0649,-0.41
+27,Stroma: MSC/perivascular (MCAM+),-0.068,-0.16
+27,DC: ASDC (AXLSIGLEC6+),-0.0707,-0.2
+27,Mono: Inflammatory (CCL3/4+),-0.081,-0.25
+27,Granulocyte: Basophil,-0.0822,-0.35
+27,CD4 T helper: Th2,-0.0823,-0.42
+27,T: MAIT,-0.0829,-0.35
+27,Blast-like: cDC,-0.0841,-0.32
+27,Stroma: Fibroblast-like stroma,-0.0862,-0.23
+27,Megakaryocyte,-0.0865,-0.2
+27,Platelet,-0.0871,-0.2
+27,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.0872,-0.19
+27,DC: pDC,-0.0892,-0.32
+27,DC: DC3,-0.0968,-0.17
+27,Mono: Classical,-0.0987,-0.2
+27,DC: cDC2,-0.114,-0.24
+27,DC: Migratory (LAMP3+CCR7+),-0.1273,-0.29
+27,Myeloid: Generic,-0.1411,-0.24
+27,Stroma: MSC/perivascular,-0.1484,-0.24
+27,Ery/Meg prog: MEP/MkP,-0.1504,-0.32
+27,Blast-like: Pro-monocyte,-0.1596,-0.25
+27,B: Pro/Pre-B,-0.1662,-0.36
+27,B: Naive,-0.1783,-0.36
+27,NK: CD56bright (CD16-/low),-0.1826,-0.39
+27,HSPC: CLP/Early lymphoid,-0.1947,-0.52
+27,CD8 T: Effector/Cytotoxic,-0.1994,-0.3
+27,Mono: VCAN+,-0.2014,-0.34
+27,Blast-like: Monocyte,-0.2017,-0.39
+27,CD8 T: Naive/Early,-0.2109,-0.38
+27,Erythroid: Late/Mature,-0.2115,-0.34
+27,Granulocyte: Neutrophil (CST7+),-0.2306,-0.29
+27,"NK: CD56dim (CD16+, cytotoxic)",-0.2312,-0.38
+27,CD4 T: Naive/TCM,-0.2318,-0.41
+27,B: Memory,-0.2738,-0.54
+27,T: Pan (CD3+),-0.3459,-0.38
+27,Mono: Antigen-presenting (HLA-II+),-0.5267,-0.93
+28,Myeloid: Generic,0.9504,1.24
+28,Bone: Osteogenic progenitor,0.4041,1.04
+28,Blast-like: GMP,0.3975,0.6
+28,Mono: Antigen-presenting (HLA-II+),0.3857,0.65
+28,"NK: CD56dim (CD16+, cytotoxic)",0.2124,0.38
+28,CD4 T helper: Th1,0.1896,0.48
+28,Cartilage: Hypertrophic chondrocyte,0.1433,0.61
+28,Mono: Non-classical,0.1246,0.32
+28,DC: cDC2,0.1239,0.27
+28,DC: cDC1,0.1208,0.84
+28,Blast-like: Monocyte,0.1086,0.14
+28,HSPC: LMPP,0.0712,-0.01
+28,Stroma: Adipogenic lineage precursor,0.068,0.5
+28,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.0485,0.09
+28,Blast-like: cDC,0.0465,0.25
+28,DC: ASDC (AXL+SIGLEC6+),0.0465,-0.04
+28,Vascular: Endothelial (sinusoidal),0.0444,0.08
+28,Vascular: Endothelial (arteriolar/arterial),0.0418,0.15
+28,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0394,0.25
+28,HSPC: HSC/MPP,0.0301,0.12
+28,DC: DC3,0.0279,0.04
+28,Mono: Classical,0.0261,0.03
+28,Vascular: Mural (Pericyte/SMC),0.0189,-0.07
+28,Granulocyte: Basophil,-0.0039,-0.06
+28,Granulocyte: Eosinophil,-0.0088,0.32
+28,Mono: Inflammatory (CCL3/4+),-0.0098,-0.08
+28,CD8 T: Effector/Cytotoxic,-0.0109,0.02
+28,Mono: Proliferating (Cycling),-0.0137,-0.12
+28,CD4 T helper: Th17,-0.0139,-0.51
+28,CD4 T: Treg,-0.0224,-0.32
+28,Stroma: Adipocyte,-0.0235,0.01
+28,Bone: Osteocyte,-0.0249,-0.33
+28,Stroma: Periosteal SSC (ITM2A+),-0.0288,0.03
+28,DC: ASDC (AXLSIGLEC6+),-0.0376,-0.16
+28,Cartilage: Superficial/articular-like,-0.049,-0.32
+28,Bone: Osteoblast,-0.0533,-0.21
+28,Cartilage: Chondrocyte,-0.0563,-0.34
+28,T: TCR????,-0.0581,-0.42
+28,CD4 T helper: Th2,-0.0614,-0.26
+28,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0628,-0.34
+28,Stroma: Fibroblast-like stroma,-0.0633,-0.19
+28,Megakaryocyte,-0.0761,-0.18
+28,T: MAIT,-0.0867,-0.38
+28,Bone: Osteoclast,-0.0875,-0.74
+28,Stroma: MSC/perivascular (MCAM+),-0.0913,-0.18
+28,Platelet,-0.0927,-0.21
+28,Blast-like: HSC/MPP,-0.0978,-0.36
+28,Granulocyte: Neutrophil,-0.1069,-0.24
+28,CD4 T: Tfh,-0.1089,-0.69
+28,T/NK,-0.1234,-0.4
+28,Blast-like: Pro-monocyte,-0.1275,-0.21
+28,B: Memory,-0.1296,-0.22
+28,Stroma: Adipogenic progenitor / Preadipocyte,-0.1465,-0.72
+28,DC: Migratory (LAMP3+CCR7+),-0.151,-0.39
+28,B: Naive,-0.1519,-0.31
+28,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1537,-0.29
+28,Stroma: MSC/perivascular,-0.1596,-0.26
+28,Plasma: Plasmablast/Plasma,-0.1608,-0.54
+28,Ery/Meg prog: MEP/MkP,-0.161,-0.34
+28,B: Pro/Pre-B,-0.1615,-0.35
+28,NK: CD56bright (CD16-/low),-0.1881,-0.41
+28,Erythroid: Early (CFU-E),-0.2186,-0.44
+28,Granulocyte: Mast,-0.2212,-0.58
+28,HSPC: CLP/Early lymphoid,-0.2217,-0.59
+28,DC: pDC,-0.2227,-0.61
+28,CD8 T: Naive/Early,-0.2391,-0.45
+28,CD4 T: Naive/TCM,-0.2559,-0.48
+28,Granulocyte: Neutrophil (CST7+),-0.2739,-0.36
+28,Mono: VCAN+,-0.2923,-0.47
+28,Erythroid: Late/Mature,-0.2967,-0.47
+28,T: Pan (CD3+),-0.3491,-0.38
+29,Blast-like: Monocyte,2.1925,3.72
+29,Mono: Non-classical,2.1092,6.54
+29,Myeloid: Generic,1.493,1.98
+29,DC: DC3,0.9186,1.54
+29,Blast-like: Pro-monocyte,0.7864,1.09
+29,Mono: Antigen-presenting (HLA-II+),0.7732,1.32
+29,Mono: Classical,0.5773,1.04
+29,"NK: CD56dim (CD16+, cytotoxic)",0.2669,0.47
+29,DC: cDC1,0.2542,1.82
+29,Granulocyte: Neutrophil,0.2198,0.45
+29,Mono: VCAN+,0.116,0.11
+29,Vascular: Endothelial (sinusoidal),0.068,0.14
+29,Mono: Inflammatory (CCL3/4+),0.0575,0.08
+29,Vascular: Endothelial (arteriolar/arterial),0.057,0.22
+29,Bone: Osteoclast,0.0151,0.09
+29,Cartilage: Hypertrophic chondrocyte,0.0088,-0.06
+29,Granulocyte: Basophil,-0.0092,-0.08
+29,DC: cDC2,-0.0102,-0.02
+29,CD4 T helper: Th17,-0.0136,-0.47
+29,CD4 T helper: Th1,-0.0166,-0.09
+29,CD4 T: Treg,-0.0209,-0.3
+29,Platelet,-0.0212,-0.09
+29,Bone: Osteocyte,-0.0238,-0.31
+29,Granulocyte: Eosinophil,-0.0254,-0.31
+29,B: Naive,-0.0459,-0.14
+29,CD4 T: Tfh,-0.047,-0.3
+29,Cartilage: Superficial/articular-like,-0.0494,-0.33
+29,Cartilage: Chondrocyte,-0.0555,-0.33
+29,T: TCR????,-0.0659,-0.5
+29,Erythroid: Early (CFU-E),-0.0679,-0.18
+29,T: MAIT,-0.0776,-0.31
+29,Megakaryocyte,-0.0824,-0.19
+29,DC: ASDC (AXL+SIGLEC6+),-0.0827,-0.31
+29,CD4 T helper: Th2,-0.0863,-0.45
+29,DC: pDC,-0.0882,-0.32
+29,Blast-like: cDC,-0.0956,-0.37
+29,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0959,-0.26
+29,DC: ASDC (AXLSIGLEC6+),-0.0973,-0.23
+29,Stroma: MSC/perivascular (MCAM+),-0.1034,-0.19
+29,Stroma: Adipocyte,-0.1037,-0.42
+29,HSPC: HSC/MPP,-0.1043,-0.47
+29,Stroma: Periosteal SSC (ITM2A+),-0.1131,-0.31
+29,Bone: Osteoblast,-0.1341,-0.35
+29,Ery/Meg prog: MEP/MkP,-0.1392,-0.3
+29,CD8 T: Effector/Cytotoxic,-0.1438,-0.2
+29,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1438,-0.27
+29,Stroma: MSC/perivascular,-0.1504,-0.25
+29,B: Memory,-0.154,-0.27
+29,DC: Migratory (LAMP3+CCR7+),-0.159,-0.42
+29,B: Pro/Pre-B,-0.1592,-0.35
+29,Stroma: Adipogenic lineage precursor,-0.1652,-1.08
+29,Bone: Osteogenic progenitor,-0.1697,-0.63
+29,Stroma: Fibroblast-like stroma,-0.1798,-0.41
+29,NK: CD56bright (CD16-/low),-0.1804,-0.38
+29,Erythroid: Late/Mature,-0.1921,-0.32
+29,Vascular: Mural (Pericyte/SMC),-0.1937,-0.37
+29,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.2179,-1.05
+29,CD8 T: Naive/Early,-0.2257,-0.42
+29,HSPC: CLP/Early lymphoid,-0.2305,-0.61
+29,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.2361,-1.03
+29,Blast-like: GMP,-0.2427,-0.46
+29,Mono: Proliferating (Cycling),-0.2454,-0.46
+29,Granulocyte: Mast,-0.2494,-0.66
+29,CD4 T: Naive/TCM,-0.2527,-0.47
+29,Blast-like: HSC/MPP,-0.2741,-0.79
+29,T/NK,-0.3003,-0.78
+29,Plasma: Plasmablast/Plasma,-0.3103,-0.87
+29,T: Pan (CD3+),-0.3296,-0.35
+29,HSPC: LMPP,-0.3466,-1.04
+29,Granulocyte: Neutrophil (CST7+),-0.3609,-0.49
+29,Stroma: Adipogenic progenitor / Preadipocyte,-0.4358,-2.37
+30,HSPC: LMPP,0.9677,2.2
+30,B: Pro/Pre-B,0.9163,1.31
+30,HSPC: CLP/Early lymphoid,0.8261,2.01
+30,Blast-like: HSC/MPP,0.6484,1.47
+30,Mono: Antigen-presenting (HLA-II+),0.4828,0.82
+30,T/NK,0.4074,0.73
+30,DC: pDC,0.2826,0.5
+30,Plasma: Plasmablast/Plasma,0.2351,0.35
+30,HSPC: HSC/MPP,0.1923,0.83
+30,DC: cDC1,0.1352,0.95
+30,Stroma: Adipogenic progenitor / Preadipocyte,0.0831,0.58
+30,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0683,0.35
+30,B: Naive,0.0658,0.05
+30,Granulocyte: Mast,0.0589,0.25
+30,Bone: Osteoblast,0.0528,-0.01
+30,CD4 T helper: Th2,0.0426,0.51
+30,Stroma: Adipogenic lineage precursor,0.0297,0.24
+30,Vascular: Endothelial (sinusoidal),0.029,0.04
+30,Bone: Osteogenic progenitor,0.0242,-0.06
+30,Vascular: Endothelial (arteriolar/arterial),0.023,0.06
+30,Stroma: Adipocyte,0.0228,0.26
+30,Cartilage: Hypertrophic chondrocyte,0.0211,0
+30,Blast-like: cDC,0.0021,0.06
+30,Granulocyte: Basophil,-0.0032,-0.06
+30,Stroma: Periosteal SSC (ITM2A+),-0.0042,0.13
+30,CD4 T helper: Th17,-0.0132,-0.42
+30,Bone: Osteocyte,-0.0197,-0.2
+30,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0216,-0.15
+30,Granulocyte: Eosinophil,-0.0253,-0.3
+30,Vascular: Mural (Pericyte/SMC),-0.0292,-0.14
+30,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0339,-0.24
+30,Cartilage: Superficial/articular-like,-0.04,-0.27
+30,Bone: Osteoclast,-0.0423,-0.37
+30,CD4 T: Treg,-0.0427,-0.56
+30,T: TCR????,-0.0459,-0.28
+30,Cartilage: Chondrocyte,-0.0539,-0.32
+30,CD4 T: Naive/TCM,-0.0774,0.01
+30,T: MAIT,-0.0797,-0.33
+30,DC: ASDC (AXL+SIGLEC6+),-0.0866,-0.32
+30,Mono: Non-classical,-0.0892,-0.36
+30,Megakaryocyte,-0.0894,-0.2
+30,Stroma: MSC/perivascular (MCAM+),-0.0898,-0.18
+30,Blast-like: GMP,-0.094,-0.21
+30,Platelet,-0.0956,-0.22
+30,Stroma: Fibroblast-like stroma,-0.0958,-0.25
+30,CD4 T: Tfh,-0.1047,-0.67
+30,CD4 T helper: Th1,-0.1052,-0.34
+30,Erythroid: Late/Mature,-0.1066,-0.19
+30,DC: Migratory (LAMP3+CCR7+),-0.1093,-0.22
+30,B: Memory,-0.1105,-0.17
+30,DC: ASDC (AXLSIGLEC6+),-0.111,-0.24
+30,DC: cDC2,-0.123,-0.26
+30,NK: CD56bright (CD16-/low),-0.1237,-0.23
+30,"NK: CD56dim (CD16+, cytotoxic)",-0.1282,-0.21
+30,Granulocyte: Neutrophil (CST7+),-0.1329,-0.14
+30,Myeloid: Generic,-0.1476,-0.25
+30,Granulocyte: Neutrophil,-0.1477,-0.32
+30,CD8 T: Effector/Cytotoxic,-0.1564,-0.23
+30,CD8 T: Naive/Early,-0.1564,-0.24
+30,Stroma: MSC/perivascular,-0.158,-0.26
+30,Ery/Meg prog: MEP/MkP,-0.1581,-0.34
+30,Mono: Proliferating (Cycling),-0.1884,-0.38
+30,Erythroid: Early (CFU-E),-0.1964,-0.4
+30,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.2212,-0.38
+30,Blast-like: Monocyte,-0.2223,-0.43
+30,Mono: Inflammatory (CCL3/4+),-0.2522,-0.66
+30,DC: DC3,-0.255,-0.43
+30,Mono: Classical,-0.2813,-0.53
+30,T: Pan (CD3+),-0.334,-0.36
+30,Blast-like: Pro-monocyte,-0.3355,-0.5
+30,Mono: VCAN+,-0.3807,-0.6
+31,DC: cDC2,3.2814,7.1
+31,Mono: Antigen-presenting (HLA-II+),1.4979,2.57
+31,Blast-like: cDC,1.4685,6.42
+31,Granulocyte: Basophil,0.9325,3.47
+31,Myeloid: Generic,0.8364,1.09
+31,DC: DC3,0.4312,0.72
+31,DC: cDC1,0.3691,2.66
+31,Mono: Classical,0.3231,0.57
+31,DC: ASDC (AXL+SIGLEC6+),0.3089,0.51
+31,Blast-like: Pro-monocyte,0.277,0.37
+31,DC: ASDC (AXLSIGLEC6+),0.2493,0.18
+31,Blast-like: Monocyte,0.2035,0.3
+31,Mono: Non-classical,0.1484,0.39
+31,"NK: CD56dim (CD16+, cytotoxic)",0.0831,0.16
+31,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0494,0.28
+31,Granulocyte: Neutrophil,0.0409,0.08
+31,Cartilage: Hypertrophic chondrocyte,0.0382,0.09
+31,Stroma: Periosteal SSC (ITM2A+),0.0042,0.16
+31,Bone: Osteoclast,-0.0031,-0.06
+31,Stroma: Adipogenic lineage precursor,-0.0066,0
+31,Stroma: Adipocyte,-0.0105,0.08
+31,CD4 T helper: Th17,-0.0129,-0.38
+31,CD4 T: Tfh,-0.0131,-0.08
+31,CD4 T: Treg,-0.0141,-0.22
+31,Bone: Osteocyte,-0.0222,-0.27
+31,Granulocyte: Eosinophil,-0.0243,-0.26
+31,Mono: VCAN+,-0.0261,-0.09
+31,Mono: Inflammatory (CCL3/4+),-0.0275,-0.12
+31,Vascular: Endothelial (arteriolar/arterial),-0.0415,-0.24
+31,Cartilage: Superficial/articular-like,-0.048,-0.32
+31,Vascular: Endothelial (sinusoidal),-0.0505,-0.16
+31,Cartilage: Chondrocyte,-0.0542,-0.33
+31,Bone: Osteogenic progenitor,-0.0547,-0.29
+31,T: TCR????,-0.0568,-0.4
+31,B: Memory,-0.0671,-0.07
+31,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0678,-0.37
+31,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0691,-0.37
+31,CD4 T helper: Th1,-0.0716,-0.24
+31,DC: Migratory (LAMP3+CCR7+),-0.0726,-0.08
+31,Vascular: Mural (Pericyte/SMC),-0.0732,-0.2
+31,Platelet,-0.0747,-0.18
+31,Granulocyte: Neutrophil (CST7+),-0.0778,-0.05
+31,T: MAIT,-0.0827,-0.35
+31,Megakaryocyte,-0.0862,-0.2
+31,Bone: Osteoblast,-0.0884,-0.27
+31,HSPC: HSC/MPP,-0.0892,-0.41
+31,CD4 T helper: Th2,-0.0901,-0.47
+31,HSPC: LMPP,-0.0921,-0.41
+31,Mono: Proliferating (Cycling),-0.0924,-0.24
+31,Stroma: MSC/perivascular (MCAM+),-0.0991,-0.19
+31,Stroma: Fibroblast-like stroma,-0.1002,-0.26
+31,Blast-like: GMP,-0.1044,-0.23
+31,Erythroid: Early (CFU-E),-0.1246,-0.28
+31,CD4 T: Naive/TCM,-0.129,-0.13
+31,DC: pDC,-0.1293,-0.41
+31,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1403,-0.27
+31,Ery/Meg prog: MEP/MkP,-0.1527,-0.33
+31,Plasma: Plasmablast/Plasma,-0.1528,-0.52
+31,Stroma: MSC/perivascular,-0.1556,-0.25
+31,B: Pro/Pre-B,-0.1568,-0.34
+31,CD8 T: Effector/Cytotoxic,-0.1607,-0.23
+31,B: Naive,-0.1622,-0.33
+31,CD8 T: Naive/Early,-0.1704,-0.28
+31,Stroma: Adipogenic progenitor / Preadipocyte,-0.1754,-0.89
+31,NK: CD56bright (CD16-/low),-0.1788,-0.38
+31,Erythroid: Late/Mature,-0.197,-0.32
+31,T/NK,-0.1984,-0.56
+31,Granulocyte: Mast,-0.2058,-0.53
+31,HSPC: CLP/Early lymphoid,-0.2238,-0.59
+31,Blast-like: HSC/MPP,-0.2553,-0.74
+31,T: Pan (CD3+),-0.3383,-0.36
+32,Bone: Osteoblast,3.3608,6.07
+32,DC: ASDC (AXLSIGLEC6+),2.5752,2.92
+32,Stroma: Fibroblast-like stroma,2.33,4.29
+32,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),2.3237,3.21
+32,Bone: Osteogenic progenitor,1.7774,5.03
+32,Stroma: MSC/perivascular,1.5787,1.95
+32,DC: ASDC (AXL+SIGLEC6+),1.4002,2.81
+32,Cartilage: Hypertrophic chondrocyte,1.2405,6.08
+32,Cartilage: Chondrocyte,0.8457,4.19
+32,Cartilage: Superficial/articular-like,0.7895,5.07
+32,Vascular: Mural (Pericyte/SMC),0.7292,0.94
+32,Bone: Osteoclast,0.6558,5.27
+32,HSPC: HSC/MPP,0.4066,1.78
+32,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.3807,1.39
+32,CD4 T: Tfh,0.3585,2.3
+32,DC: pDC,0.3255,0.6
+32,Blast-like: HSC/MPP,0.227,0.44
+32,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.2255,0.98
+32,Bone: Osteocyte,0.2209,5.79
+32,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.1784,0.77
+32,Stroma: MSC/perivascular (MCAM+),0.0872,-0.03
+32,DC: cDC1,0.085,0.58
+32,CD4 T: Treg,0.059,0.63
+32,Stroma: Periosteal SSC (ITM2A+),0.0419,0.31
+32,CD8 T: Naive/Early,-0.0027,0.15
+32,Mono: VCAN+,-0.003,-0.06
+32,Granulocyte: Eosinophil,-0.0091,0.31
+32,Mono: Non-classical,-0.0091,-0.1
+32,CD4 T helper: Th17,-0.0132,-0.42
+32,T: TCR????,-0.0623,-0.46
+32,T: MAIT,-0.0723,-0.28
+32,CD4 T helper: Th2,-0.0739,-0.35
+32,Platelet,-0.0846,-0.2
+32,Granulocyte: Basophil,-0.0851,-0.36
+32,Vascular: Endothelial (arteriolar/arterial),-0.0914,-0.47
+32,Megakaryocyte,-0.0955,-0.21
+32,Blast-like: cDC,-0.1051,-0.41
+32,NK: CD56bright (CD16-/low),-0.1117,-0.2
+32,CD4 T helper: Th1,-0.1186,-0.37
+32,DC: cDC2,-0.1373,-0.29
+32,Ery/Meg prog: MEP/MkP,-0.1503,-0.32
+32,DC: Migratory (LAMP3+CCR7+),-0.1548,-0.4
+32,B: Naive,-0.1643,-0.34
+32,B: Pro/Pre-B,-0.1734,-0.37
+32,Erythroid: Early (CFU-E),-0.1935,-0.4
+32,HSPC: CLP/Early lymphoid,-0.2,-0.53
+32,CD8 T: Effector/Cytotoxic,-0.2031,-0.31
+32,Stroma: Adipogenic progenitor / Preadipocyte,-0.2216,-1.15
+32,Granulocyte: Mast,-0.2232,-0.59
+32,Plasma: Plasmablast/Plasma,-0.2323,-0.7
+32,Mono: Inflammatory (CCL3/4+),-0.239,-0.63
+32,Mono: Proliferating (Cycling),-0.2457,-0.46
+32,CD4 T: Naive/TCM,-0.2499,-0.46
+32,T/NK,-0.2592,-0.69
+32,Granulocyte: Neutrophil,-0.2804,-0.61
+32,Mono: Classical,-0.3067,-0.58
+32,HSPC: LMPP,-0.316,-0.97
+32,B: Memory,-0.3202,-0.65
+32,Blast-like: Pro-monocyte,-0.3277,-0.49
+32,Blast-like: Monocyte,-0.3293,-0.61
+32,Vascular: Endothelial (sinusoidal),-0.3361,-0.9
+32,Blast-like: GMP,-0.3427,-0.62
+32,T: Pan (CD3+),-0.35,-0.38
+32,Erythroid: Late/Mature,-0.3525,-0.54
+32,"NK: CD56dim (CD16+, cytotoxic)",-0.3753,-0.63
+32,Granulocyte: Neutrophil (CST7+),-0.3874,-0.53
+32,DC: DC3,-0.4371,-0.74
+32,Myeloid: Generic,-0.614,-0.89
+32,Mono: Antigen-presenting (HLA-II+),-0.6505,-1.14
+32,Stroma: Adipogenic lineage precursor,-0.8267,-5.55
+32,Stroma: Adipocyte,-1.0777,-5.64
+33,B: Pro/Pre-B,2.8917,4.35
+33,HSPC: CLP/Early lymphoid,2.1022,5.17
+33,B: Naive,1.147,1.85
+33,HSPC: LMPP,1.0346,2.36
+33,DC: pDC,0.7958,1.63
+33,Mono: Antigen-presenting (HLA-II+),0.7746,1.32
+33,Plasma: Plasmablast/Plasma,0.7073,1.41
+33,CD8 T: Naive/Early,0.2759,0.86
+33,B: Memory,0.2408,0.62
+33,Blast-like: HSC/MPP,0.2379,0.47
+33,T: TCR????,0.2343,2.71
+33,Cartilage: Hypertrophic chondrocyte,0.2315,1.05
+33,T/NK,0.1328,0.14
+33,Stroma: Adipogenic progenitor / Preadipocyte,0.1254,0.82
+33,Vascular: Endothelial (sinusoidal),0.0982,0.22
+33,Vascular: Endothelial (arteriolar/arterial),0.0819,0.34
+33,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0491,0.28
+33,Stroma: Adipocyte,0.0387,0.34
+33,CD4 T: Treg,0.0174,0.14
+33,Cartilage: Superficial/articular-like,-0.0053,-0.04
+33,Stroma: Adipogenic lineage precursor,-0.007,-0.01
+33,CD4 T helper: Th17,-0.0126,-0.34
+33,Granulocyte: Eosinophil,-0.0186,-0.05
+33,Bone: Osteocyte,-0.0201,-0.21
+33,Stroma: Periosteal SSC (ITM2A+),-0.0332,0.01
+33,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0355,-0.22
+33,Vascular: Mural (Pericyte/SMC),-0.0425,-0.16
+33,Cartilage: Chondrocyte,-0.0431,-0.27
+33,CD4 T helper: Th2,-0.0435,-0.13
+33,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.07,-0.38
+33,Megakaryocyte,-0.0761,-0.18
+33,Platelet,-0.0827,-0.2
+33,T: MAIT,-0.0833,-0.35
+33,Stroma: Fibroblast-like stroma,-0.0891,-0.24
+33,DC: ASDC (AXL+SIGLEC6+),-0.0912,-0.33
+33,Stroma: MSC/perivascular (MCAM+),-0.0913,-0.18
+33,Bone: Osteoclast,-0.1044,-0.88
+33,Blast-like: cDC,-0.1053,-0.41
+33,CD4 T helper: Th1,-0.1054,-0.34
+33,DC: cDC1,-0.1058,-0.82
+33,Bone: Osteoblast,-0.1096,-0.31
+33,DC: ASDC (AXLSIGLEC6+),-0.1102,-0.24
+33,Granulocyte: Basophil,-0.1128,-0.47
+33,Erythroid: Late/Mature,-0.1155,-0.21
+33,Mono: Non-classical,-0.1158,-0.44
+33,CD4 T: Tfh,-0.1184,-0.75
+33,HSPC: HSC/MPP,-0.1213,-0.55
+33,Bone: Osteogenic progenitor,-0.1261,-0.5
+33,DC: cDC2,-0.1346,-0.29
+33,Ery/Meg prog: MEP/MkP,-0.1397,-0.3
+33,Stroma: MSC/perivascular,-0.1457,-0.24
+33,DC: Migratory (LAMP3+CCR7+),-0.1533,-0.4
+33,NK: CD56bright (CD16-/low),-0.1603,-0.33
+33,CD4 T: Naive/TCM,-0.1746,-0.26
+33,Mono: Proliferating (Cycling),-0.1748,-0.36
+33,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1785,-0.32
+33,Erythroid: Early (CFU-E),-0.1857,-0.38
+33,Granulocyte: Mast,-0.2075,-0.54
+33,CD8 T: Effector/Cytotoxic,-0.2537,-0.39
+33,Mono: Inflammatory (CCL3/4+),-0.2819,-0.73
+33,Granulocyte: Neutrophil,-0.3067,-0.66
+33,Blast-like: Monocyte,-0.323,-0.6
+33,Blast-like: GMP,-0.3362,-0.61
+33,T: Pan (CD3+),-0.3442,-0.37
+33,Mono: Classical,-0.3604,-0.67
+33,"NK: CD56dim (CD16+, cytotoxic)",-0.3679,-0.62
+33,Mono: VCAN+,-0.3828,-0.6
+33,Granulocyte: Neutrophil (CST7+),-0.3858,-0.53
+33,DC: DC3,-0.3974,-0.67
+33,Blast-like: Pro-monocyte,-0.4472,-0.66
+33,Myeloid: Generic,-0.5496,-0.8
+34,Erythroid: Late/Mature,0.6114,0.83
+34,T/NK,0.5453,1.02
+34,Platelet,0.4447,0.72
+34,Blast-like: HSC/MPP,0.4107,0.89
+34,Erythroid: Early (CFU-E),0.4066,0.65
+34,Granulocyte: Mast,0.3738,1.18
+34,Megakaryocyte,0.3591,0.54
+34,Mono: Proliferating (Cycling),0.3411,0.41
+34,Ery/Meg prog: MEP/MkP,0.3337,0.58
+34,HSPC: LMPP,0.3262,0.62
+34,Mono: Inflammatory (CCL3/4+),0.2837,0.62
+34,Plasma: Plasmablast/Plasma,0.2411,0.36
+34,Mono: Antigen-presenting (HLA-II+),0.1791,0.29
+34,Blast-like: cDC,0.1323,0.62
+34,Stroma: Adipogenic progenitor / Preadipocyte,0.1139,0.76
+34,DC: cDC1,0.1086,0.75
+34,NK: CD56bright (CD16-/low),0.0963,0.37
+34,HSPC: HSC/MPP,0.0849,0.36
+34,HSPC: CLP/Early lymphoid,0.0792,0.16
+34,CD4 T helper: Th1,0.0777,0.17
+34,Stroma: Adipogenic lineage precursor,0.0736,0.54
+34,Granulocyte: Basophil,0.0661,0.21
+34,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0429,0.26
+34,Stroma: Adipocyte,0.0387,0.34
+34,DC: pDC,0.0325,-0.05
+34,DC: cDC2,0.032,0.07
+34,Vascular: Endothelial (sinusoidal),0.0294,0.04
+34,Stroma: Periosteal SSC (ITM2A+),0.0293,0.26
+34,DC: Migratory (LAMP3+CCR7+),0.0208,0.29
+34,CD4 T: Treg,0.0034,-0.02
+34,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.0026,-0.09
+34,Vascular: Endothelial (arteriolar/arterial),-0.0047,-0.06
+34,CD4 T helper: Th17,-0.013,-0.39
+34,Granulocyte: Eosinophil,-0.0184,-0.04
+34,Bone: Osteocyte,-0.0219,-0.26
+34,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.025,-0.17
+34,Bone: Osteoblast,-0.028,-0.16
+34,Cartilage: Hypertrophic chondrocyte,-0.0312,-0.26
+34,Vascular: Mural (Pericyte/SMC),-0.0335,-0.14
+34,CD4 T helper: Th2,-0.0342,-0.06
+34,Bone: Osteoclast,-0.0349,-0.31
+34,Cartilage: Chondrocyte,-0.0369,-0.24
+34,Cartilage: Superficial/articular-like,-0.049,-0.32
+34,T: TCR????,-0.0651,-0.49
+34,CD4 T: Tfh,-0.0681,-0.43
+34,B: Pro/Pre-B,-0.0712,-0.21
+34,T: MAIT,-0.076,-0.3
+34,DC: ASDC (AXL+SIGLEC6+),-0.0797,-0.3
+34,Stroma: Fibroblast-like stroma,-0.0864,-0.23
+34,CD4 T: Naive/TCM,-0.0921,-0.03
+34,Stroma: MSC/perivascular (MCAM+),-0.0931,-0.18
+34,B: Memory,-0.0946,-0.14
+34,CD8 T: Naive/Early,-0.1088,-0.12
+34,DC: ASDC (AXLSIGLEC6+),-0.1141,-0.25
+34,Bone: Osteogenic progenitor,-0.1183,-0.48
+34,Mono: Non-classical,-0.1236,-0.46
+34,CD8 T: Effector/Cytotoxic,-0.1282,-0.18
+34,B: Naive,-0.1428,-0.3
+34,Stroma: MSC/perivascular,-0.1527,-0.25
+34,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1902,-0.34
+34,"NK: CD56dim (CD16+, cytotoxic)",-0.2177,-0.36
+34,Granulocyte: Neutrophil (CST7+),-0.2203,-0.27
+34,Myeloid: Generic,-0.236,-0.37
+34,Granulocyte: Neutrophil,-0.2396,-0.52
+34,Blast-like: GMP,-0.249,-0.47
+34,T: Pan (CD3+),-0.2977,-0.3
+34,Mono: Classical,-0.3053,-0.57
+34,Blast-like: Monocyte,-0.328,-0.61
+34,DC: DC3,-0.3815,-0.64
+34,Mono: VCAN+,-0.3882,-0.61
+34,Blast-like: Pro-monocyte,-0.439,-0.65
+35,Megakaryocyte,4.4164,7.27
+35,Platelet,4.2579,7.31
+35,Ery/Meg prog: MEP/MkP,3.2282,5.99
+35,Granulocyte: Neutrophil (CST7+),0.5153,0.86
+35,Bone: Osteogenic progenitor,0.1798,0.39
+35,Vascular: Endothelial (sinusoidal),0.1692,0.4
+35,Cartilage: Hypertrophic chondrocyte,0.1655,0.72
+35,HSPC: HSC/MPP,0.1545,0.67
+35,Blast-like: HSC/MPP,0.1053,0.14
+35,Vascular: Endothelial (arteriolar/arterial),0.0963,0.41
+35,Myeloid: Generic,0.0512,0.02
+35,Bone: Osteoblast,0.0445,-0.03
+35,Cartilage: Chondrocyte,0.041,0.15
+35,Stroma: Adipogenic lineage precursor,0.0336,0.27
+35,DC: ASDC (AXL+SIGLEC6+),0.0138,-0.11
+35,Stroma: Adipocyte,0.0094,0.18
+35,Granulocyte: Basophil,0.0049,-0.02
+35,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0057,-0.08
+35,CD4 T helper: Th17,-0.0139,-0.51
+35,Bone: Osteocyte,-0.0246,-0.33
+35,CD4 T: Treg,-0.025,-0.35
+35,Granulocyte: Eosinophil,-0.0272,-0.37
+35,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0277,0
+35,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0344,-0.24
+35,T: MAIT,-0.0458,-0.1
+35,Cartilage: Superficial/articular-like,-0.0478,-0.32
+35,Blast-like: cDC,-0.0617,-0.22
+35,T: TCR????,-0.0638,-0.48
+35,DC: cDC2,-0.0751,-0.16
+35,Bone: Osteoclast,-0.0774,-0.66
+35,Stroma: Fibroblast-like stroma,-0.0799,-0.22
+35,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.0877,-0.19
+35,Stroma: Adipogenic progenitor / Preadipocyte,-0.0893,-0.4
+35,CD4 T helper: Th2,-0.0896,-0.47
+35,Stroma: MSC/perivascular (MCAM+),-0.1049,-0.19
+35,CD4 T helper: Th1,-0.1105,-0.35
+35,DC: ASDC (AXLSIGLEC6+),-0.1147,-0.25
+35,Stroma: Periosteal SSC (ITM2A+),-0.1175,-0.33
+35,DC: cDC1,-0.1185,-0.91
+35,CD4 T: Tfh,-0.1194,-0.76
+35,Vascular: Mural (Pericyte/SMC),-0.121,-0.27
+35,T/NK,-0.1284,-0.42
+35,Stroma: MSC/perivascular,-0.1504,-0.25
+35,DC: Migratory (LAMP3+CCR7+),-0.1551,-0.4
+35,Mono: Non-classical,-0.1629,-0.59
+35,HSPC: CLP/Early lymphoid,-0.1639,-0.44
+35,B: Pro/Pre-B,-0.1648,-0.35
+35,Mono: Proliferating (Cycling),-0.1665,-0.35
+35,NK: CD56bright (CD16-/low),-0.1747,-0.37
+35,B: Naive,-0.1763,-0.36
+35,Erythroid: Early (CFU-E),-0.1778,-0.37
+35,Erythroid: Late/Mature,-0.1803,-0.3
+35,CD8 T: Effector/Cytotoxic,-0.2044,-0.31
+35,Granulocyte: Mast,-0.2251,-0.59
+35,CD8 T: Naive/Early,-0.2292,-0.43
+35,DC: pDC,-0.2447,-0.66
+35,Granulocyte: Neutrophil,-0.252,-0.55
+35,CD4 T: Naive/TCM,-0.2557,-0.48
+35,HSPC: LMPP,-0.2628,-0.84
+35,"NK: CD56dim (CD16+, cytotoxic)",-0.2675,-0.45
+35,Mono: Inflammatory (CCL3/4+),-0.2738,-0.71
+35,Plasma: Plasmablast/Plasma,-0.2768,-0.8
+35,Blast-like: Monocyte,-0.3144,-0.59
+35,Blast-like: GMP,-0.3211,-0.59
+35,Mono: Classical,-0.325,-0.61
+35,T: Pan (CD3+),-0.3264,-0.34
+35,B: Memory,-0.3292,-0.67
+35,DC: DC3,-0.3864,-0.65
+35,Mono: VCAN+,-0.3877,-0.61
+35,Blast-like: Pro-monocyte,-0.4406,-0.65
+35,Mono: Antigen-presenting (HLA-II+),-0.7229,-1.27
+36,Blast-like: GMP,2.7838,4.56
+36,Granulocyte: Neutrophil (CST7+),1.4338,2.28
+36,Granulocyte: Mast,0.5046,1.56
+36,Stroma: Adipogenic progenitor / Preadipocyte,0.1423,0.92
+36,Plasma: Plasmablast/Plasma,0.1316,0.12
+36,Stroma: Adipogenic lineage precursor,0.1123,0.8
+36,Stroma: Periosteal SSC (ITM2A+),0.1004,0.55
+36,Bone: Osteogenic progenitor,0.0943,0.14
+36,HSPC: LMPP,0.0861,0.02
+36,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.0811,0.22
+36,Stroma: Adipocyte,0.0797,0.56
+36,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0767,0.39
+36,Myeloid: Generic,0.0469,0.01
+36,Vascular: Endothelial (arteriolar/arterial),0.0204,0.05
+36,Vascular: Endothelial (sinusoidal),0.0198,0.02
+36,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.018,0.03
+36,Stroma: Fibroblast-like stroma,-0.0025,-0.08
+36,Vascular: Mural (Pericyte/SMC),-0.0047,-0.1
+36,Bone: Osteocyte,-0.0102,0.03
+36,CD4 T helper: Th17,-0.0123,-0.31
+36,CD4 T: Treg,-0.0131,-0.21
+36,Granulocyte: Eosinophil,-0.023,-0.22
+36,T: TCR????,-0.0316,-0.13
+36,Cartilage: Superficial/articular-like,-0.0384,-0.26
+36,DC: pDC,-0.0402,-0.21
+36,Erythroid: Late/Mature,-0.0426,-0.1
+36,Cartilage: Chondrocyte,-0.051,-0.31
+36,Bone: Osteoblast,-0.0668,-0.23
+36,DC: cDC1,-0.076,-0.6
+36,Blast-like: HSC/MPP,-0.0783,-0.31
+36,Bone: Osteoclast,-0.0807,-0.68
+36,DC: ASDC (AXL+SIGLEC6+),-0.0835,-0.31
+36,T: MAIT,-0.0835,-0.36
+36,T/NK,-0.0861,-0.33
+36,CD4 T helper: Th2,-0.0894,-0.47
+36,Blast-like: cDC,-0.092,-0.35
+36,Cartilage: Hypertrophic chondrocyte,-0.0946,-0.57
+36,Stroma: MSC/perivascular (MCAM+),-0.096,-0.19
+36,Platelet,-0.0978,-0.22
+36,DC: ASDC (AXLSIGLEC6+),-0.0987,-0.23
+36,Megakaryocyte,-0.0997,-0.22
+36,Mono: Proliferating (Cycling),-0.1033,-0.25
+36,CD4 T: Tfh,-0.1085,-0.69
+36,Mono: Antigen-presenting (HLA-II+),-0.1121,-0.21
+36,CD4 T helper: Th1,-0.1197,-0.38
+36,DC: cDC2,-0.1253,-0.27
+36,B: Pro/Pre-B,-0.1264,-0.29
+36,HSPC: HSC/MPP,-0.1294,-0.58
+36,Granulocyte: Basophil,-0.1343,-0.55
+36,Mono: Non-classical,-0.139,-0.51
+36,Ery/Meg prog: MEP/MkP,-0.1453,-0.32
+36,B: Naive,-0.1501,-0.31
+36,HSPC: CLP/Early lymphoid,-0.1502,-0.41
+36,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1563,-0.29
+36,Stroma: MSC/perivascular,-0.1577,-0.26
+36,DC: Migratory (LAMP3+CCR7+),-0.1588,-0.42
+36,Erythroid: Early (CFU-E),-0.1651,-0.35
+36,CD8 T: Effector/Cytotoxic,-0.1664,-0.24
+36,Granulocyte: Neutrophil,-0.171,-0.37
+36,NK: CD56bright (CD16-/low),-0.1878,-0.41
+36,CD4 T: Naive/TCM,-0.2088,-0.35
+36,"NK: CD56dim (CD16+, cytotoxic)",-0.2254,-0.37
+36,CD8 T: Naive/Early,-0.2454,-0.47
+36,B: Memory,-0.2502,-0.49
+36,Mono: Inflammatory (CCL3/4+),-0.2533,-0.66
+36,Mono: Classical,-0.2661,-0.5
+36,Blast-like: Monocyte,-0.271,-0.51
+36,DC: DC3,-0.3337,-0.56
+36,T: Pan (CD3+),-0.3486,-0.38
+36,Mono: VCAN+,-0.3921,-0.62
+36,Blast-like: Pro-monocyte,-0.4082,-0.61
+37,Vascular: Endothelial (sinusoidal),2.6094,6.68
+37,Vascular: Endothelial (arteriolar/arterial),1.5277,7.09
+37,Stroma: MSC/perivascular (MCAM+),1.3671,1.08
+37,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.866,3.92
+37,DC: pDC,0.7825,1.6
+37,Cartilage: Superficial/articular-like,0.7564,4.86
+37,Blast-like: HSC/MPP,0.7485,1.71
+37,Stroma: MSC/perivascular,0.6434,0.76
+37,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.6266,2.36
+37,HSPC: HSC/MPP,0.5948,2.61
+37,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),0.5491,0.7
+37,Stroma: Adipogenic lineage precursor,0.4389,3.01
+37,Erythroid: Early (CFU-E),0.3194,0.5
+37,Bone: Osteoblast,0.3154,0.47
+37,T/NK,0.2652,0.42
+37,Stroma: Adipocyte,0.2643,1.55
+37,Cartilage: Hypertrophic chondrocyte,0.2326,1.06
+37,Granulocyte: Basophil,0.217,0.77
+37,Cartilage: Chondrocyte,0.189,0.89
+37,HSPC: CLP/Early lymphoid,0.1439,0.32
+37,HSPC: LMPP,0.0555,-0.05
+37,CD4 T: Tfh,0.007,0.05
+37,DC: cDC1,0.0018,-0.03
+37,Granulocyte: Eosinophil,-0.0042,0.49
+37,Bone: Osteocyte,-0.0101,0.04
+37,CD4 T helper: Th17,-0.0106,-0.09
+37,Bone: Osteogenic progenitor,-0.0175,-0.18
+37,CD4 T: Treg,-0.0272,-0.38
+37,Mono: Non-classical,-0.0289,-0.17
+37,CD4 T helper: Th2,-0.0397,-0.1
+37,Mono: VCAN+,-0.0541,-0.13
+37,DC: ASDC (AXLSIGLEC6+),-0.059,-0.18
+37,Blast-like: cDC,-0.061,-0.22
+37,DC: ASDC (AXL+SIGLEC6+),-0.0632,-0.27
+37,T: TCR????,-0.0658,-0.5
+37,Bone: Osteoclast,-0.0666,-0.57
+37,CD8 T: Naive/Early,-0.0671,-0.01
+37,T: MAIT,-0.0766,-0.31
+37,Platelet,-0.084,-0.2
+37,Megakaryocyte,-0.0945,-0.21
+37,B: Naive,-0.1144,-0.25
+37,CD4 T helper: Th1,-0.1164,-0.37
+37,Mono: Antigen-presenting (HLA-II+),-0.1284,-0.24
+37,Ery/Meg prog: MEP/MkP,-0.1318,-0.29
+37,NK: CD56bright (CD16-/low),-0.1332,-0.26
+37,DC: cDC2,-0.1383,-0.29
+37,Stroma: Adipogenic progenitor / Preadipocyte,-0.1386,-0.68
+37,DC: Migratory (LAMP3+CCR7+),-0.1513,-0.39
+37,B: Pro/Pre-B,-0.1712,-0.36
+37,Mono: Inflammatory (CCL3/4+),-0.1833,-0.49
+37,Granulocyte: Mast,-0.2125,-0.55
+37,Plasma: Plasmablast/Plasma,-0.2157,-0.66
+37,B: Memory,-0.2272,-0.44
+37,CD4 T: Naive/TCM,-0.2404,-0.44
+37,Mono: Proliferating (Cycling),-0.2413,-0.46
+37,CD8 T: Effector/Cytotoxic,-0.2563,-0.4
+37,Blast-like: Monocyte,-0.2572,-0.49
+37,Stroma: Fibroblast-like stroma,-0.2854,-0.61
+37,Mono: Classical,-0.287,-0.54
+37,Granulocyte: Neutrophil,-0.2924,-0.63
+37,Erythroid: Late/Mature,-0.314,-0.49
+37,Blast-like: GMP,-0.3468,-0.63
+37,T: Pan (CD3+),-0.3487,-0.38
+37,Blast-like: Pro-monocyte,-0.354,-0.53
+37,"NK: CD56dim (CD16+, cytotoxic)",-0.3713,-0.63
+37,Granulocyte: Neutrophil (CST7+),-0.3849,-0.53
+37,DC: DC3,-0.4444,-0.75
+37,Vascular: Mural (Pericyte/SMC),-0.593,-0.94
+37,Myeloid: Generic,-0.6448,-0.93
+37,Stroma: Periosteal SSC (ITM2A+),-0.8677,-3.37
+37,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.9467,-3.43
+38,Mono: VCAN+,1.1986,1.66
+38,Myeloid: Generic,1.0912,1.43
+38,Blast-like: Pro-monocyte,0.9792,1.36
+38,Mono: Classical,0.8494,1.53
+38,Blast-like: Monocyte,0.6341,1.04
+38,DC: DC3,0.6032,1.01
+38,Granulocyte: Neutrophil,0.4812,1.01
+38,Mono: Inflammatory (CCL3/4+),0.3554,0.79
+38,Granulocyte: Basophil,0.286,1.03
+38,Mono: Antigen-presenting (HLA-II+),0.2764,0.46
+38,"NK: CD56dim (CD16+, cytotoxic)",0.0578,0.11
+38,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0212,0.18
+38,Stroma: Adipocyte,0.0203,0.24
+38,Stroma: Periosteal SSC (ITM2A+),0.0165,0.21
+38,Stroma: Adipogenic lineage precursor,0.0142,0.14
+38,Vascular: Endothelial (arteriolar/arterial),0.0037,-0.03
+38,CD4 T: Tfh,-0.0085,-0.05
+38,Vascular: Endothelial (sinusoidal),-0.0088,-0.06
+38,Bone: Osteoclast,-0.0103,-0.12
+38,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0104,-0.14
+38,CD4 T helper: Th17,-0.0139,-0.51
+38,Platelet,-0.0142,-0.08
+38,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.017,-0.13
+38,Bone: Osteocyte,-0.0229,-0.28
+38,CD4 T: Treg,-0.0242,-0.34
+38,Granulocyte: Eosinophil,-0.0272,-0.37
+38,Stroma: Adipogenic progenitor / Preadipocyte,-0.0424,-0.13
+38,Cartilage: Superficial/articular-like,-0.0465,-0.31
+38,Cartilage: Chondrocyte,-0.0567,-0.34
+38,T: TCR????,-0.0678,-0.52
+38,Stroma: Fibroblast-like stroma,-0.0769,-0.22
+38,DC: ASDC (AXL+SIGLEC6+),-0.0797,-0.3
+38,Cartilage: Hypertrophic chondrocyte,-0.0826,-0.51
+38,Mono: Non-classical,-0.0859,-0.34
+38,T: MAIT,-0.0859,-0.37
+38,DC: cDC1,-0.0904,-0.71
+38,CD4 T helper: Th2,-0.0906,-0.48
+38,DC: ASDC (AXLSIGLEC6+),-0.091,-0.22
+38,Megakaryocyte,-0.091,-0.21
+38,Vascular: Mural (Pericyte/SMC),-0.0926,-0.23
+38,Stroma: MSC/perivascular (MCAM+),-0.0934,-0.18
+38,DC: cDC2,-0.0941,-0.2
+38,Blast-like: cDC,-0.0956,-0.37
+38,CD4 T helper: Th1,-0.1029,-0.33
+38,Bone: Osteoblast,-0.1115,-0.31
+38,HSPC: HSC/MPP,-0.1142,-0.52
+38,CD8 T: Effector/Cytotoxic,-0.1228,-0.17
+38,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1324,-0.26
+38,DC: Migratory (LAMP3+CCR7+),-0.1438,-0.36
+38,Ery/Meg prog: MEP/MkP,-0.1484,-0.32
+38,Erythroid: Early (CFU-E),-0.1557,-0.33
+38,Stroma: MSC/perivascular,-0.16,-0.26
+38,Bone: Osteogenic progenitor,-0.161,-0.6
+38,Plasma: Plasmablast/Plasma,-0.1755,-0.57
+38,B: Pro/Pre-B,-0.1784,-0.37
+38,NK: CD56bright (CD16-/low),-0.1851,-0.4
+38,B: Naive,-0.1966,-0.39
+38,Mono: Proliferating (Cycling),-0.212,-0.41
+38,DC: pDC,-0.2172,-0.6
+38,CD8 T: Naive/Early,-0.2237,-0.41
+38,Granulocyte: Mast,-0.2282,-0.6
+38,HSPC: CLP/Early lymphoid,-0.233,-0.61
+38,Blast-like: GMP,-0.2367,-0.45
+38,CD4 T: Naive/TCM,-0.2376,-0.43
+38,Erythroid: Late/Mature,-0.2511,-0.4
+38,B: Memory,-0.2694,-0.53
+38,T/NK,-0.2711,-0.72
+38,Blast-like: HSC/MPP,-0.2715,-0.78
+38,HSPC: LMPP,-0.3358,-1.02
+38,Granulocyte: Neutrophil (CST7+),-0.3379,-0.46
+38,T: Pan (CD3+),-0.3499,-0.38
+39,Mono: Proliferating (Cycling),2.9052,4.24
+39,B: Pro/Pre-B,2.6141,3.92
+39,B: Naive,1.926,3.15
+39,T/NK,1.7467,3.58
+39,HSPC: CLP/Early lymphoid,0.9733,2.37
+39,Plasma: Plasmablast/Plasma,0.5874,1.14
+39,HSPC: LMPP,0.5569,1.19
+39,DC: pDC,0.4816,0.94
+39,Mono: Antigen-presenting (HLA-II+),0.4392,0.74
+39,CD8 T: Naive/Early,0.2458,0.79
+39,Stroma: Adipogenic progenitor / Preadipocyte,0.1257,0.82
+39,Stroma: Adipocyte,0.0817,0.57
+39,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0801,0.4
+39,Cartilage: Hypertrophic chondrocyte,0.0581,0.19
+39,Stroma: Periosteal SSC (ITM2A+),0.0522,0.35
+39,Stroma: Adipogenic lineage precursor,0.0422,0.33
+39,Vascular: Endothelial (arteriolar/arterial),0.02,0.05
+39,Vascular: Endothelial (sinusoidal),0.01,-0.01
+39,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.0068,-0.02
+39,CD4 T: Treg,0.0035,-0.02
+39,CD4 T helper: Th17,-0.006,0.49
+39,Vascular: Mural (Pericyte/SMC),-0.0085,-0.11
+39,Bone: Osteocyte,-0.0089,0.06
+39,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0233,-0.19
+39,Granulocyte: Eosinophil,-0.0243,-0.26
+39,Cartilage: Superficial/articular-like,-0.0342,-0.23
+39,T: TCR????,-0.0392,-0.21
+39,Erythroid: Late/Mature,-0.0452,-0.11
+39,Cartilage: Chondrocyte,-0.0476,-0.29
+39,Stroma: Fibroblast-like stroma,-0.0642,-0.19
+39,T: MAIT,-0.076,-0.3
+39,DC: cDC1,-0.0762,-0.6
+39,Stroma: MSC/perivascular (MCAM+),-0.0786,-0.17
+39,CD4 T helper: Th2,-0.0787,-0.39
+39,Megakaryocyte,-0.0801,-0.19
+39,CD4 T helper: Th1,-0.0837,-0.28
+39,Platelet,-0.0841,-0.2
+39,DC: ASDC (AXL+SIGLEC6+),-0.0934,-0.33
+39,NK: CD56bright (CD16-/low),-0.0983,-0.16
+39,CD4 T: Tfh,-0.0998,-0.63
+39,Bone: Osteoclast,-0.1016,-0.85
+39,Blast-like: cDC,-0.1022,-0.39
+39,Mono: Non-classical,-0.112,-0.43
+39,DC: ASDC (AXLSIGLEC6+),-0.1133,-0.25
+39,B: Memory,-0.1165,-0.19
+39,Bone: Osteoblast,-0.129,-0.35
+39,DC: cDC2,-0.13,-0.28
+39,Blast-like: HSC/MPP,-0.1319,-0.44
+39,Erythroid: Early (CFU-E),-0.1348,-0.3
+39,Bone: Osteogenic progenitor,-0.1427,-0.55
+39,DC: Migratory (LAMP3+CCR7+),-0.1446,-0.36
+39,Ery/Meg prog: MEP/MkP,-0.1484,-0.32
+39,Stroma: MSC/perivascular,-0.1554,-0.25
+39,Granulocyte: Basophil,-0.1561,-0.63
+39,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1613,-0.3
+39,CD4 T: Naive/TCM,-0.1762,-0.26
+39,Granulocyte: Mast,-0.2226,-0.58
+39,CD8 T: Effector/Cytotoxic,-0.2234,-0.34
+39,Mono: Inflammatory (CCL3/4+),-0.2603,-0.68
+39,HSPC: HSC/MPP,-0.2743,-1.22
+39,Blast-like: Monocyte,-0.2805,-0.53
+39,Granulocyte: Neutrophil,-0.2965,-0.64
+39,T: Pan (CD3+),-0.3306,-0.35
+39,"NK: CD56dim (CD16+, cytotoxic)",-0.3366,-0.57
+39,DC: DC3,-0.3375,-0.57
+39,Blast-like: GMP,-0.3416,-0.62
+39,Mono: Classical,-0.3477,-0.65
+39,Granulocyte: Neutrophil (CST7+),-0.3642,-0.5
+39,Mono: VCAN+,-0.3876,-0.61
+39,Blast-like: Pro-monocyte,-0.4018,-0.6
+39,Myeloid: Generic,-0.5272,-0.77
+40,Blast-like: HSC/MPP,1.1918,2.8
+40,T/NK,0.7024,1.36
+40,HSPC: HSC/MPP,0.6466,2.84
+40,Mono: Antigen-presenting (HLA-II+),0.5945,1.01
+40,HSPC: LMPP,0.5744,1.23
+40,HSPC: CLP/Early lymphoid,0.2956,0.7
+40,Granulocyte: Mast,0.2739,0.88
+40,Stroma: Adipogenic progenitor / Preadipocyte,0.1811,1.14
+40,DC: cDC1,0.1498,1.05
+40,Blast-like: cDC,0.1284,0.61
+40,Bone: Osteogenic progenitor,0.0743,0.08
+40,Granulocyte: Basophil,0.0632,0.19
+40,Mono: Non-classical,0.0503,0.08
+40,Cartilage: Superficial/articular-like,0.0346,0.21
+40,Vascular: Endothelial (arteriolar/arterial),0.016,0.03
+40,Vascular: Endothelial (sinusoidal),0.016,0.01
+40,Cartilage: Hypertrophic chondrocyte,0.0113,-0.05
+40,Plasma: Plasmablast/Plasma,0.0083,-0.16
+40,Stroma: Adipocyte,0.008,0.18
+40,CD4 T: Treg,0.0041,-0.01
+40,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0063,0.08
+40,Bone: Osteoblast,-0.0082,-0.12
+40,Stroma: Adipogenic lineage precursor,-0.0093,-0.02
+40,CD4 T helper: Th17,-0.0115,-0.2
+40,Stroma: Periosteal SSC (ITM2A+),-0.0143,0.08
+40,Bone: Osteocyte,-0.0159,-0.11
+40,CD4 T helper: Th1,-0.0231,-0.11
+40,Granulocyte: Eosinophil,-0.0237,-0.24
+40,Cartilage: Chondrocyte,-0.0287,-0.2
+40,Bone: Osteoclast,-0.0465,-0.41
+40,Stroma: MSC/perivascular (MCAM+),-0.0468,-0.14
+40,CD4 T helper: Th2,-0.0502,-0.18
+40,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.053,-0.3
+40,DC: ASDC (AXL+SIGLEC6+),-0.0534,-0.25
+40,T: TCR????,-0.0553,-0.39
+40,DC: pDC,-0.0573,-0.25
+40,Vascular: Mural (Pericyte/SMC),-0.0595,-0.18
+40,DC: ASDC (AXLSIGLEC6+),-0.0599,-0.18
+40,Erythroid: Late/Mature,-0.0632,-0.13
+40,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0661,-0.36
+40,Granulocyte: Neutrophil (CST7+),-0.0668,-0.04
+40,Megakaryocyte,-0.0695,-0.17
+40,Platelet,-0.0845,-0.2
+40,T: MAIT,-0.0846,-0.36
+40,Stroma: Fibroblast-like stroma,-0.0947,-0.25
+40,CD4 T: Tfh,-0.109,-0.69
+40,Myeloid: Generic,-0.1139,-0.21
+40,DC: cDC2,-0.117,-0.25
+40,B: Naive,-0.1224,-0.27
+40,B: Memory,-0.1243,-0.2
+40,DC: Migratory (LAMP3+CCR7+),-0.1398,-0.34
+40,Ery/Meg prog: MEP/MkP,-0.1421,-0.31
+40,Stroma: MSC/perivascular,-0.1427,-0.24
+40,NK: CD56bright (CD16-/low),-0.1441,-0.29
+40,Blast-like: GMP,-0.1601,-0.32
+40,B: Pro/Pre-B,-0.1604,-0.35
+40,Mono: Proliferating (Cycling),-0.1664,-0.35
+40,Granulocyte: Neutrophil,-0.1805,-0.39
+40,CD4 T: Naive/TCM,-0.189,-0.3
+40,Erythroid: Early (CFU-E),-0.1937,-0.4
+40,Mono: Inflammatory (CCL3/4+),-0.2137,-0.57
+40,"NK: CD56dim (CD16+, cytotoxic)",-0.2141,-0.35
+40,CD8 T: Effector/Cytotoxic,-0.2213,-0.34
+40,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.2272,-0.39
+40,Blast-like: Monocyte,-0.2307,-0.44
+40,CD8 T: Naive/Early,-0.2381,-0.45
+40,T: Pan (CD3+),-0.2963,-0.29
+40,Mono: Classical,-0.2964,-0.56
+40,DC: DC3,-0.3128,-0.53
+40,Blast-like: Pro-monocyte,-0.383,-0.57
+40,Mono: VCAN+,-0.3894,-0.61
+41,Mono: VCAN+,2.3568,3.32
+41,Blast-like: Pro-monocyte,2.0872,2.94
+41,Blast-like: Monocyte,2.0251,3.43
+41,Myeloid: Generic,2.0103,2.68
+41,Mono: Classical,1.7485,3.17
+41,DC: DC3,1.4524,2.43
+41,Mono: Inflammatory (CCL3/4+),1.4067,3.28
+41,Granulocyte: Neutrophil,0.8385,1.77
+41,CD4 T: Tfh,0.4623,2.96
+41,Mono: Non-classical,0.3874,1.14
+41,Mono: Antigen-presenting (HLA-II+),0.2545,0.42
+41,"NK: CD56dim (CD16+, cytotoxic)",0.2424,0.43
+41,DC: cDC1,0.1892,1.34
+41,Bone: Osteoclast,0.1297,1.02
+41,DC: ASDC (AXLSIGLEC6+),0.0427,-0.06
+41,HSPC: LMPP,0.0257,-0.12
+41,Erythroid: Early (CFU-E),-8e-04,-0.06
+41,DC: ASDC (AXL+SIGLEC6+),-0.0056,-0.15
+41,CD4 T helper: Th1,-0.0094,-0.07
+41,CD4 T helper: Th17,-0.0139,-0.51
+41,CD4 T: Treg,-0.0233,-0.33
+41,Bone: Osteocyte,-0.0249,-0.33
+41,Granulocyte: Eosinophil,-0.0272,-0.37
+41,Vascular: Endothelial (arteriolar/arterial),-0.029,-0.18
+41,T: TCR????,-0.0292,-0.11
+41,Vascular: Endothelial (sinusoidal),-0.0386,-0.13
+41,Blast-like: GMP,-0.0403,-0.12
+41,Cartilage: Superficial/articular-like,-0.0491,-0.33
+41,Stroma: Adipocyte,-0.052,-0.14
+41,Cartilage: Chondrocyte,-0.0555,-0.33
+41,Platelet,-0.0623,-0.16
+41,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0748,-0.18
+41,T: MAIT,-0.0853,-0.37
+41,Bone: Osteogenic progenitor,-0.0922,-0.4
+41,CD4 T helper: Th2,-0.0922,-0.49
+41,Plasma: Plasmablast/Plasma,-0.094,-0.39
+41,Stroma: Periosteal SSC (ITM2A+),-0.0953,-0.24
+41,Stroma: MSC/perivascular (MCAM+),-0.0974,-0.19
+41,Stroma: Adipogenic lineage precursor,-0.0997,-0.63
+41,Megakaryocyte,-0.1017,-0.22
+41,Blast-like: cDC,-0.106,-0.41
+41,Cartilage: Hypertrophic chondrocyte,-0.115,-0.68
+41,Bone: Osteoblast,-0.1256,-0.34
+41,DC: cDC2,-0.1338,-0.28
+41,Vascular: Mural (Pericyte/SMC),-0.1352,-0.29
+41,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1438,-0.27
+41,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.1504,-0.69
+41,DC: Migratory (LAMP3+CCR7+),-0.1542,-0.4
+41,B: Naive,-0.1573,-0.32
+41,Stroma: MSC/perivascular,-0.159,-0.26
+41,CD4 T: Naive/TCM,-0.1608,-0.22
+41,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.1622,-0.8
+41,Ery/Meg prog: MEP/MkP,-0.1637,-0.35
+41,Stroma: Fibroblast-like stroma,-0.1676,-0.39
+41,Granulocyte: Basophil,-0.1768,-0.71
+41,B: Pro/Pre-B,-0.177,-0.37
+41,CD8 T: Effector/Cytotoxic,-0.1799,-0.27
+41,NK: CD56bright (CD16-/low),-0.1892,-0.41
+41,DC: pDC,-0.1978,-0.56
+41,HSPC: HSC/MPP,-0.1989,-0.89
+41,HSPC: CLP/Early lymphoid,-0.2418,-0.64
+41,CD8 T: Naive/Early,-0.2428,-0.46
+41,Mono: Proliferating (Cycling),-0.2435,-0.46
+41,Granulocyte: Mast,-0.2556,-0.68
+41,Erythroid: Late/Mature,-0.2681,-0.42
+41,B: Memory,-0.2786,-0.55
+41,Blast-like: HSC/MPP,-0.2806,-0.8
+41,T/NK,-0.3024,-0.79
+41,Stroma: Adipogenic progenitor / Preadipocyte,-0.3268,-1.75
+41,T: Pan (CD3+),-0.3539,-0.39
+41,Granulocyte: Neutrophil (CST7+),-0.3806,-0.52
+42,Stroma: MSC/perivascular (MCAM+),8.5586,7.29
+42,DC: ASDC (AXLSIGLEC6+),5.7226,6.63
+42,Vascular: Mural (Pericyte/SMC),5.0843,7.11
+42,DC: ASDC (AXL+SIGLEC6+),3.1487,6.48
+42,Cartilage: Chondrocyte,0.7821,3.87
+42,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),0.7551,1
+42,Bone: Osteoblast,0.4672,0.75
+42,Cartilage: Hypertrophic chondrocyte,0.4189,1.98
+42,CD4 T: Tfh,0.3784,2.42
+42,Mono: Non-classical,0.3209,0.93
+42,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.2498,1.09
+42,DC: pDC,0.1857,0.29
+42,HSPC: HSC/MPP,0.1755,0.76
+42,Stroma: MSC/perivascular,0.1564,0.14
+42,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.1391,0.44
+42,Cartilage: Superficial/articular-like,0.122,0.78
+42,Blast-like: HSC/MPP,0.0738,0.06
+42,CD4 T: Treg,0.0511,0.54
+42,DC: cDC1,0.0309,0.18
+42,Bone: Osteocyte,0.0107,0.55
+42,Bone: Osteogenic progenitor,-4e-04,-0.13
+42,CD4 T helper: Th17,-0.0131,-0.41
+42,Granulocyte: Eosinophil,-0.0132,0.15
+42,Platelet,-0.0234,-0.09
+42,Bone: Osteoclast,-0.0538,-0.47
+42,T: TCR????,-0.0684,-0.53
+42,CD4 T helper: Th2,-0.0687,-0.32
+42,Granulocyte: Basophil,-0.0693,-0.3
+42,T: MAIT,-0.0817,-0.34
+42,Megakaryocyte,-0.0864,-0.2
+42,Blast-like: cDC,-0.107,-0.42
+42,CD4 T helper: Th1,-0.1155,-0.36
+42,Ery/Meg prog: MEP/MkP,-0.1295,-0.29
+42,CD8 T: Naive/Early,-0.1332,-0.18
+42,DC: cDC2,-0.1395,-0.3
+42,Erythroid: Early (CFU-E),-0.1398,-0.3
+42,DC: Migratory (LAMP3+CCR7+),-0.1462,-0.37
+42,B: Naive,-0.1608,-0.33
+42,Stroma: Fibroblast-like stroma,-0.1631,-0.38
+42,B: Pro/Pre-B,-0.1741,-0.37
+42,NK: CD56bright (CD16-/low),-0.1856,-0.4
+42,HSPC: CLP/Early lymphoid,-0.1989,-0.53
+42,Stroma: Adipogenic lineage precursor,-0.2046,-1.34
+42,Plasma: Plasmablast/Plasma,-0.2061,-0.64
+42,Mono: Inflammatory (CCL3/4+),-0.239,-0.63
+42,T/NK,-0.2392,-0.65
+42,Granulocyte: Mast,-0.2466,-0.65
+42,Mono: Proliferating (Cycling),-0.2478,-0.47
+42,CD4 T: Naive/TCM,-0.2514,-0.47
+42,CD8 T: Effector/Cytotoxic,-0.2615,-0.4
+42,Stroma: Adipocyte,-0.2741,-1.33
+42,Mono: VCAN+,-0.2765,-0.45
+42,Granulocyte: Neutrophil,-0.2936,-0.63
+42,HSPC: LMPP,-0.3129,-0.96
+42,Vascular: Endothelial (arteriolar/arterial),-0.313,-1.5
+42,Blast-like: Monocyte,-0.3188,-0.59
+42,B: Memory,-0.3353,-0.68
+42,T: Pan (CD3+),-0.352,-0.39
+42,Blast-like: GMP,-0.3534,-0.64
+42,Erythroid: Late/Mature,-0.3577,-0.55
+42,Mono: Classical,-0.3599,-0.67
+42,"NK: CD56dim (CD16+, cytotoxic)",-0.3765,-0.63
+42,Granulocyte: Neutrophil (CST7+),-0.3904,-0.54
+42,Blast-like: Pro-monocyte,-0.4471,-0.66
+42,DC: DC3,-0.4499,-0.76
+42,Myeloid: Generic,-0.6543,-0.94
+42,Mono: Antigen-presenting (HLA-II+),-0.6742,-1.18
+42,Stroma: Adipogenic progenitor / Preadipocyte,-0.7535,-4.17
+42,Vascular: Endothelial (sinusoidal),-1.0059,-2.62
+42,Stroma: Periosteal SSC (ITM2A+),-1.5995,-6.33
+42,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-1.7309,-6.36
+43,B: Naive,3.1075,5.13
+43,B: Pro/Pre-B,2.1887,3.27
+43,Plasma: Plasmablast/Plasma,1.0245,2.12
+43,Mono: Antigen-presenting (HLA-II+),0.698,1.19
+43,DC: pDC,0.5015,0.98
+43,HSPC: CLP/Early lymphoid,0.4842,1.16
+43,HSPC: LMPP,0.3452,0.66
+43,CD4 T: Treg,0.1157,1.29
+43,Stroma: Adipogenic progenitor / Preadipocyte,0.0982,0.67
+43,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0551,0.31
+43,Stroma: Adipocyte,0.0496,0.4
+43,CD8 T: Naive/Early,0.0395,0.26
+43,Stroma: Periosteal SSC (ITM2A+),0.0276,0.25
+43,Stroma: Adipogenic lineage precursor,-0.0031,0.02
+43,CD4 T helper: Th17,-0.0131,-0.41
+43,Bone: Osteocyte,-0.0242,-0.32
+43,Granulocyte: Eosinophil,-0.0248,-0.28
+43,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0335,-0.21
+43,Cartilage: Hypertrophic chondrocyte,-0.0356,-0.28
+43,Platelet,-0.0357,-0.11
+43,T: TCR????,-0.0383,-0.2
+43,Cartilage: Superficial/articular-like,-0.0384,-0.26
+43,Vascular: Endothelial (arteriolar/arterial),-0.0443,-0.25
+43,Vascular: Mural (Pericyte/SMC),-0.0481,-0.16
+43,Cartilage: Chondrocyte,-0.0514,-0.31
+43,Megakaryocyte,-0.0536,-0.14
+43,Vascular: Endothelial (sinusoidal),-0.0647,-0.2
+43,DC: cDC1,-0.0659,-0.53
+43,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0693,-0.38
+43,T: MAIT,-0.0785,-0.32
+43,CD4 T: Tfh,-0.0813,-0.52
+43,Blast-like: cDC,-0.0816,-0.31
+43,Granulocyte: Basophil,-0.083,-0.36
+43,CD4 T helper: Th2,-0.085,-0.44
+43,Stroma: Fibroblast-like stroma,-0.0912,-0.24
+43,DC: ASDC (AXL+SIGLEC6+),-0.0928,-0.33
+43,Bone: Osteoclast,-0.0933,-0.79
+43,DC: cDC2,-0.0952,-0.2
+43,Stroma: MSC/perivascular (MCAM+),-0.1011,-0.19
+43,Mono: Non-classical,-0.1016,-0.39
+43,NK: CD56bright (CD16-/low),-0.106,-0.18
+43,CD4 T helper: Th1,-0.1135,-0.36
+43,DC: ASDC (AXLSIGLEC6+),-0.1141,-0.25
+43,B: Memory,-0.1151,-0.18
+43,DC: Migratory (LAMP3+CCR7+),-0.1246,-0.28
+43,Ery/Meg prog: MEP/MkP,-0.1268,-0.28
+43,Bone: Osteoblast,-0.1302,-0.35
+43,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1454,-0.27
+43,Stroma: MSC/perivascular,-0.1489,-0.24
+43,Mono: Proliferating (Cycling),-0.1783,-0.36
+43,Erythroid: Late/Mature,-0.1845,-0.31
+43,Bone: Osteogenic progenitor,-0.1905,-0.69
+43,CD4 T: Naive/TCM,-0.1939,-0.31
+43,Erythroid: Early (CFU-E),-0.2099,-0.43
+43,Mono: Inflammatory (CCL3/4+),-0.2316,-0.61
+43,CD8 T: Effector/Cytotoxic,-0.2349,-0.36
+43,Granulocyte: Mast,-0.2416,-0.64
+43,Granulocyte: Neutrophil,-0.257,-0.56
+43,T/NK,-0.2603,-0.7
+43,Blast-like: HSC/MPP,-0.284,-0.81
+43,Blast-like: Monocyte,-0.3269,-0.61
+43,T: Pan (CD3+),-0.3293,-0.35
+43,"NK: CD56dim (CD16+, cytotoxic)",-0.3445,-0.58
+43,Blast-like: GMP,-0.3514,-0.64
+43,Mono: Classical,-0.3576,-0.67
+43,Mono: VCAN+,-0.3679,-0.58
+43,Granulocyte: Neutrophil (CST7+),-0.3697,-0.5
+43,DC: DC3,-0.3804,-0.64
+43,Blast-like: Pro-monocyte,-0.4286,-0.64
+43,HSPC: HSC/MPP,-0.463,-2.06
+43,Myeloid: Generic,-0.6261,-0.9
+44,Mono: VCAN+,1.4587,2.04
+44,Blast-like: Pro-monocyte,1.4298,2
+44,Myeloid: Generic,1.2727,1.68
+44,DC: DC3,1.2303,2.06
+44,Mono: Classical,1.0932,1.98
+44,Mono: Antigen-presenting (HLA-II+),1.0341,1.77
+44,Blast-like: Monocyte,0.9527,1.59
+44,Mono: Inflammatory (CCL3/4+),0.8717,2.01
+44,Granulocyte: Neutrophil,0.7197,1.51
+44,DC: cDC2,0.4584,1
+44,Blast-like: GMP,0.2722,0.4
+44,Granulocyte: Basophil,0.2567,0.92
+44,"NK: CD56dim (CD16+, cytotoxic)",0.2157,0.38
+44,Mono: Non-classical,0.2063,0.57
+44,CD4 T helper: Th1,0.19,0.49
+44,CD4 T: Tfh,0.1681,1.08
+44,Erythroid: Early (CFU-E),0.078,0.08
+44,Bone: Osteoclast,0.0434,0.32
+44,Blast-like: cDC,0.043,0.23
+44,Cartilage: Hypertrophic chondrocyte,0.0391,0.09
+44,Vascular: Endothelial (sinusoidal),0.0136,0
+44,Vascular: Endothelial (arteriolar/arterial),0.0082,0
+44,Bone: Osteogenic progenitor,-0.0052,-0.15
+44,CD4 T helper: Th17,-0.0139,-0.51
+44,DC: cDC1,-0.0181,-0.18
+44,Granulocyte: Eosinophil,-0.0193,-0.08
+44,CD4 T: Treg,-0.0217,-0.31
+44,Erythroid: Late/Mature,-0.0227,-0.08
+44,Bone: Osteocyte,-0.0235,-0.3
+44,DC: ASDC (AXL+SIGLEC6+),-0.0458,-0.23
+44,Platelet,-0.0486,-0.14
+44,Cartilage: Superficial/articular-like,-0.0503,-0.33
+44,Cartilage: Chondrocyte,-0.0556,-0.33
+44,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0583,-0.12
+44,Bone: Osteoblast,-0.0644,-0.23
+44,T: TCR????,-0.0678,-0.52
+44,Stroma: Adipocyte,-0.0692,-0.24
+44,Stroma: Periosteal SSC (ITM2A+),-0.0747,-0.16
+44,T: MAIT,-0.0865,-0.38
+44,CD4 T helper: Th2,-0.0914,-0.48
+44,HSPC: HSC/MPP,-0.092,-0.42
+44,DC: ASDC (AXLSIGLEC6+),-0.0944,-0.22
+44,Stroma: MSC/perivascular (MCAM+),-0.0948,-0.19
+44,Stroma: Fibroblast-like stroma,-0.0969,-0.25
+44,Megakaryocyte,-0.0997,-0.22
+44,Stroma: Adipogenic lineage precursor,-0.1082,-0.69
+44,CD8 T: Effector/Cytotoxic,-0.1128,-0.15
+44,Vascular: Mural (Pericyte/SMC),-0.1324,-0.28
+44,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1411,-0.27
+44,B: Naive,-0.1514,-0.31
+44,Ery/Meg prog: MEP/MkP,-0.1572,-0.34
+44,Stroma: MSC/perivascular,-0.16,-0.26
+44,DC: Migratory (LAMP3+CCR7+),-0.1617,-0.43
+44,B: Memory,-0.1646,-0.29
+44,Granulocyte: Mast,-0.1656,-0.42
+44,B: Pro/Pre-B,-0.1694,-0.36
+44,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.17,-0.83
+44,DC: pDC,-0.1728,-0.5
+44,CD4 T: Naive/TCM,-0.1744,-0.26
+44,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.1803,-0.81
+44,NK: CD56bright (CD16-/low),-0.1908,-0.41
+44,Mono: Proliferating (Cycling),-0.2041,-0.4
+44,HSPC: LMPP,-0.2047,-0.69
+44,Plasma: Plasmablast/Plasma,-0.2048,-0.63
+44,CD8 T: Naive/Early,-0.2186,-0.4
+44,HSPC: CLP/Early lymphoid,-0.2212,-0.58
+44,Blast-like: HSC/MPP,-0.2307,-0.68
+44,T/NK,-0.2416,-0.66
+44,Stroma: Adipogenic progenitor / Preadipocyte,-0.2518,-1.32
+44,Granulocyte: Neutrophil (CST7+),-0.2947,-0.39
+44,T: Pan (CD3+),-0.3498,-0.38
+45,Stroma: Fibroblast-like stroma,2.0298,3.73
+45,Stroma: MSC/perivascular,1.8889,2.35
+45,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),1.8339,2.52
+45,Bone: Osteoblast,1.4621,2.58
+45,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.765,2.9
+45,Bone: Osteogenic progenitor,0.6412,1.73
+45,Vascular: Mural (Pericyte/SMC),0.6004,0.76
+45,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.485,2.17
+45,Cartilage: Chondrocyte,0.4066,1.99
+45,Mono: VCAN+,0.3956,0.51
+45,Cartilage: Superficial/articular-like,0.2185,1.4
+45,Bone: Osteoclast,0.1726,1.36
+45,DC: ASDC (AXLSIGLEC6+),0.1352,0.05
+45,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0859,0.42
+45,Stroma: MSC/perivascular (MCAM+),0.0819,-0.03
+45,Stroma: Periosteal SSC (ITM2A+),0.0799,0.47
+45,DC: ASDC (AXL+SIGLEC6+),0.0447,-0.04
+45,Stroma: Adipogenic progenitor / Preadipocyte,0.0344,0.31
+45,Cartilage: Hypertrophic chondrocyte,0.0265,0.03
+45,HSPC: HSC/MPP,-0.0066,-0.04
+45,CD4 T helper: Th17,-0.0119,-0.25
+45,Bone: Osteocyte,-0.0124,-0.02
+45,CD4 T: Treg,-0.0213,-0.31
+45,Granulocyte: Eosinophil,-0.0214,-0.16
+45,Vascular: Endothelial (arteriolar/arterial),-0.0404,-0.23
+45,T: TCR????,-0.067,-0.51
+45,Platelet,-0.0755,-0.18
+45,Granulocyte: Mast,-0.083,-0.17
+45,Megakaryocyte,-0.0831,-0.19
+45,T: MAIT,-0.086,-0.37
+45,CD4 T helper: Th2,-0.0885,-0.46
+45,NK: CD56bright (CD16-/low),-0.0889,-0.13
+45,CD4 T: Tfh,-0.0912,-0.58
+45,DC: cDC1,-0.0989,-0.77
+45,Blast-like: cDC,-0.104,-0.4
+45,DC: pDC,-0.1095,-0.36
+45,CD4 T helper: Th1,-0.119,-0.37
+45,B: Naive,-0.1319,-0.28
+45,DC: cDC2,-0.1356,-0.29
+45,Ery/Meg prog: MEP/MkP,-0.1458,-0.32
+45,Mono: Non-classical,-0.1485,-0.54
+45,B: Pro/Pre-B,-0.158,-0.34
+45,DC: Migratory (LAMP3+CCR7+),-0.1633,-0.44
+45,CD8 T: Effector/Cytotoxic,-0.1695,-0.25
+45,Blast-like: Pro-monocyte,-0.1765,-0.28
+45,Granulocyte: Basophil,-0.1814,-0.73
+45,Vascular: Endothelial (sinusoidal),-0.2119,-0.58
+45,Blast-like: HSC/MPP,-0.2153,-0.64
+45,HSPC: CLP/Early lymphoid,-0.2227,-0.59
+45,CD8 T: Naive/Early,-0.2246,-0.41
+45,Stroma: Adipogenic lineage precursor,-0.2261,-1.49
+45,Erythroid: Early (CFU-E),-0.2274,-0.46
+45,Mono: Classical,-0.2414,-0.46
+45,Mono: Proliferating (Cycling),-0.2498,-0.47
+45,Mono: Inflammatory (CCL3/4+),-0.262,-0.68
+45,CD4 T: Naive/TCM,-0.285,-0.56
+45,Plasma: Plasmablast/Plasma,-0.2857,-0.82
+45,T/NK,-0.2959,-0.77
+45,Granulocyte: Neutrophil,-0.2971,-0.64
+45,B: Memory,-0.3034,-0.61
+45,Erythroid: Late/Mature,-0.3058,-0.48
+45,Blast-like: GMP,-0.3302,-0.6
+45,T: Pan (CD3+),-0.3468,-0.38
+45,HSPC: LMPP,-0.3472,-1.04
+45,Blast-like: Monocyte,-0.3523,-0.65
+45,"NK: CD56dim (CD16+, cytotoxic)",-0.3569,-0.6
+45,Granulocyte: Neutrophil (CST7+),-0.3678,-0.5
+45,Stroma: Adipocyte,-0.4141,-2.08
+45,DC: DC3,-0.4474,-0.75
+45,Mono: Antigen-presenting (HLA-II+),-0.5967,-1.05
+45,Myeloid: Generic,-0.6292,-0.91
+46,Myeloid: Generic,1.6807,2.23
+46,Blast-like: Pro-monocyte,1.4986,2.1
+46,Mono: VCAN+,1.4111,1.97
+46,Blast-like: Monocyte,1.3801,2.32
+46,DC: DC3,1.1419,1.91
+46,Mono: Classical,1.1297,2.04
+46,Blast-like: GMP,0.9058,1.45
+46,Granulocyte: Neutrophil,0.7755,1.63
+46,Mono: Inflammatory (CCL3/4+),0.6306,1.44
+46,CD4 T: Tfh,0.3829,2.45
+46,"NK: CD56dim (CD16+, cytotoxic)",0.2158,0.38
+46,Erythroid: Early (CFU-E),0.2108,0.31
+46,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.1873,0.63
+46,T: TCR????,0.1556,1.87
+46,HSPC: LMPP,0.1536,0.19
+46,Bone: Osteogenic progenitor,0.1433,0.28
+46,Mono: Antigen-presenting (HLA-II+),0.1247,0.2
+46,DC: cDC1,0.1219,0.85
+46,Stroma: Adipogenic lineage precursor,0.1115,0.79
+46,Plasma: Plasmablast/Plasma,0.0815,0.01
+46,Erythroid: Late/Mature,0.0677,0.05
+46,Blast-like: HSC/MPP,0.0176,-0.07
+46,Bone: Osteoclast,0.0105,0.05
+46,Megakaryocyte,0.0038,-0.05
+46,Stroma: MSC/perivascular (MCAM+),4e-04,-0.1
+46,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0084,0.07
+46,CD4 T helper: Th17,-0.0139,-0.51
+46,HSPC: HSC/MPP,-0.0161,-0.09
+46,CD4 T: Treg,-0.0217,-0.31
+46,Granulocyte: Eosinophil,-0.0221,-0.18
+46,Bone: Osteocyte,-0.0222,-0.27
+46,Mono: Non-classical,-0.024,-0.15
+46,Vascular: Endothelial (arteriolar/arterial),-0.0298,-0.18
+46,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0381,-0.23
+46,Vascular: Endothelial (sinusoidal),-0.0416,-0.14
+46,Stroma: Periosteal SSC (ITM2A+),-0.0419,-0.03
+46,Platelet,-0.0465,-0.13
+46,Cartilage: Superficial/articular-like,-0.0474,-0.31
+46,Cartilage: Hypertrophic chondrocyte,-0.0504,-0.35
+46,CD4 T helper: Th1,-0.052,-0.19
+46,Stroma: Adipocyte,-0.052,-0.14
+46,Cartilage: Chondrocyte,-0.0523,-0.32
+46,CD4 T helper: Th2,-0.0796,-0.4
+46,DC: ASDC (AXL+SIGLEC6+),-0.0818,-0.31
+46,Mono: Proliferating (Cycling),-0.0863,-0.23
+46,T: MAIT,-0.0868,-0.38
+46,Bone: Osteoblast,-0.0872,-0.27
+46,DC: ASDC (AXLSIGLEC6+),-0.1016,-0.23
+46,Ery/Meg prog: MEP/MkP,-0.103,-0.24
+46,Blast-like: cDC,-0.1059,-0.41
+46,Stroma: Fibroblast-like stroma,-0.1069,-0.27
+46,Vascular: Mural (Pericyte/SMC),-0.11,-0.25
+46,DC: pDC,-0.1133,-0.37
+46,CD8 T: Effector/Cytotoxic,-0.1145,-0.16
+46,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1323,-0.26
+46,DC: cDC2,-0.1358,-0.29
+46,Stroma: Adipogenic progenitor / Preadipocyte,-0.1481,-0.73
+46,B: Pro/Pre-B,-0.1513,-0.33
+46,Stroma: MSC/perivascular,-0.1571,-0.26
+46,B: Naive,-0.1588,-0.33
+46,Granulocyte: Basophil,-0.1608,-0.65
+46,DC: Migratory (LAMP3+CCR7+),-0.1623,-0.43
+46,NK: CD56bright (CD16-/low),-0.1878,-0.41
+46,T/NK,-0.2044,-0.58
+46,CD8 T: Naive/Early,-0.2336,-0.44
+46,HSPC: CLP/Early lymphoid,-0.2369,-0.62
+46,Granulocyte: Neutrophil (CST7+),-0.2507,-0.32
+46,Granulocyte: Mast,-0.2518,-0.67
+46,CD4 T: Naive/TCM,-0.2577,-0.48
+46,B: Memory,-0.2871,-0.57
+46,T: Pan (CD3+),-0.3511,-0.39
+47,CD4 T helper: Th1,2.1339,5.89
+47,Mono: Inflammatory (CCL3/4+),1.2627,2.94
+47,Granulocyte: Neutrophil (CST7+),1.2096,1.93
+47,NK: CD56bright (CD16-/low),1.1813,3.35
+47,CD8 T: Effector/Cytotoxic,1.066,1.84
+47,"NK: CD56dim (CD16+, cytotoxic)",0.9108,1.58
+47,T: Pan (CD3+),0.6275,1.25
+47,CD4 T helper: Th2,0.495,3.88
+47,Plasma: Plasmablast/Plasma,0.4653,0.87
+47,CD4 T: Tfh,0.2616,1.68
+47,T: MAIT,0.2449,1.91
+47,CD4 T: Treg,0.1957,2.22
+47,DC: Migratory (LAMP3+CCR7+),0.1706,0.88
+47,CD8 T: Naive/Early,0.1594,0.57
+47,CD4 T: Naive/TCM,0.1535,0.64
+47,HSPC: CLP/Early lymphoid,0.0646,0.12
+47,Stroma: Adipogenic progenitor / Preadipocyte,0.0476,0.38
+47,Stroma: Periosteal SSC (ITM2A+),0.0467,0.33
+47,Stroma: Adipocyte,0.0231,0.26
+47,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0182,0.17
+47,T: TCR????,0.0056,0.27
+47,CD4 T helper: Th17,-0.008,0.24
+47,Bone: Osteocyte,-0.0253,-0.34
+47,Granulocyte: Eosinophil,-0.0272,-0.37
+47,Stroma: Adipogenic lineage precursor,-0.0294,-0.16
+47,Cartilage: Superficial/articular-like,-0.0401,-0.27
+47,DC: pDC,-0.0457,-0.22
+47,Cartilage: Chondrocyte,-0.0568,-0.34
+47,DC: cDC1,-0.0596,-0.48
+47,Mono: Non-classical,-0.0601,-0.26
+47,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0665,-0.36
+47,Vascular: Mural (Pericyte/SMC),-0.0727,-0.2
+47,Vascular: Endothelial (arteriolar/arterial),-0.0728,-0.38
+47,Stroma: MSC/perivascular (MCAM+),-0.074,-0.17
+47,Platelet,-0.0801,-0.19
+47,Megakaryocyte,-0.0834,-0.19
+47,DC: ASDC (AXL+SIGLEC6+),-0.0858,-0.31
+47,Bone: Osteoclast,-0.0917,-0.77
+47,Vascular: Endothelial (sinusoidal),-0.0962,-0.28
+47,DC: ASDC (AXLSIGLEC6+),-0.0996,-0.23
+47,Blast-like: cDC,-0.1003,-0.39
+47,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.1014,-0.5
+47,HSPC: LMPP,-0.1175,-0.48
+47,Stroma: MSC/perivascular,-0.1194,-0.21
+47,Stroma: Fibroblast-like stroma,-0.121,-0.3
+47,Cartilage: Hypertrophic chondrocyte,-0.122,-0.71
+47,Bone: Osteoblast,-0.1345,-0.36
+47,DC: cDC2,-0.1348,-0.29
+47,B: Memory,-0.1385,-0.24
+47,Ery/Meg prog: MEP/MkP,-0.1404,-0.31
+47,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1513,-0.28
+47,B: Pro/Pre-B,-0.1628,-0.35
+47,Erythroid: Late/Mature,-0.1717,-0.29
+47,HSPC: HSC/MPP,-0.1725,-0.77
+47,B: Naive,-0.1767,-0.36
+47,Granulocyte: Basophil,-0.1786,-0.72
+47,Bone: Osteogenic progenitor,-0.1885,-0.68
+47,Mono: Proliferating (Cycling),-0.1994,-0.4
+47,Erythroid: Early (CFU-E),-0.2049,-0.42
+47,Granulocyte: Mast,-0.2206,-0.58
+47,Blast-like: HSC/MPP,-0.2465,-0.72
+47,T/NK,-0.2479,-0.67
+47,Granulocyte: Neutrophil,-0.2519,-0.55
+47,Blast-like: Monocyte,-0.2768,-0.52
+47,Blast-like: GMP,-0.3349,-0.61
+47,Mono: Classical,-0.341,-0.64
+47,Mono: VCAN+,-0.3433,-0.55
+47,DC: DC3,-0.3785,-0.64
+47,Blast-like: Pro-monocyte,-0.4233,-0.63
+47,Mono: Antigen-presenting (HLA-II+),-0.5245,-0.92
+47,Myeloid: Generic,-0.5792,-0.84
+48,HSPC: LMPP,0.9902,2.25
+48,Mono: Antigen-presenting (HLA-II+),0.8627,1.47
+48,Blast-like: HSC/MPP,0.7681,1.76
+48,T/NK,0.605,1.15
+48,Blast-like: GMP,0.5844,0.91
+48,DC: ASDC (AXL+SIGLEC6+),0.4976,0.91
+48,Granulocyte: Mast,0.4891,1.52
+48,Plasma: Plasmablast/Plasma,0.3936,0.71
+48,B: Naive,0.3633,0.55
+48,B: Pro/Pre-B,0.3432,0.43
+48,HSPC: CLP/Early lymphoid,0.2258,0.52
+48,Bone: Osteogenic progenitor,0.1838,0.4
+48,CD4 T: Treg,0.1471,1.65
+48,Stroma: Adipogenic progenitor / Preadipocyte,0.0929,0.64
+48,Stroma: Adipocyte,0.0474,0.39
+48,Stroma: Adipogenic lineage precursor,0.0411,0.32
+48,Granulocyte: Basophil,0.0064,-0.02
+48,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0057,0.12
+48,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0015,-0.11
+48,CD4 T helper: Th17,-0.0139,-0.51
+48,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0145,-0.12
+48,Vascular: Endothelial (arteriolar/arterial),-0.0149,-0.11
+48,Vascular: Endothelial (sinusoidal),-0.0187,-0.08
+48,Granulocyte: Eosinophil,-0.02,-0.1
+48,Bone: Osteocyte,-0.0234,-0.3
+48,Cartilage: Hypertrophic chondrocyte,-0.0293,-0.25
+48,Stroma: Periosteal SSC (ITM2A+),-0.0331,0.01
+48,Vascular: Mural (Pericyte/SMC),-0.0337,-0.14
+48,Cartilage: Superficial/articular-like,-0.0466,-0.31
+48,HSPC: HSC/MPP,-0.0482,-0.23
+48,Cartilage: Chondrocyte,-0.0543,-0.33
+48,Bone: Osteoclast,-0.0551,-0.48
+48,Erythroid: Late/Mature,-0.0642,-0.13
+48,T: TCR????,-0.0684,-0.53
+48,Stroma: MSC/perivascular (MCAM+),-0.0693,-0.16
+48,Stroma: Fibroblast-like stroma,-0.0696,-0.2
+48,Megakaryocyte,-0.0717,-0.17
+48,Mono: Proliferating (Cycling),-0.0832,-0.22
+48,T: MAIT,-0.0852,-0.37
+48,DC: ASDC (AXLSIGLEC6+),-0.0878,-0.22
+48,CD4 T helper: Th2,-0.0894,-0.47
+48,Platelet,-0.0933,-0.21
+48,Myeloid: Generic,-0.0943,-0.18
+48,Blast-like: cDC,-0.0968,-0.37
+48,Bone: Osteoblast,-0.1023,-0.3
+48,DC: cDC1,-0.1027,-0.8
+48,CD4 T helper: Th1,-0.1073,-0.34
+48,Mono: Non-classical,-0.1167,-0.44
+48,CD4 T: Tfh,-0.1178,-0.75
+48,DC: cDC2,-0.1209,-0.26
+48,"NK: CD56dim (CD16+, cytotoxic)",-0.1425,-0.23
+48,Ery/Meg prog: MEP/MkP,-0.1444,-0.31
+48,Erythroid: Early (CFU-E),-0.1508,-0.32
+48,Granulocyte: Neutrophil,-0.1527,-0.34
+48,Stroma: MSC/perivascular,-0.1594,-0.26
+48,Mono: Classical,-0.1605,-0.31
+48,DC: Migratory (LAMP3+CCR7+),-0.162,-0.43
+48,DC: pDC,-0.1625,-0.48
+48,B: Memory,-0.1644,-0.29
+48,NK: CD56bright (CD16-/low),-0.187,-0.4
+48,Blast-like: Monocyte,-0.1925,-0.38
+48,CD8 T: Naive/Early,-0.2089,-0.37
+48,CD8 T: Effector/Cytotoxic,-0.2125,-0.32
+48,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.2316,-0.4
+48,Mono: Inflammatory (CCL3/4+),-0.2387,-0.62
+48,CD4 T: Naive/TCM,-0.2579,-0.48
+48,Mono: VCAN+,-0.2894,-0.47
+48,DC: DC3,-0.2936,-0.49
+48,Blast-like: Pro-monocyte,-0.343,-0.52
+48,T: Pan (CD3+),-0.347,-0.38
+48,Granulocyte: Neutrophil (CST7+),-0.3748,-0.51
+49,HSPC: LMPP,1.5763,3.7
+49,Blast-like: HSC/MPP,1.28,3.01
+49,T/NK,0.7514,1.46
+49,HSPC: HSC/MPP,0.4088,1.79
+49,HSPC: CLP/Early lymphoid,0.3999,0.95
+49,Cartilage: Hypertrophic chondrocyte,0.2701,1.24
+49,DC: pDC,0.2407,0.41
+49,B: Pro/Pre-B,0.1228,0.09
+49,DC: ASDC (AXL+SIGLEC6+),0.1224,0.12
+49,Plasma: Plasmablast/Plasma,0.1162,0.08
+49,Stroma: Adipogenic progenitor / Preadipocyte,0.0667,0.49
+49,Blast-like: Monocyte,0.0661,0.07
+49,Mono: Non-classical,0.0642,0.13
+49,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0204,0.18
+49,Bone: Osteogenic progenitor,0.0184,-0.08
+49,Granulocyte: Basophil,0.0167,0.02
+49,T: Pan (CD3+),0.0094,0.22
+49,Granulocyte: Mast,0.0053,0.09
+49,Mono: Antigen-presenting (HLA-II+),-0.009,-0.03
+49,Vascular: Endothelial (arteriolar/arterial),-0.0111,-0.09
+49,CD4 T helper: Th17,-0.0139,-0.51
+49,Vascular: Endothelial (sinusoidal),-0.0164,-0.08
+49,Stroma: Adipocyte,-0.0165,0.05
+49,CD4 T: Treg,-0.0207,-0.3
+49,Bone: Osteocyte,-0.0248,-0.33
+49,Granulocyte: Eosinophil,-0.0272,-0.37
+49,Stroma: Adipogenic lineage precursor,-0.0433,-0.25
+49,Cartilage: Superficial/articular-like,-0.0462,-0.31
+49,Cartilage: Chondrocyte,-0.0569,-0.34
+49,T: MAIT,-0.0664,-0.24
+49,T: TCR????,-0.0684,-0.53
+49,B: Naive,-0.0692,-0.18
+49,Bone: Osteoblast,-0.0741,-0.24
+49,Vascular: Mural (Pericyte/SMC),-0.0805,-0.21
+49,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0865,-0.45
+49,Blast-like: cDC,-0.0885,-0.34
+49,CD4 T helper: Th2,-0.0897,-0.47
+49,CD4 T: Tfh,-0.0901,-0.57
+49,DC: cDC1,-0.0902,-0.71
+49,Megakaryocyte,-0.0935,-0.21
+49,Bone: Osteoclast,-0.0954,-0.8
+49,CD4 T: Naive/TCM,-0.0955,-0.04
+49,Platelet,-0.0982,-0.22
+49,Stroma: MSC/perivascular (MCAM+),-0.0983,-0.19
+49,Erythroid: Late/Mature,-0.1054,-0.19
+49,CD4 T helper: Th1,-0.1078,-0.34
+49,DC: Migratory (LAMP3+CCR7+),-0.1078,-0.22
+49,DC: DC3,-0.1106,-0.19
+49,DC: ASDC (AXLSIGLEC6+),-0.1166,-0.25
+49,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.1193,-0.57
+49,Stroma: Periosteal SSC (ITM2A+),-0.1218,-0.35
+49,DC: cDC2,-0.1271,-0.27
+49,Stroma: Fibroblast-like stroma,-0.15,-0.35
+49,NK: CD56bright (CD16-/low),-0.16,-0.33
+49,Stroma: MSC/perivascular,-0.16,-0.26
+49,B: Memory,-0.1626,-0.29
+49,Ery/Meg prog: MEP/MkP,-0.1632,-0.35
+49,Mono: Proliferating (Cycling),-0.1798,-0.37
+49,Erythroid: Early (CFU-E),-0.182,-0.38
+49,Granulocyte: Neutrophil,-0.1833,-0.4
+49,CD8 T: Effector/Cytotoxic,-0.1838,-0.27
+49,CD8 T: Naive/Early,-0.1918,-0.33
+49,Blast-like: Pro-monocyte,-0.208,-0.32
+49,Mono: Inflammatory (CCL3/4+),-0.2111,-0.56
+49,Mono: Classical,-0.2276,-0.43
+49,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.2533,-0.43
+49,"NK: CD56dim (CD16+, cytotoxic)",-0.2565,-0.43
+49,Blast-like: GMP,-0.2756,-0.51
+49,Myeloid: Generic,-0.3154,-0.48
+49,Mono: VCAN+,-0.3501,-0.56
+49,Granulocyte: Neutrophil (CST7+),-0.375,-0.51
+50,T: Pan (CD3+),1.5106,2.72
+50,CD8 T: Naive/Early,1.0596,2.86
+50,Erythroid: Late/Mature,1.0375,1.43
+50,CD4 T: Naive/TCM,0.9913,2.92
+50,B: Memory,0.9202,2.15
+50,Erythroid: Early (CFU-E),0.8333,1.4
+50,DC: Migratory (LAMP3+CCR7+),0.6156,2.64
+50,HSPC: CLP/Early lymphoid,0.3325,0.79
+50,NK: CD56bright (CD16-/low),0.2932,0.91
+50,CD4 T helper: Th2,0.1403,1.24
+50,T: MAIT,0.1215,1.06
+50,Stroma: Periosteal SSC (ITM2A+),0.0781,0.46
+50,Stroma: Adipogenic progenitor / Preadipocyte,0.0745,0.53
+50,CD4 T: Tfh,0.0668,0.43
+50,Stroma: Adipocyte,0.047,0.39
+50,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0309,0.22
+50,Stroma: Adipogenic lineage precursor,0.0021,0.05
+50,CD4 T helper: Th17,-0.0027,0.91
+50,Ery/Meg prog: MEP/MkP,-0.0162,-0.07
+50,Granulocyte: Eosinophil,-0.0217,-0.17
+50,Bone: Osteocyte,-0.0243,-0.32
+50,Bone: Osteoclast,-0.0252,-0.24
+50,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0358,-0.22
+50,Vascular: Mural (Pericyte/SMC),-0.0445,-0.16
+50,Cartilage: Superficial/articular-like,-0.0453,-0.3
+50,CD4 T helper: Th1,-0.0481,-0.18
+50,Cartilage: Chondrocyte,-0.0498,-0.3
+50,Vascular: Endothelial (sinusoidal),-0.0539,-0.17
+50,Vascular: Endothelial (arteriolar/arterial),-0.056,-0.3
+50,Megakaryocyte,-0.0609,-0.16
+50,T: TCR????,-0.0666,-0.51
+50,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0705,-0.38
+50,Platelet,-0.0711,-0.18
+50,CD8 T: Effector/Cytotoxic,-0.0739,-0.09
+50,B: Pro/Pre-B,-0.0829,-0.23
+50,Stroma: MSC/perivascular (MCAM+),-0.0844,-0.18
+50,DC: ASDC (AXL+SIGLEC6+),-0.0904,-0.32
+50,Blast-like: cDC,-0.0927,-0.35
+50,Stroma: Fibroblast-like stroma,-0.0961,-0.25
+50,B: Naive,-0.0988,-0.23
+50,DC: ASDC (AXLSIGLEC6+),-0.1079,-0.24
+50,DC: cDC1,-0.1093,-0.85
+50,DC: cDC2,-0.111,-0.24
+50,HSPC: HSC/MPP,-0.1136,-0.52
+50,Cartilage: Hypertrophic chondrocyte,-0.1274,-0.74
+50,Bone: Osteoblast,-0.135,-0.36
+50,CD4 T: Treg,-0.1465,-1.76
+50,Mono: Proliferating (Cycling),-0.15,-0.32
+50,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1516,-0.28
+50,Mono: Non-classical,-0.1539,-0.56
+50,Stroma: MSC/perivascular,-0.1549,-0.25
+50,Granulocyte: Neutrophil,-0.1568,-0.34
+50,Granulocyte: Basophil,-0.1703,-0.68
+50,Bone: Osteogenic progenitor,-0.1772,-0.65
+50,HSPC: LMPP,-0.179,-0.63
+50,DC: pDC,-0.1851,-0.53
+50,Plasma: Plasmablast/Plasma,-0.1932,-0.61
+50,Mono: Inflammatory (CCL3/4+),-0.2028,-0.54
+50,"NK: CD56dim (CD16+, cytotoxic)",-0.2095,-0.35
+50,DC: DC3,-0.2111,-0.36
+50,T/NK,-0.2403,-0.65
+50,Granulocyte: Mast,-0.2416,-0.64
+50,Granulocyte: Neutrophil (CST7+),-0.2424,-0.31
+50,Blast-like: HSC/MPP,-0.279,-0.8
+50,Mono: Classical,-0.2977,-0.56
+50,Blast-like: Pro-monocyte,-0.2984,-0.45
+50,Blast-like: Monocyte,-0.305,-0.57
+50,Blast-like: GMP,-0.3089,-0.57
+50,Mono: VCAN+,-0.3703,-0.58
+50,Myeloid: Generic,-0.4675,-0.69
+50,Mono: Antigen-presenting (HLA-II+),-0.564,-0.99
+51,Blast-like: GMP,1.6312,2.65
+51,Myeloid: Generic,0.8882,1.16
+51,Mono: VCAN+,0.8297,1.14
+51,Mono: Proliferating (Cycling),0.6275,0.84
+51,DC: ASDC (AXL+SIGLEC6+),0.3998,0.71
+51,Bone: Osteogenic progenitor,0.3972,1.02
+51,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.2924,1.05
+51,HSPC: LMPP,0.256,0.44
+51,Mono: Non-classical,0.2401,0.68
+51,T/NK,0.2348,0.36
+51,DC: cDC1,0.2144,1.53
+51,Stroma: Adipogenic lineage precursor,0.1764,1.23
+51,Blast-like: Pro-monocyte,0.1463,0.18
+51,Mono: Classical,0.1371,0.23
+51,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.1178,0.49
+51,Blast-like: Monocyte,0.0845,0.1
+51,Bone: Osteoclast,0.0731,0.56
+51,Stroma: Adipocyte,0.0352,0.32
+51,Vascular: Endothelial (sinusoidal),0.0331,0.05
+51,Vascular: Endothelial (arteriolar/arterial),0.0323,0.11
+51,Bone: Osteoblast,0.0315,-0.05
+51,Stroma: Adipogenic progenitor / Preadipocyte,0.0075,0.15
+51,Granulocyte: Eosinophil,-0.0092,0.3
+51,CD4 T helper: Th17,-0.0139,-0.51
+51,CD4 T: Treg,-0.0191,-0.28
+51,Bone: Osteocyte,-0.0211,-0.24
+51,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0239,0.01
+51,Cartilage: Superficial/articular-like,-0.0441,-0.29
+51,Cartilage: Chondrocyte,-0.0503,-0.31
+51,CD4 T: Tfh,-0.0545,-0.34
+51,T: TCR????,-0.0618,-0.45
+51,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.0641,-0.16
+51,Stroma: Periosteal SSC (ITM2A+),-0.0641,-0.12
+51,Plasma: Plasmablast/Plasma,-0.0725,-0.34
+51,Megakaryocyte,-0.0812,-0.19
+51,T: MAIT,-0.0864,-0.38
+51,CD4 T helper: Th2,-0.0891,-0.47
+51,Platelet,-0.0954,-0.22
+51,Blast-like: cDC,-0.0985,-0.38
+51,Stroma: MSC/perivascular (MCAM+),-0.1012,-0.19
+51,Cartilage: Hypertrophic chondrocyte,-0.1039,-0.62
+51,Stroma: Fibroblast-like stroma,-0.1079,-0.28
+51,CD4 T helper: Th1,-0.1084,-0.35
+51,Vascular: Mural (Pericyte/SMC),-0.1107,-0.25
+51,DC: cDC2,-0.1149,-0.24
+51,DC: ASDC (AXLSIGLEC6+),-0.1166,-0.25
+51,HSPC: HSC/MPP,-0.1336,-0.6
+51,"NK: CD56dim (CD16+, cytotoxic)",-0.1358,-0.22
+51,Granulocyte: Neutrophil,-0.1588,-0.35
+51,Stroma: MSC/perivascular,-0.1592,-0.26
+51,Ery/Meg prog: MEP/MkP,-0.1602,-0.34
+51,DC: Migratory (LAMP3+CCR7+),-0.1638,-0.44
+51,Mono: Inflammatory (CCL3/4+),-0.1673,-0.46
+51,Granulocyte: Basophil,-0.1761,-0.71
+51,B: Pro/Pre-B,-0.1779,-0.37
+51,NK: CD56bright (CD16-/low),-0.1881,-0.41
+51,B: Naive,-0.1997,-0.39
+51,CD8 T: Effector/Cytotoxic,-0.2031,-0.31
+51,CD8 T: Naive/Early,-0.2047,-0.36
+51,DC: DC3,-0.2143,-0.36
+51,Blast-like: HSC/MPP,-0.2181,-0.65
+51,HSPC: CLP/Early lymphoid,-0.2372,-0.62
+51,Erythroid: Early (CFU-E),-0.2404,-0.48
+51,Erythroid: Late/Mature,-0.2442,-0.39
+51,DC: pDC,-0.248,-0.67
+51,Granulocyte: Mast,-0.2523,-0.67
+51,CD4 T: Naive/TCM,-0.2619,-0.5
+51,Granulocyte: Neutrophil (CST7+),-0.2731,-0.36
+51,B: Memory,-0.3238,-0.65
+51,T: Pan (CD3+),-0.3429,-0.37
+51,Mono: Antigen-presenting (HLA-II+),-0.6474,-1.14
+52,Granulocyte: Mast,0.8424,2.56
+52,Blast-like: GMP,0.6227,0.98
+52,Bone: Osteogenic progenitor,0.4845,1.28
+52,Megakaryocyte,0.4044,0.62
+52,Granulocyte: Basophil,0.3724,1.36
+52,Blast-like: HSC/MPP,0.3655,0.78
+52,HSPC: HSC/MPP,0.3023,1.32
+52,HSPC: LMPP,0.229,0.38
+52,Ery/Meg prog: MEP/MkP,0.0772,0.1
+52,Myeloid: Generic,0.0733,0.05
+52,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0694,0.36
+52,Cartilage: Hypertrophic chondrocyte,0.0585,0.19
+52,Stroma: Adipogenic lineage precursor,0.045,0.34
+52,Bone: Osteoblast,0.0329,-0.05
+52,Vascular: Endothelial (sinusoidal),0.0248,0.03
+52,Vascular: Endothelial (arteriolar/arterial),0.0176,0.04
+52,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.0129,-0.05
+52,CD4 T helper: Th17,-0.0139,-0.51
+52,Granulocyte: Eosinophil,-0.0148,0.09
+52,Bone: Osteocyte,-0.0214,-0.25
+52,Stroma: Periosteal SSC (ITM2A+),-0.0216,0.06
+52,CD4 T: Treg,-0.0255,-0.36
+52,"NK: CD56dim (CD16+, cytotoxic)",-0.0307,-0.04
+52,Platelet,-0.0357,-0.11
+52,Bone: Osteoclast,-0.0362,-0.32
+52,Cartilage: Chondrocyte,-0.0454,-0.28
+52,Cartilage: Superficial/articular-like,-0.0503,-0.33
+52,DC: cDC1,-0.0519,-0.43
+52,Vascular: Mural (Pericyte/SMC),-0.0526,-0.17
+52,T: TCR????,-0.0551,-0.38
+52,Blast-like: cDC,-0.0578,-0.2
+52,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0703,-0.38
+52,Stroma: Fibroblast-like stroma,-0.071,-0.21
+52,Stroma: Adipocyte,-0.0782,-0.28
+52,T: MAIT,-0.0869,-0.38
+52,DC: ASDC (AXL+SIGLEC6+),-0.0898,-0.32
+52,CD4 T helper: Th2,-0.0939,-0.5
+52,Stroma: MSC/perivascular (MCAM+),-0.0979,-0.19
+52,Plasma: Plasmablast/Plasma,-0.0991,-0.4
+52,Stroma: Adipogenic progenitor / Preadipocyte,-0.1075,-0.5
+52,T/NK,-0.1092,-0.37
+52,DC: ASDC (AXLSIGLEC6+),-0.1166,-0.25
+52,CD4 T helper: Th1,-0.1219,-0.38
+52,CD4 T: Tfh,-0.1263,-0.8
+52,B: Naive,-0.1303,-0.28
+52,DC: cDC2,-0.1368,-0.29
+52,Mono: Non-classical,-0.1373,-0.51
+52,Granulocyte: Neutrophil (CST7+),-0.1384,-0.15
+52,HSPC: CLP/Early lymphoid,-0.1455,-0.4
+52,Blast-like: Monocyte,-0.1504,-0.31
+52,Stroma: MSC/perivascular,-0.16,-0.26
+52,B: Pro/Pre-B,-0.165,-0.35
+52,DC: Migratory (LAMP3+CCR7+),-0.1653,-0.44
+52,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1688,-0.31
+52,DC: DC3,-0.1691,-0.29
+52,Granulocyte: Neutrophil,-0.1699,-0.37
+52,CD8 T: Effector/Cytotoxic,-0.1869,-0.28
+52,NK: CD56bright (CD16-/low),-0.1904,-0.41
+52,B: Memory,-0.1915,-0.35
+52,DC: pDC,-0.202,-0.57
+52,Mono: Proliferating (Cycling),-0.2283,-0.44
+52,CD8 T: Naive/Early,-0.2362,-0.44
+52,Mono: Inflammatory (CCL3/4+),-0.2407,-0.63
+52,Mono: Classical,-0.2438,-0.46
+52,Erythroid: Early (CFU-E),-0.2623,-0.52
+52,CD4 T: Naive/TCM,-0.2662,-0.51
+52,Blast-like: Pro-monocyte,-0.2687,-0.41
+52,T: Pan (CD3+),-0.3485,-0.38
+52,Erythroid: Late/Mature,-0.3533,-0.55
+52,Mono: Antigen-presenting (HLA-II+),-0.3777,-0.67
+52,Mono: VCAN+,-0.3931,-0.62
+53,Plasma: Plasmablast/Plasma,1.5031,3.19
+53,B: Memory,1.4178,3.28
+53,Stroma: MSC/perivascular,0.7312,0.87
+53,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),0.6524,0.85
+53,DC: pDC,0.5638,1.12
+53,Bone: Osteoblast,0.4205,0.66
+53,Stroma: Fibroblast-like stroma,0.4182,0.71
+53,B: Naive,0.3275,0.49
+53,Stroma: MSC/perivascular (MCAM+),0.3042,0.16
+53,DC: ASDC (AXLSIGLEC6+),0.3026,0.24
+53,Vascular: Mural (Pericyte/SMC),0.2973,0.33
+53,Erythroid: Late/Mature,0.2138,0.26
+53,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),0.1977,0.67
+53,Stroma: Adipocyte (ADIPOQ+PLIN1+),0.1874,0.81
+53,Bone: Osteogenic progenitor,0.174,0.37
+53,Cartilage: Hypertrophic chondrocyte,0.1595,0.69
+53,DC: Migratory (LAMP3+CCR7+),0.1555,0.82
+53,Cartilage: Chondrocyte,0.1516,0.71
+53,DC: ASDC (AXL+SIGLEC6+),0.1448,0.17
+53,Erythroid: Early (CFU-E),0.1424,0.19
+53,B: Pro/Pre-B,0.1077,0.07
+53,HSPC: LMPP,0.0678,-0.02
+53,Cartilage: Superficial/articular-like,0.0668,0.42
+53,Bone: Osteoclast,0.0582,0.44
+53,Vascular: Endothelial (arteriolar/arterial),0.0457,0.17
+53,Bone: Osteocyte,0.0266,0.95
+53,Stroma: Adipogenic progenitor / Preadipocyte,0.0253,0.25
+53,CD4 T: Treg,0.0251,0.23
+53,CD4 T: Naive/TCM,0.0144,0.26
+53,CD4 T helper: Th17,0.0126,2.83
+53,DC: cDC1,-2e-04,-0.05
+53,Granulocyte: Eosinophil,-0.0095,0.29
+53,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0099,0.06
+53,Stroma: Periosteal SSC (ITM2A+),-0.0138,0.09
+53,CD4 T: Tfh,-0.0139,-0.09
+53,Mono: Non-classical,-0.0202,-0.14
+53,T: MAIT,-0.0332,-0.01
+53,Vascular: Endothelial (sinusoidal),-0.0349,-0.12
+53,CD4 T helper: Th1,-0.0445,-0.17
+53,CD4 T helper: Th2,-0.046,-0.15
+53,Stroma: Adipogenic lineage precursor,-0.0506,-0.3
+53,T: TCR????,-0.056,-0.39
+53,Blast-like: cDC,-0.0664,-0.24
+53,Mono: Inflammatory (CCL3/4+),-0.0702,-0.22
+53,Megakaryocyte,-0.0839,-0.19
+53,NK: CD56bright (CD16-/low),-0.0864,-0.13
+53,CD8 T: Naive/Early,-0.0865,-0.06
+53,Platelet,-0.088,-0.2
+53,Ery/Meg prog: MEP/MkP,-0.0894,-0.21
+53,Mono: VCAN+,-0.0903,-0.18
+53,Stroma: Adipocyte,-0.108,-0.44
+53,HSPC: CLP/Early lymphoid,-0.1237,-0.34
+53,DC: cDC2,-0.1298,-0.28
+53,CD8 T: Effector/Cytotoxic,-0.1311,-0.18
+53,Mono: Proliferating (Cycling),-0.1433,-0.31
+53,Granulocyte: Basophil,-0.1466,-0.6
+53,Granulocyte: Mast,-0.1791,-0.46
+53,Blast-like: HSC/MPP,-0.1917,-0.58
+53,T/NK,-0.2264,-0.62
+53,Granulocyte: Neutrophil,-0.2286,-0.5
+53,HSPC: HSC/MPP,-0.2322,-1.04
+53,T: Pan (CD3+),-0.2542,-0.22
+53,"NK: CD56dim (CD16+, cytotoxic)",-0.2652,-0.44
+53,Mono: Classical,-0.2663,-0.5
+53,Granulocyte: Neutrophil (CST7+),-0.2792,-0.37
+53,Blast-like: GMP,-0.2884,-0.53
+53,Blast-like: Pro-monocyte,-0.3095,-0.47
+53,DC: DC3,-0.3145,-0.53
+53,Blast-like: Monocyte,-0.3398,-0.63
+53,Mono: Antigen-presenting (HLA-II+),-0.4965,-0.88
+53,Myeloid: Generic,-0.5864,-0.85
+54,CD8 T: Effector/Cytotoxic,2.692,4.59
+54,"NK: CD56dim (CD16+, cytotoxic)",2.6277,4.53
+54,Granulocyte: Neutrophil (CST7+),2.2713,3.57
+54,Mono: Proliferating (Cycling),1.6553,2.38
+54,CD4 T helper: Th1,0.9922,2.72
+54,T: Pan (CD3+),0.9043,1.71
+54,T/NK,0.8701,1.71
+54,Mono: Inflammatory (CCL3/4+),0.8151,1.88
+54,NK: CD56bright (CD16-/low),0.7961,2.29
+54,T: MAIT,0.4921,3.61
+54,CD4 T: Treg,0.4744,5.46
+54,Mono: Non-classical,0.3856,1.13
+54,DC: pDC,0.3572,0.67
+54,CD4 T helper: Th2,0.2926,2.37
+54,T: TCR????,0.2356,2.72
+54,Plasma: Plasmablast/Plasma,0.2137,0.3
+54,B: Memory,0.2021,0.53
+54,Stroma: Periosteal SSC (ITM2A+),0.0765,0.45
+54,Erythroid: Late/Mature,0.0474,0.02
+54,Blast-like: Monocyte,0.0201,-0.01
+54,CD4 T: Naive/TCM,0.0179,0.27
+54,Stroma: Adipocyte,-9e-04,0.13
+54,CD8 T: Naive/Early,-0.0018,0.15
+54,CD4 T helper: Th17,-0.0044,0.69
+54,CD4 T: Tfh,-0.0089,-0.05
+54,Bone: Osteocyte,-0.0108,0.02
+54,Granulocyte: Eosinophil,-0.0127,0.17
+54,Bone: Osteoclast,-0.015,-0.15
+54,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0281,0
+54,Stroma: Adipogenic progenitor / Preadipocyte,-0.0294,-0.06
+54,Cartilage: Superficial/articular-like,-0.0473,-0.31
+54,Cartilage: Chondrocyte,-0.0551,-0.33
+54,Erythroid: Early (CFU-E),-0.0555,-0.16
+54,Stroma: MSC/perivascular (MCAM+),-0.058,-0.15
+54,Stroma: Adipogenic lineage precursor,-0.0631,-0.39
+54,Stroma: MSC/perivascular,-0.0641,-0.14
+54,DC: cDC1,-0.0747,-0.59
+54,Vascular: Endothelial (arteriolar/arterial),-0.084,-0.44
+54,DC: Migratory (LAMP3+CCR7+),-0.0856,-0.13
+54,Megakaryocyte,-0.0859,-0.2
+54,DC: ASDC (AXL+SIGLEC6+),-0.089,-0.32
+54,Platelet,-0.0891,-0.21
+54,Vascular: Mural (Pericyte/SMC),-0.0897,-0.22
+54,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0957,-0.49
+54,Vascular: Endothelial (sinusoidal),-0.1009,-0.29
+54,Blast-like: cDC,-0.105,-0.41
+54,DC: ASDC (AXLSIGLEC6+),-0.1166,-0.25
+54,HSPC: LMPP,-0.1183,-0.48
+54,Cartilage: Hypertrophic chondrocyte,-0.1284,-0.74
+54,B: Naive,-0.1295,-0.28
+54,DC: cDC2,-0.1347,-0.29
+54,Bone: Osteoblast,-0.1364,-0.36
+54,Stroma: Fibroblast-like stroma,-0.1403,-0.34
+54,Ery/Meg prog: MEP/MkP,-0.141,-0.31
+54,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.1416,-0.66
+54,HSPC: CLP/Early lymphoid,-0.143,-0.39
+54,B: Pro/Pre-B,-0.1454,-0.32
+54,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1476,-0.28
+54,Granulocyte: Basophil,-0.1672,-0.67
+54,Bone: Osteogenic progenitor,-0.1732,-0.64
+54,HSPC: HSC/MPP,-0.2048,-0.92
+54,Granulocyte: Neutrophil,-0.2164,-0.47
+54,Granulocyte: Mast,-0.246,-0.65
+54,Blast-like: HSC/MPP,-0.2807,-0.8
+54,Mono: Antigen-presenting (HLA-II+),-0.3173,-0.57
+54,DC: DC3,-0.3394,-0.57
+54,Mono: Classical,-0.3423,-0.64
+54,Blast-like: GMP,-0.345,-0.63
+54,Mono: VCAN+,-0.3625,-0.57
+54,Blast-like: Pro-monocyte,-0.398,-0.59
+54,Myeloid: Generic,-0.5855,-0.85
+55,Plasma: Plasmablast/Plasma,1.4714,3.12
+55,B: Memory,1.1466,2.67
+55,Blast-like: Pro-monocyte,0.8013,1.11
+55,DC: DC3,0.7763,1.3
+55,Granulocyte: Neutrophil,0.651,1.37
+55,Mono: Classical,0.5739,1.03
+55,Mono: VCAN+,0.5674,0.76
+55,Blast-like: Monocyte,0.4437,0.72
+55,DC: pDC,0.3265,0.6
+55,Myeloid: Generic,0.2572,0.3
+55,Mono: Inflammatory (CCL3/4+),0.2491,0.53
+55,Mono: Non-classical,0.1262,0.32
+55,Bone: Osteoclast,0.0573,0.43
+55,B: Naive,0.0535,0.03
+55,DC: Migratory (LAMP3+CCR7+),0.0527,0.42
+55,Vascular: Endothelial (arteriolar/arterial),0.0499,0.19
+55,Cartilage: Hypertrophic chondrocyte,0.0353,0.07
+55,Vascular: Endothelial (sinusoidal),0.0255,0.03
+55,Stroma: Adipocyte,0.0134,0.21
+55,Stroma: Periosteal progenitor (POSTN+PDGFRA+),0.0122,0.15
+55,Stroma: Periosteal SSC (ITM2A+),0.0098,0.18
+55,HSPC: LMPP,0.0069,-0.17
+55,CD4 T helper: Th17,0.0035,1.69
+55,DC: cDC1,0.0026,-0.03
+55,Stroma: MSC/perivascular (MCAM+),-0.0013,-0.11
+55,CD4 T: Treg,-0.0148,-0.23
+55,Bone: Osteocyte,-0.0201,-0.21
+55,Cartilage: Superficial/articular-like,-0.0233,-0.16
+55,Granulocyte: Eosinophil,-0.0272,-0.37
+55,Stroma: Adipogenic lineage precursor,-0.0307,-0.17
+55,Mono: Antigen-presenting (HLA-II+),-0.0365,-0.08
+55,Blast-like: cDC,-0.0378,-0.12
+55,B: Pro/Pre-B,-0.0422,-0.17
+55,CD4 T: Tfh,-0.0465,-0.29
+55,Cartilage: Chondrocyte,-0.0557,-0.33
+55,Platelet,-0.0629,-0.16
+55,CD4 T: Naive/TCM,-0.0683,0.03
+55,T: TCR????,-0.0684,-0.53
+55,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.071,-0.38
+55,T: MAIT,-0.0749,-0.3
+55,CD4 T helper: Th2,-0.0765,-0.37
+55,"NK: CD56dim (CD16+, cytotoxic)",-0.0787,-0.12
+55,Vascular: Mural (Pericyte/SMC),-0.0797,-0.21
+55,DC: ASDC (AXL+SIGLEC6+),-0.0801,-0.3
+55,DC: cDC2,-0.0807,-0.17
+55,CD4 T helper: Th1,-0.0865,-0.28
+55,Stroma: Adipogenic progenitor / Preadipocyte,-0.0875,-0.39
+55,DC: ASDC (AXLSIGLEC6+),-0.0894,-0.22
+55,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0923,-0.47
+55,Megakaryocyte,-0.0948,-0.21
+55,Stroma: Fibroblast-like stroma,-0.1036,-0.27
+55,Bone: Osteoblast,-0.1229,-0.33
+55,Ery/Meg prog: MEP/MkP,-0.1421,-0.31
+55,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1477,-0.28
+55,Granulocyte: Basophil,-0.1478,-0.6
+55,Stroma: MSC/perivascular,-0.1576,-0.26
+55,NK: CD56bright (CD16-/low),-0.175,-0.37
+55,Erythroid: Early (CFU-E),-0.1762,-0.37
+55,Bone: Osteogenic progenitor,-0.18,-0.66
+55,Mono: Proliferating (Cycling),-0.2011,-0.4
+55,CD8 T: Naive/Early,-0.2176,-0.4
+55,Erythroid: Late/Mature,-0.2236,-0.36
+55,HSPC: CLP/Early lymphoid,-0.227,-0.6
+55,CD8 T: Effector/Cytotoxic,-0.2273,-0.35
+55,Blast-like: GMP,-0.2353,-0.44
+55,Granulocyte: Mast,-0.2551,-0.68
+55,T/NK,-0.273,-0.72
+55,Blast-like: HSC/MPP,-0.2831,-0.81
+55,HSPC: HSC/MPP,-0.3068,-1.37
+55,Granulocyte: Neutrophil (CST7+),-0.3384,-0.46
+55,T: Pan (CD3+),-0.3433,-0.37
+56,Mono: VCAN+,1.3294,1.85
+56,Blast-like: Pro-monocyte,1.3204,1.85
+56,Mono: Classical,1.0178,1.84
+56,DC: DC3,0.9803,1.64
+56,Myeloid: Generic,0.8178,1.06
+56,Mono: Antigen-presenting (HLA-II+),0.7498,1.28
+56,Granulocyte: Neutrophil,0.7372,1.55
+56,Blast-like: Monocyte,0.6843,1.13
+56,Blast-like: HSC/MPP,0.6371,1.44
+56,Mono: Inflammatory (CCL3/4+),0.4043,0.9
+56,HSPC: HSC/MPP,0.3054,1.33
+56,Granulocyte: Basophil,0.2449,0.88
+56,Blast-like: cDC,0.2047,0.94
+56,DC: cDC1,0.1924,1.37
+56,T/NK,0.1212,0.12
+56,HSPC: LMPP,0.0864,0.03
+56,Granulocyte: Mast,0.0778,0.3
+56,Platelet,0.0517,0.04
+56,DC: cDC2,0.0502,0.11
+56,DC: ASDC (AXLSIGLEC6+),0.0326,-0.07
+56,HSPC: CLP/Early lymphoid,0.0326,0.04
+56,DC: pDC,0.0256,-0.07
+56,Granulocyte: Eosinophil,0.0253,1.59
+56,Cartilage: Hypertrophic chondrocyte,0.0144,-0.03
+56,Plasma: Plasmablast/Plasma,0.0072,-0.16
+56,Megakaryocyte,0.006,-0.05
+56,CD4 T: Treg,0.0056,0.01
+56,Vascular: Endothelial (sinusoidal),0.0056,-0.02
+56,Bone: Osteoclast,-0.0094,-0.11
+56,Stroma: Adipocyte,-0.0118,0.07
+56,DC: ASDC (AXL+SIGLEC6+),-0.0123,-0.16
+56,CD4 T helper: Th17,-0.0139,-0.51
+56,"NK: CD56dim (CD16+, cytotoxic)",-0.015,-0.01
+56,Stroma: Periosteal progenitor (POSTN+PDGFRA+),-0.0209,0.02
+56,Vascular: Endothelial (arteriolar/arterial),-0.0233,-0.15
+56,CD4 T: Tfh,-0.0241,-0.15
+56,Bone: Osteocyte,-0.0257,-0.35
+56,Mono: Non-classical,-0.0307,-0.17
+56,Stroma: Adipogenic lineage precursor,-0.0363,-0.21
+56,Stroma: Periosteal SSC (ITM2A+),-0.0375,-0.01
+56,Cartilage: Superficial/articular-like,-0.0503,-0.33
+56,CD4 T helper: Th2,-0.0508,-0.18
+56,Erythroid: Early (CFU-E),-0.0508,-0.15
+56,Ery/Meg prog: MEP/MkP,-0.0563,-0.15
+56,Cartilage: Chondrocyte,-0.0572,-0.34
+56,Bone: Osteogenic progenitor,-0.058,-0.3
+56,Erythroid: Late/Mature,-0.0617,-0.13
+56,T: TCR????,-0.0684,-0.53
+56,Stroma: Adipogenic progenitor / Preadipocyte,-0.0808,-0.35
+56,B: Pro/Pre-B,-0.082,-0.23
+56,T: MAIT,-0.0862,-0.37
+56,Stroma: Adipocyte (ADIPOQ+PLIN1+),-0.0901,-0.47
+56,Stroma: Adipogenic lineage precursor (MALP; ADIPOQ+PLIN1-),-0.0943,-0.47
+56,Vascular: Mural (Pericyte/SMC),-0.1019,-0.24
+56,Stroma: MSC/perivascular (MCAM+),-0.1071,-0.2
+56,CD4 T helper: Th1,-0.1084,-0.35
+56,Bone: Osteoblast,-0.1092,-0.31
+56,Stroma: Fibroblast-like stroma,-0.1237,-0.3
+56,DC: Migratory (LAMP3+CCR7+),-0.1326,-0.32
+56,CD4 T: Naive/TCM,-0.1365,-0.15
+56,B: Naive,-0.1386,-0.29
+56,Mono: Proliferating (Cycling),-0.1499,-0.32
+56,Stroma: MSC/perivascular,-0.1562,-0.25
+56,Blast-like: GMP,-0.172,-0.34
+56,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),-0.1733,-0.31
+56,NK: CD56bright (CD16-/low),-0.184,-0.39
+56,CD8 T: Naive/Early,-0.205,-0.36
+56,B: Memory,-0.2202,-0.42
+56,CD8 T: Effector/Cytotoxic,-0.2375,-0.36
+56,Granulocyte: Neutrophil (CST7+),-0.2993,-0.4
+56,T: Pan (CD3+),-0.3533,-0.39

@@ -1,0 +1,58 @@
+cl,cluster_size,label,provenance,independent_check,z_of_mapped,panel_top,panel_top_z,auto_all,auto_all_n_marker,auto_all_diff,auto_mk3,auto_mk3_n_marker,auto_mk3_diff,old_label,old_purity,pct_labelled,top_dataset,pct_control
+0,65624,,disputed,weak,1.05,T_NK,1.05,T: Pan (CD3+),3,0.4548,T: Pan (CD3+),3,0.4548,HSPC: CLP/Early lymphoid,0.971,88.2,BoneMarrowMap,72.4
+1,58328,,disputed,supported,2.49,Mono_DC,2.49,Mono: VCAN+,2,0.0198,Blast-like: Pro-monocyte,5,0.3447,Mono: Classical,0.916,73.8,BoneMarrowMap,56.5
+2,38846,B: Naive,agreed,supported,2.01,B_plasma,2.01,B: Naive,6,0.6391,B: Naive,6,0.6391,B: Naive,0.992,60.7,GSE185381,48.7
+3,35554,CD8 T: Effector/Cytotoxic,adopted,supported,4.05,T_NK,4.05,CD8 T: Effector/Cytotoxic,5,0.0259,CD8 T: Effector/Cytotoxic,5,0.0259,Ambiguous,0.558,67.4,BoneMarrowMap,64.7
+4,35131,Blast-like: GMP,agreed,weak,1.74,HSPC,1.74,Blast-like: GMP,5,0.4723,Blast-like: GMP,5,0.4723,Blast-like: GMP,0.858,97.1,GSE239721,4.6
+5,34556,Blast-like: HSC/MPP,agreed,weak,1.04,HSPC,1.04,Blast-like: GMP,5,0.0382,Blast-like: GMP,5,0.0382,Blast-like: HSC/MPP,0.48,92.3,zenodo_3345981,1.1
+6,34511,Blast-like: HSC/MPP,agreed,weak,1.13,HSPC,1.13,Blast-like: HSC/MPP,3,0.3227,Blast-like: HSC/MPP,3,0.3227,Blast-like: HSC/MPP,0.986,95.8,BoneMarrowMap,79
+7,34243,,disputed,weak,1.8,Mono_DC,1.8,Blast-like: Pro-monocyte,5,0.133,Blast-like: Pro-monocyte,5,0.133,Mono: Classical,0.619,87.5,PMID37470778,21.1
+8,32373,Blast-like: HSC/MPP,agreed,contradicted,0.96,HSPC,0.96,Blast-like: HSC/MPP,3,0.1226,Blast-like: HSC/MPP,3,0.1226,Blast-like: HSC/MPP,0.873,89.4,BoneMarrowMap,59.6
+9,31729,T: Pan (CD3+),adopted,supported,3.16,T_NK,3.16,Granulocyte: Neutrophil (CST7+),1,0.0147,T: Pan (CD3+),3,0.1359,Ambiguous,0.792,76.5,BoneMarrowMap,59.2
+10,29963,Plasma: Plasmablast/Plasma,agreed,supported,2.83,B_plasma,2.83,Plasma: Plasmablast/Plasma,6,0.1684,Plasma: Plasmablast/Plasma,6,0.1684,Plasma: Plasmablast/Plasma,0.991,97.8,GSE253355,77.2
+11,26252,,disputed,contradicted,-0.22,Endothelial,0.08,Stroma: Adipogenic progenitor / Preadipocyte,17,0.0122,Stroma: Adipogenic progenitor / Preadipocyte,17,0.0122,Blast-like: HSC/MPP,0.933,61.1,GSE289435,1.8
+12,26079,Granulocyte: Mast,agreed,supported,4.87,Mast,4.87,Granulocyte: Mast,3,0.4837,Granulocyte: Mast,3,0.4837,Granulocyte: Mast,0.684,76.1,BoneMarrowMap,36.5
+13,23949,,disputed,contradicted,-0.37,Cycling,2.24,Mono: Proliferating (Cycling),2,0.305,T/NK,3,0.4178,Blast-like: GMP,0.817,89.2,BoneMarrowMap,52
+14,23681,Blast-like: GMP,agreed,weak,1.5,Cycling,1.5,Blast-like: GMP,5,0.0435,Blast-like: GMP,5,0.4029,Blast-like: GMP,0.836,90.5,BoneMarrowMap,52.6
+15,23017,,disputed,weak,1.9,Mono_DC,1.9,Myeloid: Generic,4,0.0715,Myeloid: Generic,4,0.0715,Mono: Classical,0.941,56.3,GSE185381,42
+16,21650,,disputed,weak,1.54,T_NK,1.54,T: Pan (CD3+),3,0.1888,T: Pan (CD3+),3,0.1888,HSPC: CLP/Early lymphoid,0.996,92.1,BoneMarrowMap,61.1
+17,21618,Blast-like: HSC/MPP,agreed,weak,1.71,HSPC,1.71,Blast-like: GMP,5,0.418,Blast-like: GMP,5,0.418,Blast-like: HSC/MPP,0.869,52.7,GSE185381,0.8
+18,20545,Erythroid: Late/Mature,agreed,supported,2.85,Erythroid,2.85,Erythroid: Early (CFU-E),9,0.3064,Erythroid: Early (CFU-E),9,0.3064,Erythroid: Late/Mature,0.947,99.7,BoneMarrowMap,75.3
+19,19980,Ery/Meg prog: MEP/MkP,agreed,weak,1.1,Cycling,1.1,Ery/Meg prog: MEP/MkP,7,0.5753,Ery/Meg prog: MEP/MkP,7,0.5753,Ery/Meg prog: MEP/MkP,0.653,97.7,BoneMarrowMap,86.2
+20,19497,Stroma: MSC (CXCL12+LEPR+PDGFRA+),agreed,supported,4.96,MSC_stromal,4.96,Stroma: MSC/perivascular,2,1.0174,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),8,1.7412,Stroma: MSC (CXCL12+LEPR+PDGFRA+),0.97,99.7,GSE253355,69.2
+21,16903,Blast-like: HSC/MPP,agreed,contradicted,0.91,Stress,1.2,Blast-like: HSC/MPP,3,0.0213,Blast-like: HSC/MPP,3,0.0213,Blast-like: HSC/MPP,0.558,97.4,zenodo_3345981,4.2
+22,13680,Erythroid: Late/Mature,agreed,supported,4.32,Erythroid,4.32,Erythroid: Late/Mature,8,0.8812,Erythroid: Late/Mature,8,0.8812,Erythroid: Late/Mature,0.987,100,GSE289435,38.8
+23,12874,DC: pDC,agreed,weak,1.32,B_plasma,1.32,DC: pDC,4,1.8303,DC: pDC,4,1.8303,DC: pDC,0.911,83.9,BoneMarrowMap,46.7
+24,12004,Erythroid: Late/Mature,agreed,supported,4.2,Erythroid,4.2,Erythroid: Late/Mature,8,0.6578,Erythroid: Late/Mature,8,0.6578,Erythroid: Late/Mature,0.995,100,GSE289435,29.2
+25,11780,Granulocyte: Neutrophil,agreed,no panel equivalent,0.23,Mono_DC,0.23,Granulocyte: Neutrophil,7,1.1006,Granulocyte: Neutrophil,7,1.1006,Granulocyte: Neutrophil,0.966,98.1,GSE253355,82.4
+26,11716,,disputed,weak,1.61,Mono_DC,1.61,Myeloid: Generic,4,0.3429,Myeloid: Generic,4,0.3429,Blast-like: GMP,0.531,63.3,GSE185381,1.6
+27,11464,Blast-like: GMP,adopted,contradicted,0.29,Stress,0.65,Blast-like: GMP,5,0.1528,Blast-like: GMP,5,0.2126,Unassigned,0.442,88.7,GSE289435,22.1
+28,11444,,disputed,contradicted,0.5,Mono_DC,0.5,Myeloid: Generic,4,0.5463,Myeloid: Generic,4,0.5463,Blast-like: GMP,0.548,73,GSE289435,0
+29,11090,,disputed,weak,1.33,Mono_DC,1.33,Blast-like: Monocyte,4,0.0833,Blast-like: Monocyte,4,0.0833,Mono: Non-classical,0.88,79.3,BoneMarrowMap,59.4
+30,10440,HSPC: LMPP,adopted,contradicted,0.36,Endothelial,0.53,HSPC: LMPP,5,0.0514,HSPC: LMPP,5,0.0514,Ambiguous,0.526,91.8,GSE289435,27.8
+31,10422,,disputed,contradicted,0.98,Mono_DC,0.98,DC: cDC2,3,1.7835,DC: cDC2,3,1.7835,Blast-like: cDC,0.768,73.2,BoneMarrowMap,46.4
+32,9843,Bone: Osteoblast,agreed,supported,6.83,Osteo,6.83,Bone: Osteoblast,9,0.7856,Bone: Osteoblast,9,1.0308,Bone: Osteoblast,0.707,100,GSE253355,100
+33,8166,B: Pro/Pre-B,agreed,supported,2.2,B_plasma,2.2,B: Pro/Pre-B,6,0.7895,B: Pro/Pre-B,6,0.7895,B: Pro/Pre-B,0.974,98.9,BoneMarrowMap,97.7
+34,7974,,disputed,weak,1.17,Erythroid,1.17,Erythroid: Late/Mature,8,0.0661,Erythroid: Late/Mature,8,0.0661,Blast-like: HSC/MPP,0.984,93,GSE289435,0.5
+35,7943,Megakaryocyte,agreed,supported,7.33,Megakaryo,7.33,Megakaryocyte,7,0.1585,Megakaryocyte,7,0.1585,Megakaryocyte,0.963,24.5,GSE185381,15.6
+36,7159,Blast-like: GMP,agreed,supported,4.55,HSPC,4.55,Blast-like: GMP,5,1.35,Blast-like: GMP,5,2.2792,Blast-like: GMP,0.929,97.7,BoneMarrowMap,87
+37,6980,Vascular: Endothelial (sinusoidal),agreed,supported,6.8,Endothelial,6.8,Vascular: Endothelial (sinusoidal),12,1.0817,Vascular: Endothelial (sinusoidal),12,1.0817,Vascular: Endothelial (sinusoidal),0.952,99.9,GSE253355,92
+38,6913,,disputed,weak,1.7,Mono_DC,1.7,Mono: VCAN+,2,0.1074,Myeloid: Generic,4,0.112,Mono: Classical,0.704,4.3,GSE185381,1.2
+39,5787,B: Pro/Pre-B,agreed,supported,2,Cycling,4.26,Mono: Proliferating (Cycling),2,0.2911,B: Pro/Pre-B,6,0.6881,B: Pro/Pre-B,0.986,97.1,BoneMarrowMap,92.4
+40,5696,Blast-like: HSC/MPP,agreed,contradicted,0.58,Stress,1.98,Blast-like: HSC/MPP,3,0.4894,Blast-like: HSC/MPP,3,0.4894,Blast-like: HSC/MPP,0.903,98.9,GSE239721,3.2
+41,4703,Blast-like: cDC,agreed,supported,2.66,Mono_DC,2.66,Mono: VCAN+,2,0.2696,Blast-like: Pro-monocyte,5,0.0621,Blast-like: cDC,0.429,0.1,GSE185381,0
+42,4294,Vascular: Mural (Pericyte/SMC),agreed,supported,7.15,Pericyte,7.15,Stroma: MSC/perivascular (MCAM+),1,2.836,Vascular: Mural (Pericyte/SMC),13,4.3022,Vascular: Mural (Pericyte/SMC),0.952,100,GSE253355,99.4
+43,4221,B: Naive,agreed,supported,2.9,B_plasma,2.9,B: Naive,6,0.9188,B: Naive,6,0.9188,B: Naive,0.99,68.9,GSE185381,84.7
+44,3794,,disputed,weak,1.59,Stress,1.98,Mono: VCAN+,2,0.0289,Blast-like: Pro-monocyte,5,0.1571,Mono: Classical,0.581,4.9,GSE185381,0.8
+45,3467,Stroma: Fibroblast-like stroma,adopted,supported,3.65,MSC_stromal,3.65,Stroma: Fibroblast-like stroma,16,0.1409,Stroma: Fibroblast-like stroma,16,0.1959,Ambiguous,0.899,99.9,GSE253355,93.5
+46,3234,,disputed,supported,2.11,Mono_DC,2.11,Myeloid: Generic,4,0.1821,Myeloid: Generic,4,0.1821,Mono: Classical,0.923,0.4,GSE185381,0.1
+47,2858,CD4 T helper: Th1,adopted,supported,2.64,T_NK,2.64,CD4 T helper: Th1,3,0.8712,CD4 T helper: Th1,3,0.8712,Ambiguous,0.603,41.4,GSE185381,35.4
+48,2768,,disputed,contradicted,0.97,Mast,1.95,HSPC: LMPP,5,0.1275,HSPC: LMPP,5,0.1275,Granulocyte: Mast,0.333,0.4,GSE185381,0
+49,2447,HSPC: LMPP,adopted,contradicted,0.18,Stress,0.21,HSPC: LMPP,5,0.2963,HSPC: LMPP,5,0.2963,Unassigned,0.616,4.6,GSE185381,1.5
+50,1818,,disputed,weak,1.07,Erythroid,1.99,T: Pan (CD3+),3,0.451,T: Pan (CD3+),3,0.451,HSPC: CLP/Early lymphoid,0.858,99.6,BoneMarrowMap,77.8
+51,1671,Blast-like: GMP,agreed,weak,1.33,HSPC,1.33,Blast-like: GMP,5,0.743,Blast-like: GMP,5,0.743,Blast-like: GMP,1,0.8,GSE185381,0
+52,812,,disputed,supported,3.73,Mast,3.73,Granulocyte: Mast,3,0.2197,Granulocyte: Mast,3,0.2197,Megakaryocyte,0.531,99.3,GSE227903,0.4
+53,626,Plasma: Plasmablast/Plasma,agreed,supported,3.15,B_plasma,3.15,Plasma: Plasmablast/Plasma,6,0.0853,Plasma: Plasmablast/Plasma,6,0.0853,Plasma: Plasmablast/Plasma,0.95,100,GSE253355,79.9
+54,548,,disputed,supported,3.35,T_NK,3.35,CD8 T: Effector/Cytotoxic,5,0.0643,CD8 T: Effector/Cytotoxic,5,0.0643,T/NK,0.851,74.8,BoneMarrowMap,58.2
+55,372,Plasma: Plasmablast/Plasma,agreed,supported,2.55,B_plasma,2.55,Plasma: Plasmablast/Plasma,6,0.3248,Plasma: Plasmablast/Plasma,6,0.3248,Plasma: Plasmablast/Plasma,0.921,98.1,PMID37470778,90.1
+56,191,Blast-like: HSC/MPP,agreed,weak,1.55,Mono_DC,1.55,Mono: VCAN+,2,0.009,Blast-like: Pro-monocyte,5,0.3026,Blast-like: HSC/MPP,0.91,99,PMID37470778,85.9

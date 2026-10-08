@@ -1,0 +1,7 @@
+check,expected,got,pass
+cells in the assignment table,895228,895228,TRUE
+clusters at res 1.0,57,57,TRUE
+target clusters present,TRUE,TRUE,TRUE
+cached cells match the assignment table,TRUE,TRUE,TRUE
+no cell left without a cluster,0,0,TRUE
+panel genes found,90,90,TRUE

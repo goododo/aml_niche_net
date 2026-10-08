@@ -1,0 +1,18 @@
+cl,size,provenance,pct_control,final,lineage,high_err,n_samples,top_share,cnv_mal,ev_normal,flag,cnv_pos,verdict
+36,7159,agreed,87,Blast-like: GMP,Blast-like,0.017,129,0.144,0.14,3,** 证据反对 Blast-like **,FALSE,** 多数细胞来自健康供者 -> 标签不成立 **
+56,191,agreed,85.9,Blast-like: HSC/MPP,Blast-like,0.043,18,0.387,0.174,2,** 证据反对 Blast-like **,FALSE,** 多数细胞来自健康供者 -> 标签不成立 **
+6,34511,agreed,79,Blast-like: HSC/MPP,Blast-like,0.106,148,0.246,0.033,3,** 证据反对 Blast-like **,FALSE,** 多数细胞来自健康供者 -> 标签不成立 **
+8,32373,agreed,59.6,Blast-like: HSC/MPP,Blast-like,0.116,156,0.079,0.021,2,** 证据反对 Blast-like **,FALSE,** 多数细胞来自健康供者 -> 标签不成立 **
+14,23681,agreed,52.6,Blast-like: GMP,Blast-like,0.042,163,0.076,0.116,3,** 证据反对 Blast-like **,FALSE,** 多数细胞来自健康供者 -> 标签不成立 **
+30,10440,adopted,27.8,Blast-like primitive progenitor (BAALC+DNTT+PROM1),Blast-like,0.137,127,0.342,0.035,0,证据相容,FALSE,** 五分之一以上来自健康供者 -> 标签存疑 **
+27,11464,adopted,22.1,Blast-like: GMP,Blast-like,0.099,126,0.178,0.821,2,** 证据反对 Blast-like **,TRUE,CNV 确证恶性 -> 标签成立
+4,35131,agreed,4.6,Blast-like: GMP,Blast-like,0.137,159,0.221,0.145,1,弱,FALSE,AML 主导 -> 标签相容
+21,16903,agreed,4.2,Blast-like: HSC/MPP,Blast-like,0.227,129,0.453,0.233,0,证据相容,FALSE,AML 主导 -> 标签相容
+40,5696,agreed,3.2,Blast-like: HSC/MPP,Blast-like,0.203,59,0.517,0.572,0,证据相容,FALSE,AML 主导 -> 标签相容
+11,26252,disputed,1.8,"Blast-like (BAALC+, normal karyotype)",Blast-like,0.181,116,0.537,0.039,0,证据相容,FALSE,AML 主导 -> 标签相容
+49,2447,adopted,1.5,Blast-like,Blast-like,0.188,28,0.954,0.219,0,证据相容,FALSE,AML 主导 -> 标签相容
+5,34556,agreed,1.1,Blast-like: HSC/MPP,Blast-like,0.105,114,0.326,0.059,1,弱,FALSE,AML 主导 -> 标签相容
+17,21618,agreed,0.8,Blast-like: HSC/MPP,Blast-like,0.1,97,0.288,0.031,2,** 证据反对 Blast-like **,FALSE,AML 主导 -> 标签相容
+41,4703,agreed,0,Blast-like: cDC,Blast-like,0.001,4,0.998,0.013,1,弱,FALSE,AML 主导 -> 标签相容
+48,2768,disputed,0,"Blast-like (basophil/mast features, PRAME+)",Blast-like,0.108,11,0.973,0.015,1,弱,FALSE,AML 主导 -> 标签相容
+51,1671,agreed,0,Blast-like: GMP,Blast-like,0.026,4,0.987,0.162,1,弱,FALSE,AML 主导 -> 标签相容

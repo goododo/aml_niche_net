@@ -1,0 +1,115 @@
+cl,field,value
+0,score_top8,T: Pan (CD3+)=1.532(3mk) | CD8 T: Naive/Early=1.077(3mk) | CD4 T: Naive/TCM=0.998(6mk) | B: Memory=0.638(3mk) | HSPC: CLP/Early lymphoid=0.411(5mk) | NK: CD56bright (CD16-/low)=0.344(4mk) | CD4 T helper: Th2=0.220(3mk) | T: MAIT=0.115(3mk)
+0,old_Manual_anno_2_top3,HSPC: CLP/Early lymphoid=97.1% | Ambiguous=2.1% | Unassigned=0.6%
+0,old_Sub_anno_top3,Stroma: Adipocyte | Erythroid: Late/Mature | CD4 T: Naive/TCM
+0,panel_z_top5,T_NK=1.05 | Erythroid=0.13 | Megakaryo=-0.19 | Pericyte=-0.22 | MSC_stromal=-0.32
+0,composition,BoneMarrowMap/Control=41630 | zenodo_3345981/AML=8193 | GSE185381/AML=4653 | PMID37470778/AML=3516
+0,qc,nCount=3158 nFeature=860 pmt=2.87
+1,score_top8,Blast-like: Pro-monocyte=1.937(5mk) | Mono: Classical=1.592(9mk) | DC: DC3=1.551(4mk) | Myeloid: Generic=1.428(4mk) | Blast-like: Monocyte=1.372(4mk) | Mono: Antigen-presenting (HLA-II+)=0.973(4mk) | Granulocyte: Neutrophil=0.942(7mk) | Mono: Inflammatory (CCL3/4+)=0.849(3mk)
+1,old_Manual_anno_2_top3,Mono: Classical=91.6% | Granulocyte: Neutrophil=2.6% | Blast-like: GMP=2.3%
+1,old_Sub_anno_top3,Mono: Classical | Granulocyte: Neutrophil | Mono: Non-classical
+1,panel_z_top5,Mono_DC=2.49 | Stress=0.31 | Megakaryo=-0.14 | Endothelial=-0.16 | Erythroid=-0.19
+1,composition,BoneMarrowMap/Control=19098 | zenodo_3345981/AML=9568 | GSE185381/AML=8297 | GSE185381/Control=6989
+1,qc,nCount=3227 nFeature=1222 pmt=5.00
+7,score_top8,Blast-like: Pro-monocyte=1.380(5mk) | DC: DC3=1.247(4mk) | Myeloid: Generic=1.136(4mk) | Mono: Classical=0.971(9mk) | Blast-like: Monocyte=0.752(4mk) | Granulocyte: Neutrophil=0.714(7mk) | Mono: Antigen-presenting (HLA-II+)=0.510(4mk) | Mono: Inflammatory (CCL3/4+)=0.283(3mk)
+7,old_Manual_anno_2_top3,Mono: Classical=61.9% | Ambiguous=18.1% | Blast-like: GMP=14.4%
+7,old_Sub_anno_top3,Mono: Classical | Granulocyte: Neutrophil | Blast-like: GMP
+7,panel_z_top5,Mono_DC=1.80 | Megakaryo=-0.07 | Osteo=-0.17 | Pericyte=-0.21 | Cycling=-0.27
+7,composition,PMID37470778/AML=10090 | GSE201966/AML=6734 | GSE289435/AML=4155 | zenodo_3345981/AML=3162
+7,qc,nCount=1533 nFeature=762 pmt=5.05
+11,score_top8,Stroma: Adipogenic progenitor / Preadipocyte=0.137(17mk) | Blast-like: HSC/MPP=0.125(3mk) | Erythroid: Late/Mature=0.123(8mk) | HSPC: LMPP=0.058(5mk) | Stroma: Periosteal progenitor (POSTN+PDGFRA+)=0.056(19mk) | Stroma: Periosteal SSC (ITM2A+)=0.056(21mk) | Granulocyte: Mast=0.055(3mk) | HSPC: HSC/MPP=0.045(6mk)
+11,old_Manual_anno_2_top3,Blast-like: HSC/MPP=93.3% | Unassigned=2.7% | Blast-like: GMP=2.5%
+11,old_Sub_anno_top3,Stroma: Adipogenic progenitor / Preadipocyte | Blast-like: HSC/MPP | Blast-like: GMP
+11,panel_z_top5,Endothelial=0.08 | HSPC=0.08 | Erythroid=-0.03 | Mast=-0.08 | Osteo=-0.19
+11,composition,GSE289435/AML=14279 | GSE185381/AML=10219 | GSE239721/AML=716 | GSE227903/AML=251
+11,qc,nCount=3692 nFeature=1233 pmt=4.34
+13,score_top8,T/NK=1.068(3mk) | Blast-like: GMP=0.650(5mk) | Granulocyte: Mast=0.398(3mk) | HSPC: LMPP=0.379(5mk) | Blast-like: HSC/MPP=0.315(3mk) | Plasma: Plasmablast/Plasma=0.142(6mk) | DC: pDC=0.141(4mk) | Stroma: Adipogenic progenitor / Preadipocyte=0.116(17mk)
+13,old_Manual_anno_2_top3,Blast-like: GMP=81.7% | DC: pDC=9.7% | Blast-like: HSC/MPP=7.3%
+13,old_Sub_anno_top3,Blast-like: HSC/MPP | Blast-like: GMP | DC: pDC
+13,panel_z_top5,Cycling=2.24 | HSPC=1.49 | Mast=0.59 | Endothelial=0.21 | B_plasma=-0.06
+13,composition,BoneMarrowMap/Control=10394 | zenodo_3345981/AML=3015 | GSE185381/AML=2555 | GSE239721/AML=2271
+13,qc,nCount=10350 nFeature=2663 pmt=3.61
+15,score_top8,Myeloid: Generic=1.320(4mk) | Blast-like: Pro-monocyte=1.249(5mk) | Mono: Classical=1.029(9mk) | DC: DC3=1.028(4mk) | Mono: Antigen-presenting (HLA-II+)=0.733(4mk) | Granulocyte: Neutrophil=0.670(7mk) | Mono: Inflammatory (CCL3/4+)=0.662(3mk) | Blast-like: Monocyte=0.662(4mk)
+15,old_Manual_anno_2_top3,Mono: Classical=94.1% | Granulocyte: Neutrophil=1.8% | Blast-like: GMP=1.5%
+15,old_Sub_anno_top3,Mono: Classical | Granulocyte: Neutrophil | Blast-like: GMP
+15,panel_z_top5,Mono_DC=1.90 | Stress=0.09 | Megakaryo=-0.18 | Pericyte=-0.21 | Endothelial=-0.25
+15,composition,GSE185381/AML=6957 | BoneMarrowMap/Control=5108 | GSE289435/AML=4316 | GSE185381/Control=3105
+15,qc,nCount=4157 nFeature=1374 pmt=4.75
+16,score_top8,T: Pan (CD3+)=2.277(3mk) | CD8 T: Naive/Early=2.089(3mk) | CD4 T: Naive/TCM=1.926(6mk) | B: Memory=1.155(3mk) | HSPC: CLP/Early lymphoid=0.811(5mk) | NK: CD56bright (CD16-/low)=0.674(4mk) | CD4 T helper: Th2=0.375(3mk) | CD4 T: Tfh=0.294(6mk)
+16,old_Manual_anno_2_top3,HSPC: CLP/Early lymphoid=99.6% | Ambiguous=0.3% | Erythroid: Late/Mature=0.0%
+16,old_Sub_anno_top3,CD4 T: Naive/TCM | HSPC: CLP/Early lymphoid | CD4 T: Tfh
+16,panel_z_top5,T_NK=1.54 | Megakaryo=-0.20 | Pericyte=-0.21 | Osteo=-0.28 | Erythroid=-0.29
+16,composition,BoneMarrowMap/Control=6422 | zenodo_3345981/AML=5505 | PMID37470778/Control=3948 | GSE253355/Control=1755
+16,qc,nCount=3545 nFeature=1259 pmt=2.70
+26,score_top8,Myeloid: Generic=1.251(4mk) | Blast-like: Pro-monocyte=0.908(5mk) | DC: DC3=0.772(4mk) | Blast-like: GMP=0.649(5mk) | Mono: Classical=0.628(9mk) | Granulocyte: Neutrophil=0.450(7mk) | Mono: Inflammatory (CCL3/4+)=0.423(3mk) | Blast-like: Monocyte=0.326(4mk)
+26,old_Manual_anno_2_top3,Blast-like: GMP=53.1% | Mono: Classical=43.0% | Blast-like: cDC=1.4%
+26,old_Sub_anno_top3,Blast-like: GMP | Mono: Classical | Myeloid: Generic
+26,panel_z_top5,Mono_DC=1.61 | Stress=0.59 | HSPC=0.23 | Endothelial=-0.12 | Osteo=-0.13
+26,composition,GSE185381/AML=4286 | PMID37470778/AML=3313 | GSE289435/AML=1405 | GSE227903/AML=1096
+26,qc,nCount=4830 nFeature=1702 pmt=5.37
+28,score_top8,"Myeloid: Generic=0.950(4mk) | Bone: Osteogenic progenitor=0.404(5mk) | Blast-like: GMP=0.398(5mk) | Mono: Antigen-presenting (HLA-II+)=0.386(4mk) | NK: CD56dim (CD16+, cytotoxic)=0.212(5mk) | CD4 T helper: Th1=0.190(3mk) | Cartilage: Hypertrophic chondrocyte=0.143(5mk) | Mono: Non-classical=0.125(6mk)"
+28,old_Manual_anno_2_top3,Blast-like: GMP=54.8% | Blast-like: cDC=42.8% | Mono: Classical=2.2%
+28,old_Sub_anno_top3,Myeloid: Generic | Blast-like: GMP | Blast-like: cDC
+28,panel_z_top5,Mono_DC=0.50 | Stress=0.42 | T_NK=0.30 | HSPC=0.20 | Osteo=0.15
+28,composition,GSE289435/AML=8251 | GSE185381/AML=3086 | PMID37470778/AML=42 | GSE227903/AML=23
+28,qc,nCount=7336 nFeature=2112 pmt=5.98
+29,score_top8,"Blast-like: Monocyte=2.192(4mk) | Mono: Non-classical=2.109(6mk) | Myeloid: Generic=1.493(4mk) | DC: DC3=0.919(4mk) | Blast-like: Pro-monocyte=0.786(5mk) | Mono: Antigen-presenting (HLA-II+)=0.773(4mk) | Mono: Classical=0.577(9mk) | NK: CD56dim (CD16+, cytotoxic)=0.267(5mk)"
+29,old_Manual_anno_2_top3,Mono: Non-classical=88.0% | Ambiguous=7.2% | Mono: Classical=4.6%
+29,old_Sub_anno_top3,Mono: Non-classical | Mono: Classical | Stroma: Periosteal progenitor (POSTN+PDGFRA+)
+29,panel_z_top5,Mono_DC=1.33 | Endothelial=0.33 | Pericyte=-0.09 | Megakaryo=-0.16 | Adipo=-0.18
+29,composition,BoneMarrowMap/Control=4625 | zenodo_3345981/AML=2095 | GSE185381/Control=1392 | GSE201966/AML=1165
+29,qc,nCount=3823 nFeature=1333 pmt=4.82
+31,score_top8,DC: cDC2=3.281(3mk) | Mono: Antigen-presenting (HLA-II+)=1.498(4mk) | Blast-like: cDC=1.468(4mk) | Granulocyte: Basophil=0.932(3mk) | Myeloid: Generic=0.836(4mk) | DC: DC3=0.431(4mk) | DC: cDC1=0.369(5mk) | Mono: Classical=0.323(9mk)
+31,old_Manual_anno_2_top3,Blast-like: cDC=76.8% | Blast-like: GMP=18.7% | Mono: Classical=2.2%
+31,old_Sub_anno_top3,Blast-like: cDC | Myeloid: Generic | Blast-like: GMP
+31,panel_z_top5,Mono_DC=0.98 | Stress=0.29 | Osteo=-0.05 | Megakaryo=-0.19 | Pericyte=-0.21
+31,composition,BoneMarrowMap/Control=3193 | GSE185381/AML=2096 | zenodo_3345981/AML=1573 | GSE289435/AML=813
+31,qc,nCount=6146 nFeature=1774 pmt=4.16
+34,score_top8,Erythroid: Late/Mature=0.611(8mk) | T/NK=0.545(3mk) | Platelet=0.445(3mk) | Blast-like: HSC/MPP=0.411(3mk) | Erythroid: Early (CFU-E)=0.407(9mk) | Granulocyte: Mast=0.374(3mk) | Megakaryocyte=0.359(7mk) | Ery/Meg prog: MEP/MkP=0.334(7mk)
+34,old_Manual_anno_2_top3,Blast-like: HSC/MPP=98.4% | DC: pDC=0.6% | Ambiguous=0.2%
+34,old_Sub_anno_top3,Megakaryocyte | Blast-like: HSC/MPP | DC: pDC
+34,panel_z_top5,Erythroid=1.17 | Mast=1.12 | Megakaryo=0.49 | Cycling=0.35 | Endothelial=-0.09
+34,composition,GSE289435/AML=7274 | GSE185381/AML=561 | GSE239721/AML=70 | BoneMarrowMap/Control=27
+34,qc,nCount=1984 nFeature=990 pmt=2.18
+38,score_top8,Myeloid: Generic=1.091(4mk) | Blast-like: Pro-monocyte=0.979(5mk) | Mono: Classical=0.849(9mk) | Blast-like: Monocyte=0.634(4mk) | DC: DC3=0.603(4mk) | Granulocyte: Neutrophil=0.481(7mk) | Mono: Inflammatory (CCL3/4+)=0.355(3mk) | Granulocyte: Basophil=0.286(3mk)
+38,old_Manual_anno_2_top3,Mono: Classical=70.4% | Granulocyte: Neutrophil=24.5% | Unassigned=1.7%
+38,old_Sub_anno_top3,Mono: Classical | Granulocyte: Neutrophil | Blast-like: GMP
+38,panel_z_top5,Mono_DC=1.70 | Megakaryo=-0.17 | Endothelial=-0.22 | Pericyte=-0.23 | Erythroid=-0.27
+38,composition,GSE185381/AML=6610 | GSE227903/AML=149 | PMID37470778/AML=47 | GSE253355/Control=31
+38,qc,nCount=3500 nFeature=1171 pmt=7.66
+44,score_top8,Blast-like: Pro-monocyte=1.430(5mk) | Myeloid: Generic=1.273(4mk) | DC: DC3=1.230(4mk) | Mono: Classical=1.093(9mk) | Mono: Antigen-presenting (HLA-II+)=1.034(4mk) | Blast-like: Monocyte=0.953(4mk) | Mono: Inflammatory (CCL3/4+)=0.872(3mk) | Granulocyte: Neutrophil=0.720(7mk)
+44,old_Manual_anno_2_top3,Mono: Classical=58.1% | Blast-like: GMP=24.2% | Blast-like: cDC=11.8%
+44,old_Sub_anno_top3,Mono: Classical | Myeloid: Generic | Blast-like: cDC
+44,panel_z_top5,Stress=1.98 | Mono_DC=1.59 | Erythroid=0.12 | Endothelial=0.01 | HSPC=-0.13
+44,composition,GSE185381/AML=3604 | zenodo_3345981/AML=91 | GSE289435/AML=24 | GSE227903/AML=23
+44,qc,nCount=4608 nFeature=1640 pmt=6.39
+46,score_top8,Myeloid: Generic=1.681(4mk) | Blast-like: Pro-monocyte=1.499(5mk) | Blast-like: Monocyte=1.380(4mk) | DC: DC3=1.142(4mk) | Mono: Classical=1.130(9mk) | Blast-like: GMP=0.906(5mk) | Granulocyte: Neutrophil=0.775(7mk) | Mono: Inflammatory (CCL3/4+)=0.631(3mk)
+46,old_Manual_anno_2_top3,Mono: Classical=92.3% | Blast-like: GMP=7.7% | NA=NA%
+46,old_Sub_anno_top3,Mono: Classical | Blast-like: GMP | NA
+46,panel_z_top5,Mono_DC=2.11 | HSPC=0.65 | Stress=0.64 | Erythroid=0.10 | Adipo=0.02
+46,composition,GSE185381/AML=3221 | PMID37470778/AML=6 | GSE289435/AML=4 | GSE253355/Control=1
+46,qc,nCount=6868 nFeature=2453 pmt=7.09
+48,score_top8,HSPC: LMPP=0.990(5mk) | Mono: Antigen-presenting (HLA-II+)=0.863(4mk) | Blast-like: HSC/MPP=0.768(3mk) | T/NK=0.605(3mk) | Blast-like: GMP=0.584(5mk) | Granulocyte: Mast=0.489(3mk) | Plasma: Plasmablast/Plasma=0.394(6mk) | B: Naive=0.363(6mk)
+48,old_Manual_anno_2_top3,Granulocyte: Mast=33.3% | B: Pro/Pre-B=25.0% | Blast-like: HSC/MPP=25.0%
+48,old_Sub_anno_top3,Blast-like: HSC/MPP | Granulocyte: Mast | B: Pro/Pre-B
+48,panel_z_top5,Mast=1.95 | HSPC=0.97 | Endothelial=0.74 | B_plasma=-0.05 | Adipo=-0.07
+48,composition,GSE185381/AML=2756 | GSE239721/AML=7 | GSE201966/AML=2 | GSE227903/AML=2
+48,qc,nCount=8072 nFeature=2474 pmt=10.29
+50,score_top8,T: Pan (CD3+)=1.511(3mk) | CD8 T: Naive/Early=1.060(3mk) | Erythroid: Late/Mature=1.038(8mk) | CD4 T: Naive/TCM=0.991(6mk) | B: Memory=0.920(3mk) | Erythroid: Early (CFU-E)=0.833(9mk) | HSPC: CLP/Early lymphoid=0.333(5mk) | NK: CD56bright (CD16-/low)=0.293(4mk)
+50,old_Manual_anno_2_top3,HSPC: CLP/Early lymphoid=85.8% | Erythroid: Late/Mature=11.5% | Ambiguous=1.8%
+50,old_Sub_anno_top3,Erythroid: Late/Mature | Stroma: Adipocyte | CD4 T: Naive/TCM
+50,panel_z_top5,Erythroid=1.99 | T_NK=1.07 | Megakaryo=-0.18 | Stress=-0.18 | Pericyte=-0.22
+50,composition,BoneMarrowMap/Control=1407 | zenodo_3345981/AML=332 | GSE289435/AML=50 | PMID37470778/AML=7
+50,qc,nCount=4802 nFeature=1092 pmt=2.27
+52,score_top8,Granulocyte: Mast=0.842(3mk) | Blast-like: GMP=0.623(5mk) | Bone: Osteogenic progenitor=0.484(5mk) | Megakaryocyte=0.404(7mk) | Granulocyte: Basophil=0.372(3mk) | Blast-like: HSC/MPP=0.365(3mk) | HSPC: HSC/MPP=0.302(6mk) | HSPC: LMPP=0.229(5mk)
+52,old_Manual_anno_2_top3,Megakaryocyte=53.1% | Blast-like: HSC/MPP=39.1% | Blast-like: GMP=5.7%
+52,old_Sub_anno_top3,"Blast-like: GMP | Blast-like: HSC/MPP | NK: CD56dim (CD16+, cytotoxic)"
+52,panel_z_top5,Mast=3.73 | HSPC=1.32 | Osteo=0.64 | Megakaryo=0.42 | Endothelial=0.31
+52,composition,GSE227903/AML=470 | GSE289435/AML=319 | GSE239721/AML=8 | GSE185381/AML=6
+52,qc,nCount=12123 nFeature=3515 pmt=0.00
+54,score_top8,"CD8 T: Effector/Cytotoxic=2.692(5mk) | NK: CD56dim (CD16+, cytotoxic)=2.628(5mk) | CD4 T helper: Th1=0.992(3mk) | T: Pan (CD3+)=0.904(3mk) | T/NK=0.870(3mk) | Mono: Inflammatory (CCL3/4+)=0.815(3mk) | NK: CD56bright (CD16-/low)=0.796(4mk) | T: MAIT=0.492(3mk)"
+54,old_Manual_anno_2_top3,"T/NK=85.1% | NK: CD56dim (CD16+, cytotoxic)=10.7% | Ambiguous=1.5%"
+54,old_Sub_anno_top3,"T/NK | NK: CD56dim (CD16+, cytotoxic) | HSPC: CLP/Early lymphoid"
+54,panel_z_top5,T_NK=3.35 | Cycling=2.54 | Erythroid=0.06 | Megakaryo=-0.19 | Pericyte=-0.21
+54,composition,BoneMarrowMap/Control=248 | GSE185381/AML=118 | PMID37470778/Control=39 | zenodo_3345981/AML=33
+54,qc,nCount=3770 nFeature=1602 pmt=3.89

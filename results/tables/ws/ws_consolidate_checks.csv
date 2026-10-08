@@ -1,0 +1,12 @@
+check,expected,got,pass
+clusters,57,57,TRUE
+cells,895228,895228,TRUE
+agreed,31,31,TRUE
+old label gave up,7,7,TRUE
+all give-ups sit inside the disagreements,7,7,TRUE
+still disputed,19,19,TRUE
+cluster 11 still flagged contradicted,contradicted,contradicted,TRUE
+cluster 42 no longer falsely contradicted (Pericyte z 7.15),supported,supported,TRUE
+labelled clusters,38,38,TRUE
+blank (disputed) clusters,19,19,TRUE
+dossier covers every disputed cluster,19,19,TRUE

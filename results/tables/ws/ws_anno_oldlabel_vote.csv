@@ -1,0 +1,58 @@
+cl,cluster_size,old_Manual_anno_2,n_top,purity_Manual,labelled_cells,n_distinct_labels,old_Sub_anno,purity_Sub,pct_labelled
+0,65624,HSPC: CLP/Early lymphoid,56189,0.971,57871,13,Stroma: Adipocyte,0.407,88.2
+1,58328,Mono: Classical,39408,0.916,43042,9,Mono: Classical,0.93,73.8
+2,38846,B: Naive,23389,0.992,23587,15,B: Naive,0.992,60.7
+3,35554,Ambiguous,13365,0.558,23966,15,CD8 T: Effector/Cytotoxic,0.464,67.4
+4,35131,Blast-like: GMP,29253,0.858,34106,16,Blast-like: GMP,0.869,97.1
+5,34556,Blast-like: HSC/MPP,15330,0.48,31910,11,Blast-like: GMP,0.517,92.3
+6,34511,Blast-like: HSC/MPP,32595,0.986,33060,11,Blast-like: HSC/MPP,0.981,95.8
+7,34243,Mono: Classical,18558,0.619,29969,15,Mono: Classical,0.623,87.5
+8,32373,Blast-like: HSC/MPP,25273,0.873,28945,11,Blast-like: HSC/MPP,0.916,89.4
+9,31729,Ambiguous,19225,0.792,24272,13,HSPC: CLP/Early lymphoid,0.457,76.5
+10,29963,Plasma: Plasmablast/Plasma,29040,0.991,29298,14,Plasma: Plasmablast/Plasma,0.991,97.8
+11,26252,Blast-like: HSC/MPP,14951,0.933,16030,11,Stroma: Adipogenic progenitor / Preadipocyte,0.654,61.1
+12,26079,Granulocyte: Mast,13570,0.684,19850,15,Granulocyte: Mast,0.622,76.1
+13,23949,Blast-like: GMP,17448,0.817,21367,13,Blast-like: HSC/MPP,0.521,89.2
+14,23681,Blast-like: GMP,17918,0.836,21431,11,Blast-like: GMP,0.796,90.5
+15,23017,Mono: Classical,12194,0.941,12955,12,Mono: Classical,0.943,56.3
+16,21650,HSPC: CLP/Early lymphoid,19847,0.996,19930,8,CD4 T: Naive/TCM,0.665,92.1
+17,21618,Blast-like: HSC/MPP,9908,0.869,11401,13,Blast-like: GMP,0.536,52.7
+18,20545,Erythroid: Late/Mature,19399,0.947,20482,14,Erythroid: Early (CFU-E),0.316,99.7
+19,19980,Ery/Meg prog: MEP/MkP,12750,0.653,19520,9,Blast-like: HSC/MPP,0.592,97.7
+20,19497,Stroma: MSC (CXCL12+LEPR+PDGFRA+),18868,0.97,19447,16,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),0.975,99.7
+21,16903,Blast-like: HSC/MPP,9187,0.558,16467,15,Blast-like: HSC/MPP,0.493,97.4
+22,13680,Erythroid: Late/Mature,13491,0.987,13674,15,Erythroid: Late/Mature,0.961,100
+23,12874,DC: pDC,9838,0.911,10801,18,DC: pDC,0.829,83.9
+24,12004,Erythroid: Late/Mature,11944,0.995,12004,13,Erythroid: Late/Mature,0.859,100
+25,11780,Granulocyte: Neutrophil,11161,0.966,11559,11,Granulocyte: Neutrophil,0.956,98.1
+26,11716,Blast-like: GMP,3942,0.531,7420,8,Blast-like: GMP,0.524,63.3
+27,11464,Unassigned,4491,0.442,10166,21,Blast-like: GMP,0.449,88.7
+28,11444,Blast-like: GMP,4578,0.548,8358,5,Myeloid: Generic,0.64,73
+29,11090,Mono: Non-classical,7744,0.88,8799,8,Mono: Non-classical,0.879,79.3
+30,10440,Ambiguous,5034,0.526,9579,17,B: Pro/Pre-B,0.713,91.8
+31,10422,Blast-like: cDC,5860,0.768,7630,8,Blast-like: cDC,0.856,73.2
+32,9843,Bone: Osteoblast,6956,0.707,9841,17,Bone: Osteoblast,0.702,100
+33,8166,B: Pro/Pre-B,7862,0.974,8076,10,B: Pro/Pre-B,0.996,98.9
+34,7974,Blast-like: HSC/MPP,7295,0.984,7412,12,Megakaryocyte,0.878,93
+35,7943,Megakaryocyte,1877,0.963,1950,10,Megakaryocyte,0.933,24.5
+36,7159,Blast-like: GMP,6497,0.929,6996,4,Blast-like: GMP,0.924,97.7
+37,6980,Vascular: Endothelial (sinusoidal),6641,0.952,6974,18,Vascular: Endothelial (sinusoidal),0.533,99.9
+38,6913,Mono: Classical,207,0.704,294,7,Mono: Classical,0.925,4.3
+39,5787,B: Pro/Pre-B,5540,0.986,5618,9,B: Pro/Pre-B,0.592,97.1
+40,5696,Blast-like: HSC/MPP,5086,0.903,5635,17,Blast-like: HSC/MPP,0.898,98.9
+41,4703,Blast-like: cDC,3,0.429,7,3,Myeloid: Generic,0.429,0.1
+42,4294,Vascular: Mural (Pericyte/SMC),4085,0.952,4292,16,Vascular: Mural (Pericyte/SMC),0.952,100
+43,4221,B: Naive,2881,0.99,2909,6,B: Naive,0.994,68.9
+44,3794,Mono: Classical,108,0.581,186,8,Mono: Classical,0.763,4.9
+45,3467,Ambiguous,3114,0.899,3465,17,Stroma: BMSC (CXCL12+LEPR+PDGFRA+),0.907,99.9
+46,3234,Mono: Classical,12,0.923,13,2,Mono: Classical,0.923,0.4
+47,2858,Ambiguous,714,0.603,1184,6,NK: CD56bright (CD16-/low),0.505,41.4
+48,2768,Granulocyte: Mast,4,0.333,12,4,Blast-like: HSC/MPP,0.333,0.4
+49,2447,Unassigned,69,0.616,112,7,Blast-like: GMP,0.527,4.6
+50,1818,HSPC: CLP/Early lymphoid,1553,0.858,1810,7,Erythroid: Late/Mature,0.478,99.6
+51,1671,Blast-like: GMP,14,1,14,1,Blast-like: GMP,1,0.8
+52,812,Megakaryocyte,428,0.531,806,6,Blast-like: GMP,0.594,99.3
+53,626,Plasma: Plasmablast/Plasma,595,0.95,626,8,Plasma: Plasmablast/Plasma,0.976,100
+54,548,T/NK,349,0.851,410,6,T/NK,0.888,74.8
+55,372,Plasma: Plasmablast/Plasma,336,0.921,365,7,Plasma: Plasmablast/Plasma,0.923,98.1
+56,191,Blast-like: HSC/MPP,172,0.91,189,7,Blast-like: HSC/MPP,0.899,99
