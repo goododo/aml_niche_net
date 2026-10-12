@@ -1,0 +1,2 @@
+date,smoke,arms,n_perm,n_fake,IFNG,TNF,TGFB1,arms_agree,tier,meaning
+2026-10-12,FALSE,main+sens,1000,200,FALSE,FALSE,FALSE,TRUE,fail,"anything else -> check the pipeline, do not proceed"

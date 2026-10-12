@@ -47,7 +47,9 @@ suppressPackageStartupMessages({ library(data.table); library(Matrix); library(S
 .get <- function(k, d) { h <- grep(paste0("^--", k, "="), .a, value = TRUE); if (length(h)) sub(".*=", "", h[1]) else d }
 SMOKE <- "--smoke" %in% .a
 ARMS  <- strsplit(.get("arms", if (SMOKE) "main" else "main,sens"), ",")[[1]]
-SFX   <- if (SMOKE) "_smoke" else ""
+DATASET <- .get("dataset", "GSE185381")          # GSE185381 = the gate; any other = direction check only (5.4 step 8)
+PRIMARY <- DATASET == "GSE185381"
+SFX   <- paste0(if (PRIMARY) "" else paste0("_", DATASET), if (SMOKE) "_smoke" else "")
 
 suppressPackageStartupMessages(library(here))
 source(here::here("scripts", "config", "config_paths.R"))
@@ -55,7 +57,7 @@ source(here::here("scripts", "ws", "config_ws.R"))
 ws_assert_frozen()
 set.seed(SEED)
 
-AN     <- file.path(LARGE1_DIR, "02_seurat_objects/04_annotated/GSE185381")
+AN     <- file.path(LARGE1_DIR, "02_seurat_objects/04_annotated", DATASET)
 GMT    <- file.path(REF_DIR, "h.all.v2024.1.Hs.symbols.gmt")
 CACHE  <- file.path(LARGE1_DIR, paste0("ws_t3c_cache", SFX)); dir.create(CACHE, showWarnings = FALSE, recursive = TRUE)
 TABWS  <- file.path(TAB_DIR, "ws"); dir.create(TABWS, showWarnings = FALSE, recursive = TRUE)
@@ -72,14 +74,14 @@ chk <- function(name, expected, got) {
   CHK[[length(CHK)+1]] <<- data.table(check = name, expected = as.character(expected), got = as.character(got), pass = ok)
   message(sprintf("  %-60s expect %-8s got %-8s %s", name, expected, got, if (ok) "PASS" else "** FAIL **"))
 }
-ts(sprintf("T3c | smoke=%s | arms=%s | perms=%d | fakes=%d | combos=%s", SMOKE, paste(ARMS, collapse="+"), N_PERM, N_FAKE, paste(COMBOS$row, collapse=",")))
+ts(sprintf("T3c | dataset=%s (%s) | smoke=%s | arms=%s | perms=%d | fakes=%d | combos=%s", DATASET, if (PRIMARY) "GATE" else "direction check", SMOKE, paste(ARMS, collapse="+"), N_PERM, N_FAKE, paste(COMBOS$row, collapse=",")))
 
 ## -- 1. eligibility, gene sets, exclusion list ------------------------------------------------
 ts("[1] inputs")
 man  <- fread(file.path(TAB_DIR, "01_preprocess", "00_curated_manifest.csv"))
-EL   <- man[dataset == "GSE185381" & disease == "AML" & timepoint == "Diagnosis" & tissue_r == "BM" &
+EL   <- man[dataset == DATASET & disease == "AML" & timepoint == "Diagnosis" & tissue_r == "BM" &
             sorting_r %in% c("viability_only","none"), .(sample, multiplexed = is_multiplexed %in% c(TRUE, "TRUE"))]
-chk("eligible samples", WS_W11_ELIGIBLE_SAMPLES, nrow(EL))
+if (PRIMARY) chk("eligible samples", WS_W11_ELIGIBLE_SAMPLES, nrow(EL)) else ts("    ", nrow(EL), " eligible ", DATASET, " samples")
 gmt <- strsplit(readLines(GMT), "\t"); names(gmt) <- vapply(gmt, `[`, "", 1L); gmt <- lapply(gmt, function(x) x[-(1:2)])
 GS  <- lapply(WS_W11_GENESETS, function(n) gmt[[n]])
 chk("all three HALLMARK sets found", 3L, sum(lengths(GS) > 0))
@@ -89,9 +91,9 @@ cplx <- CellChatDB.human$complex
 expand <- function(r) if (r %in% rownames(cplx)) unlist(strsplit(gsub(" ", "", paste(cplx[r, ], collapse = ",")), ",")) else r
 LR_GENES <- unique(c(unlist(lapply(cc$ligand, expand)), unlist(lapply(cc$receptor, expand)))); LR_GENES <- LR_GENES[LR_GENES != ""]
 RECEPTORS_ALL <- unique(WS_W11_COMBOS$receptor)
-DBL <- fread(file.path(TABWS, WS_DBL_SCORES_TABLE))[dataset == "GSE185381", .(cell, sc_score, dbl_union = (sc_class %in% c(TRUE,"TRUE")) | (df_class %in% c(TRUE,"TRUE")))]
-setkey(DBL, cell)
-chk("doublet scores cover the eligible samples", TRUE, uniqueN(fread(file.path(TABWS, WS_DBL_SCORES_TABLE))[dataset=="GSE185381", sample]) >= nrow(EL))
+DBL <- fread(file.path(TABWS, WS_DBL_SCORES_TABLE))[dataset == DATASET, .(cell, sample, sc_score, dbl_union = (sc_class %in% c(TRUE,"TRUE")) | (df_class %in% c(TRUE,"TRUE")))]
+chk("doublet scores cover the eligible samples", TRUE, sum(EL$sample %chin% unique(DBL$sample)) >= nrow(EL))
+DBL[, sample := NULL]; setkey(DBL, cell)
 
 ## -- 2. stage 1 per patient, cached ----------------------------------------------------------
 ts("[2] stage 1 per patient (cache: ", CACHE, ")")
@@ -221,7 +223,8 @@ for (ci in seq_len(nrow(COMBOS))) for (arm in ARMS) {
     colSums(Atil * st$W * st$Btil) / colSums(Atil * st$W * Atil)
   }
   O  <- cbind(1, A_oth, logn, mux, share)
-  st <- build(BETA, SE, O)
+  O  <- O[, c(TRUE, apply(O[, -1, drop = FALSE], 2, var) > 0), drop = FALSE]   # a constant covariate (e.g. mux
+  st <- build(BETA, SE, O)                                                       # outside GSE185381) would sink every gene
   inset <- st$genes %in% GS[[L]]
   b_obs <- bcoef(st, A); z_obs <- rank_z(b_obs, inset)
   z_perm <- vapply(seq_len(N_PERM), function(i) rank_z(bcoef(st, sample(A)), inset), 1)
@@ -239,7 +242,8 @@ for (ci in seq_len(nrow(COMBOS))) for (arm in ARMS) {
   z_fake <- vapply(fk, function(fg) {
     Af <- vapply(pats, function(p) STAGE1[[p]]$SEND[[S]][gene == fg, mean_cpm], 1)
     Aof <- vapply(pats, function(p) { s <- STAGE1[[p]]$SEND[[other]]; if (is.null(s)) 0 else s[gene == fg, mean_cpm] }, 1)
-    stF <- build(BETA_ALL, SE_ALL, cbind(1, Aof, logn, mux, share))
+    Of <- cbind(1, Aof, logn, mux, share); Of <- Of[, c(TRUE, apply(Of[, -1, drop = FALSE], 2, var) > 0), drop = FALSE]
+    stF <- build(BETA_ALL, SE_ALL, Of)
     rank_z(bcoef(stF, Af), stF$genes %in% GS[[L]])
   }, 1)
   fake_p95 <- if (sum(is.finite(z_fake)) >= 5) quantile(z_fake, WS_W11_FAKE_PCTL, na.rm = TRUE) else NA_real_
@@ -276,7 +280,7 @@ TIER <- data.table(date = format(Sys.Date()), smoke = SMOKE, arms = paste(ARMS, 
   IFNG = rec["IFNG"], TNF = rec["TNF"], TGFB1 = rec["TGFB1"], arms_agree = agree, tier = tier,
   meaning = if (tier %in% names(WS_W11_TIER)) WS_W11_TIER[[tier]] else tier)
 fwrite(TIER, file.path(TABWS, paste0("ws_t3c_tier", SFX, ".csv"))); print(TIER)
-if (!SMOKE) {
+if (!SMOKE && PRIMARY) {
   block <- c("<!-- W1.1 start -->",
     sprintf("## GATE_W1.1 positive control -- %s", format(Sys.Date())),
     "", "Script: scripts/ws/20_t3c_positive_control.R | config: scripts/ws/config_ws.R (frozen 2026-10-12)", "",
@@ -292,4 +296,4 @@ if (!SMOKE) {
 C <- rbindlist(CHK); fwrite(C, file.path(TABWS, paste0("ws_t3c_checks", SFX, ".csv")))
 ts(sprintf("[5] %d checks, %d PASS, %d FAIL", nrow(C), sum(C$pass), sum(!C$pass)))
 if (any(!C$pass)) print(C[pass == FALSE])
-ts("[done] tier = ", tier)
+ts("[done] ", if (PRIMARY) paste("tier =", tier) else paste("direction check on", DATASET, "-- no gate, see ws_t3c_results", SFX))
