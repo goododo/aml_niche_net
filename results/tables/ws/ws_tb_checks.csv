@@ -1,0 +1,3 @@
+check,expected,got,pass
+multiplexing recorded for every manifest row,0,0,TRUE
+samples measured,TRUE,TRUE,TRUE

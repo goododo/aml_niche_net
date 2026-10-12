@@ -1,0 +1,115 @@
+cl,origin,cluster_size,final,cell_type,lineage,cnv_mal,cnv_called,high_err,proj_cov,internal_ok,ctl_high,aml_high,malignancy_cohortbar,malignancy,malignancy_basis
+0,AML,65624,T/NK,T/NK,T/NK,0.01,0.191,0.04,0.191,FALSE,,,undetermined,undetermined,AML donor; CNV 0.010 and residual 0.040 both inside the false-positive band
+0,Control,65624,T/NK,T/NK,T/NK,0.01,0.191,0.04,0.191,FALSE,,,normal,normal,healthy donor (definitional)
+1,AML,58328,Mono: Classical,Mono: Classical,Myeloid,0.118,0.372,0.001,0.374,FALSE,,,undetermined,undetermined,AML donor; CNV 0.118 and residual 0.001 both inside the false-positive band
+1,Control,58328,Mono: Classical,Mono: Classical,Myeloid,0.118,0.372,0.001,0.374,FALSE,,,normal,normal,healthy donor (definitional)
+2,AML,38846,B: Naive,B: Naive,B/plasma,0.002,0.62,0.001,0.62,FALSE,,,normal,normal,AML donor; cluster CNV 0.002 < 0.118 and projection residual 0.001 < this cohort's Control rate 0.031
+2,Control,38846,B: Naive,B: Naive,B/plasma,0.002,0.62,0.001,0.62,FALSE,,,normal,normal,healthy donor (definitional)
+3,AML,35554,CD8 T: Effector/Cytotoxic,CD8 T: Effector/Cytotoxic,T/NK,0.136,0.423,0.056,0.423,FALSE,,,undetermined,undetermined,AML donor; CNV 0.136 and residual 0.056 both inside the false-positive band
+3,Control,35554,CD8 T: Effector/Cytotoxic,CD8 T: Effector/Cytotoxic,T/NK,0.136,0.423,0.056,0.423,FALSE,,,normal,normal,healthy donor (definitional)
+4,AML,35131,Blast-like: GMP,GMP,HSPC/progenitor,0.145,0.407,0.137,0.468,FALSE,,,undetermined,undetermined,AML donor; CNV 0.145 and residual 0.137 both inside the false-positive band
+4,Control,35131,Blast-like: GMP,GMP,HSPC/progenitor,0.145,0.407,0.137,0.468,FALSE,,,normal,normal,healthy donor (definitional)
+5,AML,34556,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.059,0.528,0.105,0.535,FALSE,,,undetermined,undetermined,AML donor; CNV 0.059 and residual 0.105 both inside the false-positive band
+5,Control,34556,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.059,0.528,0.105,0.535,FALSE,,,normal,normal,healthy donor (definitional)
+6,AML,34511,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.033,0.194,0.106,0.296,FALSE,0.076,0.128,undetermined,undetermined,AML donor; CNV 0.033 and residual 0.106 both inside the false-positive band
+6,Control,34511,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.033,0.194,0.106,0.296,FALSE,0.076,0.128,normal,normal,healthy donor (definitional)
+7,AML,34243,Mono: Classical,Mono: Classical,Myeloid,0.476,0.629,0.014,0.633,FALSE,,,undetermined,undetermined,AML donor; CNV 0.476 and residual 0.014 both inside the false-positive band
+7,Control,34243,Mono: Classical,Mono: Classical,Myeloid,0.476,0.629,0.014,0.633,FALSE,,,normal,normal,healthy donor (definitional)
+8,AML,32373,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.021,0.226,0.116,0.35,TRUE,0.102,0.121,undetermined,normal,AML donor; indistinguishable from the SAME cluster's NA healthy-donor cells (residual 0.121 vs 0.102)
+8,Control,32373,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.021,0.226,0.116,0.35,TRUE,0.102,0.121,normal,normal,healthy donor (definitional)
+9,AML,31729,T: Pan (CD3+),T: Pan (CD3+),T/NK,0.006,0.446,0.142,0.446,FALSE,,,undetermined,undetermined,AML donor; CNV 0.006 and residual 0.142 both inside the false-positive band
+9,Control,31729,T: Pan (CD3+),T: Pan (CD3+),T/NK,0.006,0.446,0.142,0.446,FALSE,,,normal,normal,healthy donor (definitional)
+10,AML,29963,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,B/plasma,0.065,0.62,0.001,0.62,FALSE,,,normal,normal,AML donor; cluster CNV 0.065 < 0.118 and projection residual 0.001 < this cohort's Control rate 0.031
+10,Control,29963,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,B/plasma,0.065,0.62,0.001,0.62,FALSE,,,normal,normal,healthy donor (definitional)
+11,AML,26252,"Blast-like (BAALC+, normal karyotype)",HSPC (BAALC+),HSPC/progenitor,0.039,0.793,0.181,0.811,FALSE,,,undetermined,undetermined,AML donor; CNV 0.039 and residual 0.181 both inside the false-positive band
+11,Control,26252,"Blast-like (BAALC+, normal karyotype)",HSPC (BAALC+),HSPC/progenitor,0.039,0.793,0.181,0.811,FALSE,,,normal,normal,healthy donor (definitional)
+12,AML,26079,Granulocyte: Mast,Granulocyte: Mast,Myeloid,0.078,0.424,0.026,0.488,FALSE,,,normal,normal,AML donor; cluster CNV 0.078 < 0.118 and projection residual 0.026 < this cohort's Control rate 0.031
+12,Control,26079,Granulocyte: Mast,Granulocyte: Mast,Myeloid,0.078,0.424,0.026,0.488,FALSE,,,normal,normal,healthy donor (definitional)
+13,AML,23949,T/NK,T/NK,T/NK,0.076,0.269,0.056,0.315,FALSE,,,undetermined,undetermined,AML donor; CNV 0.076 and residual 0.056 both inside the false-positive band
+13,Control,23949,T/NK,T/NK,T/NK,0.076,0.269,0.056,0.315,FALSE,,,normal,normal,healthy donor (definitional)
+14,AML,23681,Blast-like: GMP,GMP,HSPC/progenitor,0.116,0.314,0.042,0.331,TRUE,0.046,0.04,undetermined,normal,AML donor; indistinguishable from the SAME cluster's NA healthy-donor cells (residual 0.040 vs 0.046)
+14,Control,23681,Blast-like: GMP,GMP,HSPC/progenitor,0.116,0.314,0.042,0.331,TRUE,0.046,0.04,normal,normal,healthy donor (definitional)
+15,AML,23017,Mono: Classical,Mono: Classical,Myeloid,0.073,0.686,0.011,0.687,FALSE,,,normal,normal,AML donor; cluster CNV 0.073 < 0.118 and projection residual 0.011 < this cohort's Control rate 0.031
+15,Control,23017,Mono: Classical,Mono: Classical,Myeloid,0.073,0.686,0.011,0.687,FALSE,,,normal,normal,healthy donor (definitional)
+16,AML,21650,T/NK or CLP,T/NK or CLP,HSPC/progenitor,0.003,0.33,0.032,0.33,FALSE,,,undetermined,undetermined,AML donor; CNV 0.003 and residual 0.032 both inside the false-positive band
+16,Control,21650,T/NK or CLP,T/NK or CLP,HSPC/progenitor,0.003,0.33,0.032,0.33,FALSE,,,normal,normal,healthy donor (definitional)
+17,AML,21618,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.031,0.693,0.1,0.927,FALSE,,,undetermined,undetermined,AML donor; CNV 0.031 and residual 0.100 both inside the false-positive band
+17,Control,21618,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.031,0.693,0.1,0.927,FALSE,,,normal,normal,healthy donor (definitional)
+18,AML,20545,Erythroid: Late/Mature,Erythroid: Late/Mature,Ery/Mega,0.192,0.067,0.046,0.068,FALSE,,,undetermined,undetermined,AML donor; CNV 0.192 and residual 0.046 both inside the false-positive band
+18,Control,20545,Erythroid: Late/Mature,Erythroid: Late/Mature,Ery/Mega,0.192,0.067,0.046,0.068,FALSE,,,normal,normal,healthy donor (definitional)
+19,AML,19980,Ery/Meg prog: MEP/MkP,Ery/Meg prog: MEP/MkP,Ery/Mega,0.028,0.099,0.017,0.104,FALSE,,,normal,normal,AML donor; cluster CNV 0.028 < 0.118 and projection residual 0.017 < this cohort's Control rate 0.031
+19,Control,19980,Ery/Meg prog: MEP/MkP,Ery/Meg prog: MEP/MkP,Ery/Mega,0.028,0.099,0.017,0.104,FALSE,,,normal,normal,healthy donor (definitional)
+20,AML,19497,Stroma: MSC (CXCL12+LEPR+PDGFRA+),Stroma: MSC (CXCL12+LEPR+PDGFRA+),Niche (stroma/vessel/bone),0.694,0.627,0.001,0.628,FALSE,,,malignant,malignant,cluster CNV 0.694 > worst healthy FPR baseline 0.654
+20,Control,19497,Stroma: MSC (CXCL12+LEPR+PDGFRA+),Stroma: MSC (CXCL12+LEPR+PDGFRA+),Niche (stroma/vessel/bone),0.694,0.627,0.001,0.628,FALSE,,,normal,normal,healthy donor (definitional)
+21,AML,16903,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.233,0.216,0.227,0.347,FALSE,,,undetermined,undetermined,AML donor; CNV 0.233 and residual 0.227 both inside the false-positive band
+21,Control,16903,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.233,0.216,0.227,0.347,FALSE,,,normal,normal,healthy donor (definitional)
+22,AML,13680,Erythroid: Late/Mature,Erythroid: Late/Mature,Ery/Mega,0.566,0.12,0.009,0.12,FALSE,,,undetermined,undetermined,AML donor; CNV 0.566 and residual 0.009 both inside the false-positive band
+22,Control,13680,Erythroid: Late/Mature,Erythroid: Late/Mature,Ery/Mega,0.566,0.12,0.009,0.12,FALSE,,,normal,normal,healthy donor (definitional)
+23,AML,12874,DC: pDC,DC: pDC,Myeloid,0.082,0.512,0.037,0.525,FALSE,,,undetermined,undetermined,AML donor; CNV 0.082 and residual 0.037 both inside the false-positive band
+23,Control,12874,DC: pDC,DC: pDC,Myeloid,0.082,0.512,0.037,0.525,FALSE,,,normal,normal,healthy donor (definitional)
+24,AML,12004,Erythroid: Late/Mature,Erythroid: Late/Mature,Ery/Mega,0.836,0.028,0,0.028,FALSE,,,malignant,malignant,cluster CNV 0.836 > worst healthy FPR baseline 0.654
+24,Control,12004,Erythroid: Late/Mature,Erythroid: Late/Mature,Ery/Mega,0.836,0.028,0,0.028,FALSE,,,normal,normal,healthy donor (definitional)
+25,AML,11780,Granulocyte: Neutrophil,Granulocyte: Neutrophil,Myeloid,0.914,0.634,0.007,0.634,FALSE,,,malignant,malignant,cluster CNV 0.914 > worst healthy FPR baseline 0.654
+25,Control,11780,Granulocyte: Neutrophil,Granulocyte: Neutrophil,Myeloid,0.914,0.634,0.007,0.634,FALSE,,,normal,normal,healthy donor (definitional)
+26,AML,11716,Myeloid: Generic,Myeloid: Generic,HSPC/progenitor,0.093,0.744,0.033,0.756,FALSE,,,undetermined,undetermined,AML donor; CNV 0.093 and residual 0.033 both inside the false-positive band
+26,Control,11716,Myeloid: Generic,Myeloid: Generic,HSPC/progenitor,0.093,0.744,0.033,0.756,FALSE,,,normal,normal,healthy donor (definitional)
+27,AML,11464,Blast-like: GMP,GMP,HSPC/progenitor,0.821,0.516,0.099,0.527,FALSE,,,malignant,malignant,cluster CNV 0.821 > worst healthy FPR baseline 0.654
+27,Control,11464,Blast-like: GMP,GMP,HSPC/progenitor,0.821,0.516,0.099,0.527,FALSE,,,normal,normal,healthy donor (definitional)
+28,AML,11444,Unresolved (homotypic doublet),Unresolved (homotypic doublet),Unresolved/excluded,0.041,0.646,0.062,0.646,FALSE,,,undetermined,undetermined,AML donor; CNV 0.041 and residual 0.062 both inside the false-positive band
+28,Control,11444,Unresolved (homotypic doublet),Unresolved (homotypic doublet),Unresolved/excluded,0.041,0.646,0.062,0.646,FALSE,,,normal,normal,healthy donor (definitional)
+29,AML,11090,Mono: Non-classical,Mono: Non-classical,Myeloid,0.073,0.272,0,0.272,FALSE,,,normal,normal,AML donor; cluster CNV 0.073 < 0.118 and projection residual 0.000 < this cohort's Control rate 0.031
+29,Control,11090,Mono: Non-classical,Mono: Non-classical,Myeloid,0.073,0.272,0,0.272,FALSE,,,normal,normal,healthy donor (definitional)
+30,AML,10440,Blast-like primitive progenitor (BAALC+DNTT+PROM1),HSPC: primitive (DNTT+PROM1+),HSPC/progenitor,0.035,0.557,0.137,0.577,FALSE,,,undetermined,undetermined,AML donor; CNV 0.035 and residual 0.137 both inside the false-positive band
+30,Control,10440,Blast-like primitive progenitor (BAALC+DNTT+PROM1),HSPC: primitive (DNTT+PROM1+),HSPC/progenitor,0.035,0.557,0.137,0.577,FALSE,,,normal,normal,healthy donor (definitional)
+31,AML,10422,DC: cDC2,DC: cDC2,Myeloid,0.034,0.429,0.025,0.432,FALSE,,,normal,normal,AML donor; cluster CNV 0.034 < 0.118 and projection residual 0.025 < this cohort's Control rate 0.031
+31,Control,10422,DC: cDC2,DC: cDC2,Myeloid,0.034,0.429,0.025,0.432,FALSE,,,normal,normal,healthy donor (definitional)
+32,AML,9843,Bone: Osteoblast,Bone: Osteoblast,Niche (stroma/vessel/bone),0.65,0.626,0.002,0.626,FALSE,,,undetermined,undetermined,AML donor; CNV 0.650 and residual 0.002 both inside the false-positive band
+32,Control,9843,Bone: Osteoblast,Bone: Osteoblast,Niche (stroma/vessel/bone),0.65,0.626,0.002,0.626,FALSE,,,normal,normal,healthy donor (definitional)
+33,AML,8166,B: Pro/Pre-B,B: Pro/Pre-B,B/plasma,0.722,0.371,0.003,0.371,FALSE,,,malignant,malignant,cluster CNV 0.722 > worst healthy FPR baseline 0.654
+33,Control,8166,B: Pro/Pre-B,B: Pro/Pre-B,B/plasma,0.722,0.371,0.003,0.371,FALSE,,,normal,normal,healthy donor (definitional)
+34,AML,7974,Interferon-response state,Interferon-response state,Unresolved/excluded,0.021,0.895,0.127,0.901,FALSE,,,undetermined,undetermined,AML donor; CNV 0.021 and residual 0.127 both inside the false-positive band
+34,Control,7974,Interferon-response state,Interferon-response state,Unresolved/excluded,0.021,0.895,0.127,0.901,FALSE,,,normal,normal,healthy donor (definitional)
+35,AML,7943,Megakaryocyte,Megakaryocyte,Ery/Mega,0.13,0.804,0.007,0.805,FALSE,,,undetermined,undetermined,AML donor; CNV 0.130 and residual 0.007 both inside the false-positive band
+35,Control,7943,Megakaryocyte,Megakaryocyte,Ery/Mega,0.13,0.804,0.007,0.805,FALSE,,,normal,normal,healthy donor (definitional)
+36,AML,7159,Blast-like: GMP,GMP,HSPC/progenitor,0.14,0.198,0.017,0.224,TRUE,0.017,0.017,undetermined,normal,AML donor; indistinguishable from the SAME cluster's NA healthy-donor cells (residual 0.017 vs 0.017)
+36,Control,7159,Blast-like: GMP,GMP,HSPC/progenitor,0.14,0.198,0.017,0.224,TRUE,0.017,0.017,normal,normal,healthy donor (definitional)
+37,AML,6980,Vascular: Endothelial (sinusoidal),Vascular: Endothelial (sinusoidal),Niche (stroma/vessel/bone),0.625,0.543,0.064,0.543,FALSE,,,undetermined,undetermined,AML donor; CNV 0.625 and residual 0.064 both inside the false-positive band
+37,Control,6980,Vascular: Endothelial (sinusoidal),Vascular: Endothelial (sinusoidal),Niche (stroma/vessel/bone),0.625,0.543,0.064,0.543,FALSE,,,normal,normal,healthy donor (definitional)
+38,AML,6913,Mono: activated,Mono: activated,Myeloid,0.188,0.981,0.003,0.981,FALSE,,,undetermined,undetermined,AML donor; CNV 0.188 and residual 0.003 both inside the false-positive band
+38,Control,6913,Mono: activated,Mono: activated,Myeloid,0.188,0.981,0.003,0.981,FALSE,,,normal,normal,healthy donor (definitional)
+39,AML,5787,B: Pro/Pre-B,B: Pro/Pre-B,B/plasma,0.206,0.211,0.038,0.211,FALSE,,,undetermined,undetermined,AML donor; CNV 0.206 and residual 0.038 both inside the false-positive band
+39,Control,5787,B: Pro/Pre-B,B: Pro/Pre-B,B/plasma,0.206,0.211,0.038,0.211,FALSE,,,normal,normal,healthy donor (definitional)
+40,AML,5696,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.572,0.224,0.203,0.889,FALSE,,,undetermined,undetermined,AML donor; CNV 0.572 and residual 0.203 both inside the false-positive band
+40,Control,5696,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.572,0.224,0.203,0.889,FALSE,,,normal,normal,healthy donor (definitional)
+41,AML,4703,Blast-like: cDC,DC: cDC,Myeloid,0.013,0.999,0.001,0.999,FALSE,,,normal,normal,AML donor; cluster CNV 0.013 < 0.118 and projection residual 0.001 < this cohort's Control rate 0.031
+41,Control,4703,Blast-like: cDC,DC: cDC,Myeloid,0.013,0.999,0.001,0.999,FALSE,,,normal,normal,healthy donor (definitional)
+42,AML,4294,Vascular: Mural (Pericyte/SMC),Vascular: Mural (Pericyte/SMC),Niche (stroma/vessel/bone),0.451,0.604,0.005,0.604,FALSE,,,undetermined,undetermined,AML donor; CNV 0.451 and residual 0.005 both inside the false-positive band
+42,Control,4294,Vascular: Mural (Pericyte/SMC),Vascular: Mural (Pericyte/SMC),Niche (stroma/vessel/bone),0.451,0.604,0.005,0.604,FALSE,,,normal,normal,healthy donor (definitional)
+43,AML,4221,B: Naive,B: Naive,B/plasma,0.249,0.43,0.024,0.43,FALSE,,,undetermined,undetermined,AML donor; CNV 0.249 and residual 0.024 both inside the false-positive band
+43,Control,4221,B: Naive,B: Naive,B/plasma,0.249,0.43,0.024,0.43,FALSE,,,normal,normal,healthy donor (definitional)
+44,AML,3794,Mono/macrophage,Mono/macrophage,Myeloid,0.028,0.964,0.029,0.964,FALSE,,,normal,normal,AML donor; cluster CNV 0.028 < 0.118 and projection residual 0.029 < this cohort's Control rate 0.031
+44,Control,3794,Mono/macrophage,Mono/macrophage,Myeloid,0.028,0.964,0.029,0.964,FALSE,,,normal,normal,healthy donor (definitional)
+45,AML,3467,Stroma: Fibroblast-like stroma,Stroma: Fibroblast-like stroma,Niche (stroma/vessel/bone),0.28,0.456,0.133,0.456,FALSE,,,undetermined,undetermined,AML donor; CNV 0.280 and residual 0.133 both inside the false-positive band
+45,Control,3467,Stroma: Fibroblast-like stroma,Stroma: Fibroblast-like stroma,Niche (stroma/vessel/bone),0.28,0.456,0.133,0.456,FALSE,,,normal,normal,healthy donor (definitional)
+46,AML,3234,"Excluded (low quality, single library)","Excluded (low quality, single library)",Unresolved/excluded,0.159,0.998,0.026,0.998,FALSE,,,undetermined,undetermined,AML donor; CNV 0.159 and residual 0.026 both inside the false-positive band
+46,Control,3234,"Excluded (low quality, single library)","Excluded (low quality, single library)",Unresolved/excluded,0.159,0.998,0.026,0.998,FALSE,,,normal,normal,healthy donor (definitional)
+47,AML,2858,CD4 T helper: Th1,CD4 T helper: Th1,T/NK,0.089,0.797,0.118,0.797,FALSE,,,undetermined,undetermined,AML donor; CNV 0.089 and residual 0.118 both inside the false-positive band
+47,Control,2858,CD4 T helper: Th1,CD4 T helper: Th1,T/NK,0.089,0.797,0.118,0.797,FALSE,,,normal,normal,healthy donor (definitional)
+48,AML,2768,"Blast-like (basophil/mast features, PRAME+)",Basophil/mast progenitor,Myeloid,0.015,0.997,0.108,0.999,FALSE,,,undetermined,undetermined,AML donor; CNV 0.015 and residual 0.108 both inside the false-positive band
+48,Control,2768,"Blast-like (basophil/mast features, PRAME+)",Basophil/mast progenitor,Myeloid,0.015,0.997,0.108,0.999,FALSE,,,normal,normal,healthy donor (definitional)
+49,AML,2447,Blast-like,HSPC (unspecified),HSPC/progenitor,0.219,0.961,0.188,0.963,FALSE,,,undetermined,undetermined,AML donor; CNV 0.219 and residual 0.188 both inside the false-positive band
+49,Control,2447,Blast-like,HSPC (unspecified),HSPC/progenitor,0.219,0.961,0.188,0.963,FALSE,,,normal,normal,healthy donor (definitional)
+50,AML,1818,T cell,T cell,T/NK,0.037,0.015,0.074,0.015,FALSE,,,undetermined,undetermined,AML donor; CNV 0.037 and residual 0.074 both inside the false-positive band
+50,Control,1818,T cell,T cell,T/NK,0.037,0.015,0.074,0.015,FALSE,,,normal,normal,healthy donor (definitional)
+51,AML,1671,Blast-like: GMP,GMP,HSPC/progenitor,0.162,0.999,0.026,0.999,FALSE,,,undetermined,undetermined,AML donor; CNV 0.162 and residual 0.026 both inside the false-positive band
+51,Control,1671,Blast-like: GMP,GMP,HSPC/progenitor,0.162,0.999,0.026,0.999,FALSE,,,normal,normal,healthy donor (definitional)
+52,AML,812,Mast/basophil (TPSB2+),Mast/basophil (TPSB2+),Myeloid,0.159,0.286,0.106,0.289,FALSE,,,undetermined,undetermined,AML donor; CNV 0.159 and residual 0.106 both inside the false-positive band
+52,Control,812,Mast/basophil (TPSB2+),Mast/basophil (TPSB2+),Myeloid,0.159,0.286,0.106,0.289,FALSE,,,normal,normal,healthy donor (definitional)
+53,AML,626,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,B/plasma,0.101,0.236,0.02,0.236,FALSE,,,normal,normal,AML donor; cluster CNV 0.101 < 0.118 and projection residual 0.020 < this cohort's Control rate 0.031
+53,Control,626,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,B/plasma,0.101,0.236,0.02,0.236,FALSE,,,normal,normal,healthy donor (definitional)
+54,AML,548,NK,NK,T/NK,0.077,0.358,0.066,0.358,FALSE,,,undetermined,undetermined,AML donor; CNV 0.077 and residual 0.066 both inside the false-positive band
+54,Control,548,NK,NK,T/NK,0.077,0.358,0.066,0.358,FALSE,,,normal,normal,healthy donor (definitional)
+55,AML,372,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,B/plasma,0.057,0.237,0,0.237,FALSE,,,normal,normal,AML donor; cluster CNV 0.057 < 0.118 and projection residual 0.000 < this cohort's Control rate 0.031
+55,Control,372,Plasma: Plasmablast/Plasma,Plasma: Plasmablast/Plasma,B/plasma,0.057,0.237,0,0.237,FALSE,,,normal,normal,healthy donor (definitional)
+56,AML,191,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.174,0.12,0.043,0.12,FALSE,0.111,0,undetermined,undetermined,AML donor; CNV 0.174 and residual 0.043 both inside the false-positive band
+56,Control,191,Blast-like: HSC/MPP,HSC/MPP,HSPC/progenitor,0.174,0.12,0.043,0.12,FALSE,0.111,0,normal,normal,healthy donor (definitional)

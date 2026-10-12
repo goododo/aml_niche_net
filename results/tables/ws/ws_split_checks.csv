@@ -1,0 +1,7 @@
+check,expected,got,pass
+no cell_type still asserts malignancy,0,0,TRUE
+clusters,57,57,TRUE
+HSPC/progenitor is no longer empty,TRUE,TRUE,TRUE
+cells labelled,895228,895228,TRUE
+no cell without a cell_type,0,0,TRUE
+no cell without a malignancy value,0,0,TRUE

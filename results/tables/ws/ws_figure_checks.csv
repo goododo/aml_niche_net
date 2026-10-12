@@ -1,6 +1,9 @@
 check,expected,got,pass
-every cluster has a final label,57,57,TRUE
-every cluster in one of the 8 groups,0,0,TRUE
+cells labelled,895228,895228,TRUE
+no cell_type asserts malignancy,0,0,TRUE
+every cluster in one of the 7 cell-type groups,0,0,TRUE
+no Blast-like cell-type group survives the split,0,0,TRUE
+HSPC/progenitor is populated,TRUE,TRUE,TRUE
 UMAP has two dimensions,2,2,TRUE
 cells plotted,895228,895228,TRUE
 "PDF is a usable size (rasterised, not 465 MB of vector points)",TRUE,TRUE,TRUE

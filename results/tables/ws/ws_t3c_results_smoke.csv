@@ -1,0 +1,2 @@
+row,ligand,sender,receiver,receptor,arm,n_patients,n_genes,n_set_genes,A_other_from,z_obs,p_perm,n_perm,fake_n,fake_tol,fake_p95,fake_median,recovered,diag_spearman,diag_p
+1,IFNG,T_NK,Mono_DC,IFNGR2,main,28,683,10,B_Plasma,-0.878,0.8039,50,20,0.5,1.202,-0.233,FALSE,0.012,0.951
