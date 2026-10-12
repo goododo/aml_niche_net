@@ -1,0 +1,11 @@
+check,expected,got,pass
+IFNG best sender is T_NK (as §0A),T_NK,T_NK,TRUE
+TNF best sender is Mono_DC (as §0A),Mono_DC,Mono_DC,TRUE
+TGFB1 best sender is T_NK (as §0A),T_NK,T_NK,TRUE
+IFNG T_NK patients = 36 (as §0A),36,36,TRUE
+TNF Mono_DC patients = 40 (as §0A),40,40,TRUE
+IFNG  T_NK    -> Mono_DC  IFNGR2  = 33,33,28,FALSE
+IFNG  T_NK    -> Mono_DC  IFNGR1  = 32,32,27,FALSE
+TNF   Mono_DC -> LMPP_GMP TNFRSF1A = 19,19,18,FALSE
+TGFB1 T_NK    -> Mono_DC  TGFBR2  = 28,28,23,FALSE
+TGFB1 T_NK    -> LMPP_GMP TGFBR2  = 15,15,15,TRUE
