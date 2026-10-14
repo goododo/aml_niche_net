@@ -1083,7 +1083,7 @@ T3c 的任务定义含「再看 GSE239721 里方向是否一致」。按同一�
 
 **可供讨论的方向**（都不是本节的决定）：A. 接受为方法的阴性验证结果——WP1 设想 C 的第二阶段（跨患者交互）在本队列拿不出可证明的灵敏度，写进方法局限，WP1 收缩到患者内的第一阶段输出；B. 重设计第二阶段并作为**新的预注册**（新的阳性对照、新的带日期常量），本节结果照报不删；C. 两者并行：A 作为主线报告，B 作为探索性附录。
 
-**未入库。** 两段诊断代码（第一阶段主效应约 35 行，注入约 45 行）在会话 scratchpad（`chk_stage1.R`、`chk_spikein.R`、`chk_lneg.R`），数字已全部写入本节；是否作为 `scripts/ws/21_t3c_pipeline_checks.R` 入库待用户定。`ws_t3c_gene_effects.csv.gz`（84,310 行逐基因 b）被 `.gitignore` 的 `*.csv.gz` 规则排除，留在磁盘，可由缓存复算。
+**未入库。** 三段诊断代码（`chk_stage1.R`、`chk_spikein.R`、`chk_lneg.R`）原在会话 scratchpad，2026-10-14 会话重启前后 scratchpad 被清空，当天按会话记录逐字重建到仓库外的 `/FAST/gr10634/gaozy/reports/2026-10_status_onepager/t3c_diagnostics/`（只改了输出路径，附 README）；重跑 `chk_spikein.R` 与原表逐格一致（18 行，0 处差异）。数字已全部写入本节；是否作为 `scripts/ws/21_t3c_pipeline_checks.R` 入库待用户定。`ws_t3c_gene_effects.csv.gz`（84,310 行逐基因 b）被 `.gitignore` 的 `*.csv.gz` 规则排除，留在磁盘，可由缓存复算。
 
 
 ---
