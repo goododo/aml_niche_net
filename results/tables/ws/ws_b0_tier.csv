@@ -1,0 +1,2 @@
+date,dataset,gate,n_perm,IFNG,TNF,TGFB1,tier_main,tier_sens,tier,meaning
+2026-10-16,GSE185381,TRUE,10000,FALSE,FALSE,TRUE,fail,fail,fail,anything else -> ligand-receptor and footprint evidence are not used in this data

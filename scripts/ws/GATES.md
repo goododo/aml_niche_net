@@ -50,3 +50,35 @@ handoff: HANDOFF_within_sample_v2.0.md §8.3
 - **Prior evidence, disclosed before running.** T3c main-effect diagnostic (HALLMARK sets, n 10-18, no
   covariates), LMPP_GMP receivers: IFNG rho -0.08, TNF from Mono_DC 0.53, TGFB1 -0.19.
 <!-- B0 prereg end -->
+
+<!-- B0 result start -->
+## GATE_B0 footprint positive control -- RESULT 2026-10-16
+
+Script: scripts/ws/21_gate_b0_footprint.R | config: scripts/ws/config_ws.R section 10 (frozen 2026-10-16, commit 4c54f6f)
+
+| analysis | ligand | arm | n | t | p (Freedman-Lane) | fake P95 | pass |
+|---|---|---|---|---|---|---|---|
+| primary | IFNG | main | 32 | -0.20 | 0.5707 | 1.32 | FALSE |
+| progeny | IFNG | main | 32 | 0.81 | 0.1889 | 2.77 | FALSE |
+| ligand_x_fraction | IFNG | main | 32 | -0.33 | 0.6241 | 1.32 | FALSE |
+| no_IEG | IFNG | main | 32 | -0.25 | 0.5855 | 1.42 | FALSE |
+| B_tier | IFNG | main | 31 | -1.15 | 0.8710 | 2.13 | FALSE |
+| primary | TNF | main | 32 | 0.35 | 0.3519 | 1.56 | FALSE |
+| progeny | TNF | main | 32 | 1.32 | 0.1046 | 1.40 | FALSE |
+| ligand_x_fraction | TNF | main | 32 | -0.18 | 0.5492 | 1.56 | FALSE |
+| no_IEG | TNF | main | 32 | 0.24 | 0.3961 | 1.56 | FALSE |
+| B_tier | TNF | main | 31 | 0.01 | 0.4897 | 1.07 | FALSE |
+| primary | TGFB1 | main | 32 | 3.18 | 0.0023 | 2.76 | TRUE |
+| progeny | TGFB1 | main | 32 | 1.93 | 0.0321 | 2.08 | FALSE |
+| ligand_x_fraction | TGFB1 | main | 32 | 2.52 | 0.0085 | 2.76 | FALSE |
+| no_IEG | TGFB1 | main | 32 | 3.27 | 0.0017 | 2.73 | TRUE |
+| B_tier | TGFB1 | main | 31 | 2.01 | 0.0301 | 1.20 | TRUE |
+| clone_internal_MonoDC | TNF | main | 30 | -0.21 | 0.5839 | 2.82 | FALSE |
+| primary | IFNG | sens | 30 | -0.13 | 0.5469 | 1.43 | FALSE |
+| primary | TNF | sens | 30 | 0.32 | 0.3678 | 1.43 | FALSE |
+| primary | TGFB1 | sens | 30 | 2.81 | 0.0062 | 2.73 | TRUE |
+
+Primary, main arm -- IFNG: FALSE | TNF: FALSE | TGFB1: TRUE | sens-arm tier: fail
+B-cell tier (reported): IFNG marrow-wide; TNF marrow-wide; TGFB1 leukaemia-specific
+**Verdict: FAIL** -- anything else -> ligand-receptor and footprint evidence are not used in this data
+<!-- B0 result end -->
