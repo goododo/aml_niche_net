@@ -20,6 +20,13 @@
 #   Ambient genes are ranked by the FRACTION of a gene's UMIs removed, not by removed UMIs: the latter is a list of
 #   the most abundant genes in the channel (MALAT1, MT-, RP-), which is what ambient RNA is made of but not what
 #   singles out contamination-driven genes for the S5 blacklist.
+#   Two things the first GSE185381 run (2026-10-16) taught, now reported rather than scored:
+#   - decontX removes little haemoglobin from non-erythroid cells (10-20%) whether or not erythroid cells are
+#     present: its contamination profile is built from the OTHER captured clusters, and lysed red cells are not
+#     captured. HB genes therefore stay on the S5 blacklist and the raw HB share stays available as a covariate.
+#   - the depositors' "RNA_soupx_processed" matrices are not a plain SoupX correction: per-cell totals are ~43% of
+#     the raw totals, some cells and genes GAIN counts, and MALAT1/GAPDH/ACTB lose 78-98%. They cannot anchor a
+#     per-gene comparison; the concordance table keeps the diagnostics that show this.
 #   usage: --dataset=GSE185381 [--no-soupx]
 # This script deletes nothing and does not modify 22's outputs or the 04_annotated objects.
 
@@ -57,7 +64,12 @@ chk("per-cell rows equal the index", nrow(IX), nrow(PC))
 chk("one zmode across units", 1L, uniqueN(PC$zmode))
 DBL <- fread(file.path(TAB_DIR, "ws", WS_DBL_SCORES_TABLE))[dataset == DATASET, .(cell, sc_score, dbl_union = (sc_class %in% c(TRUE, "TRUE")) | (df_class %in% c(TRUE, "TRUE")))]
 PC <- merge(PC, DBL, by = "cell", all.x = TRUE)
-chk("doublet scores cover >= 95% of cells", TRUE, mean(!is.na(PC$sc_score)) >= 0.95)
+# T3a scored the libraries of the WP1 cohort, not every sample of the dataset; the doublet comparisons below use the
+# covered cells and the coverage is reported, not required
+cov_s <- PC[, .(covered = mean(!is.na(sc_score))), by = sample]
+ts(sprintf("    doublet scores cover %.1f%% of cells; samples with no scores: %d of %d (%s)", 100 * mean(!is.na(PC$sc_score)),
+           cov_s[covered == 0, .N], nrow(cov_s), paste(head(cov_s[covered == 0, sample], 12), collapse = " ")))
+chk("doublet scores cover some cells", TRUE, any(!is.na(PC$sc_score)))
 fwrite(PC[, .(cell, sample, unit, group, decontx_z, contamination, umi_before, umi_after, sc_score, dbl_union)],
        file.path(TABD, "ws_s1_contamination_per_cell.csv.gz"), compress = "gzip")
 
@@ -65,7 +77,10 @@ fwrite(PC[, .(cell, sample, unit, group, decontx_z, contamination, umi_before, u
 ts("[2] per unit: removed fraction per gene, check metrics", if (DO_SOUPX) ", SoupX" else "")
 soupx_files <- if (DO_SOUPX) list.files(RAW, pattern = "_RNA_soupx_processed\\.csv\\.gz$", full.names = TRUE) else character(0)
 GENES <- list(); CELLM <- list(); SX <- list()
-for (u in U$unit) {
+CACHE2 <- file.path(OBJD, paste0("_summary_step2", if (DO_SOUPX) "" else "_nosoupx", ".rds"))   # step 2 reads every object; keep its result
+if (file.exists(CACHE2) && !("--force" %in% .a)) { ts("    step-2 cache found: ", CACHE2); S2 <- readRDS(CACHE2)
+  GENES <- S2$GENES; CELLM <- S2$CELLM; SX <- S2$SX; if (!is.null(S2$EX)) EX <- S2$EX }
+for (u in if (length(GENES)) character(0) else U$unit) {
   R <- readRDS(file.path(OBJD, paste0(u, ".rds"))); cells <- R$cells
   mats <- lapply(R$samples, function(sm) { o <- readRDS(file.path(AN, paste0(sm, ".rds")))
     m <- LayerData(o, assay = "RNA", layer = "counts"); m[, intersect(colnames(m), cells), drop = FALSE] })
@@ -90,7 +105,8 @@ for (u in U$unit) {
       ours <- sub("-[0-9]+$", "", sub("^.*_", "", cells)); j <- match(ours, bc)
       ok <- !is.na(j); gi <- match(rownames(X), S$gene)
       if (mean(ok) >= 0.95 && mean(!is.na(gi)) >= 0.95) {
-        SM <- as.matrix(S[gi[!is.na(gi)], (j[ok] + 1L), with = FALSE]); sx_g <- rowSums(SM); rm(SM)
+        SM <- as.matrix(S[gi[!is.na(gi)], (j[ok] + 1L), with = FALSE]); rownames(SM) <- S$gene[gi[!is.na(gi)]]; sx_g <- rowSums(SM)
+        cell_ratio <- colSums(SM) / as.numeric(Matrix::colSums(X[!is.na(gi), ok, drop = FALSE])); rm(SM)
         raw_sub <- Matrix::rowSums(X[!is.na(gi), ok, drop = FALSE]); dx_sub <- Matrix::rowSums(DX[!is.na(gi), ok, drop = FALSE])
         keep <- raw_sub >= MIN_UMI_GENE
         rf_dx <- 1 - dx_sub[keep] / raw_sub[keep]; rf_sx <- pmax(1 - sx_g[keep] / raw_sub[keep], 0)
@@ -98,7 +114,12 @@ for (u in U$unit) {
         SX[[u]] <- data.table(unit = u, cells_matched = sum(ok), cells = length(cells), genes_compared = sum(keep),
           spearman_removed_fraction = cor(rf_dx, rf_sx, method = "spearman"),
           top50_overlap = length(intersect(top(rf_dx), top(rf_sx))),
-          total_removed_decontx = 1 - sum(dx_sub) / sum(raw_sub), total_removed_soupx = 1 - sum(sx_g) / sum(raw_sub))
+          total_removed_decontx = 1 - sum(dx_sub) / sum(raw_sub), total_removed_soupx = 1 - sum(sx_g) / sum(raw_sub),
+          # diagnostics of the reference itself: a plain SoupX correction never raises a count
+          soupx_cell_total_ratio_median = median(cell_ratio), soupx_cells_above_raw = sum(cell_ratio > 1.001),
+          soupx_genes_above_raw = sum(sx_g[keep] > 1.05 * raw_sub[keep]),
+          soupx_ratio_MALAT1 = if ("MALAT1" %in% names(sx_g)) unname(sx_g["MALAT1"] / raw_sub["MALAT1"]) else NA_real_,
+          soupx_ratio_HBB = if ("HBB" %in% names(sx_g) && raw_sub["HBB"] > 0) unname(sx_g["HBB"] / raw_sub["HBB"]) else NA_real_)
         if (u == U$unit[1]) EX <- data.table(gene = names(rf_dx), decontx = rf_dx, soupx = rf_sx, raw = raw_sub[keep])
       } else SX[[u]] <- data.table(unit = u, cells_matched = sum(ok), cells = length(cells), genes_compared = NA_integer_)
       rm(S)
@@ -108,9 +129,10 @@ for (u in U$unit) {
              paste(head(GENES[[u]]$gene, 6), collapse = " ")))
   rm(X, DX, R); gc(FALSE)
 }
+if (!file.exists(CACHE2) || ("--force" %in% .a)) saveRDS(list(GENES = GENES, CELLM = CELLM, SX = SX, EX = if (exists("EX")) EX else NULL), CACHE2)
 GENES <- rbindlist(GENES); fwrite(GENES, file.path(TABD, "ws_s1_ambient_genes.csv"))
 BL <- GENES[rank <= 100L, .(n_units = .N, median_removed_fraction = round(median(removed_fraction), 3),
-                            median_rank = median(rank)), by = gene][order(-n_units, -median_removed_fraction)]
+                            median_rank = as.numeric(median(rank))), by = gene][order(-n_units, -median_removed_fraction)]   # median() of an even count is double
 BL[, frac_units := round(n_units / nrow(U), 3)]
 fwrite(BL, file.path(TABD, "ws_s1_ambient_blacklist.csv"))
 ts(sprintf("    blacklist: %d genes in some unit's top 100; %d in at least half the units: %s", nrow(BL), BL[frac_units >= 0.5, .N],
@@ -124,8 +146,9 @@ SS <- PC[, .(cells = .N, units = uniqueN(unit), median_contamination = median(co
              hb_share_nonery_raw = sum(hb_raw[nonery]) / sum(tot_raw[nonery]), hb_share_nonery_dx = sum(hb_dx[nonery]) / sum(tot_dx[nonery]),
              gran_share_lymph_raw = if (any(lymph)) sum(gran_raw[lymph]) / sum(tot_raw[lymph]) else NA_real_,
              gran_share_lymph_dx = if (any(lymph)) sum(gran_dx[lymph]) / sum(tot_dx[lymph]) else NA_real_,
-             n_lymph = sum(lymph), doublet_score_mean = mean(sc_score, na.rm = TRUE),
-             spearman_contam_doublet = suppressWarnings(cor(contamination, sc_score, method = "spearman", use = "complete.obs"))),
+             n_lymph = sum(lymph), doublet_score_mean = if (any(!is.na(sc_score))) mean(sc_score, na.rm = TRUE) else NA_real_,
+             spearman_contam_doublet = if (sum(!is.na(sc_score)) >= 3L)       # controls have no T3a scores (all NA)
+               suppressWarnings(cor(contamination, sc_score, method = "spearman", use = "complete.obs")) else NA_real_),
          by = sample][order(-median_contamination)]
 for (k in grep("share|contamination|q25|q75|frac|doublet", names(SS), value = TRUE)) SS[, (k) := signif(get(k), 4)]
 fwrite(SS, file.path(TABD, "ws_s1_contamination_per_sample.csv"))
@@ -142,10 +165,10 @@ chk("doublet-flagged cells carry more contamination", TRUE, d_med[dbl_union == T
 hb_removed <- PC[nonery == TRUE, 1 - sum(hb_dx) / sum(hb_raw)]; all_removed <- PC[nonery == TRUE, 1 - sum(tot_dx) / sum(tot_raw)]
 ts(sprintf("    non-erythroid cells: fraction of HB UMIs removed %.3f vs all UMIs removed %.3f", hb_removed, all_removed))
 chk("HB removed preferentially in non-erythroid cells", TRUE, hb_removed > all_removed)
-if ("AML3133" %in% PC$sample) {                                   # known answer from the 2026-10-16 audit: 790 HBB UMIs in 355 of 405 T cells
-  a <- PC[sample == "AML3133" & group == "T_NK", .(hb_raw = sum(hb_raw), hb_dx = sum(hb_dx), cells = .N)]
-  ts(sprintf("    AML3133 T_NK: HB UMIs %d in %d cells -> %.0f after DecontX (removed %.2f)", as.integer(a$hb_raw), a$cells, a$hb_dx, 1 - a$hb_dx / a$hb_raw))
-  chk("AML3133 T_NK haemoglobin mostly removed (> 0.5)", TRUE, (1 - a$hb_dx / a$hb_raw) > 0.5)
+if ("AML3133" %in% PC$sample) {    # the clearest ambient case known beforehand (audit 2026-10-16: HBB in 88% of its T cells); reported, not scored
+  a <- PC[sample == "AML3133" & group == "T_NK", .(hb_raw = sum(hb_raw), hb_dx = sum(hb_dx), cells = .N, hb_pos = sum(hb_raw > 0))]
+  ts(sprintf("    AML3133 T_NK: HB UMIs %d in %d of %d cells -> %.0f after DecontX (removed %.2f): red-cell lysate is not a captured cluster, so decontX cannot attribute it",
+             as.integer(a$hb_raw), a$hb_pos, a$cells, a$hb_dx, 1 - a$hb_dx / a$hb_raw))
 }
 if (length(SX)) {
   SX <- rbindlist(SX, fill = TRUE); fwrite(SX, file.path(TABD, "ws_s1_soupx_concordance.csv"))
@@ -154,7 +177,12 @@ if (length(SX)) {
              nrow(ok), nrow(SX), median(ok$spearman_removed_fraction), min(ok$spearman_removed_fraction), as.integer(median(ok$top50_overlap)),
              median(ok$total_removed_decontx), median(ok$total_removed_soupx)))
   chk("SoupX comparison done for >= 90% of units", TRUE, nrow(ok) >= 0.9 * nrow(SX))
-  chk("DecontX and SoupX agree on which genes are ambient (median rho > 0.3)", TRUE, median(ok$spearman_removed_fraction) > 0.3)
+  ts(sprintf("    the reference itself: per-cell total SoupX/raw median %.2f; units with cells above raw %d of %d; MALAT1 ratio median %.2f, HBB %.2f",
+             median(ok$soupx_cell_total_ratio_median), sum(ok$soupx_cells_above_raw > 0), nrow(ok), median(ok$soupx_ratio_MALAT1, na.rm = TRUE), median(ok$soupx_ratio_HBB, na.rm = TRUE)))
+  plain <- median(ok$soupx_cell_total_ratio_median) > 0.7 && all(ok$soupx_cells_above_raw == 0)
+  ts("    ", if (plain) "the reference looks like a plain SoupX correction; the per-gene agreement above is meaningful"
+             else "the reference is NOT a plain SoupX correction (totals far below raw, counts raised in some cells); the per-gene agreement is not scored")
+  if (plain) chk("DecontX and SoupX agree on which genes are ambient (median rho > 0.3)", TRUE, median(ok$spearman_removed_fraction) > 0.3)
 }
 
 ## -- 4. figure -----------------------------------------------------------------------------------------

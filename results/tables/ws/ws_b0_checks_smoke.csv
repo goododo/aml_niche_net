@@ -1,0 +1,12 @@
+check,expected,got,pass
+eligible samples (T3c rule),42,42,TRUE
+paediatric samples (v2.0 5.2),22,22,TRUE
+CytoSig genes x cytokines,4881x43,4881x43,TRUE
+CytoSig carries the three signatures,3,3,TRUE
+doublet scores cover the eligible samples,TRUE,TRUE,TRUE
+samples cached,4,4,TRUE
+one gene axis across samples,TRUE,TRUE,TRUE
+FL ligand t equals lm t,TRUE,TRUE,TRUE
+FL finds a planted effect (p < 0.01),TRUE,TRUE,TRUE
+"FL null rate of p < 0.05 within [0.02, 0.09]",TRUE,TRUE,TRUE
+decoupleR ulm score equals the lm t,TRUE,TRUE,TRUE
