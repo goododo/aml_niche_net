@@ -23,3 +23,30 @@ Script: scripts/ws/20_t3c_positive_control.R | config: scripts/ws/config_ws.R (f
 Pairs recovered -- IFNG: FALSE | TNF: FALSE | TGFB1: FALSE | arms agree: TRUE
 **Verdict: FAIL** -- anything else -> check the pipeline, do not proceed
 <!-- W1.1 end -->
+
+<!-- B0 prereg start -->
+## GATE_B0 footprint positive control -- PRE-REGISTERED 2026-10-16 (no GATE_B0 result exists)
+
+Config: scripts/ws/config_ws.R section 10 (frozen 2026-10-16) | script: scripts/ws/21_gate_b0_footprint.R |
+handoff: HANDOFF_within_sample_v2.0.md §8.3
+
+- **Scope.** Only ligands with a footprint signature (CytoSig 43 cytokines, PROGENy 14 pathways). The 2,196
+  detectable ligand-receptor pairs are not the denominator of anything this gate or WP-B reports.
+- **Question.** Across GSE185381 AML diagnosis patients, does T/NK ligand expression predict the matching
+  CytoSig footprint in leukaemic progenitor cells (HSC_MPP + LMPP_GMP bins, >= 50 cells; T_NK >= 30 cells),
+  beyond a blast proxy, ambient RNA, doublets and age group?
+- **Pairs.** IFNG, TNF, TGFB1, all sent by T_NK. TNF sent by Mono_DC is reported and labelled clone-internal.
+- **Per pair.** Freedman-Lane permutation (10,000), one-sided p < 0.05, AND the ligand t above the 95th
+  percentile of 200 fake ligands (same sender, matched detection and inter-patient IQR, not in CellChatDB,
+  not in the top 200 genes of the tested signature; same model, same statistic).
+- **Verdict** (main doublet arm): pass = IFNG plus one more pair; conditional = TNF and TGFB1 without IFNG
+  (stop, user decides); fail = anything else; one_arm = the union-removal arm contradicts a pass (stop).
+- **A pass means the method works, not that WP-B is new.** WP-B then continues as v2.0's explanatory layer;
+  it is not promoted to the main line, and whether it deserves months is decided separately.
+- **Reported, never scored.** PROGENy readout; union-removal doublet arm; ligand x sender fraction;
+  signatures without immediate-early / heat-shock genes; B-cell tier ('leukaemia-specific' if the ligand
+  survives adding the B_Plasma footprint, else 'marrow-wide'); GSE289435 and GSE227903 direction; TNF from
+  Mono_DC (clone-internal).
+- **Prior evidence, disclosed before running.** T3c main-effect diagnostic (HALLMARK sets, n 10-18, no
+  covariates), LMPP_GMP receivers: IFNG rho -0.08, TNF from Mono_DC 0.53, TGFB1 -0.19.
+<!-- B0 prereg end -->

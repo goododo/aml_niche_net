@@ -10,6 +10,8 @@
 #     NOT FROZEN -- section 9. Suggestions that wait for numbers (GATE_W1.3) or that were proposed
 #                   but never approved (the A[L,p,b] half-split). Nothing downstream may treat these
 #                   as decided.
+#     FROZEN     -- section 10 (added 2026-10-16). GATE_B0 of HANDOFF_within_sample_v2.0.md §8.3,
+#                   new dated constants written before any GATE_B0 result; sections 0-8 untouched.
 # Business scripts start with:
 #   source(here::here("scripts", "config", "config_paths.R"))
 #   source(here::here("scripts", "ws",     "config_ws.R"))
@@ -123,12 +125,82 @@ WS_LIGAND_AVAIL_SPLIT_PROPOSED <- "random_half" # A[L,p,b] from one random half 
                                                 # (Spearman 0.995). PROPOSED, never approved; must be
                                                 # decided before T6.
 
+## -- 10. GATE_B0 footprint positive control  (v2.0 §8.3; FROZEN 2026-10-16, before any GATE_B0 result) --
+# Question: across AML patients, does T/NK ligand expression predict the matching CytoSig footprint in
+# leukaemic progenitor cells, beyond blast proxy, ambient RNA, doublets and age group?
+# Changes against the 2026-10-15 v2.0 text, all decided before any GATE_B0 number exists:
+#   - receivers = progenitor bins, not Mono_DC (Petti 2026-10-15: monocytes/DC are often clone members);
+#   - TNF sender = T_NK, the runner-up recorded in section 6; TNF from Mono_DC is clone-internal and is
+#     reported only (WS_B0_CLONE_INTERNAL);
+#   - GSE239721 cannot replicate (median 1 T_NK cell per sample); replication is reported, never scored;
+#   - pass needs IFNG plus one more pair, the section 8 rule; two pairs without IFNG = conditional.
+WS_B0_DATE            <- "2026-10-16"
+WS_B0_GATE_DATASET    <- "GSE185381"
+WS_B0_REPORT_DATASETS <- c("GSE289435", "GSE227903")     # direction only
+WS_B0_RECEIVER_BINS   <- c("HSC_MPP", "LMPP_GMP")         # pooled; high_error cells dropped as in section 0
+WS_B0_MIN_RECEIVER    <- 50L
+WS_B0_SENDER_BIN      <- "T_NK"
+WS_B0_MIN_SENDER      <- 30L
+WS_B0_PAIRS <- data.frame(
+  ligand    = c("IFNG", "TNF", "TGFB1"),
+  cytosig   = c("IFNG", "TNFA", "TGFB1"),
+  progeny   = c("JAK-STAT", "TNFa", "TGFb"),
+  sender    = c("T_NK", "T_NK", "T_NK"),
+  receptors = c("IFNGR1;IFNGR2", "TNFRSF1A;TNFRSF1B", "TGFBR1;TGFBR2;TGFBR3"),
+  stringsAsFactors = FALSE)
+WS_B0_CLONE_INTERNAL <- c(ligand = "TNF", sender = "Mono_DC")   # reported, labelled clone-internal, never scored
+WS_B0_SCOPE <- "only ligands with a footprint signature (CytoSig 43 cytokines, PROGENy 14 pathways); the 2,196 detectable pairs are not the denominator"
+# readout: CytoSig decides, PROGENy is reported
+WS_B0_CYTOSIG_FILE   <- file.path(REF_DIR, "cytosig", "signature.centroid")
+WS_B0_CYTOSIG_SHA256 <- "60a3152afe429a7dbb41fa0597ab9730141ce858af16a35f7063e64bfc239bde"
+WS_B0_DECIDES        <- "CytoSig"
+WS_B0_PROGENY_TOP    <- 500L
+WS_B0_GENE_FILTER    <- "receiver pseudobulk CPM > 1 in at least half of the dataset's eligible samples"
+WS_B0_SCORE          <- "decoupleR run_ulm score on receiver pseudobulk log2(CPM+1), each gene centred across the dataset's eligible samples; ligand and receptor genes removed from the signature"
+WS_B0_IEG <- c("FOS", "FOSB", "JUN", "JUNB", "JUND", "EGR1", "EGR2", "EGR3", "IER2", "IER3", "IER5", "ATF3",
+               "DUSP1", "ZFP36", "NR4A1", "KLF2", "KLF4", "KLF6", "HSPA1A", "HSPA1B", "HSPA8", "HSPH1",
+               "DNAJB1", "PPP1R15A", "SOCS3", "CEBPD")   # reported: signatures minus immediate-early/heat-shock genes
+# exposure and model
+WS_B0_LIGAND      <- "log1p(sender pseudobulk counts per 10k)"   # the section 3 per-cell mean, on a log scale
+WS_B0_LIGAND_SENS <- "the same times the sender's fraction of binned cells"   # follows composition; reported
+WS_B0_COVARIATES  <- c("prog_frac", "ambient_z", "dbl_mean", "paediatric")
+#   prog_frac  = receiver-bin cells / binned cells (blast proxy; clinical blast% exists for 20 of 42)
+#   ambient_z  = mean of the within-dataset z of (a) HBB+HBA1+HBA2 UMI share in non-erythroid binned
+#                cells and (b) MPO+ELANE+AZU1+PRTN3 UMI share in T_NK + B_Plasma cells
+#   dbl_mean   = mean scDblFinder score over the sample's cells (section 4 main arm)
+#   paediatric = GSE185381 sample IDs not of the form AML + 4 digits: the 21 COG-risk samples plus AML003,
+#                which has no clinical record but shares library P08 with three of them (22 vs 20, v2.0 §5.2);
+#                constant elsewhere, so dropped there as zero-variance
+#   receiver cell number is neither a covariate nor a weight: entry needs >= 50 cells; it moves precision, not bias
+WS_B0_PERM        <- "Freedman-Lane"   # permute residuals of the covariate-only model, refit, ligand t
+WS_B0_N_PERM      <- 10000L
+WS_B0_P_ONESIDED  <- 0.05
+WS_B0_FAKE_PCTL   <- 0.95              # the ligand t must exceed this percentile of the fake-ligand t's
+WS_B0_FAKE_TOPSIG <- 200L              # fakes exclude the top 200 genes of the tested CytoSig signature
+WS_B0_FAKE_RULE   <- "from the pair's own sender bin; detection rate and inter-patient IQR within WS_FAKE_TOL (WS_FAKE_TOL_RELAXED if the pool is short); not in CellChatDB; same model, same statistic"
+# decision: the main doublet arm decides; the union-removal arm is reported, and a contradiction stops
+WS_B0_TIER <- c(
+  pass        = "IFNG passes AND at least one other pair passes (main arm) -> WP-B continues as v2.0's explanatory layer, never as the main line",
+  conditional = "TNF and TGFB1 pass, IFNG does not -> STOP, report, user decides",
+  fail        = "anything else -> ligand-receptor and footprint evidence are not used in this data",
+  one_arm     = "the main arm passes but the union-removal arm does not -> STOP and find out why")
+WS_B0_MIN_B  <- 30L
+WS_B0_B_TIER <- "reported: add the B_Plasma footprint (same signature) as a covariate in samples with >= 30 B_Plasma cells; ligand still p < 0.05 -> 'leukaemia-specific', otherwise 'marrow-wide'"
+WS_B0_PRIOR  <- "disclosed before running: T3c main-effect diagnostic (HALLMARK sets, n 10-18, no covariates), LMPP_GMP receivers: IFNG rho -0.08, TNF from Mono_DC 0.53, TGFB1 -0.19"
+
 ## -- guards ----------------------------------------------------------------------------------
 ws_assert_frozen <- function() {
   na <- WS_W11_COMBOS[is.na(WS_W11_COMBOS$sender) | is.na(WS_W11_COMBOS$receptor) |
                       is.na(WS_W11_COMBOS$patients) | is.na(WS_W11_COMBOS$patients_intersect), "row"]
   if (length(na)) stop("config_ws.R: GATE_W1.1 row(s) ", paste(na, collapse = ", "),
                        " still NA -- T3c-0 is not complete; T3c must not run")
+  invisible(TRUE)
+}
+ws_assert_b0_frozen <- function() {
+  # GATE_B0 runs only against the exact signature file named in section 10
+  if (!file.exists(WS_B0_CYTOSIG_FILE)) stop("config_ws.R: CytoSig file missing: ", WS_B0_CYTOSIG_FILE)
+  got <- sub(" .*", "", system2("sha256sum", WS_B0_CYTOSIG_FILE, stdout = TRUE))
+  if (!identical(got, WS_B0_CYTOSIG_SHA256)) stop("config_ws.R: CytoSig sha256 mismatch -- GATE_B0 must not run")
   invisible(TRUE)
 }
 ws_w11_runnable <- function() {
