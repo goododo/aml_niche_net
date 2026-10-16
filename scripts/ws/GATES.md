@@ -82,3 +82,11 @@ Primary, main arm -- IFNG: FALSE | TNF: FALSE | TGFB1: TRUE | sens-arm tier: fai
 B-cell tier (reported): IFNG marrow-wide; TNF marrow-wide; TGFB1 leukaemia-specific
 **Verdict: FAIL** -- anything else -> ligand-receptor and footprint evidence are not used in this data
 <!-- B0 result end -->
+
+<!-- B0 audit note -->
+Audit note (2026-10-16, after the FAIL; details in reports/2026-10_ccc_audit/ outside the repo): the T_NK
+sender bin of T3c and GATE_B0 contained BoneMarrowMap "Early Lymphoid" cells, which in AML samples are
+largely blasts (15% of T_NK-bin cells across the 32 GATE_B0 patients; 8 patients >= 25%). Re-fitting with
+six corrected sender definitions leaves IFNG (t -0.05 to -0.48) and TNF (t -0.07 to 0.15) null and lowers
+TGFB1 from t 3.18 to 1.77-2.00. The verdict stands. config_ws.R section 11 now carries the exclusion for
+every later ws analysis.

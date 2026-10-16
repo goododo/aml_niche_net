@@ -188,6 +188,17 @@ WS_B0_MIN_B  <- 30L
 WS_B0_B_TIER <- "reported: add the B_Plasma footprint (same signature) as a covariate in samples with >= 30 B_Plasma cells; ligand still p < 0.05 -> 'leukaemia-specific', otherwise 'marrow-wide'"
 WS_B0_PRIOR  <- "disclosed before running: T3c main-effect diagnostic (HALLMARK sets, n 10-18, no covariates), LMPP_GMP receivers: IFNG rho -0.08, TNF from Mono_DC 0.53, TGFB1 -0.19"
 
+## -- 11. fine labels excluded from ws compartments  (added 2026-10-16, after the CCC audit) -------------
+# BoneMarrowMap "Early Lymphoid" (CLP/MLP) is binned as T_NK by bmm_bin_map.tsv but behaves like a
+# progenitor; in AML samples it is largely blasts (GSE185381, GATE_B0's 32 patients: 15% of T_NK-bin
+# cells are author-labelled HSC/MPP/GMP, 8 patients >= 25%, AML009 92%). The CCC line has excluded it
+# from node features since 2026-08-21 (config_ccc.R, CCC_EXCLUDE_FINE); T3c and GATE_B0 ran WITHOUT this
+# exclusion (recorded in GATES.md and reports/2026-10_ccc_audit/). Every ws analysis written after this
+# date drops these cells from T_NK (and from any "non-malignant" compartment) by bmm_fine / bmm_broad.
+source(here::here("scripts", "config", "config_ccc.R"))   # constants only; sources config_paths.R again (idempotent)
+WS_EXCLUDE_FINE      <- CCC_EXCLUDE_FINE                   # c("Early Lymphoid"), one definition for both lines
+WS_EXCLUDE_FINE_DATE <- "2026-10-16"
+
 ## -- guards ----------------------------------------------------------------------------------
 ws_assert_frozen <- function() {
   na <- WS_W11_COMBOS[is.na(WS_W11_COMBOS$sender) | is.na(WS_W11_COMBOS$receptor) |
