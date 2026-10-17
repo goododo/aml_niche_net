@@ -1,0 +1,9 @@
+check,expected,got,pass
+"cells equal the S1 index, GSE185381",167136,167136,TRUE
+"cells equal the S1 index, GSE227903",80912,80912,TRUE
+"cells equal the S1 index, GSE289435",76236,76236,TRUE
+"cells equal the S1 index, GSE116256",26329,26329,TRUE
+every fine label in the three bins is in the map,0,0,TRUE
+Early Lymphoid never counts,0,0,TRUE
+GSE185381 paediatric samples,22,22,TRUE
+GSE227903 Dx -> MRD pairs,7,7,TRUE

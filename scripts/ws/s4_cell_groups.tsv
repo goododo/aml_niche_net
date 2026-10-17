@@ -1,0 +1,36 @@
+bmm_fine	group	note
+CD4 Naive	CD4_T
+CD4 Central Memory	CD4_T
+CD4 Effector Memory	CD4_T
+CD4 Regulatory	CD4_T
+CD8 Naive	CD8_T
+CD8 Central Memory	CD8_T
+CD8 Effector Memory 1	CD8_T
+CD8 Effector Memory 2	CD8_T
+CD8 Tissue Resident Memory	CD8_T
+NK	NK
+NK CD56high	NK
+Mature B	B
+Immature B	B	marrow-resident transitional B; kept with B, reported apart if it matters
+CD14 Mono	CD14_Mono
+CD16 Mono	CD16_Mono
+cDC1	cDC
+cDC2	cDC
+pDC	pDC
+T Proliferating	EXCLUDED	cycling; state, not a lineage
+NK Proliferating	EXCLUDED	cycling
+CLP	EXCLUDED	Early Lymphoid (WS_EXCLUDE_FINE): largely blasts in AML
+MLP	EXCLUDED	Early Lymphoid
+MLP-II	EXCLUDED	Early Lymphoid
+Pre-ProB	EXCLUDED	Early Lymphoid
+Pro-B VDJ	EXCLUDED	B progenitor
+Pro-B Cycling	EXCLUDED	B progenitor
+Large Pre-B	EXCLUDED	B progenitor
+Small Pre-B	EXCLUDED	B progenitor
+Plasma Cell	EXCLUDED	too few (v2.0 5.3 S4 item 2)
+Early ProMono	EXCLUDED	monocytic precursor; leukaemic in AML
+Late ProMono	EXCLUDED	monocytic precursor; leukaemic in AML
+Pre-cDC	EXCLUDED	DC precursor
+Pre-pDC	EXCLUDED	DC precursor
+Pre-pDC Cycling	EXCLUDED	DC precursor
+ASDC	EXCLUDED	too few
