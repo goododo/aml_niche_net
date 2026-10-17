@@ -43,7 +43,7 @@ META <- fread(file.path(TABWS, paste0("ws_s4_pseudobulk_meta_", DATASET, ".csv")
 SMP <- unique(META[, .(sample, hb = hb_share_nonery, gran = gran_share_lymph)])
 IX <- fread(file.path(TABWS, "decontx", DATASET, "ws_decontx_index.csv.gz"), select = c("sample", "hierarchy_bin", "bmm_fine", "high_error"))
 IX[, bin := fifelse(bmm_fine %in% c("CLP", "MLP", "MLP-II", "Pre-ProB"), "EarlyLymphoid", hierarchy_bin)]
-P7 <- dcast(IX[!is.na(bin) & bin != "" & !(high_error %in% 1L), .N, by = .(sample, bin)], sample ~ bin, value.var = "N", fill = 0)
+P7 <- data.table::dcast(IX[!is.na(bin) & bin != "" & !(high_error %in% 1L), .N, by = .(sample, bin)], sample ~ bin, value.var = "N", fill = 0)
 bins <- setdiff(names(P7), "sample"); M <- as.matrix(P7[, ..bins]); M <- M / rowSums(M); rownames(M) <- P7$sample
 COV <- data.table(sample = rownames(M), prog_frac = rowSums(M[, intersect(c("HSC_MPP", "LMPP_GMP", "EarlyLymphoid"), bins), drop = FALSE]),
                   pc = prcomp(M[, setdiff(bins, c("Stromal", "unassigned"))])$x[, 1:2])
@@ -63,11 +63,11 @@ mcp_table <- function(R) {   # one row per MCP: compartments it spans, its p (la
     data.table(mcp = m, compartments = paste(cts, collapse = "+"), n_comp = length(cts), p_max = max(pn, na.rm = TRUE), p_min = min(pn, na.rm = TRUE)) })) }
 sample_scores <- function(R) {   # sample x compartment x MCP: mean of the per-cell MCP scores
   rbindlist(lapply(names(R$scores), function(ct) { S <- as.data.table(R$scores[[ct]]); mc <- grep("^MCP", names(S), value = TRUE)
-    melt(S[, c(lapply(.SD, mean), .(n = .N)), by = samples, .SDcols = mc], id.vars = c("samples", "n"), variable.name = "mcp", value.name = "score")[, compartment := ct] })) }
+    data.table::melt(S[, c(lapply(.SD, mean), .(n = .N)), by = samples, .SDcols = mc], id.vars = c("samples", "n"), variable.name = "mcp", value.name = "score")[, compartment := ct] })) }
 genes_of <- function(R, m, ct, n = 50) { g <- R$MCPs.full[[m]]; if (is.null(g)) return(character(0))
   u <- g[[paste0(ct, ".up")]]; d <- g[[paste0(ct, ".down")]]; c(head(u, n), head(d, n)) }
 coord_resid <- function(SS, m, cts) {   # criterion 2
-  W <- dcast(SS[mcp == m & compartment %in% cts & n >= ABN], samples ~ compartment, value.var = "score")
+  W <- data.table::dcast(SS[mcp == m & compartment %in% cts & n >= ABN], samples ~ compartment, value.var = "score")
   W <- merge(W, COV, by.x = "samples", by.y = "sample"); if (nrow(W) < 8) return(list(rho = NA_real_, lo = NA_real_, hi = NA_real_, n = nrow(W)))
   res <- sapply(cts, function(ct) resid(lm(W[[ct]] ~ prog_frac + comp_pc1 + comp_pc2 + hb + gran, data = W)))
   pr <- combn(cts, 2); f <- function(idx) mean(apply(pr, 2, function(p) cor(res[idx, p[1]], res[idx, p[2]], method = "spearman")))
