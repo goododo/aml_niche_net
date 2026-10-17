@@ -1,0 +1,10 @@
+check,expected,got,pass
+every unit has a per-cell file,12,12,TRUE
+per-cell rows equal the index,76236,76236,TRUE
+one zmode across units,1,1,TRUE
+doublet scores cover some cells,TRUE,TRUE,TRUE
+every sample in the index has a row,12,12,TRUE
+HB check metric rises with contamination (rho > 0),TRUE,FALSE,FALSE
+granule check metric rises with contamination (rho > 0),TRUE,TRUE,TRUE
+doublet-flagged cells carry more contamination,TRUE,FALSE,FALSE
+HB removed preferentially in non-erythroid cells,TRUE,TRUE,TRUE

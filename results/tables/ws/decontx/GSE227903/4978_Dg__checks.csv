@@ -1,0 +1,7 @@
+check,expected,got,pass
+one gene axis across the unit's samples,TRUE,TRUE,TRUE
+cells gathered,2575,2575,TRUE
+counts are integers,TRUE,TRUE,TRUE
+"contamination within [0, 1]",TRUE,TRUE,TRUE
+decontXcounts has the input shape,TRUE,TRUE,TRUE
+no cell gains UMIs,TRUE,TRUE,TRUE

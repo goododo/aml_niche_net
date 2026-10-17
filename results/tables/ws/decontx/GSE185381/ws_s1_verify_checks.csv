@@ -1,0 +1,7 @@
+check,expected,got,pass
+per-cell tables align,167136,167136,TRUE
+model-free estimate and DecontX rank samples alike (rho > 0.5),TRUE,FALSE,FALSE
+planted fraction equals the target within 1%,TRUE,TRUE,TRUE
+planted ambient recovered monotonically,TRUE,TRUE,TRUE
+recovery slope within 0.5-1.5,TRUE,TRUE,TRUE
+unspiked cells move less than 0.02 on average,TRUE,TRUE,TRUE
