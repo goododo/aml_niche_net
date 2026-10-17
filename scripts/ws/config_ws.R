@@ -199,6 +199,26 @@ source(here::here("scripts", "config", "config_ccc.R"))   # constants only; sour
 WS_EXCLUDE_FINE      <- CCC_EXCLUDE_FINE                   # c("Early Lymphoid"), one definition for both lines
 WS_EXCLUDE_FINE_DATE <- "2026-10-16"
 
+## -- 12. S4 pseudobulk rules  (v2.0 §5.3 S4; FROZEN 2026-10-17 after the S3 counts, user decision) ----------
+# Four cell groups instead of eight, a 20-cell floor instead of 30, concordance required: with eight groups and
+# 30 cells only CD14 monocytes survived the 70% rule among the 20 GSE185381 adults (results/tables/ws/ws_s3_*).
+# The statistical unit stays the patient (P3): every per-cell quantity is summarised within the patient before
+# any test. Single-cell resolution enters as (a) subtype-level pseudobulk with fixed weights, (b) per-cell imprint
+# scores against the healthy same-subtype range, summarised per patient (S5b), (c) DIALOGUE (S7).
+WS_S4_DATE          <- "2026-10-17"
+WS_S4_MAP_FILE      <- "s4_cell_groups.tsv"      # bmm_fine -> group (eight) -> group4 (four); EXCLUDED never counts
+WS_S4_GROUPS        <- c("T", "NK", "B", "Mono")  # T = CD4 + CD8; Mono = CD14 + CD16; cDC and pDC dropped (S3)
+WS_S4_MIN_CELLS     <- 20L                        # per sample and group4 (was 30 in the v2.0 text)
+WS_S4_RETAIN_FRAC   <- 0.7                        # a group is kept if >= 70% of the study's samples reach the floor
+WS_S4_REQUIRE_CONCORDANT <- TRUE                  # anno_source == "concordant" (marker typing agrees with the projection)
+WS_S4_DROP_HIGH_ERROR    <- TRUE                  # as section 0
+WS_S4_DEFINE     <- "GSE185381"                   # imprint defined here (adults; paediatric as the second cohort)
+WS_S4_REPLICATE  <- "GSE289435"                   # structural replication
+WS_S4_DESCRIBE   <- c("GSE227903", "GSE116256")   # too few lymphoid cells per sample (S3); description only
+WS_S4_AMBIENT_COVARIATES <- c("hb_share_nonery", "gran_share_lymph")   # section 16.1 item 13: raw shares, not decontX
+WS_S4_SENSITIVITY_COUNTS <- "decontX"             # decontaminated pseudobulk kept for sensitivity analyses only
+WS_S4_SEX_GENES  <- c(female = "XIST", male = "RPS4Y1")   # inferred when the metadata has no sex
+
 ## -- guards ----------------------------------------------------------------------------------
 ws_assert_frozen <- function() {
   na <- WS_W11_COMBOS[is.na(WS_W11_COMBOS$sender) | is.na(WS_W11_COMBOS$receptor) |
