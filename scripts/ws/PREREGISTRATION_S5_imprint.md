@@ -159,3 +159,24 @@ controls except that 32 of its 402 genes are ambient-prone, which is acknowledge
 studies is pending. WP-A2 may ask the remission question with the T imprint only. S7 (DIALOGUE) proceeds
 unsupervised; if it finds no cross-compartment program, H-A1b is closed. Any further test on the T imprint
 (replication, remission) gets its own pre-registered section before it is run.
+
+## 12. S7 DIALOGUE settings (appended 2026-10-17, before S7 is run; nothing above this line was edited)
+
+Purpose (handoff 16.1 item 15): an unsupervised look for cross-compartment programs. If none is found, H-A1b is
+closed; if one is found, it gets its own pre-registered test before any claim.
+
+- Tool: DIALOGUE 1.0 (`DIALOGUE.run`, PMD on sample-level averaged PCs, then mixed-effects gene calls).
+- Cells: the S4 kept cells (concordant, not high_error, map group4) of GSE185381 adult AML patients and healthy
+  donors; a sample enters a compartment with >= 20 kept cells (section 12 rule).
+- Primary run: compartments T, NK, B, Mono on the samples eligible in all four. Secondary run: T and Mono on the
+  samples eligible in both (the two compartments whose imprints were stable in S5).
+- Per compartment: log-normalised expression (counts per 10k, log1p), 2,000 most variable genes within the
+  compartment, 15 PCs (`X`); `cellQ` = log10 UMIs per cell; sample-level covariates in `covar`: cellQ, the two
+  raw ambient shares. k = 3 programs; DIALOGUE defaults otherwise (`n.genes` 200, `p.anova` 0.05).
+- Reading rule, fixed here: a "cross-compartment program" exists if some MCP has (a) DIALOGUE's cross-cell-type
+  correlation R positive in every compartment pair of the run with its mixed-effects p < 0.05, (b) that R above
+  the 95th percentile of 10 runs in which sample labels are shuffled independently within each compartment
+  (breaks cross-compartment pairing, keeps everything else), and (c) stability: median Jaccard >= 0.5 of its
+  top-50 genes per compartment over 10 runs on random 80% subsets of samples. Programs failing any of the three
+  are reported as not found. Association of MCP sample scores with status and age group is reported, not tested.
+- Overlap of MCP genes with the S5 T imprint is reported (hypergeometric), not used in the reading rule.
