@@ -1,0 +1,7 @@
+check,expected,got,pass
+composition covariates for every scored sample,0,0,TRUE
+T imprint genes are all in the scoring universe,0,0,TRUE
+NK imprint genes are all in the scoring universe,0,0,TRUE
+Mono imprint genes are all in the scoring universe,0,0,TRUE
+"27's score reproduces from the recomputed logCPM (T, max diff < 1e-6)",TRUE,TRUE,TRUE
+three mixed channels,3,3,TRUE

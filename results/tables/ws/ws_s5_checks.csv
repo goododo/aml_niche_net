@@ -1,0 +1,17 @@
+check,expected,got,pass
+ambient blacklist has 79 genes,79,79,TRUE
+chrY genes found in the gene-order file,TRUE,TRUE,TRUE
+T has >= 12 eligible AML and >= 9 healthy,TRUE,TRUE,TRUE
+T sex contrast puts >= 3 sex genes in the top 10,TRUE,TRUE,TRUE
+T real imprint count exceeds the permutation P95,TRUE,TRUE,FALSE
+NK has >= 12 eligible AML and >= 9 healthy,TRUE,TRUE,TRUE
+NK sex contrast puts >= 3 sex genes in the top 10,TRUE,TRUE,TRUE
+NK real imprint count exceeds the permutation P95,TRUE,TRUE,FALSE
+B has >= 12 eligible AML and >= 9 healthy,TRUE,TRUE,TRUE
+B sex contrast puts >= 3 sex genes in the top 10,TRUE,TRUE,TRUE
+B real imprint count exceeds the permutation P95,TRUE,TRUE,FALSE
+Mono has >= 12 eligible AML and >= 9 healthy,TRUE,TRUE,TRUE
+Mono sex contrast puts >= 3 sex genes in the top 10,TRUE,TRUE,TRUE
+Mono real imprint count exceeds the permutation P95,TRUE,TRUE,FALSE
+no blacklisted gene among the imprint genes,0,0,TRUE
+scores exist for every eligible sample of a compartment with an imprint,0,0,TRUE

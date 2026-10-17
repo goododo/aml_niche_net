@@ -90,3 +90,20 @@ largely blasts (15% of T_NK-bin cells across the 32 GATE_B0 patients; 8 patients
 six corrected sender definitions leaves IFNG (t -0.05 to -0.48) and TNF (t -0.07 to 0.15) null and lowers
 TGFB1 from t 3.18 to 1.77-2.00. The verdict stands. config_ws.R section 11 now carries the exclusion for
 every later ws analysis.
+
+<!-- A1A2 start -->
+## GATE_A1 / GATE_A2 -- 2026-10-17 (prereg-s5-v1)
+
+Scripts: scripts/ws/27_s5_imprint.R, 28_s5_coordination.R | compartments with an imprint: 
+T, NK, Mono
+
+| gate | criterion | value | pass |
+|---|---|---|---|
+| GATE_A1_1 | |partial rho(score, hb)| and |rho(score, gran)| < 0.30 in every compartment | T hb 0.00 gran -0.04; NK hb -0.26 gran 0.28; Mono hb 0.18 gran -0.04 | TRUE |
+| GATE_A1_2 | imprint not enriched in the extended ambient ranking (hypergeometric p > 0.05) | T 32 genes p 0.035; NK 8 genes p 0.107; Mono 31 genes p 0.000 | FALSE |
+| GATE_A1_3 | same-channel concordance above the random-set P95 in >= 2 of 3 channels (pooled over compartments) | GSM5613751 1/1; GSM5613752 1/1; GSM5613756 2/2 | TRUE |
+| GATE_A1_4 | healthy donors in mixed channels shift < 1/3 of the AML-healthy gap | Mono 0.17; NK 0.07; T 0.28 | TRUE |
+| GATE_A2 | coordination > 0, bootstrap 95% CI excludes 0, above the random-set P95 | 0.123, CI -0.352 to 0.702, random P95 0.452, perm p 0.263 | FALSE |
+
+**Verdict: GATE_A1 FAIL, GATE_A2 FAIL** -- any FAIL stops the line for discussion (v2.0 5.4).
+<!-- A1A2 end -->
