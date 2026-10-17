@@ -26,6 +26,9 @@ suppressPackageStartupMessages(library(here))
 source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "ws", "config_ws.R"))
 set.seed(SEED)
+options(error = function() {                       # DIALOGUE's own errors are terse; print where they come from
+  calls <- sys.calls(); n <- length(calls); message("--- TRACEBACK ---")
+  for (i in seq(max(1, n - 15), n)) message(i, ": ", substr(paste(deparse(calls[[i]]), collapse = " "), 1, 220)); q(status = 1) })
 DATASET <- WS_S4_DEFINE; TABWS <- file.path(TAB_DIR, "ws")
 AN   <- file.path(LARGE1_DIR, "02_seurat_objects/04_annotated", DATASET)
 OUTD <- file.path(LARGE1_DIR, "ws_dialogue"); dir.create(OUTD, showWarnings = FALSE, recursive = TRUE)
@@ -65,6 +68,7 @@ G <- rownames(mats[[1]]); stopifnot(all(vapply(mats, function(m) identical(rowna
 make_ct <- function(g4, keep_samples, name = g4) {
   cc <- cells[group4 == g4 & sample %in% keep_samples]
   X <- do.call(cbind, lapply(unique(cc$sample), function(sm) mats[[sm]][, cc[sample == sm, cell], drop = FALSE]))[, cc$cell]
+  X <- X[Matrix::rowMeans(X > 0) >= 0.01, , drop = FALSE]                       # genes detected in >= 1% of the compartment's cells (dense tpm downstream)
   so <- CreateSeuratObject(X, min.cells = 0, min.features = 0); so <- NormalizeData(so, verbose = FALSE)
   so <- FindVariableFeatures(so, nfeatures = 2000, verbose = FALSE); so <- ScaleData(so, verbose = FALSE); so <- RunPCA(so, npcs = 30, verbose = FALSE)
   tpm <- as.matrix(LayerData(so, assay = "RNA", layer = "data")); Xp <- Embeddings(so, "pca")
@@ -86,12 +90,16 @@ run_one <- function(run, keep_samples, covar, plant = FALSE) {
   }
   saveRDS(rA, file.path(OUTD, paste0("rA_", run, ".rds")))
   rd <- file.path(OUTD, run); dir.create(rd, showWarnings = FALSE)
-  t0 <- Sys.time()
-  R <- DIALOGUE.run(rA = rA, main = run, param = DLG.get.param(k = K, results.dir = paste0(rd, "/"), conf = "cellQ", covar = covar,
-                                                              abn.c = ABN, seed1 = SEED, plot.flag = FALSE))
+  t0 <- Sys.time(); err <- ""
+  # DIALOGUE.run draws its summary plots after saving its results, even with plot.flag = FALSE, and the UpSetR
+  # plot fails on these inputs ("undefined columns selected"); the results are read back from results.dir then
+  R <- tryCatch(DIALOGUE.run(rA = rA, main = run, param = DLG.get.param(k = K, results.dir = paste0(rd, "/"), conf = "cellQ", covar = covar,
+                                                                        abn.c = ABN, seed1 = SEED, plot.flag = FALSE)),
+                error = function(e) { err <<- conditionMessage(e); f <- file.path(rd, paste0("DLG.full.output_", run, ".rds"))
+                  if (!file.exists(f)) stop("DIALOGUE failed before writing results: ", err); ts("    DIALOGUE.run error after its results were written (", err, "); reading ", basename(f)); readRDS(f) })
   el <- as.numeric(difftime(Sys.time(), t0, units = "mins")); saveRDS(R, file.path(OUTD, paste0("R_", run, ".rds")))
   ts(sprintf("    %s done in %.1f min | message: %s | class: %s | names: %s", run, el, if (!is.null(R$message)) R$message else "-", class(R)[1], paste(head(names(R), 20), collapse = ",")))
-  data.table(run = run, minutes = round(el, 1), n_samples = length(keep_samples), message = if (!is.null(R$message)) R$message else "")
+  data.table(run = run, minutes = round(el, 1), n_samples = length(keep_samples), message = if (!is.null(R$message)) R$message else "", run_error = err)
 }
 TIM <- list()
 if ("R1" %in% RUNS)      TIM[["R1"]] <- run_one("R1", aml, covar = c("cellQ", "hb_share_nonery", "gran_share_lymph", "prog_frac"))

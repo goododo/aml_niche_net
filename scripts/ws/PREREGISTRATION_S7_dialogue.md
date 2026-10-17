@@ -65,3 +65,11 @@ gene list from S5 enters this analysis.
 `results/tables/ws/ws_s7_mcps.csv` (MCP x compartment: genes, empirical p), `ws_s7_scores.csv` (sample x
 compartment x MCP), `ws_s7_criteria.csv` (criteria 1-3 per MCP and run), `ws_s7_known_answers.csv`,
 `ws_s7_checks.csv`; DIALOGUE's own result objects under `/LARGE1/.../ws_dialogue/`; GATES.md block "A1b-S7".
+
+## 7. Build details fixed before the first successful run (appended 2026-10-17)
+
+- Genes handed to DIALOGUE per compartment: those detected in >= 1% of that compartment's cells (DIALOGUE
+  holds a dense expression matrix; the full 36,601-gene matrix exceeded the login node's memory).
+- Dependencies installed for DIALOGUE 1.0: nnls, plotrix (CRAN), in addition to its declared imports.
+- The first two attempts failed before producing any result (missing package; an error under investigation),
+  so nothing has been seen.
