@@ -69,7 +69,8 @@ R[, role := fcase(disease == "AML" & timepoint == "Diagnosis" & tissue_r == "BM"
                   disease == "AML" & timepoint == "Diagnosis", "AML_Dx_other_prep",
                   disease == "AML" & grepl("Post_treatment|Remission|MRD", timepoint), "AML_posttreatment",
                   disease == "AML" & timepoint == "Relapse", "AML_relapse",
-                  disease != "AML", "control", default = "other")]
+                  disease == "healthy_donor", "control",                 # AEL / MDS / MPAL patients are neither AML nor controls
+                  default = "other_disease")]
 R[, paediatric := dataset == "GSE185381" & disease == "AML" & !grepl("^AML[0-9]{4}$", sample)]     # config_ws.R section 10 rule
 chk("GSE185381 paediatric samples", 22L, R[dataset == "GSE185381" & paediatric == TRUE, .N])
 

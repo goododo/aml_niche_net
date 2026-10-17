@@ -1,0 +1,11 @@
+check,expected,got,pass
+samples in the pseudobulk,52,52,TRUE
+kept cells per group equal S3's concordant counts,0,0,TRUE
+the four group sums add up to the kept cells' UMIs,TRUE,TRUE,TRUE
+CD3E higher in T than in Mono pseudobulk,TRUE,TRUE,TRUE
+CD79A higher in B than in T pseudobulk,TRUE,TRUE,TRUE
+LYZ higher in Mono than in T pseudobulk,TRUE,TRUE,TRUE
+NKG7 higher in NK than in B pseudobulk,TRUE,TRUE,TRUE
+HB share equals the S1 table,TRUE,TRUE,TRUE
+decontaminated sums never exceed raw sums (T),TRUE,TRUE,TRUE
+inferred sex agrees with metadata where both exist,TRUE,TRUE,TRUE

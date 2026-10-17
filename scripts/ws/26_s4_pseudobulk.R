@@ -50,7 +50,9 @@ man <- fread(file.path(TAB_DIR, "01_preprocess", "00_curated_manifest.csv"))[dat
 man[, role := fcase(disease == "AML" & timepoint == "Diagnosis" & tissue_r == "BM" & sorting_r %in% c("viability_only", "none"), "AML_Dx",
                     disease == "AML" & timepoint == "Diagnosis", "AML_Dx_other_prep",
                     disease == "AML" & grepl("Post_treatment|Remission|MRD", timepoint), "AML_posttreatment",
-                    disease == "AML" & timepoint == "Relapse", "AML_relapse", disease != "AML", "control", default = "other")]
+                    disease == "AML" & timepoint == "Relapse", "AML_relapse",
+                    disease == "healthy_donor", "control",               # AEL / MDS / MPAL patients are neither AML nor controls
+                    default = "other_disease")]
 man[, paediatric := DATASET == "GSE185381" & disease == "AML" & !grepl("^AML[0-9]{4}$", sample)]
 man[, batch := { m <- regmatches(paste(open_questions, curator_note), regexpr("nuig_batch[0-9]", paste(open_questions, curator_note))); if (length(m)) m else NA_character_ }, by = sample]
 IXF <- file.path(TABWS, "decontx", DATASET, "ws_decontx_index.csv.gz"); HAVE_DX <- file.exists(IXF)
