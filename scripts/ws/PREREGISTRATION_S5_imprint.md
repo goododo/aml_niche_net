@@ -180,3 +180,29 @@ closed; if one is found, it gets its own pre-registered test before any claim.
   top-50 genes per compartment over 10 runs on random 80% subsets of samples. Programs failing any of the three
   are reported as not found. Association of MCP sample scores with status and age group is reported, not tested.
 - Overlap of MCP genes with the S5 T imprint is reported (hypergeometric), not used in the reading rule.
+
+## 13. DRAFT — the T imprint beyond GSE185381 (appended 2026-10-17; NOT binding until the user approves and it is tagged)
+
+Acknowledgement carried into every statement below: 32 of the 402 T-imprint genes are in the extended ambient
+ranking (GATE_A1 (2) failed); the imprint is "AML-or-age" (section 3.4); B carries no imprint; NK's imprint is
+fragile; Mono is clone-mixed. Only the T imprint (`ws_s5_imprint_genes.csv`, compartment T, tag to be set) is used.
+
+13.1 **Coherence replication in GSE289435** (10 AML samples with >= 20 kept T cells; no healthy donors there, so
+direction against healthy cannot be tested). Statistic: within the T pseudobulks, the mean pairwise correlation
+of the up genes plus that of the down genes, minus the mean up-vs-down correlation ("program coherence").
+Null: 1,000 expression-matched random gene sets of the same sizes. Passes if the imprint's coherence exceeds the
+random P95. Secondary, reported: the same in GSE227903's 7 diagnosis samples with >= 20 T cells.
+
+13.2 **Remission (GSE227903, 6 Dx -> MRD pairs with >= 20 kept T cells at both times: 1216, 1886, 3904, 40389,
+4978, 5750; 6323 has 12 T cells at diagnosis and is excluded before any result is seen).**
+- Score: log-CPM of the T pseudobulk, genes z-scored across the 13 GSE227903 T pseudobulks (Dx + MRD), score =
+  mean z(up) − mean z(down); covariates hb and gran shares regressed out before testing.
+- Test 1, rank preservation: Spearman of the six patients' Dx vs MRD scores, one-sided (positive). With n = 6,
+  p < 0.05 needs rho >= 0.829: this is a direction statement, as v2.0 6.4 already said for adults.
+- Test 2, self-recognition: for each MRD sample, correlation of its imprint-gene z-profile with each of the six Dx
+  profiles; statistic = mean rank of the own diagnosis sample (1 = best). Nulls: all 720 pairings; and 1,000
+  matched random gene sets. Counts only if it beats both.
+- Reported: MRD score relative to the Dx scores (no healthy reference in this study); batch (all six pairs are
+  within one batch after 6323's exclusion).
+13.3 **Not done:** no gene is added or removed from the T imprint; no sample is added after a result; no paediatric
+run until the adult statements above are written down with their outcome.
