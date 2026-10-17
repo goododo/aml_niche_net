@@ -1,0 +1,4 @@
+run,minutes,n_samples,message,run_error,note
+R1,2.3,20,DIALOGUE1 found 3 programs.,'a' and 'b' must be finite,Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples
+R2,16.6,30,"","",Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples
+planted,3.4,20,DIALOGUE1 found 3 programs.,'a' and 'b' must be finite,Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples
