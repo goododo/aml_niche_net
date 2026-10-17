@@ -2,8 +2,8 @@ compartment,arm,n_hits,overlap_with_imprint,imprint_size
 T,limma_voom,678,383,402
 T,IEG_removed,401,401,402
 T,plus_multiplexed,405,308,402
-T,subtype:CD4 Naive,85,0.5,402
-T,subtype:CD8 Effector Memory 2,7,0.498,402
+T,subtype:CD4 Naive,85,1,402
+T,subtype:CD8 Effector Memory 2,7,0.996,402
 NK,limma_voom,392,90,91
 NK,IEG_removed,91,91,91
 NK,plus_multiplexed,2,2,91
@@ -13,4 +13,4 @@ B,plus_multiplexed,2,1,9
 Mono,limma_voom,386,225,275
 Mono,IEG_removed,275,275,275
 Mono,plus_multiplexed,365,192,275
-Mono,subtype:CD14 Mono,344,0.499,275
+Mono,subtype:CD14 Mono,344,1,275
