@@ -140,3 +140,22 @@ compartment from WP-A2, it does not relax the threshold.
 No gene set is changed after the result is seen; no sample is added or dropped after the result is seen;
 no cell-level p-value is reported; the paediatric cohort and the replication study are not opened until
 `ws_s5_imprint_genes.csv` is tagged.
+
+---
+
+## 11. Outcome and decision (appended 2026-10-17, after the run; nothing above this line was edited)
+
+Run: `27_s5_imprint.R` (job 3649941) and `28_s5_coordination.R` (job 3650033); tables `results/tables/ws/ws_s5_*`.
+- Imprints: T 402 genes, Mono 275, NK 91; B 9 (not called). Known answers passed (section 8).
+- GATE_A1: (1) pass, (3) pass, (4) pass; **(2) FAIL** (T 32 imprint genes in the extended ambient ranking,
+  p 0.035; Mono 31, p < 0.001; NK 8, p 0.11).
+- **GATE_A2 FAIL**: coordination 0.123, permutation p 0.26, random-set P95 0.45, bootstrap CI -0.35 to 0.70.
+- Sensitivity: a multiplexed-library covariate removes the NK imprint (91 -> 2) and leaves T intact (402 -> 405);
+  the Mono imprint contains HOXB2, HOXB3 and NKG7 (clonal or doublet admixture).
+
+Decision (user, 2026-10-17): the "coordinated imprint" claim is dropped. The claim is narrowed to: adult AML
+T cells differ at diagnosis from (younger) healthy donors; the difference is robust to the pre-registered
+controls except that 32 of its 402 genes are ambient-prone, which is acknowledged; replication in other
+studies is pending. WP-A2 may ask the remission question with the T imprint only. S7 (DIALOGUE) proceeds
+unsupervised; if it finds no cross-compartment program, H-A1b is closed. Any further test on the T imprint
+(replication, remission) gets its own pre-registered section before it is run.
