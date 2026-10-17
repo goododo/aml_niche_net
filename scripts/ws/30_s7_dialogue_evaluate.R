@@ -68,8 +68,10 @@ genes_of <- function(R, m, ct, n = 50) { g <- R$MCPs.full[[m]]; if (is.null(g)) 
   u <- g[[paste0(ct, ".up")]]; d <- g[[paste0(ct, ".down")]]; c(head(u, n), head(d, n)) }
 coord_resid <- function(SS, m, cts) {   # criterion 2
   W <- data.table::dcast(SS[mcp == m & compartment %in% cts & n >= ABN], samples ~ compartment, value.var = "score")
-  W <- merge(W, COV, by.x = "samples", by.y = "sample"); if (nrow(W) < 8) return(list(rho = NA_real_, lo = NA_real_, hi = NA_real_, n = nrow(W)))
-  res <- sapply(cts, function(ct) resid(lm(W[[ct]] ~ prog_frac + comp_pc1 + comp_pc2 + hb + gran, data = W)))
+  W <- merge(W, COV, by.x = "samples", by.y = "sample")
+  W <- W[stats::complete.cases(W[, c(cts, "prog_frac", "comp_pc1", "comp_pc2", "hb", "gran"), with = FALSE])]   # a sample missing one compartment drops out
+  if (nrow(W) < 8) return(list(rho = NA_real_, lo = NA_real_, hi = NA_real_, n = nrow(W)))
+  res <- sapply(cts, function(ct) resid(lm(W[[ct]] ~ prog_frac + comp_pc1 + comp_pc2 + hb + gran, data = W))); res <- matrix(res, ncol = length(cts), dimnames = list(NULL, cts))
   pr <- combn(cts, 2); f <- function(idx) mean(apply(pr, 2, function(p) cor(res[idx, p[1]], res[idx, p[2]], method = "spearman")))
   obs <- f(seq_len(nrow(W))); bt <- replicate(1000, f(sample(nrow(W), replace = TRUE)))
   list(rho = obs, lo = unname(quantile(bt, .025, na.rm = TRUE)), hi = unname(quantile(bt, .975, na.rm = TRUE)), n = nrow(W)) }
