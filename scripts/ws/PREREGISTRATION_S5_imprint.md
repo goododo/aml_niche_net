@@ -181,6 +181,11 @@ closed; if one is found, it gets its own pre-registered test before any claim.
   are reported as not found. Association of MCP sample scores with status and age group is reported, not tested.
 - Overlap of MCP genes with the S5 T imprint is reported (hypergeometric), not used in the reading rule.
 
+**Superseded (2026-10-17, same day, before any run under this section produced a result):** S7 is governed by
+`PREREGISTRATION_S7_dialogue.md` (tag `prereg-s7-v1`), written in a parallel session with a fuller design (two
+runs, a planted known answer, 20 shuffles, 20 resamples, 500-cell cap). This section and `29_s7_dialogue.R`
+are kept as a record and are not run.
+
 ## 13. DRAFT — the T imprint beyond GSE185381 (appended 2026-10-17; NOT binding until the user approves and it is tagged)
 
 Acknowledgement carried into every statement below: 32 of the 402 T-imprint genes are in the extended ambient

@@ -1,4 +1,6 @@
 #!/usr/bin/env Rscript
+# SUPERSEDED 2026-10-17 before producing any result: S7 runs under PREREGISTRATION_S7_dialogue.md with
+# 29_s7_dialogue_build_run.R and 30_s7_dialogue_evaluate.R. Kept as a record; do not run.
 # INPUT  : /LARGE1/.../ws_pseudobulk/GSE185381/ws_pb_GSE185381.rds          (S4: per-cell kept flag and group4)
 #          results/tables/ws/ws_s4_pseudobulk_meta_GSE185381.csv           (eligibility, status, covariates)
 #          /LARGE1/.../02_seurat_objects/04_annotated/GSE185381/<sample>.rds  (raw counts of the eligible samples)
