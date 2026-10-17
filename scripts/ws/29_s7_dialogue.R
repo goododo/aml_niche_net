@@ -48,7 +48,8 @@ chk <- function(name, expected, got) {
 ## -- 1. samples, cells, per-compartment inputs (built once, reused by both runs) --------------------------------
 META[, status := fifelse(role == "control", "healthy", fifelse(role == "AML_Dx" & paediatric == FALSE, "AML", NA_character_))]
 SM <- unique(META[!is.na(status), .(sample, status, age_group, hb = hb_share_nonery, gran = gran_share_lymph)])
-ELIG <- dcast(META[!is.na(status), .(sample, group4, eligible)], sample ~ group4, value.var = "eligible")
+ELIG <- data.table::dcast(META[!is.na(status), .(sample, group4, eligible)], sample ~ group4, value.var = "eligible")   # DIALOGUE attaches reshape2, which masks dcast/melt
+setDT(ELIG)
 cells <- PB$cells[kept == TRUE & sample %in% SM$sample, .(cell, sample, group4, fine)]
 ts(sprintf("[1] %d samples (%d AML, %d healthy), %d kept cells", nrow(SM), SM[status == "AML", .N], SM[status == "healthy", .N], nrow(cells)))
 CT <- list(); QC <- list()
@@ -106,7 +107,7 @@ for (run in RUNS) {
   ts(sprintf("    signatures: %s", if (is.null(G)) "none parsed" else paste(G[, .N, by = .(mcp, compartment, direction)][, sprintf("%s %s %s %d", mcp, compartment, direction, N)], collapse = "; ")))
   # sample-level scores: mean of the per-cell MCP scores per sample and compartment (R$scores: list per cell type, cells x MCPs)
   if (!is.null(R$scores)) for (g4 in names(R$scores)) { sc <- R$scores[[g4]]; if (is.null(dim(sc))) next
-    d <- as.data.table(sc, keep.rownames = "cell"); d <- melt(d, id.vars = "cell", variable.name = "mcp", value.name = "score")
+    d <- as.data.table(sc, keep.rownames = "cell"); d <- data.table::melt(d, id.vars = "cell", variable.name = "mcp", value.name = "score")
     d[, sample := cells[match(cell, cell), sample]]; d <- d[, .(score = mean(score), cells = .N), by = .(mcp, sample)]
     d <- merge(d, SM[, .(sample, status, age_group)], by = "sample"); d[, `:=`(run = run, compartment = g4)]; SCORES[[paste(run, g4)]] <- d }
   # stability: lite runs on 80% of the samples, Jaccard of the top-50 genes per MCP x compartment x direction against the full run
