@@ -79,6 +79,9 @@ jacc <- function(a, b) if (!length(a) || !length(b)) NA_real_ else length(inters
 MCPS <- list(); SCORES <- list(); CRIT <- list(); KA <- list()
 for (run in RUNS) {
   R <- readRDS(file.path(OUTD, paste0("R_", run, ".rds"))); rA <- readRDS(file.path(OUTD, paste0("rA_", run, ".rds")))
+  # DIALOGUE.run's normal return lacks `samples` and `covar` (they are in DLG.full.output, which 29 reads only when the plot fails)
+  if (is.null(R$covar)) R$covar <- R$param$covar
+  if (is.null(R$samples)) R$samples <- Reduce(intersect, lapply(R$scores, function(S) unique(as.character(S$samples))))
   covar <- R$covar; ts(sprintf("[%s] %d samples in all compartments | covar %s", run, length(R$samples), paste(covar, collapse = "+")))
   MT <- mcp_table(R); if (is.null(MT)) { ts("    no MCP object"); next }
   SS <- sample_scores(R); SCORES[[run]] <- cbind(run = run, SS)
