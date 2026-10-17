@@ -5,8 +5,8 @@ been run on the S4 pseudobulks. Frozen inputs: `config_ws.R` sections 0, 10-12; 
 `results/tables/ws/decontx/`; the S3 tables `ws_s3_*`; the S4 pseudobulks under
 `/LARGE1/.../ws_pseudobulk/<dataset>/`. Handoff: `HANDOFF_within_sample_v2.0.md` §5.3 S5-S6, §5.4, §16.
 
-Status: **DRAFT for review.** It becomes binding when committed with the tag `prereg-s5-v1`; after that
-tag, changes are new dated sections, never edits.
+Status: **BINDING from 2026-10-17** (user approval the same day; tag `prereg-s5-v1`). From this tag on,
+changes are new dated sections appended at the end, never edits of the text above them.
 
 ---
 
