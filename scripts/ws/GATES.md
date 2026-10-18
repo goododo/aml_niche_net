@@ -107,3 +107,21 @@ T, NK, Mono
 
 **Verdict: GATE_A1 FAIL, GATE_A2 FAIL** -- any FAIL stops the line for discussion (v2.0 5.4).
 <!-- A1A2 end -->
+
+<!-- A1b-S7 start -->
+## H-A1b, unsupervised test (DIALOGUE, prereg-s7-v1) -- 2026-10-17
+
+Scripts: scripts/ws/29_s7_dialogue_build_run.R, 30_s7_dialogue_evaluate.R
+
+| run | MCP | compartments | crit 1 p | crit 2 rho (n) | crit 3 Jaccard | found |
+|---|---|---|---|---|---|---|
+| R1 | MCP1 | T+B | 0.056 | NA (14) | NA | FALSE |
+| R1 | MCP2 | T+B | 0.064 | 0.62 (14) | NA | FALSE |
+| R1 | MCP3 | B+Mono | 0.912 | NA (10) | NA | FALSE |
+| R2 | MCP1 | T+B | 0.052 | 0.80 (24) | NA | FALSE |
+| R2 | MCP2 | T+B | 0.088 | 0.67 (24) | NA | FALSE |
+| R2 | MCP3 | T+NK+B+Mono | 0.213 | 0.75 (18) | NA | FALSE |
+
+Known answers: best MCP MCP1: p 0.056, planted genes among its top 200 per compartment 0.00 (over 2 compartments); 0 of 20 shuffles produced an MCP with p <= 0.05
+**Verdict: NO MCP meets the three criteria: H-A1b CLOSED**
+<!-- A1b-S7 end -->

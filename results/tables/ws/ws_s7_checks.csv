@@ -1,2 +1,3 @@
 check,expected,got,pass
-covariates for every adult AML / healthy sample,30,30,TRUE
+planted MCP recovered (p <= 0.05 and >= 50% of planted genes),TRUE,FALSE,FALSE
+shuffled samples: false-positive rate of criterion 1 at or below 0.05,TRUE,TRUE,TRUE

@@ -1,0 +1,3 @@
+test,value,detail
+planted_MCP,0,"best MCP MCP1: p 0.056, planted genes among its top 200 per compartment 0.00 (over 2 compartments)"
+shuffled_samples,0,0 of 20 shuffles produced an MCP with p <= 0.05
