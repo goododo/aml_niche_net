@@ -109,21 +109,22 @@ T, NK, Mono
 <!-- A1A2 end -->
 
 <!-- A1b-S7 start -->
-## H-A1b, unsupervised test (DIALOGUE, prereg-s7-v1) -- 2026-10-17
+## H-A1b, unsupervised test (DIALOGUE, prereg-s7-v1 + section 8) -- 2026-10-19
 
-Scripts: scripts/ws/29_s7_dialogue_build_run.R, 30_s7_dialogue_evaluate.R
+Scripts: scripts/ws/29_s7_dialogue_build_run.R, 30_s7_dialogue_evaluate.R. Criterion 1 p is shown as DIALOGUE's rank-sum p / exact permutation p
+(rank of the observed canonical correlation among 1 + 99 permutations, /100); the verdict uses the exact p (decision 2026-10-19, PREREGISTRATION_S7_dialogue.md section 8).
 
-| run | MCP | compartments | crit 1 p | crit 2 rho (n) | crit 3 Jaccard | found |
-|---|---|---|---|---|---|---|
-| R1 | MCP1 | T+B | 0.056 | NA (14) | NA | FALSE |
-| R1 | MCP2 | T+B | 0.064 | 0.62 (14) | NA | FALSE |
-| R1 | MCP3 | B+Mono | 0.912 | NA (10) | NA | FALSE |
-| R2 | MCP1 | T+B | 0.052 | 0.80 (24) | NA | FALSE |
-| R2 | MCP2 | T+B | 0.088 | 0.67 (24) | NA | FALSE |
-| R2 | MCP3 | T+NK+B+Mono | 0.213 | 0.75 (18) | NA | FALSE |
+| run | MCP | compartments | crit 1 p DIALOGUE / exact | crit 2 rho (n) | genes T/NK/B/Mono | crit 3 Jaccard | found exact / prereg |
+|---|---|---|---|---|---|---|---|
+| R1 | MCP1 | T+NK+B | 0.223 / 0.28 | 0.39 (12) | 222/12/0/0 | 0.26 | FALSE / FALSE |
+| R1 | MCP2 | T+NK+B | 0.596 / 0.57 | 0.78 (12) | 228/69/0/0 | 0.42 | FALSE / FALSE |
+| R1 | MCP3 | B+Mono | 0.912 / 0.89 | NA (10) | 0/0/0/0 | NA | FALSE / FALSE |
+| R2 | MCP1 | T+NK+B | 0.106 / 0.14 | 0.66 (22) | 244/159/0/0 | 0.23 | FALSE / FALSE |
+| R2 | MCP2 | T+NK+B | 0.193 / 0.25 | 0.68 (22) | 279/145/0/0 | 0.11 | FALSE / FALSE |
+| R2 | MCP3 | T+NK+B+Mono | 0.213 / 0.27 | 0.75 (18) | 149/152/149/207 | 0.17 | FALSE / FALSE |
 
-Known answers: best MCP MCP1: p 0.056, planted genes among its top 200 per compartment 0.00 (over 2 compartments); 0 of 20 shuffles produced an MCP with p <= 0.05
-**Verdict: NO MCP meets the three criteria: H-A1b CLOSED**
+Known answers: best MCP MCP1: exact p 0.75 (DIALOGUE p 0.807), planted genes among its top 200 per compartment 0.05 (over 2 compartments); 10 of 20 shuffles produced an MCP with exact p <= 0.05 (6 with DIALOGUE p <= 0.05)
+**Verdict: NO MCP meets the three criteria: H-A1b CLOSED [criterion 1 = exact permutation p, decision 2026-10-19; under the original reading of DIALOGUE's p: none found]**
 <!-- A1b-S7 end -->
 
 Note added 2026-10-19 on the first run of this block (job 3650058, dated 2026-10-17; not a result): that run's verdict
@@ -141,3 +142,17 @@ Addendum, later on 2026-10-19: DIALOGUE 1.0 also misassigns compartments to MCPs
 DIALOGUE.identify.cell.types; PREREGISTRATION_S7_dialogue.md section 8, item 5). With it fixed, R1 and R2 MCP1-2 span
 T+NK+B rather than T+B and their NK-B pair fails criterion 1 under both readings. R1, R2 and the planted run are rebuilt
 with the patched function before the corrected evaluation.
+
+Reading of the 2026-10-19 block (added after job 3650855 completed): the verdict line is the script's fixed wording
+for "no MCP passes all three criteria". Both pre-registered known answers FAILED in this run, so the block does not
+close H-A1b. (i) The planted program (100 genes, 0.5 SD, all four compartments) was not recovered: step I linked it
+in T+NK+B at exact p 0.04 but step II returned no genes for it (5% of planted genes in the best MCP's lists); the
+audit in reports/2026-10_s7_dialogue_audit shows step I converging to noise-level optima at n = 13 (its own
+permutation null reaches canonical correlations of ~0.86 while the planted direction offers 0.97). (ii) 10 of 20
+sample-relabelled shuffles produced an MCP with exact p <= 0.05 (6 of 20 with DIALOGUE's p) against the
+pre-registered ceiling of 1 of 20, so criterion-1 values of 0.03-0.04 on the real data carry no weight.
+**Recorded outcome: S7 cannot test H-A1b in GSE185381 adults with DIALOGUE 1.0 as configured (30 PCs, k = 3,
+13 patients present in all four compartments). H-A1b stays open; it is not a must-have (handoff v2.0 §16.1 item 15).**
+Descriptive facts kept for the record: R1 and R2 each return two T+NK+B programs with T and NK gene signatures and
+none in B; their sample scores are moderately reproducible across 70% patient subsets (match correlation 0.65-0.78)
+but their top-50 gene lists are not (median Jaccard 0.07-0.43, below 0.5 in every compartment).

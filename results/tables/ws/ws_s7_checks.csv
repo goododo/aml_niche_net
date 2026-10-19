@@ -1,3 +1,8 @@
 check,expected,got,pass
-planted MCP recovered (p <= 0.05 and >= 50% of planted genes),TRUE,FALSE,FALSE
-shuffled samples: false-positive rate of criterion 1 at or below 0.05,TRUE,TRUE,TRUE
+[R1] every emp.p entry maps to a permutation rank (exact p defined),TRUE,TRUE,TRUE
+[R1] the 20 stability subsets are distinct and drawn before any DIALOGUE call,20,20,TRUE
+[R2] every emp.p entry maps to a permutation rank (exact p defined),TRUE,TRUE,TRUE
+[R2] the 20 stability subsets are distinct and drawn before any DIALOGUE call,20,20,TRUE
+planted MCP recovered (exact p <= 0.05 and >= 50% of planted genes),TRUE,FALSE,FALSE
+the 20 shuffles are distinct permutations drawn before any DIALOGUE call,20,20,TRUE
+shuffled samples: false-positive rate of criterion 1 (exact p) at or below 0.05,TRUE,FALSE,FALSE
