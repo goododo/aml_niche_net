@@ -140,3 +140,15 @@ thresholds of criteria 2 and 3.
    sample set from the full output on disk (item 4). Smoke test of 30 (job 3650850, R1, 2 draws, outputs under
    ws_dialogue/smoke_20261019): exact-p lookup, distinct draws, in-line warnings and the verdict path all ran;
    shuffle 2 differed from shuffle 1 (exact p 0.37 vs 0.60), confirming the RNG fix.
+
+Rebuild with the patched function (job 3650854, 2026-10-19 11:00-11:33; R1 5.1 min, R2 23.0 min, planted 3.4 min).
+Step I is unchanged: the emp.p matrices of R1 and R2 are identical to the 2026-10-17 ones. Compartments after the
+fix: R1 MCP1-2 T+NK+B (now with T and NK gene signatures: 94/128 and 129/99 T genes up/down, 4/8 and 14/55 NK),
+R1 MCP3 B+Mono (no signature); R2 MCP1-2 T+NK+B (T 131/113 and 133/146, NK 92/67 and 76/69), R2 MCP3 all four.
+Planted run: the factor is visible along the planted direction in PC space in every compartment (cor 0.96-0.98
+against a chance P95 of 0.46-0.52); the weaker single-PC statistic passed in T, NK, B (0.78, 0.85, 0.89) and
+missed in Mono (0.66 vs P95 0.69), so that build check reads FAIL and is left as is. DIALOGUE step I links the
+planted program as MCP2 across T+NK+B (T-NK and NK-B rank 1 of 100, T-B rank 4; Mono not linked) but step II
+returns no two-compartment gene signature for it; 30 evaluates this. Reproducibility note: 29 draws the planted
+factor after R1's and R2's DIALOGUE.run calls, so a planted-only rerun (job 3650849) and the full rebuild draw
+different factors and genes; the objects evaluated are those of job 3650854.
