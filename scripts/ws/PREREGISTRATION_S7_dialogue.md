@@ -152,3 +152,13 @@ planted program as MCP2 across T+NK+B (T-NK and NK-B rank 1 of 100, T-B rank 4; 
 returns no two-compartment gene signature for it; 30 evaluates this. Reproducibility note: 29 draws the planted
 factor after R1's and R2's DIALOGUE.run calls, so a planted-only rerun (job 3650849) and the full rebuild draw
 different factors and genes; the objects evaluated are those of job 3650854.
+
+6. (2026-10-19, diagnostics on the rebuilt planted run, before 30's evaluation of it finished; reports/
+   2026-10_s7_dialogue_audit) DIALOGUE step I does not recover the planted program. In its own processed sample
+   space the planted direction correlates 0.95-0.99 with the factor per compartment and 0.96-1.00 across
+   compartments (mean pairwise 0.974); DIALOGUE's three canonical variates have |cor| <= 0.36 with the factor and
+   mean pairwise canonical correlations of 0.80-0.87, the same level its permutation null reaches on noise (median
+   0.86, P95 0.91 over 30 permuted data sets). The sparse CCA is not sparsity-limited (9-14 non-zero weights per
+   compartment); at n = 13 with 28-30 standardised PCs it converges to noise-level optima. The pre-registered
+   positive control therefore fails at step I, and the S7 null result cannot be read as closing H-A1b. Any further
+   use of DIALOGUE here must first pass a planted control under a declared configuration.

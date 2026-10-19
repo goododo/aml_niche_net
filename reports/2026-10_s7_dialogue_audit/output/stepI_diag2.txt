@@ -1,0 +1,51 @@
+=== planted direction in DIALOGUE's processed space (sample medians over abundant samples, per-PC standardised, 13 samples) ===
+  T     kept PCs 30 | cor(score, f) = 0.990 | share of planted-direction weight on kept PCs: 1.00
+  NK    kept PCs 28 | cor(score, f) = 0.987 | share of planted-direction weight on kept PCs: 0.99
+  B     kept PCs 28 | cor(score, f) = 0.980 | share of planted-direction weight on kept PCs: 0.97
+  Mono  kept PCs 30 | cor(score, f) = 0.945 | share of planted-direction weight on kept PCs: 1.00
+pairwise cross-compartment correlation of these scores:
+         T    NK     B  Mono
+T    1.000 0.989 0.997 0.958
+NK   0.989 1.000 0.982 0.960
+B    0.997 0.982 1.000 0.959
+Mono 0.958 0.960 0.959 1.000
+
+mean pairwise correlation reachable by the planted direction: 0.974 | DIALOGUE MCP1/2/3 mean pairwise canonical correlation: 0.83 / 0.867 / 0.798 
+
+=== permutation null of DIALOGUE's canonical correlations (its own routine, 30 permuted data sets) ===
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    MCP1_mean MCP1_max MCP2_mean MCP3_mean
+5%      0.806    0.883     0.793     0.790
+50%     0.865    0.945     0.859     0.854
+95%     0.907    0.967     0.912     0.901
+
+observed MCP1/2/3 mean pairwise canonical correlation in the planted run: 0.83 / 0.867 / 0.798 
