@@ -162,3 +162,13 @@ different factors and genes; the objects evaluated are those of job 3650854.
    compartment); at n = 13 with 28-30 standardised PCs it converges to noise-level optima. The pre-registered
    positive control therefore fails at step I, and the S7 null result cannot be read as closing H-A1b. Any further
    use of DIALOGUE here must first pass a planted control under a declared configuration.
+
+7. (2026-10-20, declared before running; user approved option B on 2026-10-19/20) Tool calibration on planted data
+   only, to decide whether any DIALOGUE configuration has power here. Three builds with 29 (`--tag` keeps them apart
+   from the pre-registered objects): planted on R1's input with 10 PCs per compartment (`_pc10`); planted on R2's
+   23-sample input with 30 PCs (`_n23`); and with 10 PCs (`_n23_pc10`). Same planted effect (100 genes, 0.5 SD, same
+   sign per sample), now drawn under its own seed (SEED + 1). Evaluation by 31_s7_planted_toolcheck.R under the
+   section 4.1 rule (largest exact p over the planted MCP's pairs <= 0.05 and >= 50% of the planted genes among its
+   top 200 in each of its compartments). No real-data criterion is computed. Decision rule: if a configuration passes,
+   a v2 pre-registration is written before any real-data run with it; if none passes, S7 closes as untestable in this
+   cohort and the record above stands.

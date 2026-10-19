@@ -15,13 +15,15 @@
 #   compartment. Runs DIALOGUE twice (R1 adult AML; R2 adult AML + healthy with status as covariate) and once more
 #   on R1's inputs with a planted multicellular program (known answer; planted BEFORE the PCA, prereg section 8). Evaluation of the criteria, the shuffled
 #   null and the stability loop are in 30_s7_dialogue_evaluate.R, which reads the objects saved here.
-#   usage: Rscript scripts/ws/29_s7_dialogue_build_run.R [--runs=R1,R2,planted]
+#   usage: Rscript scripts/ws/29_s7_dialogue_build_run.R [--runs=R1,R2,planted] [--npcs=30] [--tag=]
+#          tool checks (prereg section 8, item 7): --runs=plantedR2 plants on R2's inputs; --npcs changes the PCs per compartment;
+#          --tag suffixes every output (rA_/R_/planted_truth/results dir/build tables) so the pre-registered objects are not touched
 # This script deletes nothing and does not modify its inputs.
 
 suppressPackageStartupMessages({ library(data.table); library(Matrix); library(Seurat); library(SeuratObject); library(DIALOGUE) })
 .a <- commandArgs(TRUE)
 .get <- function(k, d) { h <- grep(paste0("^--", k, "="), .a, value = TRUE); if (length(h)) sub(".*=", "", h[1]) else d }
-RUNS <- strsplit(.get("runs", "R1,R2,planted"), ",")[[1]]
+RUNS <- strsplit(.get("runs", "R1,R2,planted"), ",")[[1]]; NPCS <- as.integer(.get("npcs", "30")); TAG <- .get("tag", "")
 suppressPackageStartupMessages(library(here))
 source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "ws", "config_ws.R"))
@@ -81,7 +83,7 @@ make_ct <- function(g4, keep_samples, name = g4, plant = NULL) {
     LayerData(so, assay = "RNA", layer = "data") <- as(dat, "dgCMatrix"); VariableFeatures(so) <- union(VariableFeatures(so), pg); rm(dat)
     PLANTED[[name]] <<- list(genes = pg, sdv = sdv)
   }
-  so <- ScaleData(so, verbose = FALSE); so <- RunPCA(so, npcs = 30, verbose = FALSE)
+  so <- ScaleData(so, verbose = FALSE); so <- RunPCA(so, npcs = NPCS, verbose = FALSE)
   if (!is.null(plant)) PLANTED[[name]]$dir <<- colSums(Loadings(so, "pca")[pg, ] * sdv)   # the planted shift's direction in PC space (planted genes' loadings weighted by their shift)
   tpm <- as.matrix(LayerData(so, assay = "RNA", layer = "data")); Xp <- Embeddings(so, "pca")
   md <- data.frame(samples = cc$sample, status = cc$status, hb_share_nonery = cc$hb_share_nonery, gran_share_lymph = cc$gran_share_lymph,
@@ -93,10 +95,10 @@ make_ct <- function(g4, keep_samples, name = g4, plant = NULL) {
 aml <- SM[status == "AML", sample]; all30 <- SM$sample
 run_one <- function(run, keep_samples, covar, plant = FALSE) {
   pl <- NULL
-  if (plant) { f <- setNames(rnorm(length(keep_samples)), keep_samples); pl <- list(f = f); PLANTED <<- list() }   # one factor per sample, same sign in every compartment
+  if (plant) { set.seed(SEED + 1L); f <- setNames(rnorm(length(keep_samples)), keep_samples); pl <- list(f = f); PLANTED <<- list() }   # one factor per sample, same sign in every compartment; own seed so the draw does not depend on the runs before it (added 2026-10-20; the 2026-10-19 planted objects were drawn without it)
   rA <- lapply(setNames(WS_S4_GROUPS, WS_S4_GROUPS), make_ct, keep_samples = keep_samples, plant = pl)
   if (plant) {
-    saveRDS(list(factor = f, genes = lapply(PLANTED, `[[`, "genes"), dir = lapply(PLANTED, `[[`, "dir")), file.path(OUTD, "planted_truth.rds"))
+    saveRDS(list(factor = f, genes = lapply(PLANTED, `[[`, "genes"), dir = lapply(PLANTED, `[[`, "dir")), file.path(OUTD, paste0("planted_truth", TAG, ".rds")))
     chk("planted: 100 genes recorded in each of the 4 compartments", TRUE, length(PLANTED) == 4 && all(vapply(PLANTED, function(p) length(p$genes), 1L) == N_PLANT_GENES))
     # is the planted factor in the PCs DIALOGUE step I works on? (a) sample means of the PC coordinate along the planted direction vs f;
     # (b) the best single sample-mean PC vs f; each against the P95 of 500 random re-assignments of f to samples (chance for (b): median ~0.55, P95 ~0.7;
@@ -108,8 +110,8 @@ run_one <- function(run, keep_samples, covar, plant = FALSE) {
     chk("planted: factor visible along the planted direction in PC space, every compartment (cor above P95 of 500 random f)", TRUE, all(vis$dir_cor > vis$dir_p95))
     chk("planted: factor visible in the best single sample-mean PC, every compartment (above P95 of 500 random f)", TRUE, all(vis$pc_max_cor > vis$pc_p95))
   }
-  saveRDS(rA, file.path(OUTD, paste0("rA_", run, ".rds")))
-  rd <- file.path(OUTD, run); dir.create(rd, showWarnings = FALSE)
+  saveRDS(rA, file.path(OUTD, paste0("rA_", run, TAG, ".rds")))
+  rd <- file.path(OUTD, paste0(run, TAG)); dir.create(rd, showWarnings = FALSE)
   t0 <- Sys.time(); err <- ""
   # DIALOGUE.run ignores param$plot.flag and plots by default (its plots failed on these inputs after the results were
   # saved), so plot.flag = FALSE is passed to DIALOGUE.run itself; the fallback below reads results.dir if it still errors
@@ -117,16 +119,17 @@ run_one <- function(run, keep_samples, covar, plant = FALSE) {
                                                                         abn.c = ABN, seed1 = SEED, plot.flag = FALSE)),
                 error = function(e) { err <<- conditionMessage(e); f <- file.path(rd, paste0("DLG.full.output_", run, ".rds"))
                   if (!file.exists(f)) stop("DIALOGUE failed before writing results: ", err); ts("    DIALOGUE.run error after its results were written (", err, "); reading ", basename(f)); readRDS(f) })
-  el <- as.numeric(difftime(Sys.time(), t0, units = "mins")); saveRDS(R, file.path(OUTD, paste0("R_", run, ".rds")))
+  el <- as.numeric(difftime(Sys.time(), t0, units = "mins")); saveRDS(R, file.path(OUTD, paste0("R_", run, TAG, ".rds")))
   ts(sprintf("    %s done in %.1f min | message: %s | class: %s | names: %s", run, el, if (!is.null(R$message)) R$message else "-", class(R)[1], paste(head(names(R), 20), collapse = ",")))
-  data.table(run = run, minutes = round(el, 1), n_samples = length(keep_samples), message = if (!is.null(R$message)) R$message else "", run_error = err)
+  data.table(run = paste0(run, TAG), npcs = NPCS, minutes = round(el, 1), n_samples = length(keep_samples), message = if (!is.null(R$message)) R$message else "", run_error = err)
 }
 TIM <- list()
 if ("R1" %in% RUNS)      TIM[["R1"]] <- run_one("R1", aml, covar = c("cellQ", "hb_share_nonery", "gran_share_lymph", "prog_frac"))
 if ("R2" %in% RUNS)      TIM[["R2"]] <- run_one("R2", all30, covar = c("cellQ", "hb_share_nonery", "gran_share_lymph", "prog_frac", "status"))
 if ("planted" %in% RUNS) TIM[["planted"]] <- run_one("planted", aml, covar = c("cellQ", "hb_share_nonery", "gran_share_lymph", "prog_frac"), plant = TRUE)
+if ("plantedR2" %in% RUNS) TIM[["plantedR2"]] <- run_one("plantedR2", all30, covar = c("cellQ", "hb_share_nonery", "gran_share_lymph", "prog_frac", "status"), plant = TRUE)   # tool check: planted on R2's 23-sample input
 BT <- cbind(rbindlist(TIM), BUILD[1, .(note = paste(BUILD[, sprintf("%s %d cells/%d samples", group4, cells, samples)], collapse = "; "))])
-bf <- file.path(TABWS, "ws_s7_build.csv"); if (file.exists(bf)) BT <- rbind(fread(bf)[!run %in% RUNS], BT, fill = TRUE)   # a partial rerun keeps the other runs' rows
+bf <- file.path(TABWS, "ws_s7_build.csv"); if (file.exists(bf)) BT <- rbind(fread(bf)[!run %in% paste0(RUNS, TAG)], BT, fill = TRUE)   # a partial rerun keeps the other runs' rows
 fwrite(BT, bf)
-C <- rbindlist(CHK); fwrite(C, file.path(TABWS, "ws_s7_build_checks.csv"))
+C <- rbindlist(CHK); fwrite(C, file.path(TABWS, paste0("ws_s7_build_checks", TAG, ".csv")))
 ts(sprintf("[done] %d checks, %d PASS, %d FAIL", nrow(C), sum(C$pass), sum(!C$pass)))
