@@ -25,6 +25,7 @@ RUNS <- strsplit(.get("runs", "R1,R2,planted"), ",")[[1]]
 suppressPackageStartupMessages(library(here))
 source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "ws", "config_ws.R"))
+ws_patch_dialogue()   # DIALOGUE 1.0's MCP cell-type assignment has a row-order bug (config_ws.R section 13; prereg section 8, item 5)
 set.seed(SEED)
 options(error = function() {                       # DIALOGUE's own errors are terse; print where they come from
   calls <- sys.calls(); n <- length(calls); message("--- TRACEBACK ---")
@@ -74,12 +75,14 @@ make_ct <- function(g4, keep_samples, name = g4, plant = NULL) {
   so <- FindVariableFeatures(so, nfeatures = 2000, verbose = FALSE)
   if (!is.null(plant)) {   # planted MCP (prereg sections 4.1 and 8): the sample-level factor is added to the log-expression of 100 genes BEFORE
     # ScaleData/RunPCA, so that the PCs DIALOGUE step I works on carry it (the first version added it to tpm only); planted genes become eligible features
-    dat <- LayerData(so, assay = "RNA", layer = "data"); expr <- rownames(dat)[Matrix::rowMeans(dat > 0) > 0.2]
-    pg <- sample(expr, N_PLANT_GENES); sdv <- apply(as.matrix(dat[pg, ]), 1, sd)
-    dat[pg, ] <- Matrix::Matrix(as.matrix(dat[pg, ]) + outer(PLANT_SD * sdv, plant$f[cc$sample]), sparse = TRUE)
-    LayerData(so, assay = "RNA", layer = "data") <- dat; VariableFeatures(so) <- union(VariableFeatures(so), pg); PLANTED[[name]] <<- pg
+    dat <- as.matrix(LayerData(so, assay = "RNA", layer = "data")); expr <- rownames(dat)[rowMeans(dat > 0) > 0.2]   # dense: sparse row sub-assignment took ~5 min per compartment
+    pg <- sample(expr, N_PLANT_GENES); sdv <- apply(dat[pg, ], 1, sd)
+    dat[pg, ] <- dat[pg, ] + outer(PLANT_SD * sdv, plant$f[cc$sample])
+    LayerData(so, assay = "RNA", layer = "data") <- as(dat, "dgCMatrix"); VariableFeatures(so) <- union(VariableFeatures(so), pg); rm(dat)
+    PLANTED[[name]] <<- list(genes = pg, sdv = sdv)
   }
   so <- ScaleData(so, verbose = FALSE); so <- RunPCA(so, npcs = 30, verbose = FALSE)
+  if (!is.null(plant)) PLANTED[[name]]$dir <<- colSums(Loadings(so, "pca")[pg, ] * sdv)   # the planted shift's direction in PC space (planted genes' loadings weighted by their shift)
   tpm <- as.matrix(LayerData(so, assay = "RNA", layer = "data")); Xp <- Embeddings(so, "pca")
   md <- data.frame(samples = cc$sample, status = cc$status, hb_share_nonery = cc$hb_share_nonery, gran_share_lymph = cc$gran_share_lymph,
                    prog_frac = cc$prog_frac, nFeatures = so$nFeature_RNA, row.names = cc$cell)
@@ -93,18 +96,24 @@ run_one <- function(run, keep_samples, covar, plant = FALSE) {
   if (plant) { f <- setNames(rnorm(length(keep_samples)), keep_samples); pl <- list(f = f); PLANTED <<- list() }   # one factor per sample, same sign in every compartment
   rA <- lapply(setNames(WS_S4_GROUPS, WS_S4_GROUPS), make_ct, keep_samples = keep_samples, plant = pl)
   if (plant) {
-    saveRDS(list(factor = f, genes = PLANTED), file.path(OUTD, "planted_truth.rds"))
-    chk("planted: 100 genes recorded in each of the 4 compartments", TRUE, length(PLANTED) == 4 && all(lengths(PLANTED) == N_PLANT_GENES))
-    vis <- sapply(rA, function(r) { A <- rowsum(r@X, r@samples) / as.vector(table(r@samples)[sort(unique(r@samples))]); max(abs(cor(A, f[rownames(A)]))) })
-    ts("    planted factor vs sample-mean PCs, max |cor| per compartment: ", paste(sprintf("%s %.2f", names(vis), vis), collapse = ", "))
-    chk("planted: factor visible in the sample-mean PCs of every compartment (max |cor| >= 0.8)", TRUE, all(vis >= 0.8))   # the first version scored ~chance here
+    saveRDS(list(factor = f, genes = lapply(PLANTED, `[[`, "genes"), dir = lapply(PLANTED, `[[`, "dir")), file.path(OUTD, "planted_truth.rds"))
+    chk("planted: 100 genes recorded in each of the 4 compartments", TRUE, length(PLANTED) == 4 && all(vapply(PLANTED, function(p) length(p$genes), 1L) == N_PLANT_GENES))
+    # is the planted factor in the PCs DIALOGUE step I works on? (a) sample means of the PC coordinate along the planted direction vs f;
+    # (b) the best single sample-mean PC vs f; each against the P95 of 500 random re-assignments of f to samples (chance for (b): median ~0.55, P95 ~0.7;
+    # the first, tpm-only version scored 0.38-0.61 on (b), i.e. chance)
+    vis <- rbindlist(lapply(names(rA), function(ct) { r <- rA[[ct]]; A <- rowsum(r@X, r@samples) / as.vector(table(r@samples)[sort(unique(r@samples))]); fs <- f[rownames(A)]
+      sc <- as.vector(A %*% PLANTED[[ct]]$dir); nul <- replicate(500, { fp <- sample(fs); c(abs(cor(sc, fp)), max(abs(cor(A, fp)))) })
+      data.table(compartment = ct, n_samples = nrow(A), dir_cor = abs(cor(sc, fs)), dir_p95 = unname(quantile(nul[1, ], .95)), pc_max_cor = max(abs(cor(A, fs))), pc_p95 = unname(quantile(nul[2, ], .95))) }))
+    print(vis[, lapply(.SD, function(x) if (is.numeric(x)) round(x, 2) else x)])
+    chk("planted: factor visible along the planted direction in PC space, every compartment (cor above P95 of 500 random f)", TRUE, all(vis$dir_cor > vis$dir_p95))
+    chk("planted: factor visible in the best single sample-mean PC, every compartment (above P95 of 500 random f)", TRUE, all(vis$pc_max_cor > vis$pc_p95))
   }
   saveRDS(rA, file.path(OUTD, paste0("rA_", run, ".rds")))
   rd <- file.path(OUTD, run); dir.create(rd, showWarnings = FALSE)
   t0 <- Sys.time(); err <- ""
-  # DIALOGUE.run draws its summary plots after saving its results, even with plot.flag = FALSE, and the UpSetR
-  # plot fails on these inputs ("undefined columns selected"); the results are read back from results.dir then
-  R <- tryCatch(DIALOGUE.run(rA = rA, main = run, param = DLG.get.param(k = K, results.dir = paste0(rd, "/"), conf = "cellQ", covar = covar,
+  # DIALOGUE.run ignores param$plot.flag and plots by default (its plots failed on these inputs after the results were
+  # saved), so plot.flag = FALSE is passed to DIALOGUE.run itself; the fallback below reads results.dir if it still errors
+  R <- tryCatch(DIALOGUE.run(rA = rA, main = run, plot.flag = FALSE, param = DLG.get.param(k = K, results.dir = paste0(rd, "/"), conf = "cellQ", covar = covar,
                                                                         abn.c = ABN, seed1 = SEED, plot.flag = FALSE)),
                 error = function(e) { err <<- conditionMessage(e); f <- file.path(rd, paste0("DLG.full.output_", run, ".rds"))
                   if (!file.exists(f)) stop("DIALOGUE failed before writing results: ", err); ts("    DIALOGUE.run error after its results were written (", err, "); reading ", basename(f)); readRDS(f) })

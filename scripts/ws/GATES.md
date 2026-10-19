@@ -137,3 +137,7 @@ permutations, so "p <= 0.05" means top 2 of 100 (exact p <= 0.02); R1 MCP1 and R
 criterion 3 are rerun under section 8 of PREREGISTRATION_S7_dialogue.md, which also records the user's decision of
 2026-10-19 to read criterion 1 as the exact permutation p; 30_s7_dialogue_evaluate.R regenerates the block, so a
 block dated 2026-10-19 or later above this note is the corrected run.
+Addendum, later on 2026-10-19: DIALOGUE 1.0 also misassigns compartments to MCPs (row-order bug in
+DIALOGUE.identify.cell.types; PREREGISTRATION_S7_dialogue.md section 8, item 5). With it fixed, R1 and R2 MCP1-2 span
+T+NK+B rather than T+B and their NK-B pair fails criterion 1 under both readings. R1, R2 and the planted run are rebuilt
+with the patched function before the corrected evaluation.

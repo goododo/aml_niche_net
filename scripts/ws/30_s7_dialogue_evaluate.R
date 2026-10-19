@@ -26,6 +26,7 @@ RUNS <- strsplit(.get("runs", "R1,R2"), ",")[[1]]; N_RES <- as.integer(.get("n-r
 suppressPackageStartupMessages(library(here))
 source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "ws", "config_ws.R"))
+ws_patch_dialogue()   # DIALOGUE 1.0's MCP cell-type assignment has a row-order bug (config_ws.R section 13; prereg section 8, item 5); must precede every DIALOGUE.run
 set.seed(SEED)
 options(error = function() { calls <- sys.calls(); n <- length(calls); message("--- TRACEBACK ---")
   for (i in seq(max(1, n - 15), n)) message(i, ": ", substr(paste(deparse(calls[[i]]), collapse = " "), 1, 220)); q(status = 1) })
@@ -56,7 +57,7 @@ setnames(COV, c("sample", "prog_frac", "comp_pc1", "comp_pc2")); COV <- merge(CO
 run_dialogue <- function(rA, main, covar, rd) {   # warnings (lme4 rank deficiency etc.) are printed once per distinct message and DIALOGUE call site, in-line with DIALOGUE's prints
   dir.create(rd, showWarnings = FALSE, recursive = TRUE); seen <- character(0); nsf <- ls(asNamespace("DIALOGUE"))
   withCallingHandlers(
-    tryCatch(DIALOGUE.run(rA = rA, main = main, param = DLG.get.param(k = K, results.dir = paste0(rd, "/"), conf = "cellQ", covar = covar, abn.c = ABN, seed1 = SEED, plot.flag = FALSE)),
+    tryCatch(DIALOGUE.run(rA = rA, main = main, plot.flag = FALSE, param = DLG.get.param(k = K, results.dir = paste0(rd, "/"), conf = "cellQ", covar = covar, abn.c = ABN, seed1 = SEED, plot.flag = FALSE)),   # plot.flag must go to DIALOGUE.run itself
              error = function(e) { f <- file.path(rd, paste0("DLG.full.output_", main, ".rds")); if (file.exists(f)) readRDS(f) else NULL }),
     warning = function(w) { fn <- unique(vapply(sys.calls(), function(cl) sub(".*:::?", "", deparse(cl[[1]])[1]), "")); fn <- fn[fn %in% nsf]
       key <- paste(conditionMessage(w), paste(tail(fn, 3), collapse = "<"))

@@ -115,3 +115,28 @@ Defects found (each verified on the saved objects under /LARGE1/.../ws_dialogue)
 GATES.md: the 2026-10-17 block is marked withdrawn by a note below it; the rerun regenerates the block.
 Not changed: k, abn.c, covariates, the 500-cell cap, feature and PC counts, seeds, 20 draws at 70%, and the
 thresholds of criteria 2 and 3.
+
+5. (added later on 2026-10-19, before the corrected run) DIALOGUE's own assignment of compartments to an MCP is
+   wrong in version 1.0: `DIALOGUE.identify.cell.types` builds the pair-p matrix with `generic.vector2mat`, whose
+   rows are sorted alphabetically (B, Mono, NK, T), but its first elimination indexes `R$cell.types` in the original
+   order (T, NK, B, Mono), so the wrong compartment is dropped. Verified on the saved objects: with the order fixed,
+   R1 MCP1-2 and R2 MCP1-2 span T+NK+B (DIALOGUE said T+B), and the rebuilt planted run's MCP2-3 span T+NK
+   (DIALOGUE said B+Mono, where their p is 0.96). The assignment decides which pairs step II models, hence the gene
+   signatures, the scores and criteria 1-3, so the fix must precede DIALOGUE2: config_ws.R section 13 defines the
+   corrected function (same algorithm, aligned row order; self-tested on a toy case) and replaces it in the DIALOGUE
+   namespace before every DIALOGUE.run in 29 and 30. R1, R2 and the planted run are therefore rebuilt (29, all three
+   runs) and the evaluation (30) is rerun on the rebuilt objects. Step I (PMD, emp.p) is unaffected by the bug.
+   Effect on the first run's values, already seen: the weak NK-B pair now enters criterion 1 for the T+NK+B programs
+   (exact p 0.27 in R1, about 0.15 in R2), so they fail criterion 1 under both readings; the fix cannot make the
+   real-data verdict more positive. For the planted control the fix is in the other direction: its MCP2 has
+   exact p 0.01 in T-NK and would otherwise have been judged on B-Mono.
+   Also noted from the rebuilt planted run: the planted factor is visible in the sample-mean PCs of every
+   compartment (max single-PC |cor| 0.72-0.86 against a chance P95 of 0.66-0.73; the tpm-only version scored
+   0.38-0.61), yet DIALOGUE step I links it only in T-NK at n = 13. The pre-registered effect (0.5 SD, 100 genes)
+   is kept; partial recovery is reported as such.
+   4b. (2026-10-19, after the smoke test) `DIALOGUE.run` ignores `param$plot.flag` and plotted by default; those plots
+   were the source of the errors raised after the results had been saved. `plot.flag = FALSE` is now passed to
+   `DIALOGUE.run` itself in 29 and 30; the returned object is then DIALOGUE3's trimmed list, and 30 takes the
+   sample set from the full output on disk (item 4). Smoke test of 30 (job 3650850, R1, 2 draws, outputs under
+   ws_dialogue/smoke_20261019): exact-p lookup, distinct draws, in-line warnings and the verdict path all ran;
+   shuffle 2 differed from shuffle 1 (exact p 0.37 vs 0.60), confirming the RNG fix.

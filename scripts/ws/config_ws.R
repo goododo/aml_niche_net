@@ -240,3 +240,37 @@ ws_w11_runnable <- function() {
   # where both the sender bin and the receptor are usable
   WS_W11_COMBOS[WS_W11_COMBOS$patients_intersect >= WS_W11_MIN_PATIENTS, ]
 }
+
+## -- 13. DIALOGUE 1.0 patch (S7; PREREGISTRATION_S7_dialogue.md section 8, item 5) -------------------------------------
+## DIALOGUE.identify.cell.types() builds the MCP x pair p matrix with generic.vector2mat(), whose rows are sorted
+## alphabetically (B, Mono, NK, T), but its first elimination indexes R$cell.types in the original order (T, NK, B, Mono),
+## so the wrong compartment is dropped. Verified 2026-10-19 on the S7 objects: R1/R2 MCP1-2 were assigned T+B instead
+## of T+NK+B; the planted run's MCP2-3 were assigned B+Mono instead of T+NK. The fixed version below keeps the
+## algorithm (drop the compartment with the fewest p < 0.1 links until every one links to at least half of the rest)
+## and only aligns the row order. Called by 29 and 30 after library(DIALOGUE); it self-tests and then replaces the
+## namespace function so that DIALOGUE1() (and hence DIALOGUE2's choice of pairs) uses it.
+ws_dialogue_identify_cell_types <- function(R) {
+  if (!is.null(R$param$MCP.cell.types)) return(R$param$MCP.cell.types)
+  if (length(R$cell.types) == 2) { out <- lapply(as.numeric(R$emp.p), function(x) if (x < 0.1) R$cell.types else NULL); names(out) <- rownames(R$emp.p); return(out) }
+  emp.p <- R$emp.p; emp.p2 <- R$emp.p
+  colnames(emp.p2) <- paste(DIALOGUE:::get.strsplit(colnames(emp.p), "_", 2), DIALOGUE:::get.strsplit(colnames(emp.p), "_", 1), sep = "_")
+  emp.p <- cbind(emp.p, emp.p2); out <- list()
+  for (x in rownames(emp.p)) {
+    p1 <- DIALOGUE:::generic.vector2mat(emp.p[x, ])[R$cell.types, R$cell.types]; diag(p1) <- 0.05   # rows and columns in R$cell.types order
+    cts <- R$cell.types; lb <- min(rowSums(p1 < 0.1))
+    while (lb < ceiling(length(cts) / 2)) { cts <- setdiff(cts, rownames(p1)[rowSums(p1 < 0.1) <= lb][1]); p1 <- p1[cts, cts, drop = FALSE]; lb <- min(rowSums(p1 < 0.1)) }
+    out[[x]] <- cts
+  }
+  out
+}
+ws_patch_dialogue <- function() {
+  stopifnot(requireNamespace("DIALOGUE", quietly = TRUE))
+  toy <- list(cell.types = c("T", "NK", "B", "Mono"), param = list(),   # links T-NK and T-B only: the intended answer is T+NK+B
+              emp.p = matrix(c(0.04, 0.05, 0.9, 0.2, 0.9, 0.9), nrow = 1, dimnames = list("MCP1", c("T_NK", "T_B", "T_Mono", "NK_B", "NK_Mono", "B_Mono"))))
+  orig <- DIALOGUE:::DIALOGUE.identify.cell.types(toy)$MCP1; fixed <- ws_dialogue_identify_cell_types(toy)$MCP1
+  stopifnot(identical(fixed, c("T", "NK", "B")))
+  message(sprintf("ws_patch_dialogue: identify.cell.types on the toy case gives %s unpatched, %s patched; namespace function replaced",
+                  paste(orig, collapse = "+"), paste(fixed, collapse = "+")))
+  utils::assignInNamespace("DIALOGUE.identify.cell.types", ws_dialogue_identify_cell_types, ns = "DIALOGUE")
+  invisible(TRUE)
+}
