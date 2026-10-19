@@ -125,3 +125,15 @@ Scripts: scripts/ws/29_s7_dialogue_build_run.R, 30_s7_dialogue_evaluate.R
 Known answers: best MCP MCP1: p 0.056, planted genes among its top 200 per compartment 0.00 (over 2 compartments); 0 of 20 shuffles produced an MCP with p <= 0.05
 **Verdict: NO MCP meets the three criteria: H-A1b CLOSED**
 <!-- A1b-S7 end -->
+
+Note added 2026-10-19 on the first run of this block (job 3650058, dated 2026-10-17; not a result): that run's verdict
+was **withdrawn as computed**. Its criteria 1 and 2 stand as printed, but the two known answers and criterion 3 were not valid runs:
+(i) the planted program was added to the expression matrix only, not to the PCs that DIALOGUE step I uses, so
+the planted run's empirical p-values are identical to R1's and the control tested nothing; (ii) DIALOGUE1.PMD
+calls set.seed(seed1), so stability draws 2-20 and all 20 shuffles were the same draw (identical sample sets
+and p matrices on disk). Also recorded: DIALOGUE's emp.p is a rank-sum p of the observed value against 99
+permutations, so "p <= 0.05" means top 2 of 100 (exact p <= 0.02); R1 MCP1 and R2 MCP1 sit at ranks 4 and 3
+(exact p 0.04 and 0.03), and neither has a gene signature in two compartments. The corrected known answers and
+criterion 3 are rerun under section 8 of PREREGISTRATION_S7_dialogue.md, which also records the user's decision of
+2026-10-19 to read criterion 1 as the exact permutation p; 30_s7_dialogue_evaluate.R regenerates the block, so a
+block dated 2026-10-19 or later above this note is the corrected run.

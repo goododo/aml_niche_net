@@ -73,3 +73,45 @@ compartment x MCP), `ws_s7_criteria.csv` (criteria 1-3 per MCP and run), `ws_s7_
 - Dependencies installed for DIALOGUE 1.0: nnls, plotrix (CRAN), in addition to its declared imports.
 - The first two attempts failed before producing any result (missing package; an error under investigation),
   so nothing has been seen.
+
+## 8. Audit of the first evaluation (job 3650058, 2026-10-17) and corrections (appended 2026-10-19)
+
+What had been seen before anything below was changed: the criterion-1 and criterion-2 values of every MCP in R1
+and R2 (DIALOGUE p 0.052-0.912; the two T+B programs at 0.056 (R1 MCP1) and 0.052 (R2 MCP1)), their compartments,
+and the fact that DIALOGUE returned no two-compartment gene signature for any MCP except R2 MCP3. The corrections
+are therefore not blind. They change no parameter of section 2 and no threshold of sections 3 and 4.
+
+Defects found (each verified on the saved objects under /LARGE1/.../ws_dialogue):
+
+1. The planted control (section 4.1) never reached DIALOGUE step I. 29 added the factor to the expression matrix
+   after the PCA; step I works on the sample-averaged PCs, so the planted run's empirical p matrix was identical
+   to R1's and the control tested nothing. Correction: the factor is added to the log-expression of the 100 genes
+   before ScaleData/RunPCA, the planted genes are added to the variable features, and a build check requires the
+   factor to be visible in the sample-mean PCs of every compartment (max |cor| >= 0.8). Only the planted run is
+   rebuilt; the R1 and R2 objects of 2026-10-17 are reused unchanged. The invalid outputs are kept as
+   planted_v1_tpm_only/, R_planted_v1_tpm_only.rds, rA_planted_v1_tpm_only.rds, planted_truth_v1_tpm_only.rds.
+2. DIALOGUE1.PMD calls set.seed(seed1). Subsets and permutations drawn inside the loops after a DIALOGUE call
+   therefore repeated: stability draws 2-20 and all 20 shuffles were one draw each (identical sample sets and
+   p matrices on disk). Correction: the 20 subsets per run and the 20 permutations are drawn, distinct, before
+   the first DIALOGUE call, and a check records it. The invalid outputs are kept as stability_v1_rngbug/ and
+   shuffle_v1_rngbug/.
+3. Criterion 1's statistic. DIALOGUE's emp.p is a one-sided Wilcoxon rank-sum p (normal approximation) of the
+   observed canonical correlation against 99 permutations (n1 = 100, fixed inside DIALOGUE1), i.e. a deterministic
+   function of the observed value's rank: rank 1 of 100 gives 0.045, rank 2 0.048, rank 3 0.052, rank 4 0.056,
+   rank 6 0.064, rank 11 0.088. The pre-registered "emp.p <= 0.05" therefore meant "top 2 of 100" (exact p <= 0.02),
+   stricter than intended. Decision (user, 2026-10-19, after seeing the values above): criterion 1 uses the exact
+   permutation p = rank / 100, recovered by lookup from DIALOGUE's p (the lookup reproduces every stored emp.p
+   entry to < 1e-8); DIALOGUE's p and the verdict under the original reading are reported alongside (columns
+   crit1_prereg and found_prereg). Effect on the first run's values: R1 MCP1 (exact p 0.04) and R2 MCP1 (0.03)
+   pass criterion 1 under the new reading; both lack a two-compartment gene signature, so criterion 3 is undefined
+   for them and the verdict cannot change through this decision alone. The planted and shuffled known answers
+   use the same rule.
+4. Minor: R2's sample set for the resampling is DIALOGUE's own (23 samples, from its full output) instead of the
+   intersection of the score tables (24); 29's check table is renamed ws_s7_build_checks.csv so that it no longer
+   overwrites 30's ws_s7_checks.csv; 30 prints lme4/DIALOGUE warnings in-line with the run label (9 rank-deficiency
+   warnings in the main runs, 3 per stability draw, 12 per shuffle; not yet diagnosed); an --out-dir option
+   routes a smoke test's outputs away from results/tables/ws and GATES.md.
+
+GATES.md: the 2026-10-17 block is marked withdrawn by a note below it; the rerun regenerates the block.
+Not changed: k, abn.c, covariates, the 500-cell cap, feature and PC counts, seeds, 20 draws at 70%, and the
+thresholds of criteria 2 and 3.
