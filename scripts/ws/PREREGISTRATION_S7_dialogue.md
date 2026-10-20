@@ -184,3 +184,39 @@ different factors and genes; the objects evaluated are those of job 3650854.
    shuffled-sample specificity gate run and passed BEFORE the real pairing is modelled) is to be written and
    approved before any real-data run with 10 PCs. Note: in the 23-sample 10-PC run a second component (MCP3) also
    had every pair at rank 1; redundancy between components is to be checked in v2 (DIALOGUE reports cca.redun.cor).
+
+## 9. v2 protocol: 10 PCs per compartment, specificity gate before the real pairing (written 2026-10-20, BINDING with tag `prereg-s7-v2`)
+
+Motivation: section 8, item 7. With 30 PCs DIALOGUE 1.0 fails the planted control at n = 13 and n = 23; with 10 PCs
+it recovers the planted program at both (0.88-0.94 and 0.96-1.00 of the planted genes; largest exact p 0.05 and
+0.01). Nothing about the real data has been seen under 10 PCs.
+
+9.1 What changes and what does not
+- Changed: PCs per compartment 30 -> 10 (`WS_S7_V2_NPCS`, config_ws.R section 14). Outputs carry the tag `_v2`.
+- Unchanged: cells, compartments, sample rules, 500-cell cap, 2,000 variable genes, genes detected in >= 1% of the
+  compartment's cells, cellQ, covariates (`WS_S7_COVAR`), k = 3, abn.c = 15, n.genes = 200, seeds, runs R1 (adult
+  AML) and R2 (adult AML + healthy, status as covariate), criteria 1-3 with their thresholds, 20 stability draws at
+  70%, the exact-p reading of criterion 1 (section 8, item 3), the patched compartment assignment (item 5).
+- Added, reporting only: redundancy between MCPs. Two MCPs whose per-cell step-I scores correlate above
+  `WS_S7_REDUNDANT_R` = 0.8 in every compartment (DIALOGUE's cca.redun.cor) count as one program; the one with the
+  smaller largest-pair exact p carries the verdict, the other is listed as redundant.
+
+9.2 Order of operations (the real pairing is not modelled before both known answers are in)
+1. Sensitivity known answer: the two planted tool checks with 10 PCs (section 8, item 7) stand as the sensitivity
+   gate; 30 re-evaluates the 13-patient one (`--planted-tag=_pc10`) under its own code.
+2. 29 `--build-only --npcs=10 --tag=_v2 --runs=R1,R2`: builds and saves the cell.type objects only; DIALOGUE is not
+   run on the real pairing.
+3. Specificity gate: 30 `--shuffle-only --tag=_v2`, separately for R1 and R2: 20 distinct sample relabellings
+   within each compartment, drawn before any DIALOGUE call; an MCP with largest-pair exact p <= 0.05 in at most 1 of
+   20 shuffles per run. If either run fails this gate, S7 closes as untestable in this cohort and no real-data run
+   is made; no further parameter is tried.
+4. Only if 3 passes: 29 `--run-only --tag=_v2 --runs=R1,R2` (DIALOGUE on the real pairing), then 30
+   `--tag=_v2 --skip-shuffle --planted-tag=_pc10` (criteria 1-3, stability, planted re-evaluation; the shuffle
+   results of step 3 are read from their CSVs). GATES.md gets a separate block `A1b-S7_v2`.
+
+9.3 Reading the result
+- No MCP passes all three criteria -> H-A1b ("the imprint co-varies across compartments within a patient") is
+  CLOSED as an informative null for this cohort: a program of 100 genes at 0.5 SD would have been found.
+- One or more MCPs pass -> unsupervised candidate(s), NOT a result; a confirmatory pre-registration (replication
+  study, ambient and clonal checks) precedes any claim, as in section 3.
+- No parameter is changed after seeing any v2 number; later changes are appended sections.

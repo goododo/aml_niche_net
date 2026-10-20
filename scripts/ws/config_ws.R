@@ -274,3 +274,10 @@ ws_patch_dialogue <- function() {
   utils::assignInNamespace("DIALOGUE.identify.cell.types", ws_dialogue_identify_cell_types, ns = "DIALOGUE")
   invisible(TRUE)
 }
+
+## -- 14. S7 v2 (PREREGISTRATION_S7_dialogue.md section 9; FROZEN with tag prereg-s7-v2, 2026-10-20) ------------------------
+WS_S7_COVAR <- list(R1 = c("cellQ", "hb_share_nonery", "gran_share_lymph", "prog_frac"),          # DIALOGUE gene-level covariates per run
+                    R2 = c("cellQ", "hb_share_nonery", "gran_share_lymph", "prog_frac", "status"))
+WS_S7_V2_NPCS <- 10L         # the only parameter changed from v1 (30 PCs); chosen on planted data only (section 8, item 7)
+WS_S7_V2_TAG  <- "_v2"
+WS_S7_REDUNDANT_R <- 0.8     # two MCPs whose step-I cell scores correlate above this in every compartment count as one program (reporting only)

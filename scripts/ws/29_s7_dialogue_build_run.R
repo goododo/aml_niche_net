@@ -18,12 +18,14 @@
 #   usage: Rscript scripts/ws/29_s7_dialogue_build_run.R [--runs=R1,R2,planted] [--npcs=30] [--tag=]
 #          tool checks (prereg section 8, item 7): --runs=plantedR2 plants on R2's inputs; --npcs changes the PCs per compartment;
 #          --tag suffixes every output (rA_/R_/planted_truth/results dir/build tables) so the pre-registered objects are not touched
+#          v2 (prereg section 9.2): --build-only saves the cell.type objects without running DIALOGUE; --run-only reads them back and runs DIALOGUE
 # This script deletes nothing and does not modify its inputs.
 
 suppressPackageStartupMessages({ library(data.table); library(Matrix); library(Seurat); library(SeuratObject); library(DIALOGUE) })
 .a <- commandArgs(TRUE)
 .get <- function(k, d) { h <- grep(paste0("^--", k, "="), .a, value = TRUE); if (length(h)) sub(".*=", "", h[1]) else d }
 RUNS <- strsplit(.get("runs", "R1,R2,planted"), ",")[[1]]; NPCS <- as.integer(.get("npcs", "30")); TAG <- .get("tag", "")
+BUILD_ONLY <- "--build-only" %in% .a; RUN_ONLY <- "--run-only" %in% .a; stopifnot(!(BUILD_ONLY && RUN_ONLY))
 suppressPackageStartupMessages(library(here))
 source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "ws", "config_ws.R"))
@@ -65,9 +67,9 @@ print(BUILD)
 ts("[2] building cell.type objects")
 samples_needed <- unique(cells$sample); CT <- list(); RAWC <- list()
 mats <- list()
-for (sm in samples_needed) { o <- readRDS(file.path(AN, paste0(sm, ".rds"))); X <- LayerData(o, assay = "RNA", layer = "counts")
+if (!RUN_ONLY) for (sm in samples_needed) { o <- readRDS(file.path(AN, paste0(sm, ".rds"))); X <- LayerData(o, assay = "RNA", layer = "counts")
   mats[[sm]] <- X[, cells[sample == sm, cell], drop = FALSE]; rm(o); gc(FALSE) }
-G <- rownames(mats[[1]]); stopifnot(all(vapply(mats, function(m) identical(rownames(m), G), TRUE)))
+if (!RUN_ONLY) { G <- rownames(mats[[1]]); stopifnot(all(vapply(mats, function(m) identical(rownames(m), G), TRUE))) }
 PLANTED <- list()
 make_ct <- function(g4, keep_samples, name = g4, plant = NULL) {
   cc <- cells[group4 == g4 & sample %in% keep_samples]
@@ -94,7 +96,8 @@ make_ct <- function(g4, keep_samples, name = g4, plant = NULL) {
 }
 aml <- SM[status == "AML", sample]; all30 <- SM$sample
 run_one <- function(run, keep_samples, covar, plant = FALSE) {
-  pl <- NULL
+  pl <- NULL; fA <- file.path(OUTD, paste0("rA_", run, TAG, ".rds"))
+  if (RUN_ONLY) { stopifnot(!plant, file.exists(fA)); rA <- readRDS(fA); ts("    [", run, TAG, "] cell.type objects read back (--run-only)") } else {
   if (plant) { set.seed(SEED + 1L); f <- setNames(rnorm(length(keep_samples)), keep_samples); pl <- list(f = f); PLANTED <<- list() }   # one factor per sample, same sign in every compartment; own seed so the draw does not depend on the runs before it (added 2026-10-20; the 2026-10-19 planted objects were drawn without it)
   rA <- lapply(setNames(WS_S4_GROUPS, WS_S4_GROUPS), make_ct, keep_samples = keep_samples, plant = pl)
   if (plant) {
@@ -110,7 +113,9 @@ run_one <- function(run, keep_samples, covar, plant = FALSE) {
     chk("planted: factor visible along the planted direction in PC space, every compartment (cor above P95 of 500 random f)", TRUE, all(vis$dir_cor > vis$dir_p95))
     chk("planted: factor visible in the best single sample-mean PC, every compartment (above P95 of 500 random f)", TRUE, all(vis$pc_max_cor > vis$pc_p95))
   }
-  saveRDS(rA, file.path(OUTD, paste0("rA_", run, TAG, ".rds")))
+  saveRDS(rA, fA) }
+  if (BUILD_ONLY) { ts("    [", run, TAG, "] built and saved; DIALOGUE not run (--build-only)")
+    return(data.table(run = paste0(run, TAG), npcs = NPCS, minutes = NA_real_, n_samples = length(keep_samples), message = "build only", run_error = "")) }
   rd <- file.path(OUTD, paste0(run, TAG)); dir.create(rd, showWarnings = FALSE)
   t0 <- Sys.time(); err <- ""
   # DIALOGUE.run ignores param$plot.flag and plots by default (its plots failed on these inputs after the results were
@@ -124,10 +129,10 @@ run_one <- function(run, keep_samples, covar, plant = FALSE) {
   data.table(run = paste0(run, TAG), npcs = NPCS, minutes = round(el, 1), n_samples = length(keep_samples), message = if (!is.null(R$message)) R$message else "", run_error = err)
 }
 TIM <- list()
-if ("R1" %in% RUNS)      TIM[["R1"]] <- run_one("R1", aml, covar = c("cellQ", "hb_share_nonery", "gran_share_lymph", "prog_frac"))
-if ("R2" %in% RUNS)      TIM[["R2"]] <- run_one("R2", all30, covar = c("cellQ", "hb_share_nonery", "gran_share_lymph", "prog_frac", "status"))
-if ("planted" %in% RUNS) TIM[["planted"]] <- run_one("planted", aml, covar = c("cellQ", "hb_share_nonery", "gran_share_lymph", "prog_frac"), plant = TRUE)
-if ("plantedR2" %in% RUNS) TIM[["plantedR2"]] <- run_one("plantedR2", all30, covar = c("cellQ", "hb_share_nonery", "gran_share_lymph", "prog_frac", "status"), plant = TRUE)   # tool check: planted on R2's 23-sample input
+if ("R1" %in% RUNS)      TIM[["R1"]] <- run_one("R1", aml, covar = WS_S7_COVAR$R1)          # covariates frozen in config_ws.R section 14
+if ("R2" %in% RUNS)      TIM[["R2"]] <- run_one("R2", all30, covar = WS_S7_COVAR$R2)
+if ("planted" %in% RUNS) TIM[["planted"]] <- run_one("planted", aml, covar = WS_S7_COVAR$R1, plant = TRUE)
+if ("plantedR2" %in% RUNS) TIM[["plantedR2"]] <- run_one("plantedR2", all30, covar = WS_S7_COVAR$R2, plant = TRUE)   # tool check: planted on R2's 23-sample input
 BT <- cbind(rbindlist(TIM), BUILD[1, .(note = paste(BUILD[, sprintf("%s %d cells/%d samples", group4, cells, samples)], collapse = "; "))])
 bf <- file.path(TABWS, "ws_s7_build.csv"); if (file.exists(bf)) BT <- rbind(fread(bf)[!run %in% paste0(RUNS, TAG)], BT, fill = TRUE)   # a partial rerun keeps the other runs' rows
 fwrite(BT, bf)

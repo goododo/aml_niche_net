@@ -17,12 +17,17 @@
 #   the planted run (29) and 20 shuffled-sample runs. Nothing here changes an MCP.
 #   usage: Rscript scripts/ws/30_s7_dialogue_evaluate.R [--runs=R1,R2] [--n-resample=20] [--skip-resample] [--out-dir=DIR]
 #          --out-dir (smoke test): tables and the resampling DIALOGUE outputs go under DIR; GATES.md is not touched
+#          v2 (prereg section 9): --tag=_v2 reads rA_/R_<run>_v2 and writes *_v2 tables and a GATES block A1b-S7_v2; --planted-tag=_pc10 names
+#          the planted objects; --shuffle-only runs the specificity gate (20 shuffles per run, one CSV per run) and nothing else;
+#          --skip-shuffle makes the full evaluation read those CSVs back instead of re-running the shuffles
 # This script deletes nothing and does not modify 29's outputs.
 
 suppressPackageStartupMessages({ library(data.table); library(DIALOGUE) })
 .a <- commandArgs(TRUE)
 .get <- function(k, d) { h <- grep(paste0("^--", k, "="), .a, value = TRUE); if (length(h)) sub(".*=", "", h[1]) else d }
 RUNS <- strsplit(.get("runs", "R1,R2"), ",")[[1]]; N_RES <- as.integer(.get("n-resample", "20")); SKIP_RES <- "--skip-resample" %in% .a; OUT_DIR <- .get("out-dir", "")
+TAG <- .get("tag", ""); PTAG <- .get("planted-tag", TAG); SHUFFLE_ONLY <- "--shuffle-only" %in% .a; SKIP_SHUFFLE <- "--skip-shuffle" %in% .a
+SFX <- if (SHUFFLE_ONLY) paste0("_shuffle_", paste(RUNS, collapse = "")) else ""      # shuffle-only jobs for different runs must not overwrite each other's tables
 suppressPackageStartupMessages(library(here))
 source(here::here("scripts", "config", "config_paths.R"))
 source(here::here("scripts", "ws", "config_ws.R"))
@@ -31,8 +36,10 @@ set.seed(SEED)
 options(error = function() { calls <- sys.calls(); n <- length(calls); message("--- TRACEBACK ---")
   for (i in seq(max(1, n - 15), n)) message(i, ": ", substr(paste(deparse(calls[[i]]), collapse = " "), 1, 220)); q(status = 1) })
 DATASET <- WS_S4_DEFINE; TABWS <- file.path(TAB_DIR, "ws"); GATES <- here::here("scripts", "ws", "GATES.md")
-OUTWS <- if (nzchar(OUT_DIR)) OUT_DIR else TABWS; dir.create(OUTWS, showWarnings = FALSE, recursive = TRUE); WRITE_GATES <- !SKIP_RES && !nzchar(OUT_DIR)
+OUTWS <- if (nzchar(OUT_DIR)) OUT_DIR else TABWS; dir.create(OUTWS, showWarnings = FALSE, recursive = TRUE); WRITE_GATES <- !SKIP_RES && !nzchar(OUT_DIR) && !SHUFFLE_ONLY
+outf <- function(name) file.path(OUTWS, sub("\\.csv$", paste0(TAG, ".csv"), name))                 # every table carries the tag
 OUTD <- file.path(LARGE1_DIR, "ws_dialogue"); RESD <- if (nzchar(OUT_DIR)) file.path(OUT_DIR, "dialogue") else OUTD; K <- 3L; ABN <- 15L
+STABD <- file.path(RESD, paste0("stability", TAG)); SHUFD <- file.path(RESD, paste0("shuffle", TAG))
 ts <- function(...) message(sprintf("[%s] ", format(Sys.time(), "%H:%M:%S")), ...)
 CHK <- list()
 chk <- function(name, expected, got) {
@@ -94,17 +101,22 @@ jacc <- function(a, b) if (!length(a) || !length(b)) NA_real_ else length(inters
 
 ## -- 1. criteria 1 and 2 per run ----------------------------------------------------------------------------------
 MCPS <- list(); SCORES <- list(); CRIT <- list(); KA <- list()
-for (run in RUNS) {
-  R <- readRDS(file.path(OUTD, paste0("R_", run, ".rds"))); rA <- readRDS(file.path(OUTD, paste0("rA_", run, ".rds")))
+for (run in if (SHUFFLE_ONLY) character(0) else RUNS) {
+  R <- readRDS(file.path(OUTD, paste0("R_", run, TAG, ".rds"))); rA <- readRDS(file.path(OUTD, paste0("rA_", run, TAG, ".rds")))
+  fo <- file.path(OUTD, paste0(run, TAG), paste0("DLG.full.output_", run, ".rds")); FO <- if (file.exists(fo)) readRDS(fo) else NULL   # step-I details (redundancy, samples)
   # DIALOGUE.run's normal return lacks `samples` and `covar` (they are in DLG.full.output, which 29 reads only when the plot fails)
   if (is.null(R$covar)) R$covar <- R$param$covar
-  if (is.null(R$samples)) { ff <- file.path(OUTD, run, paste0("DLG.full.output_", run, ".rds"))   # DIALOGUE's own sample set (present in every compartment after abn.c), from its full output
+  if (is.null(R$samples)) { ff <- file.path(OUTD, paste0(run, TAG), paste0("DLG.full.output_", run, ".rds"))   # DIALOGUE's own sample set (present in every compartment after abn.c), from its full output
     R$samples <- if (file.exists(ff)) readRDS(ff)$samples else Reduce(intersect, lapply(R$scores, function(S) unique(as.character(S$samples)))) }
   covar <- R$covar; ts(sprintf("[%s] %d samples in all compartments | covar %s", run, length(R$samples), paste(covar, collapse = "+")))
   MT <- mcp_table(R); if (is.null(MT)) { ts("    no MCP object"); next }
   chk(sprintf("[%s] every emp.p entry maps to a permutation rank (exact p defined)", run), TRUE, all(!is.na(exact_p(R$emp.p))))
   SS <- sample_scores(R); SCORES[[run]] <- cbind(run = run, SS)
   MT[, run := run]; for (ct in R$cell.types) MT[, (paste0("n_genes_", ct)) := vapply(mcp, function(m) length(genes_of(R, m, ct, 1e6)), 1L)]
+  # v2 reporting (prereg section 9.1): MCPs whose step-I cell scores correlate > WS_S7_REDUNDANT_R in every compartment count as one program
+  MT[, redundant_with := tryCatch({ RC <- lapply(FO$cca.redun.cor, function(M) abs(M)); vapply(mcp, function(m) { o <- setdiff(rownames(as.matrix(R$emp.p)), m)
+    hit <- o[vapply(o, function(m2) all(vapply(RC, function(M) isTRUE(M[m, m2] > WS_S7_REDUNDANT_R), TRUE)), TRUE)]; if (length(hit)) paste(hit, collapse = "+") else "" }, "") },
+    error = function(e) rep(NA_character_, .N))]
   MCPS[[run]] <- MT
   for (i in seq_len(nrow(MT))) { m <- MT$mcp[i]; cts <- strsplit(MT$compartments[i], "+", fixed = TRUE)[[1]]
     c2 <- if (length(cts) >= 2) coord_resid(SS, m, cts) else list(rho = NA, lo = NA, hi = NA, n = NA)
@@ -121,7 +133,7 @@ for (run in RUNS) {
     for (b in seq_len(N_RES)) {
       keep <- KEEPS[[b]]; rAs <- lapply(rA, function(r) { j <- r@samples %in% keep
         make.cell.type(name = r@name, tpm = r@tpm[, j], samples = r@samples[j], X = r@X[j, ], metadata = r@metadata[j, ], cellQ = r@cellQ[j]) })
-      Rb <- run_dialogue(rAs, paste0(run, "_stab", b), covar, file.path(RESD, "stability", paste0(run, "_stab", b)))
+      Rb <- run_dialogue(rAs, paste0(run, "_stab", b), covar, file.path(STABD, paste0(run, "_stab", b)))
       if (is.null(Rb) || is.null(Rb$emp.p)) { ts(sprintf("    stab %02d: no MCP object", b)); next }
       SSb <- sample_scores(Rb)
       for (m in rownames(as.matrix(R$emp.p))) { cts <- R$MCP.cell.types[[m]]; if (is.null(cts)) next
@@ -136,22 +148,23 @@ for (run in RUNS) {
       ts(sprintf("    stab %02d done", b))
     }
     JC <- rbindlist(JC)
-    if (nrow(JC)) { fwrite(JC, file.path(OUTWS, paste0("ws_s7_stability_", run, ".csv")))
+    if (nrow(JC)) { fwrite(JC, outf(paste0("ws_s7_stability_", run, ".csv")))
       for (m in unique(JC$mcp)) { j <- JC[mcp == m, .(med = median(jaccard, na.rm = TRUE)), by = compartment]
         CRIT[[paste(run, m)]][, `:=`(crit3_jaccard_median = median(JC[mcp == m, jaccard], na.rm = TRUE), crit3_comp_pass = j[med >= 0.5, .N], crit3 = j[med >= 0.5, .N] >= 2)] } }
   }
 }
 MCPS <- rbindlist(MCPS, fill = TRUE); SCORES <- rbindlist(SCORES); CRIT <- rbindlist(CRIT)
-CRIT[, found := crit1 & crit2 & (crit3 %in% TRUE)]; CRIT[, found_prereg := crit1_prereg & crit2 & (crit3 %in% TRUE)]
-gcols <- grep("^n_genes_", names(MCPS), value = TRUE); MCPS[, genes := if (length(gcols)) do.call(paste, c(.SD, sep = "/")) else NA_character_, .SDcols = gcols]
-CRIT <- merge(CRIT, MCPS[, .(run, mcp, genes)], by = c("run", "mcp"), all.x = TRUE, sort = FALSE)
-fwrite(MCPS, file.path(OUTWS, "ws_s7_mcps.csv")); fwrite(SCORES, file.path(OUTWS, "ws_s7_scores.csv"))
+if (nrow(CRIT)) {
+  CRIT[, found := crit1 & crit2 & (crit3 %in% TRUE)]; CRIT[, found_prereg := crit1_prereg & crit2 & (crit3 %in% TRUE)]
+  gcols <- grep("^n_genes_", names(MCPS), value = TRUE); MCPS[, genes := if (length(gcols)) do.call(paste, c(.SD, sep = "/")) else NA_character_, .SDcols = gcols]
+  CRIT <- merge(CRIT, MCPS[, .(run, mcp, genes, redundant_with)], by = c("run", "mcp"), all.x = TRUE, sort = FALSE)
+  fwrite(MCPS, outf("ws_s7_mcps.csv")); fwrite(SCORES, outf("ws_s7_scores.csv")) }
 
 ## -- 3. known answers: planted MCP and shuffled samples ------------------------------------------------------------
 ts("[3] known answers")
-pf <- file.path(OUTD, "R_planted.rds")
-if (file.exists(pf)) {
-  Rp <- readRDS(pf); truth <- readRDS(file.path(OUTD, "planted_truth.rds")); MTp <- mcp_table(Rp)
+pf <- file.path(OUTD, paste0("R_planted", PTAG, ".rds"))
+if (!SHUFFLE_ONLY && file.exists(pf)) { ts("    planted objects: ", basename(pf))
+  Rp <- readRDS(pf); truth <- readRDS(file.path(OUTD, paste0("planted_truth", PTAG, ".rds"))); MTp <- mcp_table(Rp)
   print(MTp[, .(mcp, compartments, p_max_dlg = round(p_max, 3), p_max_exact)])
   rec <- rbindlist(lapply(MTp$mcp, function(m) { cts <- Rp$MCP.cell.types[[m]]; if (is.null(cts)) return(NULL)
     rbindlist(lapply(cts, function(ct) { g <- genes_of(Rp, m, ct, 200); data.table(mcp = m, compartment = ct, p = MTp[mcp == m, p_max_exact], p_dlg = MTp[mcp == m, p_max], n_genes = length(g), planted_found = length(intersect(g, truth$genes[[ct]])), planted_frac = length(intersect(g, truth$genes[[ct]])) / length(truth$genes[[ct]])) })) }))
@@ -160,39 +173,46 @@ if (file.exists(pf)) {
     chk("planted MCP recovered (exact p <= 0.05 and >= 50% of planted genes)", TRUE, isTRUE(best$p <= 0.05 && best$mean_frac >= 0.5)) }
   print(rec)
 }
-if (!SKIP_RES && "R1" %in% RUNS) {
-  rA <- readRDS(file.path(OUTD, "rA_R1.rds")); R <- readRDS(file.path(OUTD, "R_R1.rds")); fp <- 0L; fp_dlg <- 0L; nd <- 0L
-  if (is.null(R$covar)) R$covar <- R$param$covar
-  MAPS <- draw_distinct(N_RES, function() lapply(rA, function(r) { u <- unique(r@samples); setNames(sample(u), u) }))   # relabel samples within each compartment: pairing destroyed
-  chk(sprintf("the %d shuffles are distinct permutations drawn before any DIALOGUE call", N_RES), N_RES, length(unique(MAPS)))
+if (!SKIP_RES && !SKIP_SHUFFLE) for (run in RUNS) {   # specificity: sample relabelling within each compartment destroys the pairing; v1 ran R1 only, v2 runs every run
+  rA <- readRDS(file.path(OUTD, paste0("rA_", run, TAG, ".rds"))); covar <- WS_S7_COVAR[[run]]; fp <- 0L; fp_dlg <- 0L; nd <- 0L; SHF <- list()
+  MAPS <- draw_distinct(N_RES, function() lapply(rA, function(r) { u <- unique(r@samples); setNames(sample(u), u) }))
+  chk(sprintf("[%s] the %d shuffles are distinct permutations drawn before any DIALOGUE call", run, N_RES), N_RES, length(unique(MAPS)))
   for (b in seq_len(N_RES)) {
     rAs <- lapply(names(rA), function(ct) { r <- rA[[ct]]; map <- MAPS[[b]][[ct]]
       make.cell.type(name = r@name, tpm = r@tpm, samples = unname(map[r@samples]), X = r@X, metadata = r@metadata, cellQ = r@cellQ) }); names(rAs) <- names(rA)
-    Rb <- run_dialogue(rAs, paste0("R1_shuf", b), R$covar, file.path(RESD, "shuffle", paste0("R1_shuf", b)))
+    Rb <- run_dialogue(rAs, paste0(run, "_shuf", b), covar, file.path(SHUFD, paste0(run, "_shuf", b)))
     if (is.null(Rb) || is.null(Rb$emp.p)) next
-    nd <- nd + 1L; mt <- mcp_table(Rb); fp <- fp + as.integer(any(mt$p_max_exact <= 0.05, na.rm = TRUE)); fp_dlg <- fp_dlg + as.integer(any(mt$p_max <= 0.05, na.rm = TRUE))
-    ts(sprintf("    shuffle %02d: min exact p over MCPs %.2f (DIALOGUE p %.3f)", b, min(mt$p_max_exact, na.rm = TRUE), min(mt$p_max, na.rm = TRUE)))
+    nd <- nd + 1L; mt <- mcp_table(Rb); pe <- min(mt$p_max_exact, na.rm = TRUE); pd <- min(mt$p_max, na.rm = TRUE); fp <- fp + as.integer(pe <= 0.05); fp_dlg <- fp_dlg + as.integer(pd <= 0.05)
+    SHF[[length(SHF) + 1]] <- data.table(run = run, shuffle = b, min_p_exact = pe, min_p_dlg = pd); ts(sprintf("    [%s] shuffle %02d: min exact p over MCPs %.2f (DIALOGUE p %.3f)", run, b, pe, pd))
   }
-  KA[["shuffle"]] <- data.table(test = "shuffled_samples", value = if (nd) fp / nd else NA_real_, detail = sprintf("%d of %d shuffles produced an MCP with exact p <= 0.05 (%d with DIALOGUE p <= 0.05)", fp, nd, fp_dlg))
-  chk("shuffled samples: false-positive rate of criterion 1 (exact p) at or below 0.05", TRUE, isTRUE(nd > 0 && fp / nd <= 0.05))
+  if (length(SHF)) fwrite(rbindlist(SHF), outf(paste0("ws_s7_shuffle_", run, ".csv")))
+  KA[[paste0("shuffle_", run)]] <- data.table(test = paste0("shuffled_samples_", run), value = if (nd) fp / nd else NA_real_, detail = sprintf("[%s] %d of %d shuffles produced an MCP with exact p <= 0.05 (%d with DIALOGUE p <= 0.05)", run, fp, nd, fp_dlg))
+  chk(sprintf("[%s] shuffled samples: false-positive rate of criterion 1 (exact p) at or below 0.05", run), TRUE, isTRUE(nd > 0 && fp / nd <= 0.05))
 }
-if (length(KA)) fwrite(rbindlist(KA), file.path(OUTWS, "ws_s7_known_answers.csv"))
+if (SKIP_SHUFFLE) for (run in RUNS) { f <- outf(paste0("ws_s7_shuffle_", run, ".csv"))   # v2 step 3 results, read back
+  if (!file.exists(f)) { ts("    [", run, "] no shuffle table to read back: ", basename(f)); next }
+  S <- fread(f); fp <- sum(S$min_p_exact <= 0.05); nd <- nrow(S); fp_dlg <- sum(S$min_p_dlg <= 0.05)
+  KA[[paste0("shuffle_", run)]] <- data.table(test = paste0("shuffled_samples_", run), value = fp / nd, detail = sprintf("[%s, read back] %d of %d shuffles produced an MCP with exact p <= 0.05 (%d with DIALOGUE p <= 0.05)", run, fp, nd, fp_dlg))
+  chk(sprintf("[%s] shuffled samples (read back): false-positive rate of criterion 1 (exact p) at or below 0.05", run), TRUE, isTRUE(nd > 0 && fp / nd <= 0.05)) }
+if (length(KA)) fwrite(rbindlist(KA), outf(paste0("ws_s7_known_answers", SFX, ".csv")))
 
 ## -- 4. verdict ------------------------------------------------------------------------------------------------------
-fwrite(CRIT, file.path(OUTWS, "ws_s7_criteria.csv")); print(CRIT[, .(run, mcp, compartments, p_dlg = round(crit1_p_dlg, 3), p_exact = crit1_p_exact, crit1, crit1_prereg, rho = round(crit2_rho, 2), crit2_n, crit2, genes, jacc = round(crit3_jaccard_median, 2), crit3, found, found_prereg)])
+if (nrow(CRIT)) {
+fwrite(CRIT, outf("ws_s7_criteria.csv")); print(CRIT[, .(run, mcp, compartments, p_dlg = round(crit1_p_dlg, 3), p_exact = crit1_p_exact, crit1, crit1_prereg, rho = round(crit2_rho, 2), crit2_n, crit2, genes, redundant_with, jacc = round(crit3_jaccard_median, 2), crit3, found, found_prereg)])
 verdict <- if (any(CRIT$found)) "MCP FOUND (candidate only; needs its own confirmatory pre-registration)" else "NO MCP meets the three criteria: H-A1b CLOSED"
 verdict <- sprintf("%s [criterion 1 = exact permutation p, decision 2026-10-19; under the original reading of DIALOGUE's p: %s]", verdict, if (any(CRIT$found_prereg)) "MCP FOUND" else "none found")
 ts("    ", verdict)
 if (WRITE_GATES) {
-  block <- c("<!-- A1b-S7 start -->", sprintf("## H-A1b, unsupervised test (DIALOGUE, prereg-s7-v1 + section 8) -- %s", format(Sys.Date())), "",
+  block <- c(sprintf("<!-- A1b-S7%s start -->", TAG), sprintf("## H-A1b, unsupervised test (DIALOGUE, prereg-s7-v1 + section 8%s) -- %s", if (nzchar(TAG)) paste0("; v2 protocol, section 9, tag ", TAG) else "", format(Sys.Date())), "",
     "Scripts: scripts/ws/29_s7_dialogue_build_run.R, 30_s7_dialogue_evaluate.R. Criterion 1 p is shown as DIALOGUE's rank-sum p / exact permutation p",
     "(rank of the observed canonical correlation among 1 + 99 permutations, /100); the verdict uses the exact p (decision 2026-10-19, PREREGISTRATION_S7_dialogue.md section 8).", "",
-    "| run | MCP | compartments | crit 1 p DIALOGUE / exact | crit 2 rho (n) | genes T/NK/B/Mono | crit 3 Jaccard | found exact / prereg |", "|---|---|---|---|---|---|---|---|",
-    CRIT[, sprintf("| %s | %s | %s | %.3f / %.2f | %.2f (%s) | %s | %s | %s / %s |", run, mcp, compartments, crit1_p_dlg, crit1_p_exact, crit2_rho, crit2_n, genes, ifelse(is.na(crit3_jaccard_median), "NA", sprintf("%.2f", crit3_jaccard_median)), found, found_prereg)], "",
+    "| run | MCP | compartments | crit 1 p DIALOGUE / exact | crit 2 rho (n) | genes T/NK/B/Mono | redundant with | crit 3 Jaccard | found exact / prereg |", "|---|---|---|---|---|---|---|---|---|",
+    CRIT[, sprintf("| %s | %s | %s | %.3f / %.2f | %.2f (%s) | %s | %s | %s | %s / %s |", run, mcp, compartments, crit1_p_dlg, crit1_p_exact, crit2_rho, crit2_n, genes, ifelse(is.na(redundant_with) | redundant_with == "", "-", redundant_with), ifelse(is.na(crit3_jaccard_median), "NA", sprintf("%.2f", crit3_jaccard_median)), found, found_prereg)], "",
     if (length(KA)) paste0("Known answers: ", paste(rbindlist(KA)$detail, collapse = "; ")) else "Known answers: not run",
-    sprintf("**Verdict: %s**", verdict), "<!-- A1b-S7 end -->")
-  old <- readLines(GATES); s0 <- grep("<!-- A1b-S7 start -->", old); e0 <- grep("<!-- A1b-S7 end -->", old)
-  writeLines(if (length(s0) && length(e0)) c(old[seq_len(s0 - 1)], block, old[-seq_len(e0)]) else c(old, "", block), GATES); ts("    GATES.md A1b-S7 block written")
+    sprintf("**Verdict: %s**", verdict), sprintf("<!-- A1b-S7%s end -->", TAG))
+  old <- readLines(GATES); s0 <- grep(sprintf("<!-- A1b-S7%s start -->", TAG), old, fixed = TRUE); e0 <- grep(sprintf("<!-- A1b-S7%s end -->", TAG), old, fixed = TRUE)
+  writeLines(if (length(s0) && length(e0)) c(old[seq_len(s0 - 1)], block, old[-seq_len(e0)]) else c(old, "", block), GATES); ts("    GATES.md A1b-S7", TAG, " block written")
 }
-C <- rbindlist(CHK); if (nrow(C)) fwrite(C, file.path(OUTWS, "ws_s7_checks.csv"))
+}
+C <- rbindlist(CHK); if (nrow(C)) fwrite(C, outf(paste0("ws_s7_checks", SFX, ".csv")))
 ts(sprintf("[done] %d checks, %d PASS, %d FAIL", nrow(C), sum(C$pass), sum(!C$pass)))
