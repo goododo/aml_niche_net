@@ -166,3 +166,5 @@ any real-data run. With 10 PCs, 10 of 20 sample-relabelled shuffles of the R1 in
 exact p <= 0.05 (5 of 20 with DIALOGUE's p; ceiling 1 of 20), the same rate as with 30 PCs; the R2 gate was at 6 of 11
 when this note was written (final count below once complete). No A1b-S7_v2 block is generated. **Final outcome for S7:
 untestable in this cohort (10 PCs fix sensitivity, not specificity). H-A1b stays open and is not a must-have.**
+R2 final count (2026-10-20, job 3651199): 9 of 20 relabelled shuffles with largest-pair exact p <= 0.05 (7 of 20 with
+DIALOGUE's p). Both v2 gates fail; S7 closed as recorded above.

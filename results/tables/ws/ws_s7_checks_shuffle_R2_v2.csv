@@ -1,0 +1,3 @@
+check,expected,got,pass
+[R2] the 20 shuffles are distinct permutations drawn before any DIALOGUE call,20,20,TRUE
+[R2] shuffled samples: false-positive rate of criterion 1 (exact p) at or below 0.05,TRUE,FALSE,FALSE

@@ -62,3 +62,4 @@ Gate ceiling 1 of 20 -> FAIL -> S7 closed as untestable, no real-data 10-PC run.
 from permuting each PC independently across samples, which is not the null for a sample-level pairing question; under
 sample relabelling its step I finds "significant" cross-compartment structure in about half of the data sets at
 n = 13-23. Sensitivity (planted recovery) was fixed by the PC count; specificity was not.
+R2 final count (2026-10-20): 9 of 20 shuffles with exact p <= 0.05 (7 of 20 with DIALOGUE's p). Both gates fail.

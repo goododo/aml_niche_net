@@ -1,0 +1,2 @@
+test,value,detail
+shuffled_samples_R2,0.45,[R2] 9 of 20 shuffles produced an MCP with exact p <= 0.05 (7 with DIALOGUE p <= 0.05)

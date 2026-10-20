@@ -232,3 +232,5 @@ section 8 item 7) but not specificity: its step-I empirical p, computed against 
 anti-conservative under sample relabelling at n = 13 and n = 23 regardless of the number of PCs. H-A1b stays open
 and is not a must-have (handoff v2.0 §16.1 item 15). The only route left would be a test built on DIALOGUE's step I
 with a relabelling null of its own, i.e. a new method; it is not pursued here.
+R2 final count (2026-10-20, job 3651199 completed 14:24): 9 of 20 sample-relabelled shuffles produced an MCP with
+largest-pair exact p <= 0.05 (7 of 20 with DIALOGUE's p). Both gates fail; the closure above stands.
