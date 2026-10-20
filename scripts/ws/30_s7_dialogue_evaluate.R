@@ -66,8 +66,9 @@ run_dialogue <- function(rA, main, covar, rd) {   # warnings (lme4 rank deficien
 }
 ## DIALOGUE's emp.p is a one-sided rank-sum p (normal approximation) of the observed canonical correlation against its 99 permutations
 ## (DIALOGUE1: n1 = 100), i.e. a deterministic function of the observed value's rank; the exact permutation p = rank / 100 is recovered by lookup (prereg section 8)
+## (lookup tolerance 1e-3: ties among permuted correlations shift the rank-sum p by ~1e-5, adjacent ranks differ by >= 3e-3)
 LUT <- { rt <- get("ranksum.test", asNamespace("DIALOGUE")); data.table(rank = 1:100, dlg_p = vapply(1:100, function(r) as.numeric(rt(100 - r + 0.5, 1:99, alternative = "greater")), 1)) }
-exact_p <- function(p) vapply(as.numeric(p), function(x) { if (is.na(x)) return(NA_real_); i <- which.min(abs(LUT$dlg_p - x)); if (abs(LUT$dlg_p[i] - x) > 1e-6) NA_real_ else LUT$rank[i] / 100 }, 1)
+exact_p <- function(p) vapply(as.numeric(p), function(x) { if (is.na(x)) return(NA_real_); i <- which.min(abs(LUT$dlg_p - x)); if (abs(LUT$dlg_p[i] - x) > 1e-3) NA_real_ else LUT$rank[i] / 100 }, 1)
 draw_distinct <- function(n, f) { out <- list(); while (length(out) < n) { x <- f(); if (!any(vapply(out, identical, TRUE, x))) out[[length(out) + 1]] <- x }; out }   # DIALOGUE1.PMD calls set.seed(seed1): draw every subset and permutation BEFORE the first DIALOGUE call
 mcp_table <- function(R) {   # one row per MCP: compartments it spans, its p (largest over its pairs: DIALOGUE's rank-sum p and the exact permutation p), gene counts
   if (is.null(R) || is.null(R$emp.p)) return(NULL)

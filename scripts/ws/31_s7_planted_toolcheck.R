@@ -13,7 +13,7 @@ suppressPackageStartupMessages({ library(data.table); library(DIALOGUE); library
 CHECKS <- strsplit(strsplit(.get("checks", "planted:_pc10,plantedR2:_n23,plantedR2:_n23_pc10"), ",")[[1]], ":")
 source(here::here("scripts", "config", "config_paths.R")); OUTD <- file.path(LARGE1_DIR, "ws_dialogue")
 LUT <- { rt <- get("ranksum.test", asNamespace("DIALOGUE")); data.table(rank = 1:100, dlg_p = vapply(1:100, function(r) as.numeric(rt(100 - r + 0.5, 1:99, alternative = "greater")), 1)) }
-exact_p <- function(p) vapply(as.numeric(p), function(x) { if (is.na(x)) return(NA_real_); i <- which.min(abs(LUT$dlg_p - x)); if (abs(LUT$dlg_p[i] - x) > 1e-6) NA_real_ else LUT$rank[i] / 100 }, 1)
+exact_p <- function(p) vapply(as.numeric(p), function(x) { if (is.na(x)) return(NA_real_); i <- which.min(abs(LUT$dlg_p - x)); if (abs(LUT$dlg_p[i] - x) > 1e-3) NA_real_ else LUT$rank[i] / 100 }, 1)
 top200 <- function(R, m, ct) { g <- R$MCPs.full[[m]]; if (is.null(g)) return(character(0)); c(head(g[[paste0(ct, ".up")]], 200), head(g[[paste0(ct, ".down")]], 200)) }
 OUT <- list()
 for (ck in CHECKS) { run <- ck[1]; tag <- if (length(ck) > 1) ck[2] else ""
