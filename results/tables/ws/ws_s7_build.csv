@@ -1,4 +1,7 @@
-run,minutes,n_samples,message,run_error,note
-R1,5.1,20,"","",Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples
-R2,23,30,"","",Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples
-planted,3.4,20,"","",Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples
+run,minutes,n_samples,message,run_error,note,npcs
+R1,5.1,20,,,Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples,
+R2,23,30,,,Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples,
+planted,3.4,20,,,Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples,
+planted_pc10,12.4,20,,,Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples,10
+plantedR2_n23,22.4,30,,,Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples,30
+plantedR2_n23_pc10,36.3,30,"","",Mono 10281 cells/29 samples; T 9039 cells/28 samples; NK 4100 cells/26 samples; B 5380 cells/25 samples,10

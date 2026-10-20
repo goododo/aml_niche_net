@@ -39,3 +39,16 @@ criterion 1 under either reading once compartments are assigned correctly (the w
 so the corrected evaluation (job 3650855) will report "none found" together with the failed known answer.
 Whether any configuration has power here (fewer PCs; the 23-sample R2 input) is a tool-calibration question to be
 answered on planted data before any further real-data run.
+
+## Tool checks on planted data (2026-10-20; prereg section 8, item 7)
+
+| configuration | step I links | largest exact p | planted genes in top 200 (T/NK/B/Mono) | section 4.1 rule |
+|---|---|---|---|---|
+| 13 patients, 10 PCs | all four | 0.05 | 0.94 / 0.92 / 0.88 / 0.88 | PASS |
+| 23 samples, 30 PCs | T+NK+B | 0.01 | 0.34 / 0.84 / 0 / 0 | FAIL |
+| 23 samples, 10 PCs | all four | 0.01 | 1.00 / 0.99 / 0.99 / 0.96 | PASS |
+
+Reading: the failure in finding 5 is driven by the 30 per-PC-standardised features per compartment, not by n alone.
+With 10 PCs the sparse CCA recovers a 100-gene, 0.5-SD shared program at n = 13 and n = 23. Specificity under
+10 PCs (shuffled-sample false-positive rate) has not been measured yet and is the gate of the v2 protocol.
+Evaluator: `scripts/ws/31_s7_planted_toolcheck.R`; builds: `scripts/ws/29_s7_dialogue_build_run.R --npcs --tag`.

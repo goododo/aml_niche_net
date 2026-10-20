@@ -1,0 +1,5 @@
+check,expected,got,pass
+covariates for every adult AML / healthy sample,30,30,TRUE
+planted: 100 genes recorded in each of the 4 compartments,TRUE,TRUE,TRUE
+"planted: factor visible along the planted direction in PC space, every compartment (cor above P95 of 500 random f)",TRUE,TRUE,TRUE
+"planted: factor visible in the best single sample-mean PC, every compartment (above P95 of 500 random f)",TRUE,TRUE,TRUE

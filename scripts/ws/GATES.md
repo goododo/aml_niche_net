@@ -156,3 +156,7 @@ pre-registered ceiling of 1 of 20, so criterion-1 values of 0.03-0.04 on the rea
 Descriptive facts kept for the record: R1 and R2 each return two T+NK+B programs with T and NK gene signatures and
 none in B; their sample scores are moderately reproducible across 70% patient subsets (match correlation 0.65-0.78)
 but their top-50 gene lists are not (median Jaccard 0.07-0.43, below 0.5 in every compartment).
+Tool checks, 2026-10-20 (planted data only; prereg section 8, item 7): with 10 PCs per compartment DIALOGUE recovers
+the planted program at n = 13 (recovery 0.88-0.94, largest exact p 0.05) and n = 23 (0.96-1.00, 0.01); with 30 PCs it
+fails at n = 23 as it did at n = 13. The "untestable" outcome above therefore applies to the 30-PC configuration; a v2
+protocol with 10 PCs is pending approval, with the shuffled-sample specificity gate to be passed before any real result is read.

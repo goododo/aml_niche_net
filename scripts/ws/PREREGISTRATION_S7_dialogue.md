@@ -172,3 +172,15 @@ different factors and genes; the objects evaluated are those of job 3650854.
    top 200 in each of its compartments). No real-data criterion is computed. Decision rule: if a configuration passes,
    a v2 pre-registration is written before any real-data run with it; if none passes, S7 closes as untestable in this
    cohort and the record above stands.
+   Outcome (2026-10-20, jobs 3651060-3651062; results/tables/ws/ws_s7_planted_toolcheck.csv):
+   | configuration | step I links | largest exact p over its pairs | planted genes in top 200, T/NK/B/Mono | section 4.1 |
+   |---|---|---|---|---|
+   | 13 patients (R1 input), 10 PCs | T+NK+B+Mono | 0.05 | 0.94 / 0.92 / 0.88 / 0.88 | PASS |
+   | 23 samples (R2 input), 30 PCs | T+NK+B | 0.01 | 0.34 / 0.84 / 0.00 / 0.00 | FAIL |
+   | 23 samples (R2 input), 10 PCs | T+NK+B+Mono | 0.01 | 1.00 / 0.99 / 0.99 / 0.96 | PASS |
+   With 10 PCs per compartment DIALOGUE recovers the planted program at both sample sizes; with 30 PCs it does not
+   even at n = 23. The number of standardised PCs handed to the sparse CCA, not the sample size alone, was the
+   limiting factor. Per the decision rule above, a v2 pre-registration (10 PCs; everything else unchanged; the
+   shuffled-sample specificity gate run and passed BEFORE the real pairing is modelled) is to be written and
+   approved before any real-data run with 10 PCs. Note: in the 23-sample 10-PC run a second component (MCP3) also
+   had every pair at rank 1; redundancy between components is to be checked in v2 (DIALOGUE reports cca.redun.cor).

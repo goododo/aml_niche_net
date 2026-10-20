@@ -1,0 +1,4 @@
+check,npcs,n_samples,planted_mcp,track_cor,compartments,p_max_dlg,p_max_exact,genes,planted_frac,pass_section_4_1
+planted_pc10,10,13,MCP1,T +0.90 NK +0.87 B +0.89 Mono +0.85,T+NK+B+Mono,0.0594950441043799,0.05,118/122/119/95,T 0.94 NK 0.92 B 0.88 Mono 0.88,TRUE
+plantedR2_n23,30,23,MCP1,T -0.85 NK -0.69 B -0.50 Mono -0.55,T+NK+B,0.0448015891309706,0.01,146/198/0/0,T 0.34 NK 0.84 B 0.00 Mono 0.00,FALSE
+plantedR2_n23_pc10,10,23,MCP1,T -0.94 NK -0.89 B -0.94 Mono -0.86,T+NK+B+Mono,0.0448015891309706,0.01,172/167/182/199,T 1.00 NK 0.99 B 0.99 Mono 0.96,TRUE
