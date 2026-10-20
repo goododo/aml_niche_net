@@ -52,3 +52,13 @@ Reading: the failure in finding 5 is driven by the 30 per-PC-standardised featur
 With 10 PCs the sparse CCA recovers a 100-gene, 0.5-SD shared program at n = 13 and n = 23. Specificity under
 10 PCs (shuffled-sample false-positive rate) has not been measured yet and is the gate of the v2 protocol.
 Evaluator: `scripts/ws/31_s7_planted_toolcheck.R`; builds: `scripts/ws/29_s7_dialogue_build_run.R --npcs --tag`.
+
+## v2 specificity gate (2026-10-20; prereg section 9)
+
+Built R1 and R2 cell.type objects with 10 PCs (no DIALOGUE on the real pairing), then 20 sample relabellings within
+each compartment per run. R1: 10 of 20 shuffles gave an MCP with largest-pair exact p <= 0.05 (5 of 20 with DIALOGUE's
+p), identical to the 30-PC rate; R2: 6 of the first 11 (final count in `results/tables/ws/ws_s7_shuffle_R2_v2.csv`).
+Gate ceiling 1 of 20 -> FAIL -> S7 closed as untestable, no real-data 10-PC run. Reading: DIALOGUE's empirical p comes
+from permuting each PC independently across samples, which is not the null for a sample-level pairing question; under
+sample relabelling its step I finds "significant" cross-compartment structure in about half of the data sets at
+n = 13-23. Sensitivity (planted recovery) was fixed by the PC count; specificity was not.

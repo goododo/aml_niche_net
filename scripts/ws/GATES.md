@@ -160,3 +160,9 @@ Tool checks, 2026-10-20 (planted data only; prereg section 8, item 7): with 10 P
 the planted program at n = 13 (recovery 0.88-0.94, largest exact p 0.05) and n = 23 (0.96-1.00, 0.01); with 30 PCs it
 fails at n = 23 as it did at n = 13. The "untestable" outcome above therefore applies to the 30-PC configuration; a v2
 protocol with 10 PCs is pending approval, with the shuffled-sample specificity gate to be passed before any real result is read.
+
+v2 protocol (PREREGISTRATION_S7_dialogue.md section 9, tag prereg-s7-v2), 2026-10-20: the specificity gate FAILED before
+any real-data run. With 10 PCs, 10 of 20 sample-relabelled shuffles of the R1 input produced an MCP with largest-pair
+exact p <= 0.05 (5 of 20 with DIALOGUE's p; ceiling 1 of 20), the same rate as with 30 PCs; the R2 gate was at 6 of 11
+when this note was written (final count below once complete). No A1b-S7_v2 block is generated. **Final outcome for S7:
+untestable in this cohort (10 PCs fix sensitivity, not specificity). H-A1b stays open and is not a must-have.**

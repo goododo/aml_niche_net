@@ -220,3 +220,15 @@ it recovers the planted program at both (0.88-0.94 and 0.96-1.00 of the planted 
 - One or more MCPs pass -> unsupervised candidate(s), NOT a result; a confirmatory pre-registration (replication
   study, ambient and clonal checks) precedes any claim, as in section 3.
 - No parameter is changed after seeing any v2 number; later changes are appended sections.
+
+9.4 Outcome of step 3 (2026-10-20; jobs 3651198 = R1, 3651199 = R2; tables results/tables/ws/ws_s7_shuffle_R{1,2}_v2.csv)
+R1 (13 patients, 10 PCs): 10 of 20 sample-relabelled shuffles produced an MCP with largest-pair exact p <= 0.05
+(5 of 20 with DIALOGUE's own p). The gate (at most 1 of 20) FAILS, and the rate equals the 30-PC rate of the v1 run
+(10 of 20; 6 of 20). R2 (23 samples): still running when this was written, with 6 of its first 11 shuffles already
+above the ceiling; the final count is appended below when the job completes. Per 9.2 step 3: no real-data run with
+10 PCs is made and no further parameter is tried.
+Final outcome for S7: untestable in this cohort. Ten PCs give DIALOGUE sensitivity (the planted program is recovered,
+section 8 item 7) but not specificity: its step-I empirical p, computed against a per-PC permutation null, is
+anti-conservative under sample relabelling at n = 13 and n = 23 regardless of the number of PCs. H-A1b stays open
+and is not a must-have (handoff v2.0 §16.1 item 15). The only route left would be a test built on DIALOGUE's step I
+with a relabelling null of its own, i.e. a new method; it is not pursued here.

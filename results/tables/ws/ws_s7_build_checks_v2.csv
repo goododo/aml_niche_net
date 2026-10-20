@@ -1,0 +1,2 @@
+check,expected,got,pass
+covariates for every adult AML / healthy sample,30,30,TRUE
