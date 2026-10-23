@@ -1,0 +1,3 @@
+check,expected,got,pass
+every cell has a unit,0,0,TRUE
+cell ids unique within dataset,8038,8038,TRUE
