@@ -73,3 +73,18 @@ All on the primary set in GSE289435; the 402-gene set and the other cohorts are 
 pass), `ws_s8_known_answers.csv`, `ws_s8_checks.csv`; GATES.md block "A1-S8". Code after approval: `26_s4_pseudobulk.R`
 for GSE227903 and GSE116256 (no change to the script); new `scripts/ws/32_s8_replication.R` (+ sbatch), about 130
 lines, no new dependencies.
+
+## 7. Deviations found at the first run (appended 2026-10-23, before the corrected run)
+
+- The gene filter in `32_s8_replication.R` added edgeR's `filterByExpr` to the pre-registered rule (CPM > 1 in at least
+  half of the set's samples). With 8 ungrouped samples that function requires expression in every sample, and only
+  32% of the primary genes were in GSE289435's tested universe; the coverage check (section 6 of the script) caught
+  it. The first full run (job 3658344) was cancelled minutes after starting and the filter was corrected to the
+  pre-registered rule. Seen before the correction, from the smoke run on GSE289435 (100 random sets): T2 -0.88
+  (random P5 -0.74, pass), T1 8 of 8 patients (pass), T3 0.94 with a random-set P95 of 0.94 (fail), and the scrambled
+  imprint passing T2 in 0 of 10 scrambles. No threshold is changed.
+- T3 as pre-registered is degenerate at n = 6: random matched gene sets scored in CD4 and CD8 T cells of the same six
+  patients reach a Spearman concordance of 0.94, the largest value below 1 that six ranks allow, so no gene set can
+  exceed the random P95. The corrected run reports the share of random sets at or above the observed concordance.
+  How T3 is read is a decision for the user, recorded as a further appended section before any new statistic is
+  computed; T2 and T1 are unaffected.

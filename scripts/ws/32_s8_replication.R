@@ -46,7 +46,7 @@ black_for <- function(G) unique(c("HBB", "HBA1", "HBA2", "HBD", "HBG1", "HBG2", 
 ## -- 2. scoring helpers (27/28) ---------------------------------------------------------------------------------------
 logz <- function(M) {   # M: genes x samples raw sums; blacklist removed; returns z of logCPM over the set's samples and the matching universe
   M <- M[!rownames(M) %in% black_for(rownames(M)), , drop = FALSE]; y <- DGEList(M)
-  keep <- filterByExpr(y) & rowMeans(cpm(y) > 1) >= 0.5; y <- calcNormFactors(y[keep, , keep.lib.sizes = FALSE])
+  keep <- rowMeans(cpm(y) > 1) >= 0.5; y <- calcNormFactors(y[keep, , keep.lib.sizes = FALSE])   # prereg section 2: CPM > 1 in at least half of the set's samples (no filterByExpr: with <= 10 ungrouped samples it demands expression in every sample)
   L <- cpm(y, log = TRUE, prior.count = 1); Z <- t(scale(t(L)))
   U <- data.table(gene = rownames(L), mean_lcpm = rowMeans(L), det = rowMeans(M[rownames(L), , drop = FALSE] > 0))
   U[, bin := paste(cut(mean_lcpm, quantile(mean_lcpm, 0:10 / 10), include.lowest = TRUE), cut(det, c(-Inf, 0.5, 0.8, 0.95, Inf)))]
@@ -61,7 +61,7 @@ split_random <- function(U, up, dn) { g <- matched(U, c(up, dn)); list(up = head
 coherence <- function(C, up, dn) { if (length(up) < 2 || length(dn) < 1) return(NA_real_); A <- C[up, up]; mean(A[upper.tri(A)]) - mean(C[up, dn]) }
 
 ## -- 3. per set: cells, pseudobulks, per-cell matrices ----------------------------------------------------------------
-TESTS <- list(); KA <- list(); RESULT <- list()
+TESTS <- list(); KA <- list(); RESULT <- list(); NULLS <- list()
 for (set in names(SETS)) { ds <- SETS[[set]]; ts(sprintf("[%s] %s", set, ds))
   fpb <- file.path(LARGE1_DIR, "ws_pseudobulk", ds, paste0("ws_pb_", ds, ".rds")); fme <- file.path(TABWS, paste0("ws_s4_pseudobulk_meta_", ds, ".csv"))
   if (!file.exists(fpb) || !file.exists(fme)) { ts("    pseudobulk object or meta missing; set skipped"); next }
@@ -89,14 +89,15 @@ for (set in names(SETS)) { ds <- SETS[[set]]; ts(sprintf("[%s] %s", set, ds))
     s <- score(TZ$Z, up, dn); SC[, (paste0("score_", gsn)) := s[sample]]
     ## T2
     obs2 <- t2_stat(TZ$Z, up, dn); nul2 <- replicate(N_RAND, { r <- split_random(TZ$U, up, dn); t2_stat(TZ$Z, r$up, r$dn) })
-    p5 <- unname(quantile(nul2, 0.05, na.rm = TRUE)); pass2 <- isTRUE(obs2 < 0 && obs2 < p5)
+    p5 <- unname(quantile(nul2, 0.05, na.rm = TRUE)); pass2 <- isTRUE(obs2 < 0 && obs2 < p5); NULLS[[paste(set, gsn, "T2")]] <- nul2
     TESTS[[length(TESTS) + 1]] <- data.table(set = set, dataset = ds, gene_set = gsn, test = "T2_opposite_movement", statistic = obs2, null_P5 = p5, null_P95 = unname(quantile(nul2, .95, na.rm = TRUE)), n = nrow(S), pass = pass2, detail = sprintf("coverage %.2f; valid draws %d", cov, sum(!is.na(nul2))))
     ## T3
     if (!is.null(Z4)) { s4 <- score(Z4, up, dn); s8 <- score(Z8, up, dn); obs3 <- cor(s4, s8, method = "spearman")
       nul3 <- replicate(N_RAND, { r <- split_random(TZ$U, up, dn); cor(score(Z4, r$up, r$dn), score(Z8, r$up, r$dn), method = "spearman") })
-      p95 <- unname(quantile(nul3, 0.95, na.rm = TRUE)); pass3 <- isTRUE(obs3 > 0.5 && obs3 > p95)
+      p95 <- unname(quantile(nul3, 0.95, na.rm = TRUE)); pass3 <- isTRUE(obs3 > 0.5 && obs3 > p95); NULLS[[paste(set, gsn, "T3")]] <- nul3
+      sat <- mean(nul3 >= obs3, na.rm = TRUE)   # share of random sets at or above the observed concordance: 0.05 or more means no gene set can pass
       if (gsn == "primary") SC[match(S4, sample), `:=`(score_cd4 = s4, score_cd8 = s8)]
-      TESTS[[length(TESTS) + 1]] <- data.table(set = set, dataset = ds, gene_set = gsn, test = "T3_subtype_concordance", statistic = obs3, null_P5 = unname(quantile(nul3, .05, na.rm = TRUE)), null_P95 = p95, n = length(S4), pass = pass3, detail = sprintf("patients with CD4 and CD8 >= %d: %d", MINC, length(S4)))
+      TESTS[[length(TESTS) + 1]] <- data.table(set = set, dataset = ds, gene_set = gsn, test = "T3_subtype_concordance", statistic = obs3, null_P5 = unname(quantile(nul3, .05, na.rm = TRUE)), null_P95 = p95, n = length(S4), pass = pass3, detail = sprintf("patients with CD4 and CD8 >= %d: %d; share of random sets >= observed %.2f; null median %.2f", MINC, length(S4), sat, median(nul3, na.rm = TRUE)))
     } else { pass3 <- NA; TESTS[[length(TESTS) + 1]] <- data.table(set = set, dataset = ds, gene_set = gsn, test = "T3_subtype_concordance", statistic = NA_real_, null_P5 = NA_real_, null_P95 = NA_real_, n = length(S4), pass = NA, detail = "not testable (< 6 patients with both subtypes)") }
     ## T1
     per <- rbindlist(lapply(names(CELL), function(sm) { cl <- CELL[[sm]]; u <- intersect(up, rownames(cl$X)); d <- intersect(dn, rownames(cl$X))
@@ -121,7 +122,8 @@ for (set in names(SETS)) { ds <- SETS[[set]]; ts(sprintf("[%s] %s", set, ds))
   fwrite(SC, file.path(TABWS, paste0("ws_s8_scores_", set, ".csv"))); rm(CELL); gc(FALSE)
 }
 ## -- 4. known answers, gate, records ----------------------------------------------------------------------------------
-TESTS <- rbindlist(TESTS); fwrite(TESTS, file.path(TABWS, "ws_s8_tests.csv"))
+TESTS <- rbindlist(TESTS); fwrite(TESTS, file.path(TABWS, if (SMOKE) "ws_s8_tests_smoke.csv" else "ws_s8_tests.csv"))
+saveRDS(NULLS, file.path(LARGE1_DIR, "ws_pseudobulk", if (SMOKE) "ws_s8_null_draws_smoke.rds" else "ws_s8_null_draws.rds"))   # random-set null draws per set, gene set and test
 if (!is.null(RESULT[["disc primary"]])) { r <- RESULT[["disc primary"]]; ok <- isTRUE(r$T2) && (isTRUE(r$T3) || (is.na(r$T3) && isTRUE(r$T1)))
   KA[["positive"]] <- data.table(test = "discovery_cohort_positive_control", value = as.numeric(ok), detail = sprintf("GSE185381 adult AML: T2 %s, T3 %s, T1 %s", r$T2, r$T3, r$T1))
   chk("positive control: the discovery cohort passes the gate tests", TRUE, ok) }
