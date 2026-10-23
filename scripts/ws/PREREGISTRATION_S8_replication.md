@@ -1,7 +1,7 @@
 # PRE-REGISTRATION — S8: structural replication of the T-cell imprint in independent adult AML cohorts
 
-Written 2026-10-23 as a DRAFT for review; becomes BINDING when committed with tag `prereg-s8-v1`. Nothing below has
-been run on the replication sets. Context: handoff v2.0 §16.1 item 15 (narrowed claim) and §16.2 item 13 (S7 closed).
+Written 2026-10-23; reviewed and approved by the user the same day. **BINDING** with tag `prereg-s8-v1`; later changes
+are appended, dated sections. Nothing below has been run on the replication sets. Context: handoff v2.0 §16.1 item 15 (narrowed claim) and §16.2 item 13 (S7 closed).
 
 ## 1. Question
 
