@@ -2,7 +2,9 @@
 # =============================================================================
 # submit_J1_ingest.sbatch   (job J1 of the v2 re-run)
 #
-# Re-ingests all 13 datasets. One SLURM array task per dataset.
+# Re-ingests all 16 datasets (13 of the v2 re-run + the three S9 healthy cohorts GSE120221,
+# GSE227690, GSE276360 added 2026-10-23; the S9 ingests were first run by hand, see
+# scripts/ws/PREREGISTRATION_S9_age_direction.md section 6). One SLURM array task per dataset.
 #
 # WHY THIS RE-RUN EXISTS: results/tables/01_preprocess/ is dated 2026-07-15 while
 # the config fixes land after it, so every downstream stage rests on pre-fix
@@ -26,7 +28,7 @@
 # =============================================================================
 #SBATCH --job-name=J1_ingest
 #SBATCH -p gr10634c
-#SBATCH --array=1-13
+#SBATCH --array=1-16
 #SBATCH --rsc p=1:t=1:c=4:m=512G
 #SBATCH --time=12:00:00
 #SBATCH --output=/FAST/gr10634/gaozy/aml_niche_net/00_project/logs/J1_ingest_%A_%a.out
@@ -46,8 +48,8 @@ mapfile -t SCRIPTS < <(ls scripts/00_ingest/ingest_*.R \
   | grep -v -E 'ingest_(MASTER_summary)\.R$' | sort)
 
 N=${#SCRIPTS[@]}
-if [ "$N" -ne 13 ]; then
-  echo "FATAL: expected 13 ingest scripts, found $N" >&2
+if [ "$N" -ne 16 ]; then
+  echo "FATAL: expected 16 ingest scripts, found $N" >&2
   printf '  %s\n' "${SCRIPTS[@]}" >&2
   exit 1
 fi

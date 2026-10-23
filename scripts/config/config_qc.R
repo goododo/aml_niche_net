@@ -86,7 +86,8 @@ TP_H3_EXCLUDED_DATASETS <- c("GSE207356")
 #   5. fallback                      -> Unknown (with a warning)
 
 # datasets whose every cell is a healthy donor (raw timepoint irrelevant)
-TP_HEALTHY_DATASETS <- c("E-MTAB-11536", "GSE253355")
+TP_HEALTHY_DATASETS <- c("E-MTAB-11536", "GSE253355",
+                         "GSE120221", "GSE227690", "GSE276360")   # S9 healthy cohorts (2026-10-23); GSE276360's CCUS libraries are dropped by INGEST_EXCLUDE so the rule stays exact
 # datasets where the canonical timepoint comes from Disease_state, not Timepoint
 TP_DISEASE_DRIVEN   <- c("Petti2019", "GSE185381")
 
@@ -305,6 +306,9 @@ GSE147989|Treatment-axis-L1only|TRUE|FALSE|mixed|FALSE|OK|CD34 SORTED LSC (Rieth
 GSE227903|Validation-relapse+treatment|TRUE|FALSE|mixed|TRUE|OK|whole-marrow BM niche interactome (Dx/MRD/R)
 GSE201966|Validation-relapse|TRUE|FALSE|monocytic|TRUE|OK|whole-marrow MNC
 GSE207356|Exploratory|TRUE|FALSE|NA|TRUE|OK|whole-marrow MNC
+GSE120221|Healthy-control|FALSE|FALSE|NA|FALSE|OK|S9 age control (Oetjen 2018: 20 healthy donors 24-84 y, 25 libraries, whole-marrow MNC, 10x 3p v2; part of the BoneMarrowMap reference). Not a CCC-cohort member: l2 FALSE keeps the healthy barycenter unchanged (PREREGISTRATION_S9 D2, 2026-10-23)
+GSE227690|Healthy-control|FALSE|FALSE|NA|FALSE|OK|S9 descriptive age control (Griffin 2023 healthy BM1-BM5, 13 libraries, 10x 3p v3/v3.1; BM6 Seq-Well excluded at ingest). Not a CCC-cohort member (PREREGISTRATION_S9 D2)
+GSE276360|Healthy-control|FALSE|FALSE|NA|FALSE|OK|S9 descriptive age control (Rodriguez-Sevilla 2025: 4 healthy donors; CCUS libraries excluded at ingest). Not a CCC-cohort member (PREREGISTRATION_S9 D2)
 ', sep = "|")
 
 ## -- platform / chemistry (D2 covariate; also drives the doublet-rate model) ----
@@ -333,6 +337,9 @@ GSE147989|10x|unknown
 GSE227903|10x|unknown
 GSE201966|10x|unknown
 GSE207356|10x|unknown
+GSE120221|10x|3prime
+GSE227690|10x|3prime
+GSE276360|10x|unknown
 ', sep = "|")
 
 # LIBRARY-level overrides, matched as a regex against the raw library/prefix id.
@@ -408,13 +415,15 @@ platform_of <- function(ds_id, library_id = NA_character_) {
 # NOTE: built with data.table(), not fread(text=), because the regexes contain "|" (alternation)
 # which would collide with the pipe separator the other config tables use.
 INGEST_EXCLUDE <- data.table::data.table(
-  dataset = c("GSE185381", "GSE185381", "E-MTAB-11536", "Petti2019", "GSE289435"),
+  dataset = c("GSE185381", "GSE185381", "E-MTAB-11536", "Petti2019", "GSE289435", "GSE227690", "GSE276360"),
   key_regex = c(
     "^GSM56137(9[1-9])[_-]",
     "^GSM561380[0-6][_-]",
     "-BLD$",
     "^(ND_|Normal_sorted_)",
-    "PDX"),
+    "PDX",
+    "^BM6",
+    "^CCUS-"),
   reason = c(
     paste("5prime_scTCR_arm (curation D1): pan-T-enriched libraries covering 1 of 7 CCC nodes",
           "with no malignant compartment -- worse than a lineage-depleted sample. 10 donors also",
@@ -432,7 +441,15 @@ INGEST_EXCLUDE <- data.table::data.table(
     paste("xenograft: MLL_29512_PDX is a patient-derived xenograft. Its human compartment is the",
           "graft only -- the entire immune and stromal microenvironment is mouse and absent from",
           "the human matrix, so 5 of the 7 CCC nodes are technically, not biologically, empty.",
-          "The curated row is retained as a documented exclusion.")))
+          "The curated row is retained as a documented exclusion."),
+    paste("seqwell: GSE227690's BM6 (replicate BM6.1 in the series-level matrix) is Seq-Well S3; the",
+          "S9 age/direction control is a 10x-only design (PREREGISTRATION_S9 section 2.2) and the",
+          "structural replication did not reproduce on Seq-Well (S8). Curated row retained as a",
+          "documented exclusion."),
+    paste("not_healthy_ccus: GSE276360's CCUS-50, CCUS-53 and CCUS-PR are clonal cytopenia patients,",
+          "not healthy donors. The dataset sits in TP_HEALTHY_DATASETS, whose rule labels every",
+          "ingested cell Healthy, so they must leave at ingest (PREREGISTRATION_S9 section 2.3).",
+          "Curated rows retained as documented exclusions.")))
 
 # Keys to KEEP, plus a message naming every key dropped and why. Every ingest that has an
 # INGEST_EXCLUDE row calls this immediately after its discovery glob, so the drop is visible in
@@ -488,7 +505,9 @@ SORTING_FALLBACK <- data.table::data.table(
 #   GSE227903   author count_mat + meta (Ennis)
 #   GSE239721   a single author Seurat .RDS
 #   E-MTAB-11536 curated cross-tissue immune atlas (Dominguez Conde)
-DATASETS_UPSTREAM_FILTERED <- c("GSE116256", "GSE227903", "GSE239721", "E-MTAB-11536")
+#   GSE227690   author-filtered series-level counts (Griffin; >= 2000 UMI per cell)      -- S9, 2026-10-23
+#   GSE276360   author-filtered dgCMatrix (Rodriguez-Sevilla; >= 500 UMI per cell)       -- S9, 2026-10-23
+DATASETS_UPSTREAM_FILTERED <- c("GSE116256", "GSE227903", "GSE239721", "E-MTAB-11536", "GSE227690", "GSE276360")
 is_upstream_filtered <- function(ds_id) as.character(ds_id) %in% DATASETS_UPSTREAM_FILTERED
 
 ## -- sample-level role refinement regex ----

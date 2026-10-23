@@ -1,7 +1,8 @@
 #!/bin/bash
 # =============================================================================
 # submit_03_per_sample_qc.sbatch
-# SLURM array: one task per dataset (13 datasets -> array 1-13).
+# SLURM array: one task per dataset (16 datasets -> array 1-16; 13 + the three S9 healthy
+# cohorts GSE120221, GSE227690, GSE276360 added 2026-10-23, which were first QC'd by hand with --dataset).
 # Each task picks its dataset via SLURM_ARRAY_TASK_ID inside 03_per_sample_qc.R.
 #
 # Recommended workflow:
@@ -18,7 +19,7 @@
 # =============================================================================
 #SBATCH --job-name=01_aml_qc
 #SBATCH -p gr10634c
-#SBATCH --array=1-13
+#SBATCH --array=1-16
 
 #SBATCH --rsc p=1:t=1:c=4:m=512G
 #SBATCH --time=72:00:00

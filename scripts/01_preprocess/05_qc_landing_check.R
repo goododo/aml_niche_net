@@ -39,7 +39,8 @@ MIN_CELLS     <- 500L
 EXPECTED_DATASETS <- c(
   "Chen2023", "E-MTAB-11536", "GSE116256", "GSE147989", "GSE185381",
   "GSE185991", "GSE201966", "GSE207356", "GSE227903", "GSE239721",
-  "GSE253355", "GSE289435", "Petti2019"
+  "GSE253355", "GSE289435", "Petti2019",
+  "GSE120221", "GSE227690", "GSE276360"   # S9 healthy cohorts (2026-10-23)
 )
 
 # Candidate column names for introspection. The first match (case-insensitive)

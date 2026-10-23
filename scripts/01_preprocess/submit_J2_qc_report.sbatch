@@ -65,7 +65,7 @@ cat(sprintf("combined %d dataset reports -> %d samples (all postdate their inges
             length(f), nrow(a)))
 print(a[, .(samples=.N, pass=sum(status=="PASS", na.rm=TRUE),
             cells_final=sum(n_final, na.rm=TRUE)), by=dataset][order(dataset)])
-if (length(f) != 13) stop(sprintf("expected 13 dataset reports, got %d -- an array task failed", length(f)))'
+if (length(f) != 16) stop(sprintf("expected 16 dataset reports (13 + the three S9 healthy cohorts, 2026-10-23), got %d -- an array task failed", length(f)))'
 
 echo "=== [2/5] 05_qc_landing_check  $(date -Is)"
 Rscript scripts/01_preprocess/05_qc_landing_check.R
