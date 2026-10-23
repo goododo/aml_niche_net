@@ -115,3 +115,5 @@ gran -0.35, rep 0.14 / -0.24, rep2 0.43 / 0.04, desc -0.68 / 0.23 (informational
   descriptive by design; the structural replication is shown on 10x Chromium data only, and is reported so.
 - Open item: 26's "HB share equals the S1 table" check fails for GSE227903 (passes for the other three datasets);
   HB share is only an informational covariate here; to be looked at before any use of GSE227903 beyond description.
+- Open item resolved (2026-10-23): the GSE227903 HB-share check differs from the S1 table by 4e-6 at most, i.e. the
+  CSV's rounding against the check's 1e-6 tolerance; not a discrepancy in the shares.
