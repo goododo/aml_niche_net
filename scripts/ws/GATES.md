@@ -206,3 +206,8 @@ Score vs ambient shares: disc Spearman score~hb 0.07, score~gran -0.35; rep Spea
 Known answers: 0 of 100 scrambles pass T2 on GSE289435 (rho < 0 and < random P5 0.38); GSE185381 adult AML: T2 TRUE, T3 FALSE, T1 TRUE
 **Verdict: GATE_S8 PASS: the T imprint's structure replicates in GSE289435**
 <!-- A1-S8 end -->
+
+Reading of the A1-S8 block (user decision 2026-10-23, PREREGISTRATION_S8_replication.md section 9): T3 is uninformative
+in this design (random gene sets are 0.6-0.8 concordant between CD4 and CD8 of the same patient; the positive control fails
+it; the replication passes it at the ceiling). GATE_S8 is read as T2 AND T1: **PASS** in GSE289435, consistent in GSE227903,
+not reproduced on Seq-Well GSE116256. Direction versus healthy donors and age remain untested in independent data.

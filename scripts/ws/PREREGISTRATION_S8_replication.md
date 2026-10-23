@@ -117,3 +117,15 @@ gran -0.35, rep 0.14 / -0.24, rep2 0.43 / 0.04, desc -0.68 / 0.23 (informational
   HB share is only an informational covariate here; to be looked at before any use of GSE227903 beyond description.
 - Open item resolved (2026-10-23): the GSE227903 HB-share check differs from the S1 table by 4e-6 at most, i.e. the
   CSV's rounding against the check's 1e-6 tolerance; not a discrepancy in the shares.
+
+## 9. Recording of T3 (user decision, appended 2026-10-23)
+
+T3 (CD4 vs CD8 score concordance) is recorded as **uninformative in this design**: matched random gene sets are
+already 0.6-0.8 concordant between the two subtypes of the same patient, the discovery cohort fails it (0.78 vs a
+random P95 of 0.84) and the replication cohort passes it only at the ceiling (1.00; 3% of random sets reach it).
+GATE_S8 is read as T2 AND T1 (the fallback of section 3), which passes in GSE289435 (T2 -0.55 vs random P5 +0.38;
+T1 8 of 8) and is consistent in GSE227903 (T2 -0.43 vs +0.21; T1 7 of 7). The failed positive-control check in
+`ws_s8_checks.csv` is the T3 failure and is left in the table as run. The claim carried forward: "a reproducible
+T-cell state axis in adult AML marrow at diagnosis, shown on 10x Chromium cohorts; direction versus healthy and age
+not yet replicated". Any future use of a subtype-concordance test must first remove the patient-level component
+(for example by centring each patient's subtype scores on the mean of matched random sets) and pass the positive control.
