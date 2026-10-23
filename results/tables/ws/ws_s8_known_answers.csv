@@ -1,0 +1,3 @@
+test,value,detail
+sign_scrambled_imprint_T2,0,0 of 100 scrambles pass T2 on GSE289435 (rho < 0 and < random P5 0.38)
+discovery_cohort_positive_control,0,"GSE185381 adult AML: T2 TRUE, T3 FALSE, T1 TRUE"

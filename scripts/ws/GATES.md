@@ -168,3 +168,41 @@ when this note was written (final count below once complete). No A1b-S7_v2 block
 untestable in this cohort (10 PCs fix sensitivity, not specificity). H-A1b stays open and is not a must-have.**
 R2 final count (2026-10-20, job 3651199): 9 of 20 relabelled shuffles with largest-pair exact p <= 0.05 (7 of 20 with
 DIALOGUE's p). Both v2 gates fail; S7 closed as recorded above.
+
+<!-- A1-S8 start -->
+## T imprint, structural replication (S8, prereg-s8-v1) -- 2026-10-23
+
+Scripts: scripts/ws/32_s8_replication.R. Gene sets: primary = 370 T-imprint genes without the 32 ambient-prone ones; full = 402. Sets: disc = GSE185381
+adult AML (positive control), rep = GSE289435 (decisive), rep2 = GSE227903 diagnosis, desc = GSE116256 (Seq-Well). Random-set nulls as in S5.
+
+| set | gene set | test | statistic | random P5 | random P95 | n | pass | detail |
+|---|---|---|---|---|---|---|---|---|
+| disc | primary | T2_opposite_movement | -0.29 | 0.41 | 0.78 | 15 | TRUE | coverage 1.00; valid draws 1000 |
+| disc | primary | T3_subtype_concordance | 0.78 | 0.22 | 0.84 | 14 | FALSE | patients with CD4 and CD8 >= 20: 14; share of random sets >= observed 0.12; null median 0.59 |
+| disc | primary | T1_within_patient_coherence | 0.87 | NA | NA | 15 | TRUE | 13 of 15 patients above their random P95 (median obs 0.021, median P95 0.003) |
+| disc | full | T2_opposite_movement | -0.26 | 0.44 | 0.79 | 15 | TRUE | coverage 1.00; valid draws 1000 |
+| disc | full | T3_subtype_concordance | 0.74 | 0.23 | 0.83 | 14 | FALSE | patients with CD4 and CD8 >= 20: 14; share of random sets >= observed 0.20; null median 0.58 |
+| disc | full | T1_within_patient_coherence | 0.87 | NA | NA | 15 | TRUE | 13 of 15 patients above their random P95 (median obs 0.025, median P95 0.003) |
+| rep | primary | T2_opposite_movement | -0.55 | 0.38 | 0.88 | 8 | TRUE | coverage 0.99; valid draws 1000 |
+| rep | primary | T3_subtype_concordance | 1.00 | 0.03 | 0.94 | 6 | TRUE | patients with CD4 and CD8 >= 20: 6; share of random sets >= observed 0.03; null median 0.71 |
+| rep | primary | T1_within_patient_coherence | 1.00 | NA | NA | 8 | TRUE | 8 of 8 patients above their random P95 (median obs 0.021, median P95 0.004) |
+| rep | full | T2_opposite_movement | -0.57 | 0.38 | 0.88 | 8 | TRUE | coverage 0.99; valid draws 1000 |
+| rep | full | T3_subtype_concordance | 1.00 | 0.09 | 0.94 | 6 | TRUE | patients with CD4 and CD8 >= 20: 6; share of random sets >= observed 0.04; null median 0.77 |
+| rep | full | T1_within_patient_coherence | 1.00 | NA | NA | 8 | TRUE | 8 of 8 patients above their random P95 (median obs 0.024, median P95 0.004) |
+| rep2 | primary | T2_opposite_movement | -0.43 | 0.21 | 0.89 | 7 | TRUE | coverage 1.00; valid draws 1000 |
+| rep2 | primary | T3_subtype_concordance | NA | NA | NA | 4 | NA | not testable (< 6 patients with both subtypes) |
+| rep2 | primary | T1_within_patient_coherence | 1.00 | NA | NA | 7 | TRUE | 7 of 7 patients above their random P95 (median obs 0.024, median P95 0.004) |
+| rep2 | full | T2_opposite_movement | -0.71 | 0.32 | 0.89 | 7 | TRUE | coverage 1.00; valid draws 1000 |
+| rep2 | full | T3_subtype_concordance | NA | NA | NA | 4 | NA | not testable (< 6 patients with both subtypes) |
+| rep2 | full | T1_within_patient_coherence | 1.00 | NA | NA | 7 | TRUE | 7 of 7 patients above their random P95 (median obs 0.029, median P95 0.003) |
+| desc | primary | T2_opposite_movement | 0.60 | 0.54 | 0.94 | 6 | FALSE | coverage 0.84; valid draws 1000 |
+| desc | primary | T3_subtype_concordance | NA | NA | NA | 2 | NA | not testable (< 6 patients with both subtypes) |
+| desc | primary | T1_within_patient_coherence | 0.60 | NA | NA | 5 | FALSE | 3 of 5 patients above their random P95 (median obs 0.012, median P95 0.012) |
+| desc | full | T2_opposite_movement | 0.60 | 0.54 | 0.94 | 6 | FALSE | coverage 0.83; valid draws 1000 |
+| desc | full | T3_subtype_concordance | NA | NA | NA | 2 | NA | not testable (< 6 patients with both subtypes) |
+| desc | full | T1_within_patient_coherence | 0.50 | NA | NA | 6 | FALSE | 3 of 6 patients above their random P95 (median obs 0.011, median P95 0.011) |
+
+Score vs ambient shares: disc Spearman score~hb 0.07, score~gran -0.35; rep Spearman score~hb 0.14, score~gran -0.24; rep2 Spearman score~hb 0.43, score~gran 0.04; desc Spearman score~hb -0.68, score~gran 0.23
+Known answers: 0 of 100 scrambles pass T2 on GSE289435 (rho < 0 and < random P5 0.38); GSE185381 adult AML: T2 TRUE, T3 FALSE, T1 TRUE
+**Verdict: GATE_S8 PASS: the T imprint's structure replicates in GSE289435**
+<!-- A1-S8 end -->

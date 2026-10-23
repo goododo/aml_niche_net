@@ -1,0 +1,13 @@
+check,expected,got,pass
+primary set is 370 genes (156 up / 214 down),370/156/214,370/156/214,TRUE
+full set is 402 genes (171 up / 231 down),402/171/231,402/171/231,TRUE
+[disc] 26's T pseudobulk equals the kept T cells' sum (max abs diff),0,0,TRUE
+[disc] primary genes in the tested universe >= 0.8,TRUE,TRUE,TRUE
+[rep] 26's T pseudobulk equals the kept T cells' sum (max abs diff),0,0,TRUE
+[rep] primary genes in the tested universe >= 0.8,TRUE,TRUE,TRUE
+sign-scrambled imprint passes T2 in at most 5% of scrambles,TRUE,TRUE,TRUE
+[rep2] 26's T pseudobulk equals the kept T cells' sum (max abs diff),0,0,TRUE
+[rep2] primary genes in the tested universe >= 0.8,TRUE,TRUE,TRUE
+[desc] 26's T pseudobulk equals the kept T cells' sum (max abs diff),0,0,TRUE
+[desc] primary genes in the tested universe >= 0.8,TRUE,TRUE,TRUE
+positive control: the discovery cohort passes the gate tests,TRUE,FALSE,FALSE

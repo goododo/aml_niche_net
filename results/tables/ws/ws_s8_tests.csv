@@ -1,0 +1,33 @@
+set,dataset,gene_set,test,statistic,null_P5,null_P95,n,pass,detail
+disc,GSE185381,primary,T2_opposite_movement,-0.285714285714286,0.410714285714286,0.782321428571428,15,TRUE,coverage 1.00; valid draws 1000
+disc,GSE185381,primary,T3_subtype_concordance,0.775824175824176,0.221758241758242,0.841758241758242,14,FALSE,patients with CD4 and CD8 >= 20: 14; share of random sets >= observed 0.12; null median 0.59
+disc,GSE185381,primary,T1_within_patient_coherence,0.866666666666667,,,15,TRUE,"13 of 15 patients above their random P95 (median obs 0.021, median P95 0.003)"
+disc,GSE185381,primary,info_score_vs_ambient,,,,15,,"Spearman score~hb 0.07, score~gran -0.35"
+disc,GSE185381,full,T2_opposite_movement,-0.264285714285714,0.439107142857143,0.785892857142857,15,TRUE,coverage 1.00; valid draws 1000
+disc,GSE185381,full,T3_subtype_concordance,0.740659340659341,0.226153846153846,0.832967032967033,14,FALSE,patients with CD4 and CD8 >= 20: 14; share of random sets >= observed 0.20; null median 0.58
+disc,GSE185381,full,T1_within_patient_coherence,0.866666666666667,,,15,TRUE,"13 of 15 patients above their random P95 (median obs 0.025, median P95 0.003)"
+disc,GSE185381,full,info_score_vs_ambient,,,,15,,"Spearman score~hb 0.05, score~gran -0.29"
+rep,GSE289435,primary,T2_opposite_movement,-0.547619047619048,0.380952380952381,0.880952380952381,8,TRUE,coverage 0.99; valid draws 1000
+rep,GSE289435,primary,T3_subtype_concordance,1,0.0257142857142859,0.942857142857143,6,TRUE,patients with CD4 and CD8 >= 20: 6; share of random sets >= observed 0.03; null median 0.71
+rep,GSE289435,primary,T1_within_patient_coherence,1,,,8,TRUE,"8 of 8 patients above their random P95 (median obs 0.021, median P95 0.004)"
+rep,GSE289435,primary,info_score_vs_ambient,,,,8,,"Spearman score~hb 0.14, score~gran -0.24"
+rep,GSE289435,full,T2_opposite_movement,-0.571428571428572,0.380952380952381,0.880952380952381,8,TRUE,coverage 0.99; valid draws 1000
+rep,GSE289435,full,T3_subtype_concordance,1,0.0857142857142857,0.942857142857143,6,TRUE,patients with CD4 and CD8 >= 20: 6; share of random sets >= observed 0.04; null median 0.77
+rep,GSE289435,full,T1_within_patient_coherence,1,,,8,TRUE,"8 of 8 patients above their random P95 (median obs 0.024, median P95 0.004)"
+rep,GSE289435,full,info_score_vs_ambient,,,,8,,"Spearman score~hb 0.14, score~gran -0.24"
+rep2,GSE227903,primary,T2_opposite_movement,-0.428571428571428,0.214285714285714,0.892857142857143,7,TRUE,coverage 1.00; valid draws 1000
+rep2,GSE227903,primary,T3_subtype_concordance,,,,4,,not testable (< 6 patients with both subtypes)
+rep2,GSE227903,primary,T1_within_patient_coherence,1,,,7,TRUE,"7 of 7 patients above their random P95 (median obs 0.024, median P95 0.004)"
+rep2,GSE227903,primary,info_score_vs_ambient,,,,7,,"Spearman score~hb 0.43, score~gran 0.04"
+rep2,GSE227903,full,T2_opposite_movement,-0.714285714285714,0.319642857142857,0.892857142857143,7,TRUE,coverage 1.00; valid draws 1000
+rep2,GSE227903,full,T3_subtype_concordance,,,,4,,not testable (< 6 patients with both subtypes)
+rep2,GSE227903,full,T1_within_patient_coherence,1,,,7,TRUE,"7 of 7 patients above their random P95 (median obs 0.029, median P95 0.003)"
+rep2,GSE227903,full,info_score_vs_ambient,,,,7,,"Spearman score~hb 0.43, score~gran 0.04"
+desc,GSE116256,primary,T2_opposite_movement,0.6,0.542857142857143,0.942857142857143,6,FALSE,coverage 0.84; valid draws 1000
+desc,GSE116256,primary,T3_subtype_concordance,,,,2,,not testable (< 6 patients with both subtypes)
+desc,GSE116256,primary,T1_within_patient_coherence,0.6,,,5,FALSE,"3 of 5 patients above their random P95 (median obs 0.012, median P95 0.012)"
+desc,GSE116256,primary,info_score_vs_ambient,,,,6,,"Spearman score~hb -0.68, score~gran 0.23"
+desc,GSE116256,full,T2_opposite_movement,0.6,0.542857142857143,0.942857142857143,6,FALSE,coverage 0.83; valid draws 1000
+desc,GSE116256,full,T3_subtype_concordance,,,,2,,not testable (< 6 patients with both subtypes)
+desc,GSE116256,full,T1_within_patient_coherence,0.5,,,6,FALSE,"3 of 6 patients above their random P95 (median obs 0.011, median P95 0.011)"
+desc,GSE116256,full,info_score_vs_ambient,,,,6,,"Spearman score~hb -0.68, score~gran 0.23"
