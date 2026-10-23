@@ -363,3 +363,35 @@ true ages, and states the expected recoveries (≈ 0.98 slope, ≈ 0.885 contras
 K0 in the evaluation order; a leave-one-donor-out flip ends the evaluation; a non-interpretable Oetjen adds its own sentence;
 (25) the random-set f_slope/f_contrast use the imprint's denominator; (26) 2.4 carries one row per test (3.4 and K6 added) and
 3.4 names five, not four, healthy donors aged 39–53.
+
+## 10. Execution notes and approved amendments (appended 2026-10-23, before any score on the new cohorts)
+
+10.1 **Ingest (section 6 step 3), commit 4cf755e.** Run as three named SLURM jobs (3658414 GSE276360, 3658415 GSE120221,
+3658418 GSE227690), not through the J1 array, so that no array index could re-ingest an existing dataset; same scripts and
+environment otherwise.
+- GSE120221: 25 libraries, 90,653 cells. Ensembl remap as in 2.3: 32,351 genes mapped (mapped genes take 2020-A's
+  make.unique'd names, so duplicate symbols point to the same Ensembl ids as in GSE185381), 80 Cell Ranger 2.0 names suffixed
+  for collisions; table `results/tables/00_ingest/GSE120221_gene_remap.csv`. Primary genes on the axis: 359/370, as
+  registered; POLR2J3 is present under its Cell Ranger 2.0 name (its old Ensembl id ENSG00000168255 is not in 2020-A). Sex
+  genes agree with the donor table in 25/25 libraries.
+- GSE227690: two deposit defects found at ingest. (i) The `BM_counts.tsv.gz` line for CCDC60 carries 23,679 values for 20,411
+  cells; it is dropped (not an imprint gene). The first run (job 3658416) read only the 2,449 genes before that line because
+  fread stops there with a warning; the ingest's marker check caught it after the outputs were written, and the rerun
+  overwrote them; the reader now keeps well-formed lines only and checks gene count and per-cell totals before writing (median
+  1 UMI per cell below the authors' nCount). (ii) The deposit has no MT- genes, XIST, MALAT1 or NEAT1: percent.mt is 0 for
+  every cell (the authors' own cell QC applies) and sex can only be read from Y-linked genes (10.2). 13 libraries, 17,937 cells.
+- GSE276360: 4 libraries, 10,213 cells; HD-36 -> YHD658 (male) and HD-95 -> YHD636 (female) confirmed by XIST/RPS4Y1 at ingest.
+
+10.2 **K3 amendment for a deposit without XIST (approved by the user, 2026-10-23).** For GSE227690 only, a library's sex is
+called from the summed UMI of the Y-linked genes present (RPS4Y1, DDX3Y, KDM5D, UTY, EIF1AY, ZFY, USP9Y) per kept cell:
+male if >= 1.0, female if <= 0.2, otherwise "unclear", which counts as a disagreement as in K3. GSE120221 and GSE276360 keep the
+S4 rule. The rule was written while the GSE227690 rerun was in progress and before its Y-gene numbers were read; the
+thresholds come from the other two cohorts (GSE276360: RPS4Y1 alone 3.5 per cell in the male donor, 0.013-0.063 in the three
+female donors; GSE120221: 1.5-3.2 in male libraries, <= 0.005 in female libraries). Seen afterwards, at ingest, on all cells:
+male GSE227690 libraries 6.2-10.3 Y-UMI per cell, the female donor's (BM2) <= 0.0006. Without the amendment K3 would have
+counted all five GSE227690 donors as disagreements and stopped S9 on a property of the deposit.
+
+10.3 **Step 4 of section 6 amended (approved by the user, 2026-10-23): `01_dataset_roles.R` is not run.** No script on the S9
+path reads its output (`01_sample_role_manifest.csv`; its consumers are the CCC line, `02_study_split.R` and the malignancy
+stage), and a full run re-reads all 16 ingest objects and rewrites a table the CCC line uses. `00_curated_manifest.R` is run;
+its rows for the 13 existing datasets must equal the committed version, otherwise the line stops for discussion.
