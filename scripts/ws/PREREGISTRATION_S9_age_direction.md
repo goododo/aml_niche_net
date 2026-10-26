@@ -395,3 +395,61 @@ counted all five GSE227690 donors as disagreements and stopped S9 on a property 
 path reads its output (`01_sample_role_manifest.csv`; its consumers are the CCC line, `02_study_split.R` and the malignancy
 stage), and a full run re-reads all 16 ingest objects and rewrites a table the CCC line uses. `00_curated_manifest.R` is run;
 its rows for the 13 existing datasets must equal the committed version, otherwise the line stops for discussion.
+
+10.4 **Code review and smoke runs before the real run (2026-10-26; appended before the real run; nothing in sections 1-9 changed).**
+
+`scripts/ws/33_s9_age_direction.R` implements sections 2-5 and 10. Before the real run it was smoke-tested five times with
+`--smoke` (donor ages of the three new cohorts permuted; 50 random sets, 100 bootstrap draws, 5 of the 25 cross-fit folds;
+outputs suffixed `_smoke`; GATES.md not written) and reviewed by three independent agents (statistics/definitions, data flow and
+R correctness, discipline/outputs) against this document. Smoke history: job 3669045 stopped at K1 (expected: under permuted
+ages the CD8 Naive share has no age relation; smoke now reports phase-1 failures and continues), job 3669047 crashed in the
+subtype pseudobulk (26's `$fine` matrices hold only the libraries where the subtype occurs; aligned on all libraries), job
+3669048 completed end to end, jobs 3669078 and 3669088 completed after the review fixes below. Known answers in the smoke runs: K7 42/42
+and 20/20, K3 29/29, K0 20 eligible incl. 5 old, K4 358/370, 329/370, 355/370, K6 Spearman 1.0000 / max diff 0.00000 and
+|gap_in - 1.970| = 0.0014, K2 0.053 / 0.033 against 0.356, K5 recoveries 0.975, 0.880 vs 0.902, 0.322, 0.294 vs 0.301 and
+planted A2b 1.006 vs P95 0.064 (5-fold r = 1.84; the 25-fold r of the real run is read there).
+
+Disclosure on the yardstick: the registered 1.970 (section 2.1) was computed on 10-23 without the blacklist step of S8's
+scoring; with the exact S8 `logz` (blacklist removed before the CPM filter) the primary-set gap on the 25 is 1.9714 =
+3.84 healthy-SD (healthy SD 0.513), not 3.87. K6's tolerance (0.01) covers it; the number the real run uses is 1.9714.
+
+Review findings fixed before the real run (none changes a threshold, a gene set, a donor list or a registered sentence):
+1. (major) The wording clause `f_age [CI]; r` was built with an `if` without `else` inside `sprintf`; when the CI upper bound
+   is <= 1/3 the clause would have vanished from the log and GATES.md. Fixed (`else ""`).
+2. (major) In smoke mode the Oetjen scores table wrote the 25 library rows with the REAL library ages and sexes next to the
+   library-level J scores, so the real age-score relation of the decisive cohort was on disk after job 3669048. Nobody opened
+   those rows (the session only printed row counts and column names); the file was overwritten by job 3669078, which writes NA
+   there under `--smoke`. Recorded here because the point of the permutation is that no one can read the relation early.
+3. K7 against the BoneMarrowMap reference passed vacuously on an empty merge; now every donor must be found. K7 per library is
+   evaluated on the kept donors' libraries only (BM6 dropped), as section 4 says.
+4. NA results of gating or defect known answers were printed as "reported" and let phase 2 proceed; every gating pass is now
+   `isTRUE(...)`, so NA counts as a failure.
+5. The K3 consequence for exactly one disagreeing donor (excluded before any score, recorded; K0/K4 on the reduced set; its
+   libraries dropped from K2) was not implemented; only the two-or-more stop was. Implemented; K3 is 29/29 in every smoke run.
+6. A2b's imprint set is now primary ∩ U_J at both call sites (planted K5 and the real A2b), the same universe as the random
+   sets (section 3.2); the smoke value was already computed on 358 genes.
+7. Reported quantities aligned with their registered definitions: the 402-set sensitivity uses its own D_res_J / r (section
+   2.4, same space and genes); the naive-share covariate is the share among the donor's KEPT T cells (section 3.1); the 100
+   sign-scrambled imprints are reported over f_slope's denominator D_res_J / r.
+8. Wording: the donor count and age range in the pass sentence and the GATES block come from the tables; one sentence per A3
+   cohort (interpretable: "older healthy donors in [E] do not score like AML"; descriptive: given with n young / n old; not
+   interpretable or K4-demoted: stated as such); no claim clause is issued on a LOO flip or a FAIL; the A3 rows of descriptive
+   cohorts carry pass = NA in ws_s9_tests.csv (direction_holds stays in ws_s9_direction.csv). Pipes inside GATES table cells
+   are escaped.
+9. Subtype pseudobulk: donors restricted to the eligible set; empty donor set guarded.
+10. (third review, major) `ws_s9_scores_<cohort>.csv` lacked the ambient shares and the doublet score that section 6 lists; each
+    donor row now carries the cell-weighted hb_share_nonery, gran_share_lymph and dbl_mean (NA: T3a has not run on these
+    cohorts) from 26's library rows, and the ambient partial correlation uses the same per-donor table.
+11. (third review) Yardstick disclosure in the outputs: `ws_s9_yardstick.csv` carries the registered 1.970 / 3.87 beside the
+    recomputed values with a note, and the GATES yardstick line prints both. Deviation recorded: r (section 3.5) and the A2a
+    ratio use the recomputed 1.9714, not the registered 1.970, so that gap_in and gap_oof share the blacklisted gene universe;
+    the effect on r and f_age is 0.07 %. Every "3.87 healthy-SD" in sections 1, 2.1 and 3.5 reads 3.84 under the exact recipe;
+    the section-3.1 error rates are in r units and unaffected.
+12. (third review) The f_age / CI / r clause is reported under every outcome (section 3.1 "reported"), including a FAIL, which
+    now quotes f_age ("age share quantified"); the pass verdict is the registered sentence with the values filled, in the
+    "below one third at the point estimate; upper bound [X]" form when the CI upper bound is above 1/3.
+13. (third review) K1 drops a K3-excluded donor; the per-library K7 requires the full join (42 libraries); the W-space rho
+    carries a Fisher-z CI; folds with an empty up or down half are counted in the yardstick table and the 3.5 detail; the
+    6-donor minimum of the subtype rho is stated in its detail; the positions file is listed in the script header.
+The real run is `sbatch scripts/ws/submit_ws_s9_age_direction.sbatch` on the file with md5 7ceeeb721912d15dcc3261e8f6dce6f8 (commit
+c222ebc).
