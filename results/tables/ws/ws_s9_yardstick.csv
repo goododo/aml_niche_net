@@ -1,0 +1,19 @@
+quantity,value
+gap_in_primary,1.971
+healthy_SD_in,0.513
+gap_in_healthy_SD_units,3.845
+gap_oof,1.378
+healthy_SD_oof,0.696
+gap_oof_healthy_SD_units,1.981
+r,1.430
+D_res_J_GSE120221,1.968
+D_res_J_GSE227690,1.970
+D_res_J_GSE276360,1.962
+D_res_J_over_r_GSE120221,1.376
+D_res_J_over_r_GSE227690,1.377
+D_res_J_over_r_GSE276360,1.372
+error_rates_for_r,"false-fail under H_AML ~7%; false pass at a true age share of 40% ~29%, of 50% ~13% (section 3.1, restated for r)"
+cross_fit_folds_with_empty_half,0
+gap_in_registered,1.970
+gap_in_registered_healthy_SD_units,3.87
+gap_in_registered_note,"registered on 2026-10-23 without the blacklist step of logz(); the exact logz() gives gap_in_primary, which feeds r and the A2a ratio so that gap_in and gap_oof share one gene universe (section 10.4)"

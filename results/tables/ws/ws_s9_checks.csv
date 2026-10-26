@@ -1,0 +1,9 @@
+check,expected,got,pass
+primary set is 370 genes (156 up / 214 down),370/156/214,370/156/214,TRUE
+full set is 402 genes (171 up / 231 down),402/171/231,402/171/231,TRUE
+Delta_age = median age of the 15 AML minus the 10 healthy = 31.5,31.5,31.5,TRUE
+"healthy median age 32.5 (five at 19-26, five at 39-53)",32.5,32.5,TRUE
+S5 refit reproduces ws_s5_de_T log2FC (max |diff| < 1e-6 over the tested genes),TRUE,TRUE,TRUE
+"Oetjen donor ages from the first-listed library: C = 60, S = 56",60/56,60/56,TRUE
+"Oetjen: 10 young (<= 53), 5 middle, 5 old (>= 60) donors",10/5/5,10/5/5,TRUE
+"K5 permutation: |Spearman(age_perm, age)| <= 0.3",TRUE,TRUE,TRUE

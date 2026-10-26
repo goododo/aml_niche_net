@@ -453,3 +453,83 @@ Review findings fixed before the real run (none changes a threshold, a gene set,
     6-donor minimum of the subtype rho is stated in its detail; the positions file is listed in the script header.
 The real run is `sbatch scripts/ws/submit_ws_s9_age_direction.sbatch` on the file with md5 7ceeeb721912d15dcc3261e8f6dce6f8 (commit
 c222ebc).
+
+## 11. Outcome (appended 2026-10-26 after the real run; sections 1-9 unchanged, tag prereg-s9-v1)
+
+Run: `sbatch scripts/ws/submit_ws_s9_age_direction.sbatch`, SLURM job 3669091, 2026-10-26 11:15-11:20 JST, script md5
+7ceeeb721912d15dcc3261e8f6dce6f8 (commit c222ebc). Outputs: `results/tables/ws/ws_s9_{known_answers,checks,yardstick,tests,
+direction,direction_positions,age_genes,robust_imprint}.csv`, `ws_s9_scores_{GSE120221,GSE227690,GSE276360}.csv`,
+`/LARGE1/.../ws_pseudobulk/ws_s9_null_draws.rds`, GATES.md block A1-S9. 8 checks and 23 known-answer rows, none failed. The
+age relation of the new cohorts was read once, in this run.
+
+**11.1 Phase 1 (known answers, section-5 order; all PASS).** K7 42/42 libraries, 20/20 Oetjen donors vs the BoneMarrowMap
+reference. K3 29/29 donors (S4 rule; Y-gene rule for GSE227690). K0 20 eligible Oetjen donors (kept T 104-3,721 per donor),
+5 of them >= 60 y. K4 primary genes in U_J 358/370 (0.968), 329/370 (0.889), 355/370 (0.959); U_J 11,417 / 10,542 / 11,522
+genes. 3.5: gap_oof 1.378 (1.98 out-of-fold healthy SD), r = 1.9714 / 1.378 = 1.430; fold imprints 29-1,075 genes, no
+empty half; error rates restated for r = 1.43: false-fail under H_AML ~7 %, false pass at a true age share of 40 % ~29 %,
+of 50 % ~13 %. K6 Spearman 1.0000, max |diff| 0.00000 vs S8; |gap_in - 1.970| = 0.0014. K2 C1-C2 0.053, S1-S2 0.033
+against (D_res_J/r)/3 = 0.459; second aspirates Ck 0.269, Sk1 0.074, Sk2 0.093. K5 full plant slope 0.978, contrast 0.885
+vs 0.902 expected; third plant 0.327, 0.299 vs 0.301; planted A2b b/lambda 0.976 vs random P95 0.034; sign-scrambled
+f_slope P5/P95 -0.036 / 0.030. K1 CD8 Naive share vs age rho = -0.767, one-sided p < 1e-4 (n 20); CD4 Naive rho = -0.245
+(p 0.149, reported); Griffin 75 y 0.031 and 74 y 0.039 below every young donor (0.234, 0.101, 0.060); Rodriguez-Sevilla 61 y
+0.048 and 70 y 0.047 below 0.089 and 0.149; Griffin author labels vs ours: CD8Naive 0.791, CD4Naive 0.910 agreement (author
+CD8Naive share 0.100, ours 0.092); K1b naive genes -0.0131, cytotoxic +0.0212 log2 per year (expected signs). D_res_J
+1.968 (Oetjen), 1.970, 1.962; gate denominator D_res_J/r = 1.376 (Oetjen).
+
+**11.2 Phase 2.** A1: f_slope 0.102 (sex-adjusted; unadjusted 0.164), f_contrast 0.073 (old n 5, mean 67.4 y, vs young
+n 10, mean 39.0 y) -> **f_age = 0.102 < 1/3, PASS.** 95 % donor-bootstrap CI -0.085 to 0.463 (conditional on the yardstick):
+the upper bound is above 1/3, so the pass is worded as a bound. Leave-one-donor-out range 0.045-0.185: no flip. Matched
+random sets (1,000): f_slope P5/P95 -0.032 / 0.046 with the imprint at rank 1.000, f_contrast P5/P95 -0.018 / 0.065 -> the
+"weak age association exists" clause is issued. A2b: b 0.046, lambda 0.92, b/lambda 0.050 vs random P95 0.206 (random median
+0.074 = genome-wide rate), Spearman 0.167, sign concordance 0.601, n 358 -> below P95: the imprint genes' age effects are not
+more aligned with their AML effects than random genes'. A2a (reported): 29/370 genes at raw p < 0.05, 0 at FDR < 0.10;
+removal ratio 1.007 (random removals 0.992-1.008); removed genes' age sign equals the AML sign in 0.62; robust set of 341
+genes written as a record only. A3: Oetjen S_E 0.275 (< D_res/2 = 0.984), SD ratio 0.586 -> interpretable; A_E 0.100,
+A_E/(D_res/r) 0.073; 0 of 5 older donors above the midpoint after study correction -> direction holds; D_dir 1.593. Donor N
+(67 y) scores 0.031 raw, above the midpoint (-0.197) before study correction and 0.047 below it after (-0.244); the
+at-most-one rule would have tolerated one such donor in any case. GSE227690 (3 young, 2 old: descriptive): S_E -0.120,
+A_E -0.030 (-0.022 of D_res/r), 0 of 2 above. GSE276360 (2 / 2: descriptive): S_E 0.838 (0.43 D_res, inside the
+interpretable band), SD ratio 1.53, A_E 0.407 (0.296), 0 of 2 above after correction; uncorrected, all four donors sit at
+-0.91 to 0.23, i.e. the whole cohort is shifted toward AML by 0.84 units (D_dir 0.718).
+
+**11.3 Reported analyses.** 402 set: f_slope 0.121, f_contrast 0.097, f_age 0.121 over its own D_res_J/r 1.373.
+`score ~ age + sex + naive share (kept T cells)`: f_slope -0.047 -- with the naive-T share in the model the age slope is
+gone, so the weak age association of the J score runs through T composition (the CD8 Naive share, K1), not through a
+within-cell age programme, consistent with A2b. W space (Oetjen's own z): rho(score, age) 0.277, p 0.237, Fisher-z CI
+-0.189 to 0.641, 0.122 W units per decade, young-donor SD 0.568, |rho| rank among random sets 0.847 (inside the random
+range). Subtype pseudobulks: CD4 Naive rho 0.321 (p 0.18, n 19), CD8 EM rho 0.043 (p 0.86, n 18). Ambient partials given
+age: hb_share_nonery -0.571, gran_share_lymph -0.020 (informational; HB genes are blacklisted; donor G has hb share 0.35,
+104 kept T cells and scores -1.26). Section 3.4 inside GSE185381: sign concordance 0.903 of the 370 genes between the 4 AML
+< 60 y and the 5 healthy 39-53 y; rho(score, age) within AML -0.074 (p 0.79), within healthy 0.261 (p 0.47); the four AML
+< 60 score 0.48-1.07 against a healthy range of -2.27 to -0.43. Oetjen J scores: young -1.31 to -0.25 (mean -0.906),
+middle mean -0.918, old -1.42 to 0.03 (mean -0.806); GSE185381 healthy -1.181, AML 0.787.
+
+**11.4 Reading (section 5, filled from the tables; the sentence written to GATES.md).** GATE_S9 PASS. "In one healthy marrow
+cohort (Oetjen 2018: 20 of 20 donors, 24-84 y, 10x 3' v2, one protocol, part of the BoneMarrowMap reference), the T imprint's
+age shift over the GSE185381 age gap is 0.102 (95 % CI -0.085 to 0.463) of the cross-fitted AML-healthy gap, below one third
+at the point estimate; upper bound 0.463 (worded as a bound). The age alternative to the direction is bounded, not excluded.
+Direction versus healthy remains shown in the defining cohort only (no independent AML + healthy cohort exists in this work);
+the 32 ambient-prone genes stay excluded from every statement. The S5 label 'AML-or-age' is narrowed to 'AML, with an age
+share bounded below one third in healthy marrow (one protocol)'." Clauses: A2b below the random P95 (b/lambda 0.050 vs
+0.206); a weak age association exists (f_slope 0.102 above the random P95 0.046); older healthy donors in GSE120221 do not
+score like AML (A_E/(D_res/r) 0.073, n young 10, n old 5); GSE227690 (3 / 2) and GSE276360 (2 / 2) are descriptive, with
+0 of 2 older donors above the midpoint in each.
+
+What this does and does not establish. (i) Within healthy marrow, 31.5 years of age move the T-imprint score by about one
+tenth of the AML-healthy gap, and that tenth is carried by the naive-T share (f_slope -0.047 once the share is in the model;
+A2b shows no gene-level alignment beyond the genome-wide rate). (ii) The bound is loose: the bootstrap upper bound (0.463)
+and the false-pass rate at r = 1.43 (~29 % at a true share of 40 %) leave an age share near 40 % compatible with the data;
+the pre-registered line is the point estimate, and the wording says so. (iii) Nine healthy donors >= 60 y in three studies
+(5 + 2 + 2) stay on the healthy side of the AML-healthy midpoint after study correction; one (Oetjen N, 67 y) is above it
+before correction. (iv) No independent AML cohort enters, so direction versus healthy is still shown in GSE185381 only.
+(v) One protocol (10x 3' v2), and Oetjen is inside the BoneMarrowMap reference: its projection is in-sample and K1 is an
+age check, not an annotation check (Griffin's author labels agree at 0.79 / 0.91 on the naive subsets).
+
+**11.5 Disclosures and deviations (complete list).** (1) Yardstick: the registered 1.970 = 3.87 healthy-SD omitted the
+blacklist step; the exact logz recipe gives 1.9714 = 3.84 (K6 passes, 0.0014 < 0.01); r and the A2a ratio use 1.9714
+(section 10.4). (2) The real run was made once and read the age relation once; before it, five smoke runs under permuted
+ages and three independent reviews (section 10.4), including the smoke-table rows that carried real library ages next to
+library scores and were overwritten unread (10.4 item 2). (3) The subtype rho used an unregistered >= 6-donor minimum
+(reported only). (4) No threshold, gene set, donor list or wording was changed after a number was seen; sections 1-9 are as
+tagged. Stage 2 (more older donors) is not triggered by a pass and is a separate decision; the next pre-registration in
+the handoff is S10 (remission).

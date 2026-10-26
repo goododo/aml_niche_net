@@ -1,0 +1,24 @@
+id,statistic,value,threshold,pass,detail
+K7,"libraries whose meta_<GSE> row equals the donor table (age, sex, donor)",42/42,"all, 42 libraries matched",TRUE,42 of 42 libraries matched; disagreeing: 
+K7,Oetjen donors whose age and sex equal the BoneMarrowMap reference metadata,20/20,"all, every donor found",TRUE,20 of 20 donors found in the reference; disagreeing: 
+K3,donors whose every library's sex call equals the donor table (29 donors),29/29,all,TRUE,""
+K0,eligible Oetjen donors (>= 20 kept T cells after pooling) / of which >= 60 y,20/5,>= 15 incl. >= 4 old,TRUE,kept T per donor 104-3721
+K4,GSE120221: primary genes in U_J,358/370 (0.968),>= 0.80,TRUE,U_J 11417 genes; eligible donors 20
+K4,GSE227690: primary genes in U_J,329/370 (0.889),>= 0.80,TRUE,U_J 10542 genes; eligible donors 5
+K4,GSE276360: primary genes in U_J,355/370 (0.959),>= 0.80,TRUE,U_J 11522 genes; eligible donors 4
+3.5,gap_oof > 0 and r <= 2 (yardstick cross-validates and is resolved),"gap_oof 1.378, r 1.430","gap_oof > 0, r <= 2",TRUE,fold imprint sizes 29-1075; folds with an empty up or down half: 0
+K6,"S9 scoring vs S8 (15 AML, z over the 15): Spearman / max |diff|",1.0000 / 0.00000,> 0.99 / < 0.05,TRUE,""
+K6,yardstick on the 25 reproduces the registered 1.970 (|gap_in - 1.970|),0.0014,< 0.01,TRUE,gap_in 1.9714 = 3.84 healthy-SD
+K2,technical replicates C1-C2 and S1-S2: |score difference| in J-Oetjen,0.053 / 0.033,both < (D_res/r)/3 = 0.459,TRUE,"second aspirates: Ck 0.269, Sk1 0.074, Sk2 0.093"
+K5,"full plant: slope recovery (f_slope planted - unplanted, undeflated)",0.978,"[0.95, 1.03]",TRUE,""
+K5,full plant: contrast recovery vs (mean old age - mean young age)/31.5,0.885 vs 0.902,within 0.05,TRUE,""
+K5,third plant: slope recovery,0.327,"[0.30, 0.37]",TRUE,""
+K5,third plant: contrast recovery vs expected,0.299 vs 0.301,within 0.03,TRUE,""
+K5,planted A2b: b/lambda of the imprint vs the random-set P95,0.976 vs 0.034,above P95,TRUE,"lambda imprint 0.92, random median 0.50"
+K5,"100 sign-scrambled imprints (permuted ages): f_slope P5 / P95, denominator D_res_J/r (calibration report)",-0.036 / 0.030,reported,,""
+K1,"Oetjen: Spearman of the CD8 Naive share of projected T cells with age (one-sided, rho < 0)","rho -0.767, p 0.0000","rho < 0, p < 0.05",TRUE,n 20 donors
+K1,Oetjen: the same for the CD4 Naive share (reported),"rho -0.245, p 0.1493",reported,,""
+K1,GSE227690: both old donors' CD8 Naive share below every young donor's (descriptive),BM1(31 y) 0.234; BM2(37 y) 0.101; BM3(45 y) 0.060; BM4(75 y) 0.031; BM5(74 y) 0.039,descriptive,,old below every young: yes
+K1,GSE276360: both old donors' CD8 Naive share below every young donor's (descriptive),HD2(61 y) 0.048; HD3(70 y) 0.047; YHD636(24 y) 0.089; YHD658(23 y) 0.149,descriptive,,old below every young: yes
+K1,GSE227690 author labels vs ours on projected T cells: CD8Naive agreement (of author-labelled) / CD4Naive,0.791 / 0.910,"reported, no statement",,"author CD8Naive share of T cells 0.100, ours 0.092"
+K1b,Oetjen T pseudobulk: mean age coefficient (log2 per year) over naive genes / cytotoxic genes,-0.0131 / 0.0212,< 0 / > 0 (reported),,"naive present 5/5, cytotoxic present 5/6"
