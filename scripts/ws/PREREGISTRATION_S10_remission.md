@@ -1,5 +1,7 @@
 # PRE-REGISTRATION — S10: does the T-cell imprint of adult AML persist into remission (MRD time point)?
 
+**Status 2026-10-28: PAUSED by user decision (handoff v2.0 §16.1 item 16). Not approved, not tagged. The first review round found 8 blocking problems (see the session memory note s10-remission-prereg and reports/2026-10_wpa1_paper_gap/). The MRD samples stay blind: no imprint score is computed on them, so a pre-registered supplement remains possible. The text below is the unrevised 2026-10-26 draft; its test-1 p value (12/720) is wrong: the boundary D <= 6 has p = 21/720.**
+
 Written 2026-10-26. **DRAFT — not binding until the user approves it and the tag `prereg-s10-v1` is set.** No MRD or
 post-treatment T pseudobulk has been scored or compared with its diagnosis sample before the tag. Later changes are appended,
 dated sections. Context: handoff v2.0 §6 (WP-A2), §16.1 items 2, 8 and 15 (T imprint only; rank preservation + self-
