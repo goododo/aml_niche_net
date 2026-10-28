@@ -533,3 +533,17 @@ library scores and were overwritten unread (10.4 item 2). (3) The subtype rho us
 (reported only). (4) No threshold, gene set, donor list or wording was changed after a number was seen; sections 1-9 are as
 tagged. Stage 2 (more older donors) is not triggered by a pass and is a separate decision; the next pre-registration in
 the handoff is S10 (remission).
+
+## 12. Erratum (appended 2026-10-28; sections 1-11 unchanged)
+
+12.1 **Section 11.4 (iii) misstates the uncorrected positions.** It reads "one (Oetjen N, 67 y) is above it before
+correction". From `results/tables/ws/ws_s9_direction_positions.csv` (job 3669091), three of the nine healthy donors aged
+>= 60 y score above the AML-healthy midpoint before study correction: Oetjen N (67 y; 0.031 against a midpoint of -0.197),
+Rodriguez-Sevilla HD2 (61 y; -0.068 against -0.196) and HD3 (70 y; 0.202 against -0.196). After study correction none of
+the nine is above the midpoint (corrected scores -0.244, -0.906 and -0.636). Over all 29 donors of the three cohorts, 4
+are above the midpoint before correction (the three above plus Rodriguez-Sevilla YHD636, 24 y) and 0 after. The corrected
+statement of 11.4 (iii) is therefore: "Nine healthy donors >= 60 y in three studies (5 + 2 + 2) stay on the healthy side of
+the AML-healthy midpoint after study correction; three of them (Oetjen N; Rodriguez-Sevilla HD2 and HD3) are above it
+before correction. The Griffin and Rodriguez-Sevilla corrections rest on 3 and 2 young donors." Section 11.2 already gave
+the per-cohort numbers correctly. No gate, test or wording of GATES.md depends on this sentence. The error was found by an
+independent review of the WP-A1 evidence on 2026-10-28 (reports/2026-10_wpa1_paper_gap/).
