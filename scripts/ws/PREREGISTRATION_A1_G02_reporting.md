@@ -81,3 +81,24 @@ Not here: per-patient cell-bootstrap score uncertainty (moves to G09); anything 
 - Outputs, all new, prefix `results/tables/ws/ws_a1_g02_`: `s5_perm_draws.csv`, `oof_scores.csv`, `fold_genes.csv`,
   `gene_selection.csv`, `lpo_pairs.csv`, `perm_labels.csv`, `perm_crossfit.csv`, `descriptive.csv`, `summary.csv`,
   `checks.csv`; a GATES.md block `A1-G02`; the outcome is appended here as a dated section.
+
+## 7. Dated note, 2026-10-28 15:49, written before any D1 or D2 result is read
+
+Written after replay job 3677853 finished (15:38) and while the D2 array 3677854 is still running. No D1 output
+(`ws_a1_g02_lpo_pairs.csv`, `ws_a1_g02_summary_replay.csv`) and no D2 output has been opened. User decision 2026-10-28.
+
+1. **Control4's sex.** Curated and author metadata say male; its cells are female (XIST 7,797 vs RPS4Y1 56 UMI;
+   `ws_s4_pseudobulk_meta_GSE185381.csv`, `sex_inferred`). S5, S9 and this amendment use the metadata sex. R1 and R2 are
+   replays and keep it. **D1 and D2 stay exactly as declared in section 4, with the metadata sex, so they test the imprint
+   as S5 defined it; they remain the primary out-of-sample statistics.** A cross-fitted gap and D1 recomputed with Control4
+   coded female are declared as a sensitivity in the next amendment (G06 core). They are reported next to D1/D2 whatever
+   their values and do not replace them. D2 is not re-run with the corrected sex.
+2. **Also known before any D1/D2 result:** five of the ten healthy donors (Control1-4 in pool P02, Control5 in pool P03)
+   were captured in hashed pools together with T-ALL/ETP-ALL samples that are not in the GEO deposit (feature references;
+   T-ALL/ETP hashtags are the top hashtag of 8.5-22 % of called barcodes per lane; no cell kept by the authors carries
+   one). Their ambient RNA was not removed. This does not change D1/D2 or how they are read; it is tested in the next
+   amendment.
+3. **Order after G02 (user decision 2026-10-28):** the next step is one batch amendment (capture day and pool, including
+   the T-ALL pools; the library-blocking rungs of the September/S5 bridge; the decontX, per-library doublet and
+   corrected-sex arms; handling-artefact scores; Lasry's label as one comparison with capture period), before the
+   composition step (G01). The D2 stop rule (p_D2 >= 0.05 -> stop for discussion) is unchanged.
