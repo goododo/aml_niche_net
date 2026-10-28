@@ -246,3 +246,21 @@ Known answers: K7 libraries whose meta_<GSE> row equals the donor table (age, se
 - GSE227690 is descriptive (n young 3, n old 2): A_E/(D_res/r) -0.022, 0 of 2 older donors above the AML-healthy midpoint after study correction
 - GSE276360 is descriptive (n young 2, n old 2): A_E/(D_res/r) 0.296, 0 of 2 older donors above the AML-healthy midpoint after study correction
 <!-- A1-S9 end -->
+
+<!-- A1-G02 start -->
+## T imprint, out-of-sample statistics (A1-G02 reporting amendment) -- 2026-10-28
+
+Scripts: scripts/ws/35_a1_g02_replay.R (R1, R2, D1), scripts/ws/36_a1_g02_perm_crossfit.R (D2). Declaration: PREREGISTRATION_A1_G02_reporting.md (committed before any run; section 7 before any D1/D2 result was read). GSE185381, 15 adult AML vs 10 healthy, S5 design with metadata sex.
+
+| test | statistic | threshold | n | pass | detail |
+|---|---|---|---|---|---|
+| R1_monte_carlo_p_402 | 0.025 | reported | 200 relabellings | NA | 4 of 200 reach >= 402 genes (563, 707, 1,166, 1,615); median 0, P95 11.1 |
+| R2_pooled_LOO_AUC | 0.927 | reported, conditional on the folds | 25 | NA | bootstrap 0.80-1.00; 25 genes selected in all 25 folds, 299 of the 370 in >= 13 |
+| D1_AUC_LPO | 0.927 | the AUC a manuscript quotes | 150 pairs | NA | no empty fold imprint; misordered pairs involve AML1371, AML2451, AML2123 |
+| D2_p_gap_oof | 0.008 | < 0.05, else stop for discussion | 1,000 relabellings | TRUE | observed 1.378; null median 0, P95 0.660, max 1.622; no failed folds |
+| D2_p_loo_auc | 0.004 | secondary | 1,000 relabellings | NA | |
+
+Known answers: 8/8 PASS (402 genes reproduced; 200 hit counts median 0 / P95 11.1 / max 1,615; 25 out-of-fold scores within 0.001; gap_oof 1.378).
+
+**Verdict: A1-G02 PASS (stop rule not triggered). The T imprint exists out of sample in GSE185381: cross-fitted gap 1.378 (1.98 out-of-fold healthy-SD), full-pipeline permutation p 0.008, leave-pair-out AUC 0.93. Batch, sample source and T-subset composition are not addressed here; the next step is the batch amendment.**
+<!-- A1-G02 end -->

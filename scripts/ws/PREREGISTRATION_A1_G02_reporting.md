@@ -102,3 +102,41 @@ Written after replay job 3677853 finished (15:38) and while the D2 array 3677854
    the T-ALL pools; the library-blocking rungs of the September/S5 bridge; the decontX, per-library doublet and
    corrected-sex arms; handling-artefact scores; Lasry's label as one comparison with capture period), before the
    composition step (G01). The D2 stop rule (p_D2 >= 0.05 -> stop for discussion) is unchanged.
+
+## 8. Outcome, 2026-10-28 (replay/D1 job 3677853; D2 array 3677854, 50 tasks; `--combine` run 15:56)
+
+**Known answers: 8/8 pass** (`ws_a1_g02_checks_replay.csv`). R1's main fit reproduces the 402 genes and the 200 hit counts
+reproduce median 0, P95 11.1, max 1,615. R2 reproduces all 25 logged out-of-fold scores within 0.001 and gap_oof 1.378.
+
+**R1.** Monte Carlo p for >= 402 genes = 5/201 = **0.025**. The 4 relabellings that reach 402 (563, 707, 1,166 and 1,615
+hits) put 6-10 true AML in the AML group and 7-9 of the 12 samples captured only in 2019 (expected under random labelling
+7.2); per-draw make-up in `ws_a1_g02_s5_perm_draws.csv`.
+
+**R2.** Per-sample out-of-fold scores: `ws_a1_g02_oof_scores.csv`. Pooled leave-one-out AUC 0.927 (2,000-draw stratified
+bootstrap 0.80-1.00, conditional on the fitted folds). Gene selection over the 25 folds (`ws_a1_g02_gene_selection.csv`):
+1,375 genes selected at least once; 25 in every fold (10 up, 15 down, all in the 370); 175 in >= 20 folds; 299 of the
+370 in >= 13 folds. The smallest fold imprints come from leaving out AML4340 (29 genes), Control4 (75) and Control3 (86);
+Control3 and Control4 are both in pool P02 (section 7, item 2).
+
+**D1.** AUC_LPO = **0.927** over 150 pairs; no empty fold imprint (2-1,888 genes, median 258). The 11 misordered pairs
+involve AML1371 (4), AML2451 (4) and AML2123 (3).
+
+**D2.** p_D2 = (1 + 7) / 1,001 = **0.008**; null median 0, P95 0.660, max 1.622; no failed fold in any relabelling.
+Secondary: permutation p of the pooled leave-one-out AUC = 0.004.
+
+**Consequence (section 4): p_D2 < 0.05, so a manuscript may state that the T imprint exists out of sample: cross-fitted
+gap 1.378 (1.98 out-of-fold healthy-SD), p_D2 0.008, AUC_LPO 0.93. The line continues to the batch amendment.** These
+numbers keep the S5 design, including Control4's metadata sex (section 7). They say nothing about batch, sample source
+or T-subset composition.
+
+Descriptive, not declared, computed after the result was read: across the 1,000 relabellings, gap_oof_b is unrelated to
+the number of true AML in the AML group (Pearson -0.06), to the share of 2019-captured samples (0.01) and to how many of
+the five T-ALL-pool donors sit on the healthy side (-0.03). The 7 relabellings at or above the observed gap put 5-11 true
+AML in the AML group. The null's tail does not follow capture period or the T-ALL pools.
+
+Section 5 (`ws_a1_g02_descriptive.csv`): S5 score vs CD8 share 0.168 (15 AML) and 0.224 (10 healthy); S8 rep2 score vs
+CD8 share in GSE227903 diagnosis samples 0.857 (7) and 0.829 (6); captured only in 2019: healthy 7/10, AML 5/15, AML
+Inflammation_high 0/8.
+
+Smoke outputs (`ws_a1_g02_*_smoke.csv`, `ws_a1_g02/perm_task_01_smoke.csv`) deleted after the real run reproduced. The
+50 task files stay under `/LARGE1/gr10634/gaozy/aml_niche_net/ws_a1_g02/`. GATES.md block `A1-G02`.

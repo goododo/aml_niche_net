@@ -1,0 +1,14 @@
+quantity,value
+R1_real_imprint_size,402
+R1_perm_median,0
+R1_perm_P95,11.1
+R1_perm_max,1615
+R1_monte_carlo_p,0.0248756218905473
+R2_gap_oof,1.37816402535961
+R2_pooled_LOO_AUC,0.926666666666667
+R2_pooled_LOO_AUC_boot_lo,0.8
+R2_pooled_LOO_AUC_boot_hi,1
+R2_genes_in_all_folds,25
+D1_AUC_LPO,0.926666666666667
+D1_pairs,150
+D1_pairs_empty_imprint,0

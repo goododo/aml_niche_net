@@ -1,0 +1,12 @@
+quantity,value
+D2_gap_oof_observed,1.37816402535961
+D2_p_gap_oof,0.00799200799200799
+D2_perm_gap_median,0
+D2_perm_gap_P95,0.660157024926362
+D2_perm_gap_max,1.62167350960644
+D2_n_perm_gap_ge_observed,7
+D2_relabellings_with_failed_folds,0
+D2_failed_folds_total,0
+D2_loo_auc_observed,0.926666666666667
+D2_p_loo_auc,0.003996003996004
+D2_n_perm_ge_1.378,7

@@ -1,0 +1,8 @@
+quantity,value,of
+rho_S5score_CD8share_AML,0.167857142857143,15
+rho_S5score_CD8share_healthy,0.224242424242424,10
+rho_S8rep2score_CD8share_GSE227903Dx_n7,0.857142857142857,7
+rho_S8rep2score_CD8share_GSE227903Dx_n6,0.828571428571429,6
+healthy_captured_only_2019,7,10
+AML_captured_only_2019,5,15
+AML_Inflammation_high_captured_only_2019,0,8
