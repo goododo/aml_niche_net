@@ -371,3 +371,18 @@ Moved out: the September/S5 hit-count ladder (v2's B3) goes to the G03 step afte
   synthetic counts with real metadata; write guard, allowlist, per-arm seeds, sampler by enumeration; compute restated.
   Not adopted: SRA run tables for Control0005's date (they hold no dates); a gating hashing arm (S5's arm already covers
   24 of 25 samples).
+
+## 11. Dated note, 2026-10-31 18:00, before any real W4 or D9 output and before any D9 readout
+
+1. **K6's marker check is mis-specified and is replaced.** The smoke run of `38_a1_batch_cells.R` (real data, lane
+   GSM5613747 only, 227 T-ALL/ETP barcodes) shows that the top 1 % of the soup profile (166 of 16,518 expressed genes) is
+   ribosomal and mitochondrial genes, MALAT1, FTH1 and FTL, where no lineage marker can rank: CD7 ranked 972 and CD3E
+   2,032 (CD99 152, SOX4 175). The check would fail for any lineage. It is replaced, before the real run, by **K6b**:
+   the soup profile's Spearman correlation with the healthy donors' pooled kept-T pseudobulk is higher than with their
+   pooled B and monocyte pseudobulks (log CPM; genes with CPM >= 10 in at least one of the four profiles; ribosomal and
+   mitochondrial genes removed). K6's barcode-count part is unchanged. K6b concerns D9 only: if it fails, D9 is reported
+   as "soup profile not T-lineage-like" and its bound is not interpreted; the other arms are not affected.
+2. **W4's score.** Checked on synthetic data: in this environment scDblFinder 1.20.2 calls xgboost 3.2.1.1, which rejects
+   the call ("Got numeric 'y' ... binary:logistic"), and scDblFinder's own error handler keeps the pre-training score.
+   W4's statement stands.
+3. 38's smoke run (two libraries, real data) gave K5 AUCs of 0.86 and 0.84 (known answers, not readouts).
