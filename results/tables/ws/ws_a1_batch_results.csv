@@ -1,0 +1,14 @@
+readout,value,reference,n_ref,percentile,verdict,note
+G1 drop Control1-5: R,0.811903917529306,40 design-matched drops,40,0.1,no effect,fhat 0.31 (0.26-0.38); z-percentile over 252: 0.135
+G2 block-respecting p of the cross-fitted gap,0.016983016983017,block-respecting relabellings,1000,0.016983016983017,no effect,"null median 0.000, P95 1.092; free p (A1-G02) 0.008"
+W1 period: R,1.05098134474881,"1,000 residual-permutation draws",1000,0.772227772227772,no effect,fhat -0.08; covariate cannot explain (t cap below 2.78)
+W2 depth: R,1.03895581198412,"1,000 residual-permutation draws",1000,0.761238761238761,no effect,fhat -0.06; covariate cannot explain (t cap below 2.78)
+W3 mito: R,1.05241236532384,"1,000 residual-permutation draws",1000,0.9000999000999,no effect,fhat -0.09; covariate cannot explain (t cap below 2.78)
+W4 t_dbl: R,0.997476655260868,"1,000 residual-permutation draws",1000,0.425574425574426,no effect,fhat 0.00; covariate cannot explain (t cap below 2.78)
+D3 CF without Control1-5 / median matched CF,0.157314412625428,39 matched drops,39,,descriptive,""
+D3 drop P02: R,0.82474705885773,13 matched drops of 4 healthy,13,0.0769230769230769,descriptive,""
+D7 drop P01: R,0.978801322053607,matched drops of 4 AML,1222,0.338788870703764,descriptive,""
+D6 calendar year: R,1.02488972850129,"1,000 residual-permutation draws",1000,0.652347652347652,descriptive,""
+D6 early stratum: R,1.02663904546094,"500 subsets (P01, P02 whole or absent)",500,,descriptive,""
+D2 within-healthy: share of P370 with Control1-5 sign opposite to the imprint,0.710059171597633,252 splits of the 10 healthy,252,0.873015873015873,descriptive,p_ge 0.143
+D5 leave-pair-out AUC with Control4 coded female,0.913333333333333,150 pairs (A1-G02 D1 = 0.927),150,,descriptive,""

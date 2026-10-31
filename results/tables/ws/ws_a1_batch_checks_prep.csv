@@ -1,0 +1,24 @@
+check,expected,got,pass
+K0 file-name dates of the 25 samples (section 2.2),TRUE,TRUE,TRUE
+"K0 period: early 7 AML / 8 healthy, late 8 / 2",7;8;8;2,7;8;8;2,TRUE
+K0 calendar year 2019: 5 AML / 7 healthy,5;7,5;7,TRUE
+K0 unhashed samples (feature references),AML0693;AML3266;AML3730;AML3948,AML0693;AML3266;AML3730;AML3948,TRUE
+"K0 library blocks P01, P02, P15, P05: samples of the 25 per block",4;4;2;2,4;4;2;2,TRUE
+K0 block-respecting labellings with 15 AML (G2),22284,22284,TRUE
+K0 G1 reference: matched drops of 5 healthy (incl. the real one),40,40,TRUE
+K0 D3 reference: matched drops of 4 healthy (incl. P02),13,13,TRUE
+K3(e) every covariate draw keeps its fitted part and permutes its residual,TRUE,TRUE,TRUE
+K1 the MAIN refit reproduces the 402 S5 T imprint genes,TRUE,TRUE,TRUE
+K1 R(MAIN refit) = 1,1,1,TRUE
+K1 md5 of ws_a1_g02_perm_labels.csv,b2f6e70b7e16f4ea374dce14ef6684e7,b2f6e70b7e16f4ea374dce14ef6684e7,TRUE
+"K1 D2 label file: 1,000 rows, 25 characters, 15 ones",1000;  25;  15,1000;  25;  15,TRUE
+K2 the two Control0005 channel units sum to its $raw$T column,0,0,TRUE
+K3(a)/(d) cross-fit with nothing removed and the true labels reproduces gap_oof,1.378164,1.378164,TRUE
+K3(b) the covariate path with no covariate gives R = 1,1,1,TRUE
+"K3(c) MAIN + multiplexed reproduces S5's arm (405 hits, 308 in the 402)",405;308,405;308,TRUE
+K4(a) a constant added to one day leaves W unchanged,0,-2.220446e-16,TRUE
+K4(b) +0.5 on the 4 AML units raises W by 0.5,0.5,0.5,TRUE
+K4(c) the 12 arrangement values of W sum to 0,12; 0,1.200000e+01;1.665335e-16,TRUE
+K4(d) one-hot on Control0082: W = (0 - 1 - 1 + 0)/4,-0.5,-0.5,TRUE
+L27: the manual log-CPM formula reproduces logz on the 25 columns,0,3.552714e-15,TRUE
+K4(e) scoring AML0310 alone with D1's normalisation reproduces its out-of-fold score,2.123142,2.123142,TRUE

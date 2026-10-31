@@ -264,3 +264,29 @@ Known answers: 8/8 PASS (402 genes reproduced; 200 hit counts median 0 / P95 11.
 
 **Verdict: A1-G02 PASS (stop rule not triggered). The T imprint exists out of sample in GSE185381: cross-fitted gap 1.378 (1.98 out-of-fold healthy-SD), full-pipeline permutation p 0.008, leave-pair-out AUC 0.93. Batch, sample source and T-subset composition are not addressed here; the next step is the batch amendment.**
 <!-- A1-G02 end -->
+
+<!-- A1-BATCH start -->
+## T imprint, processing factors inside GSE185381 (A1-BATCH, prereg-a1-batch-v1) -- 2026-10-31
+
+Scripts: scripts/ws/37_a1_batch.R, scripts/ws/38_a1_batch_cells.R. 15 adult AML vs 10 healthy, S5 design, frozen P370 direction.
+
+| readout | value | reference | n | percentile | verdict | note |
+|---|---|---|---|---|---|---|
+| G1 drop Control1-5: R | 0.812 | 40 design-matched drops | 40 | 0.100 | no effect | fhat 0.31 (0.26-0.38); z-percentile over 252: 0.135 |
+| G2 block-respecting p of the cross-fitted gap | 0.017 | block-respecting relabellings | 1000 | 0.017 | no effect | null median 0.000, P95 1.092; free p (A1-G02) 0.008 |
+| W1 period: R | 1.051 | 1,000 residual-permutation draws | 1000 | 0.772 | no effect | fhat -0.08; covariate cannot explain (t cap below 2.78) |
+| W2 depth: R | 1.039 | 1,000 residual-permutation draws | 1000 | 0.761 | no effect | fhat -0.06; covariate cannot explain (t cap below 2.78) |
+| W3 mito: R | 1.052 | 1,000 residual-permutation draws | 1000 | 0.900 | no effect | fhat -0.09; covariate cannot explain (t cap below 2.78) |
+| W4 t_dbl: R | 0.997 | 1,000 residual-permutation draws | 1000 | 0.426 | no effect | fhat 0.00; covariate cannot explain (t cap below 2.78) |
+| D3 CF without Control1-5 / median matched CF | 0.157 | 39 matched drops | 39 | NA | descriptive |  |
+| D3 drop P02: R | 0.825 | 13 matched drops of 4 healthy | 13 | 0.077 | descriptive |  |
+| D7 drop P01: R | 0.979 | matched drops of 4 AML | 1222 | 0.339 | descriptive |  |
+| D6 calendar year: R | 1.025 | 1,000 residual-permutation draws | 1000 | 0.652 | descriptive |  |
+| D6 early stratum: R | 1.027 | 500 subsets (P01, P02 whole or absent) | 500 | NA | descriptive |  |
+| D2 within-healthy: share of P370 with Control1-5 sign opposite to the imprint | 0.710 | 252 splits of the 10 healthy | 252 | 0.873 | descriptive | p_ge 0.143 |
+| D5 leave-pair-out AUC with Control4 coded female | 0.913 | 150 pairs (A1-G02 D1 = 0.927) | 150 | NA | descriptive |  |
+
+Calibration (healthy-ward plant on Control1-5, x main logFC): 0.25: R 0.705, percentile 0.050; 0.50: R 0.623, percentile 0.025; 1.00: R 0.506, percentile 0.025
+
+**Verdict: GATE_A1B PASS.**
+<!-- A1-BATCH end -->

@@ -1,0 +1,5 @@
+imprint,delay,overlap,random_median,random_P95,p_ge
+up,up,12,6,10,0.027972027972028
+down,down,23,10,15,0.000999000999000999
+up,down,0,11,17,1
+down,up,0,5,9,1

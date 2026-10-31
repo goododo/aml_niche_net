@@ -1,0 +1,2 @@
+check,expected,got,pass
+combine: the job fit of the real G1 drop equals the arm fit,0.8119039,0.8119039,TRUE

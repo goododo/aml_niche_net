@@ -1,0 +1,13 @@
+quantity,value
+K6b_pass,0
+log2ratio_up_obs,-0.199500460835395
+log2ratio_up_random_median,-0.118830089041897
+log2ratio_up_p_ge,0.841158841158841
+log2ratio_down_obs,-0.289138623994467
+log2ratio_down_random_median,-0.0605833327102579
+log2ratio_down_p_ge,1
+gap_in_same_scoring,2.1790500600884
+healthy_shift_lo_dose,2.98854730238496e-05
+healthy_shift_hi_dose,-0.000111939541827866
+shift_frac_lo,1.3714908882193e-05
+shift_frac_hi,-5.13707986237472e-05
