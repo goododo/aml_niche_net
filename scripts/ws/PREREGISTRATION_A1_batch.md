@@ -4,9 +4,9 @@ WP-A1 gaps G05 (pools, capture period, depth, cell quality), the core of G06 (do
 the headline statistic (the part of G03 that cannot wait), and two credibility checks (a bound on T-ALL soup; B and NK
 cells as negative-control compartments).
 
-**Status: DRAFT v3, 2026-10-31 (v1 → v2 after review round 1; v2 → v3 after review round 2; section 10). Not binding
-until the user approves it and the tag `prereg-a1-batch-v1` is set. No quantity declared below has been computed. Later
-changes are appended as dated sections.** Order (user decision 2026-10-28): A1-G02 (PASS) → this amendment → G01 → G04.
+**Status: v3, APPROVED by the user on 2026-10-31 (all four section-9 items as recommended) and tagged
+`prereg-a1-batch-v1`. Drafts: v1 → v2 after review round 1; v2 → v3 after review round 2 (section 10). No quantity
+declared below had been computed at the tag. Later changes are appended as dated sections.** Order (user decision 2026-10-28): A1-G02 (PASS) → this amendment → G01 → G04.
 Handoff v2.0 §17 S15.
 
 ## 0. Question, scope, and what each outcome lets the paper say
@@ -233,8 +233,14 @@ One covariate at a time is added to MAIN; R and f̂ are read against 1,000 resid
 - **D8 handling-artefact score.** Per sample, the mean label-free z (over the 25) of `WS_B0_IEG` (26 genes; IER2 is in
   F402 and NR4A1 in the ambient blacklist, so at most 24 enter), with and without KLF2, KLF4 and KLF6 (quiescence
   factors that track naive share): AML vs healthy difference, Spearman with the out-of-fold score within each arm, and
-  MAIN + score → R. A drop in R cannot separate handling from biology. If the user approves (section 9), the same for
-  the Savage et al. 2021 processing-delay genes.
+  MAIN + score → R. A drop in R cannot separate handling from biology. The same readouts for the processing-delay sets of
+  Savage et al. 2021 (approved 2026-10-31): `/LARGE1/gr10634/gaozy/reference/savage2021_processing_delay/`
+  `savage2021_T_delay18h_consistent.csv` (md5 5ee444a9284ae52b7afab1c8aeeced2c; 295 up, 497 down: genes with adjusted
+  p < 0.05 at 18 h vs 2 h in CD4/CD8 naive or memory T cells of the healthy donor of both experiments, same direction in
+  both, never opposite; Experiment 2's reversed log2FC sign corrected; `PROVENANCE.txt` beside it; source table mmc5.xlsx
+  md5 60fac77c3d75689f8abdc63bbd2f2a26). Two readouts: (a) the overlap of the P370 up and down genes with the delay up
+  and down sets, against 1,000 random gene sets matched on expression (label-free mean log-CPM over the 25); (b) a delay
+  score (mean z of delay-up minus delay-down genes, F402 genes removed), read as the IEG score above.
 - **D9 T-ALL soup bound.** In the six P02/P03 lanes, barcodes whose top hashtag is a T-ALL/ETP tag with top share >= 0.8
   (HTO rows of the GEO matrices) are summed into one soup profile (CPM). (i) T-ALL/normal-T ratio of the 214 down and the
   156 up genes against 1,000 random gene sets matched on expression (normal T = the 10 healthy donors' pooled kept-T
@@ -279,13 +285,13 @@ Moved out: the September/S5 hit-count ladder (v2's B3) goes to the G03 step afte
   0.5 and 1.0 × logFC) is planted on Control1-5's P370 counts; the main fit, G1 and its 39 references are refit with P370
   fixed; reported: the smallest plant at which G1's percentile is <= 0.05.
 
-## 6. Decision rules (bracketed values are proposals; the user fixes them before the tag)
+## 6. Decision rules (values fixed by the user on 2026-10-31)
 
-- **G1**: explains = R < [0.6] and percentile <= [0.05]; weakens = percentile <= [0.05] and R < [0.85]; otherwise no
+- **G1**: explains = R < 0.6 and percentile <= 0.05; weakens = percentile <= 0.05 and R < 0.85; otherwise no
   effect.
-- **G2**: p_block <= [0.05] → survives lane clustering; in ([0.05], [0.10]] → weakens; > [0.10] → explains ("not
+- **G2**: p_block <= 0.05 → survives lane clustering; in (0.05, 0.10] → weakens; > 0.10 → explains ("not
   separable from lane clustering"). Monte Carlo SE with 1,000 draws: 0.007 at p 0.05, 0.009 at p 0.10.
-- **W1-W4**: weakens = percentile <= [0.05] and R < [0.85]; they cannot explain.
+- **W1-W4**: weakens = percentile <= 0.05 and R < 0.85; they cannot explain.
 - **GATE_A1B**: FAIL if G1 or G2 explains. PARTIAL if neither explains and at least one of G1, G2 and W1-W4 weakens.
   PASS otherwise.
 - **Operating characteristics** (synthetic, review round 2: G1 plus covariates like W1, W2 and W4, references and
@@ -339,17 +345,13 @@ Moved out: the September/S5 hit-count ladder (v2's B3) goes to the G03 step afte
   a check stops the run if a real count column enters a smoke fit; no per-sample label-free quantity is written; every
   smoke file ends in `_smoke` and is deleted once the real run has reproduced.
 
-## 9. For the user to decide before the tag
+## 9. Decided by the user on 2026-10-31 (all as recommended)
 
-1. **Scope.** v3 is the slim version: two gating arms, four weakens-only covariates, the rest descriptive; the hit-count
-   ladder moves to G03. The alternative is v2's full set with the round-2 fixes: about 2-3 more days, 30-40 more CPU-h
-   and one more review round, and it can conclude nothing more about disease versus processing. Recommended: v3.
-2. **Thresholds** (section 6): G1 explains at R < 0.6 and weakens at R < 0.85 (both with percentile <= 0.05); G2 at 0.05
-   and 0.10; W arms weaken at R < 0.85.
-3. **D8**: also download the Savage et al. 2021 processing-delay gene list (a few MB; DUSP4, ATF4 and MTHFD2 are on the
-   up arm). Recommended: yes.
-4. **W4 score**: the heuristic score as at QC and in T3a (recommended), or approve an older xgboost so the classifier
-   trains (a dependency change).
+1. **Scope**: v3 (the slim version). The hit-count ladder moves to the G03 step.
+2. **Thresholds**: G1 explains at R < 0.6 and weakens at R < 0.85 (both with percentile <= 0.05); G2 at 0.05 and 0.10;
+   W arms weaken at R < 0.85 (section 6).
+3. **D8**: the Savage et al. 2021 processing-delay sets are used (downloaded 2026-10-31; definition in D8).
+4. **W4**: the heuristic doublet score, as at QC and in T3a; no dependency change.
 
 ## 10. Review history
 
