@@ -4,7 +4,7 @@ WP-A1 gap G01 (composition versus within-subtype state), with the four items tha
 the processing-delay sensitivity, the comparison with B, NK and monocytes, the Control4 sex coding, and a sensitivity
 without the three expression-female healthy donors. G09 (what S8's structural replication can show) is in section 5.4.
 
-**Status: DRAFT v2, 2026-11-02, after short review 1 (section 10; v1 at bd29ce6). Not approved, not tagged. Nothing
+**Status: DRAFT v2, 2026-11-01 23:40, after short review 1 (section 10; v1 at bd29ce6). Not approved, not tagged. Nothing
 declared below has been computed.** Order (user decisions 2026-10-28 and 2026-11-01): A1-G02 (PASS) → A1-BATCH (PASS
 with qualifications) → **this** → G04(a). Handoff v2.0 §17 S15. Decision lines in section 7 are proposals; the user
 fixes them before the tag `prereg-a1-g01-v1`.
@@ -289,4 +289,4 @@ Decisions use the point estimates of C and the CI of S_w; every CI is reported.
   `ws_a1_g02_descriptive.csv`, not only in memory; K4 states its rule; K6 reworded for S8's loader; G09(a) given a
   proportional rule with Oetjen as the only clean healthy cohort. Added: 5.5 (does the within-label shift follow the
   naive-to-effector axis).
-- 2026-11-02: DRAFT v2.
+- 2026-11-01 23:40: DRAFT v2.
