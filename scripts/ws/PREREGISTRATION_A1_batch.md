@@ -386,3 +386,112 @@ Moved out: the September/S5 hit-count ladder (v2's B3) goes to the G03 step afte
    the call ("Got numeric 'y' ... binary:logistic"), and scDblFinder's own error handler keeps the pre-training score.
    W4's statement stands.
 3. 38's smoke run (two libraries, real data) gave K5 AUCs of 0.86 and 0.84 (known answers, not readouts).
+
+## 12. Outcome, 2026-11-01
+
+Jobs: 38 (cells) 3682291; 37 prep 3682308, arms 3682309, reference array 3682310 (100 tasks, 8,669 fits), combine
+3682311 (2026-10-31 18:20-19:04). Tables `results/tables/ws/ws_a1_batch_*.csv`; GATES.md block `A1-BATCH`.
+
+### 12.1 Known answers
+
+- 38: K5 passed. The doublets removed at QC were reconstructed exactly (6,387 = the QC report, 25/25 samples), and the
+  new scores separate them from kept cells in all 35 libraries (AUC median 0.867, range 0.58-0.96). K6's barcode counts
+  matched the 2026-10-28 tally in all six lanes. **K6b failed**: the T-ALL/ETP soup profile correlates more with healthy
+  monocytes (0.783) than with healthy T cells (0.735); by section 11 this concerns D9 only.
+- 37: 23/23 known answers passed at prep (402 genes and gap_oof 1.378164 reproduced; S5's multiplexed arm 405/308; the
+  Control0005 channel units sum exactly; label-file md5; D1 arithmetic K4(a)-(e)); the combine check passed. All 8,669
+  reference fits ran without error; 16 of the 500 D6 subsets were excluded for coverage < 0.8.
+
+### 12.2 Declared result: GATE_A1B PASS
+
+| readout | value | reference | percentile | verdict |
+|---|---|---|---|---|
+| G1 drop Control1-5: R | 0.812 (fhat 0.31; 0.26-0.38) | 40 design-matched drops | 0.100 (rank 4); z-percentile over 252: 0.135 | no effect |
+| G2 block-respecting permutation p of the cross-fitted gap | 0.017 (16 of 1,000 draws >= 1.378; null median 0, P95 1.09) | 22,284 labellings | | survives lane clustering |
+| W1 period: R | 1.051 | 1,000 residual permutations | 0.772 | no effect |
+| W2 depth: R | 1.039 | idem | 0.761 | no effect |
+| W3 mito: R | 1.052 | idem | 0.900 | no effect |
+| W4 residual doublets: R | 0.997 | idem | 0.426 | no effect |
+
+Calibration report: healthy-ward plants of 0.25, 0.5 and 1.0 x the main logFC on Control1-5 give G1 R 0.705, 0.623 and
+0.506 at percentiles 0.050, 0.025 and 0.025. The observed R 0.812 lies between no plant and the smallest plant.
+
+By section 0 the manuscript may say: "None of the six listed within-study processing factors, each tested one at a time,
+explained or weakened the frozen direction (R 0.81-1.05; block-respecting permutation p 0.017). Sample source, storage,
+sorting method and chemistry version are constant within arms or unrecorded, and were not tested." Section 12.4 adds the
+qualifications the descriptive and post-hoc results require.
+
+### 12.3 Descriptive arms (declared readings; they do not change the gate)
+
+- **D1** capture-day contrast: W 1.556, W/1.378 = 1.13, "consistent within capture days"; p_W 0.167 over 12 arrangements
+  (not a test). The same-channel pair AML2451 vs Control0004 has delta -0.05 (AML2451 has 47 kept T cells); AML0048 2.61,
+  AML3266 1.49, AML4897 2.17. 2021-03-09 (date not established): mean delta 1.12.
+- **D2** within-healthy: 0.710 of the P370 genes have a Control1-5-minus-other-healthy sign opposite to the imprint
+  (Control1-5 more healthy-like); 87th percentile of the 252 splits (p_ge 0.143). Not attributable.
+- **D3**: CF without Control1-5 = 0.123 = 0.157 x the median CF of the 39 matched drops (rank 7 of 40; 14 of its 20
+  fold imprints were empty). Drop P02: R 0.825, the lowest of its 13 matched drops (0.077 is the smallest attainable
+  percentile with 13 drops).
+- **D4** decontX: R 1.016 (coverage 0.93), CF/1.378 0.91; HMGB3 logFC ratio 1.05. GNA15 could not be tested: decontX
+  removed about half of its counts (AML 418 -> 214 UMI), below the CPM filter. GNA15 is partly ambient and leaves the
+  interpretation of the up arm.
+- **D5** sex: Control4 coded female: R 1.019, CF/1.378 1.03, leave-pair-out AUC 0.913 (A1-G02 D1 0.927). Males only by
+  expression (7 vs 7): R 0.878.
+- **D6**: calendar year R 1.025 (percentile 0.65); early stratum R 1.027 (0.46 among 484 covered subsets); the early
+  stratum without P01 and P02 is not estimable (1 residual degree of freedom).
+- **D7** leave one pool out: R 0.979 (P01; percentile 0.34 among 1,222 matched drops), 1.060 (P15), 1.023 (P05), 1.001
+  (Control5).
+- **D8**: IEG score AML minus healthy +0.04 z (p 0.81), R 0.997. **Processing-delay sets (Savage 2021): the imprint
+  overlaps them in the same direction** (up with delay-up 12 genes, random median 6, P95 10, p 0.028; down with
+  delay-down 23, random 10, P95 15, p 0.001; opposite-direction overlaps 0). The delay score (732 genes, F402 excluded)
+  is higher in AML by 1.12 z (Wilcoxon p 0.14), tracks the out-of-fold imprint score (Spearman 0.58 within AML, 0.81
+  within healthy) and, added to MAIN, gives R 0.823 (fhat 0.30). Declared reading: a drop in R cannot separate handling
+  from biology.
+- **D9**: not interpreted (K6b failed). For the record: P370 up genes log2 soup/normal-T +0.31 (random -0.13), down
+  genes -0.72 (random -0.11); the healthy-mean shift at the high dose is 0.016 of the in-sample gap.
+- **D10**: R_B 0.692 (coverage 0.47; random median 0.634, P95 0.761, p 0.23); R_NK 0.928 (coverage 0.48; random median
+  1.140, P95 1.300, p 0.98). Declared reading: inside the random range, "not a generic sample-level artefact"; see 12.4.
+- **D11**: hashed covariate R 1.042; per-sample table `ws_a1_batch_d11.csv`.
+
+### 12.4 Post-hoc verification (NOT pre-registered; 2026-11-01)
+
+Scripts and outputs: `/FAST/gr10634/gaozy/reports/2026-11_a1_batch_posthoc/` (outside the repository).
+
+1. **Code audit.** Every gating and descriptive number was recomputed from the 100 task files and by refits (MAIN refit
+   = S5 to 8e-15; B and NK refits = S5's). No bug changes a number or a verdict. Cosmetic: the D8/D9 random sets for the
+   up genes may contain P370 down genes; excluding F402 from the pool gives p 0.024 (up) and 0.001 (down), unchanged.
+2. **The AML-vs-healthy difference is shared across lymphoid compartments, as any donor grouping is.** Over the ~3,900
+   non-imprint genes tested in both, the T-cell AML-vs-healthy logFC correlates with B (r 0.60) and NK (r 0.70) logFC of
+   the same donors; this holds across expression levels, is not driven by ambient-prone or myeloid-enriched genes, and
+   is carried by many genes (without the top 25 % of contributors r 0.30-0.40). Groupings without any AML contrast show
+   the same: random 5-vs-5 splits of the healthy donors (T-B r median 0.54, 90 % range 0.35-0.77), 7-vs-8 splits of the
+   AML donors (0.51), random relabellings (0.44). Planted effects on these data give R_B about 0.35 and R_NK about 0.41
+   for a T-only effect, and 0.72 / 0.77 for an effect shared across compartments; the observed 0.69 / 0.93 match the
+   shared case. **So the declared D10 reading holds formally, but the imprint cannot be called T-cell-specific: the
+   AML-vs-healthy difference behaves like a donor-level difference expressed in T, B and NK cells alike.** Its source
+   (systemic disease, sample handling or sample source) cannot be separated inside GSE185381.
+3. **Delay alignment.** Removing the delay genes from every fold's gene selection barely changes the out-of-fold gap
+   (1.378 -> 1.318; leave-one-out AUC 0.933), so the gap does not rest on delay genes. But the delay score (without
+   imprint genes) still tracks the out-of-fold score after that removal (Spearman 0.67 within healthy, 0.55 within AML).
+   Among the healthy donors, Control1, Control2, Control0004 and Control0058 have high delay scores (+0.06 to +1.48) and
+   the most AML-like out-of-fold scores (-0.44 to +0.17); the other six have low delay scores (-1.2 to -2.2). The IEG
+   score shows the same within healthy (0.79) but the opposite within AML (-0.63). The imprint axis is aligned with a
+   handling- or activation-like program that also varies among healthy donors; which of the two cannot be decided here.
+4. **Control1-5.** The three matched drops with lower R than the real one also remove three or four P02 donors, and the
+   P02 drop has the lowest R of its references. With D3, the P02 donors carry a modest share of the gap (point estimates
+   fhat about 0.3), below the pre-registered detection line. It cannot be attributed to T-lineage soup: D9 is not
+   interpretable and the P02 lanes held the least foreign soup.
+
+### 12.5 What the manuscript may and may not say; consequences
+
+- May: the frozen direction exists out of sample (A1-G02) and none of the six within-study processing factors listed,
+  each tested one at a time, explained or weakened it; it survives pool-respecting permutation (p 0.017).
+- Must add: the difference is mirrored in B and NK cells of the same donors as strongly as donor-level differences in
+  general (post-hoc), so it is not shown to be T-cell-specific; it is aligned with a blood-processing-delay or activation
+  program (D8 and post-hoc); sample source and handling are constant within arms; the Control1-5 group carries a modest
+  share, not significant.
+- May not: "robust to processing", "a T-cell-specific state", "not an artefact".
+- **G01** (composition) proceeds, as PASS requires. Its pre-registration should (a) carry the delay score as a declared
+  sensitivity, (b) ask whether any within-subtype residual is also present in B and NK cells of the same donors, and
+  (c) word its result as "beyond T-subset composition", not "T-cell-intrinsic".
+- **G04(a)** (Chen2023: one centre, one protocol, allograft donors) becomes the decisive test of disease versus sample
+  source and handling; its pre-registration should read the delay score there too.
