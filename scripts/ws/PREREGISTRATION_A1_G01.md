@@ -117,7 +117,8 @@ z-score versions, gene coverage per label, and the number of folds with an empty
 For each fold i:
 1. Reference profile per label k (all nine T labels): r_k = the summed label-k counts of the healthy samples other than
    i, divided by their summed kept label-k cells (a per-cell profile pooled over healthy donors, so labels that are
-   rare in single donors still have one).
+   rare in single donors still have one). A label with fewer than 50 pooled healthy kept cells in a fold takes the
+   pooled profile of its group (CD4_T or CD8_T in `s4_cell_groups.tsv`); how often this happens is reported.
 2. Synthetic whole-T counts for every sample s: y_s = sum over k of n_ks · r_k, where n_ks is s's kept cells of label k.
 3. Y = logz of the 25 synthetic columns; c_i = u-score of i in Y (centred on the other 24).
 
@@ -179,7 +180,8 @@ estimable: no overlap", and nothing else is fitted.
 
 ### 5.5 Reported for every estimate
 Both gene sets (370-analogue primary, 402-analogue in 4.1); n per label and compartment; gene coverage; the number of
-folds with an empty half.
+folds with an empty half; the share of kept T cells that the four primary labels cover, by status (S says nothing about
+a state shift confined to the other five labels).
 
 ## 6. Known answers (run first; no readout is printed until all pass)
 
@@ -204,9 +206,12 @@ folds with an empty half.
 
 ## 7. Decision rules (proposed; the user fixes the values before the tag)
 
+- The rules use **calibrated** values: S_cal = S / (K3a median S) and C_cal = C / (K3b median C), both CIs divided by
+  the same constants. Reason: label pseudobulks are small, so raw S is shrunk even under a pure state shift; K3a
+  measures that shrinkage (and K3b the same for C). Raw S and C are reported next to them.
 - **Not decisive**: any known answer fails; or gapT_k ≤ 0 for two or more of the four labels.
-- **"within-state"**: S ≥ 1/2, the lower bound of S's 95% CI > 0, and C ≤ 1/2.
-- **"composition"**: S < 1/3, or C ≥ 2/3.
+- **"within-state"**: S_cal ≥ 1/2, the lower bound of its 95% CI > 0, and C_cal ≤ 1/2.
+- **"composition"**: S_cal < 1/3, or C_cal ≥ 2/3.
 - **"mixed"**: anything else.
 - The lines echo the assessment (1/2, 1/3) and the 1/3 line of GATE_A1(4) and S9. C acts as a veto so that a high S
   that the subtype mix could also produce is not called "within-state".
@@ -229,7 +234,8 @@ folds with an empty half.
 ## 9. For the user to decide before the tag
 
 1. Decision lines of section 7 (recommended as written: 1/2 and 1/3 for S; C ≤ 1/2 and ≥ 2/3).
-2. C as a veto on "within-state" (recommended) or S alone.
+2. C as a veto on "within-state" (recommended) or S alone; and decisions on calibrated values (recommended) or raw S
+   and C (simpler, but biased towards "composition" by small label libraries).
 3. G09 (5.3) inside this amendment, as the assessment ordered, or as its own short amendment right after G01
    (recommended: separate, so this one stays small and finishes in one or two sessions).
 4. The gamma-delta/MAIT arm (5.2) now (recommended: yes; one job of about an hour).
