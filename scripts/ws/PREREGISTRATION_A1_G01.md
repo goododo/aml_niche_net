@@ -126,5 +126,114 @@ gap_C = mean of c_i over AML − mean over healthy; gapT = the u-score whole-T g
 much of the gap would the observed subtype mix produce at healthy states? Also reported: S + C (near 1 if the two parts
 add up).
 
-<!-- part 2 (sections 4-9: sensitivities and carried-forward items, gamma-delta/MAIT, G09, known answers, decision
-rules, code plan, user decisions) follows in the next draft step -->
+## 4. Sensitivities (each reports S and C; none changes the wording by itself, section 7)
+
+- **4.1 The 402-analogue**: the 25 folds refitted without removing the 32 ambient-prone genes (they include SELL, IL7R
+  and other subset markers, so composition should weigh more here).
+- **4.2 Processing delay (carried forward from A1-BATCH 12.5)**: fold lists minus the Savage 2021 18-h delay genes
+  (295 up / 497 down; `savage2021_T_delay18h_consistent.csv`, md5 5ee444a9284ae52b7afab1c8aeeced2c). Known answer: the
+  whole-T z gap with these genes removed is 1.3184 (A1-BATCH 12.4, same construction).
+- **4.3 Control4 sex coding**: the 25 folds refitted with Control4 coded female (its cells are female: XIST 7,797 vs
+  RPS4Y1 56 UMI); A1-G02 section 7 made this the G06 sex sensitivity.
+- **4.4 Without the three expression-female healthy donors** (Control1, Control3, Control4): 22 folds refitted on 15
+  AML + 7 healthy (each fold trains on 21); S and C on the 22. Eligible counts per label are reported.
+- **4.5 Leave one label out**: S recomputed four times, each time without one of the four primary labels.
+
+## 5. Further declared readouts
+
+### 5.1 Beyond T cells, cross-fitted (new; carried forward from A1-BATCH 12.5)
+A1-BATCH 12.4 measured the sharing in-sample: the 370 genes were chosen on the same donors whose B and NK cells were then
+read, so donor-level noise picked up by the selection can also appear in B and NK. Here each held-out donor's B, NK and
+monocyte pseudobulk (`PB$raw`, S5's compartment designs; only donors among the 25, since only they have a fold) is
+scored with the T genes of the fold that left that donor out (u and z, centred on the other eligible donors of that
+compartment). Reported per compartment: n, the held-out gap, and its ratio to the whole-T held-out gap on the same
+donors. Reading: a ratio near 1 means the shift is as large in that compartment as in T cells; near 0, confined to T.
+Caveat stated with the result: monocytes in AML samples are often clonal, so a monocyte shift may be leukaemic biology
+rather than a shared environment or handling effect. The in-sample numbers of A1-BATCH 12.4 are re-derived in the same
+script and written to a durable table (known answers: R_B 0.692, R_NK 0.928, monocytes 0.568).
+
+### 5.2 Gamma-delta and MAIT cells (verifier P3)
+BoneMarrowMap has no gamma-delta or MAIT label, and Lasry 2023 reported MAIT loss in this dataset. From the raw counts of
+the kept T cells (04_annotated objects): gamma-delta flag = TRDC ≥ 1 and TRGC1 + TRGC2 ≥ 1 UMI; MAIT flag = TRAV1-2 ≥ 1
+and SLC4A10 ≥ 1 UMI. Detection is incomplete at this depth, so the flags are lower bounds. Reported: flagged shares per
+sample by status (sanity range: healthy median gamma-delta share between 0.5% and 15% of T cells); the whole-T z gap
+after removing flagged cells from the pseudobulks (fold genes fixed); the gap with TRDC removed from the fold lists.
+
+### 5.3 G09: what S8's structural replication can show (verifier P4)
+S8's T2 (up and down halves move oppositely across patients) and T1 (imprint genes co-vary within a patient's T cells)
+would pass for any gene set aligned with a T-differentiation axis, because subtype heterogeneity alone produces both.
+Rerun, with S8's code and thresholds:
+- (a) **among healthy donors**: GSE185381 healthy (10) and Oetjen (20). If T1 or T2 passes there as often as in AML,
+  the manuscript may not cite it as evidence of an AML-specific program.
+- (b) **against random sets matched also on a composition loading**: each gene's log2 difference between pooled naive
+  (CD4 + CD8 Naive) and effector-memory (CD8 EM1 + EM2, CD4 EM) T pseudobulks of the Oetjen donors, in terciles, on top
+  of S8's expression and detection bins. Cohorts GSE289435 and GSE227903 (manifest role AML_Dx only: the 9 diagnosis
+  samples are selected by metadata before any expression is loaded, so S10 stays blind).
+Section 9 item 3 asks whether G09 stays here or becomes its own short amendment after G01.
+
+### 5.4 Status plus composition regression (verifier P5; secondary)
+The A1-G02 out-of-fold z-scores regressed on status + naive share (CD4 + CD8 Naive / kept T) + CD8 EM share (EM1 + EM2 /
+kept T), **only if an overlap check passes**: at least 3 AML and 3 healthy samples inside the common range of naive
+share (from the larger of the two group minima to the smaller of the two group maxima). Otherwise reported as "not
+estimable: no overlap", and nothing else is fitted.
+
+### 5.5 Reported for every estimate
+Both gene sets (370-analogue primary, 402-analogue in 4.1); n per label and compartment; gene coverage; the number of
+folds with an empty half.
+
+## 6. Known answers (run first; no readout is printed until all pass)
+
+- K0: the whole-T z gap from the stored fold lists reproduces 1.378164 (|difference| < 1e-6).
+- K0b: the refit code (used by 4.1, 4.3, 4.4) run with the primary settings reproduces the 25 stored fold lists exactly.
+- K1: eligible counts per primary label equal 12 + 8, 12 + 9, 11 + 7, 10 + 7 (section 2.2).
+- K2: for every sample, the nine T-label count vectors sum exactly to the whole-T pseudobulk.
+- K3, planted on the 10 healthy donors only (5 drawn as pseudo-AML, 20 draws, fixed seed), every T label's counts
+  rebuilt into whole-T as their sum:
+  - K3a pure state: every T label of the pseudo-AML donors gets the S5 main-fit log2FC on the P370 genes (counts times
+    2^log2FC), scored with P370 as the gene list. Expected S near 1 and C near 0. Pass: median S ≥ 0.8 and median
+    |C| ≤ 0.2. The median S here is also the "pure state" value that real S is read against (it measures the shrinkage
+    from small label libraries).
+  - K3b pure composition: no expression change; the pseudo-AML donors' naive labels (CD4 Naive, CD8 Naive) are halved and
+    their effector-memory labels (CD8 EM1, EM2, CD4 EM) doubled, counts and cell numbers alike; scored with the 100 genes
+    most higher and the 100 most lower in pooled healthy naive versus effector-memory profiles. Expected S near 0 and C
+    near 1. Pass: median |S| ≤ 0.2 and median C ≥ 0.8.
+- K4: Control4's whole-T counts are female by XIST/RPS4Y1 (as recorded); Control1 and Control3 likewise.
+- K5: the Savage delay file has md5 5ee444a9284ae52b7afab1c8aeeced2c; 4.2's whole-T z gap is 1.3184 (± 1e-4).
+- K6: the GSE227903 sample list has exactly the 9 AML_Dx samples, and no other column is loaded.
+- K7: the 5.1 in-sample re-derivation gives R_B 0.692, R_NK 0.928, monocytes 0.568 (± 0.001).
+
+## 7. Decision rules (proposed; the user fixes the values before the tag)
+
+- **Not decisive**: any known answer fails; or gapT_k ≤ 0 for two or more of the four labels.
+- **"within-state"**: S ≥ 1/2, the lower bound of S's 95% CI > 0, and C ≤ 1/2.
+- **"composition"**: S < 1/3, or C ≥ 2/3.
+- **"mixed"**: anything else.
+- The lines echo the assessment (1/2, 1/3) and the 1/3 line of GATE_A1(4) and S9. C acts as a veto so that a high S
+  that the subtype mix could also produce is not called "within-state".
+- Sensitivities (section 4) and readouts (section 5) never change the wording. If one of them would put S or C in a
+  different category, the manuscript reports it next to the primary.
+- Under every outcome the manuscript states the three limits of section 0: no separation of disease from source or
+  handling; "state" means inside a BoneMarrowMap label; label purity in AML unverified.
+
+## 8. Code, outputs, compute (plan; scripts are written after the tag)
+
+- One script, `scripts/ws/39_a1_g01.R`, modes: `--known` (K0-K7), `--primary` (S, C, bootstrap), `--sens` (4.1-4.5;
+  refits 25 + 25 + 22 folds), `--share` (5.1), `--regress` (5.4), `--combine` (tables, GATES block A1-G01). A second
+  script, `scripts/ws/40_a1_g01_cells.R`, for the per-cell steps: 5.2 (reads the 25 annotated objects) and, if kept, G09
+  (5.3: per-cell T1 in healthy donors and the two AML cohorts). sbatch wrappers as for A1-BATCH.
+- Outputs: `results/tables/ws/ws_a1_g01_{checks,labels,primary,boot,sens,share,gdmait,regress,g09}.csv`.
+- Smoke runs first, on synthetic counts with real metadata; smoke tables deleted after the real run reproduces.
+- Compute: every mode except 40 runs in under an hour on one node; 40 needs about 64 GB for the annotated objects.
+- No new package. No download.
+
+## 9. For the user to decide before the tag
+
+1. Decision lines of section 7 (recommended as written: 1/2 and 1/3 for S; C ≤ 1/2 and ≥ 2/3).
+2. C as a veto on "within-state" (recommended) or S alone.
+3. G09 (5.3) inside this amendment, as the assessment ordered, or as its own short amendment right after G01
+   (recommended: separate, so this one stays small and finishes in one or two sessions).
+4. The gamma-delta/MAIT arm (5.2) now (recommended: yes; one job of about an hour).
+
+## 10. Review history
+
+- 2026-11-01: DRAFT v1 (sections 0-3 at ff53d2b; 4-10 in the next commit). Short reviews follow.
