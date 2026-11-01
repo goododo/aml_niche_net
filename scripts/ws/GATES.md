@@ -289,4 +289,6 @@ Scripts: scripts/ws/37_a1_batch.R, scripts/ws/38_a1_batch_cells.R. 15 adult AML 
 Calibration (healthy-ward plant on Control1-5, x main logFC): 0.25: R 0.705, percentile 0.050; 0.50: R 0.623, percentile 0.025; 1.00: R 0.506, percentile 0.025
 
 **Verdict: GATE_A1B PASS.**
+
+Qualifications (2026-11-01; PREREGISTRATION_A1_batch.md section 12): known answers 23/23 and K5 passed; K6b failed, so D9 is not interpreted. Descriptive: the imprint overlaps a blood-processing-delay program in the same direction (D8: up 12 vs random median 6, p 0.028; down 23 vs 10, p 0.001; adjusting for the delay score R 0.82); GNA15 is untestable after decontX; the same-channel pair shows no difference (delta -0.05). Post-hoc: the AML-vs-healthy logFC of T cells is mirrored in B (r 0.60) and NK (r 0.70) cells of the same donors, as for any grouping of these donors (healthy 5-vs-5 splits r 0.54), so the imprint is not shown to be T-cell-specific. Allowed wording: none of the six within-study processing factors, tested one at a time, explained or weakened the frozen direction; not allowed: "robust to processing", "T-cell-specific state".
 <!-- A1-BATCH end -->
