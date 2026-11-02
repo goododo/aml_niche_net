@@ -527,3 +527,53 @@ counterfactual" handed to G04 is computed in both orders and their mean, as in 3
     in 1/30; a CD4 Naive shift with naive depletion scattered over all categories (order-dependent 3/12, "composition"
     3/12, two of them with a true C_A of about 0.6). Every K3 bar passed in 10/10 synthetic cohorts with correct code.
 - 2026-11-02: v1, approved by the user (section 9); tag `prereg-a1-g01-v1`.
+- 2026-11-02, before any real run (note dated before the real `--known`; nothing below changes a declared quantity's
+  definition, a threshold, a seed or a decision rule): review 5, a code review of `scripts/ws/39_a1_g01.R`,
+  `40_a1_g01_cells.R` and `submit_ws_a1_g01.sbatch` (workflow: three lenses, estimators, known answers and readouts,
+  each followed by an adversarial verifier; then a check of the fixes by three checkers and a completeness critic;
+  record in `code_review/` of the same folder). All tests were synthetic; no declared quantity was computed. No
+  blocking defect and no leak; the estimators matched an independent implementation of sections 2.3-3.2 in 72 of 72
+  synthetic tests, and are byte-identical before and after the fixes. Fixed:
+  - K3a's bar took |median| of paired C_A, not the median of |paired C_A| that review 4 validated → the median of the
+    absolute values (6).
+  - K2b compared hand-built weights and could not see how est_C builds a fold → it compares est_C's own fold references
+    with and without sample i's label counts (synthetic: both leak variants fail, correct code passes 25/25) (6).
+    K2b over the 25 folds does not exercise repeated samples; est_C excludes every copy of i by construction.
+  - After a failed K3 bar every readout table, and the `--sens` checkpoint, carries "not decisive, descriptive" (column
+    `k3_status`); the GATES block escapes the bar names, so a failed bar is named in full (6).
+  - A forked worker that dies was counted as an undefined draw or a dropped fold → the mode stops. A bootstrap draw
+    that raises an R error is not "cannot be computed" in the sense of 3.1 (gapT ≤ 0 gives NA, not an error) → the mode
+    stops and is rerun; it is not counted as undefined (3.1).
+  - Rule 3 also checks the S_w estimate, so an undefined estimate cannot give "detected" (7).
+  - Reporting completed: fallback fold IDs, empty pools and the arm-only run's fallbacks (3.1); per-label eligible
+    counts and gene coverage in every sensitivity, including 4.4 when not estimable (4.4, 5.6); K3's per-label S_k,
+    eligibility, labels left out of the paired S_w, fallbacks per order and i, and K3d's share (6); 5.1's scored n,
+    dropped IDs and its two caveats (2.4, 5.1, 5.6); 5.2's per-sample flagged shares, dropped IDs, gene coverage and
+    cells per label (5.2, 5.6); the summary gives C_H, C_A, C and S_w with their CIs and undefined draws, and under
+    "composition" the section 7 wording (7).
+  - 40's smoke recipe pooled every GSE185381 column, the paediatric ones included, into its synthetic profile → the
+    label matrices are subset to the 25 on loading (2.1). A failed 40 run writes a time-stamped file and does not block
+    its own rerun.
+  - Compute: the cluster's job environment sets `OMP_PROC_BIND=spread`, which pinned R and every forked worker to one
+    core (about 7.5× slower; no number depends on it). The wrapper sets `OMP_PROC_BIND=false` and requests 32 CPUs
+    (64 for `--primary` and `--sens`) and 72 h, and 39 logs how many CPUs it may use. Section 8's timings were 3-10× too low: the full smoke run took 35 min
+    pinned and 14 min unpinned; the real timings go into the outcome.
+  - Deviations from the text (none changes a number or a decision): (a) any deterministic failure stops `--known`
+    before K3, not only those of scope P (stricter than 6). If a non-P check (K0b, K4, K5, K7, K8) fails for a reason
+    that cannot be fixed, the code moves to scoped blocking in a dated note and that sensitivity or readout is reported
+    as not run; the primary is unaffected. (b) The code version is checked by listing every table's script md5 in the
+    summary, the `--combine` run included, not by a stop. Any edit to sections 0-4 of 39 (constants, inputs,
+    estimators, known answers) after the real `--known` forces a rerun of `--known`; an edit confined to a readout mode
+    does not, and is recorded here. (c) `--sens` rewrites a checkpoint (`sens_partial.csv`, outside the repository)
+    after each sensitivity. (d) 5.1's coverage is the mean over the scored donors. (e) Added output columns and rows:
+    `k3_status`, K3's reported rows, the 3.1 arm-only fallback rows, the summary rows, 5.1's `caveat`.
+  - 5.5, a property found in review (synthetic; not a code defect): the statistic is also positive, with the smallest
+    relabelling p, under a pure within-label state shift on genes that lie on the naive-to-effector axis, as the
+    imprint's genes do (section 1), with no composition below the label level (5 of 5 runs; 0 of 5 with the same shift on
+    random genes; the smoke run's axis table fired in both labels at p = 1/21 in a world without such composition;
+    review 4's simulation used a state independent of the loading). A positive 5.5 therefore cannot separate composition
+    below the label level from a state shift along the axis. Fixed now, before any readout: if 5.5 fires, the
+    manuscript says "consistent with, but not evidence of, composition below the label level"; the table keeps the
+    registered string, and this note sets the wording. The category is unaffected.
+  - Code at the real run: 39 md5 f76774940cff9fc19ca4eb599e1116f3, 40 md5 c44121446a1e2f132197663768afabde, wrapper md5
+    5480fd02f974326c674d142c644a0666.
