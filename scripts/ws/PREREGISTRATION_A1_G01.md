@@ -577,3 +577,158 @@ counterfactual" handed to G04 is computed in both orders and their mean, as in 3
     registered string, and this note sets the wording. The category is unaffected.
   - Code at the real run: 39 md5 f76774940cff9fc19ca4eb599e1116f3, 40 md5 c44121446a1e2f132197663768afabde, wrapper md5
     5480fd02f974326c674d142c644a0666.
+
+## 11. Outcome (appended 2026-11-02 after the real run; sections 0-10 as committed in bed8a30 before the run; tag prereg-a1-g01-v1)
+
+Run: commit bed8a30 (39 md5 f76774940cff9fc19ca4eb599e1116f3, 40 md5 c44121446a1e2f132197663768afabde, wrapper md5
+5480fd02f974326c674d142c644a0666). SLURM jobs: 3683120 `--known` (32 CPUs, 15:41-16:25 JST, 44 min); 3683121 40;
+3683122 `--primary` (64 CPUs, 14 min); 3683123 `--share`; 3683124 `--regress`; 3683125 `--axis`; 3683126 `--sens`
+(64 CPUs, 1 h 27 min); 3683127 `--gdmait`; 3683128 `--combine` (18:06). The other jobs took under 4 min each. Outputs:
+`results/tables/ws/ws_a1_g01_{checks,k3,labels,primary,boot,sens,share,regress,axis,gdmait,summary,checks_cells}.csv`
+(section 8's nine plus k3, summary and checks_cells); `/LARGE1/.../ws_a1_g01/` (bootstrap draws, K3 splits, the 5.2 counts,
+the sens checkpoint); GATES.md block A1-G01. Every table of 39 carries the md5 of the code that ran `--known` (summary:
+"tables written by another version of 39: none"). No check failed and no FAILED file was written. Jobs 3683089, 3683108
+and 3683115 were smoke runs (synthetic counts and label numbers); every declared quantity was read once, in this run. The
+smoke tables in `results/` were deleted after the run (section 8); the smoke intermediates in `/LARGE1` remain.
+
+**11.1 Known answers (section 6; all PASS).** 21 deterministic checks: K0 1.378164; K0b 25/25 folds; K1 12 + 8, 12 + 9,
+11 + 7, 10 + 7; K2 max |diff| 0; K2b 25/25; K4 female, female, female; K5 md5 and 1.318416; K7 B 0.6920 (174 genes), NK
+0.9282 (179), monocytes 0.5685 (329); K8 0.8230; the nine K3 reference tests. Statistical bars (medians over the 20
+splits, own lists, paired): K3a median |paired C_A| 0.0039; paired S_k CD4 Central Memory 0.746, CD4 Naive 0.837, CD8
+Effector Memory 1 0.820, CD8 Effector Memory 2 0.897; paired S_w 0.698 against 0.247; K3b paired C_H 1.176 and C_A 1.036;
+K3c paired S_w 0.745. Reported only:
+- K1, pooled eligible samples (not split by status): CD4 Naive 20, CD4 Central Memory 17, CD4 Effector Memory 13, CD4
+  Regulatory 1, CD8 Naive 6, CD8 Central Memory 10, CD8 Effector Memory 1 18, CD8 Effector Memory 2 21, CD8 Tissue
+  Resident Memory 6.
+- Unpaired medians, own lists (splits with a defined value): C K3a −0.063 (20), K3b 1.422 (12), K3c −0.157 (15), K3d
+  −0.139 (17), K3e 0.530 (16); S_w 0.751 (20), −0.263 (13), 0.936 (15), 0.473 (16), 0.455 (18).
+  K3a's unpaired S_k: CD4 Central Memory 0.734, CD4 Naive 0.844, CD8 Effector Memory 1 0.830, CD8 Effector Memory 2
+  1.055 (unpaired C_H and C_A per plant, and the other plants' S_k, are in `ws_a1_g01_k3.csv`).
+- K3b's S_w, the no-state offset from library-size differences: paired median 0.015 (range −0.081 to 0.089); with the
+  real fold lists −0.065.
+- Real fold lists (paired medians): K3a C_H −0.002, C_A −0.001, S_w 0.702; K3b C_H 0.858, C_A 0.966; K3c S_w 0.712;
+  K3d S_w 0.000; K3e C_H 0.408, C_A 0.160, S_w 0.529.
+- Fallbacks: labels fell back in every split; fold-label pairs over the 20 splits were 256 (H) and 245 (A) in K3a, K3c and
+  K3d, and 291 and 251 under K3b's and K3e's thinning. Paired C_H in these splits (not a bar): K3a −0.003 (median |.|
+  0.010), K3c 0.000, K3d −0.021 (0.043). No label left the paired S_w.
+- K3d: splits whose S_w lower bound exceeds 0.10, 0 of 20. K3e: paired C_H 0.812 > C_A 0.613, as expected.
+- Per-split categories (5 vs 5, unpaired, 200 draws): K3b "composition" 1, "mixed (composition not established)" 11,
+  "not decisive" 8; K3d "beyond T-subset composition (not resolved inside the four main labels)" 13, "mixed
+  (order-dependent)" 4, "not decisive" 3; K3e "mixed (composition not established)" 6, "mixed (order-dependent)" 5,
+  "beyond (not resolved)" 5, "not decisive" 4. "Not decisive" splits are those whose unpaired C_H and C_A are undefined
+  (the split's whole-T gap on its own list is not positive); the paired values used by the bars are defined in all 20.
+
+**11.2 Primary (sections 3.1, 3.2, 7).** C_H 0.051 (95% CI −0.107 to 0.193), C_A 0.039 (−0.104 to 0.196), C 0.045
+(−0.100 to 0.191); 0 undefined draws of 2,000. The intervals are descriptive: the fold lists are held fixed (3.1).
+Whole-T u-gap 1.243; composition-only gaps 0.063 (H) and 0.049 (A). Arm-only profiles: C_H 0.050, C_A 0.040, C 0.045
+(no fallback, no empty pool). Gene coverage: median 329 matched genes per sample (range 29-1,075; the smallest, AML4340,
+11 up / 18 down); no sample dropped by the 5-gene rule. In the estimate, CD4 Regulatory (45 AML / 36 healthy kept cells)
+fell back to the pooled profile in all 25 folds in both orders; no other label fell back and no pool was empty. Share
+of the 2,000 draws with a fallback (H / A): CD4 Regulatory 1.000 / 0.993, CD8 Naive 0.022 / 0.336, CD8 Tissue Resident
+Memory 0.138 / 0.225, CD8 Central Memory 0.017 / 0.024, CD4 Central Memory 0.004 / 0, CD4 Effector Memory 0.004 / 0, the
+other three 0. S_w 0.664 (0.497 to 0.772), 0 undefined; a sign check, not a share of the gap (3.2); up half 0.571, down
+half 0.798. Per label:
+
+| label | S_k | gapT_k | S_k up / down | eligible AML / healthy | median matched genes |
+|---|---|---|---|---|---|
+| CD4 Naive | 0.80 | 1.184 | 0.747 / 0.867 | 12 / 8 | 310.5 |
+| CD8 Effector Memory 2 | 0.72 | 1.202 | 0.485 / 1.026 | 12 / 9 | 320 |
+| CD8 Effector Memory 1 | 0.93 | 1.247 | 0.713 / 1.285 | 11 / 7 | 307 |
+| CD4 Central Memory | 0.90 | 1.334 | 1.090 / 0.605 | 10 / 7 | 304 |
+
+No gapT_k is below gapT/4 (0.311); no sample was dropped. Section 7: rule 1 does not apply (every scope-P known answer
+passed; C_H and C_A are defined); rule 2 does not (C_H, C_A < 2/3); rule 3 does (C_H ≤ 1/2, C_A ≤ 1/2, S_w defined and
+its lower bound 0.497 > 0.10) → **"beyond T-subset composition, detected inside the main labels".**
+
+**11.3 Sensitivities (section 4; 500 draws each).**
+
+| | C_H | C_A | C (95% CI) | S_w (95% CI) | median matched genes | band reading |
+|---|---|---|---|---|---|---|
+| 4.1 402-analogue | 0.055 | 0.042 | 0.049 (−0.099 to 0.203) | 0.664 (0.502 to 0.766) | 359 | consistent within uncertainty |
+| 4.2a delay score in MAIN | 0.024 | 0.045 | 0.034 (−0.247 to 0.176) | 0.655 (0.546 to 0.826) | 137 | consistent within uncertainty |
+| 4.2b Savage genes removed | 0.045 | 0.035 | 0.040 (−0.120 to 0.199) | 0.654 (0.494 to 0.766) | 291 | consistent within uncertainty |
+| 4.3 Control4 female | 0.059 | 0.046 | 0.052 (−0.050 to 0.188) | 0.680 (0.532 to 0.759) | 792 | consistent within uncertainty |
+| 4.6 UMI-weighted | 0.047 | 0.043 | 0.045 (−0.092 to 0.206) | 0.664 (0.506 to 0.767) | 329 | consistent within uncertainty |
+| 4.7 count-noise-matched | 0.039 | 0.091 | 0.065 (−0.087 to 0.227) | 0.664 (0.506 to 0.767) | 329 | consistent within uncertainty |
+
+None of these six dropped a sample. 4.4 (without Control1, Control3, Control4): **not estimable**. All 22 refitted folds
+failed the 5-gene rule on their matched lists, so all 22 samples were dropped and none remained in C (the refitted list
+sizes were not written); eligible counts 12/5, 12/6, 11/5, 10/5. Lost power (7 healthy donors) and the three donors'
+influence on the selection cannot be told apart here. A1-BATCH D3 found 14 of 20 fold imprints empty in 20-sample refits
+without Control1-5 (section 1). The dependence on these three donors (A1-BATCH 12.5(d)) stays unresolved. 4.5 (one S_w
+label left out): S_w 0.529 without CD4 Naive (0.355 to 0.635), 0.399 without CD8 Effector Memory 2 (0.344 to 0.455), 0.523
+without CD8 Effector Memory 1 (0.387 to 0.613), 0.540 without CD4 Central Memory (0.400 to 0.638).
+
+**11.4 Readouts (section 5).**
+- 5.1, out of sample (held-out u-gap in the compartment / whole-T on the same donors and genes → ratio, 95% CI; n AML /
+  healthy; gene coverage): B 0.998 / 1.165 → 0.857 (0.383 to 1.141; 13 / 10; 0.96); NK 1.142 / 1.280 → 0.893 (0.623 to
+  1.096; 12 / 9; 0.98); monocytes 0.959 / 1.309 → 0.732 (0.342 to 0.947; 11 / 10; 0.96). No donor dropped; no undefined
+  draw. Reading (one-sided): the direction is shown out of sample in all three compartments. In-sample K7 R 0.692, 0.928,
+  0.568. Each compartment's own subset composition is not controlled; monocytes in AML samples are often clonal, so a
+  monocyte shift may be leukaemic biology rather than a shared environment or handling effect.
+- 5.2: "with gamma-delta and MAIT cells as separate labels the composition share is 0.057 (the flags are lower bounds)"
+  (C_H 0.059, C_A 0.055; no sample dropped; median 329 matched genes). Whole-T u-gap 1.24; without the flagged cells
+  1.25; with TRDC removed from the lists 1.24 (no sample dropped). Gamma-delta: 430 of 14,609 kept T cells flagged (67 AML /
+  363 healthy); median share AML 0.6%, healthy 2.6% (inside the sanity range). MAIT: the flag marked no cell. TRAV1-2 has
+  14 UMI over all kept T cells, in 9 samples (3' chemistry), so at most 14 cells could have been flagged; the MAIT part is
+  uninformative, and a MAIT loss (Lasry 2023 reported one in this dataset) counts as non-composition here. Cells per label
+  after moving the flagged cells and the per-sample flagged shares are in `ws_a1_g01_gdmait.csv`.
+- 5.3 (secondary; the naive-share overlap 0.038-0.588 holds at least 3 samples per arm): status 1.27 (SE 0.36, p 0.002)
+  with the naive share (−1.15, p 0.48) and the CD8 effector-memory share (−1.00, p 0.45) in the model.
+- 5.5: CD4 Naive statistic 0.100 (relabelling p 0.155; 12 AML / 8 healthy; 9,724 genes); CD8 Effector Memory 2 0.064
+  (p 0.129; 12 / 9; 10,939 genes) → not fired; nothing is added. Union correlations 0.355 and 0.313 (numbers only).
+- 5.6, by label (AML / healthy): kept cells; UMI per kept cell; kept fraction of T-lineage cells.
+
+| label | kept cells | UMI per kept cell | kept fraction |
+|---|---|---|---|
+| CD4 Naive | 1,012 / 1,526 | 3,485 / 2,728 | 0.86 / 0.69 |
+| CD4 Central Memory | 991 / 611 | 4,196 / 2,442 | 0.67 / 0.48 |
+| CD4 Effector Memory | 446 / 371 | 3,569 / 2,436 | 0.49 / 0.50 |
+| CD4 Regulatory | 45 / 36 | 3,904 / 2,641 | 0.76 / 0.63 |
+| CD8 Naive | 93 / 610 | 4,191 / 3,631 | 0.89 / 0.91 |
+| CD8 Central Memory | 219 / 235 | 3,011 / 1,947 | 0.48 / 0.49 |
+| CD8 Effector Memory 1 | 1,189 / 1,140 | 2,783 / 1,845 | 0.74 / 0.78 |
+| CD8 Effector Memory 2 | 2,784 / 2,963 | 2,995 / 1,684 | 0.79 / 0.92 |
+| CD8 Tissue Resident Memory | 132 / 206 | 4,189 / 2,023 | 0.69 / 0.67 |
+
+  UMI per kept cell is 1.15-2.07 times higher in AML in every label. Share of kept T cells in the four S_w labels,
+  median AML 0.88, healthy 0.83; "T Proliferating" 0.19% / 0.08% of T-lineage cells.
+
+**11.5 Reading (section 7).** Category: **"beyond T-subset composition, detected inside the main labels"** (GATES.md
+block A1-G01). Wording: "In GSE185381 (15 adult AML, 10 healthy donors), the mix of BoneMarrowMap T subtypes accounts
+for about 5% of the cross-fitted T-imprint gap (C 0.045, 95% CI −0.100 to 0.191; C_H 0.051, −0.107 to 0.193; C_A 0.039,
+−0.104 to 0.196), and a shift is detected inside the four main T labels (S_w 0.664, 95% CI 0.497 to 0.772; a sign check,
+not a share of the gap). The intervals are descriptive, with the fold lists held fixed. With gamma-delta and MAIT cells as
+separate labels the composition share is 0.057 (the flags are lower bounds)." Next to it: sensitivities 4.1, 4.2a, 4.2b,
+4.3, 4.6 and 4.7 are consistent within uncertainty (C 0.034-0.065, S_w 0.654-0.680); leaving out any one S_w label keeps
+S_w positive (lowest lower bound 0.344, 4.5); without Control1, 3 and 4 the analysis is not estimable (4.4). Skeletons A/B
+stay open (section 0). Limits (section 0):
+- "Beyond T-subset composition" does not mean caused by AML. A handling effect on the whole sample also appears inside
+  every subtype, and sample source and handling are not separated; only G04(a) (Chen2023, one protocol; 5 vs 4, so a pass
+  is informative and a fail is not) addresses that.
+- The shift inside the labels is not shown to be cell-intrinsic. Soup from blasts is in every AML sample and inside every
+  label, so it lands in 1 − C and in S_w; the 32-gene filter removes only known ambient-prone genes, S5's ambient gate
+  failed, and A1-BATCH D9 (not interpretable) recorded the up genes enriched and the down genes depleted in soup. G04(a)'s
+  FACS-separated T cells reduce this, but no step tests it.
+- Composition is not separated from age: the healthy donors are about 31.5 years younger (S9), so composition is partly
+  age, and 1 − C can carry age-related drift inside labels. Chen2023 (G04(a)) is age-matched.
+- The imprint direction is not T-specific: the same whole-T direction appears out of sample in B, NK and monocytes (5.1,
+  with its caveats); the within-label residual is not separable there.
+- "Inside a subtype" means inside a BoneMarrowMap fine label. A composition shift at a finer level (for example
+  TEMRA-like cells inside CD8 Effector Memory 2; MAIT cells, which could not be flagged here) counts as non-composition and
+  is not excluded.
+- Label purity in AML is not verified. If AML cells labelled CD4 Naive are less naive than healthy ones, S_w is biased
+  upwards and C downwards, which is the direction of this result; if shifted cells are relabelled as memory, C is biased
+  upwards. The protein (ADT) check is deferred.
+- C and S_w use kept cells only. Kept fractions differ by arm in both directions (CD4 Central Memory 0.67 / 0.48; CD8
+  Effector Memory 2 0.79 / 0.92), so the result describes a selected subset.
+- The fold lists were selected with the CD8 share in the model and |log2FC| > 0.5, so they hold few composition-driven
+  genes, and adjusting for composition also removes any AML effect that acts through composition. "Beyond composition"
+  is conditional on these lists.
+
+Handover (section 7, "beyond T-subset composition"): G04(a)'s primary is the whole-T direction; the residual (whole-T
+minus the counterfactual, computed in both orders and their mean, as in 3.1) is reported. Its expected size is about
+(1 − C) × 1.98 ≈ 1.89 healthy-SD, and 5 vs 4 has power of about 0.27 at 1 SD and 0.74 at 2 SD, so G04(a) can support the
+direction but rarely the residual's size; G01 therefore proposes G04(c) (E-MTAB-16321; the download needs approval).
+G04(b) (the GSE185381 children) shares G04(a)'s primary and is read one-sided: an AML-side result counts, a null cannot be
+read. S10 inherits the whole-T score.

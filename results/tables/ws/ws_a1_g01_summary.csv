@@ -1,0 +1,16 @@
+item,value,script_md5
+category,beyond T-subset composition,f76774940cff9fc19ca4eb599e1116f3
+wording,detected inside the main labels,f76774940cff9fc19ca4eb599e1116f3
+C_H,0.051,f76774940cff9fc19ca4eb599e1116f3
+C_H_95CI,-0.107 to 0.193 (undefined draws 0),f76774940cff9fc19ca4eb599e1116f3
+C_A,0.039,f76774940cff9fc19ca4eb599e1116f3
+C_A_95CI,-0.104 to 0.196 (undefined draws 0),f76774940cff9fc19ca4eb599e1116f3
+C,0.045,f76774940cff9fc19ca4eb599e1116f3
+C_95CI,-0.100 to 0.191 (undefined draws 0),f76774940cff9fc19ca4eb599e1116f3
+S_w,0.664,f76774940cff9fc19ca4eb599e1116f3
+S_w_95CI,0.497 to 0.772 (undefined draws 0),f76774940cff9fc19ca4eb599e1116f3
+k3_statistical_failures,none,f76774940cff9fc19ca4eb599e1116f3
+script_md5 of 39 --known,f76774940cff9fc19ca4eb599e1116f3,f76774940cff9fc19ca4eb599e1116f3
+tables written by another version of 39,none,f76774940cff9fc19ca4eb599e1116f3
+tables absent,none,f76774940cff9fc19ca4eb599e1116f3
+script_md5 of 40,c44121446a1e2f132197663768afabde,f76774940cff9fc19ca4eb599e1116f3

@@ -1,0 +1,74 @@
+quantity,value,note,script_md5
+C_H_11,0.0594904999770305,gamma-delta and MAIT as two extra labels (flags are lower bounds); dropped (5-gene rule): none,f76774940cff9fc19ca4eb599e1116f3
+C_A_11,0.0553862082252088,gamma-delta and MAIT as two extra labels (flags are lower bounds); dropped (5-gene rule): none,f76774940cff9fc19ca4eb599e1116f3
+C_11,0.0574383541011196,gamma-delta and MAIT as two extra labels (flags are lower bounds); dropped (5-gene rule): none,f76774940cff9fc19ca4eb599e1116f3
+u_gap_wholeT,1.24348708188684,fold genes fixed; dropped (5-gene rule): none,f76774940cff9fc19ca4eb599e1116f3
+u_gap_wholeT_noflag,1.25286639393823,fold genes fixed; dropped (5-gene rule): none,f76774940cff9fc19ca4eb599e1116f3
+u_gap_wholeT_noTRDC,1.23760583906909,fold genes fixed; dropped (5-gene rule): none,f76774940cff9fc19ca4eb599e1116f3
+gd_share_median,0.00589622641509434,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share_median,0,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share_median,0.0260599571734475,healthy,f76774940cff9fc19ca4eb599e1116f3
+mait_share_median,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML0048,0.018796992481203,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML0114,0.00589622641509434,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML0310,0.05,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML0612,0.00496688741721854,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML0693,0.00297619047619048,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML1371,0.0203193033381713,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML2123,0.0476190476190476,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML2451,0,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML3133,0,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML3266,0.00946372239747634,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML3730,0,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML3762,0.00555555555555556,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML3948,0.0101010101010101,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML4340,0.00131061598951507,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:AML4897,0.0156576200417537,AML,f76774940cff9fc19ca4eb599e1116f3
+gd_share:Control0004,0.012,healthy,f76774940cff9fc19ca4eb599e1116f3
+gd_share:Control0005,0.0321199143468951,healthy,f76774940cff9fc19ca4eb599e1116f3
+gd_share:Control0058,0.00521648408972353,healthy,f76774940cff9fc19ca4eb599e1116f3
+gd_share:Control0082,0.0676328502415459,healthy,f76774940cff9fc19ca4eb599e1116f3
+gd_share:Control1,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+gd_share:Control2,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+gd_share:Control3,0.102386451116243,healthy,f76774940cff9fc19ca4eb599e1116f3
+gd_share:Control4,0.0813226094727435,healthy,f76774940cff9fc19ca4eb599e1116f3
+gd_share:Control4003,0.068515497553018,healthy,f76774940cff9fc19ca4eb599e1116f3
+gd_share:Control5,0.02,healthy,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML0048,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML0114,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML0310,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML0612,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML0693,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML1371,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML2123,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML2451,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML3133,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML3266,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML3730,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML3762,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML3948,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML4340,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:AML4897,0,AML,f76774940cff9fc19ca4eb599e1116f3
+mait_share:Control0004,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+mait_share:Control0005,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+mait_share:Control0058,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+mait_share:Control0082,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+mait_share:Control1,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+mait_share:Control2,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+mait_share:Control3,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+mait_share:Control4,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+mait_share:Control4003,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+mait_share:Control5,0,healthy,f76774940cff9fc19ca4eb599e1116f3
+genes_median_C_11,329,matched genes (up + down) per scored sample (5.6),f76774940cff9fc19ca4eb599e1116f3
+cells:CD4 Naive,2531,AML 1011 / healthy 1520,f76774940cff9fc19ca4eb599e1116f3
+cells:CD4 Central Memory,1600,AML 990 / healthy 610,f76774940cff9fc19ca4eb599e1116f3
+cells:CD4 Effector Memory,813,AML 444 / healthy 369,f76774940cff9fc19ca4eb599e1116f3
+cells:CD4 Regulatory,81,AML 45 / healthy 36,f76774940cff9fc19ca4eb599e1116f3
+cells:CD8 Naive,703,AML 93 / healthy 610,f76774940cff9fc19ca4eb599e1116f3
+cells:CD8 Central Memory,450,AML 218 / healthy 232,f76774940cff9fc19ca4eb599e1116f3
+cells:CD8 Effector Memory 1,2222,AML 1167 / healthy 1055,f76774940cff9fc19ca4eb599e1116f3
+cells:CD8 Effector Memory 2,5452,AML 2745 / healthy 2707,f76774940cff9fc19ca4eb599e1116f3
+cells:CD8 Tissue Resident Memory,327,AML 131 / healthy 196,f76774940cff9fc19ca4eb599e1116f3
+cells:gamma-delta,430,AML 67 / healthy 363,f76774940cff9fc19ca4eb599e1116f3
+cells:MAIT,0,AML 0 / healthy 0,f76774940cff9fc19ca4eb599e1116f3
+sanity: healthy median gamma-delta share in 0.5-15%,0.0260599571734475,within range,f76774940cff9fc19ca4eb599e1116f3

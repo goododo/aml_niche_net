@@ -1,0 +1,94 @@
+section,quantity,label,sample,value,lo,hi,n_undefined,note,script_md5
+4.1,C_H,"","",0.055334893072697,-0.115147318550771,0.207313228255875,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.1,C_A,"","",0.0422726807668538,-0.108550730809774,0.207637298716976,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.1,C,"","",0.0488037869197754,-0.0991630809871837,0.203161780814103,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.1,S_w,"","",0.66361906901614,0.502373689810827,0.765912155997698,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.1,gapT,"","",1.26886688019781,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.1,gapC_H,"","",0.0702126131392323,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.1,gapC_A,"","",0.0536384045622356,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.1,dropped_samples,"","",0,,,,5-gene rule,f76774940cff9fc19ca4eb599e1116f3
+4.1,genes_median,"","",359,,,,"matched genes (up + down) per scored sample, C (5.6)",f76774940cff9fc19ca4eb599e1116f3
+4.1,S_k,CD4 Naive,"",0.839741217116119,,,,eligible 12 AML / 8 healthy; in S_w TRUE; median genes 337.5; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.1,S_k,CD8 Effector Memory 2,"",0.697821088546289,,,,eligible 12 AML / 9 healthy; in S_w TRUE; median genes 349; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.1,S_k,CD8 Effector Memory 1,"",0.928720770867567,,,,eligible 11 AML / 7 healthy; in S_w TRUE; median genes 332.5; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.1,S_k,CD4 Central Memory,"",0.901813253461594,,,,eligible 10 AML / 7 healthy; in S_w TRUE; median genes 330; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.1,band_reading,"","",,,,,consistent within uncertainty,f76774940cff9fc19ca4eb599e1116f3
+4.2a,C_H,"","",0.0239190360646047,-0.259341776145479,0.165276820465938,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.2a,C_A,"","",0.0447311315664216,-0.23560988675779,0.200313386723877,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.2a,C,"","",0.0343250838155131,-0.247475831451634,0.1764295940084,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.2a,S_w,"","",0.654818364733611,0.54612145542662,0.826022907994331,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.2a,gapT,"","",1.10150317663453,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.2a,gapC_H,"","",0.0263468942071979,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.2a,gapC_A,"","",0.0492714835148704,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.2a,dropped_samples,"","",0,,,,5-gene rule,f76774940cff9fc19ca4eb599e1116f3
+4.2a,genes_median,"","",137,,,,"matched genes (up + down) per scored sample, C (5.6)",f76774940cff9fc19ca4eb599e1116f3
+4.2a,S_k,CD4 Naive,"",0.825179171686273,,,,eligible 12 AML / 8 healthy; in S_w TRUE; median genes 129.5; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.2a,S_k,CD8 Effector Memory 2,"",0.667976682196676,,,,eligible 12 AML / 9 healthy; in S_w TRUE; median genes 146; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.2a,S_k,CD8 Effector Memory 1,"",1.09716976208874,,,,eligible 11 AML / 7 healthy; in S_w TRUE; median genes 139.5; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.2a,S_k,CD4 Central Memory,"",0.797017094281464,,,,eligible 10 AML / 7 healthy; in S_w TRUE; median genes 130; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.2a,band_reading,"","",,,,,consistent within uncertainty,f76774940cff9fc19ca4eb599e1116f3
+4.2b,C_H,"","",0.0450709646923059,-0.125330150169195,0.193260671164794,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.2b,C_A,"","",0.0353203268686782,-0.131422373583073,0.207558449524514,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.2b,C,"","",0.0401956457804921,-0.119572250866709,0.19899635586729,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.2b,S_w,"","",0.653930863958156,0.493981066827226,0.765573304568679,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.2b,gapT,"","",1.15819928241567,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.2b,gapC_H,"","",0.0522011589644108,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.2b,gapC_A,"","",0.04090797723399,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.2b,dropped_samples,"","",0,,,,5-gene rule,f76774940cff9fc19ca4eb599e1116f3
+4.2b,genes_median,"","",291,,,,"matched genes (up + down) per scored sample, C (5.6)",f76774940cff9fc19ca4eb599e1116f3
+4.2b,S_k,CD4 Naive,"",0.771233495305324,,,,eligible 12 AML / 8 healthy; in S_w TRUE; median genes 278.5; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.2b,S_k,CD8 Effector Memory 2,"",0.714867432367568,,,,eligible 12 AML / 9 healthy; in S_w TRUE; median genes 287; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.2b,S_k,CD8 Effector Memory 1,"",0.925454797837293,,,,eligible 11 AML / 7 healthy; in S_w TRUE; median genes 273; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.2b,S_k,CD4 Central Memory,"",0.87562215058029,,,,eligible 10 AML / 7 healthy; in S_w TRUE; median genes 271; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.2b,band_reading,"","",,,,,consistent within uncertainty,f76774940cff9fc19ca4eb599e1116f3
+4.3,C_H,"","",0.0587157348578388,-0.0591286930750787,0.197950734132546,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.3,C_A,"","",0.0457638442829724,-0.0616078885528176,0.206995195024834,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.3,C,"","",0.0522397895704056,-0.0499298533085873,0.188253069137905,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.3,S_w,"","",0.680424033327391,0.532384675101051,0.75910934656093,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.3,gapT,"","",1.24978796240537,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.3,gapC_H,"","",0.0733822186291122,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.3,gapC_A,"","",0.0571951016982526,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.3,dropped_samples,"","",0,,,,5-gene rule,f76774940cff9fc19ca4eb599e1116f3
+4.3,genes_median,"","",792,,,,"matched genes (up + down) per scored sample, C (5.6)",f76774940cff9fc19ca4eb599e1116f3
+4.3,S_k,CD4 Naive,"",0.855772383270988,,,,eligible 12 AML / 8 healthy; in S_w TRUE; median genes 669; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.3,S_k,CD8 Effector Memory 2,"",0.745038435240401,,,,eligible 12 AML / 9 healthy; in S_w TRUE; median genes 627; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.3,S_k,CD8 Effector Memory 1,"",0.903686027893274,,,,eligible 11 AML / 7 healthy; in S_w TRUE; median genes 623; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.3,S_k,CD4 Central Memory,"",0.905296926691917,,,,eligible 10 AML / 7 healthy; in S_w TRUE; median genes 616; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.3,band_reading,"","",,,,,consistent within uncertainty,f76774940cff9fc19ca4eb599e1116f3
+4.4,not estimable,"",AML0048;AML0114;AML0310;AML0612;AML0693;AML1371;AML2123;AML2451;AML3133;AML3266;AML3730;AML3762;AML3948;AML4340;AML4897;Control0004;Control0005;Control0058;Control0082;Control2;Control4003;Control5,,,,,folds failing the 5-gene rule 22; healthy in C 0; AML in C 0,f76774940cff9fc19ca4eb599e1116f3
+4.4,eligible,CD4 Naive,"",,,,,eligible 12 AML / 5 healthy,f76774940cff9fc19ca4eb599e1116f3
+4.4,eligible,CD8 Effector Memory 2,"",,,,,eligible 12 AML / 6 healthy,f76774940cff9fc19ca4eb599e1116f3
+4.4,eligible,CD8 Effector Memory 1,"",,,,,eligible 11 AML / 5 healthy,f76774940cff9fc19ca4eb599e1116f3
+4.4,eligible,CD4 Central Memory,"",,,,,eligible 10 AML / 5 healthy,f76774940cff9fc19ca4eb599e1116f3
+4.5,S_w,without CD4 Naive,"",0.528855453783066,0.354621266372909,0.634717898215695,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.5,S_w,without CD8 Effector Memory 2,"",0.398879490576362,0.343571370095992,0.455472441698094,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.5,S_w,without CD8 Effector Memory 1,"",0.523471407401119,0.3874035348465,0.61276997081054,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.5,S_w,without CD4 Central Memory,"",0.540448107800832,0.399643617106598,0.638214413513307,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.6,C_H,"","",0.0470770832250407,-0.104683909203768,0.198647872161239,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.6,C_A,"","",0.0428563867114768,-0.11026599797916,0.226878600342904,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.6,C,"","",0.0449667349682588,-0.0920367350678076,0.205749293778737,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.6,S_w,"","",0.664178725439092,0.505867247096903,0.767051762971201,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.6,gapT,"","",1.24348708188684,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.6,gapC_H,"","",0.05853974484325,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.6,gapC_A,"","",0.0532913632520684,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.6,dropped_samples,"","",0,,,,5-gene rule,f76774940cff9fc19ca4eb599e1116f3
+4.6,genes_median,"","",329,,,,"matched genes (up + down) per scored sample, C (5.6)",f76774940cff9fc19ca4eb599e1116f3
+4.6,S_k,CD4 Naive,"",0.798972869750806,,,,eligible 12 AML / 8 healthy; in S_w TRUE; median genes 310.5; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.6,S_k,CD8 Effector Memory 2,"",0.715290763127538,,,,eligible 12 AML / 9 healthy; in S_w TRUE; median genes 320; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.6,S_k,CD8 Effector Memory 1,"",0.931676802593175,,,,eligible 11 AML / 7 healthy; in S_w TRUE; median genes 307; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.6,S_k,CD4 Central Memory,"",0.903867388855736,,,,eligible 10 AML / 7 healthy; in S_w TRUE; median genes 304; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.6,band_reading,"","",,,,,consistent within uncertainty,f76774940cff9fc19ca4eb599e1116f3
+4.7,C_H,"","",0.0386164929223447,-0.12701325860814,0.20496110770786,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.7,C_A,"","",0.0913305639913999,-0.066927502103901,0.28250687896699,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.7,C,"","",0.0649735284568723,-0.0865631067004002,0.226537074090231,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.7,S_w,"","",0.664178725439092,0.505867247096903,0.767051762971201,0,"",f76774940cff9fc19ca4eb599e1116f3
+4.7,gapT,"","",1.24348708188684,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.7,gapC_H,"","",0.0480191100967104,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.7,gapC_A,"","",0.113568376504746,,,,"",f76774940cff9fc19ca4eb599e1116f3
+4.7,dropped_samples,"","",0,,,,5-gene rule,f76774940cff9fc19ca4eb599e1116f3
+4.7,genes_median,"","",329,,,,"matched genes (up + down) per scored sample, C (5.6)",f76774940cff9fc19ca4eb599e1116f3
+4.7,S_k,CD4 Naive,"",0.798972869750806,,,,eligible 12 AML / 8 healthy; in S_w TRUE; median genes 310.5; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.7,S_k,CD8 Effector Memory 2,"",0.715290763127538,,,,eligible 12 AML / 9 healthy; in S_w TRUE; median genes 320; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.7,S_k,CD8 Effector Memory 1,"",0.931676802593175,,,,eligible 11 AML / 7 healthy; in S_w TRUE; median genes 307; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.7,S_k,CD4 Central Memory,"",0.903867388855736,,,,eligible 10 AML / 7 healthy; in S_w TRUE; median genes 304; dropped ,f76774940cff9fc19ca4eb599e1116f3
+4.7,band_reading,"","",,,,,consistent within uncertainty,f76774940cff9fc19ca4eb599e1116f3

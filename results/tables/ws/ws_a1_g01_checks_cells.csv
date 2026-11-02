@@ -1,0 +1,126 @@
+check,expected,got,state,script_md5
+AML0048: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML0048: every kept T cell found in the object,266,266,PASS,c44121446a1e2f132197663768afabde
+AML0048: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML0048: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML0048: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML0114: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML0114: every kept T cell found in the object,848,848,PASS,c44121446a1e2f132197663768afabde
+AML0114: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML0114: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML0114: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML0310: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML0310: every kept T cell found in the object,20,20,PASS,c44121446a1e2f132197663768afabde
+AML0310: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML0310: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML0310: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML0612: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML0612: every kept T cell found in the object,1208,1208,PASS,c44121446a1e2f132197663768afabde
+AML0612: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML0612: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML0612: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML0693: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML0693: every kept T cell found in the object,336,336,PASS,c44121446a1e2f132197663768afabde
+AML0693: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML0693: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML0693: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML1371: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML1371: every kept T cell found in the object,689,689,PASS,c44121446a1e2f132197663768afabde
+AML1371: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML1371: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML1371: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML2123: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML2123: every kept T cell found in the object,231,231,PASS,c44121446a1e2f132197663768afabde
+AML2123: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML2123: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML2123: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML2451: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML2451: every kept T cell found in the object,47,47,PASS,c44121446a1e2f132197663768afabde
+AML2451: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML2451: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML2451: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML3133: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML3133: every kept T cell found in the object,405,405,PASS,c44121446a1e2f132197663768afabde
+AML3133: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML3133: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML3133: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML3266: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML3266: every kept T cell found in the object,317,317,PASS,c44121446a1e2f132197663768afabde
+AML3266: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML3266: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML3266: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML3730: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML3730: every kept T cell found in the object,85,85,PASS,c44121446a1e2f132197663768afabde
+AML3730: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML3730: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML3730: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML3762: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML3762: every kept T cell found in the object,540,540,PASS,c44121446a1e2f132197663768afabde
+AML3762: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML3762: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML3762: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML3948: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML3948: every kept T cell found in the object,198,198,PASS,c44121446a1e2f132197663768afabde
+AML3948: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML3948: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML3948: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML4340: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML4340: every kept T cell found in the object,763,763,PASS,c44121446a1e2f132197663768afabde
+AML4340: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML4340: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML4340: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+AML4897: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+AML4897: every kept T cell found in the object,958,958,PASS,c44121446a1e2f132197663768afabde
+AML4897: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML4897: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+AML4897: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+Control0004: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+Control0004: every kept T cell found in the object,250,250,PASS,c44121446a1e2f132197663768afabde
+Control0004: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control0004: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control0004: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+Control0005: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+Control0005: every kept T cell found in the object,934,934,PASS,c44121446a1e2f132197663768afabde
+Control0005: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control0005: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control0005: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+Control0058: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+Control0058: every kept T cell found in the object,1917,1917,PASS,c44121446a1e2f132197663768afabde
+Control0058: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control0058: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control0058: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+Control0082: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+Control0082: every kept T cell found in the object,621,621,PASS,c44121446a1e2f132197663768afabde
+Control0082: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control0082: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control0082: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+Control1: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+Control1: every kept T cell found in the object,222,222,PASS,c44121446a1e2f132197663768afabde
+Control1: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control1: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control1: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+Control2: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+Control2: every kept T cell found in the object,123,123,PASS,c44121446a1e2f132197663768afabde
+Control2: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control2: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control2: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+Control3: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+Control3: every kept T cell found in the object,1299,1299,PASS,c44121446a1e2f132197663768afabde
+Control3: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control3: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control3: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+Control4: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+Control4: every kept T cell found in the object,1119,1119,PASS,c44121446a1e2f132197663768afabde
+Control4: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control4: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control4: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+Control4003: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+Control4003: every kept T cell found in the object,613,613,PASS,c44121446a1e2f132197663768afabde
+Control4003: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control4003: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control4003: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde
+Control5: gene axis equals the pseudobulk's,TRUE,TRUE,PASS,c44121446a1e2f132197663768afabde
+Control5: every kept T cell found in the object,600,600,PASS,c44121446a1e2f132197663768afabde
+Control5: kept-T counts equal the pseudobulk's $raw$T (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control5: the 11 labels sum to the kept-T counts (max |diff|),0,0,PASS,c44121446a1e2f132197663768afabde
+Control5: unflagged label sums before moving equal $fine,0,0,PASS,c44121446a1e2f132197663768afabde

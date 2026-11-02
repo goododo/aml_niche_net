@@ -1,0 +1,129 @@
+section,quantity,label,sample,value,lo,hi,n_undefined,note,script_md5
+3.1-3.2,C_H,"","",0.0509508077979532,-0.107015072265802,0.192648341555188,0,"",f76774940cff9fc19ca4eb599e1116f3
+3.1-3.2,C_A,"","",0.0394625055735643,-0.104431173562449,0.19586258238898,0,"",f76774940cff9fc19ca4eb599e1116f3
+3.1-3.2,C,"","",0.0452066566857588,-0.0996403277039719,0.190658430207089,0,"",f76774940cff9fc19ca4eb599e1116f3
+3.1-3.2,S_w,"","",0.664178725439092,0.497339962818285,0.771853411641149,0,"",f76774940cff9fc19ca4eb599e1116f3
+3.1-3.2,gapT,"","",1.24348708188684,,,,"",f76774940cff9fc19ca4eb599e1116f3
+3.1-3.2,gapC_H,"","",0.0633566713084543,,,,"",f76774940cff9fc19ca4eb599e1116f3
+3.1-3.2,gapC_A,"","",0.0490711158996148,,,,"",f76774940cff9fc19ca4eb599e1116f3
+3.1-3.2,dropped_samples,"","",0,,,,5-gene rule,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only,C_H,"","",0.0502724608774737,,,,arm-only profiles (3.1),f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only,C_A,"","",0.0402831536504477,,,,arm-only profiles (3.1),f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only,C,"","",0.0452778072639607,,,,arm-only profiles (3.1),f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML0048,0.216168832029365,,,,AML; genes 84 up / 136 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML0114,0.0780953924426394,,,,AML; genes 51 up / 76 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML0310,0.00860879538548856,,,,AML; genes 148 up / 212 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML0612,0.110188887292931,,,,AML; genes 96 up / 136 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML0693,-0.170563977733641,,,,AML; genes 154 up / 229 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML1371,0.0877273406955823,,,,AML; genes 411 up / 664 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML2123,0.073845721365118,,,,AML; genes 201 up / 297 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML2451,0.201134123899402,,,,AML; genes 151 up / 241 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML3133,-0.148794530722848,,,,AML; genes 124 up / 186 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML3266,-0.0868531595879786,,,,AML; genes 132 up / 197 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML3730,-0.330718820755778,,,,AML; genes 148 up / 224 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML3762,0.0439226356094402,,,,AML; genes 66 up / 101 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML3948,0.106937289516921,,,,AML; genes 154 up / 252 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML4340,0.210736283938554,,,,AML; genes 11 up / 18 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",AML4897,0.0920739738338196,,,,AML; genes 135 up / 185 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",Control0004,0.246156230701695,,,,healthy; genes 256 up / 324 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",Control0005,-0.0603868366415324,,,,healthy; genes 74 up / 233 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",Control0058,-0.120719422023746,,,,healthy; genes 309 up / 633 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",Control0082,0.0442467885353295,,,,healthy; genes 117 up / 161 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",Control1,-0.462349766753109,,,,healthy; genes 182 up / 269 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",Control2,-0.153924377244486,,,,healthy; genes 160 up / 248 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",Control3,0.0731656395608939,,,,healthy; genes 21 up / 65 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",Control4,-0.354754738772683,,,,healthy; genes 27 up / 48 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",Control4003,0.314890548495881,,,,healthy; genes 101 up / 287 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_H,"",Control5,0.168448412529892,,,,healthy; genes 129 up / 180 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML0048,0.200566854763336,,,,AML; genes 84 up / 136 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML0114,0.0531231034705482,,,,AML; genes 51 up / 76 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML0310,0.0260929408041759,,,,AML; genes 148 up / 212 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML0612,0.12734915678885,,,,AML; genes 96 up / 136 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML0693,-0.131418605368319,,,,AML; genes 154 up / 229 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML1371,0.134452783229169,,,,AML; genes 411 up / 664 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML2123,0.0820495629499376,,,,AML; genes 201 up / 297 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML2451,0.114950365188361,,,,AML; genes 151 up / 241 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML3133,-0.227131376649589,,,,AML; genes 124 up / 186 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML3266,-0.0145190552434391,,,,AML; genes 132 up / 197 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML3730,-0.286143938645608,,,,AML; genes 148 up / 224 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML3762,0.0530001656904793,,,,AML; genes 66 up / 101 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML3948,0.101802662028422,,,,AML; genes 154 up / 252 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML4340,0.0975871077977265,,,,AML; genes 11 up / 18 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",AML4897,0.103474531244348,,,,AML; genes 135 up / 185 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",Control0004,0.284339396908722,,,,healthy; genes 256 up / 324 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",Control0005,-0.0233258430916452,,,,healthy; genes 74 up / 233 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",Control0058,-0.0993972667542994,,,,healthy; genes 309 up / 633 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",Control0082,0.0630411899237675,,,,healthy; genes 117 up / 161 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",Control1,-0.355312850765199,,,,healthy; genes 182 up / 269 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",Control2,-0.269043298710342,,,,healthy; genes 160 up / 248 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",Control3,0.0865698966815876,,,,healthy; genes 21 up / 65 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",Control4,-0.360242703525944,,,,healthy; genes 27 up / 48 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",Control4003,0.290393773813522,,,,healthy; genes 101 up / 287 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,c_A,"",Control5,0.182424051889281,,,,healthy; genes 129 up / 180 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML0048,1.38393845293521,,,,AML; genes 84 up / 136 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML0114,0.484714147850973,,,,AML; genes 51 up / 76 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML0310,1.86421154062964,,,,AML; genes 148 up / 212 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML0612,1.04755912411588,,,,AML; genes 96 up / 136 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML0693,0.190420130424078,,,,AML; genes 154 up / 229 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML1371,-0.854165738447891,,,,AML; genes 411 up / 664 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML2123,-0.148454133242183,,,,AML; genes 201 up / 297 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML2451,-0.21833316027556,,,,AML; genes 151 up / 241 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML3133,0.304821658267042,,,,AML; genes 124 up / 186 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML3266,0.550246812908644,,,,AML; genes 132 up / 197 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML3730,0.580645694802215,,,,AML; genes 148 up / 224 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML3762,0.380735207693893,,,,AML; genes 66 up / 101 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML3948,0.183499727394306,,,,AML; genes 154 up / 252 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML4340,1.74466355575365,,,,AML; genes 11 up / 18 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",AML4897,0.793612506193511,,,,AML; genes 135 up / 185 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",Control0004,-0.0713054329362843,,,,healthy; genes 256 up / 324 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",Control0005,-0.975349509193121,,,,healthy; genes 74 up / 233 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",Control0058,0.127103629803657,,,,healthy; genes 309 up / 633 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",Control0082,-0.892003490498644,,,,healthy; genes 117 up / 161 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",Control1,-0.0569867816509682,,,,healthy; genes 182 up / 269 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",Control2,-0.348595022525736,,,,healthy; genes 160 up / 248 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",Control3,-0.865460198146306,,,,healthy; genes 21 up / 65 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",Control4,-1.98319275321134,,,,healthy; genes 27 up / 48 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",Control4003,-0.928320719243668,,,,healthy; genes 101 up / 287 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 scores,t,"",Control5,-0.915350189930428,,,,healthy; genes 129 up / 180 down,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_H,CD4 Naive,"",0,,,,empty pools 0; share of draws with a fallback 0.000,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_H,CD4 Central Memory,"",0,,,,empty pools 0; share of draws with a fallback 0.004,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_H,CD4 Effector Memory,"",0,,,,empty pools 0; share of draws with a fallback 0.004,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_H,CD4 Regulatory,AML0048;AML0114;AML0310;AML0612;AML0693;AML1371;AML2123;AML2451;AML3133;AML3266;AML3730;AML3762;AML3948;AML4340;AML4897;Control0004;Control0005;Control0058;Control0082;Control1;Control2;Control3;Control4;Control4003;Control5,25,,,,empty pools 0; share of draws with a fallback 1.000,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_H,CD8 Naive,"",0,,,,empty pools 0; share of draws with a fallback 0.022,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_H,CD8 Central Memory,"",0,,,,empty pools 0; share of draws with a fallback 0.017,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_H,CD8 Effector Memory 1,"",0,,,,empty pools 0; share of draws with a fallback 0.000,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_H,CD8 Effector Memory 2,"",0,,,,empty pools 0; share of draws with a fallback 0.000,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_H,CD8 Tissue Resident Memory,"",0,,,,empty pools 0; share of draws with a fallback 0.138,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_A,CD4 Naive,"",0,,,,empty pools 0; share of draws with a fallback 0.000,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_A,CD4 Central Memory,"",0,,,,empty pools 0; share of draws with a fallback 0.000,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_A,CD4 Effector Memory,"",0,,,,empty pools 0; share of draws with a fallback 0.000,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_A,CD4 Regulatory,AML0048;AML0114;AML0310;AML0612;AML0693;AML1371;AML2123;AML2451;AML3133;AML3266;AML3730;AML3762;AML3948;AML4340;AML4897;Control0004;Control0005;Control0058;Control0082;Control1;Control2;Control3;Control4;Control4003;Control5,25,,,,empty pools 0; share of draws with a fallback 0.993,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_A,CD8 Naive,"",0,,,,empty pools 0; share of draws with a fallback 0.336,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_A,CD8 Central Memory,"",0,,,,empty pools 0; share of draws with a fallback 0.024,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_A,CD8 Effector Memory 1,"",0,,,,empty pools 0; share of draws with a fallback 0.000,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_A,CD8 Effector Memory 2,"",0,,,,empty pools 0; share of draws with a fallback 0.000,f76774940cff9fc19ca4eb599e1116f3
+3.1 fallback,folds_with_fallback_A,CD8 Tissue Resident Memory,"",0,,,,empty pools 0; share of draws with a fallback 0.225,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_H,CD4 Naive,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_H,CD4 Central Memory,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_H,CD4 Effector Memory,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_H,CD4 Regulatory,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_H,CD8 Naive,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_H,CD8 Central Memory,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_H,CD8 Effector Memory 1,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_H,CD8 Effector Memory 2,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_H,CD8 Tissue Resident Memory,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_A,CD4 Naive,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_A,CD4 Central Memory,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_A,CD4 Effector Memory,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_A,CD4 Regulatory,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_A,CD8 Naive,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_A,CD8 Central Memory,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_A,CD8 Effector Memory 1,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_A,CD8 Effector Memory 2,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.1 arm-only fallback,folds_with_fallback_A,CD8 Tissue Resident Memory,"",0,,,,empty pools 0,f76774940cff9fc19ca4eb599e1116f3
+3.2 labels,S_k,CD4 Naive,"",0.798972869750806,,,,"gap 0.9457 gapT 1.1837; up S_k 0.747, down S_k 0.867; eligible 12 AML / 8 healthy; median genes 310.5; dropped ",f76774940cff9fc19ca4eb599e1116f3
+3.2 labels,S_k,CD8 Effector Memory 2,"",0.715290763127538,,,,"gap 0.8596 gapT 1.2018; up S_k 0.485, down S_k 1.026; eligible 12 AML / 9 healthy; median genes 320; dropped ",f76774940cff9fc19ca4eb599e1116f3
+3.2 labels,S_k,CD8 Effector Memory 1,"",0.931676802593175,,,,"gap 1.1616 gapT 1.2468; up S_k 0.713, down S_k 1.285; eligible 11 AML / 7 healthy; median genes 307; dropped ",f76774940cff9fc19ca4eb599e1116f3
+3.2 labels,S_k,CD4 Central Memory,"",0.903867388855736,,,,"gap 1.2060 gapT 1.3342; up S_k 1.090, down S_k 0.605; eligible 10 AML / 7 healthy; median genes 304; dropped ",f76774940cff9fc19ca4eb599e1116f3
+3.2 halves,S_w_up,"","",0.570863566094378,,,,"",f76774940cff9fc19ca4eb599e1116f3
+3.2 halves,S_w_down,"","",0.79761112245949,,,,"",f76774940cff9fc19ca4eb599e1116f3

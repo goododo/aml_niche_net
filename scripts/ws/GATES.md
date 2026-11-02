@@ -292,3 +292,29 @@ Calibration (healthy-ward plant on Control1-5, x main logFC): 0.25: R 0.705, per
 
 Qualifications (2026-11-01, revised after an adversarial check; PREREGISTRATION_A1_batch.md section 12): the G2 row's label "no effect" reads "survives lane clustering" under section 6; G1's "no effect" means "not detected" (G1 flags only from fhat about 0.5). Known answers 23/23 and K5 passed; K6b failed, so D9 is not interpreted. Descriptive: the imprint overlaps a blood-processing-delay program in the same direction (D8: up 12 vs random median 6, p 0.028; down 23 vs 10, p 0.001; adjusting for the delay score R 0.82); GNA15 is untestable after decontX; the same-channel pair shows no difference (delta -0.05). Post-hoc: D10's declared reading is not usable (random sets carry R 0.63/1.14; NK below the random P05). The imprint direction is shared with B and NK cells of the same donors (R 0.69 and 0.93, above all 60 random relabellings). Genome-wide, T logFC is mirrored in B (r 0.60, inside donor-grouping nulls) and NK (r 0.70, at their top). Not T-cell-specific. Allowed wording: none of the six within-study processing factors, tested one at a time, explained or weakened the frozen direction; sample source, storage, sorting method and chemistry version are constant within arms or unrecorded, and were not tested. Not allowed: "robust to processing", "T-cell-specific state", "not an artefact", "not a generic sample-level artefact".
 <!-- A1-BATCH end -->
+
+<!-- A1-G01 start -->
+## T imprint: composition versus not (A1-G01, prereg-a1-g01-v1) -- 2026-11-02
+
+Scripts: scripts/ws/39_a1_g01.R, scripts/ws/40_a1_g01_cells.R. 15 adult AML vs 10 healthy (GSE185381), A1-G02's stored fold lists.
+
+| item | value |
+|---|---|
+| category | beyond T-subset composition |
+| wording | detected inside the main labels |
+| C_H | 0.051 |
+| C_H_95CI | -0.107 to 0.193 (undefined draws 0) |
+| C_A | 0.039 |
+| C_A_95CI | -0.104 to 0.196 (undefined draws 0) |
+| C | 0.045 |
+| C_95CI | -0.100 to 0.191 (undefined draws 0) |
+| S_w | 0.664 |
+| S_w_95CI | 0.497 to 0.772 (undefined draws 0) |
+| k3_statistical_failures | none |
+| script_md5 of 39 --known | f76774940cff9fc19ca4eb599e1116f3 |
+| tables written by another version of 39 | none |
+| tables absent | none |
+| script_md5 of 40 | c44121446a1e2f132197663768afabde |
+
+**Verdict: A1-G01 = beyond T-subset composition (detected inside the main labels).**
+<!-- A1-G01 end -->
