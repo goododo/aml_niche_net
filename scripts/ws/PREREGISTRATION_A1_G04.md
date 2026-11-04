@@ -7,12 +7,13 @@ children and the healthy donors are both out of sample (2.4). The obligations ha
 12.5, the gap-assessment addendum (sections 1.3 and 1.7), the September pre-registration and the handoff are listed in
 0.1, each with where it is met or why it is declined.
 
-**Status: DRAFT v3 (2026-11-04), after reviews 1 and 2 (section 10). Nothing declared below has been computed.** Written from a
+**Status: v1, APPROVED by the user 2026-11-04 (all section-9 items as recommended), after reviews 1 and 2 (section
+10); tag `prereg-a1-g04-v1`. Nothing declared below was computed before the tag.** Written from a
 read-only inventory of metadata, file names and code. No imprint-gene value, score or AML-vs-healthy expression
 contrast of Chen2023 or of the children was read; 1.3 lists what was seen, including expression-derived QC covariates
 of three children. Order (user decisions 2026-10-28 to 2026-11-04): A1-G02 (PASS) → A1-BATCH (PASS with
 qualifications) → A1-G01 ("beyond T-subset composition, detected inside the main labels") → **this** → G03. Handoff
-v2.0 §17 S15. The tag `prereg-a1-g04-v1` follows the user's section-9 decisions.
+v2.0 §17 S15.
 
 ## 0. Question, scope, and what each outcome lets the paper say
 
@@ -684,7 +685,7 @@ Handover (fixed now):
 
   Anything else holding Chen2023 or paediatric expression is closed.
 
-## 9. Decisions for the user (recommendation first)
+## 9. Decisions (the user, 2026-11-04: all seven as recommended)
 
 1. **Chen2023's role.** Promote it from direction "reference only" to the G04(a) test; its CCC-era Discovery split label
    does not restrict this use. *(Recommended.)*
@@ -807,5 +808,6 @@ Handover (fixed now):
     - 4.11 adds the 7-fold version.
     - Counts and wording corrected: 278 author-malignant kept T cells; 46 real and 12 partly real review-1 findings;
       AML003's source; E-MTAB-16321's healthy donors; the (b) licence names the cross-fitted lists.
-- **DRAFT v3**, 2026-11-04: review 2 folded in. Pending, after the user's section-9 decisions: a dated one-line note in
-  the handoff S15 row narrowing the 2026-11-01 sentence (D2), then the tag.
+- **DRAFT v3**, 2026-11-04: review 2 folded in.
+- **v1 APPROVED**, 2026-11-04: the user decided all seven section-9 items as recommended. With the approval, a dated
+  note in the handoff S15 row narrows its 2026-11-01 sentence (D2). Tag `prereg-a1-g04-v1`.
