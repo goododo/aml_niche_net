@@ -811,3 +811,28 @@ Handover (fixed now):
 - **DRAFT v3**, 2026-11-04: review 2 folded in.
 - **v1 APPROVED**, 2026-11-04: the user decided all seven section-9 items as recommended. With the approval, a dated
   note in the handoff S15 row narrows its 2026-11-01 sentence (D2). Tag `prereg-a1-g04-v1`.
+- **Code review 1 and dated pre-run note**, 2026-11-04 (before any real-data mode of 41 was run; no Chen2023 or child
+  score had been computed). `scripts/ws/41_a1_g04.R` and `submit_ws_a1_g04.sbatch` were written in three stages, each
+  run end to end on synthetic data only (smoke jobs 3683524-3683538; smoke outputs under `/LARGE1/…/ws_a1_g04/smoke/`).
+  Three read-only reviewers checked conformance with this document, correctness on real-data edge cases, and blindness
+  and output safety (notes in `/FAST/gr10634/gaozy/reports/2026-11_a1_g04_prereg/code_review1/`, outside the repo). Two
+  of them found the same blocking bug (`--combine` stopped when no statistical bar failed); it is fixed and that path was
+  rerun on synthetic data. Fixed as declared above: the "not decisive" routes of 7(a)1 and 7(b)1 when a gate stops a mode;
+  K3b's mismatched children leave the 4.10 set; the statistical bars (K4b, K6b) run only after every scope-P
+  deterministic check has passed; C_H, C_A and C stay off the public readouts table unless (a) is "direction replicated";
+  the "not shown" sentence always carries ρ_U; φ's bootstrap uses the drawn folds' child scores; K9 and (b) share one
+  bootstrap function. Implementation details declared now, none of which can change a category:
+  - Seeds: K5's synthetic test vectors use SEED + 28 (as K6a); every smoke draw derives from SEED + 19.
+  - K2 checks the saved matrices' column sums against sums computed separately over the cells (T, pool-A T, B, NK and
+    the decontX matrix).
+  - K3 prints the Chen2023 sex calls only (not the UMIs); K3b prints, for AML056, AML038, AML026 and AML051, the UMIs of
+    the gene of the other sex only.
+  - A K3 mismatch stops `--primary`, and a K3b mismatch stops `--children`, until a dated note is added here; the mode is
+    then rerun with `--k3-noted` or `--k3b-noted`.
+  - The author-metadata join of 3.4 stops the run if any child matches fewer than 95 % of its kept T cells, or if the
+    two counts disclosed in 1.3 are not reproduced (AML028: 16 author-NK of 20; AML073: 210 author-malignant of 605).
+  - The 5-gene rule is applied to every J-space score of sections 4 and 5 (D and p are NA below 5 genes in a non-empty
+    half; n_up and n_down are reported).
+  - Every mode checks all of its output files before any work and refuses to overwrite one; a later modes stops unless
+    the checks table was written by the same script version. A rerun after a fix therefore needs a dated note here and the
+    earlier output renamed (`*_superseded_<date>`), never deleted.
