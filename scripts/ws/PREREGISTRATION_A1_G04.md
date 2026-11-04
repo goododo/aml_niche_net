@@ -7,7 +7,7 @@ children and the healthy donors are both out of sample (2.4). The obligations ha
 12.5, the gap-assessment addendum (sections 1.3 and 1.7), the September pre-registration and the handoff are listed in
 0.1, each with where it is met or why it is declined.
 
-**Status: DRAFT v2 (2026-11-04), after review 1 (section 10). Nothing declared below has been computed.** Written from a
+**Status: DRAFT v3 (2026-11-04), after reviews 1 and 2 (section 10). Nothing declared below has been computed.** Written from a
 read-only inventory of metadata, file names and code. No imprint-gene value, score or AML-vs-healthy expression
 contrast of Chen2023 or of the children was read; 1.3 lists what was seen, including expression-derived QC covariates
 of three children. Order (user decisions 2026-10-28 to 2026-11-04): A1-G02 (PASS) → A1-BATCH (PASS with
@@ -65,12 +65,13 @@ What each outcome lets the paper say (rules in section 7; pass level 6/126, see 
   reproduce in Chen2023 (NPM1-mutated AML vs allogeneic-transplant donors, one sorting protocol); study-, genotype- and
   source-specific explanations cannot be told apart. Reported with the mirrored 3.2 qualifier and the depth-equalised
   result (4.6).
-- **(a) "not decisive"**: a statistical bar or the coverage floor of section 6 failed. The results are reported as
+- **(a) "not decisive"**: a scope-P known answer could not be passed, a statistical bar or the coverage floor of
+  section 6 failed (K6b(i) only for a would-be pass), or K3's swap rule applies. The results are reported as
   descriptive, and the direction stays "shown in one study".
 - **(b) "AML-side"**: "Within GSE185381, T cells of 18 paediatric-cohort AML patients (14 under 18 y; 0.2-21 y, two
-  without a recorded age) score higher on the imprint than out-of-fold adult healthy donors more often than not (A_b,
-  95 % CI; placement φ, 95 % CI)." The patients are younger than the donors, so the patients' older age cannot explain
-  it. No child shares a pool with an adult AML, so it does not need the adult-AML lanes: 14 of the 18 were captured
+  without a recorded age) score higher on the cross-fitted imprint lists than out-of-fold adult healthy donors more
+  often than not (A_b, 95 % CI; placement φ, 95 % CI)." The patients are younger than the donors, so an older-age
+  effect cannot explain it. No child shares a pool with an adult AML, so it does not need the adult-AML lanes: 14 of the 18 were captured
   before 2020-07-29, like 8 of the 10 healthy donors, 12 of them in children-only pools. It does not separate disease
   from sample source (the comparators are the same commercial donors), from a shift shared by the children's lanes,
   from blast-derived ambient RNA (unsorted marrow, blasts 23-94 %), from T-subset composition (not controlled in (b)),
@@ -110,7 +111,7 @@ What G04 cannot do, under any outcome:
 | addendum 1.7 | Ensembl remap to the 2020-A axis; pool-B T cells | 2.2 |
 | addendum 1.7 | ws/22's unit = the library | ws/22's decontX call runs inside 41, one unit per pool-B library (4.7); the ws/22 script itself is not run (8) |
 | addendum 1.7 | ws/26's roles mapped explicitly | moot: 41 builds its own pseudobulks and takes the arms from the xlsx (2.2) |
-| addendum 1.7 | a leave-one-healthy-donor-out rule | 3.2 (a donor-influence rule; the p-based rule of v1 could not fire, review 1) |
+| addendum 1.7 | a leave-one-healthy-donor-out rule | 3.2 (a donor-influence rule; the p-based rule of v1 could fire only at p = 6/126, review 1) |
 | addendum 1.7 | a recorded decision to promote Chen2023 | decision 9.1 |
 | addendum 1.3 | declare the September null as prior knowledge | 1.1 |
 | addendum 1.3 | the rungs that add the children or Chen2023 go inside G04's pre-registration | 5.7 (declared here, run in G03; decision 9.5) |
@@ -167,10 +168,10 @@ T-cell results were not reviewed for this draft.
   UMI shares, which are expression-derived).
 - Review 1 (metadata only): all 18,322 S4-kept T cells of GSE185381 match an author cell. The kept T cells that the
   authors call non-T are NK (median share: children 4.3 %, healthy 6.3 %, adult AML 10.0 %; AML028 16 of 20, Control0004
-  116 of 250) and one MPP (AML2123); no kept T cell is author-labelled myeloid or progenitor. The authors flag 277 kept T
-  cells as malignant (all CNV+), spread over T subtypes: AML073 210 of 605, AML0693 47 of 336, AML022 9, AML001 7, AML3266
-  3, AML2123 1, PAUMTZ 1.
-- Consequence: the composition readouts (5.1, 5.5) are descriptive only.
+  116 of 250) and one MPP (AML2123); no other kept T cell is author-labelled myeloid or progenitor. The authors flag 278
+  kept T cells as malignant (277 CNV+; AML2123's single CNV− cell is the MPP above), spread over T subtypes: AML073 210
+  of 605, AML0693 47 of 336, AML022 9, AML001 7, AML3266 3, AML2123 1, PAUMTZ 1.
+- Consequence: the composition readouts (5.1, and 3.4's per-child shares) are descriptive only.
 
 Not computed (blind at this draft): any Chen2023 or child imprint, delay, or B/NK score; any Chen2023 or child expression
 value of a P370 gene; the Chen2023 pool-B library sizes, UMI per cell by arm and sex calls; the September per-gene
@@ -215,7 +216,7 @@ measure as a descriptive readout. The children were planned as a separate second
 | A1-G02 leave-pair-out scores (K9) | `results/tables/ws/ws_a1_g02_lpo_pairs.csv` | 166623a1461ae59f0c0095e226788da4 |
 | r = 1.430 (gap_in / gap_oof) | `results/tables/ws/ws_s9_yardstick.csv` | dcbea817a8eb6c68575486e3576dfce9 |
 | S9 result, D_res_J at full precision (K4) | `results/tables/ws/ws_s9_direction.csv` | a95d8caf3607b8a0b05083346b7301b6 |
-| K4 inputs (Oetjen) | `/LARGE1/…/ws_pseudobulk/GSE120221/ws_pb_GSE120221.rds`; `results/tables/ws/ws_s4_pseudobulk_meta_GSE120221.csv`; `/LARGE1/…/00_raw/metadata/GSE120221/donor_ages_GSE120221_v1.0.csv` | b4ad90bd5c587d48cc66e02a537c5079; 11a282f9586be7f5d4090d93bd047f7d; 178ced1c73e531b67172ed413b009c07 |
+| K4 inputs (Oetjen) | `/LARGE1/…/ws_pseudobulk/GSE120221/ws_pb_GSE120221.rds`; `results/tables/ws/ws_s4_pseudobulk_meta_GSE120221.csv`; `/LARGE1/…/00_raw/metadata/GSE120221/donor_ages_GSE120221_v1.0.csv`; `/LARGE1/…/00_raw/metadata/GSE120221/meta_GSE120221_v1.0.csv` | b4ad90bd5c587d48cc66e02a537c5079; 11a282f9586be7f5d4090d93bd047f7d; 178ced1c73e531b67172ed413b009c07; 222ff9a6e85b08e551cd1ad95395c076 |
 | ambient blacklist (n_units ≥ 5: 79 genes) | `results/tables/ws/decontx/GSE185381/ws_s1_ambient_blacklist.csv` | acebed4dbeed2ef6ecd5a60791e28fb9 |
 | GENCODE gene order (the chrY list inside `black_for`) | `/LARGE1/…/reference/gencode_GRCh38_gene_order.txt` | c0950d592084a8b713de34ab30a7ddf8 |
 | processing-delay set (295 up / 497 down) | `/LARGE1/gr10634/gaozy/reference/savage2021_processing_delay/savage2021_T_delay18h_consistent.csv` | 5ee444a9284ae52b7afab1c8aeeced2c |
@@ -276,19 +277,18 @@ measure as a descriptive readout. The children were planned as a separate second
   contradicts its karyotype (46,XY); and reading it would read post-treatment cells, which this document closes for any
   later remission or relapse analysis.
 - **Identity defaults:** Control0058 is used as stored in S5 (one donor). AML003 has no Table S1 record; its age band
-  (infant), sex and St Jude source come from author metadata. (b) uses the A1-G02 fold lists as stored, with Control4
+  (infant) and sex come from author metadata, and its St Jude source is inferred from its pool (P08) and ID. (b) uses the A1-G02 fold lists as stored, with Control4
   coded male.
 - **Matrices:** the `PB$raw$T` columns of these 18 (author labels, demultiplexed by hashtag plus genotype), subset
-  immediately after loading. For K3b only: the XIST and RPS4Y1 rows of the kept T cells of AML056, AML038, AML026 and
-  AML051 in `/LARGE1/…/02_seurat_objects/04_annotated/GSE185381/<sample>.rds` (md5 0f9a118ce8a36ba4a37f0faa9010809d,
-  d86e3bf6cb759e1af6facfdef97afe2e, 208ce144d239ec8e06fbe6bccb923427, 326ff379bab31da56ba246e7a1eb9221). Never read: the
-  UNDEMUX cells of the ingest object, the P06 and P12 lane matrices beyond their hashtag rows, and the PAUMTZ and PAXMIJ
-  columns of any matrix.
+  immediately after loading. Never read: the UNDEMUX cells of the ingest object, any GEO lane matrix beyond the hashtag
+  rows already tallied (1.3), and the PAUMTZ and PAXMIJ columns of any matrix.
 - **Metadata:** `/LARGE1/…/00_raw/metadata/GSE185381/meta_GSE185381_v2.3.csv` (cf0c1ed37db4dabbac440ce26494f586; ages);
   the author per-cell metadata `/LARGE1/…/00_raw/public/GEO/GSE185381_RAW/GSM*_metadata.csv.gz` (age band,
-  inflammation group, author cell identity and malignancy flag; 63 files, md5 of their sorted `md5sum` listing
-  c9bf8d1d53653aad8d65d1da7f9da4e0); `ws_s4_pseudobulk_meta_GSE185381.csv` (8533d147444e3b70983693dfd77c5beb; named
-  columns only, K8).
+  inflammation group, author cell identity and malignancy flag; 63 files). Their md5 is checked by running, inside
+  `GSE185381_RAW`, `md5sum GSM*_metadata.csv.gz | sort -k2 | md5sum` (base names, md5sum's two-space format), which
+  gives c9bf8d1d53653aad8d65d1da7f9da4e0. Also `ws_s4_pseudobulk_meta_GSE185381.csv`
+  (8533d147444e3b70983693dfd77c5beb; named columns only, K8), and the children's rows of `PB$cells` (cell, sample, fine,
+  group4 and kept only; no counts) for 3.4's per-child shares.
 - **Flags** (sensitivity 4.10; from metadata and hashtags only):
   - age at least 18 y, or no Table S1 age and no author band below 18 (AML022 19.75, AML038 21.08, AML043 19.58, AML073
     none);
@@ -359,8 +359,8 @@ Reported with D:
 - D over the pooled within-arm SD (7 df; descriptive);
 - ρ, ρ_L and ρ_U, and K6c's implied depth bias beside D.
 
-Fixed caveats for ρ: ρ is descriptive. It is attenuated by shallower AML pseudobulks (by at most about 0.05 J, about
-0.04 of ρ, at 1,000 UMI per cell) and by protocol differences. The GSE185381 gap it divides by includes an age share that
+Fixed caveats for ρ: ρ is descriptive. It is attenuated by shallower AML pseudobulks (by about 0.05 J, about 0.04 of
+ρ, at 1,000 UMI per cell; more if shallower) and by protocol differences. The GSE185381 gap it divides by includes an age share that
 Chen2023 lacks (S9: f_age 0.102, CI −0.085 to 0.463), so ρ < 1 is expected even without a source effect.
 
 ### 3.2 (a) Does the result rest on one donor?
@@ -399,8 +399,8 @@ On the ρ scale (effect = ρ × D_res_J / r = ρ × 1.376 J units; pass at 6/126
 | 0.70 in both (GSE185381 out-of-fold healthy) | 0.16 | 0.36 | 0.62 | 0.83 |
 | 0.70 healthy, 0.82 AML (GSE185381 out-of-fold) | 0.14 | 0.32 | 0.55 | 0.77 |
 
-With real donor biology (GSE185381 healthy pseudobulks thinned to Chen-like depths, S5 sizes planted), ρ of about 0.5
-gave a pass rate of 0.51. Chen2023's SD is unknown before the run, and the September null (1.1) suggests a smaller
+With real donor biology (GSE185381 healthy pseudobulks at their own depth, S5 sizes planted), ρ of about 0.5 gave a
+pass rate of 0.51; with the AML arm thinned to 0.35 of its depth, 0.43. Chen2023's SD is unknown before the run, and the September null (1.1) suggests a smaller
 transfer. Hence a pass is informative, and a fail bounds the share that transfers: if nothing transfers, ρ_U excludes
 ρ = 1 in 1.00 / 0.98 / 0.84 / 0.57 of runs at a within-arm SD of 0.30 / 0.51 / 0.70 / 1.0.
 
@@ -445,7 +445,7 @@ Reported under every outcome, without a category:
   - 18 pseudo-children cut from one held-out healthy donor are called AML-side for the three highest-scoring healthy
     donors (Control0004, Control1, Control0058).
 
-## 4. Sensitivities (each reports its statistic with an exact p or a CI; none changes a category)
+## 4. Sensitivities (each reports its statistic with an exact p or a CI, except 4.11; none changes a category)
 
 (a) uses 3.1's statistic and pass level; (b) uses 3.4's bootstrap.
 - **4.1** (a) the 402 set (402 ∩ U_J; 388 on the Chen2023 axis).
@@ -454,17 +454,21 @@ Reported under every outcome, without a category:
 - **4.4** (a) the up half and the down half, scored separately.
 - **4.5** (a) P370 without the genes of the Savage delay set (295 up / 497 down); the analogue of A1-G01 4.2b.
 - **4.6** (a) depth-equalised: all 9 pool-B T pseudobulks are binomially thinned to the smallest donor's UMI total, 20
-  draws (seed SEED + 20), with scores averaged per donor. D, exact p and ρ in J; D and exact p in W.
-- **4.7** (a) decontX: ws/22's call (`celda::decontX`, z = NULL, seed SEED) with one unit per pool-B library, on all
-  cells of that library in the annotated object; the corrected counts are rounded (as `PB$dx`) and the pool-B kept T
-  summed per donor. D, exact p and ρ in J.
+  draws (seed SEED + 20). In each draw, U_J, TMM and D_res_J are recomputed (and W's filter and TMM). The scores are
+  averaged per donor over the draws; D and the exact p come from the averaged scores, and ρ = D / (mean D_res_J / r).
+  D, exact p and ρ in J; D and exact p in W.
+- **4.7** (a) decontX: ws/22's call (`celda::decontX`, z = NULL, seed SEED) with one unit per pool-B library of the 9
+  eligible donors, on all cells of that library in the annotated object (the QC-passed cells, as in ws/22). The decontX
+  counts of each donor's pool-B kept T are summed and then rounded (as A1-BATCH D4, `37_a1_batch.R`:354). D, exact p and
+  ρ in J.
 - **4.8** (b) children under 18 y: Table S1 age below 18, or no age and an author band below 18 (14: AML001, AML003,
   AML005, AML006, AML009, AML012, AML025, AML026, AML028, AML048, AML051, AML052, AML055, AML056).
 - **4.9** (b) at least 50 kept T cells (14); this is also the depth sensitivity.
 - **4.10** (b) flag-free children (7; 2.3).
 - **4.11** (b) comparators outside the T-ALL co-capture pools P02/P03: the folds of Control0004, Control0005,
   Control0058, Control0082 and Control4003. A_b over these 5 folds, with no CI (a percentile bootstrap over 5 folds is
-  unreliable). It is the harder test, because these donors score higher (mean −0.594 vs −0.915 for Control1-5).
+  unreliable). It is the harder test, because these donors score higher (mean −0.594 vs −0.915 for Control1-5). Also
+  A_b over the 7 folds without Control1, Control3 and Control4 (expression-female, pool P02), with no CI.
 
 ## 5. Further declared readouts (descriptive; no category)
 
@@ -503,21 +507,22 @@ Reported under every outcome, without a category:
   at 5 vs 4; addendum 1.7).
 - **5.5 (b) strata.** Each child's mean score over the 10 healthy folds, summarised by Lasry inflammation group (7 high,
   11 low) and by author age band: the median per group, no test.
-- **5.6 (b) depth readout** (adults only, after the tag). Each of the 25 adults is binomially thinned to each child's
-  actual kept-T library size and, separately, cell-subsampled to the child's kept-T count (20 draws each, seed
-  SEED + 26). It is placed through `make_L27` and scored in its own fold, and α, β and the noise SD (shift = α + β ×
-  full-depth score) are reported per child. Also reported, per child and fold: the share of the fold's genes with zero
-  counts.
+- **5.6 (b) depth readout** (adults only, after the tag). For each child, every adult whose kept-T library size is at
+  least the child's is binomially thinned to the child's kept-T library size (20 draws, seed SEED + 26), placed through
+  `make_L27` and scored in its own fold. α, β and the noise SD (shift = α + β × full-depth score) are reported per
+  child, with the number of adults used; a child with fewer than 5 such adults gets no calibration. Thinning reproduces
+  the depth effect that cell subsampling shows (review 1), so no per-cell adult object is read. Also reported, per
+  child and fold: the share of the fold's genes with zero counts.
 - **5.7 G03 extension rungs** (declared here, run in G03 after G04's result; addendum 1.3).
-  - Rung "+children": G03's final blind-safe rung (the September specification on the S5 samples of the September fit)
-    plus the GSE185381 children of the September T_NK fit, with nothing else changed.
-  - Rung "+Chen2023": that, plus the 9 Chen2023 donors; this is the September T_NK fit itself, whose genome-wide count
-    (1 hit) is known.
+  - Rung "+children": G03's final blind-safe rung (the September specification on the 24 S5 samples of the September
+    fit: 14 adult AML, 10 healthy) plus the 18 children of (b). These are the September fit's children without PAUMTZ
+    and PAXMIJ, which stay closed (2.3); nothing else changes.
+  - Rung "+Chen2023": that, plus the 9 Chen2023 donors. It is the September T_NK fit without PAUMTZ and PAXMIJ (37 AML
+    vs 14 healthy instead of 39 vs 14), so its count is not known; the September fit itself (1 hit) is the reference.
   - Specification: the September pre-registration's design, gene universe, hit rule and permutation procedure
     (`PREREGISTRATION_pseudobulk_de.md`).
   - Readout per rung: the hit count under the rung's rule with its permutation p, and, among the P370 genes in the
-    universe, the number of hits and the share with S5's sign. Any sample closed by S10 at that time is left out and
-    named.
+    universe, the number of hits and the share with S5's sign.
   - G03 states its reading rules before it runs. The September per-gene tables are opened only there.
 
 ## 6. Known answers (run first)
@@ -527,11 +532,13 @@ table has three states: PASS, FAIL (deterministic) and FAIL (statistical, final)
 - Deterministic checks must pass exactly. If one fails, the cause is a code or input error: it is fixed, the fix is
   recorded in a dated note in this file before any readout of that scope is printed, and all known answers rerun.
 - The statistical bars of K6b and the coverage floor of K4b run once, with the declared seeds, after the deterministic
-  checks pass. If one fails, (a) is "not decisive", with no change to methods, thresholds or seeds. The modes of its
-  scope still run, their outputs are labelled "not decisive, descriptive", and the GATES block names the failed bar. A
-  bar failure traced to a demonstrable code error (shown on synthetic data) is handled as a deterministic failure.
+  checks pass. A failure of K4b or K6b(ii) makes (a) "not decisive". A failure of K6b(i), which concerns only the
+  "replicated" tail, makes a would-be "direction replicated" "not decisive" and leaves the other categories readable.
+  Nothing changes in methods, thresholds or seeds. The modes of the scope still run, their outputs are labelled "not
+  decisive, descriptive" where the failure applies, and the GATES block names the failed bar. A bar failure traced to a
+  demonstrable code error (shown on synthetic data) is handled as a deterministic failure.
 - A mode runs only when every deterministic check of its scope passes (non-smoke checks table). Rows marked "reported"
-  never block.
+  never block, except K3's swap rule (below; 7(a)1).
 
 | id | check | expected | scope |
 |---|---|---|---|
@@ -539,19 +546,19 @@ table has three states: PASS, FAIL (deterministic) and FAIL (statistical, final)
 | K1 | `features.tsv` (ID, symbol) equals the remap's (ens, sym_cr2) in all 33,694 rows, in order; every object's row names equal `make.unique(gsub("_", "-", symbol))`; P370 on the remapped axis | identical; 358 (154 / 204); 402 set 388 | P |
 | K2 | the donor table equals the xlsx (arm, age, sex) for 10/10; `Pool` agrees with the library name for every kept cell; pool-B kept T per donor equals 2.2; the column sums of the saved (remapped) pseudobulks equal their cells' summed counts over the 32,351 mapped rows; the nine label matrices sum to whole-T | exact (max \|diff\| 0) | P |
 | K2b | `est_C`'s reference profiles are bit-identical when donor i's label counts are set to zero (both orders) | identical | P (5.1 only) |
-| K3 | expression sex: the ws/26 thresholds (`26_s4_pseudobulk.R`:91) applied to the summed XIST and RPS4Y1 UMIs of each donor's pool-B kept T, B and NK cells, and separately to its pool-A kept cells | see the rule below | reported |
-| K3b | children's identity: the same thresholds on each child's kept-T XIST and RPS4Y1 UMIs (`PB$raw$T`), against the metadata sex; for AML056, AML038, AML026 and AML051 also split by raw top hashtag (2.3) | a mismatch gets a dated note before (b) is read, and the child joins the 2.3 flags | reported |
+| K3 | expression sex: the ws/26 thresholds (`26_s4_pseudobulk.R`:91) applied to the summed XIST and RPS4Y1 UMIs of each donor's pool-B kept T, B and NK cells, and separately to its pool-A kept cells | see the rule below | reported; the swap rule gates P |
+| K3b | children's identity: the same thresholds on each child's kept-T XIST and RPS4Y1 UMIs (`PB$raw$T` rows), against the metadata sex; the UMIs of the other-sex gene are printed for AML056, AML038, AML026 and AML051, where hashtags suggest mixing (2.3) | a mismatch or an "unclear" call gets a dated note before (b) is read, and the child joins the 2.3 flags | reported |
 | K4 | the J-space code reproduces S9: D_res_J for GSE120221 from S9's inputs and donor pooling (`load_cohort`); gap_in on the 25 in S5 space | 1.96770393747843 within 1e-6; 1.97138 within 1e-5 | P |
 | K4b | coverage: \|P370 ∩ U_J\| / 358, and the genes per half | ≥ 0.80 (S9's floor) and ≥ 5 per half; else (a) is "not decisive" | P (bar) |
 | K5 | enumeration: 126 distinct labellings, the observed one once; the rank-sum exact p equals `pwilcox`; the closed-form bounds of 3.1 equal bisection; ρ_L > 0 exactly when p ≤ 6/126 | exact | P |
-| K6a | order invariance: the J and W scores of the real pool-B matrix, recomputed with the 9 columns in 10 random orders, equal the re-ordered scores (only max \|diff\| is printed). Plant signs, on synthetic data only: S5 log2FC / r planted into the 5 synthetic AML gives D > 0, and into the 4 synthetic donors D < 0 | < 1e-12; the signs as stated | P |
+| K6a | order invariance: the J and W scores of the real pool-B matrix, recomputed with the 9 columns in 10 random orders (seed SEED + 28), equal the re-ordered scores (only max \|diff\| is printed). Plant signs, on synthetic data only: S5 log2FC / r planted into the 5 synthetic AML gives D > 0, and into the 4 synthetic donors D < 0 | < 1e-12; the signs as stated | P |
 | K6b | machinery (synthetic): NB size 10 around the pooled kept-T profile of the 10 GSE185381 healthy adults, on the 32,351 Chen2023 mapped genes; library sizes = the `--build` pool-B column sums, each kept with its donor; U_J from the 9 synthetic columns and the 25; 1,000 data sets (seed SEED + 18); (i) no plant; (ii) S5 log2FC planted on P370 in the 5 synthetic AML; pass = 3.1's rule | (i) "replicated" rate ≤ 0.08; the synthetic donors have no between-donor variance, so the depth offset dominates the other tail, which is reported only; (ii) pass rate ≥ 0.90 | P (bar) |
-| K6c | depth calibration (no bar): the 3 deepest GSE185381 healthy T pseudobulks, thinned to 3.0M UMI and then to 2.0 / 1.0 / 0.5 / 0.25 / 0.1M (20 draws each, seed SEED + 25), give a curve of J-score shift against UMI total; at Chen2023's realised per-donor pool-B kept-T UMI totals it gives the implied D bias, printed beside D in J units and in pooled within-arm SD units | reported | reported |
+| K6c | depth calibration (no bar): the 3 deepest GSE185381 healthy T pseudobulks, thinned to 3.0M UMI and then to 2.0 / 1.0 / 0.5 / 0.25 / 0.1M (20 draws each, seed SEED + 25), each scored in a J space whose external cohort is the probe plus the other 9 healthy donors unchanged (U_J and TMM recomputed at each step), give a curve of J-score shift against UMI total (zero shift at or above 3.0M; linear in log UMI between grid points; the 0.1M value below it). At Chen2023's realised per-donor pool-B kept-T UMI totals the curve gives the implied D bias: `--known` computes it in J units, and `--primary` prints it beside D, also in pooled within-arm SD units | reported | reported |
 | K7 | `make_L27` keeps L on the 25 within 1e-10; the stored out-of-fold scores of all 25 folds are reproduced within 1e-6 | exact | B |
 | K7b | each of the 25 adults, placed as a new column via `make_L27`, reproduces its stored out-of-fold score in its own fold | within 1e-6, 25/25 | B |
-| K7c | a healthy adult cell-subsampled to 20 kept T cells (seed SEED + 27) gives finite scores in all 10 healthy folds; every child's column is finite | finite; the shift is reported | B |
+| K7c | each of the 10 healthy adults, binomially thinned to the smallest child's kept-T library size (seed SEED + 27), gives finite scores in all 10 healthy folds; every child's column is finite | finite; the shifts are reported | B |
 | K8 | the 18 IDs and their kept T counts equal `ws_s4_pseudobulk_meta_GSE185381.csv`, read with the columns sample, group4, n, eligible, role and paediatric only | exact | B |
-| K9 | the (b) code (child and comparator scores per child-fold cell) applied to A1-G02's leave-pair-out scores, with each adult AML in a child's place | A_b 0.9267 (the leave-pair-out AUC of A1-G02 D1) and "AML-side" | B |
+| K9 | the (b) code (child and comparator scores per child-fold cell) applied to A1-G02's leave-pair-out scores, with each adult AML in a child's place | A_b = 139/150 (0.926666666666667, the stored D1_AUC_LPO) within 1e-12, and "AML-side" (bootstrap seed SEED + 17) | B |
 
 K3 rule, fixed now: sex is not a covariate, and the arms come from the deposit names. A mismatch never removes a donor
 or changes an arm; it is recorded in a dated note before the primary is read. Opposite confident calls between a
@@ -562,7 +569,8 @@ donor library, the run stops before the primary for discussion, and if the swap 
 ## 7. Decision rules (first match wins)
 
 **(a):**
-1. **"not decisive"**: a statistical bar or the coverage floor failed under section 6's rule, or K3's swap rule applies.
+1. **"not decisive"**: a scope-P known answer could not be passed; K4b or K6b(ii) failed; K6b(i) failed and the result
+   would otherwise be "direction replicated"; or K3's swap rule applies (section 6).
 2. **"direction replicated"**: D > 0 and exact p ≤ 6/126. Add "rests on one donor (name)" if 3.2's rule applies.
 3. **"reversed"**: D < 0 and the mirror exact p (labellings with D at most the observed) ≤ 6/126. Add the mirrored 3.2
    qualifier and 4.6's result.
@@ -581,9 +589,10 @@ Handover (fixed now):
 - G03 runs after G04's result. It opens the September per-gene tables, runs 5.7's rungs, relates the result to 1.1's
   prediction, and takes (b)'s A_b, φ and their CIs under any outcome.
 - **(a) "direction replicated"** counts toward the direction half of GATE_A3 ("at least 1 other study significantly
-  concordant", HO:169) as the user decides in 9.6, with the qualifier and the source sentence of section 0. A GATES-block
-  line then supersedes GATES.md's S9 verdict clause "no independent AML + healthy cohort exists in this work", without
-  editing the S9 block.
+  concordant", HO:169) as the user decides in 9.6, with the source sentence of section 0 (and the qualifier, under
+  option B only).
+- Under every (a) outcome, a line in the A1-G04 GATES block supersedes the S9 verdict clause "no independent AML +
+  healthy cohort exists in this work" with that outcome's wording, without editing the S9 block.
 - **(a) "reversed"**: the direction claim stops; discuss before G07 or any writing.
 - **(a) "not shown"**: the direction stays "shown in one study", with ρ_U as its bound. G04(c) stays a separate decision
   (9.5); it cannot separate disease from source either (addendum 1.1).
@@ -612,9 +621,9 @@ Handover (fixed now):
   - `logzL` = 39:91-94 = 37:65-68 (returns L; `est_C`, `make_L27` and (b));
   - `black_for` (33), applied on each axis; on the Chen2023 mapped axis it removes the same 290 genes as BLACK
     (review 1);
-  - `jspace(G_ref, st_ref, E_raw)` and `zE_from_counts` (33:171-189), with the reference matrix and status vector as
+  - `jspace(G_ref, st_ref, E_raw)` and `zE_from_counts` (33:171-185), with the reference matrix and status vector as
     arguments (T, B and NK references);
-  - `load_cohort` (33:113-126), for K4 only;
+  - `load_cohort`, with `age_group_of` and the constants it uses (33:43-45 and 33:112-126), for K4 only;
   - `make_L27` (37:108-118);
   - `est_C` and its helpers (39:151-195);
   - ws/22's decontX call (22:122).
@@ -623,23 +632,25 @@ Handover (fixed now):
   sex calls to the repo), ws/02 (sorted AML are ineligible). No re-ingest: the remap is applied to the pseudobulks.
   `config_ws.R` is unchanged. No new dependency (celda is installed).
 - Seeds:
-  - SEED + 17: (b) bootstrap (A_b, φ, 4.8-4.10);
+  - SEED: 4.7 (ws/22's own call);
+  - SEED + 17: (b) bootstrap (A_b, φ, 4.8-4.10, K9);
   - + 18: K6b;
   - + 19: smoke;
   - + 20: 4.6;
   - + 25: K6c;
   - + 26: 5.6;
-  - + 27: K7c.
-  - None of these is used elsewhere in `scripts/ws`. Already in use: 37 uses + 6, + 11 to + 16, + 21 to + 24, + 99 and
+  - + 27: K7c;
+  - + 28: K6a's random orders.
+  - None of the offsets is used elsewhere in `scripts/ws`. Already in use: 37 uses + 6, + 11 to + 16, + 21 to + 24, + 99 and
     + 121; 39 uses + 31 to + 38, + 99 and + 35 to + 534; 40 uses + 98; 29 uses + 1 to + 10 and + 101 to + 110.
 - Outputs: `results/tables/ws/ws_a1_g04_{checks,primary,loo,sens,children,readouts,summary}.csv` and the GATES.md block
   A1-G04. They are public the same night (cron); nothing G04-derived is written to the repo before the tag.
 - **Allowlist** (replaces A1-BATCH's allowlist plus its "any Chen2023 file" rule). Opened before G04's result, for a
   Chen2023 donor or a GSE185381 child:
   - the inputs of 2.1-2.3 by exact path: the ten 04_annotated Chen2023 objects (counts, and the meta.data columns
-    Pool, library, bmm_fine, anno_source and high_error), the xlsx, `features.tsv` and the remap;
-  - the `PB$raw$T` columns of the 18 children, subset immediately after loading;
-  - K3b's XIST and RPS4Y1 rows (2.3);
+    Pool, Library, bmm_fine, anno_source, high_error and hierarchy_bin), the xlsx, `features.tsv` and the remap;
+  - the `PB$raw$T` columns of the 18 children, subset immediately after loading (K3b reads their XIST and RPS4Y1 rows);
+  - the children's rows of `PB$cells` (cell, sample, fine, group4 and kept only);
   - the metadata named in 2.3, 4.8 and 5.5.
 
   No other file holding expression, or a value derived from expression, of a Chen2023 donor or a GSE185381 child is
@@ -667,9 +678,9 @@ Handover (fixed now):
     `depth_struck_hits.csv`, `perm_null.csv`, `secondary_*.csv`, `validation/`, `confound_inferred_sex.csv`) and the
     `/LARGE1` 12_pseudobulk_de pseudobulks; `05_ccc/ccc_node_features*.csv`, `07_fgw*/fgw_nodes_long.csv` and the
     `08_scoring` panel-screen tables;
-  - the children's xist, rps4y1, sex_inferred, dbl_mean and median_umi columns of the S4 meta table (K8 reads named
-    columns only); the UNDEMUX cells, the P06/P12 lane matrices beyond their hashtag rows, and the PAUMTZ/PAXMIJ
-    columns of any matrix.
+  - the children's xist_umi, rps4y1_umi, sex_inferred, dbl_mean, median_umi, kept_umi, hb_share_nonery,
+    gran_share_lymph and n_lymph_for_share columns of the S4 meta table (K8 reads named columns only); the UNDEMUX
+    cells, any GEO lane matrix beyond the hashtag rows already tallied, and the PAUMTZ/PAXMIJ columns of any matrix.
 
   Anything else holding Chen2023 or paediatric expression is closed.
 
@@ -677,13 +688,17 @@ Handover (fixed now):
 
 1. **Chen2023's role.** Promote it from direction "reference only" to the G04(a) test; its CCC-era Discovery split label
    does not restrict this use. *(Recommended.)*
-2. **(a)'s pass level** (the statistic is the mean difference in both options). Pass at p ≤ 6/126: alpha 0.048, power
-   0.37 / 0.63 / 0.84 at 1 / 1.5 / 2 within-arm SD *(recommended)*. Or pass at p ≤ 4/126: alpha 0.032, power 0.29 / 0.53
-   / 0.76; this is the addendum's level, which it stated for the rank-sum (0.28 / 0.52 / 0.74 at the same alpha). The
-   choice is about alpha, not the statistic: at equal alpha the mean difference gains at most 0.02. Single-donor
-   dependence is handled by 3.2's rule under either option. Under 4/126, "6" becomes "4" in 3.1-3.2, 5.2, 7, K5 and
-   K6b, and the bounds use the 4th t_S (one-sided 96.8 %). 3.2's rule then flags 0.11 of chance passes and 0.07 /
-   0.05 / 0.03 of true passes (synthetic; review 1, main session).
+2. **(a)'s pass level** (the statistic is the mean difference in both options).
+   - Pass at p ≤ 6/126 *(recommended)*: alpha 0.048; power 0.37 / 0.63 / 0.84 at 1 / 1.5 / 2 within-arm SD; at ρ 0.5,
+     0.91 / 0.55 / 0.36, and at ρ 1, 1.00 / 0.97 / 0.83, for a within-arm SD of 0.30 / 0.51 / 0.70 J units (3.3).
+   - Pass at p ≤ 4/126: alpha 0.032; 0.29 / 0.53 / 0.76; at ρ 0.5, 0.86 / 0.45 / 0.28, and at ρ 1, 1.00 / 0.94 / 0.75.
+     This is the addendum's level, which it stated for the rank-sum (0.28 / 0.52 / 0.74 at the same alpha).
+   - The choice is about alpha, not the statistic: at equal alpha the mean difference gains at most 0.02. Single-donor
+     dependence is handled by 3.2's rule under either option.
+   - Under 4/126, "6" becomes "4" in sections 0, 3.1-3.2, 5.2, 7, K5 and K6b, and the bounds use the 4th t_S (one-sided
+     96.8 %, also in section 0's "not shown" sentence). 3.2's rule then flags 0.11 of chance passes and 0.07 / 0.05 /
+     0.03 of true passes, and 9.6's rates become: (A) 0.27 / 0.51 / 0.74, 0.03 under no effect, 0.01-0.04 when one
+     donor makes the pass; (B) 0.29 / 0.53 / 0.76, 0.03 and 0.06-0.07 (synthetic; `review1/main_session/`).
 3. **The children.** Keep (b) as a secondary arm with the out-of-fold comparator *(recommended)*. 3.5: 2-4 % false
    AML-side under H0; power 0.62-0.68 when the children carry half of the adult gap; a shift of 1 healthy-SD shared by
    the children's lanes is called AML-side in 63 % of runs. Keeping (b) reverses the handoff plan to study the children
@@ -708,7 +723,8 @@ Handover (fixed now):
      paediatric AML vs 4 adult healthy), needs a download and is a last resort. The 5' arm is fully date-confounded
      (A1-BATCH 7).
    - (iv) G04(c) (E-MTAB-16321) became due when G01 showed a residual. It needs a download approval and cannot separate
-     disease from source either, because its healthy donors are the same commercial product. Decide at the late-November
+     disease from source either, because its healthy donors are also commercial marrow (4 of 10 the same STEMCELL
+     product). Decide at the late-November
      decision point (addendum section 2, item 5) *(recommended)*, or now.
 6. **GATE_A3** (the direction half: "at least 1 other study significantly concordant").
    - (A) Only an unflagged "direction replicated" counts *(recommended; GATE_A3 is a stop/go gate, HO:171)*. In
@@ -728,7 +744,7 @@ Handover (fixed now):
   the repo).
 - **Review 1**, 2026-11-04 (workflow wf_8890f84c-931). Four lenses, each with an adversarial verifier: A, the statistics
   of (a); B, the children's design; C, feasibility against the code and files; D, consistency and disclosure.
-  - 58 findings, none refuted: 49 real, 9 partly real. Three were blocking after verification: A1 (the leave-one-out
+  - 58 findings, none refuted: 46 real, 12 partly real. Three were blocking after verification: A1 (the leave-one-out
     qualifier could fire only at p = 6/126), and C1 = D6 (K0's `features.tsv` md5 was that of the decompressed file, and
     the known-answer failure rule departed from A1-G01's three states, so a typo could have voided the primary).
   - The completeness critic hit a usage limit before returning. Its working notes were used: the conflicts between lens
@@ -760,9 +776,36 @@ Handover (fixed now):
   obligation.
 
   Not adopted:
-  - leave-two-healthy-out comparators for (b): infeasible, because 12 of 90 nested refits collapse when Control3 or
-    Control4 leaves with another P02 donor (B10);
+  - leave-two-healthy-out comparators for (b): infeasible, because 6 of 45 distinct nested refits (12 of 90 rows)
+    collapse, each removing Control3 or Control4 with another P02 donor, or Control0082 with Control4 (B10);
   - weakening (b)'s one-sided reading (the B4 verifier: paediatric AML differs in drivers and T biology).
 
-  Pending, after the user's decisions: a dated one-line note in the handoff S15 row narrowing the 2026-11-01 sentence
-  (D2).
+- **Review 2** (short), 2026-11-04 (workflow wf_6477cfeb-0ac). Three read-only checkers: fold-in coverage; consistency
+  and numbers, including every md5; feasibility and blindness. Notes in
+  `/FAST/gr10634/gaozy/reports/2026-11_a1_g04_prereg/review2/` (outside the repo). No Chen2023 or child expression,
+  score or count was read.
+  - Blocking, found by all three: the md5 recipe for the 63 GSE185381 author-metadata files was not stated, and the
+    natural reading gives a different value. Fixed: the exact command is in 2.3.
+  - Should-fix, fixed:
+    - K3 is reported, but its swap rule now gates P (section 6 says so).
+    - 7(a)1 gains the route for a scope-P check that cannot be passed; section 0 matches.
+    - 5.7's rungs leave out PAUMTZ and PAXMIJ, so rung "+Chen2023" is no longer the September fit and its count is not
+      known.
+    - 3.3's real-biology power is described at the donors' own depth (0.51), with 0.43 when the AML arm is thinned.
+    - The allowlist names `Library`, `hierarchy_bin` and the children's `PB$cells` rows.
+    - 5.6 and K7c use binomial thinning only, and only adults at least as deep as the child. Cutting adults to deeper
+      children is impossible, and cell subsampling would need undeclared per-cell objects.
+    - K3b's per-cell hashtag split is dropped. Its only source, the GEO lane matrices, also holds the children's
+      expression, and the split cannot change a category; the pseudobulk-level call and the other-sex UMIs are printed
+      instead.
+  - Minor, fixed:
+    - A K6b(i) failure blocks only a would-be pass.
+    - 9.2 gives ρ-scale power and the 4/126 rates for 9.6 (`review1/main_session/sim_rho_power_alpha.out`).
+    - K9's expected value is exact.
+    - Declared: 4.6's per-draw recomputation; 4.7's rounding after summing; K6c's probe cohort, interpolation and
+      printing; meta_GSE120221_v1.0.csv; seeds SEED (4.7) and + 28 (K6a).
+    - 4.11 adds the 7-fold version.
+    - Counts and wording corrected: 278 author-malignant kept T cells; 46 real and 12 partly real review-1 findings;
+      AML003's source; E-MTAB-16321's healthy donors; the (b) licence names the cross-fitted lists.
+- **DRAFT v3**, 2026-11-04: review 2 folded in. Pending, after the user's section-9 decisions: a dated one-line note in
+  the handoff S15 row narrowing the 2026-11-01 sentence (D2), then the tag.
