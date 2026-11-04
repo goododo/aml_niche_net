@@ -833,6 +833,6 @@ Handover (fixed now):
     two counts disclosed in 1.3 are not reproduced (AML028: 16 author-NK of 20; AML073: 210 author-malignant of 605).
   - The 5-gene rule is applied to every J-space score of sections 4 and 5 (D and p are NA below 5 genes in a non-empty
     half; n_up and n_down are reported).
-  - Every mode checks all of its output files before any work and refuses to overwrite one; a later modes stops unless
+  - Every mode checks all of its output files before any work and refuses to overwrite one; a later mode stops unless
     the checks table was written by the same script version. A rerun after a fix therefore needs a dated note here and the
     earlier output renamed (`*_superseded_<date>`), never deleted.
