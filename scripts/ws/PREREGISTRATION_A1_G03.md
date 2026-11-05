@@ -1,7 +1,7 @@
 # PREREGISTRATION A1-G03: S5's T imprint and the September T_NK null, one factor at a time
 
-**Status: DRAFT v3, 2026-11-05.** Reviews 1 and 2 are folded in (section 10). The draft is not approved, and nothing
-declared below has been computed.
+**Status: v1, APPROVED by the user 2026-11-05 (all section-9 items as recommended), after reviews 1 and 2 (section
+10); tag `prereg-a1-g03-v1`.** Nothing declared below was computed before the tag.
 
 **Sources.** It is written from two read-only inventories, kept outside the repo:
 `/FAST/gr10634/gaozy/reports/2026-11_a1_g03_prereg/inventory/A_september_spec.md` (A) and
@@ -497,7 +497,7 @@ result."
 **Seeds.** `SEED = 491638`. Ladder offsets are +601 to +607; `scripts/ws` uses offsets up to +534 (39's 4.7 uses
 +35 to +534). E1, E2 and the planted grid use September's `.perm_seed()` labels.
 
-## 9. Decisions for the user
+## 9. Decisions (the user, 2026-11-05: all nine as recommended)
 
 Real choices are marked ★.
 
@@ -555,3 +555,5 @@ Real choices are marked ★.
   8. The BH set of the restricted counts is fixed (whole universe, then drop).
   9. K3c checks the full-refit limma path on LMPP_GMP's 126 labellings.
   10. K1b's positional mapping is stated, and R0 and R1 are declared not to share draws.
+- **v1 APPROVED**, 2026-11-05: the user decided all nine section-9 items as recommended ("按推荐"). Tag
+  `prereg-a1-g03-v1`. The script is written after the tag (section 8).
