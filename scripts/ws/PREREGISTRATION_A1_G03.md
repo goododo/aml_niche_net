@@ -557,3 +557,53 @@ Real choices are marked ★.
   10. K1b's positional mapping is stated, and R0 and R1 are declared not to share draws.
 - **v1 APPROVED**, 2026-11-05: the user decided all nine section-9 items as recommended ("按推荐"). Tag
   `prereg-a1-g03-v1`. The script is written after the tag (section 8).
+- **Code review 1 and dated pre-run note**, 2026-11-05. Written before any real-data mode of 42 was run. Before this
+  note, 42 had touched no real count, apart from 5.4, which has no synthetic input (item 16).
+  `scripts/ws/42_a1_g03.R` and `submit_ws_a1_g03.sbatch` were written in three stages, each run end to end on
+  synthetic data. Two smoke patterns were run: signal in every rung, and signal on S5's side only. The second exercises
+  the "lost" and "not attributable" branches.
+
+  Three read-only reviewers checked the code (notes in `reports/2026-11_a1_g03_prereg/code_review1/`, outside the repo):
+  - conformance with this document;
+  - correctness on real data;
+  - blindness and output safety.
+
+  Two of them found the same blocking bug. 4.2 recoded Control4 as "F", while the S5 table codes sex as
+  `female`/`male`, so Control4 would have got a sex level of its own. It is fixed and asserted, and the smoke covariates
+  now use the real level names. All should-fix findings were fixed.
+
+  Declared now; none of these can change a category:
+  1. E1 and E2 are built in manifest order (September's roster order), so `.perm_seed` gives September's procedure.
+     Their library IDs come from the manifest.
+  2. K3 and K3c run the production functions (`fit_rung`, `refit_frozen`, `frozen_null`), not inline copies. K3 keeps
+     only the secondary-bin rows of `perm_null.csv` and `de_summary.csv`.
+  3. K2c is reported, as declared. September's barcode join needs to reach only 0.999, so its cell counts are not a
+     deterministic target.
+  4. K7b (added, scope L): every draw carries one labelling across all rungs that share its draw set.
+  5. K9 (added, scope "R"): 5.4's method reproduces the addendum's rows 155.9 / 63.3 / 16.8 / 3.8 / 1.2. The recovery
+     curve is linear, anchored at (0, 0) and flat above 3. A K9 failure suppresses only 5.4's sentence.
+  6. Every mode after `--known` re-checks the input md5s that `--known` recorded. These now include `config_paths.R`,
+     the two K2b per-cell objects, the 24 K2c label files and the two G04 tables read by 5.4. Chunk files and the
+     observed-fit file carry the script md5. Every parallel worker must return; a dead worker stops the mode.
+  7. `--extend` needs scope E only. It refits R5 and R6 itself, and runs R6's frozen nulls on the stored 24-sample
+     draws (the same as 4.1 at R6). The extension sentence takes R6's p from there.
+  8. `--sens` needs scopes L and E.
+  9. `--read` opens `de/primary__T_NK.csv` only after the ladder, extension and sensitivity tables exist under the
+     same script md5.
+  10. `--combine` writes nothing if a table that its gate outcome requires is missing.
+  11. The rung state "not computed" counts as the worst state. "Held through R6" requires every rung to be held.
+  12. One output is added: `ws_a1_g03_checks_obs.csv` (K6). `ws_a1_g03_p370.csv` also carries genes tested and the
+      duplicateCorrelation consensus per rung.
+  13. 4.2's R0f and R1f get full permutation nulls on R0's and R1's draws (about 4,000 more edgeR refits, about 3.5
+      CPU-h). They are never extended.
+  14. 5.7 is read on the round-1 draws (the first 1,000 of each null). Failed fits are counted (`n_failed`) and
+      excluded from the valid draws.
+  15. Synthetic-only seeds are SEED + 697 to 699, above the declared +601 to +607.
+  16. 5.4 was computed in the smoke runs from the real on-record numbers (it has no synthetic input). Point estimate:
+      2.4 expected September calls unshrunk and 0.7 shrunk; 0.1 to 19.0 over the interval corners; against the
+      observed 1. No category depends on it.
+  17. Timings on synthetic data, per refit: edgeR 3.0 s, voom 0.85 s, blocked (two passes) 31.6 s, frozen 0.77 s.
+      Round 1 is 172 array tasks, about 60 CPU-h, plus about 3.5 CPU-h for item 13. The extension cap is projected from
+      the real `--known` timings, including a blocked refit on R6's universe.
+  18. Each array task copies the script when it starts. The script is not edited while an array is queued; `gate()`
+      stops any task whose copy differs.
