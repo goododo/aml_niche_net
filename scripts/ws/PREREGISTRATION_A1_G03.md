@@ -1,7 +1,7 @@
 # PREREGISTRATION A1-G03: S5's T imprint and the September T_NK null, one factor at a time
 
-**Status: DRAFT v2, 2026-11-05.** Review 1 is folded in (section 10). The draft is not approved, and nothing declared
-below has been computed.
+**Status: DRAFT v3, 2026-11-05.** Reviews 1 and 2 are folded in (section 10). The draft is not approved, and nothing
+declared below has been computed.
 
 **Sources.** It is written from two read-only inventories, kept outside the repo:
 `/FAST/gr10634/gaozy/reports/2026-11_a1_g03_prereg/inventory/A_september_spec.md` (A) and
@@ -40,8 +40,8 @@ Two analyses of largely the same samples disagree:
 
 **What each ladder outcome lets the paper say.** The categories and wording are fixed in section 7; the classes are
 decision 9.7.
-- **"held through R6".** S5's count stays beyond its permutation null at every rung, up to the September cell
-  definition, engine with library block, and gene universe. It is reported with R6's September-rule count beside it.
+- **"held through R6".** S5's count stays beyond both of its permutation nulls (sample and library) at every rung, up
+  to the September cell definition, engine with library block, and gene universe. It is reported with R6's September-rule count beside it.
   The paper shows the ladder table and the September null side by side.
 - **"lost at a specification rung"** (R2 covariates, R3 T+NK, R4a engine, R5 cell definition, R6 universe). The
   paper names the S5 choice the count needs. The per-gene list keeps its status with that qualifier.
@@ -56,8 +56,8 @@ decision 9.7.
 | assessment 2.1; addendum 1.3 | move S5's design towards September's one factor at a time; per rung, the hit count and its permutation p | 3 |
 | addendum 1.3; verify_G03 | the verifier's rung order: covariates → T+NK → limma + duplicateCorrelation → projection T_NK bin → universe and hit rule | 3.1, which keeps it. The engine step is split (R4a, R4b), and the hit rule is a second count at every rung (departure 1) |
 | verify_G03 (corrections 3) | not to be omitted: the cell set, library blocking and the arm-pure-library null, the depth arm, the universe filters, the 30- vs 20-cell gate, T vs T+NK | 3.1-3.2; the 30-cell gate bites only on AML0310 among S5's samples, so it acts at R1 |
-| verify_G03 (best_option 2) | "If the adult contrast still beats the library-arm-pure null at the last rung…" | 7: the library null decides jointly from R4b on (decision 9.3) |
-| G04 5.7 | rungs "+children" and "+Chen2023": September specification, PAUMTZ/PAXMIJ out; readout includes P370 hits and sign share | 3.3; the `library_id` block in the one-dataset rung E1 is the declared reading of "September design" (departure 2) |
+| verify_G03 (best_option 2) | "If the adult contrast still beats the library-arm-pure null at the last rung…" | 3.2, 7: the library null decides jointly with the sample null at every rung (decision 9.3) |
+| G04 5.7 | rungs "+children" and "+Chen2023": September specification, permutation procedure, PAUMTZ/PAXMIJ out; readout includes P370 hits and sign share | 3.3. R6 → E1 → E2 share September's frozen procedure (4.1). The `library_id` block in the one-dataset rungs R6 and E1 is the declared reading of "September design" (departure 2) |
 | G04 5.7 and 7 | G03 states its reading rules before it runs, and opens the September per-gene tables only in the run | 7; 5.3 |
 | G04 7 | relate the result to 1.1's prediction; take (b)'s A_b and φ and their CIs under any outcome | 5.4 |
 | assessment 2.1 | read the 370 genes in the September table against matched random sets | 5.3: descriptive, without random sets (departure 3; decision 9.9) |
@@ -67,8 +67,8 @@ decision 9.7.
 Declared departures:
 1. The hit rule is not a rung. Both rules are counted at every rung, and R6 is read on both (7). The verifier read
    "the hit count under that rung's own rule" at the last rung only.
-2. E1 keeps the `library_id` block. The September pre-registration's single-dataset form (§6.2) drops the block,
-   arguing that libraries are singletons there. GSE185381's are not. 4.5 runs E1 without the block.
+2. R6 and E1 keep the `library_id` block. The September pre-registration's single-dataset form (§6.2) drops the
+   block, arguing that libraries are singletons there. GSE185381's are not. 4.5 runs R6 and E1 without the block.
 3. The 370-in-September read uses no matched random sets. P370 was selected on the shared samples, and unselected
    genes cannot calibrate that selection.
 
@@ -180,7 +180,8 @@ Library structure of the 24 (17 libraries):
 | S5 design table (`27_s5_imprint.R`:55-67; rows in `ws_s5_scores.csv`) | R0, R1, 5.8 |
 | September per-sample pseudobulks `/LARGE1/.../12_pseudobulk_de/<dataset>/<sample>__pseudobulk.rds`, T_NK column, opened by explicit name (no glob). These are the stored files, not re-aggregated: the Chen2023 QC objects were rewritten on 2026-10-05 (A 3.1). | R5, R6, E1, E2 |
 | September depth tables `results/tables/12_pseudobulk_de/depth/<dataset>__<sample>__pb_depth.csv`, by explicit name | R5, R6, E1, E2 |
-| `library_id` from `pb_sample_manifest.csv`, joined by sample ID at every rung | all |
+| `library_id` and capture period from `results/tables/ws/ws_a1_batch_covariates.csv`. It holds all 25 samples, AML0310 included, in September's `GSE185381__…` format | R0-R4b, 5.7 |
+| `library_id` from `pb_sample_manifest.csv`. It agrees with the line above on the 24 (K2d) | R5, R6, E1, E2 |
 
 **2.3 Extension samples** (G04 5.7).
 - E1 adds the 18 children of G04(b): AML001, AML003, AML005, AML006, AML009, AML012, AML022, AML025, AML026, AML028,
@@ -219,9 +220,10 @@ Notes:
 - **c_S5**: genes with BH q < 0.10 and |logFC| > 0.5.
 - **c_Sep**: genes with q < 0.05 and |logFC| ≥ 1 (the September baseline rule and permutation statistic).
 - At R6, E1 and E2 each count is also given restricted to genes outside S5's blacklist (B 1, 27:48-49). These are
-  **c_S5′** and **c_Sep′**, recomputed on every permutation draw in the same way, at no extra compute. R6 re-admits the
-  HB, granule, ambient, MT and RP genes, and S5's ambient gate failed in T. So the category at R6 uses c_S5′ (section
-  7), and c_S5 is reported beside it.
+  **c_S5′** and **c_Sep′**. The q values come from the rung's fit over its whole tested universe; blacklisted genes are
+  then dropped from the count, not from BH. Every permutation draw is treated the same way, at no extra compute. R6
+  re-admits the HB, granule, ambient, MT and RP genes, and S5's ambient gate failed in T. So the category at R6 uses
+  c_S5′ (section 7), and c_S5 is reported beside it.
 
 **Nulls.** Each count gets two Monte Carlo p values, p = (1 + #{null ≥ observed}) / (1 + valid draws):
 - **p_free**: free relabelling of samples, arm sizes kept (S5's null; the September primary null, within dataset).
@@ -242,24 +244,40 @@ Notes:
   - R0: 1,000 free (`SEED + 601`) and 1,000 library (`SEED + 602`) labellings of the 25.
   - R1-R6: 1,000 free (`SEED + 603`) and 1,000 library (`SEED + 604`) labellings of the 24, the same draws at every
     rung.
-- Common draws reduce Monte Carlo noise between rungs; they do not remove it.
+- Common draws reduce Monte Carlo noise between rungs; they do not remove it. R0 and R1 cannot share draws, because
+  their arm sizes differ. The R0 → R1 step therefore compares two independent Monte Carlo estimates.
 - A draw whose fit fails (for example rank deficiency) is caught, counted as NA, excluded from "valid draws", and the
   number of such draws is reported.
 
-**Three states per rung and null.** Take the exceedance count x of n valid draws, with its Clopper-Pearson 95 %
-interval [lo, hi] for x/n:
-- **held**: hi ≤ 0.05;
-- **lost**: lo > 0.05;
-- **borderline**: otherwise.
+**The deciding count.** It is c_S5 at R0-R5 and c_S5′ at R6.
 
-A borderline result at 1,000 draws is extended once to 10,000 draws with new seeds (`SEED + 605` for the 25, `+ 606`
-free and `+ 607` library for the 24). The state is then re-read and is final. The extension is capped at 300 CPU-h in
-total, taken in rung order. A rung that cannot be extended within the cap stays "borderline".
+**State of each null for the deciding count.**
+- **p_free** (Monte Carlo). Take the exceedance count x of n valid draws, with its Clopper-Pearson 95 % interval
+  [lo, hi] for x/n:
+  - **held**: hi ≤ 0.05;
+  - **lost**: lo > 0.05;
+  - **borderline**: otherwise.
+  - At n = 1,000 this means held ⇔ x ≤ 36 and lost ⇔ x ≥ 65.
+- **p_lib**. Read the same way at 1,000 Monte Carlo draws. Its space is small (8,008 labellings for the 25 and for the
+  24), so a borderline p_lib is resolved by exact enumeration, not by more random draws. Fits already computed for
+  labellings drawn in the first 1,000 are reused. The exact p is held if ≤ 0.05 and lost otherwise. This follows
+  September's own 2026-09-24 correction for small spaces (September :693-702).
 
-**State of a rung.**
-- R0-R4a: the state of c_S5 under p_free.
-- From R4b on (and at R6, using c_S5′): the worse of p_free's and p_lib's states, where lost > borderline > held
-  (decision 9.3).
+**State of a rung.** The worse of its two nulls' states, at every rung from R0 to R6 (lost > borderline > held;
+decision 9.3). The deciding null therefore does not change along the ladder.
+
+**Extension.** It is fixed now and applies to the deciding count only.
+- A borderline p_free is extended to 10,000 draws: the first 1,000 plus 9,000 new draws (`SEED + 605` for the 25,
+  `SEED + 606` for the 24, common across R1-R6). The state is then re-read and is final.
+- A borderline p_lib is enumerated (above).
+- A null is not extended if the rung's state is already fixed by its other null, i.e. that null is lost.
+- Priority order:
+  1. rungs up to and including the first lost rung, in rung order;
+  2. then the later rungs, in order;
+  3. nothing else. The R6 second axis (c_Sep′), the non-deciding counts and the extension rungs are never extended.
+- Cap: 300 CPU-h in total. Before each extension starts, its cost is projected from K8's timing. It runs whole if the
+  projection fits the remaining budget, and is skipped otherwise; no partial extension is used. A skipped extension
+  leaves the rung at its 1,000-draw state, and the wording says so (section 7).
 
 **Also per rung (descriptive).**
 - genes tested and the duplicateCorrelation consensus;
@@ -284,16 +302,20 @@ total, taken in rung order. A rung that cannot be extended within the cap stays 
   same draws; 5.1's P370 readouts.
 - The September fit (53, 1 hit) is the reference. E2 differs from it only by PAUMTZ and PAXMIJ, which also changes
   P06's library purity.
+- So that "nothing else changes" between R6 and the extension rungs, the extension sentence (section 7) takes R6's p
+  from 4.1, which uses September's frozen scheme on R6's draws. R6 → E1 → E2 → September then share one permutation
+  procedure. R6's full-refit p stays in the rung table.
 
 ## 4. Sensitivities (each reported; none changes a category)
 
-- **4.1 Frozen scheme at R4b and R6.** September's frozen voom weights and consensus, using the same draws as 3.2.
+- **4.1 Frozen scheme at R4b and R6.** September's frozen voom weights and consensus, using the same draws as 3.2. At
+  R6, it also supplies the p of the extension sentence (3.3), for c_Sep and c_Sep′ under both nulls.
 - **4.2 Control4 coded female at R0 and R1.** Only those rungs have a sex covariate.
 - **4.3 E1 without AML073.** AML073 has 210 of 605 kept T cells labelled malignant by the authors; the September cell
   set kept them. c_Sep and c_S5, no p.
 - **4.4 R6 and E1 without Control1-5.** These are the T-ALL lanes P02 and P03. c_S5′ and c_Sep′, no p.
-- **4.5 E1 without the `library_id` block.** This is the September single-dataset form, under the frozen scheme, with
-  the same draws.
+- **4.5 R6 and E1 without the `library_id` block.** This is the September single-dataset form, under the frozen
+  scheme, with the same draws.
 
 Path dependence is a limitation, not a sensitivity. A factor's effect can depend on the order in which factors change,
 and the reverse ladder is not feasible for every factor: a T-only projection-bin pseudobulk does not exist without new
@@ -358,13 +380,15 @@ Reported: recovery under the September rule, and LFC80. LFC80 is the licence of 
 
 | ID | scope | check |
 |---|---|---|
-| K0 | all | md5 of the declared inputs: A section 5's September files, the 51 rung pseudobulk RDS files, `ws_pb_GSE185381.rds` (6c2fb685…), S5's gene, score and draw tables |
+| K0 | all | md5 of the declared inputs: A section 5's September files, the 51 rung pseudobulk RDS files, `ws_pb_GSE185381.rds` (6c2fb685…), S5's gene, score and draw tables, `ws_a1_batch_covariates.csv` |
 | K1 | L | R0's observed fit reproduces S5: 7,379 tested, 402 hits (171 up / 231 down), P370 membership |
-| K1b | L | the copied edgeR pipeline, run on S5's 200 stored labellings (`ws_a1_g02_s5_perm_draws.csv`), reproduces every draw's n_hits exactly, including 1,615 / 1,166 / 707 / 563 |
+| K1b | L | the copied edgeR pipeline, run on S5's 200 stored labellings, reproduces every draw's n_hits exactly, including 1,615 / 1,166 / 707 / 563. `ws_a1_g02_s5_perm_draws.csv` stores each draw as a 25-character string. Its positions follow the T rows of `ws_s5_scores.csv` in file order: 27's design order, AML first, then healthy (35:48-49, 76-80) |
 | K2 | L, E | for every rung sample, the stored T_NK column sum equals the depth table's `total_counts`, and `n_cells` ≥ 30 equals `passes_30`. The base universe rebuilt from gene names is 21,843 |
 | K2b | L | `identical()` of the gene axes of `ws_pb` and of every GSE185381 September RDS used. For two samples, R3's cell set is re-aggregated from `01_per_sample_qc` into memory and compared with `identical()` against `$raw$T + $raw$NK`, without printing. This shows the count source is not a hidden factor at R5 |
 | K2c | L | per sample, R3 vs R5 cell counts and barcode overlap (metadata only; reported) |
+| K2d | L | on the 24, `library_id` from `ws_a1_batch_covariates.csv` equals `library_id` from `pb_sample_manifest.csv` |
 | K3 | L, E | the copied September engine and permutation code on September fits that hold no closed sample. Main target: the Chen2023 secondary bin LMPP_GMP (5 v 4, 304 baseline hits), reproducing `de/secondary__LMPP_GMP.csv` logFC (max \|Δ\| < 1e-8), the hit count, and `perm_null.csv`'s per-draw n_hits for its sample null from `.perm_seed("perm|sample_within_dataset|secondary|LMPP_GMP")`. Second target: HSC_MPP (4 v 4) |
+| K3c | L | the full-refit limma loop (rerunning filterByExpr, TMM, voom, lmFit and eBayes per labelling, `~ arm`, September filter) over LMPP_GMP's 126 labellings reproduces the `full_refit` row of `secondary_exhaustive_perm.csv`: `observed_hits`, `n_ge_observed` and `null_max` (07:84-91, 144-159) |
 | K4 | L, E | the blocked two-pass fit equals September 02's `fit_bin`, copied verbatim and run side by side, on synthetic counts with shared libraries |
 | K5 | L, E | permutable units: 3,268,760 / 8,008 (25); 1,961,256 / 8,008 (24); A 3.4's counts for E1 and E2 |
 | K6 | L | each rung's per-gene logFC vector differs from the previous rung's (September §8.6's "differs from baseline" tell) |
@@ -379,8 +403,12 @@ the ladder "not decisive". A failed scope-E known answer makes the extension rea
 **Ladder.**
 1. **"not decisive"**: a scope-L known answer failed.
 2. **"S5's count is not beyond its own null"**: R0 is lost.
-3. **"lost at Rk"**: k is the first rung in R1-R6 that is lost. Earlier borderline rungs are named. If a later rung is
-   held, add "held again at Rj". The consequence of a validity-rung loss stands either way.
+3. **"lost at <rungs>"**: at least one rung in R1-R6 is lost.
+   - Every rung Rk that is lost while R(k−1) is held is named as a loss of its class. A validity loss so named carries
+     its consequence, whatever happens at later rungs.
+   - A rung lost after a lost or borderline rung is reported as "lost, not attributable to <factor>", because the ladder
+     is cumulative.
+   - Borderline rungs are named. A rung held again after a loss is reported as "held again at Rj".
 4. **"borderline"**: no rung is lost, and R0 or at least one rung is borderline. The borderline rungs are named.
 5. **"held through R6"**: R0-R6 are all held.
 
@@ -396,27 +424,41 @@ borderline, or inside its null. Every ladder category is reported with it.
 - **3**, k ∈ {R2, R3, R4a, R5, R6} (specification rungs) → "S5's per-gene count needs <factor; for R5, the S5 cell
   definition: marker concordance, the fine-label system and the `in_ccc_graph` filter>. Without it the count falls
   inside its permutation null (rung table). The per-gene list is reported with this qualifier."
-- **3**, k = R1 → "S5's per-gene count depends on AML0310 (leave-one-AML-out reference in 5.8)."
-- **3**, k = R4b → "S5's per-gene count does not survive the library-level correlation of a blocked model."
-- **3**, k ∈ {R1, R4b} (validity rungs), in both cases → "The per-gene list is reported as exploratory. The
-  sample-level separation (A1-G02, A1-BATCH G2) is a different statistic and stands as reported there."
-- **4** → "S5's per-gene count is borderline at <rungs> (Monte Carlo interval straddles 0.05 after 10,000 draws); no
-  rung loses it." The per-gene list carries this qualifier.
-- **2** → "At 1,000+ draws S5's own count is not beyond its permutation null (p). The per-gene list is reported as
-  exploratory."
+- **3**, named loss at R1 → "S5's per-gene count does not survive removing AML0310 (5.8: removing any other single AML
+  gives c_S5 from a to b)."
+- **3**, named loss at R4b → "S5's per-gene count does not survive the library-level correlation of a blocked model."
+- **3**, any named validity loss (R1 or R4b) → "The per-gene list is reported as exploratory. The sample-level
+  separation (A1-G02, A1-BATCH G2) is a different statistic and stands as reported there."
+- **3**, every sentence names the null or nulls under which the rung was lost.
+- **4** → "S5's per-gene count is borderline at <rungs>; no rung loses it." For each rung, the wording adds either
+  "(Monte Carlo interval straddles 0.05 after 10,000 draws)" or "(1,000 draws; extension not funded under the cap)".
+  The per-gene list carries this qualifier.
+- **2** → "S5's own count is not beyond its permutation null (p_free, p_lib, number of draws). The per-gene list is
+  reported as exploratory."
 - The rung classes and their consequences are decision 9.7.
 
-**Extension (E1, E2).** No category. Fixed sentence: "On the 24 adults the September specification finds c_Sep′ hits
-(p_free, p_lib). Adding the 18 children gives c (p_free, p_lib); adding Chen2023 gives c (p_free, p_lib). The September
-fit on 53 found 1, inside its nulls. G03 does not test which samples account for any difference." The P370 hits at
-R6, E1 and E2 and 5.4's rows follow.
+**Extension (E1, E2).** No category. Fixed sentence, on September's count c_Sep, with c_Sep′ in parentheses, all p
+from the frozen scheme (3.3):
+
+"On the 24 adults the September specification finds c_Sep (c_Sep′) hits (p_free, p_lib). Adding the 18 children gives
+c_Sep (c_Sep′) (p_free, p_lib); adding Chen2023 gives c_Sep (c_Sep′) (p_free, p_lib). The September fit on 53 found 1,
+inside its nulls. G03 does not test which samples account for any difference."
+
+The P370 hits at R6, E1 and E2 follow.
+
+**Prediction (5.4).** Fixed sentence: "With G04's estimates, the addendum's method expects X (unshrunk) and Y (shrunk)
+September calls among the 370, ranging from a to b over the interval corners; the fit called 1. These are rough upper
+estimates from a planted-curve approximation. They are not a test, and they are not read as explaining the September
+result."
 
 **Never written, under any outcome:**
 - "September was underpowered", "used the wrong model", or "is explained by, or traces to, pooling the children or
   Chen2023";
 - "the imprint is confirmed by the September data";
 - a reading of 5.1 at R0-R6, or of 5.3, as evidence (both circular);
-- a factor named from a borderline rung as if it were a loss.
+- a reading of 5.4 as explaining the September null;
+- a factor named from a borderline rung, or from a loss that follows a lost or borderline rung, as if it were an
+  attributable loss.
 
 **Handover.**
 - `--combine` appends a GATES.md block with the category, the second axis, the rung table and the fixed sentences.
@@ -444,7 +486,12 @@ R6, E1 and E2 and 5.4's rows follow.
 - R4a: about 2,000 voom refits, under 2 CPU-h.
 - R4b, R5, R6: about 6,000 full refits with two duplicateCorrelation passes, about 50-100 CPU-h.
 - Frozen-scheme rungs and sensitivities: about 1-3 CPU-h.
-- Extensions are capped at 300 CPU-h.
+- Extensions are capped at 300 CPU-h (3.2).
+  - An edgeR extension (R0-R3) costs about 10-14 CPU-h.
+  - A blocked extension (R4b-R6) costs about 25-60 CPU-h at September's implied rate (03:44-48, about 22 s per
+    blocked refit at n = 53) and up to 75-170 CPU-h at this plan's conservative rate.
+  - p_lib enumeration costs about 7,000 refits per rung.
+  - The priority order in 3.2 decides which extensions are funded.
 - Every job sets `OMP_PROC_BIND=false`.
 
 **Seeds.** `SEED = 491638`. Ladder offsets are +601 to +607; `scripts/ws` uses offsets up to +534 (39's 4.7 uses
@@ -458,8 +505,8 @@ Real choices are marked ★.
 |---|---|---|---|
 | 9.1 | rung order | the verifier's order, engine split into R4a/R4b, AML0310 out first (R1) | AML0310 leaves at R5, where the September cell set first excludes it |
 | 9.2 | the hit rule is a second count at every rung, read at R6 as the second axis | yes | a final rung R7 with the September rule only |
-| 9.3 ★ | which null decides the state | p_free at R0-R4a; from R4b on, the worse of p_free and p_lib (the verifier's library-null rule, where the model carries the block) | p_free throughout, with the qualifier "held under the sample null only (library p = …)" when p_lib is not held |
-| 9.4 ★ | permutation procedure on the ladder | full refit at every rung (about 60-115 CPU-h before extensions); frozen as a sensitivity at R4b and R6 | September's frozen scheme for R4b-R6 (about 3 CPU-h; the procedure then changes together with the engine) |
+| 9.3 ★ | which null decides the state | the worse of p_free and p_lib at every rung, R0-R6. This is the verifier's library-null rule, applied throughout so that no rung changes the deciding null | p_free throughout, with the qualifier "held under the sample null only (library p = …)" when p_lib is not held |
+| 9.4 ★ | permutation procedure on the ladder, and compute | full refit at every rung (about 60-115 CPU-h before extensions; extensions capped at 300 CPU-h); frozen as a sensitivity at R4b and R6, and for the extension sentence | September's frozen scheme for R4b-R6 (about 3 CPU-h; the procedure then changes together with the engine) |
 | 9.5 | E1 keeps the `library_id` block | yes; 4.5 runs it without the block | the September single-dataset form, no block |
 | 9.6 | R6 universe | September's pinned symbol base (21,843) | Ensembl matching (not September's specification) |
 | 9.7 ★ | rung classes | validity = R1 and R4b; a validity loss makes the per-gene list "exploratory". Specification = R2, R3, R4a, R5 and R6; a loss is named as a qualifier | no classes: a loss only names the factor, with no consequence fixed now |
@@ -491,3 +538,20 @@ Real choices are marked ★.
   13. Minor findings: seeds moved to +601 and up; library wording; the AC007952.4 locus; 5.4's scale and |f|;
       sample-keyed draws (K7); explicit-name loading; failed-draw handling; the compute figures; the citation; K7 of
       v1 replaced; 5.8's references.
+- **Review 2**, 2026-11-05 (one read-only reviewer: 2 blocking, 7 should-fix, 2 minor; notes in `…/review2/review.md`).
+  All 14 of review 1's blocking and should-fix findings were confirmed resolved, and the counts, arrangement numbers and
+  seed offsets were checked. DRAFT v3 folds in all of review 2:
+  1. The extension rule is fixed. Only the deciding count is extended. p_free: the first 1,000 draws plus 9,000 new.
+     p_lib: exact enumeration. A null is not extended once the other null fixes the state. Priority order as in 3.2.
+     The cap is tested before each extension on a projected cost, all or nothing.
+  2. R4b no longer changes the deciding null: both nulls decide at every rung (9.3).
+  3. Every loss that follows a held rung is named and classified. A validity loss keeps its consequence. A loss after a
+     lost or borderline rung is "not attributable". R1's sentence cites 5.8.
+  4. The extension sentence is written on c_Sep, with R6's p from the frozen scheme, so R6 → E1 → E2 share one
+     procedure. Departure 2 and 4.5 now cover R6.
+  5. 5.4 has a fixed sentence, and "never written" excludes reading it as an explanation.
+  6. p_lib uses exact enumeration instead of more Monte Carlo draws.
+  7. R0's `library_id` comes from `ws_a1_batch_covariates.csv`, with K2d checking agreement on the 24.
+  8. The BH set of the restricted counts is fixed (whole universe, then drop).
+  9. K3c checks the full-refit limma path on LMPP_GMP's 126 labellings.
+  10. K1b's positional mapping is stated, and R0 and R1 are declared not to share draws.
