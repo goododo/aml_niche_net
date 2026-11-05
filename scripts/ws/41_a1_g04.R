@@ -575,7 +575,8 @@ if (MODE %in% c("primary", "sens", "readouts")) {
 if (MODE == "primary") {
   ts("[3.1-3.2] primary")
   C <- checks(); bias <- as.numeric(C[id == "K6c" & grepl("^implied D bias", check), got])
-  if (any(C[id == "K3", state] == "mismatch") && !NOTED[["k3"]]) stop("K3: a sex mismatch needs a dated note in the pre-registration first; then rerun with --k3-noted (section 6)")
+  # the per-donor call is stored in "got" (rep_ writes state = REPORTED); fixed 2026-11-05, the old line read "state" and could never fire
+  if (!SMOKE && any(C[id == "K3", got] == "mismatch") && !NOTED[["k3"]]) stop("K3: a sex mismatch needs a dated note in the pre-registration first; then rerun with --k3-noted (section 6)")
   PR <- a_row("primary: P370, J space", SC, JC)
   iu <- influence(SC, 5L, 1); id_ <- influence(SC, 5L, -1)
   PR[, `:=`(n_up = sum(UP %in% JC$U_J), n_down = sum(DN %in% JC$U_J), D_over_pooled_sd = D / sp, depth_bias_J = bias, depth_bias_sd = bias / sp,
@@ -655,7 +656,9 @@ if (MODE == "readouts") {
 if (MODE == "children") {
   if (!gate("B")) stop("section 6: a scope-B deterministic known answer has not passed")
   need_syn(KIDS_T, "child"); C <- checks()
-  k3b_bad <- sub(" .*$", "", C[id == "K3b" & state != "match", check])        # K3b: a mismatched or "unclear" child joins the 2.3 flags
+  # K3b: a mismatched or "unclear" child joins the 2.3 flags. The call is in "got" (fixed 2026-11-05: the old line read "state",
+  # which is always REPORTED, so every child counted as mismatched and the flag-free set was empty)
+  k3b_bad <- sub(" .*$", "", C[id == "K3b" & got != "match", check])
   if (length(k3b_bad) && !SMOKE && !NOTED[["k3b"]]) stop("K3b: ", paste(k3b_bad, collapse = " "), " need a dated note first; then rerun with --k3b-noted (section 6)")
   FLAGFREE_RUN <- setdiff(FLAGFREE, k3b_bad)
   ts("[3.4] placement, A_b and phi")

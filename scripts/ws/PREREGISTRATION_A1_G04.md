@@ -836,3 +836,28 @@ Handover (fixed now):
   - Every mode checks all of its output files before any work and refuses to overwrite one; a later mode stops unless
     the checks table was written by the same script version. A rerun after a fix therefore needs a dated note here and the
     earlier output renamed (`*_superseded_<date>`), never deleted.
+- **Run 1 and a gate fix**, 2026-11-05. Run 1 (2026-11-04, script md5 `5385eb29…`):
+  - `--build` (3683539) and `--known` (3683540) completed. The checks table has 70 rows: 0 deterministic FAIL, 0
+    statistical FAIL and 0 swap stops. K3: all ten Chen2023 donors match in both pools. K3b: all 18 children match.
+  - `--primary` (3683542), `--sens` (3683543) and `--readouts` (3683544) completed.
+  - `--children` (3683545) stopped and named all 18 children as K3b mismatches. `--combine` (3683546) could not start
+    and was cancelled.
+
+  Cause: the K3b gate in `--children` and the K3 gate in `--primary` read the column `state`, which is always
+  "REPORTED" for a reported row, instead of `got`, which holds the match call. So the K3b gate flagged every child, and
+  the K3 gate could never fire. The K3 gate changed nothing in run 1 because all ten K3 calls matched.
+
+  The same bug had emptied the flag-free set in smoke job 3683534. It was then patched where it surfaced (a guard in the
+  bootstrap), not at its source.
+
+  Fix: both lines now read `got`. The K3 gate, like the K3b gate, is skipped in a smoke run (smoke calls are synthetic).
+  Checked on the stored tables: the real table gives 0 K3 mismatches and 0 flagged children; the smoke table gives 10
+  and 14, as written. The before-fix copy of the script is in `reports/2026-11_a1_g04_prereg/code_review1/` (outside
+  the repo).
+
+  No run-1 analysis table (primary, loo, sens, readouts) was opened before the fix. The script's md5 changes, so every
+  mode from `--known` on is rerun:
+  - Run-1 outputs are renamed `*_superseded_20261105`. They were already committed by the 2026-11-04 23:30 snapshot.
+  - `chen_pb.rds` is kept, because the `--build` code is unchanged.
+  - Run 2's primary, loo, sens and readouts tables should equal run 1's apart from `script_md5`. Any difference will be
+    reported.
