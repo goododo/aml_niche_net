@@ -345,3 +345,30 @@ Script: scripts/ws/41_a1_g04.R. (a) Chen2023 5 NPM1-mutated AML vs 4 transplant 
 **Verdict: A1-G04 (a) = not shown; (b) = not readable.** (b) never counts toward GATE_A3.
 This supersedes the S9 verdict clause "no independent AML + healthy cohort exists in this work" (the S9 block is not edited): Chen2023 was tested here (A1-G04 (a) = not shown). "The direction was not shown in Chen2023 (exact p = 17/126); a common shift larger than 1.36 of GSE185381's selection-corrected gap is excluded (one-sided 95.2%, common-shift model)." "5 vs 4 cannot exclude an effect of the GSE185381 size." The direction stays "shown in one study".
 <!-- A1-G04 end -->
+
+<!-- A1-G03 start -->
+## S5's T imprint vs the September T_NK null, one factor at a time (A1-G03, prereg-a1-g03-v1) -- 2026-11-05
+
+Script: scripts/ws/42_a1_g03.R. Ladder R0-R6 on S5's samples (R1-R6: the 24 shared with the September fit); E1 +18 children, E2 +9 Chen2023 (G04 5.7).
+
+| rung | class | deciding count | p_free (state) | p_lib (state) | c_Sep | rung state |
+|---|---|---|---|---|---|---|
+| R0 | anchor | 402 | 0.013 (held) | 0.020 (held) | 69 | held |
+| R1 | validity | 389 | 0.019 (held) | 0.020 (held) | 67 | held |
+| R2 | specification | 1224 | 0.004 (held) | 0.002 (held) | 205 | held |
+| R3 | specification | 1380 | 0.004 (held) | 0.002 (held) | 211 | held |
+| R4a | specification | 1823 | 0.005 (held) | 0.002 (held) | 321 | held |
+| R4b | validity | 1678 | 0.009 (held) | 0.002 (held) | 299 | held |
+| R5 | specification | 1626 | 0.014 (held) | 0.002 (held) | 270 | held |
+| R6 | specification | 1456 | 0.015 (held) | 0.002 (held) | 237 | held |
+
+**Verdict: A1-G03 ladder = held through R6; R6 under the September rule: beyond its null; per-gene list: stands.** G03 has no pass/fail gate of its own.
+
+Ladder: On the 24 adults that S5 and the September fit share, S5's rule keeps 1456 hits beyond both permutation nulls (p_free 0.015, p_lib 0.002) through the September cell definition, engine with library block, and gene universe. Under the September rule the count is 235 (p_free 0.015, p_lib 0.002; beyond its null). The two analyses count different effects: S5 counts |logFC| > 0.5 at FDR 0.10, September |logFC| >= 1 at q 0.05. The September T_NK result stays reported as a null for |logFC| >= 1.5 per gene.
+
+Extension: On the 24 adults the September specification finds 237 (235) hits (p_free 0.010, p_lib 0.002). Adding the 18 children gives 1 (1) (p_free 0.111, p_lib 0.153); adding Chen2023 gives 2 (2) (p_free 0.044, p_lib 0.059). The September fit on 53 found 1, inside its nulls. G03 does not test which samples account for any difference. P370 genes that are hits under the September rule: R6 73, E1 1, E2 1.
+
+Prediction: With G04's estimates, the addendum's method expects 2.4 (unshrunk) and 0.7 (shrunk) September calls among the 370, ranging from 0.1 to 19.0 over the interval corners; the fit called 1. These are rough upper estimates from a planted-curve approximation. They are not a test, and they are not read as explaining the September result.
+
+G04(b), handed over: A_b 0.372 [0.161, 0.594]; phi -0.244 [-0.827, 0.092]
+<!-- A1-G03 end -->

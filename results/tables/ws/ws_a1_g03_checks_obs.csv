@@ -1,0 +1,8 @@
+id,scope,kind,check,expected,got,state,script_md5
+K6,L,deterministic,R0 -> R1: per-gene logFC differs,> 1e-6,Inf,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K6,L,deterministic,R1 -> R2: per-gene logFC differs,> 1e-6,1.59405863004891,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K6,L,deterministic,R2 -> R3: per-gene logFC differs,> 1e-6,Inf,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K6,L,deterministic,R3 -> R4a: per-gene logFC differs,> 1e-6,1.88131309712422,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K6,L,deterministic,R4a -> R4b: per-gene logFC differs,> 1e-6,0.288978735260648,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K6,L,deterministic,R4b -> R5: per-gene logFC differs,> 1e-6,Inf,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K6,L,deterministic,R5 -> R6: per-gene logFC differs,> 1e-6,Inf,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7

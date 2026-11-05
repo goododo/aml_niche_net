@@ -1,0 +1,39 @@
+id,scope,kind,check,expected,got,state,script_md5
+K0,L;E,deterministic,md5 of 10 declared files (inventory A section 5; ws_pb),10,10,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K0,L;E,deterministic,the other 142 inputs exist (md5 recorded for later modes),142,142,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K1,L,deterministic,R0: genes tested / hits / up / down,7379; 402; 171; 231,7379; 402; 171; 231,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K1,L,deterministic,R0: the 402 hit genes equal the frozen S5 list (and so P370),TRUE,TRUE,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K1,L,deterministic,R0: max |logFC - ws_s5_de_T logFC|,0,7.771561e-15,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K1b,L,deterministic,the edgeR pipeline on S5's 200 stored labellings reproduces every n_hits,200,200,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K1b,L,deterministic,... including the four draws >= 402 (sorted n_hits),1615;1166; 707; 563,1615;1166; 707; 563,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K2,L;E,deterministic,51 rung samples: stored T_NK column sum equals the depth table's total_counts,51,51,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K2,L;E,deterministic,51 rung samples: n_cells >= 30 and passes_30 agree and are TRUE,51,51,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K2,L;E,deterministic,"the pinned universe rebuilt from gene names (AML103, AML001; minus sex genes)",21843,21843,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K2,L;E,deterministic,every rung file's gene axis equals its dataset's first-sample axis,51,51,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K2b,L,deterministic,ws_pb's gene axis equals every GSE185381 September file's axis (42),TRUE,TRUE,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K2b,L,deterministic,AML0048: R3's cells re-aggregated from 01_per_sample_qc equal $raw$T + $raw$NK (identical),TRUE,TRUE,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K2b,L,deterministic,Control0004: R3's cells re-aggregated from 01_per_sample_qc equal $raw$T + $raw$NK (identical),TRUE,TRUE,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K2c,L,reported,R5's cell numbers equal the depth tables' n_cells (of 24; reported: September's join need only reach 0.999),"",24,REPORTED,6ff1bc89416d00ee73bc3684cb3a6fe7
+K2c,L,reported,"R3 / R5 / shared cells, summed over the 24","",18685;22944;18685,REPORTED,6ff1bc89416d00ee73bc3684cb3a6fe7
+K2c,L,reported,"per-sample shared share of R3 (min, median)","",1;1,REPORTED,6ff1bc89416d00ee73bc3684cb3a6fe7
+K2d,L,deterministic,"on the 24, library_id of ws_a1_batch_covariates equals pb_sample_manifest's",24,24,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K3,L;E,deterministic,"LMPP_GMP: n (AML v healthy), genes tested, baseline hits = de_summary",   5;   4;9497; 431,   5;   4;9497; 431,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K3,L;E,deterministic,LMPP_GMP: max |logFC - de/secondary__LMPP_GMP.csv|,0,5.329071e-15,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K3,L;E,deterministic,"LMPP_GMP: frozen_null's 1,000 sample-null draws reproduce perm_null.csv's n_hits",1000,1000,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K3c,L,deterministic,"LMPP_GMP full refit (fit_rung) over 126 labellings: observed_hits, n_ge_observed, null_max",431;  2;458,431;  2;458,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K3,L;E,deterministic,"HSC_MPP: n (AML v healthy), genes tested, baseline hits = de_summary",   4;   4;8981;   0,   4;   4;8981;   0,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K3,L;E,deterministic,HSC_MPP: max |logFC - de/secondary__HSC_MPP.csv|,0,5.329071e-15,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K3,L;E,deterministic,"HSC_MPP: frozen_null's 1,000 sample-null draws reproduce perm_null.csv's n_hits",1000,1000,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K4,L;E,deterministic,"blocked fit: max |logFC diff|, max |P diff|, |consensus diff| vs 02's fit_bin",0;0;0,0;0;0,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K4,L;E,deterministic,frozen refit: max |logFC diff| vs 03's refit_hits under one permuted labelling,0,0,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K5,L,deterministic,25: sample / library units,3268760;   8008,3268760;   8008,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K5,L,deterministic,24: sample / library units,1961256;   8008,1961256;   8008,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K5,E,deterministic,E1 (42): sample / library units,1471442973;      3876,1471442973;      3876,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K5,E,deterministic,E2 (51): sample / library units,185401814598;      488376,185401814598;      488376,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K5,L,deterministic,"enumerated library spaces (25, 24)",8008;8008,8008;8008,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K7,L,deterministic,every free draw keeps the arm sizes (15/10 and 14/10),TRUE,TRUE,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K7,L,deterministic,"library draws hold the mixed library (P05) at its real labels, whole libraries move together",TRUE,TRUE,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K7,L,deterministic,"labels joined by sample ID are order-free (draw 1, shuffled design order)",TRUE,TRUE,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+K7,L,reported,draw sets stored (rows),"",free25=1000 lib25=1000 free24=1000 lib24=1000 ext25=9000 ext24=9000 enum25=8008 enum24=8008,REPORTED,6ff1bc89416d00ee73bc3684cb3a6fe7
+K8,L,reported,seconds per refit: edgeR / voom / blocked (two passes) / frozen / blocked on R6's universe,"",3;0.79;29.34;0.73;31.2,REPORTED,6ff1bc89416d00ee73bc3684cb3a6fe7
+K9,R,deterministic,expected calls: all / shrunk / halved / adults only / adults only shrunk,155.9; 63.3; 16.8;  3.8;  1.2,155.9; 63.3; 16.8;  3.8;  1.2,PASS,6ff1bc89416d00ee73bc3684cb3a6fe7

@@ -1,0 +1,10 @@
+item,value,script_md5
+ladder category,held through R6,6ff1bc89416d00ee73bc3684cb3a6fe7
+"second axis (R6, September rule, c_Sep')",beyond its null,6ff1bc89416d00ee73bc3684cb3a6fe7
+per-gene list status,stands,6ff1bc89416d00ee73bc3684cb3a6fe7
+ladder sentence,"On the 24 adults that S5 and the September fit share, S5's rule keeps 1456 hits beyond both permutation nulls (p_free 0.015, p_lib 0.002) through the September cell definition, engine with library block, and gene universe. Under the September rule the count is 235 (p_free 0.015, p_lib 0.002; beyond its null). The two analyses count different effects: S5 counts |logFC| > 0.5 at FDR 0.10, September |logFC| >= 1 at q 0.05. The September T_NK result stays reported as a null for |logFC| >= 1.5 per gene.",6ff1bc89416d00ee73bc3684cb3a6fe7
+extension sentence,"On the 24 adults the September specification finds 237 (235) hits (p_free 0.010, p_lib 0.002). Adding the 18 children gives 1 (1) (p_free 0.111, p_lib 0.153); adding Chen2023 gives 2 (2) (p_free 0.044, p_lib 0.059). The September fit on 53 found 1, inside its nulls. G03 does not test which samples account for any difference. P370 genes that are hits under the September rule: R6 73, E1 1, E2 1.",6ff1bc89416d00ee73bc3684cb3a6fe7
+prediction sentence,"With G04's estimates, the addendum's method expects 2.4 (unshrunk) and 0.7 (shrunk) September calls among the 370, ranging from 0.1 to 19.0 over the interval corners; the fit called 1. These are rough upper estimates from a planted-curve approximation. They are not a test, and they are not read as explaining the September result.",6ff1bc89416d00ee73bc3684cb3a6fe7
+G04(b) handed over,"A_b 0.372 [0.161, 0.594]; phi -0.244 [-0.827, 0.092]",6ff1bc89416d00ee73bc3684cb3a6fe7
+"scope-L known answers (incl. K6, K7b)",all PASS,6ff1bc89416d00ee73bc3684cb3a6fe7
+scope-E known answers,all PASS,6ff1bc89416d00ee73bc3684cb3a6fe7

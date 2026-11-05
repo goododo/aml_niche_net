@@ -607,3 +607,66 @@ Real choices are marked ★.
       the real `--known` timings, including a blocked refit on R6's universe.
   18. Each array task copies the script when it starts. The script is not edited while an array is queued; `gate()`
       stops any task whose copy differs.
+
+## 11. Outcome (2026-11-05)
+
+Run: jobs 3684603-3684606 and 3684779-3684783, script md5 `6ff1bc89…`, commit 7b3c3ae.
+- Known answers: 38 rows, 0 deterministic FAIL. K6 and K7b PASS. K9 PASS.
+- Every rung was held under both nulls at 1,000 draws, so no extension was needed (round 2: 0 tasks). No fit failed.
+
+| rung | class | c_S5 (R6: c_S5′) | p_free | p_lib | c_Sep | state |
+|---|---|---|---|---|---|---|
+| R0 | anchor | 402 | 0.013 | 0.020 | 69 | held |
+| R1 | validity | 389 | 0.019 | 0.020 | 67 | held |
+| R2 | specification | 1,224 | 0.004 | 0.002 | 205 | held |
+| R3 | specification | 1,380 | 0.004 | 0.002 | 211 | held |
+| R4a | specification | 1,823 | 0.005 | 0.002 | 321 | held |
+| R4b | validity | 1,678 | 0.009 | 0.002 | 299 | held |
+| R5 | specification | 1,626 | 0.014 | 0.002 | 270 | held |
+| R6 | specification | 1,456 | 0.015 | 0.002 | 237 | held |
+
+**Ladder: "held through R6". R6 under the September rule: beyond its null. Per-gene list: stands.**
+- R6 under the September rule: c_Sep′ = 235, p_free 0.015, p_lib 0.002.
+- Fixed sentence (7): "On the 24 adults that S5 and the September fit share, S5's rule keeps 1456 hits beyond both permutation nulls (p_free 0.015, p_lib 0.002) through the September cell definition, engine with library block, and gene universe. Under the September rule the count is 235 (p_free 0.015, p_lib 0.002; beyond its null). The two analyses count different effects: S5 counts |logFC| > 0.5 at FDR 0.10, September |logFC| >= 1 at q 0.05. The September T_NK result stays reported as a null for |logFC| >= 1.5 per gene."
+
+**Extension (no category).** Counts are c_Sep (c_Sep′); all p values are from September's frozen scheme.
+
+| rung | samples | count | p_free | p_lib | P370 hits, September rule |
+|---|---|---|---|---|---|
+| R6 | the 24 adults | 237 (235) | 0.010 | 0.002 | 73 |
+| E1 | + the 18 children | 1 (1) | 0.111 | 0.153 | 1 |
+| E2 | + Chen2023 | 2 (2) | 0.044 | 0.059 | 1 |
+
+The September fit on 53 found 1. G03 does not test which samples account for any difference.
+
+**Prediction (5.4).** 2.4 (unshrunk) and 0.7 (shrunk) expected September calls among the 370; 0.1 to 19.0 over the
+interval corners; observed 1. This is not a test.
+
+**Readouts (descriptive).**
+
+| readout | R6 | E1 | E2 |
+|---|---|---|---|
+| depth arm, reportable count (R5: 30) | 24 | 1 | 1 |
+| planted grid, LFC80 | 1.5 | 1.5 | 1.5 |
+| P370 share with S5's sign | ≥ 0.997 (circular; also at R0-R5) | 1.000 | 1.000 |
+| P370 attenuation | 0.91 (circular) | 0.55 | 0.50 |
+| AC007952.4 logFC (q) | −2.22 (0.0031) | −2.04 (0.00023) | −1.93 (0.00027) |
+
+- 5.6: the marker gate passes in both arms at every rung read.
+- 5.3, the stored September table (circular): 326 P370 genes in its 9,281; 1 hit (reportable); share with S5's sign
+  1.000; median sign_S5 × logFC 0.40; median signed z 2.11.
+- 5.8, R1 reference: removing one other AML gives c_S5 from 38 (AML4340) to 1,106 (AML1371).
+- 5.8, R2 reference: dropping hb, gran, sex or CD8 share alone gives 377, 382, 1,097 or 473.
+
+**Sensitivities.**
+
+| | result |
+|---|---|
+| 4.1 frozen scheme, R4b and R6 | held (p 0.001-0.010) |
+| 4.2 Control4 coded female | R0f 895 (p 0.008 / 0.005); R1f 903 (0.014 / 0.006) |
+| 4.3 E1 without AML073 | c_S5 5, c_Sep 1 |
+| 4.4 without Control1-5 | R6: c_S5′ 1,205, c_Sep′ 262; E1: 16 / 2 |
+| 4.5 no library block | R6: 1,687 / 267, held; E1: 14 / 1, inside its null |
+
+**Handover.** G03 has no pass/fail gate of its own. The per-gene list keeps its status (section 0). A dated note was
+added to handoff S15. Next in the S15 order: G07.
