@@ -318,3 +318,30 @@ Scripts: scripts/ws/39_a1_g01.R, scripts/ws/40_a1_g01_cells.R. 15 adult AML vs 1
 
 **Verdict: A1-G01 = beyond T-subset composition (detected inside the main labels).**
 <!-- A1-G01 end -->
+
+<!-- A1-G04 start -->
+## T imprint direction outside GSE185381's design (A1-G04, prereg-a1-g04-v1) -- 2026-11-05
+
+Script: scripts/ws/41_a1_g04.R. (a) Chen2023 5 NPM1-mutated AML vs 4 transplant donors, pool-B T cells, J space, P370 (358 on the Chen2023 axis); (b) 18 GSE185381 children vs the 10 healthy donors out of fold.
+
+| item | value |
+|---|---|
+| (a) category | not shown |
+| (a) qualifier | none |
+| (a) wording | "The direction was not shown in Chen2023 (exact p = 17/126); a common shift larger than 1.36 of GSE185381's selection-corrected gap is excluded (one-sided 95.2%, common-shift model)." "5 vs 4 cannot exclude an effect of the GSE185381 size." The direction stays "shown in one study". |
+| (a) D | 0.712 |
+| (a) exact p (upper / mirror) | 17/126 / 110/126 |
+| (a) rho [rho_L, rho_U] | 0.518 [-0.247, 1.361] |
+| (a) depth-equalised 4.6 (J) | D 0.6801, p 18/126 |
+| (a) 5.1 C_H / C_A / C (only under 'direction replicated', gapT > 0) | not reported |
+| (b) category | not readable |
+| (b) wording | No statement; A_b, phi and their CIs go to G03. |
+| (b) A_b [95% CI] | 0.372 [0.161, 0.594] |
+| (b) phi [95% CI] | -0.244 [-0.827, 0.092] |
+| GATE_A3 direction half (decision 9.6 A) | does not count |
+| statistical failures | none |
+| script md5: checks / primary / sens / readouts / children / summary | 9db3b2c62504b8de3c27900b0b6b1dde / 9db3b2c62504b8de3c27900b0b6b1dde / 9db3b2c62504b8de3c27900b0b6b1dde / 9db3b2c62504b8de3c27900b0b6b1dde / 9db3b2c62504b8de3c27900b0b6b1dde / 9db3b2c62504b8de3c27900b0b6b1dde |
+
+**Verdict: A1-G04 (a) = not shown; (b) = not readable.** (b) never counts toward GATE_A3.
+This supersedes the S9 verdict clause "no independent AML + healthy cohort exists in this work" (the S9 block is not edited): Chen2023 was tested here (A1-G04 (a) = not shown). "The direction was not shown in Chen2023 (exact p = 17/126); a common shift larger than 1.36 of GSE185381's selection-corrected gap is excluded (one-sided 95.2%, common-shift model)." "5 vs 4 cannot exclude an effect of the GSE185381 size." The direction stays "shown in one study".
+<!-- A1-G04 end -->

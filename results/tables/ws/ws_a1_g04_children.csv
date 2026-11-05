@@ -1,0 +1,240 @@
+section,item,value,lo,hi,n_children,n_folds,which,child,score_10_healthy_folds,score_25_folds,kept_T,T_library,kept_over_T_mapped,naive_share,CD8_share,author_NK_share,author_malignant_share,author_matched,inflammation,age_band,under18,flag_free,n_adults,alpha,beta,noise_sd,script_md5
+3.4 primary,A_b,0.372222222222222,0.161111111111111,0.594444444444445,18,10,18 children x 10 healthy folds,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 primary,phi,-0.244079699493452,-0.826617424160297,0.0918468358327384,18,10,18 children x 10 healthy folds,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 primary,category input: 2.5th percentile of A_b* > 0.5,0,,,,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 primary,180 * A_b > 131 (exact Wilcoxon 2.5 % point),0,,,,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+"3.4 phi, children with >= 118 kept T",phi,-0.232938469956239,-0.739254749175196,0.087268032214506,8,10,AML005;AML006;AML022;AML048;AML051;AML055;AML056;AML073,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+4.8 under 18 y,A_b,0.421428571428571,0.192857142857143,0.657142857142857,14,10,AML001;AML003;AML005;AML006;AML009;AML012;AML025;AML026;AML028;AML048;AML051;AML052;AML055;AML056,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+4.8 under 18 y,phi,-0.122751638757836,-0.628583846907898,0.189490648393218,14,10,AML001;AML003;AML005;AML006;AML009;AML012;AML025;AML026;AML028;AML048;AML051;AML052;AML055;AML056,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+4.9 >= 50 kept T,A_b,0.357142857142857,0.142857142857143,0.592857142857143,14,10,AML001;AML003;AML005;AML006;AML009;AML012;AML022;AML025;AML048;AML051;AML052;AML055;AML056;AML073,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+4.9 >= 50 kept T,phi,-0.219704103680217,-0.774953082877139,0.0972558602317989,14,10,AML001;AML003;AML005;AML006;AML009;AML012;AML022;AML025;AML048;AML051;AML052;AML055;AML056;AML073,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+4.10 flag-free (2.3 and K3b),A_b,0.3,0.0857142857142857,0.571428571428571,7,10,AML001;AML005;AML006;AML009;AML025;AML048;AML055,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+4.10 flag-free (2.3 and K3b),phi,-0.24453760621685,-0.704470427903552,0.0805289472044087,7,10,AML001;AML005;AML006;AML009;AML025;AML048;AML055,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+4.11 folds outside P02/P03 (no CI),A_b,0.322222222222222,,,18,5,Control0004;Control0005;Control0058;Control0082;Control4003,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+"4.11 folds without Control1, Control3, Control4 (no CI)",A_b,0.325396825396825,,,18,7,Control0004;Control0005;Control0058;Control0082;Control2;Control4003;Control5,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+"3.4 same-pool differences (child minus comparator, comparator's fold)",AML022 vs Control0082,-0.246212423974433,,,,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+"3.4 same-pool differences (child minus comparator, comparator's fold)",AML052 vs Control0082,0.112844490766891,,,,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+"3.4 same-pool differences (child minus comparator, comparator's fold)",AML009 vs Control0005,-0.26387252357946,,,,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+4.10 children removed by K3b,none,,,,,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML001,-0.820928442973258,-0.8000318738755,55,425396,0.916666666666667,0.4,0.454545454545455,0,0.127272727272727,1,Inflammation_high,teens,TRUE,TRUE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML003,-1.8579127883605,-1.7708049215479,71,153650,0.89873417721519,0.267605633802817,0.71830985915493,0.154929577464789,0,1,Inflammation_low,infants,TRUE,FALSE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML005,-1.2165867113417,-1.149915974781,186,508378,0.925373134328358,0.145161290322581,0.725806451612903,0.0161290322580645,0,1,Inflammation_high,teens,TRUE,TRUE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML006,-1.01598238168243,-0.96111749925353,314,613965,0.512234910277325,0.0127388535031847,0.95859872611465,0.101910828025478,0,1,Inflammation_low,children,TRUE,TRUE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML009,-1.36730770751607,-1.24922562239037,71,97735,0.825581395348837,0.0704225352112676,0.873239436619718,0.0985915492957746,0,1,Inflammation_low,infants,TRUE,TRUE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML012,-0.134818796707769,-0.138669698717141,58,213133,0.90625,0.706896551724138,0.413793103448276,0.155172413793103,0,1,Inflammation_low,infants,TRUE,FALSE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML022,-1.40641749866403,-1.34748069942434,118,191843,0.951612903225806,0.076271186440678,0.88135593220339,0.0423728813559322,0.076271186440678,1,Inflammation_low,teens,FALSE,FALSE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML025,-1.45050591297655,-1.40894460485497,94,216612,0.92156862745098,0.276595744680851,0.691489361702128,0.0425531914893617,0,1,Inflammation_high,teens,TRUE,TRUE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML026,0.19181083137344,0.129288618409909,41,87433,0.732142857142857,0.829268292682927,0.219512195121951,0.024390243902439,0,1,Inflammation_low,infants,TRUE,FALSE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML028,-0.455046952730829,-0.36552548237004,20,56957,0.333333333333333,0,1,0.8,0,1,Inflammation_high,infants,TRUE,FALSE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML038,-1.9726705168443,-1.96222070817176,35,117708,0.897435897435897,0.314285714285714,0.828571428571429,0.0285714285714286,0,1,Inflammation_high,teens,FALSE,FALSE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML043,-2.61386827375749,-2.63437966179479,29,85641,0.218045112781955,0.931034482758621,0.172413793103448,0,0,1,Inflammation_high,teens,FALSE,FALSE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML048,-1.32444406834698,-1.32330777927457,220,698248,0.912863070539419,0.654545454545455,0.336363636363636,0.0272727272727273,0,1,Inflammation_low,infants,TRUE,TRUE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML051,-1.67927677336782,-1.64219523456133,653,1391671,0.963126843657817,0.578866768759571,0.540581929555896,0.0505359877488515,0,1,Inflammation_low,infants,TRUE,FALSE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML052,-0.909097037832865,-0.828639739848114,96,136385,0.941176470588235,0.0208333333333333,0.9375,0.0729166666666667,0,1,Inflammation_low,teens,TRUE,FALSE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML055,-0.740835813455149,-0.746296852414463,706,2534616,0.764069264069264,0.739376770538244,0.371104815864023,0.0084985835694051,0,1,Inflammation_high,teens,TRUE,TRUE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML056,-0.698001905154471,-0.67251920017097,250,732263,0.892857142857143,0.316,0.628,0.08,0,1,Inflammation_low,children,TRUE,FALSE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+3.4 per child,,,,,,,,AML073,-0.788805865796095,-0.7593857550993,605,1282674,0.913897280966767,0.132231404958678,0.770247933884298,0.0396694214876033,0.347107438016529,1,Inflammation_low,pediatric_NA,FALSE,FALSE,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.5 strata,inflammation: Inflammation_high,-1.2165867113417,,,7,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.5 strata,inflammation: Inflammation_low,-1.01598238168243,,,11,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.5 strata,age band: teens,-1.31150210500286,,,8,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.5 strata,age band: infants,-1.32444406834698,,,7,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.5 strata,age band: children,-0.856992143418448,,,2,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.5 strata,age band: pediatric_NA,-0.788805865796095,,,1,,,,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML001,,,,,,,,,,,,,,,20,0.000751789590837229,0.0379269431680249,0.093747020338032,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML003,,,,,,,,,,,,,,,23,0.00463190949352155,0.138640770010305,0.173853374477243,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML005,,,,,,,,,,,,,,,19,-0.00474951132428506,0.0350085448687985,0.0796568120231929,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML006,,,,,,,,,,,,,,,17,-0.0122647895378747,0.0236528175234081,0.0703561440477287,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML009,,,,,,,,,,,,,,,24,0.00193358567512097,0.221345314035779,0.256398710536788,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML012,,,,,,,,,,,,,,,23,-0.000402349645109924,0.101235943662455,0.129430741711291,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML022,,,,,,,,,,,,,,,23,-0.00519736605006411,0.130401637398866,0.158571404809751,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML025,,,,,,,,,,,,,,,23,0.00335638685633869,0.104166238493598,0.138806757282019,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML026,,,,,,,,,,,,,,,24,0.0116206187161129,0.267173120722822,0.290223983421543,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML028,,,,,,,,,,,,,,,24,-0.0618234102979881,0.258132290711117,0.35451808609497,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML038,,,,,,,,,,,,,,,24,-0.0044597386230809,0.171216461342007,0.206872394535976,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML043,,,,,,,,,,,,,,,24,-0.020374128652568,0.215083363165446,0.282192073645363,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML048,,,,,,,,,,,,,,,16,0.00216443547296608,0.0239336421838051,0.0703375808276633,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML051,,,,,,,,,,,,,,,11,0.00175076790494064,0.0034616720284292,0.0420668413197958,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML052,,,,,,,,,,,,,,,23,0.00940562790412517,0.154825453671643,0.198107676313696,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML055,,,,,,,,,,,,,,,7,0.000486338149757903,0.000370098478345912,0.0287732193923154,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML056,,,,,,,,,,,,,,,16,-0.00247995886110322,0.0284161284190602,0.0638333136593005,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 depth readout,,,,,,,,AML073,,,,,,,,,,,,,,,11,-0.00384332312464456,0.00243815888764476,0.0470428854154765,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.00172413793103448,,,,,,AML001,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.0655172413793104,,,,,,AML003,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.00862068965517241,,,,,,AML005,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.00172413793103448,,,,,,AML006,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.106896551724138,,,,,,AML009,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.0844827586206897,,,,,,AML012,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.0758620689655172,,,,,,AML022,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.0379310344827586,,,,,,AML025,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.301724137931035,,,,,,AML026,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.222413793103448,,,,,,AML028,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.0896551724137931,,,,,,AML038,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.186206896551724,,,,,,AML043,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.00517241379310345,,,,,,AML048,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.00344827586206897,,,,,,AML051,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.0879310344827586,,,,,,AML052,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0.00344827586206897,,,,,,AML055,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0,,,,,,AML056,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0004,0,,,,,,AML073,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.00325732899022801,,,,,,AML001,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.0521172638436482,,,,,,AML003,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.00651465798045603,,,,,,AML005,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0,,,,,,AML006,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.100977198697068,,,,,,AML009,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.0553745928338762,,,,,,AML012,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.0651465798045603,,,,,,AML022,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.00977198697068404,,,,,,AML025,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.286644951140065,,,,,,AML026,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.198697068403909,,,,,,AML028,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.0521172638436482,,,,,,AML038,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.162866449511401,,,,,,AML043,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.00651465798045603,,,,,,AML048,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0,,,,,,AML051,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0.0684039087947883,,,,,,AML052,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0,,,,,,AML055,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0,,,,,,AML056,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0005,0,,,,,,AML073,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.00212314225053079,,,,,,AML001,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.0552016985138004,,,,,,AML003,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.00424628450106157,,,,,,AML005,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0,,,,,,AML006,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.100849256900212,,,,,,AML009,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.0721868365180467,,,,,,AML012,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.054140127388535,,,,,,AML022,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.0265392781316348,,,,,,AML025,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.313163481953291,,,,,,AML026,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.23036093418259,,,,,,AML028,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.0743099787685775,,,,,,AML038,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.180467091295117,,,,,,AML043,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.00530785562632696,,,,,,AML048,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0,,,,,,AML051,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0.0658174097664544,,,,,,AML052,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0,,,,,,AML055,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0,,,,,,AML056,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0058,0,,,,,,AML073,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.00359712230215827,,,,,,AML001,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.0719424460431655,,,,,,AML003,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.00719424460431655,,,,,,AML005,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0,,,,,,AML006,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.118705035971223,,,,,,AML009,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.0719424460431655,,,,,,AML012,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.122302158273381,,,,,,AML022,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.0251798561151079,,,,,,AML025,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.302158273381295,,,,,,AML026,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.23021582733813,,,,,,AML028,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.0935251798561151,,,,,,AML038,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.201438848920863,,,,,,AML043,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.0143884892086331,,,,,,AML048,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.00359712230215827,,,,,,AML051,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0.115107913669065,,,,,,AML052,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0,,,,,,AML055,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0,,,,,,AML056,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control0082,0,,,,,,AML073,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.00221729490022173,,,,,,AML001,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.0532150776053215,,,,,,AML003,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.00443458980044346,,,,,,AML005,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0,,,,,,AML006,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.0997782705099778,,,,,,AML009,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.0864745011086474,,,,,,AML012,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.0665188470066519,,,,,,AML022,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.0199556541019956,,,,,,AML025,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.312638580931264,,,,,,AML026,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.197339246119734,,,,,,AML028,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.0753880266075388,,,,,,AML038,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.177383592017738,,,,,,AML043,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.00886917960088692,,,,,,AML048,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.00221729490022173,,,,,,AML051,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0.0953436807095344,,,,,,AML052,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0,,,,,,AML055,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0,,,,,,AML056,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control1,0,,,,,,AML073,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.00245098039215686,,,,,,AML001,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.0637254901960784,,,,,,AML003,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.00735294117647059,,,,,,AML005,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.00245098039215686,,,,,,AML006,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.117647058823529,,,,,,AML009,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.0882352941176471,,,,,,AML012,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.0833333333333333,,,,,,AML022,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.0269607843137255,,,,,,AML025,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.323529411764706,,,,,,AML026,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.220588235294118,,,,,,AML028,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.0931372549019608,,,,,,AML038,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.205882352941176,,,,,,AML043,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.00980392156862745,,,,,,AML048,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.00490196078431373,,,,,,AML051,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0.0980392156862745,,,,,,AML052,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0,,,,,,AML055,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0,,,,,,AML056,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control2,0,,,,,,AML073,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0,,,,,,AML001,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0.0930232558139535,,,,,,AML003,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0,,,,,,AML005,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0,,,,,,AML006,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0.104651162790698,,,,,,AML009,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0.0581395348837209,,,,,,AML012,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0.104651162790698,,,,,,AML022,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0.0232558139534884,,,,,,AML025,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0.36046511627907,,,,,,AML026,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0.22093023255814,,,,,,AML028,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0.0930232558139535,,,,,,AML038,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0.186046511627907,,,,,,AML043,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0,,,,,,AML048,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0,,,,,,AML051,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0.116279069767442,,,,,,AML052,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0,,,,,,AML055,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0,,,,,,AML056,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control3,0,,,,,,AML073,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0,,,,,,AML001,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0.0933333333333333,,,,,,AML003,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0.0133333333333333,,,,,,AML005,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0,,,,,,AML006,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0.0933333333333333,,,,,,AML009,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0.04,,,,,,AML012,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0.12,,,,,,AML022,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0.0266666666666667,,,,,,AML025,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0.293333333333333,,,,,,AML026,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0.186666666666667,,,,,,AML028,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0.08,,,,,,AML038,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0.2,,,,,,AML043,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0,,,,,,AML048,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0,,,,,,AML051,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0.08,,,,,,AML052,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0,,,,,,AML055,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0,,,,,,AML056,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4,0,,,,,,AML073,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.00257731958762887,,,,,,AML001,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.0567010309278351,,,,,,AML003,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.00515463917525773,,,,,,AML005,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.00257731958762887,,,,,,AML006,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.0979381443298969,,,,,,AML009,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.0618556701030928,,,,,,AML012,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.0695876288659794,,,,,,AML022,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.0180412371134021,,,,,,AML025,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.29639175257732,,,,,,AML026,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.201030927835052,,,,,,AML028,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.0592783505154639,,,,,,AML038,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.15979381443299,,,,,,AML043,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.0077319587628866,,,,,,AML048,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0,,,,,,AML051,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0.0850515463917526,,,,,,AML052,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0,,,,,,AML055,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0,,,,,,AML056,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control4003,0,,,,,,AML073,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.00323624595469256,,,,,,AML001,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.0679611650485437,,,,,,AML003,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.00970873786407767,,,,,,AML005,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0,,,,,,AML006,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.106796116504854,,,,,,AML009,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.0809061488673139,,,,,,AML012,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.100323624595469,,,,,,AML022,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.0258899676375405,,,,,,AML025,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.307443365695793,,,,,,AML026,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.210355987055016,,,,,,AML028,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.100323624595469,,,,,,AML038,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.197411003236246,,,,,,AML043,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.00970873786407767,,,,,,AML048,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.00323624595469256,,,,,,AML051,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.100323624595469,,,,,,AML052,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0.00323624595469256,,,,,,AML055,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0,,,,,,AML056,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde
+5.6 zero-count share of the fold's genes,Control5,0,,,,,,AML073,,,,,,,,,,,,,,,,,,,9db3b2c62504b8de3c27900b0b6b1dde

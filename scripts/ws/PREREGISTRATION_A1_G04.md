@@ -861,3 +861,59 @@ Handover (fixed now):
   - `chen_pb.rds` is kept, because the `--build` code is unchanged.
   - Run 2's primary, loo, sens and readouts tables should equal run 1's apart from `script_md5`. Any difference will be
     reported.
+
+## 11. Outcome (2026-11-05)
+
+Run 2: jobs 3683796-3683801, script md5 `9db3b2c6…`, commit 19813ba. It ran after the gate fix in section 10.
+- Run 2's checks, primary, loo, sens and readouts tables equal run 1's, apart from `script_md5`.
+- `readouts_C.rds` is identical in both runs.
+- The smoke outputs were deleted after this check.
+
+**Known answers.** The checks table has 70 rows: 0 deterministic FAIL, 0 statistical FAIL and 0 swap stops. All K3 and
+K3b sex calls match, so no child left the 4.10 set.
+
+**(a) Chen2023: "not shown".**
+
+| quantity | value |
+|---|---|
+| D (J units, AML minus donors) | 0.712 |
+| exact p, upper / mirror | 17/126 / 110/126 |
+| rank-sum p | 18/126 |
+| ρ [ρ_L, ρ_U] | 0.518 [−0.247, 1.361] |
+| qualifier | none (3.2 applies only under "direction replicated") |
+
+Wording (section 0): "The direction was not shown in Chen2023 (exact p = 17/126); a common shift larger than 1.36 of
+GSE185381's selection-corrected gap is excluded (one-sided 95.2%, common-shift model)." "5 vs 4 cannot exclude an
+effect of the GSE185381 size." The direction stays "shown in one study".
+
+Recorded although it changes nothing:
+- Under 3.2's rule, dropping AML162 leaves D = 0.225, below 2/3 of D. A "replicated" result would therefore have
+  carried "rests on one donor (AML162)".
+- Per-donor J scores: AML162 +1.42; the other four AML −1.41 to −0.45; the four donors −1.71 to −0.60.
+
+Sensitivities 4.1-4.7 (no category change):
+- D 0.68-0.94, exact p 16/126 to 20/126.
+- The up half and the down half alone give D 0.43 (p 20/126) and 0.28 (p 13/126).
+- 4.6, depth-equalised, J: D 0.680, p 18/126. K6c's implied depth bias is −0.004 J.
+
+Readouts (descriptive):
+
+| readout | result |
+|---|---|
+| 5.1 composition | gapT 0.681 u; gapC_H 0.041; gapC_A 0.062; mean residual 0.630. The fallbacks are exactly the declared ones. C_H, C_A and C are not reported. |
+| 5.2 delay score | D_delay 0.583, p 30/126. Spearman with the imprint score over the 9 donors, after centring each arm: 0.83. AML162 has the highest delay score (+1.28). |
+| 5.3 B (5 vs 4) | D 0.347, p 27/126, D/D_T 0.49 |
+| 5.3 NK (4 vs 4) | D 0.462, p 22/70, D/D_T 0.55 |
+| 5.4 sign concordance | 0.832 of 357 genes, p 18/126 |
+
+**(b) children: "not readable".**
+- A_b 0.372 [0.161, 0.594]; φ −0.244 [−0.827, 0.092].
+- Subsets 4.8-4.11: A_b 0.30-0.42.
+- Under section 7 there is no statement. A_b, φ and their CIs go to G03.
+
+**Gates and handover.**
+- GATE_A3, direction half: does not count (option A; (a) is not "direction replicated").
+- `--combine` appended the A1-G04 block to `GATES.md`. Its last line supersedes S9's clause "no independent AML +
+  healthy cohort exists in this work".
+- Per section 7: the direction stays "shown in one study", with ρ_U = 1.36 as its bound.
+- G04(c) remains a separate decision (9.5). G03 is next.

@@ -1,0 +1,71 @@
+id,scope,kind,check,expected,got,state,script_md5
+K0,PB,deterministic,md5 of 31 declared files (2.1-2.3),31,31,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K0,P,deterministic,"features.tsv: md5 of the decompressed content, in 20 of 20 libraries",20,20,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K0,B,deterministic,GEO author metadata: md5 of the sorted md5sum listing (2.3 recipe),c9bf8d1d53653aad8d65d1da7f9da4e0,c9bf8d1d53653aad8d65d1da7f9da4e0,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K1,P,deterministic,"features.tsv (ID, symbol) equals the remap's (ens, sym_cr2), all rows in order",TRUE,TRUE,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K1,P,deterministic,rows / mapped_by_ensembl rows,33694/32351,33694/32351,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K1,P,deterministic,"every object's row names equal make.unique(gsub('_', '-', symbol))",10,10,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K1,P,deterministic,P370 on the remapped axis (genes / up / down),358/154/204,358/154/204,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K1,P,deterministic,402 set on the remapped axis,388,388,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K2,P,deterministic,"donor table equals the xlsx (arm, age, sex)",10,10,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K2,P,deterministic,Pool agrees with the library name for every kept cell (donors),10,10,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K2,P,deterministic,pool-B kept T per donor equals 2.2 (10 donors), 211;1047; 890;1445; 808;2306;1094;2795;1709;   2, 211;1047; 890;1445; 808;2306;1094;2795;1709;   2,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K2,P,deterministic,"saved pseudobulks: column sums equal the cells' summed counts over the mapped rows (T, pool-A T, B, NK; 10 donors)",0,0,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K2,P,deterministic,"saved decontX pool-B T: column sums equal the summed decontX counts (9 donors, max |diff|)",0,9.313226e-10,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K2,P,deterministic,the nine label matrices sum to whole-T (max |diff|),0,0,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K2,P,deterministic,label cell numbers sum to the pool-B kept T, 211;1047; 890;1445; 808;2306;1094;2795;1709, 211;1047; 890;1445; 808;2306;1094;2795;1709,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,"AML103 (AML, F): pool B F; pool A F","",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,"AML162 (AML, M): pool B M; pool A M","",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,"AML24 (AML, M): pool B M; pool A M","",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,"AML304 (AML, M): pool B M; pool A M","",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,"AML320 (AML, F): pool B F; pool A F","",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,"AML469 (AML, M): pool B M; pool A M","",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,"NBM1 (donor, M): pool B M; pool A M","",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,"NBM2 (donor, F): pool B F; pool A F","",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,"NBM3 (donor, M): pool B M; pool A M","",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,"NBM4 (donor, F): pool B F; pool A F","",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,pool-A vs pool-B opposite confident calls (library swap within a donor),"",none,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3,P,reported,"cross-arm swap pattern (an AML and a donor pool-B library each mismatched, exchange restores both)","",none,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML001 (metadata M): M,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML003 (metadata M): M,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML005 (metadata F): F,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML006 (metadata F): F,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML009 (metadata M): M,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML012 (metadata F): F,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML022 (metadata F): F,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML025 (metadata M): M,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML026 (metadata F): F (RPS4Y1 0 UMI),"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML028 (metadata M): M,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML038 (metadata F): F (RPS4Y1 2 UMI),"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML043 (metadata M): M,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML048 (metadata M): M,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML051 (metadata M): M (XIST 120 UMI),"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML052 (metadata M): M,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML055 (metadata F): F,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML056 (metadata F): F (RPS4Y1 1 UMI),"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K3b,B,reported,AML073 (metadata M): M,"",match,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K4,P,deterministic,D_res_J for GSE120221 (S9 donor pooling),1.967704,1.967704,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K4,P,deterministic,gap_in on the 25 in S5 space,1.97138,1.971384,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K5,P,deterministic,"126 distinct labellings, the observed one once",126/1,126/1,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K5,P,deterministic,"rank-sum exact p by enumeration equals pwilcox (400 synthetic vectors, max |diff|)",0,1.110223e-16,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K5,P,deterministic,"closed-form bounds equal bisection (50 synthetic vectors, max |diff|)",0,2.223111e-12,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K5,P,deterministic,rho_L > 0 exactly when p <= 6/126 (400 synthetic vectors),400,400,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K7,B,deterministic,stored out-of-fold scores of all 25 folds reproduced (max |diff|),0,4.884981e-15,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K7,B,deterministic,make_L27 keeps L on the 25 (max |diff| of the 25 columns and of the manual formula),0,3.552714e-15,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K7b,B,deterministic,each adult placed as a new column reproduces its stored out-of-fold score (25/25),25,25,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K7c,B,deterministic,"healthy adults thinned to the smallest child's T library, and every child, give finite scores in all 10 healthy folds",TRUE,TRUE,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K7c,B,reported,mean score shift of the thinned healthy adults over their 10 healthy folds,"",0.036 -0.490 -0.314 -0.422 -0.126 -0.342 -0.639 -0.585 -0.204 -0.113,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K8,B,deterministic,the 18 children are S4's eligible paediatric T samples minus PAUMTZ,TRUE,TRUE,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K8,B,deterministic,their kept T counts equal the S4 meta table (18/18),18,18,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K9,B,deterministic,the (b) code on A1-G02's leave-pair-out scores: A_b = 139/150,0.9266667,0.9266667,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K9,B,deterministic,... and AML-side (2.5th percentile of A_b* > 0.5),TRUE,TRUE,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K2b,P51,deterministic,folds whose est_C references ignore the held-out donor's label counts (both orders),9,9,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K6a,P,deterministic,"J and W scores invariant to the order of the 9 columns (10 orders, max |diff|)",0,5.551115e-17,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K6a,P,deterministic,"plant signs, synthetic (no noise): S5 log2FC / r into the 5 AML -> D > 0; into the 4 donors -> D < 0",+/-,+/-,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K4b,P,statistical,"|P370 in U_J| / 358 (up 154, down 203); floor 0.80 and >= 5 per half","",0.9972,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K6b(i),P,statistical,"no plant: 'replicated' rate (machinery, one tail; bar <= 0.08)","",0.03,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K6b(i),P,reported,no plant: 'reversed' rate (depth offset dominates; reported only),"",0.069,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K6b(ii),P,statistical,S5 log2FC planted on P370 in the 5 synthetic AML: pass rate (bar >= 0.90),"",1,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K6c,reported,deterministic,the 3 deepest healthy T pseudobulks hold at least 3.0M UMI,3,3,PASS,9db3b2c62504b8de3c27900b0b6b1dde
+K6c,reported,reported,J-score shift at 2.0 / 1.0 / 0.5 / 0.25 / 0.1M UMI (mean of 3 probes),"",-0.0068 / -0.0154 / -0.0650 / -0.1627 / -0.3291,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde
+K6c,reported,reported,implied D bias at Chen2023's realised pool-B UMI totals (J units),"",-0.004321,REPORTED,9db3b2c62504b8de3c27900b0b6b1dde

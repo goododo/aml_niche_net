@@ -1,0 +1,16 @@
+item,value,script_md5
+(a) category,not shown,9db3b2c62504b8de3c27900b0b6b1dde
+(a) qualifier,none,9db3b2c62504b8de3c27900b0b6b1dde
+(a) wording,"""The direction was not shown in Chen2023 (exact p = 17/126); a common shift larger than 1.36 of GSE185381's selection-corrected gap is excluded (one-sided 95.2%, common-shift model)."" ""5 vs 4 cannot exclude an effect of the GSE185381 size."" The direction stays ""shown in one study"".",9db3b2c62504b8de3c27900b0b6b1dde
+(a) D,0.712,9db3b2c62504b8de3c27900b0b6b1dde
+(a) exact p (upper / mirror),17/126 / 110/126,9db3b2c62504b8de3c27900b0b6b1dde
+"(a) rho [rho_L, rho_U]","0.518 [-0.247, 1.361]",9db3b2c62504b8de3c27900b0b6b1dde
+(a) depth-equalised 4.6 (J),"D 0.6801, p 18/126",9db3b2c62504b8de3c27900b0b6b1dde
+"(a) 5.1 C_H / C_A / C (only under 'direction replicated', gapT > 0)",not reported,9db3b2c62504b8de3c27900b0b6b1dde
+(b) category,not readable,9db3b2c62504b8de3c27900b0b6b1dde
+(b) wording,"No statement; A_b, phi and their CIs go to G03.",9db3b2c62504b8de3c27900b0b6b1dde
+(b) A_b [95% CI],"0.372 [0.161, 0.594]",9db3b2c62504b8de3c27900b0b6b1dde
+(b) phi [95% CI],"-0.244 [-0.827, 0.092]",9db3b2c62504b8de3c27900b0b6b1dde
+GATE_A3 direction half (decision 9.6 A),does not count,9db3b2c62504b8de3c27900b0b6b1dde
+statistical failures,none,9db3b2c62504b8de3c27900b0b6b1dde
+script md5: checks / primary / sens / readouts / children / summary,9db3b2c62504b8de3c27900b0b6b1dde / 9db3b2c62504b8de3c27900b0b6b1dde / 9db3b2c62504b8de3c27900b0b6b1dde / 9db3b2c62504b8de3c27900b0b6b1dde / 9db3b2c62504b8de3c27900b0b6b1dde / 9db3b2c62504b8de3c27900b0b6b1dde,9db3b2c62504b8de3c27900b0b6b1dde
