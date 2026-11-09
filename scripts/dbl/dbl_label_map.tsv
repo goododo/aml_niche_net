@@ -1,0 +1,56 @@
+bmm_fine	compartment	note
+HSC	LEUK_HSC	HSC-like (D5)
+MPP-MkEry	LEUK_MPP	MPP-like (D5)
+MPP-MyLy	LEUK_MPP	MPP-like (D5)
+LMPP	LEUK_LMPP	LMPP-like (D5)
+CLP	LEUK_LMPP	D5: CLP/MLP join LMPP-like (clonal in AML by genotype)
+MLP	LEUK_LMPP	D5
+MLP-II	LEUK_LMPP	D5
+Early GMP	LEUK_GMP	GMP-like (D5)
+GMP-Neut	LEUK_GMP	GMP-like (D5)
+GMP-Mono	LEUK_GMP	GMP-like (D5)
+GMP-Cycle	LEUK_GMP	GMP-like; cycling is a separate flag (P 3.4)
+Early ProMono	LEUK_ProMono	promonocyte-like (D5)
+Late ProMono	LEUK_ProMono	promonocyte-like (D5)
+Cycling Progenitor	LEUK_other	lineage-agnostic cycling; no differentiation state (D5)
+Pre-ProB	LEUK_other	D5
+MEP	LEUK_other	D5
+BFU-E	LEUK_other	D5
+EoBasoMast Precursor	LEUK_other	D5
+Megakaryocyte Precursor	LEUK_other	D5
+Megakaryocyte	LEUK_other	D5 (Mk lineage)
+Pre-cDC	LEUK_other	D5
+Pre-pDC	LEUK_other	D5
+Pre-pDC Cycling	LEUK_other	D5
+CD14 Mono	MonoDC	predominantly clonal in adult AML; reported, not tested (P 3.4)
+CD16 Mono	MonoDC	P 3.4
+cDC1	MonoDC	P 3.4
+cDC2	MonoDC	P 3.4
+pDC	MonoDC	P 3.4
+ASDC	MonoDC	P 3.4
+CFU-E	Ery	reference partner (P 3.4)
+Pro-Erythroblast	Ery	P 3.4
+Basophilic Erythroblast	Ery	P 3.4
+Polychromatic Erythroblast	Ery	P 3.4
+Orthochromatic Erythroblast	Ery	P 3.4
+CD4 Naive	T_cand	strict T if concordant, bmm_prob >= 0.5, T-identity UMI, not atlas cluster 13 (P 3.4); else Tamb
+CD8 Naive	T_cand	P 3.4
+CD4 Central Memory	T_cand	P 3.4
+CD4 Effector Memory	T_cand	P 3.4
+CD4 Regulatory	T_cand	P 3.4
+CD8 Central Memory	T_cand	P 3.4
+CD8 Effector Memory 1	T_cand	P 3.4
+CD8 Effector Memory 2	T_cand	P 3.4
+CD8 Tissue Resident Memory	T_cand	P 3.4
+T Proliferating	Tamb	unresolved T/NK; not in the primary test (P 3.4)
+NK Proliferating	Tamb	P 3.4
+NK	NK	analysed separately (P 3.4)
+NK CD56high	NK	P 3.4
+Pro-B VDJ	B	reference partner; partly clonal in some genotypes (P 3.4)
+Pro-B Cycling	B	P 3.4
+Large Pre-B	B	P 3.4
+Small Pre-B	B	P 3.4
+Immature B	B	P 3.4
+Mature B	B	P 3.4
+Plasma Cell	B	P 3.4
+Stromal	Other	non-haematopoietic
