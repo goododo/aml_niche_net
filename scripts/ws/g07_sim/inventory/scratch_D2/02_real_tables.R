@@ -1,0 +1,22 @@
+# input : real_T_cells_by_sample_fine.csv, real_T_percell_umi.csv.gz (from 01)
+# output: real_sample_summary.csv; printed tables for D2 section 2 (counts and UMI only)
+suppressPackageStartupMessages(library(data.table))
+t <- fread("real_T_cells_by_sample_fine.csv"); PC <- fread("real_T_percell_umi.csv.gz"); PC[, umi := as.numeric(umi_axis)]; PC[, nf := as.numeric(nfeat_axis)]
+u <- PC[, .(umi_med = as.numeric(median(umi)), umi_q25 = as.numeric(quantile(umi,.25)), umi_q75 = as.numeric(quantile(umi,.75)), nfeat_med = as.numeric(median(nf)), mt_med = round(as.numeric(median(pct_mt)),1)), by = sample]
+t <- merge(t, u, by = "sample"); setorder(t, status, -n_T)
+ab <- c("CD4 Naive"="CD4N","CD4 Central Memory"="CD4CM","CD4 Effector Memory"="CD4EM","CD4 Regulatory"="Treg","CD8 Naive"="CD8N","CD8 Central Memory"="CD8CM","CD8 Effector Memory 1"="CD8EM1","CD8 Effector Memory 2"="CD8EM2","CD8 Tissue Resident Memory"="CD8TRM")
+setnames(t, names(ab), ab, skip_absent=TRUE); fwrite(t, "real_sample_summary.csv")
+options(width=250); print(t)
+cat("\nPer status, cells per fine label (sum) and share:\n")
+m <- melt(t, id.vars=c("sample","status"), measure.vars=intersect(unname(ab), names(t)))
+s <- m[, .(cells = sum(value)), by=.(status, variable)][, share := round(cells/sum(cells),3), by=status]
+print(dcast(s, variable ~ status, value.var=c("cells","share")))
+cat("\nAML n_T: min", min(t[status=="AML"]$n_T), "median", median(t[status=="AML"]$n_T), "max", max(t[status=="AML"]$n_T), " sum", sum(t[status=="AML"]$n_T), "\n")
+cat("healthy n_T: min", min(t[status!="AML"]$n_T), "median", median(t[status!="AML"]$n_T), "max", max(t[status!="AML"]$n_T), " sum", sum(t[status!="AML"]$n_T), "\n")
+cat("\n(sample, fine label) pairs with >=20 / >=50 / >=100 cells, by status:\n")
+print(m[, .(ge20 = sum(value >= 20), ge50 = sum(value>=50), ge100 = sum(value>=100), n_samples = .N), by = .(status, variable)])
+cat("\nUMI per kept T cell by status (median, IQR):\n")
+print(PC[, .(cells=.N, umi_med=median(umi), umi_q25=quantile(umi,.25), umi_q75=quantile(umi,.75), nf_med=median(nf), nf_q25=quantile(nf,.25), nf_q75=quantile(nf,.75), nf_p95 = quantile(nf,.95), frac_nf_ge1500 = round(mean(nf>=1500),3)), by=status])
+cat("\nUMI by fine label and status (median):\n")
+print(dcast(PC[, .(umi_med = median(umi)), by=.(fine, status)], fine ~ status, value.var="umi_med"))
+cat("\nPer-sample median UMI: AML range", range(t[status=="AML"]$umi_med), " healthy range", range(t[status!="AML"]$umi_med), "\n")

@@ -1125,3 +1125,97 @@ Real choices were 9.3-9.6 and 9.13. 9.1, 9.9, 9.11, 9.12 and 9.14 needed confirm
     - the 8.4 provenance completed with md5s; compute updated.
 - **2026-11-09, v1 approved and tagged** `prereg-a1-g07-v1` (local; not pushed). Nothing in sections 3-6 was computed
   before the tag.
+
+## 11. Dated note, 2026-11-09, before any real-data run (code, smoke runs, code review 1)
+
+Written after the tag and before any real-data mode ran. No G07 number on real data had been computed. Sections 0-10 are
+unchanged. Scripts: `scripts/ws/43_a1_g07.R`, `scripts/ws/44_a1_g07_cells.R`, `scripts/ws/submit_ws_a1_g07.sbatch`.
+Code review 1 (three lenses: conformance, correctness, blindness and safety; each finding verified by a second agent)
+found 3 blocking and about 25 should-level items; all were fixed or are declared below. Review files are kept outside
+the repository.
+
+**11.1 Departures and readings of the text.**
+1. **Savage Table S4 parsing.** `mmc5.xlsx` stores 163 tiny adjusted p values (e.g. 5.1e-321) as text, and readxl's
+   default read turns them into NA. The code reads the sheets as text and converts with `as.numeric`.
+   - T, B and NK lists are identical under both reads; T reproduces the frozen list exactly.
+   - Mono is 826 genes (300 up, 526 down), not the 822 (299 / 523) of 2.3 and K9, and shares 294 genes with the T list,
+     not 293 (3.3(a)). K9's Mono bar is 826 / 300 / 526.
+2. **K5 refits.** With type (v), the ρ_X point estimates take 400 refits, not 320. K5's "shared" uses the point estimate
+   only, as its row states.
+3. **3.6(a).** No threshold for "depends" is registered. The sentence gives the gap without the class and its ratio to the
+   gap with nothing removed; no word is assigned.
+4. **Mazziotta.** It enters 3.6(b) only as a gene list (csv) extracted by hand and md5-recorded at `--known`. A PDF
+   alone, or a csv added after `--known`, is noted and omitted.
+5. **Seeds.** Each declared offset (SEED + 701 to 710) seeds one stream once; parallel jobs and repeated draws take child
+   seeds from that stream. The bootstrap resamples (+707) are drawn before any parallel work, B first. Script 44 uses
+   SEED + 7100 + i, 7300 + i and 7200 + i as declared.
+6. **Opposing flagged sets (3.1).** A flagged set with s ≤ 0 gets the mark only: no direction check, no compartment
+   reading, and its own sentence. It is not a unit of the 7.3 consequence rule. (Counting it as an unbound unit would make
+   the main-limitation sentence harder to trigger.)
+7. **7.3 side numbers.** "The share of the union of the flagged sets' U_A genes that is in H_up or H_down" is computed per
+   arm and direction-matched: H_up for the up arm, H_down for the down arm, over the non-opposing flagged sets of that arm,
+   against the same share in U_A. The number of bound units is reported beside the fixed sentence, not inside it.
+8. **3.3(b) interval.** A bootstrap draw with a failed refit or s_T ≤ 0 counts as −∞ before the 2.5 % quantile. "Shared"
+   therefore needs at most 2.5 % of all 1,000 draws undefined or below 0. If K5 fails, every reading is "not readable"
+   before any other rule applies.
+9. **Section 4 for 3.2 and 3.3.** 4.1 and 4.2 now run for 3.2 (removal readings), 3.3(a) and 3.3(b), as registered. For
+   3.3(b) the 4.1 and 4.2 views report the interaction camera and the ρ_X point estimate; the bootstrap runs for the
+   primary only (8.6 costs only the primary's refits). 4.2 recodes Control4 in every compartment that contains it.
+10. **3.3(a) delay lists.** The 7.6 sentence is written only for T, B and NK against their own lists. Monocytes, and the T
+    lists tested inside B, NK and Mono, are "reported (not read)".
+11. **S5b.**
+    - A K6c failure leaves both shape calls unreadable, so the cohort reading is "not readable".
+    - In the 7.5 sentence, s and n count the calls before any K6b conversion; the cohort rule uses the converted calls.
+    - A "mixed" reading carries both the uniform and the sub-population caveat.
+    - S5b-raw reports the registered summaries only (no gate, no shape call), with the 1.4 depth warning. S5b-1500 and the
+      reference without Control1-5 carry their calls as "(descriptive)". F402 reuses the P370 K6 states. The cohort
+      reading is written on the primary rows only.
+    - `44 --known` reads AML cells for depth only (K8 sums; K6d UMI shares and medians); no AML score is computed. The
+      per-sample K6d rows print after every K6 state.
+12. **3.4.** The 10 logCPM bins use the pooled healthy-donor T logCPM over the genes assessable in both references, so no
+    AML expression enters 3.4. Each reference alone is reported on the same genes (count, base rate, percentile). The
+    7.4 bracket "[naive] share" is filled by the arm's direction: "lower" for the down arm, "higher" for the up arm. A
+    class with no consensus gene gets a one-line count.
+13. **K2a.** `camera.DGEList` returns no test statistic; the median p is reported.
+14. **K2b and K5 work tables** store each plant's own p, not its FDR. The FDR depends on the real sets of the BH family.
+    The flags are unchanged.
+15. **PROVENANCE.** `PROVENANCE_G07_derived.txt` sits next to the T set in `savage2021_processing_delay/`, as 2.3
+    says. The existing `PROVENANCE.txt` is an input and is left unchanged. The derived lists, the Gavish pin and this
+    file are locked read-only after all are written.
+16. **8.4 copies (decision 9.8).** The 30 scripts are copied into `scripts/ws/g07_sim/` byte for byte, so each md5 still
+    matches 8.4; their paths were not made relative, and `g07_sim/README.md` maps the original locations. The 4 derived
+    inputs are copied read-only with `MD5SUMS.txt` to `/LARGE1/.../ws_a1_g07/sim_inputs/`; all 34 md5s matched 8.4.
+
+**11.2 Code-review fixes that change no reading.**
+- **Public tables.**
+  - The 3.4 tags table no longer writes gene names for the F402 arms (counts only, 2.1). The per-gene file stays on
+    /LARGE1.
+  - Control1-5 are flagged in 44's per-sample tables.
+- **Fixed wording, now verbatim or as registered:**
+  - the precedence line;
+  - 7.3, 7.4 (with G01's sentence and the triggered S9 and CMV sentences), 7.6 (ρ and its interval after "shared
+    with") and 7.7;
+  - the 4.3 parenthesis;
+  - FDR is printed as "< 0.001", never "0.000".
+- **Reported items added:** coverage; the UNASSIGNED sets' U_A size, H share and absent genes; the expected core-25
+  overlap; the list of sets flagged only by a 4.4 view; 44's check states in "known answers"; every reference fallback,
+  with the minimum-reference rule asserted by a second count.
+- **K6a's fourth item.** A donor thinned alone must equal the same donor in the full run.
+- **Provenance.**
+  - K0 compares 14 recorded md5s (adding mmc5, the Oetjen rds and donor table, the gene order and the S4 map) and the 26
+    frozen IEG names, and records G02's gene-selection file.
+  - Script 44 runs its own K0: the 25 per-sample objects, the ws_pb md5, and the files shared with 43. `--score`
+    rechecks every md5.
+  - `--combine` refuses to run before `44 --score`, because the GATES block is appended once.
+- **Safety.**
+  - Unknown arguments stop a run, so a mistyped `--smoke` cannot run on real data.
+  - A real run uses only the dated read-only copy of a committed, unmodified script. The sbatch prints the commit.
+  - The up-front overwrite guard covers work files.
+  - `--prep` writes nothing unless every K9 row passes.
+  - Every count path checks the smoke mark.
+  - A sample that fails to load stops the run, naming the sample.
+  - UCell runs serially inside each worker; the scores are identical.
+- **Smoke-run bugs fixed earlier** (no design change):
+  - the sha256 comparison kept file names;
+  - a data.table column `s` shadowed a loop variable;
+  - the smoke data planted the AML shift into counts that it then replaced.
