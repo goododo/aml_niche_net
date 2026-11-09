@@ -1,13 +1,16 @@
 # PREREGISTRATION A1-G07: what the T-cell axis is (a pre-registered description)
 
-**Status: DRAFT v2, 2026-11-09, after review 1 (four lenses; section 10). Not approved; no tag.** Nothing declared in
-sections 3-6 has been computed. Section 2 counts use only gene names, set memberships and cell numbers (1.4).
+**Status: v1, APPROVED by the user 2026-11-09 (all section-9 items as recommended; the approval was given on DRAFT v2).
+Reviews 1 and 2 are in section 10. Tag `prereg-a1-g07-v1`.** The review-2 fixes refine the approved design and change
+no section-9 decision. Nothing declared in sections 3-6 was computed before the tag. Section 2 counts use only gene
+names, set memberships and cell numbers (1.4).
 
 **Sources.** All are kept outside the repo, under `/FAST/gr10634/gaozy/reports/2026-11_a1_g07_prereg/`.
 - Read-only inventories in `inventory/`: `A_obligations.md` (A), `B_machinery.md` (B), `C_resources_prior_art.md` (C),
   `D1_geneset_design.md` (D1, synthetic gene-set study), `D2_singlecell_layer.md` (D2, synthetic single-cell study),
   and `critic.md`.
 - Review 1 in `review1/`: L1 gene-set statistics, L2 single-cell layer, L3 conformance, L4 interpretation.
+- Review 2 in `review2/`: R2a fix audit, R2b new rules (synthetic replays), R2c numbers and wording, and a verifier.
 - Gene-name counts behind this draft in `drafting/`: `membership_counts.*`, `removal_counts.*`, `detection_floor.*`,
   `savage_celltypes.*`.
 
@@ -93,7 +96,7 @@ The frozen T axis is a gene list today:
 | A1-G02 :116-118 | the 25-gene always-selected core | 3.4, 3.6(b) |
 | assessment 2.3 (:155-156) | generic labels may reopen the composition reading | 3.4; 7.4 |
 | verify_G07 item 13 | GSE227903 diagnosis rows only | not used |
-| verify_G08 items 4, 7 | overlap of the 370 with Lasry's lists; read the Author Correction first | 3.6(b), if on disk before the run (9.5); otherwise G08 |
+| verify_G08 items 4, 7 | overlap of the 370 with Lasry's lists; read the Author Correction first | 3.6(b): Lasry downloaded 2026-11-09 (9.5); the Author Correction changes acknowledgements and an affiliation only |
 | assessment G12 | "which genes are T-specific" for a bulk proxy | not built here; the direction is shared with B/NK/Mono (7.7) |
 
 **Declared departures.**
@@ -128,7 +131,8 @@ The frozen T axis is a gene list today:
      from the cells' own expression, so doublets and ambient-rich cells cannot be told apart. GNA15 already left the
      up-arm interpretation (A1-BATCH D4).
 8. **Per-gene identity uses two references, by consensus.** The GSE185381 healthy donors are one arm of the contrast that
-   selected the genes; Oetjen is out of sample. A class is stated only when both tag it (3.4).
+   selected the genes; Oetjen is out of sample for the contrast, but it is part of the BoneMarrowMap reference that
+   assigns its own labels. A class is stated only when both tag it (3.4).
 9. **Handling removal is direction-matched** (3.2). The verifier asked for handling-artefact scoring; the set-level rule
    is new. The direction comes from A1-BATCH D8: the imprint overlaps the delay program in the same direction.
 
@@ -142,7 +146,7 @@ The frozen T axis is a gene list today:
 | S8 | "GATE_S8 is read as T2 AND T1: PASS in GSE289435, consistent in GSE227903, not reproduced on Seq-Well GSE116256" (GATES.md:211-213) |
 | S9 | f_age 0.102 (95 % CI −0.085 to 0.463); "bounded, not excluded"; older healthy donors do not score like AML |
 | A1-G02 | cross-fitted gap 1.378 (1.98 out-of-fold healthy SD), p 0.008, AUC 0.93; 25 genes selected in all 25 folds (10 up, 15 down, all in P370) |
-| A1-BATCH | PASS. Shared with B and NK in post-hoc relabellings and in G01 5.1; D10's declared reading is not usable. Overlaps the Savage delay program (D8: up 12 vs random 6; down 23 vs 10); delay score in MAIN gives R 0.82. IEG score +0.04 z (p 0.81). Post hoc: gap 1.318 without Savage genes; 1.3228 without Savage + IEG genes (`2026-11_a1_batch_posthoc/code_audit/a1_posthoc_d8_shared_genes.out`; unregistered) |
+| A1-BATCH | PASS. Shared with B and NK in post-hoc relabellings and in G01 5.1; D10's declared reading is not usable. Overlaps the Savage delay program (D8: up 12 vs random 6; down 23 vs 10); delay score in MAIN gives R 0.82. IEG score +0.04 z (p 0.81). Post hoc: gap 1.3184 without Savage genes; 1.3228 without Savage + IEG genes (`2026-11_a1_batch_posthoc/code_audit/a1_posthoc_d8_shared_genes.out`; unregistered) |
 | A1-G01 | C 0.045 (−0.100 to 0.191); S_w 0.664 (0.497 to 0.772); out of sample, B 0.857, NK 0.893, Mono 0.732; 5.5 not fired; gamma-delta share 0.6 % (AML) vs 2.6 % (healthy); UMI per kept cell 1.15-2.07 times higher in AML in every label |
 | A1-G04 | Chen2023 "not shown" (p 17/126; ρ_U 1.36); children "not readable"; the direction stays "shown in one study" |
 | A1-G03 | held through R6; per-gene list "stands"; the count moves from 38 to 1,106 when one AML is left out; with Control4 coded female, 402 becomes 895 |
@@ -165,8 +169,8 @@ inventories are not in git).
 - **L5, 10-28 conversation.** "No classic naive/effector marker in the 370; only 6 stress/IEG-list genes (IER2 down); 25
   of 214 down genes are lncRNA-like names". A 6-gene stress list was quoted and is in no table.
 - **L6, 17 named-example lists (10-28).** The table is lost; the prose is in `inventory_prior_art.json` items[13].
-  - Zero overlap: exhaustion, senescence, cytotoxic, Tpex, Knaus up, Lasry's named genes, Massoni-Badosa, Szabo
-    tissue/proliferation/cytotoxic, Azimuth CD8 TEM / CD4 CTL / Treg.
+  - Zero overlap: exhaustion core 8, Rutella senescence 7, Mazziotta C4 7, Lasry GZMK+ Tpex 4, Knaus up 23, Rutella IED
+    named 9, Lasry's named genes, Massoni-Badosa, Szabo tissue/proliferation/cytotoxic, Azimuth CD8 TEM / CD4 CTL / Treg.
   - Overlaps: Azimuth CD8 Naive (LINC02446, NOSIP, RGS10), CD4 Naive (NOSIP, LDHB), CD8 TCM (LDHB, LINC02446),
     gamma-delta/NK (TRDC), dnT (NUCB2), Knaus down (TMIGD2), Szabo IFN (IFIT3), Savage (DUSP4 up).
   - **Pinned HALLMARK membership counts:**
@@ -183,7 +187,7 @@ inventories are not in git).
     HAVCR2, TOX, FOXP3, CD69, HSPA1A, FOS, JUN, ISG15, MX1, STAT1.
 - **L7, other prior-art items (10-28).**
   - DUSP4 +2.26 (FDR 0.040), CREM +1.53 (0.028), GMNN +1.51 (0.028), CXCR4 +1.30 (0.035), MTHFD2 +1.08 (0.046).
-  - ZEB2 and DUSP4 shared with Vadakekolathu/Kazerani.
+  - ZEB2 and S1PR5 up; ZEB2 and DUSP4 shared with Vadakekolathu/Kazerani.
   - TSTR/heat-shock, IEG and tissue-residency genes (BAG3 up; none of HSPA1A/HSPA1B/DNAJB1/HSPH1).
   - Processing-delay partial resemblance; clock genes; FKBP5; HLA-A/B; 35 lncRNA-like genes.
   - Novelty judgements.
@@ -207,6 +211,7 @@ inventories are not in git).
   - Running with it: ATF4, MTHFD2, BAG3, NDRG1, PLIN2 (up; "the reading is mixed").
   - GNA15 +2.27 and HMGB3 +1.59. Glucocorticoid program flat (TSC22D3, ZBTB16, KLF9). The clock line: DBP −1.18,
     FKBP5 −1.19, PER2 +1.05, ARNTL +0.89.
+  - Down-arm naive/resting genes: LINC02446, TMIGD2, RGS10, LDHB, NOSIP, SATB1-AS1, CAMK4, TXK (assessment :82).
 - **L13, A1-BATCH.**
   - Section-1 gene reads.
   - D8 Savage overlap counts (up 12, down 23, opposite 0).
@@ -248,8 +253,9 @@ A set-level result that matches these guesses is not a confirmation. The text qu
   - Universes: 7,379 / 6,957; minus H_up 6,683; minus H_down 6,517; minus all of H 6,259.
   - 45 HALLMARK sets with ≥ 15 genes.
   - H has 698 genes in U_A (base rate 0.100).
-  - **The delay list and the IEG list cover ≥ 25 % of the tested genes of 20 of the 22 Gavish T-cell programs. Only 9 of
-    those 20 are naive, cytotoxic, regulatory or dysfunction programs.**
+  - **The delay list and the IEG list cover ≥ 25 % of the genes tested here (outside the ambient ranking) of 20 of the 22
+    Gavish T-cell programs (18 of 22 over all tested genes). Only 9 of those 20 are NAIVE, CYTOTOXIC, T_REG or
+    DYSFUNCTION programs.**
   - From the other side, only 178 of H's 698 genes are in any Gavish program.
   - Most naive-identity genes (LEF1, TCF7, CD27, PLAC8, TRAT1, SELL, IL7R) also fall with delay. So delay and naive loss
     cannot be separated by direction. Removal is still informative for NAIVE_2 and NAIVE_3.
@@ -271,27 +277,37 @@ A set-level result that matches these guesses is not a confirmation. The text qu
 
     Power of camera with estimated correlation (FDR < 0.05) for a whole-set 0.30 log2 shift: 0.91, 0.32 and 0.05 across
     the three scenarios.
-  - **L1, removal rule.**
-    - A rule based on BH over the other sets called 58 of 103 uniform-effect sets "carried".
-    - The own-p rule of 3.2 made 0 false "carried" calls and caught 75 of 78 handling-driven sets.
+  - **Removal rule.**
+    - Review 1 simulated undirected removal with a 15-gene floor. A rule based on BH over the other sets called 58 of
+      103 uniform-effect sets "carried"; an own-p rule made 0 false "carried" calls and caught 75 of 78
+      handling-driven sets.
+    - Review 2 replayed the direction-matched rule. With p* set to the largest flagged p, a single unchanged set read
+      "not resolved" 11 of 13 times; with p* = k × 0.05 / m (3.2), 3 of 13 and 0 of 15.
   - **L1, stacked T × X model.**
     - Full rank with the real covariates: B 46 × 30 (residual df 16), NK 42 × 28 (df 14).
     - Null sets: p < 0.05 in ≤ 0.056.
     - NK keeps 51 % of the information on `cT:AML`, B 72 %.
     - At 0.6 log2 the K5 code checks pass 20/20.
   - **D2 / L2, single-cell layer.** The scores are D2's synthetic up sets drawn from random tested genes.
-    - S5b-raw shifted null AML patients by +0.45 healthy SD from depth alone.
+    - S5b-raw shifted null AML patients by +0.45 healthy SD from depth alone (up set only; the down set was not
+      simulated).
     - Thinning to 1,500 UMI left a residual shift. In K6b replays it passed in 0.60 of runs in the base world; every
       failure was a false sub-population call in Control5.
     - Dropping cells below 1,000 UMI and thinning the rest to 1,000 passed 1.00 in the base world. It passed 0.05 when
       the set came from low-abundance genes.
     - Between-donor heterogeneity raised h_max (median 0.24 / 0.75 / 1.07) and cut power.
+    - Review 2 replayed the v2 rule.
+      - With between-donor heterogeneity, both shape calls stayed readable in 14 of 20 runs at SD 0.15 and in 2 of 20 at
+        SD 0.30; uniform calls alone stayed readable in 5 and 10 of 20.
+      - A set near the detection floor left only sub-population calls readable (16 of 20).
+      - The gate passes a minority-cell shift less often than an all-cell shift with the same added counts: mean z 1.50
+        vs 1.22 in the base world; gate passes 0.72 vs 0.43 at SD 0.30.
   - **Detection** (`drafting/detection_floor.out`). Random 156-gene tested sets detect a median of 8.9 genes per cell at
     1,000 UMI (P10 7.6) and 12.6 at 1,500. Low-abundance sets detect 2.7 and 4.1.
 
 **1.5 Disclosures carried from earlier steps** (each enters the paper's limitations).
-1. **The 32-gene removal was post hoc.** The 32 carry most recognisable lineage markers; they stay excluded from every
-   statement (7.8).
+1. **The 32-gene removal was post hoc** (GATE_A1(2) failed). The 32 stay excluded from every statement (GATES.md:241),
+   so every tag, overlap and score here is computed without them.
 2. **The narrowing to T cells chose where the axis is measured.** It was not a finding of T-specificity. B's
    "no imprint" (9 genes) is not evidence that B cells are unaffected.
 3. **T3 is uninformative.** No CD4-versus-CD8 statement is made.
@@ -334,7 +350,8 @@ A set-level result that matches these guesses is not a confirmation. The text qu
 - **T-ALL pools**: Control1-5 are flagged in every table. Leaving them out is a sensitivity (4.3). The capture-day arm is
   not run (departure 7).
 - **P370 and F402**: the text quotes P370. F402 values appear only as numbers in tables and in a 4.x parenthesis. No
-  sentence names the 32 genes, reads them, or attributes a P370/F402 difference to them.
+  sentence of the results text or of the paper names the 32 genes, reads them, or attributes a P370/F402 difference to
+  them. Section 1 records prior looks and is not results text.
 
 **2.2 Gene universes.**
 - **U_T**: the 7,379 genes tested in S5's T fit.
@@ -359,23 +376,29 @@ A set-level result that matches these guesses is not a confirmation. The text qu
   - If approved, the 22 sets are extracted to `/LARGE1/gr10634/gaozy/reference/gavish2023_3ca_T.v2026.1.gmt`, with a
     PROVENANCE note and an asserted md5.
   - **Interpreted: 19 sets.** The three UNASSIGNED programs (CD4_UNASSIGNED, CD8_UNASSIGNED_1, CD8_UNASSIGNED_2) are
-    reported, not interpreted.
+    reported with their own p values, outside every BH family, and are not interpreted.
   - They are tumour-infiltrating T-cell programs, tested on whole-T pseudobulks.
   - For each set, the report lists its genes absent from U_A (untested or ambient-excluded) and its H share.
-  - **Near-duplicate pairs** (Jaccard ≥ 0.3 in U_A) count as one unit in 7.3: CELL_CYCLE, CYTOTOXIC, GLYCOLYSIS_MYC,
-    INTERFERON, CD4 NAIVE_1 / CD8 MEMORY_NAIVE_1, NAIVE_2, CD4 STRESS_HSP / CD8 HEAT_SHOCK.
+  - **Near-duplicate pairs among the 19 interpreted sets** (Jaccard ≥ 0.3 in U_A) count as one unit in 7.3: CELL_CYCLE,
+    CYTOTOXIC, GLYCOLYSIS_MYC, INTERFERON, CD4 NAIVE_1 / CD8 MEMORY_NAIVE_1, NAIVE_2, CD4 STRESS_HSP / CD8 HEAT_SHOCK. An
+    eighth pair (CD4_UNASSIGNED / CD8_UNASSIGNED_2) is among the reported sets.
 - **Handling lists, split by delay direction.**
   - Savage 2021 T delay-18-h consistent set: 792 genes, 295 up / 497 down; md5 `5ee444a9…`.
-  - Project IEG list: 26 genes, `config_ws.R` `WS_B0_IEG`. It has no delay direction.
+  - Project IEG list: 26 genes, `config_ws.R` `WS_B0_IEG`. It has no delay direction. Four IEGs in U_A are also
+    Savage-up (DNAJB1, IER5, JUND, ZFP36) and one is Savage-down (HSPA8); they are removed as IEGs in both directions.
   - **H_up** = IEG ∪ Savage-up; **H_down** = IEG ∪ Savage-down; **H** = both.
   - Each set's H fraction is reported as a description, next to the H fraction of size-matched random sets. No reading
     depends on it.
 - **Per-compartment delay lists (decision 9.14).** These are derived without a download from the on-disk Table S4
-  (`mmc5.xlsx`), using the T set's rule (PROVENANCE):
-  - adjusted p < 0.05 at 18 h vs 2 h in at least one cell type of the compartment, in the healthy donor of both
-    experiments;
-  - the same direction in both;
-  - no significant opposite call.
+  (`mmc5.xlsx`), using the T set's rule, read exactly as follows. A gene enters a compartment's list if:
+  - in at least one of the compartment's cell types it has adjusted p < 0.05 at 18 h vs 2 h, both in Pilot01_Healthy
+    (Experiment 1) and in Pilot02_Healthy (Experiment 2, sign flipped as in the PROVENANCE note);
+  - its direction is the same in both;
+  - none of the compartment's cell types has a significant opposite-sign 18 h call in either healthy donor.
+
+  Applied to the four T types, this reading reproduces the frozen T list exactly (K9). Expected sizes (review2/R2b):
+  B 849 (328 up / 521 down; 429 shared with the T list), NK 717 (320 / 397; 525 shared), Mono 822 (299 / 523; 293
+  shared). The derivation script is saved with the code commit, with its md5.
 
   | compartment | Savage cell types |
   |---|---|
@@ -384,9 +407,11 @@ A set-level result that matches these guesses is not a confirmation. The text qu
   | Mono | CD14+_Monocytes, CD16+_Monocytes |
 
   The files go next to the T set, with the PROVENANCE note extended. K9 checks the rule by reproducing the T set.
-- **Opposite-sign class.** Genes in the Gavish CYTOTOXIC union that are also Savage-down, within U_A. There are 14:
-  ANXA1, APOBEC3G, CCL5, CD27, CKLF, GZMA, GZMH, GZMK, HOPX, KLRD1, KLRG1, NKG7, TIGIT, TRGC2. An effector shift predicts
-  them up; delay in the D8 orientation predicts them down.
+- **Opposite-sign class.** Genes in the Gavish CYTOTOXIC union that are also Savage-down, within U_A, minus two genes
+  whose fall another reading predicts: CD27 (naive-high, lost with effector differentiation) and TRGC2 (gamma-delta; that
+  share is already known to be lower in AML). That leaves 12: ANXA1, APOBEC3G, CCL5, CKLF, GZMA, GZMH, GZMK, HOPX,
+  KLRD1, KLRG1, NKG7, TIGIT. An effector shift predicts them up; delay in the D8 orientation predicts them down. A
+  sensitivity drops KLRD1 and NKG7, which NK cells share.
   - Seen before (1.2): GZMH +0.79, KLRG1 −0.54 and TIGIT −0.01, all n.s.; GZMK is not among the 402.
 - **lncRNA**: `gene_type "lncRNA"` and no other type in `refdata-gex-GRCh38-2020-A/genes/genes.gtf`, the annotation of
   the data's own gene axis. 305 genes in U_T, 274 in U_A.
@@ -428,7 +453,7 @@ A set-level result that matches these guesses is not a confirmation. The text qu
   - P370 members (up / down) with expected counts (members in U_A × arm size / 6,957);
   - F402 members, as numbers, with expected counts over U_T (/ 7,379).
 - **Names of flagged Gavish sets.** A flagged Gavish set is named by its program name in quotes, with "as tested: n of
-  50 genes, m of them in H".
+  N genes, m of them in H" (N = the program's size, 49 or 50).
   - "Exhausted", "dysfunctional" and "regulatory" are not used: PDCD1, HAVCR2, CTLA4 and CXCL13 are not in U_A, and the
     T_REG set lacks FOXP3, IL2RA and CTLA4 in U_A.
 - **Leading genes of flagged sets.** fgsea's leading edge (4.4), as a description.
@@ -442,13 +467,20 @@ A set-level result that matches these guesses is not a confirmation. The text qu
    - Each run tests every set of the family that keeps ≥ 10 genes, with the settings of 3.1.
    - The assumption, taken from D8's orientation: AML samples resemble longer delay, so a delay artefact would sit in
      genes whose delay sign equals the flag.
-3. **Reading** (each set on its own p; review1/L1 F2). Let p* be the largest primary p value among the family's flagged
-   sets, which is the BH cut-off actually used.
+3. **Reading** (each set on its own p; review1/L1 F2).
+   - p* = k × 0.05 / m: the BH critical value at the family's last primary rejection (k flagged of m tested).
+   - s after removal is signed by the primary Direction and measured against the reduced universe.
    - **"consists mostly of the listed handling genes"**: fewer than 10 genes remain. K3 says none will.
    - **"carried by the listed handling genes"**: s after removal is below half of s before.
-   - **"not carried by the listed handling genes"**: s after removal is at least half of s before, the direction is the
-     same, and the p value is ≤ p*.
-   - **"not resolved after removal"**: s holds but the p value exceeds p*.
+   - **"not carried by the listed handling genes"**: s after removal is at least half of s before, camera's Direction is
+     unchanged, and the p value is ≤ p*.
+   - **"not resolved after removal"**: s holds, but the p value exceeds p* or camera's Direction flips.
+   - **Which list carries it.** The same reading is also run with the IEG genes alone removed. A carried set is written
+     "carried by the listed handling genes (immediate-early genes)" if IEG removal alone carries it, otherwise "(delay
+     genes)".
+   - **Precedence.** A carried set whose Savage members as a whole run against the delay direction (item 5) is written
+     "carried by the listed handling genes; its delay-list members as a whole run against the delay direction". It still
+     counts as bound in 7.3.
 4. **Full removal (sensitivity).** The same reading in U_A minus H (6,259 genes). CD8 MEMORY_NAIVE_1 (8 genes) and CD4
    NAIVE_1 (9) would read "consists mostly of the listed handling genes".
 5. **Direction check** (descriptive; sets with ≥ 8 Savage members in U_A). The share of the set's Savage members whose
@@ -457,9 +489,10 @@ A set-level result that matches these guesses is not a confirmation. The text qu
    - ≤ 0.25: "runs against it";
    - otherwise: "mixed".
 
-   A set that runs against the delay direction is never written "carried". The fold-gene-level agreement (0.994) was
-   already seen (1.2, L13).
-6. **The opposite-sign class** (2.3; descriptive). One camera test (estimated correlation; U_A background).
+   A set with fewer than 8 Savage members in U_A reads "too few delay members". The fold-gene-level agreement (0.994)
+   was already seen (1.2, L13).
+6. **The opposite-sign class** (2.3; descriptive). One camera test (estimated correlation; U_A background), and the
+   same test without KLRD1 and NKG7.
    - "Up": "runs against the delay direction, as an effector shift would".
    - "Down": "runs with the delay direction".
    - p reported.
@@ -469,11 +502,16 @@ A set-level result that matches these guesses is not a confirmation. The text qu
 **(a) Each compartment alone (reported).**
 - camera as in 3.1 on each compartment's refitted S5 fit (B, NK, Mono), in that compartment's tested genes minus the
   extended ranking.
-- Sets: the P-H and P-T sets with ≥ 15 genes there, plus the compartment's own delay-up and delay-down lists and the T
-  lists. BH within each compartment and family.
-- Reading of the delay lists (description): tube-level delay predicts that every compartment aligns with its own delay
-  list in the D8 orientation (delay-up "Up", delay-down "Down"). T aligning while B and NK do not would argue against
-  tube-level delay; all aligning is consistent with it.
+- Sets: the P-H and P-T sets with ≥ 15 genes there. BH within each compartment and family.
+- **Delay lists.** Each compartment's own delay-up and delay-down lists, plus the T lists, form their own family per
+  compartment (BH within). T is included: the T delay lists are tested in T's U_A fit, so all four compartments are read
+  the same way.
+- Fixed reading (7.6):
+  - A compartment that aligns with its own list in the D8 orientation (delay-up "Up", delay-down "Down") is
+    consistent with tube-level delay.
+  - A compartment that does not align reads "not detected (power not established)". It is not read against tube-level
+    delay.
+  - The B, NK and Mono lists share 429, 525 and 293 genes with the T list.
 - Monocytes are reported, not read (often clonal in AML; A1-G01 5.1).
 
 **(b) T versus X, for X = B and X = NK (read for flagged sets).**
@@ -487,14 +525,19 @@ A set-level result that matches these guesses is not a confirmation. The text qu
     - `cT:hb`, `cT:gran`, `cT:sexmale`;
     - `cT:CD8share` and `cT:Xshare`.
   - `cT:AML` is T's adjusted AML effect minus X's, on the same donors.
-- **Test**: camera, estimated correlation, contrast `cT:AML`. BH within each X and family (X-B: 41 HALLMARK + 18 Gavish;
-  X-NK: 43 + 21).
-- **ρ_X** = s in X / s in T, both computed on the paired donors and the common genes. It carries a 95 % donor-bootstrap
-  interval (1,000 draws; seed SEED + 707).
+- **Test**: camera, estimated correlation, contrast `cT:AML`. BH within each X and family (X-B: 41 HALLMARK + 15
+  interpreted Gavish; X-NK: 43 + 18). UNASSIGNED sets are reported with their own p, outside every BH family.
+- **ρ_X** = s_X / s_T.
+  - Both shifts are (set mean logFC minus the mean of the other common genes) × the sign of the set's primary T
+    Direction.
+  - They come from separate S5-design refits of T and of X on the paired donors.
+  - ρ_X is read only if s_T > 0; otherwise the reading is "not resolved".
+  - Its 95 % interval comes from 1,000 bootstrap draws (seed SEED + 707). Each draw resamples donors within status (a
+    donor brings both compartments) and refits T and X.
 - **Reading for each flagged set:**
   - "larger in T than in X": the interaction has FDR < 0.05 in the set's direction;
   - "larger in X than in T": FDR < 0.05 in the opposite direction;
-  - "shared with X": otherwise, if ρ_X ≥ 0.5;
+  - "shared with X": otherwise, if ρ_X ≥ 0.5 and the bootstrap lower bound is above 0;
   - "not resolved": otherwise;
   - "not testable in X": fewer than 15 genes in common.
 - NK keeps less information than B (51 % vs 72 %, review1/L1), so more NK calls will read "not resolved".
@@ -515,21 +558,32 @@ A set-level result that matches these guesses is not a confirmation. The text qu
   M = the median of L over donors; c = the share of donors with L > 0. "k-high" if M ≥ 1, c ≥ 0.8 and the median CPM in
   k ≥ 10.
 - **Classes**: naive (CD4 or CD8 Naive high); central memory; effector memory (CD4 EM, CD8 EM1 or EM2 high).
-- **Consensus.** A class is stated for a gene only when both G and O tag it. A gene absent from O's axis is
-  "not assessable". Each reference is also reported separately.
+- **Consensus.**
+  - A class is stated for a gene only when both G and O tag it. Each reference is also reported separately.
+  - A gene absent from O's axis is "not assessable". O's axis lacks 79 of U_A's genes, 75 of them lncRNAs, so the
+    lncRNA-rich down arm loses more genes than a random set would.
+  - Counts, base rates and random sets therefore use only the genes assessable in both references. Not-assessable
+    counts are reported per arm.
+  - If K4 fails in either reference, consensus classes are not readable, and each reference is reported alone.
 - **Readout.**
-  - For the P370 up and down arms and G02's 25-gene core: the count per consensus class. The base rate comes from U_A,
-    and the 1,000 matched random sets (10 logCPM bins; seed SEED + 704) are drawn from U_A.
-  - F402: the same, with U_T.
+  - For the P370 up and down arms and G02's 25-gene core: the count per consensus class. The base rate comes from the
+    assessable part of U_A, and so do the 1,000 matched random sets (10 logCPM bins; seed SEED + 704).
+  - F402: the same, with the assessable part of U_T.
 - **Composition-only expectation.** For each gene:
 
-  comp_g = log2((Σ_k s_AML,k · P_k,g + 1) / (Σ_k s_H,k · P_k,g + 1))
+  comp_g = log2((Σ_k w_AML,k · P_k,g + 1) / (Σ_k w_H,k · P_k,g + 1)), centred on its median over U_A.
 
   - P_k,g is G's pooled healthy CPM profile of label k, over all nine labels.
-  - s_AML,k and s_H,k are the mean kept-T label shares of the AML and healthy samples (as in A1-G01).
+  - w_a,k is UMI-weighted: s_a,k × ū_k, normalised to sum to 1.
+    - s_a,k is arm a's mean kept-T label share, as in A1-G01.
+    - ū_k is the healthy mean UMI per kept cell of label k, the same for both arms.
+  - Before weighting, the CD4 labels are rescaled to sum to 1 − c̄ and the CD8 labels to c̄, in both arms. c̄ is the
+    pooled mean CD8 share of the 25 samples. Only the within-CD4 and within-CD8 mixes then differ, as in S5's
+    CD8-share-adjusted contrast.
+  - Centring on the median plays the role of TMM.
 
   This is the log-fold change expected from the label mix alone, with no AML expression used. Reported per class and
-  arm: the median comp_g, and the share of genes whose comp_g has the arm's sign with |comp_g| ≥ 0.25.
+  arm: P10, P50 and P90 of comp_g, and the share of genes with the arm's sign and |comp_g| ≥ 0.25.
 - **Sensitivities.** Threshold 0.585; G without Control1-5 (5 donors; labels with ≥ 4 eligible donors; c ≥ 0.75).
 
 ### 3.5 S5b, the single-cell layer (T only; dated amendment of S5 4.2; descriptive)
@@ -544,10 +598,12 @@ A set-level result that matches these guesses is not a confirmation. The text qu
 - **S5b-1000 (reading)**:
   - cells below 1,000 UMI are dropped (healthy 7.1 %, AML 0.6 %);
   - every other cell is downsampled to exactly 1,000 UMI by sampling its UMIs without replacement, in base R.
-  - Seeds: `set.seed(SEED + 7100 + i)`, where i is the sample's position in the T rows of `ws_s5_scores.csv`. Cells are
-    in `PB$cells` order, one sample per call.
-- **S5b-1500 (sensitivity)**: the same, at 1,500 UMI, with cells at or below 1,500 UMI kept unthinned (seed
-  SEED + 7300 + i).
+  - Seeds: `set.seed(SEED + 7100 + i)`, with `RNGkind(sample.kind = "Rejection")`.
+    - Here and everywhere, i is the sample's position in the T rows of `ws_s5_scores.csv`.
+    - Cells are in `PB$cells` order, one sample per call.
+    - A planted K6 pseudo-patient is thinned with its own SEED + 7100 + i, after the plant.
+- **S5b-1500 (sensitivity)**: no cell is dropped. Cells above 1,500 UMI are thinned to exactly 1,500 (seed
+  SEED + 7300 + i); cells at or below 1,500 UMI are kept unthinned.
 - The share of cells dropped or thinned is reported for every sample.
 
 **(c) Reference.**
@@ -556,8 +612,10 @@ A set-level result that matches these guesses is not a confirmation. The text qu
 - AML patients are compared with all 10 healthy donors. Each healthy donor e is compared with the other nine.
 - For the K6 pseudo-patient d, the reference is the other nine, and h_max(−d) is the largest mean z of the other nine
   donors, each scored against the eight left after removing d and itself (nested leave-one-out).
-- Under 4.3 (five donors), a label needs ≥ 20 reference cells from ≥ 2 donors. Below that, its cells use the pooled CD4
-  or CD8 reference. The code asserts this.
+- **Every reference build** (main, leave-one-out, nested K6, and 4.3) uses a label's own cells only if it has ≥ 20
+  reference cells from ≥ 2 donors with ≥ 5 cells each. Otherwise its cells use the pooled CD4 or CD8 reference.
+  - CD4 Regulatory has 35 healthy cells, 69 % of them from one donor, so it falls back.
+  - The code asserts the rule and reports every fallback.
 
 **(d) Registered summaries (all pipelines).** Per patient:
 - the mean UCell;
@@ -570,9 +628,12 @@ S5b-raw is reported as registered, with the depth warning of 1.4.
 **(e) Reading rule (S5b-1000; per AML patient).**
 1. **Eligibility.** ≥ 50 kept T cells after dropping. 13 of the 15 qualify; AML2451 (47) and AML0310 (20) are "too few
    cells".
-2. **Detection floor** (K6e). The median number of detected up-set genes per healthy reference cell must be ≥ 7. That is
-   the 10th percentile of random tested sets at 1,000 UMI (1.4). Below it, shape calls are "not readable" in advance;
-   only the gate and the registered summaries are reported.
+2. **Detection floor** (K6e). The median number of detected up-set genes per healthy reference cell must be ≥ 7.
+   - 7 is rounded down from the P10 (7.6) of the expected detection of random tested sets at 1,000 UMI (synthetic NB,
+     φ 0.5; 1.4). A median of 6.5 fails.
+   - Below the floor, shape calls are "not readable" in advance; only the gate and the registered summaries are
+     reported.
+   - The floor guards sub-population calls; the graded K6b bar guards uniform calls.
 3. **Gate, up set.** The patient passes if
 
    mean z − 1.96 × sqrt(var(z) / (v_H × n)) > h_max.
@@ -581,7 +642,10 @@ S5b-raw is reported as registered, with the depth warning of 1.4.
    A patient who does not pass gets "no detectable shift".
 
    **Gate, down set.** The patient passes if mean z + 1.96 × sqrt(var(z) / (v_H × n)) < h_min, with h_min the smallest
-   of the healthy leave-one-out means.
+   of the healthy leave-one-out means. The down set gets detection and the gate (descriptive), never a shape call.
+
+   **Specificity.** The gate's false-shift rate is at most 1/11 for an AML patient exchangeable with the 10 healthy
+   donors (at most 1/6 under 4.3). It does not cover AML-specific depth or handling.
 4. **Shape, up set only.**
    - f0 = the kernel density of the pooled healthy reference z. R `density()` defaults (Gaussian kernel, bw.nrd0),
      2,048 points, from min − 3 to max + 8, floored at 1e-8, `approx(rule = 2)`.
@@ -596,14 +660,21 @@ S5b-raw is reported as registered, with the depth warning of 1.4.
    - These functions are copied verbatim from D2's `13_sim.R` (`mk_ref`, `zf`, `f0`, `pstats`) and `17_final_rule.R`
      (md5s in 8.4).
    - A call is readable only as K6b allows (graded bars, section 6).
-5. **Cohort reading** (first match wins; thresholds unvalidated):
+5. **Cohort reading** (first match wins; thresholds unvalidated). K6b's grades apply first:
+   - if K6b leaves sub-population calls unreadable, AML "sub-population" calls are reported but counted as "not
+     separable", and readings 3 and 4 below cannot fire;
+   - if it leaves uniform calls unreadable, "uniform" is written "uniform or not separable".
+
+   Then:
    1. "not readable": fewer than 6 patients pass the gate, the detection floor fails, or K6b makes both calls
       unreadable.
-   2. "mostly uniform": at least 2/3 of the patients with a detectable shift are "uniform" (written "uniform or not
-      separable" if K6b leaves uniform calls unreadable).
+   2. "mostly uniform": at least 2/3 of the patients with a detectable shift are "uniform". If K6b's gate-pass rate for
+      plant (b) is below 0.8 of plant (a)'s, write "mostly uniform among patients with a detectable shift (the gate
+      favours uniform shifts here: K6b (a) x/10, (b) y/10)".
    3. "mostly sub-population": at least 2/3 are "sub-population".
    4. "mixed": "uniform" and "sub-population" each occur in at least 2 patients.
-   5. "mostly not separable": otherwise.
+   5. "mostly not separable": at least half are "not separable".
+   6. "no majority pattern": otherwise.
 
 **(f) Per label (description).** CD4 Naive, CD4 Central Memory and CD8 Effector Memory 1 and 2 have ≥ 50 cells in at
 least 7 AML patients. For each (patient, label) pair with ≥ 50 cells: the mean z, LR and π̂, with the pooled f0. No gate
@@ -636,9 +707,12 @@ and no call word.
 **(b) Overlap table.**
 - Lists on disk: Savage up / down; IEG; the 50 HALLMARK sets; the 22 Gavish sets; the cNMF normal MP10 (naive) and MP4
   (stress) programs, labelled "derived from this project's cells".
-- Downloaded lists, only if 9.5 is approved and the files are on disk before the run (Lasry after reading the Author
-  Correction): Lasry 2023 (246; iScore 38), Rutella 2022 (IED172, IED68, PI24), Mazziotta 2024 (top-100; the 48 genes
-  if printed).
+- Downloaded lists (9.5; PROVENANCE beside each file):
+  - Lasry 2023, `reference/lasry2023_natcancer/`: Supp. Table 6 adult signature (246 genes) and Supp. Table 11 adult
+    iScore (38 genes). The Author Correction changes no list.
+  - Rutella 2022, `reference/rutella2022_jci/`: Supp. Table 2 (IED172, PI24, IED68, PI20).
+  - Mazziotta 2024: pending a manual download, because scripts could not fetch it. It enters only if its file is on
+    disk at the run.
 - Columns:
   - list and size;
   - in U_T and in U_A;
@@ -652,7 +726,9 @@ and no call word.
 
 4.1 All 7,379 genes (U_T) for 3.1-3.3.
 4.2 Control4 coded female for 3.1-3.3. The recode asserts levels `female` and `male`.
-4.3 Without Control1-5 (15 vs 5) for 3.1, 3.2, 3.4 and S5b's reference.
+4.3 Without Control1-5 (15 vs 5) for 3.1, 3.2, 3.4 and S5b's reference. 3.3(b) is not run here, because only 4-5
+    paired healthy donors would remain. The parenthesis reads "(not significant without Control1-5, 5 healthy
+    donors)".
 4.4 Other views of the same contrast:
     - camera 0.01;
     - `fgseaMultilevel` preranked on sign(logFC) × sqrt(F) from S5's QL refit (minSize 15, maxSize 500, eps 0, seed
@@ -670,9 +746,10 @@ or flips direction. A set significant only in a 4.4 view is "not detected by the
 | P-H | 3.1, HALLMARK | 45 | BH within | interpreted |
 | P-T | 3.1, Gavish (if 9.4) | 19 (+3 UNASSIGNED reported) | BH within | interpreted |
 | removal | 3.2, direction-matched, two universes | ≤ 45 + ≤ 22 each | own p against p* (3.2) | read for flagged sets |
-| full removal | 3.2(4) | 45 + 15 with ≥ 15 genes (all ≥ 10 except 2) | as 3.2 | sensitivity |
-| X-B, X-NK | 3.3(b) | 41 + 18 / 43 + 21 | BH within | read for flagged sets |
+| full removal | 3.2(4) | 45 + 20 Gavish with ≥ 10 genes; MEMORY_NAIVE_1 (8) and CD4 NAIVE_1 (9) read "consists mostly of" | as 3.2 | sensitivity |
+| X-B, X-NK | 3.3(b) | 41 + 15 / 43 + 18 | BH within | read for flagged sets |
 | per compartment | 3.3(a) | each | BH within | reported |
+| delay lists | 3.3(a), T, B, NK, Mono | 4 per compartment (own up/down, T up/down) | BH within | fixed reading (7.6) |
 | sensitivities and views | 4 | each | BH within | reported |
 
 **Rule.** Nothing outside P-H and P-T is interpreted on its own. No secondary family can create a flagged set; it can
@@ -691,23 +768,23 @@ Rows marked "reported" carry no state.
 
 | id | check | bar | type |
 |---|---|---|---|
-| K0 | md5s of the frozen inputs (2.x; Oetjen `ws_pb_GSE120221.rds` and its donor table; the cNMF tables; `mmc5.xlsx` and the derived delay lists; any downloaded file with its PROVENANCE sha256; the W4 scores; the GTF); the IEG list equals `WS_B0_IEG` | equal to recorded values | deterministic |
+| K0 | md5s of the frozen inputs (2.x; Oetjen `ws_pb_GSE120221.rds` and its donor table; the cNMF tables; `mmc5.xlsx` and the derived delay lists; the downloaded files, Lasry sha256 `c2239a61…` and Rutella sha256 `000eaaf4…`, and Mazziotta's if present; the GTF); the IEG list equals `WS_B0_IEG` | equal to recorded values | deterministic |
 | K1 | S5 T refit: genes tested; hits up / down; the hit set equals the frozen list; max \|logFC − `ws_s5_de_T.csv`\|; `colnames(design)[2] == "statusAML"` | 7,379; 402 (171 / 231); TRUE; < 1e-9; TRUE | deterministic |
 | K1b | B, NK, Mono refits: genes tested; max \|logFC diff\| | 4,292 / 4,151 / 9,252; < 1e-9 | deterministic |
 | K2a | 500 random sets from U_A, each copying the logCPM-bin composition of a randomly drawn HALLMARK set (seed SEED + 701); share with p < 0.05; Up/Down split and median statistic reported | ≤ 0.10 | statistical (3.1 "not interpretable") |
-| K2b | code check. 10 Up plants (y′ = y + Poisson(y(2^0.6 − 1)) in AML samples) and 10 Down plants (binomial thinning at 2^−0.6), each a random 50-gene U_A set; one set per refit on the original rows (no re-filtering); the plant joins the 45 HALLMARK sets for BH (seed SEED + 702) | flagged in its direction ≥ 8/10 per direction; never the wrong direction | statistical (3.1 "not interpretable") |
+| K2b | code check. 10 Up plants (y′ = y + Poisson(y(2^0.6 − 1)) in AML samples) and 10 Down plants (binomial thinning at 2^−0.6), each a random 50-gene U_A set; one set per refit on the original rows (TMM recomputed, no re-filtering; the number of planted genes that would fail the filter is reported); the plant joins the 45 HALLMARK sets for BH (seed SEED + 702) | flagged in its direction ≥ 8/10 per direction; never the wrong direction | statistical (3.1 "not interpretable") |
 | K2c | real-fit power, as K2b: 20 whole-set plants at 0.3 log2, and 20 plants with 30 % of genes at 0.5 log2 | share flagged; quoted in the no-flag sentence (7.1) | reported |
-| K3 | universes 6,683 / 6,517 / 6,259; every P-H and P-T set keeps ≥ 10 genes in both direction-matched universes; the 7 Gavish sets below 15 after full removal are those of 1.4; the Gavish pairs of 2.3 | as stated | deterministic |
+| K3 | universes 6,683 / 6,517 / 6,259; every P-H and P-T set keeps ≥ 10 genes in both direction-matched universes; the 7 Gavish sets below 15 after full removal are those of 1.4; the 7 Gavish pairs among the 19 interpreted sets (2.3) | as stated | deterministic |
 | K4 | tags, positive control, in G and in O: of CCR7, LEF1, TCF7, SELL, and of GZMB, GNLY, NKG7, PRF1, GZMH (all in U_T) | ≥ 3 of 4 tagged naive and ≥ 3 of 5 tagged effector memory; none tagged in the opposite class | statistical (3.4 "not readable" for that reference) |
-| K5 | code check: real stacked counts (seed SEED + 703); 20 random 50-gene sets per type, one per refit on the original rows; (i) T-only 0.6 log2 in AML T; (ii) shared 0.6 in AML T and AML X; (iii) half-shared (0.6 in T, 0.3 in X) and (iv) T-only at 0.3; the 3.3(b) reading applied to every planted set | (i) "larger in T" ≥ 14/20; (ii) "larger in T" ≤ 2/20 and "shared" ≥ 14/20; (iii) and (iv) reported | statistical (3.3(b) "not readable") |
+| K5 | code check: real stacked counts (seed SEED + 703); 20 random 50-gene sets per type, one per refit on the original rows (TMM recomputed, no re-filtering); BH family = the 41 / 43 HALLMARK sets + the plant; ρ_X point estimates from T and X refits (320 refits); (i) T-only 0.6 log2 in AML T; (ii) shared 0.6 in AML T and AML X; (iii) half-shared (0.6 in T, 0.3 in X); (iv) T-only at 0.3; (v) shared at 0.3; the 3.3(b) reading applied to every planted set | (i) "larger in T" ≥ 14/20; (ii) "larger in T" ≤ 2/20 and "shared" ≥ 14/20; (iii)-(v) reported | statistical (3.3(b) "not readable") |
 | K6a | thinning and UCell | same seed twice gives identical scores; every kept cell sums to exactly 1,000; cells below 1,000 are dropped; a donor thinned alone equals the same donor in the full run | deterministic |
-| K6b | planted shape on real healthy cells. Each healthy donor i in turn is a pseudo-patient (seed SEED + 7200 + i; (a) drawn before (b)). Plants on the real P370 up-set genes with synthetic per-gene β_g = 0.6 × min(2.5, 0.5 + Exp(mean 0.4)); S5's logFCs are never used. (a) uniform: y′ = y + Poisson(μ̂_g(2^β_g − 1)) in every cell. (b) exactly round(n/5) cells with multiplier m_g = (2^β_g − 1) Σ_c μ̂_cg / Σ_{c∈S} μ̂_cg. μ̂ = cell UMI × the pooled profile of the cell's label in the other nine donors. Then the exact 3.5 pipeline with the nested reference. Reported per donor (n; shares dropped and thinned). | graded: sub-population calls readable if (b) gives "sub-population" in ≥ 8/10 and (a) in ≤ 1/10; uniform calls readable if (a) gives "uniform" in ≥ 7/10, otherwise AML "uniform" calls read "uniform or not separable"; both fail → S5b cohort "not readable" | statistical |
+| K6b | planted shape on real healthy cells. Each healthy donor i (its T-row position) in turn is a pseudo-patient (seed SEED + 7200 + i; (a) drawn before (b); thinned with SEED + 7100 + i after the plant). The gate-pass rates of (a) and (b) are reported. Plants on the real P370 up-set genes with synthetic per-gene β_g = 0.6 × min(2.5, 0.5 + Exp(mean 0.4)); S5's logFCs are never used. (a) uniform: y′ = y + Poisson(μ̂_g(2^β_g − 1)) in every cell. (b) exactly round(n/5) cells with multiplier m_g = (2^β_g − 1) Σ_c μ̂_cg / Σ_{c∈S} μ̂_cg. μ̂ = cell UMI × the pooled profile of the cell's label in the other nine donors. Then the exact 3.5 pipeline with the nested reference. Reported per donor (n; shares dropped and thinned). | graded: sub-population calls readable if (b) gives "sub-population" in ≥ 8/10 and (a) in ≤ 1/10; uniform calls readable if (a) gives "uniform" in ≥ 7/10, otherwise AML "uniform" calls read "uniform or not separable"; both fail → S5b cohort "not readable" | statistical |
 | K6c | matching: per plant, log2[(Σ_up y′ / Σ_cells UMI′) / (Σ_up y / Σ_cells UMI)] on the donor's pre-thinning counts; the median over donors of \|(a) − (b)\| | ≤ 0.05 | statistical (as K6b) |
-| K6d | reported. Each sample's dropped and thinned shares and median UMI; the unplanted held-out donors' gate results ("cannot fail by construction": the gate's specificity is ≤ 1/11 per exchangeable donor and does not cover AML-specific depth or handling); D2's synthetic null cited | none | reported |
+| K6d | reported. Each sample's dropped and thinned shares and median UMI; the unplanted held-out donors' up- and down-set gate results ("cannot fail by construction": the false-shift rate is ≤ 1/11 for an AML patient exchangeable with the 10 healthy donors, ≤ 1/10 for a held-out healthy donor, and 1/6 and 1/5 under 4.3; it does not cover AML-specific depth or handling); down-set detection per healthy cell; D2's synthetic null cited | none | reported |
 | K6e | detection floor (3.5(e)2): median detected up-set genes per healthy reference cell under S5b-1000 | ≥ 7 | statistical (shape calls "not readable") |
 | K7 | gene-class removal: rebuilt out-of-fold scores equal `ws_a1_g02_oof_scores.csv`; gap with no removal / without Savage / without Savage + IEG | max \|diff\| < 1e-9; 1.3782; 1.3184; 1.3228 | deterministic |
-| K8 | per-cell inputs: kept-T sums equal `PB$raw$T`; label sums equal `PB$fine`; 14,609 cells; every set gene is in the matrix rownames; labels are exactly the nine T labels, with no NA; lncRNA count in U_T; median detected set genes per cell by status (reported) | exact; 305 | deterministic |
-| K9 | delay-list rule: applied to Table S4, it reproduces `savage2021_T_delay18h_consistent.csv` | 792 genes (295 / 497), identical | deterministic |
+| K8 | per-cell inputs: kept-T sums equal `PB$raw$T`; label sums equal `PB$fine`; 14,609 cells; every set gene is in the matrix rownames; labels are exactly the nine T labels, with no NA; lncRNA count in U_T; median detected set genes per healthy cell (reported). The by-status detection count is printed in `--score`, after K6b and K6e have states | exact; 305 | deterministic |
+| K9 | delay-list rule: the 2.3 reading applied to Table S4 reproduces `savage2021_T_delay18h_consistent.csv`, and the B, NK and Mono lists have the sizes found in review 2 | T 792 (295 / 497), identical; B 849 (328 / 521); NK 717 (320 / 397); Mono 822 (299 / 523) | deterministic |
 
 Run-time blindness:
 - K2, K5 and K6 read real counts after the tag. K6 uses healthy cells only.
@@ -721,7 +798,7 @@ Run-time blindness:
 > AML-versus-healthy statistic than the average tested gene (camera with estimated inter-gene correlation, FDR q; same
 > contrast that defined the axis; descriptive)."
 
-- A Gavish set adds: "(a program defined in tumour-infiltrating T cells; as tested here n of 50 genes, m of them in the
+- A Gavish set adds: "(a program defined in tumour-infiltrating T cells; as tested here n of N genes, m of them in the
   handling lists; tested on whole-T pseudobulks, so the CD4/CD8 prefix does not localise the shift)".
 - Then the handling reading (7.3) and the compartment reading (7.6).
 
@@ -751,9 +828,10 @@ appear.
 
     > "The set-level description of the [up/down] arm rests on genes that also change with 18 h ex-vivo blood
     > processing delay (Savage 2021) or are immediate-early genes; without them it is [no longer carried / not
-    > testable]. These lists cover at least a quarter of the tested genes of 20 of the 22 T-cell programs used here (9 of
-    > them naive, cytotoxic, regulatory or dysfunction programs), and most naive-identity genes also fall with delay, so
-    > a handling reading and a T-cell-state reading of this arm cannot be separated with these data."
+    > testable]. These lists cover at least a quarter of the genes tested here (outside the ambient ranking) of 20 of
+    > the 22 T-cell programs used (9 of them NAIVE, CYTOTOXIC, T_REG or DYSFUNCTION programs), and most naive-identity
+    > genes also fall with delay, so a handling reading and a T-cell-state reading of this arm cannot be separated with
+    > these data."
   - Reported beside it: the share of the union of the flagged sets' U_A genes that is in H_up or H_down, against the
     base rate.
 
@@ -762,8 +840,8 @@ appear.
 
   > "k of the [up/down] genes are [class]-high in healthy marrow T cells in both references (GSE185381 healthy donors
   > and Oetjen; paired within donor; base rate b; matched-random percentile p). Such genes are expected both from a
-  > change within cells and from a lower [naive] share in AML (composition-only expectation: median log2 c); the tags
-  > cannot tell these apart."
+  > change within cells and from a lower [naive] share in AML (composition-only expectation, UMI-weighted at a common
+  > CD8 share: median log2 c, P10 to P90 c1 to c2); the tags cannot tell these apart."
 - Then G01's sentence, verbatim (A1-G01 11.5):
 
   > "In GSE185381 (15 adult AML, 10 healthy donors), the mix of BoneMarrowMap T subtypes accounts for about 5% of the
@@ -777,8 +855,8 @@ appear.
 
   > "The healthy donors are 31.5 years younger in median; in healthy marrow the weak age association of the score runs
   > through the naive-T share (S9)."
-- **Effector-like trigger.** Any effector-memory consensus tag in a reported arm, any flagged CYTOTOXIC set, any CD8 EM
-  per-label sub-population pattern (3.5(f)), or any "shared with NK" adds:
+- **Effector-like trigger.** Any effector-memory consensus tag in a reported arm, any flagged CYTOTOXIC set, or any
+  "shared with NK" adds:
 
   > "CMV serostatus is unrecorded in both arms; CMV expands TEMRA-like cells inside the CD8 effector-memory labels and
   > adaptive NK cells, and rises with age."
@@ -791,6 +869,13 @@ appear.
   > summaries)."
 
   Then the cohort reading.
+- Variants:
+  - Detection floor failed: "shape not readable (detection floor); z of 13 showed no detectable shift".
+  - K6b leaves sub-population calls unreadable: s is written "sub-population (not readable; counted as not
+    separable)".
+  - "Mostly not separable" and "no majority pattern" are reported as such. "Not separable" is not evidence for either
+    shape.
+  - Down set: "d of 13 showed a detectable down-set shift (descriptive)".
 - A uniform reading adds: "a uniform shift is what a change in all cells would give, and also what handling, ambient RNA
   or a residual depth difference would give."
 - A sub-population reading adds: "this can be composition below the label level, a clonal expansion, label error, cells
@@ -805,6 +890,9 @@ appear.
   not a statement of T-specificity)".
 - "Larger in T" does not mean absent in X. "Shared" means "not restricted to T", never "systemic biology": ambient RNA
   and handling are shared by every compartment of a sample.
+- **Delay lists (3.3(a)).** "[compartment] aligned with its own delay list in the delay direction (consistent with
+  tube-level delay)", or "[compartment]: alignment with its delay list not detected (power not established)". Never
+  "argues against tube-level delay".
 
 **7.7 Context that travels with any G07 result** (verbatim).
 - A1-BATCH (GATES.md:293):
@@ -818,18 +906,20 @@ appear.
   > T-cell-specific. It overlaps a blood-processing-delay program in the same direction (D8), and adding the delay score
   > to MAIN lowers R to 0.82 (fhat 0.30; descriptive, no reference). Dropping the Control1-5 group lowers R to 0.81
   > (fhat 0.31; percentile 0.10), a share G1 could not have flagged."
-- A1-G01 (GATES.md:319): "beyond T-subset composition (detected inside the main labels)". Monocytes: "monocytes in AML
-  samples are often clonal, so a monocyte shift may be leukaemic biology rather than a shared environment or handling
-  effect."
+- A1-G01: the GATES.md:319 category, "beyond T-subset composition (detected inside the main labels)", always together
+  with the 7.4 sentence (A1-G01 11.5) and, by reference, A1-G01's section-0 limits.
+- Monocytes (A1-G01 11.4, :667-668): "monocytes in AML samples are often clonal, so a monocyte shift may be leukaemic
+  biology rather than a shared environment or handling effect."
 - A1-G04 (GATES.md:346):
 
   > "The direction was not shown in Chen2023 (exact p = 17/126); a common shift larger than 1.36 of GSE185381's
   > selection-corrected gap is excluded (one-sided 95.2%, common-shift model)." "5 vs 4 cannot exclude an effect of the
   > GSE185381 size." The direction stays "shown in one study".
-- S9 (GATES.md:241, bound form):
+- S9 (GATES.md:241 and the S9 block, verbatim pieces):
 
-  > "AML, with an age share bounded below one third in healthy marrow at the point estimate (one protocol; upper 95 %
-  > bound 0.46)."
+  > "below one third at the point estimate; upper bound 0.463 (worded as a bound)"; "The S5 label 'AML-or-age' is
+  > narrowed to 'AML, with an age share bounded below one third in healthy marrow (one protocol)'"; "a weak age
+  > association exists (f_slope 0.102 above the random P95 0.046)".
 - Added by G07:
 
   > "Samples were taken at diagnosis; acute illness, infection, transfusion and medication are unrecorded, and no
@@ -837,8 +927,8 @@ appear.
   > source of the arms is not separated from disease."
 
 **7.8 Never written, under any outcome.**
-- **Blanket rule.** Every may-not item of A1-BATCH 12.5, A1-G01 11.5, A1-G03 section 7, A1-G04 11 and S9 applies
-  unchanged.
+- **Blanket rule.** Every may-not item of A1-BATCH 12.5, A1-G01 11.5, A1-G03 section 7 and S9 applies unchanged, and so
+  does the binding wording of A1-G04 11 (including (b): no statement).
 - The 32 ambient-prone genes "stay excluded from every statement" (GATES.md:241).
 - Mechanism and causation:
   - "pathway X is activated, induced or suppressed in AML T cells"; "drives"; "reflects signalling"; "caused by AML";
@@ -855,7 +945,8 @@ appear.
   - "consistent within capture days" without the same-channel result.
 - Composition: "not caused by subtype proportions" (from the in-sample subtype refits).
 - Labels:
-  - "exhausted", "dysfunctional", "regulatory" or "senescent" for a flagged set;
+  - "exhausted", "dysfunctional", "regulatory" or "senescent" as an adjective for a flagged set (a program's name in
+    quotes is allowed; the adjective is not);
   - "a new cell state";
   - "opposite to published ISG-up reports".
 - Other:
@@ -908,30 +999,44 @@ appear.
 | +7300 + i | S5b-1500 thinning of sample i |
 | +7200 + i | K6 plants of healthy donor i |
 
-**8.4 Simulation provenance.** The rules rest on D1, D2 and review 1. The scripts and their md5s:
-- D1, `inventory/scratch_D1/`: `02_sim_geneset.R` `94730713…`, `03_sim_crosscomp.R` `30079a4d…`, `04_summarise.R`
-  `a2159db9…`, `05_crosscomp_readout.R` `76028d73…`.
-- D2, `inventory/scratch_D2/`: `10_engine.R` `11573063…`, `13_sim.R` `bf631cdb…`, `14_summarise.R` `28c46716…`,
-  `16_rule_table.R` `61e976a8…`, `17_final_rule.R` `e52077fd…`.
-- Upstream inputs: D2's `01_real_structure.R`, `real_background_profile_nonF402.rds` and `real_T_percell_umi.csv.gz`
-  (QC-derived).
-- Review 1: `review1/L1/05_sim_removal.R`, `review1/L1/04_sim_k5_stacked.R`, `review1/L2/t2_k6b_sim.R`,
-  `review1/L2/t6_k6b_sim_p3c.R`.
+**8.4 Simulation provenance.** The rules rest on D1, D2 and reviews 1-2. All paths are under
+`/FAST/gr10634/gaozy/reports/2026-11_a1_g07_prereg/`; md5s are given by their first 8 characters.
 
-Decision 9.8: copy the scripts (not the data) into `scripts/ws/g07_sim/` with the code commit, with paths made relative.
-The md5 list is frozen with the tag.
+| source | scripts and derived inputs |
+|---|---|
+| D1 (`inventory/scratch_D1/`) | `01_inventory_facts.R` 335b46fe → `01_hallmark_coverage.csv` e9585821; `02_sim_geneset.R` 94730713; `03_sim_crosscomp.R` 30079a4d; `04_summarise.R` a2159db9; `05_crosscomp_readout.R` 76028d73 |
+| D2 (`inventory/scratch_D2/`) | `01_real_structure.R` fd59f762 → `real_background_profile_nonF402.rds` 262491be, `real_T_percell_umi.csv.gz` 6d037ce4 (QC-derived); `02_real_tables.R` e3e2ba66 → `real_sample_summary.csv` 86656d46; `10_engine.R` 11573063; `11_validate.R` 21da522c; `12_validate_ucell.R` f7723e19; `13_sim.R` bf631cdb; `14_summarise.R` 28c46716; `16_rule_table.R` 61e976a8; `17_final_rule.R` e52077fd |
+| review 1 | `L1/03_membership_and_design.R` b789289d; `L1/04_sim_k5_stacked.R` 7c7b216c; `L1/04b_summarise_k5.R` 9d505d53; `L1/05_sim_removal.R` 09788f43; `L2/t2_k6b_sim.R` c83a43c5; `L2/t6_k6b_sim_p3c.R` 24e7ab9f |
+| review 2 (`review2/R2b/`) | `02_savage_rule.R` c9792664; `03_sim_removal_v2.R` 02e44a9d; `04_k6b_v2.R` 9a2a5259; `04b_gate_shape_bias.R` 59f7f09b; `07_sim_rhoX.R` f6b79e5a; `09_oetjen_axis.R` 92f18f26 |
+| drafting | `detection_floor.R` 81cdc674; `membership_counts.py` 21602863; `removal_counts.py` 1df874e5; `savage_celltypes.R` 87bace41 |
+
+Decision 9.8: the scripts (not the data) are copied into `scripts/ws/g07_sim/` with the code commit, with paths made
+relative. The derived inputs are pinned, not committed: they are copied with their md5s to
+`/LARGE1/gr10634/gaozy/aml_niche_net/ws_a1_g07/sim_inputs/`. The md5 list is frozen with the tag.
 
 **8.5 Smoke runs.**
 - Synthetic counts and cells on real IDs, with planted effects.
 - No real covariate or status is written next to a smoke statistic.
 - Outputs go under `/LARGE1/.../ws_a1_g07/smoke/` and are deleted after the real run reproduces.
 
-**8.6 Compute.** About 60 T refits (K2b, K2c; 7-12 s each) and 160 stacked refits (K5; about 22 s each), plus the
-UCell passes. Under 2 hours on one `c=16, m=64G` job.
+**8.6 Compute.**
+
+| piece | refits | time per refit |
+|---|---|---|
+| K2b, K2c (T) | about 60 | 7-12 s |
+| K5 (stacked) | 200 | about 22 s |
+| K5 ρ_X point estimates | 320 | 7-12 s |
+| 3.3(b) ρ_X bootstrap (2 compartments × 2 fits × 1,000 draws) | 4,000 | 7-12 s |
+| UCell passes | minutes | — |
+
+That is about 12-16 core-hours, under 1.5 hours on a `c=16, m=64G` job.
 
 **8.7 After the run.** Outcome section 11; GATES block; handoff S15 note.
 
-## 9. Decisions for the user (recommended option first)
+## 9. Decisions (the user, 2026-11-09: all fourteen as recommended)
+
+9.5 is done: Lasry and Rutella were downloaded with PROVENANCE notes; Mazziotta is pending a manual download (3.6(b)).
+The options are kept below as a record.
 
 1. **Scope and timing.** Write and tag now, as specified. Alternative: wait for the late-November decision point.
 2. **Primary test.** camera with estimated inter-gene correlation, FDR 0.05. Alternatives: camera 0.01 (2-19 % false set
@@ -956,7 +1061,7 @@ UCell passes. Under 2 hours on one `c=16, m=64G` job.
 14. **Per-compartment delay lists.** Derived from the on-disk Table S4 with the T rule (2.3), with no download.
     Alternative: T list only.
 
-Real choices: 9.3-9.6 and 9.13. 9.1, 9.9, 9.11, 9.12 and 9.14 need confirmation. The rest are defaults.
+Real choices were 9.3-9.6 and 9.13. 9.1, 9.9, 9.11, 9.12 and 9.14 needed confirmation. The rest were defaults.
 
 ## 10. Review history
 
@@ -993,3 +1098,30 @@ Real choices: 9.3-9.6 and 9.13. 9.1, 9.9, 9.11, 9.12 and 9.14 need confirmation.
   - added limitations: acute illness, the source precondition, cryopreservation;
   - the never-written list completed;
   - decision 9.13 added.
+- **2026-11-09, DRAFT v2** (edf4b78). The user approved all section-9 items as recommended on this draft.
+- **2026-11-09, review 2** (workflow wf_544dcca5-5ea; outputs in `review2/`): R2a fix audit, R2b adversarial read of
+  the new rules with synthetic replays, R2c numbers and wording, then one verifier.
+  - 49 findings; after verification none is blocking (R2b-03 was downgraded), about 22 are should-level.
+  - R2a: 58 of the 85 review-1 findings were fixed correctly, 25 had a remaining problem.
+  - Fixed in v1 of the approved text:
+    - p* = k × 0.05 / m;
+    - the sign of s after removal; a Direction flip reads "not resolved";
+    - a precedence line and an IEG-only column for "carried";
+    - CD27 and TRGC2 out of the opposite-sign class;
+    - T added to the delay-list family, with a reading that never argues against tube-level delay;
+    - ρ_X defined from separate refits, read only if s_T > 0, "shared" needing a bootstrap lower bound above 0, and
+      its 4,000 refits costed;
+    - comp_g UMI-weighted at a common CD8 share and centred;
+    - consensus counts on genes assessable in both references, unreadable if K4 fails in either;
+    - the minimum-reference rule for every build;
+    - graded K6b handling inside the cohort rule, two new cohort readings, the gate's shape asymmetry stated;
+    - floor wording; the down-set gate reported;
+    - the K6d bounds; K8 by-status detection moved to `--score`;
+    - the K9 reading made exact, with B, NK and Mono sizes;
+    - the S9 and G01 lines quoted verbatim; the 32-gene sentence in 1.5 rewritten;
+    - ledger items added (S1PR5, ZEB2, SATB1-AS1, CAMK4, TXK, Mazziotta C4, Rutella IED named);
+    - Gavish counts (N of 49 or 50; 7 pairs among 19; X families 15 / 18);
+    - 9.5's outcome; K0 sha256s; the W4 file dropped from K0;
+    - the 8.4 provenance completed with md5s; compute updated.
+- **2026-11-09, v1 approved and tagged** `prereg-a1-g07-v1` (local; not pushed). Nothing in sections 3-6 was computed
+  before the tag.
