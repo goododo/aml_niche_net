@@ -1,0 +1,3 @@
+set,NGenes,tested,Correlation,Direction,PValue,FDR,reading,script_md5
+opposite12,12,TRUE,0.461995950706344,Up,0.77132455094993,0.77132455094993,"runs against the delay direction, as an effector shift would",86b800cb61501000d78127f404f5bb77
+opposite10,10,TRUE,0.524022752476716,Up,0.859256971739372,0.859256971739372,"runs against the delay direction, as an effector shift would",86b800cb61501000d78127f404f5bb77

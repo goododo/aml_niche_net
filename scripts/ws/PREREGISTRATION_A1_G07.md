@@ -1219,3 +1219,144 @@ the repository.
   - the sha256 comparison kept file names;
   - a data.table column `s` shadowed a loop variable;
   - the smoke data planted the AML shift into counts that it then replaced.
+
+## 12. Outcome (2026-11-09)
+
+**12.1 Runs, and a dated note on the fix between them** (written after run 2 started).
+- **Run 1.** Jobs 3687057-3687066, commit 9abf248; script md5s 43 `ac1ed4e6…` and 44 `1ce21149…`, the versions of the
+  last smoke runs.
+- **Where run 1 stopped.** `43 --combine` (3687066) stopped before writing anything. With no flagged set, `--cross`
+  writes no `reading` column, and the 7.4 effector-like trigger read it.
+- **Second bug.** A test of `--combine` on run 1's tables, run outside the repository, found that the known-answers row
+  reported no statistical failure. A function argument was shadowed by the checks tables' own `kind` column.
+- **What was seen first.** All of run 1's readouts of 43 and 44 had been printed before the fix. The test had also
+  rendered the whole block.
+- **Two texts reworded in the same fix (commit d95aeee).** Neither change alters a reading:
+  - 7.3: "not triggered (no flagged set whose shift runs in its camera direction)" now reads "not triggered (no set
+    flagged)". The old text was true but empty here.
+  - 3.4: "Gene-identity consensus not readable (K4 failed in a reference); each reference is reported alone in the
+    tags table" now says that K4 failed in both references. Under the K4 row, the old text misdescribed this case.
+- **Why everything was rerun.** No K check failed deterministically. The full rerun follows from `--combine`'s rule
+  that every table comes from one script version.
+- **Run 2.** Every 43 mode except `--prep`: jobs 3687070-3687076, commit d95aeee, script md5 `86b800cb…`.
+  - `--prep`'s outputs are locked reference files, which `--known` verifies again (K9).
+  - 44 was not changed, so its outputs are run 1's.
+  - Run 1's 43 tables and work files were moved, not deleted, to `/LARGE1/.../ws_a1_g07/run1_superseded/`, with
+    md5s.
+- **Run 2 equals run 1.** All 14 outputs equal run 1's apart from `script_md5`: 10 tables and 4 work files,
+  including 109,989 per-gene tag rows.
+- **The GATES block.** `--combine` (3687076) appended the A1-G07 block to `GATES.md`. It equals the test rendering
+  apart from the md5 line. A dated note after the block (12.8) adds three clarifications from the outcome review.
+- **Smoke outputs.** The 30 smoke output files were deleted after this check, under the standing rule. Their list
+  and md5s are kept outside the repository.
+
+**12.2 Known answers.**
+- **Script 43: 43 rows; 0 deterministic FAIL; 2 statistical FAIL, both K4.**
+  - Naive markers tagged naive (of 4), effector markers tagged effector memory (of 5), opposite tags: GSE185381
+    healthy donors 2, 5, 0; Oetjen 0, 5, 0 (bar ≥ 3, ≥ 3, 0).
+  - Post hoc, from the per-gene table: in GSE185381 two of the registered naive markers cleared the 2-fold bar in a
+    naive label. In Oetjen none did, although all four were higher in CD4 Naive in 18-19 of 19 donors.
+  - K1 reproduces the frozen F402 (max |ΔlogFC| 7.8e-15). K1b reproduces B, NK and Mono within the 1e-9 bar (max
+    3.9e-11, Mono).
+  - K2a: 4 of 500 random sets (0.008) at p < 0.05 (bar ≤ 0.10).
+  - K2b: 10 of 10 Up and 10 of 10 Down plants flagged, none the wrong way.
+  - K2c: whole-set 0.3 log2 plants flagged in 13 of 20; plants shifting 30 % of a set's genes by 0.5 log2 flagged in
+    2 of 20.
+  - K3, K7 (1.3782, 1.3184, 1.3228) and K9 are as stated.
+  - K5: (i) 20, (ii) 0 and 20, in both B and NK.
+- **Script 44: 47 rows; 0 deterministic FAIL; 2 statistical FAIL, both K6b.**
+  - (b) was called sub-population in 5 of 10 donors (bar ≥ 8). (a) was called uniform in 5 of 10 (bar ≥ 7).
+  - The gate passed 6 of 10 (a) plants and 5 of 10 (b) plants. Post hoc tally of the plants that passed: (a) 5
+    uniform, 1 not separable; (b) 5 sub-population. This tally does not make any call readable.
+  - K6c 0.0053 (bar ≤ 0.05). K6e: a median of 8 detected up-set genes per healthy reference cell (bar ≥ 7).
+  - K6a and K8 are exact (14,609 cells).
+  - Unplanted held-out donors: 10 of 10 with no detectable up-set shift, 9 of 10 for the down set. This check cannot
+    fail by construction: the false-shift rate is ≤ 1/10 per held-out donor, and it does not cover AML-specific depth
+    or handling.
+  - CD4 Regulatory falls back to the pooled CD4 reference in every build. It is the only fallback.
+
+**12.3 Sets (3.1, 3.2, section 4): no set flagged.**
+- 0 of 45 HALLMARK and 0 of 19 Gavish sets reached FDR < 0.05.
+  - Smallest HALLMARK p: HALLMARK_MTORC1_SIGNALING Up 0.061 (FDR 0.85).
+  - Smallest Gavish p: CD4_CYTOTOXIC Up 0.031, CD4_NAIVE_2 Down 0.035, CD8_NAIVE_2 Down 0.053 (FDR 0.33 each).
+- Sentence (7.1): "No HALLMARK or T-cell-program set differed from the average tested gene at FDR 0.05 in a competitive
+  test that accounts for inter-gene correlation (n = 25). On this fit, planted whole-set shifts of 0.3 log2 were
+  flagged in 13 of 20, so this is not evidence that the axis lacks set structure." Plants shifting 30 % of a set's
+  genes by 0.5 log2 were flagged in 2 of 20.
+- Section 4: no set is flagged under 4.1, 4.2 or 4.3.
+- 4.4 views (7.2), each set "not detected by the primary":
+  - camera 0.01 and fry: CD4_CYTOTOXIC (Up), CD4_NAIVE_2 (Down), CD8_NAIVE_2 (Down);
+  - fgsea: those three, plus HALLMARK_INFLAMMATORY_RESPONSE, MTORC1_SIGNALING, P53_PATHWAY,
+    TNFA_SIGNALING_VIA_NFKB and UNFOLDED_PROTEIN_RESPONSE (Up);
+  - joint BH: none.
+- The three UNASSIGNED sets: Down, p 0.34-0.77.
+- 3.2 has nothing to read, and the 7.3 consequence rule is not triggered.
+- The opposite-sign class (12 genes) is Up, p 0.77, and Up, p 0.86 without KLRD1 and NKG7. The registered words
+  "runs against the delay direction, as an effector shift would" give camera's Direction only (descriptive). At these
+  p values there is no evidence either way.
+
+**12.4 Compartments (3.3).**
+- (a) Each compartment alone: no set reached FDR < 0.05 in T, B, NK or monocytes.
+  - Delay lists: T, B and NK each read "alignment with its delay list not detected (power not established)" (p
+    0.08-0.34, FDR 0.15-0.35).
+  - Monocytes, and the T lists inside B, NK and Mono, are reported, not read.
+- (b) The T × B and T × NK interactions flag 0 of 56 and 0 of 61 sets. The 1,000 donor-bootstrap refits per
+  compartment ran. With no flagged set, no ρ_X or interval is defined, and the cross table holds only the
+  interaction camera rows.
+
+**12.5 Gene identity (3.4): not readable.**
+- K4 failed in both references, so neither reference's tags are read. The tags table is reported, not read.
+- The 7.4 effector-like trigger is not applied. Its consensus tags are not readable, no set was flagged, and no
+  "shared with NK" reading exists. Any later use of the tags table carries the 7.4 CMV sentence.
+
+**12.6 S5b (3.5): cohort reading "not readable".**
+- K6b failed both graded bars, so both shape calls are unreadable.
+- Sentence (7.5): "With depth-equalised per-cell scores (cells thinned to 1,000 UMI), among the 13 AML patients with ≥
+  50 eligible T cells, 8 were uniform or not separable, 0 sub-population (not readable; counted as not separable), 2
+  not separable and 3 showed no detectable shift (patient-level summaries). Cohort reading: not readable. 11 of 13
+  showed a detectable down-set shift (descriptive). 'Not separable' is not evidence for either shape." In the 7.5
+  sentence, s and n count the calls before the K6b conversion (11.1 item 11).
+- Sensitivities (descriptive; uniform or not separable / not separable / no detectable shift): S5b-1500 8 / 2 / 3;
+  the reference without Control1-5 7 / 3 / 3. F402 is in the patients table only.
+- S5b-raw gives the registered summaries of S5 4.2 for T in the patients table. Each row carries the 1.4 depth
+  warning; NK and Mono are omitted (departure 2).
+- The per-patient summaries are in-sample: the genes were selected on these donors. They are not an effect size, and
+  they do not separate a uniform shift from a sub-population (D2).
+- K8 by-status detection, printed after the K6 states: the median detected up and down genes per thinned cell are
+  AML 12 and 5, healthy 8 and 10.5.
+- 3.5(f): 32 (patient, label) rows in the four labels it names.
+
+**12.7 Tables (3.6).**
+- (a) The cross-fitted gap is 1.378. Removing a gene class leaves the following, given as the gap and its ratio to the
+  gap with nothing removed:
+  - Savage: 1.318 (0.957);
+  - Savage + IEG: 1.323 (0.960);
+  - lncRNA: 1.379 (1.000);
+  - clock + glucocorticoid: 1.367 (0.992). This cannot exclude time of day or steroids, which act beyond these genes
+    and are unrecorded.
+  - lncRNA + clock/glucocorticoid + H: 1.311 (0.952).
+
+  No word is assigned (11.1 item 3).
+- lncRNA genes in P370: 36 of 214 in the down arm (8.4 expected over U_A); 3 of 156 in the up arm (6.1).
+- (b) Overlaps with the P370 arms, with expected counts over U_A:
+  - Savage delay-up: 12 up (5.9 expected), 0 down (8.1).
+  - Savage delay-down: 23 down (13.1), 0 up (9.5). Every overlap runs in the delay direction, as seen before the tag
+    (1.2).
+  - Lasry adult inflammation signature (positioning only): 6 up (2.9), 2 down (3.9).
+  - Lasry iScore: 0. Rutella lists: 0-3 per arm, near expected.
+  - Mazziotta: omitted; no extracted list at `--known`.
+
+**12.8 What G07 lets the paper say (section 0).**
+- **Sets.** The no-flag sentence, quoted with its power (13 of 20 whole-set plants; 2 of 20 partial-set plants). It
+  is never read as "the axis is not a pathway". The 4.4 sets are "not detected by the primary".
+- **S5b.** "Not readable", with the four counts.
+- **Gene identity.** Not readable.
+- **Tables.** 3.6 is descriptive.
+- Every set and per-cell description re-describes the S5 contrast that selected the genes, in the same donors. It is
+  not independent evidence. The 7.7 context travels with any G07 result, and nothing in 7.8 is written.
+- **Dated note in `GATES.md`.** A dated note after the A1-G07 block says three things. The tags table is reported,
+  not read. The opposite-sign row is descriptive. The 7.4 trigger is not applied (12.5).
+
+**12.9 Gates and handover.**
+- G07 is a description, not a gate. No earlier result changes.
+- G07 completes the S15 order (handoff v2.0). The next step is the user's.

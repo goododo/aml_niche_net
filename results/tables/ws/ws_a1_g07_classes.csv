@@ -1,0 +1,9 @@
+removed,gap_oof,ratio_to_none,sentence,clock_gc_note,table,arm,P370_lnc,P370_n,P370_lnc_expected,F402_lnc,F402_n,F402_lnc_expected,script_md5
+none,1.37816402535961,1,The cross-fitted gap with no genes removed is 1.378.,"",cross-fitted gap without a gene class,,,,,,,,86b800cb61501000d78127f404f5bb77
+Savage,1.31841566026256,0.956646404928861,The cross-fitted gap is 1.318 without Savage (ratio 0.96 to 1.378).,"",cross-fitted gap without a gene class,,,,,,,,86b800cb61501000d78127f404f5bb77
+Savage + IEG,1.32281007248574,0.959835003776542,The cross-fitted gap is 1.323 without Savage + IEG (ratio 0.96 to 1.378).,"",cross-fitted gap without a gene class,,,,,,,,86b800cb61501000d78127f404f5bb77
+lncRNA,1.37858676616789,1.00030674201364,The cross-fitted gap is 1.379 without lncRNA (ratio 1.00 to 1.378).,"",cross-fitted gap without a gene class,,,,,,,,86b800cb61501000d78127f404f5bb77
+clock + glucocorticoid,1.36742662795091,0.992208911848572,The cross-fitted gap is 1.367 without clock + glucocorticoid (ratio 0.99 to 1.378).,"this cannot exclude time of day or steroids, which act beyond these genes and are unrecorded",cross-fitted gap without a gene class,,,,,,,,86b800cb61501000d78127f404f5bb77
+lncRNA + clock/glucocorticoid + H,1.31134171484993,0.951513528665609,The cross-fitted gap is 1.311 without lncRNA + clock/glucocorticoid + H (ratio 0.95 to 1.378).,"",cross-fitted gap without a gene class,,,,,,,,86b800cb61501000d78127f404f5bb77
+,,,,,lncRNA share per arm,up,3,156,6.14402759810263,3,171,7.06803089849573,86b800cb61501000d78127f404f5bb77
+,,,,,lncRNA share per arm,down,36,214,8.42834555124335,42,231,9.54804174007318,86b800cb61501000d78127f404f5bb77

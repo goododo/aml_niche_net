@@ -1,0 +1,44 @@
+id,scope,kind,check,expected,got,state,script_md5
+K0,S;X;G;C;O,deterministic,all 26 declared inputs exist,26,26,PASS,86b800cb61501000d78127f404f5bb77
+K0,S;X;G;C;O,deterministic,"md5 of the 14 inputs with recorded values (ws_pb, scores, de_T, imprint, amb, bl, hm, gav, sav, mmc5, oetjen, oetjen_donors, gene_order, s4_map)",6c2fb685c49d4a23ef20a6842aa7aa67;58374fc60aabc53ba020c3149764fe8f;b13de32b8eaeb400f00a0c32ca736c28;977f58b06da076cc39a561ab7445b69d;acb2b043049a4286e4052d04cea15feb;acebed4dbeed2ef6ecd5a60791e28fb9;d3606c32                        ;30893650e0c0735a39819f9f7691f0d6;5ee444a9                        ;60fac77c3d75689f8abdc63bbd2f2a26;b4ad90bd5c587d48cc66e02a537c5079;178ced1c73e531b67172ed413b009c07;c0950d592084a8b713de34ab30a7ddf8;f5a5a0283b243e5efaf17b1ddfdda5f1,6c2fb685c49d4a23ef20a6842aa7aa67;58374fc60aabc53ba020c3149764fe8f;b13de32b8eaeb400f00a0c32ca736c28;977f58b06da076cc39a561ab7445b69d;acb2b043049a4286e4052d04cea15feb;acebed4dbeed2ef6ecd5a60791e28fb9;d3606c32                        ;30893650e0c0735a39819f9f7691f0d6;5ee444a9                        ;60fac77c3d75689f8abdc63bbd2f2a26;b4ad90bd5c587d48cc66e02a537c5079;178ced1c73e531b67172ed413b009c07;c0950d592084a8b713de34ab30a7ddf8;f5a5a0283b243e5efaf17b1ddfdda5f1,PASS,86b800cb61501000d78127f404f5bb77
+K0,O,deterministic,sha256 of the downloaded Lasry and Rutella files (PROVENANCE),c2239a6107f43eb67ae6baaf67245312c7a7a94cfb237fdeb6bbc3c7ad91e5ef;000eaaf485e777a525c1f207ba8b7d6d9591869585835210360bd07a83f0a0aa,c2239a6107f43eb67ae6baaf67245312c7a7a94cfb237fdeb6bbc3c7ad91e5ef;000eaaf485e777a525c1f207ba8b7d6d9591869585835210360bd07a83f0a0aa,PASS,86b800cb61501000d78127f404f5bb77
+K0,S;X;G;C;O,deterministic,the IEG list WS_B0_IEG equals the 26 frozen names,ATF3    ;CEBPD   ;DNAJB1  ;DUSP1   ;EGR1    ;EGR2    ;EGR3    ;FOS     ;FOSB    ;HSPA1A  ;HSPA1B  ;HSPA8   ;HSPH1   ;IER2    ;IER3    ;IER5    ;JUN     ;JUNB    ;JUND    ;KLF2    ;KLF4    ;KLF6    ;NR4A1   ;PPP1R15A;SOCS3   ;ZFP36   ,ATF3    ;CEBPD   ;DNAJB1  ;DUSP1   ;EGR1    ;EGR2    ;EGR3    ;FOS     ;FOSB    ;HSPA1A  ;HSPA1B  ;HSPA8   ;HSPH1   ;IER2    ;IER3    ;IER5    ;JUN     ;JUNB    ;JUND    ;KLF2    ;KLF4    ;KLF6    ;NR4A1   ;PPP1R15A;SOCS3   ;ZFP36   ,PASS,86b800cb61501000d78127f404f5bb77
+K0,O,reported,"Mazziotta 2024 csv files at --known, with md5 (only these can enter 3.6(b))","",none,REPORTED,86b800cb61501000d78127f404f5bb77
+K0,S;X;G;O,deterministic,"pinned Gavish file: 22 sets, each equal to the source",TRUE,TRUE,PASS,86b800cb61501000d78127f404f5bb77
+K9,S;X;C;O,deterministic,"T rule reproduces savage2021_T_delay18h_consistent.csv (gene + direction, identical)",TRUE,TRUE,PASS,86b800cb61501000d78127f404f5bb77
+K9,S;X;C;O,deterministic,"T list: n, up, down",792;295;497,792;295;497,PASS,86b800cb61501000d78127f404f5bb77
+K9,X,deterministic,B delay list on disk equals the rule (n 849),TRUE,TRUE,PASS,86b800cb61501000d78127f404f5bb77
+K9,X,deterministic,"B list on disk: n, up, down",849;328;521,849;328;521,PASS,86b800cb61501000d78127f404f5bb77
+K9,X,deterministic,NK delay list on disk equals the rule (n 717),TRUE,TRUE,PASS,86b800cb61501000d78127f404f5bb77
+K9,X,deterministic,"NK list on disk: n, up, down",717;320;397,717;320;397,PASS,86b800cb61501000d78127f404f5bb77
+K9,X,deterministic,Mono delay list on disk equals the rule (n 826),TRUE,TRUE,PASS,86b800cb61501000d78127f404f5bb77
+K9,X,deterministic,"Mono list on disk: n, up, down",826;300;526,826;300;526,PASS,86b800cb61501000d78127f404f5bb77
+K3,S,deterministic,"U_A, U_A - H_up, U_A - H_down, U_A - H",6957;6683;6517;6259,6957;6683;6517;6259,PASS,86b800cb61501000d78127f404f5bb77
+K3,S,deterministic,HALLMARK sets with >= 15 genes in U_A,45,45,PASS,86b800cb61501000d78127f404f5bb77
+K3,S,deterministic,min genes left: HALLMARK(45) and Gavish(22) in U_A - H_up and U_A - H_down (>= 10),TRUE,TRUE,PASS,86b800cb61501000d78127f404f5bb77
+K3,S,deterministic,Gavish sets below 15 genes after full removal (1.4),CD4_CELL_CYCLE    ;CD4_CYTOTOXIC     ;CD4_NAIVE_1       ;CD4_STRESS_HSP    ;CD8_CELL_CYCLE    ;CD8_CYTOTOXIC     ;CD8_MEMORY_NAIVE_1,CD4_CELL_CYCLE    ;CD4_CYTOTOXIC     ;CD4_NAIVE_1       ;CD4_STRESS_HSP    ;CD8_CELL_CYCLE    ;CD8_CYTOTOXIC     ;CD8_MEMORY_NAIVE_1,PASS,86b800cb61501000d78127f404f5bb77
+K3,S,deterministic,near-duplicate pairs among the 19 interpreted sets (2.3),CD4_CELL_CYCLE|CD8_CELL_CYCLE        ;CD4_CYTOTOXIC|CD8_CYTOTOXIC          ;CD4_GLYCOLYSIS_MYC|CD8_GLYCOLYSIS_MYC;CD4_INTERFERON|CD8_INTERFERON        ;CD4_NAIVE_1|CD8_MEMORY_NAIVE_1       ;CD4_NAIVE_2|CD8_NAIVE_2              ;CD4_STRESS_HSP|CD8_HEAT_SHOCK        ,CD4_CELL_CYCLE|CD8_CELL_CYCLE        ;CD4_CYTOTOXIC|CD8_CYTOTOXIC          ;CD4_GLYCOLYSIS_MYC|CD8_GLYCOLYSIS_MYC;CD4_INTERFERON|CD8_INTERFERON        ;CD4_NAIVE_1|CD8_MEMORY_NAIVE_1       ;CD4_NAIVE_2|CD8_NAIVE_2              ;CD4_STRESS_HSP|CD8_HEAT_SHOCK        ,PASS,86b800cb61501000d78127f404f5bb77
+K3,S,deterministic,lncRNA genes in U_T (GTF gene_type),305,305,PASS,86b800cb61501000d78127f404f5bb77
+K1,S;X;C,deterministic,T refit: genes tested; hits; up; down,7379; 402; 171; 231,7379; 402; 171; 231,PASS,86b800cb61501000d78127f404f5bb77
+K1,S;X;C,deterministic,T refit: hit set equals the frozen F402,TRUE,TRUE,PASS,86b800cb61501000d78127f404f5bb77
+K1,S;X;C,deterministic,T refit: max |logFC - ws_s5_de_T|,0,7.771561e-15,PASS,86b800cb61501000d78127f404f5bb77
+K1,S;X;C,deterministic,design column 2 is statusAML,statusAML,statusAML,PASS,86b800cb61501000d78127f404f5bb77
+K1b,X,deterministic,B refit: genes tested,4292,4292,PASS,86b800cb61501000d78127f404f5bb77
+K1b,X,deterministic,B refit: max |logFC - stored|,0,6.883383e-15,PASS,86b800cb61501000d78127f404f5bb77
+K1b,X,deterministic,NK refit: genes tested,4151,4151,PASS,86b800cb61501000d78127f404f5bb77
+K1b,X,deterministic,NK refit: max |logFC - stored|,0,7.771561e-15,PASS,86b800cb61501000d78127f404f5bb77
+K1b,X,deterministic,Mono refit: genes tested,9252,9252,PASS,86b800cb61501000d78127f404f5bb77
+K1b,X,deterministic,Mono refit: max |logFC - stored|,0,3.933387e-11,PASS,86b800cb61501000d78127f404f5bb77
+K2a,S,statistical,camera (estimated correlation) on random matched sets: share with p < 0.05,<= 0.10,0.008,PASS,86b800cb61501000d78127f404f5bb77
+K2a,S,reported,random sets: Up / Down split; median p,"",292;208;0.612,REPORTED,86b800cb61501000d78127f404f5bb77
+K2b,S,statistical,"code check: 0.6 log2 plants flagged in their direction (up; down), never the wrong way",>= 8/10 each; 0 wrong,10;10;0,PASS,86b800cb61501000d78127f404f5bb77
+K2b,S,reported,planted genes that would fail the S5 filter (total over plants),"",31,REPORTED,86b800cb61501000d78127f404f5bb77
+K2c,S,reported,real-fit power: whole-set 0.3 log2 plants flagged; 30 % of genes at 0.5 flagged,"",13;2;20,REPORTED,86b800cb61501000d78127f404f5bb77
+K4,G,statistical,G: naive genes tagged naive (of 4); effector genes tagged EM (of 5); opposite tags,>= 3; >= 3; 0,2;5;0,FAIL_statistical,86b800cb61501000d78127f404f5bb77
+K4,G,statistical,O: naive genes tagged naive (of 4); effector genes tagged EM (of 5); opposite tags,>= 3; >= 3; 0,0;5;0,FAIL_statistical,86b800cb61501000d78127f404f5bb77
+K5,X,statistical,B: (i) T-only 0.6 'larger in T'; (ii) shared 0.6 'larger in T' and 'shared',>= 14; <= 2 and >= 14,20;0;20,PASS,86b800cb61501000d78127f404f5bb77
+K5,X,reported,"B: readings of (iii) half-shared, (iv) T-only 0.3, (v) shared 0.3","","larger in T:20;larger in T:19,not resolved:1;shared:20",REPORTED,86b800cb61501000d78127f404f5bb77
+K5,X,statistical,NK: (i) T-only 0.6 'larger in T'; (ii) shared 0.6 'larger in T' and 'shared',>= 14; <= 2 and >= 14,20;0;20,PASS,86b800cb61501000d78127f404f5bb77
+K5,X,reported,"NK: readings of (iii) half-shared, (iv) T-only 0.3, (v) shared 0.3","",larger in T:20;larger in T:20;shared:20,REPORTED,86b800cb61501000d78127f404f5bb77
+K7,C,deterministic,rebuilt out-of-fold scores equal ws_a1_g02_oof_scores.csv (max |diff|),0,4.884981e-15,PASS,86b800cb61501000d78127f404f5bb77
+K7,C,deterministic,gap: none; without Savage; without Savage + IEG,1.3782;1.3184;1.3228,1.3782;1.3184;1.3228,PASS,86b800cb61501000d78127f404f5bb77

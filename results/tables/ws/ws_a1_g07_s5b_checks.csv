@@ -1,0 +1,48 @@
+id,kind,check,expected,got,state,script_md5
+K0,deterministic,all 44 inputs exist (7 files + 25 per-sample objects),32,32,PASS,1ce211491103043f83af142bece29e9e
+K0,deterministic,ws_pb_GSE185381.rds md5 as recorded,6c2fb685c49d4a23ef20a6842aa7aa67,6c2fb685c49d4a23ef20a6842aa7aa67,PASS,1ce211491103043f83af142bece29e9e
+K0,deterministic,the 7 inputs shared with 43 --known have the md5s it recorded,6c2fb685c49d4a23ef20a6842aa7aa67;58374fc60aabc53ba020c3149764fe8f;977f58b06da076cc39a561ab7445b69d;acb2b043049a4286e4052d04cea15feb;f5a5a0283b243e5efaf17b1ddfdda5f1;b2c7ca9b7d65f2c39774e6ee2cca2523;411c33aac5a97d5364f64f94826d1353,6c2fb685c49d4a23ef20a6842aa7aa67;58374fc60aabc53ba020c3149764fe8f;977f58b06da076cc39a561ab7445b69d;acb2b043049a4286e4052d04cea15feb;f5a5a0283b243e5efaf17b1ddfdda5f1;b2c7ca9b7d65f2c39774e6ee2cca2523;411c33aac5a97d5364f64f94826d1353,PASS,1ce211491103043f83af142bece29e9e
+K8,deterministic,every sample loaded on the pseudobulk gene axis with all kept T cells,25,25,PASS,1ce211491103043f83af142bece29e9e
+K8,deterministic,kept-T sums equal $raw$T (max |diff| over the 25),0,0,PASS,1ce211491103043f83af142bece29e9e
+K8,deterministic,"label sums equal $fine (max |diff| over genes, labels and samples)",0,0,PASS,1ce211491103043f83af142bece29e9e
+K8,deterministic,kept T cells in the 25,14609,14609,PASS,1ce211491103043f83af142bece29e9e
+K8,deterministic,every P370 and F402 set gene is in the matrix rownames,TRUE,TRUE,PASS,1ce211491103043f83af142bece29e9e
+K8,deterministic,"labels are exactly the nine T labels, no NA",TRUE,TRUE,PASS,1ce211491103043f83af142bece29e9e
+K6a,deterministic,same seed twice: identical thinned counts,TRUE,TRUE,PASS,1ce211491103043f83af142bece29e9e
+K6a,deterministic,"every kept cell sums to exactly 1,000; cells below 1,000 dropped",TRUE,TRUE,PASS,1ce211491103043f83af142bece29e9e
+K6a,deterministic,UCell twice on the same thinned donor: identical scores,TRUE,TRUE,PASS,1ce211491103043f83af142bece29e9e
+K6a,deterministic,"a donor thinned alone equals the same donor in the full run (cells, UMI, up, down)",TRUE,TRUE,PASS,1ce211491103043f83af142bece29e9e
+K6e,statistical,median detected up-set genes per healthy reference cell (S5b-1000),>= 7,8,PASS,1ce211491103043f83af142bece29e9e
+K6d,reported,down-set detected genes per healthy cell (median),"",11,REPORTED,1ce211491103043f83af142bece29e9e
+K6b,statistical,graded: (b) sub-population >= 8/10 and (a) sub-population <= 1/10 -> sub-population calls readable,TRUE,5;0,FAIL_statistical,1ce211491103043f83af142bece29e9e
+K6b,statistical,graded: (a) uniform >= 7/10 -> uniform calls readable,TRUE,5,FAIL_statistical,1ce211491103043f83af142bece29e9e
+K6b,reported,gate-pass rates of (a) and (b),"",6;5,REPORTED,1ce211491103043f83af142bece29e9e
+K6c,statistical,median over donors of |pseudobulk up-set log2FC (a) - (b)|,<= 0.05,0.0053,PASS,1ce211491103043f83af142bece29e9e
+K6d,reported,unplanted held-out donors: no detectable shift (cannot fail by construction; false-shift rate <= 1/10 per held-out donor),"",10,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,unplanted held-out donors: down-set gate 'no detectable shift',"",9,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,reference fallbacks of the K6 builds (up; down),"",CD4 Regulatory -> pooled CD4 (n 2432) | CD4 Regulatory -> pooled CD4 (n 2163) | CD4 Regulatory -> pooled CD4 (n 1486) | CD4 Regulatory -> pooled CD4 (n 2231) | CD4 Regulatory -> pooled CD4 (n 2376) | CD4 Regulatory -> pooled CD4 (n 2341) | CD4 Regulatory -> pooled CD4 (n 2164) | CD4 Regulatory -> pooled CD4 (n 1924) | CD4 Regulatory -> pooled CD4 (n 2416) | CD4 Regulatory -> pooled CD4 (n 2373);CD4 Regulatory -> pooled CD4 (n 2432) | CD4 Regulatory -> pooled CD4 (n 2163) | CD4 Regulatory -> pooled CD4 (n 1486) | CD4 Regulatory -> pooled CD4 (n 2231) | CD4 Regulatory -> pooled CD4 (n 2376) | CD4 Regulatory -> pooled CD4 (n 2341) | CD4 Regulatory -> pooled CD4 (n 2164) | CD4 Regulatory -> pooled CD4 (n 1924) | CD4 Regulatory -> pooled CD4 (n 2416) | CD4 Regulatory -> pooled CD4 (n 2373),REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML0048: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.011 ;0.989 ;0.771 ;1868.5,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML0114: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.008 ;0.992 ;0.917 ;2133.5,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML0310: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000 ;1.000 ;0.950 ;2515.5,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML0612: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000 ;1.000 ;0.958 ;2321.5,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML0693: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.074;0.926;0.589;1647 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML1371: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000;1.000;1.000;4390 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML2123: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000;1.000;0.983;3500 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML2451: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000;1.000;1.000;2696 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML3133: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.010;0.990;0.956;2899 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML3266: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000;1.000;1.000;4721 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML3730: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000;1.000;0.988;2936 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML3762: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.006 ;0.994 ;0.930 ;2498.5,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML3948: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000;1.000;0.641;1625 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML4340: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000;1.000;1.000;5036 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"AML4897: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000 ;1.000 ;1.000 ;3634.5,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"Control0004: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.044 ;0.956 ;0.716 ;1695.5,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"Control0005: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.013;0.987;0.779;1800 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"Control0058: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.102;0.898;0.669;1855 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"Control0082: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.130;0.868;0.335;1343 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"Control1 (T-ALL lane): share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000;1.000;0.973;3948 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"Control2 (T-ALL lane): share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000;1.000;1.000;3798 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"Control3 (T-ALL lane): share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.002;0.998;0.986;2434 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"Control4 (T-ALL lane): share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.000;1.000;0.989;3130 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"Control4003: share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.041;0.959;0.669;1684 ,REPORTED,1ce211491103043f83af142bece29e9e
+K6d,reported,"Control5 (T-ALL lane): share dropped (< 1,000 UMI); share thinned (S5b-1000); share thinned (S5b-1500, > 1,500); median UMI raw","",0.360 ;0.638 ;0.065 ;1068.5,REPORTED,1ce211491103043f83af142bece29e9e
