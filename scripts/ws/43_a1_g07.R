@@ -732,7 +732,8 @@ if (MODE == "combine") {
     hf <- sprintf("H fraction %s (matched-random median %s, P95 %s; percentile %s)", f3(p$fH), f3(p$fH_rand_median), f3(p$fH_rand_p95), f3(p$fH_pct))
     if (!nrow(r)) return(hf)
     paste0(r$reading, if (r$reading == "not carried by the listed handling genes") NOTCAR else "", "; ", hf, "; direction check: ", r$direction_check) }
-  comp_of <- function(p) { x <- CR[set == p$set & view == "primary" & !is.na(reading) & nzchar(reading)]; if (!nrow(x)) return("")   # fread returns "" for an empty field
+  CRR <- if ("reading" %in% names(CR)) CR[view == "primary" & !is.na(reading) & nzchar(reading)] else CR[0]   # no flagged set: --cross wrote no reading column
+  comp_of <- function(p) { x <- CRR[set == p$set]; if (!nrow(x)) return("")   # fread returns "" for an empty field
     rr <- ifelse(grepl("^shared with", x$reading), sprintf("%s (\u03c1 %.2f, 95 %% CI %.2f to %.2f)", x$reading, x$rho, x$rho_lo, x$rho_hi), x$reading)
     paste0(paste(sprintf("T versus %s: %s", x$X, rr), collapse = "; "), COMPX) }
   set_sent <- function(i) { p <- FL[i]; cx <- comp_of(p)
@@ -750,7 +751,8 @@ if (MODE == "combine") {
   SEC <- if (length(only44)) sprintf("Flagged only in a 4.4 view, so not detected by the primary: %s.", paste(only44, collapse = ", ")) else "No set was flagged only in a 4.4 view."
   ## 7.3 consequence rule: per direction over the non-opposing flagged sets, a CD4/CD8 Gavish pair as one unit
   unit_of <- function(s) { for (p in PAIRS_EXPECTED) if (s %in% strsplit(p, "\\|")[[1]]) return(p); s }
-  CONS <- if (!K2ok) "not evaluated (3.1 not interpretable: K2a or K2b failed)" else if (!nrow(FL)) "not triggered (no flagged set whose shift runs in its camera direction)" else
+  CONS <- if (!K2ok) "not evaluated (3.1 not interpretable: K2a or K2b failed)" else if (!nrow(FLA)) "not triggered (no set flagged)" else
+    if (!nrow(FL)) "not triggered (every flagged set's shift opposes its camera direction)" else
     paste(unlist(lapply(c("Up", "Down"), function(d0) { fs <- FL[Direction == d0, set]; if (!length(fs)) return(NULL)
       r <- RM[set %in% fs & opposes == FALSE]; r[, unit := vapply(set, unit_of, "")]
       u <- r[, .(bound = all(bound), mostly = all(reading == "consists mostly of the listed handling genes")), by = unit]
@@ -775,7 +777,12 @@ if (MODE == "combine") {
                 "With gamma-delta and MAIT cells as separate labels the composition share is 0.057 (the flags are lower bounds).")
   t1 <- TG[view == "primary (threshold 1, both references)"]; READ4 <- all(t1$consensus_readable); tt <- t1[arm %in% c("P370_up", "P370_down")]
   cls <- function(cl) gsub("_", "-", cl)
-  TAGS <- if (!READ4) "Gene-identity consensus not readable (K4 failed in a reference); each reference is reported alone in the tags table." else
+  k4 <- C[id == "K4", .(ref = sub(":.*$", "", check), got = gsub(";", ", ", got), state)]; k4f <- k4[state != "PASS", ref]   # K4 states per reference (G, O)
+  rname <- c(G = "the GSE185381 healthy donors", O = "Oetjen")
+  TAGS <- if (!READ4 && length(k4f) == 2L) sprintf(paste("Gene-identity tags not readable: the K4 positive control failed in both references (naive markers tagged naive of 4, effector markers",
+                                                         "tagged effector memory of 5, opposite tags: %s %s; %s %s; bar >= 3, >= 3, 0), so neither reference's tags are read; the tags table is descriptive."),
+                                                   rname[["G"]], k4[ref == "G", got], rname[["O"]], k4[ref == "O", got]) else
+    if (!READ4) sprintf("Gene-identity consensus not readable (K4 failed in %s); %s is reported alone in the tags table.", rname[[k4f[1]]], rname[[setdiff(c("G", "O"), k4f)[1]]]) else
     paste(c(tt[, ifelse(n_consensus > 0,
                          sprintf(paste("%d of the %s genes are %s-high in healthy marrow T cells in both references (GSE185381 healthy donors and Oetjen; paired within donor; base rate %s;",
                                        "matched-random percentile %s). Such genes are expected both from a change within cells and from a %s %s share in AML (composition-only expectation,",
@@ -787,11 +794,11 @@ if (MODE == "combine") {
   if (READ4 && tt[class == "naive", any(n_consensus > 0)])   # a naive-like description (7.4)
     TAGS <- paste(TAGS, "The healthy donors are 31.5 years younger in median; in healthy marrow the weak age association of the score runs through the naive-T share (S9).")
   if ((READ4 && t1[arm %in% c("P370_up", "P370_down", "core25") & class == "effector_memory", any(n_consensus > 0)]) || any(grepl("CYTOTOXIC", FL$set)) ||
-      any(CR[view == "primary", reading] == "shared with NK", na.rm = TRUE))   # the effector-like trigger (7.4)
+      any(CRR$reading == "shared with NK"))   # the effector-like trigger (7.4)
     TAGS <- paste(TAGS, "CMV serostatus is unrecorded in both arms; CMV expands TEMRA-like cells inside the CD8 effector-memory labels and adaptive NK cells, and rises with age.")
   ## 7.5 S5b (44 writes the sentence on the primary rows; fwrite doubles inner quotes and fread keeps them)
   S5BS <- paste(unique(gsub('""', '"', S5B[!is.na(cohort_sentence) & nzchar(cohort_sentence), cohort_sentence], fixed = TRUE)), collapse = " ")
-  fails <- function(T0, kind) { x <- T0[state == kind, unique(id)]; if (length(x)) paste(x, collapse = ", ") else "none" }
+  fails <- function(T0, st0) { x <- T0[state == st0, unique(id)]; if (length(x)) paste(x, collapse = ", ") else "none" }   # not `kind`: the checks tables have a column of that name
   KA <- sprintf("43: deterministic FAIL %d, statistical FAIL %s. 44: deterministic FAIL %d, statistical FAIL %s.", C[state == "FAIL_deterministic", .N], fails(C, "FAIL_statistical"),
                 S5C[state == "FAIL_deterministic", .N], fails(S5C, "FAIL_statistical"))
   ## 7.7 context, verbatim
