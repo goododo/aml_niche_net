@@ -1360,3 +1360,32 @@ the repository.
 **12.9 Gates and handover.**
 - G07 is a description, not a gate. No earlier result changes.
 - G07 completes the S15 order (handoff v2.0). The next step is the user's.
+
+**12.10 Dated note, 2026-11-10: a post-hoc S5b line, and the end of the G07 line.** Added at the user's request, after
+every result above had been seen. Everything here is post hoc.
+- **Post-hoc S5b line, from registered outputs only.** No new statistic was computed. K6b failed at the detection gate,
+  not at the minority rule. Without the gate, the registered minority condition (π̂ ≤ 0.5 and LR ≥ 10) gives:
+  - plant (b), 20 % of cells: a minority call in 10 of 10 healthy pseudo-patients, including the 5 the gate missed;
+  - plant (a), all cells: 0 of 10;
+  - the 10 unplanted healthy leave-one-out donors: 0 of 10 (largest LR at π̂ ≤ 0.5: 2.29);
+  - the 15 AML patients (primary view): 0 of 15.
+
+  Sentence (post hoc): "No AML patient showed a minority-cell shift of the size planted (20 % of cells). In healthy
+  cells the same screen found 10 of 10 such plants and made no minority call on uniform plants or unplanted donors
+  (post hoc; the registered S5b reading is 'not readable')."
+
+  Limits:
+  - It cannot tell a uniform shift from no shift: without the gate, 8 of 10 unplanted healthy donors read "uniform".
+  - It does not cover minorities smaller than 20 % of cells.
+  - A uniform shift is also what handling, ambient RNA or a residual depth difference would give (7.5).
+  - It changes no item of what may or may not be written.
+- **End of the G07 line (user decision, 2026-11-10).** No new analysis is opened for 3.4 or 3.5.
+  - The basis is a read-only feasibility review: five agents, two of them adversarial, no new computation. Its files
+    are kept outside the repository.
+  - **3.4.** A blind redesign on the GSE185381 healthy donors or Oetjen is not possible, because their per-gene values
+    were read after the run.
+    - A blind route exists on two other healthy references already on disk, GSE227690 (authors' T labels) and
+      GSE276360.
+    - Even a passing result could only give the 7.4 sentence, which ends "the tags cannot tell these apart". So the
+      route was not opened.
+  - **3.5.** No design on these data can be blind. The line above is the only addition.
