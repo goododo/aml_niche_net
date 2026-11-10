@@ -96,3 +96,12 @@ DBL_SEED_SYN      <- SEED + 811L   # + fold * 10 + batch
 DBL_SEED_PLANT    <- SEED + 851L   # + rate index
 DBL_SEED_CALL     <- SEED + 871L   # set before every scDblFinder call
 DBL_SEED_SIM      <- SEED + 891L   # + world * 1000 + cohort
+DBL_SEED_NBS      <- SEED + 901L   # + fold * 10 (+ 1 for the shuffled-label world); stage 10
+## -- 9. Neighbor-seq-style pair classifier, stage 10 (user decision 2026-11-10) ----
+# Defaults of Ghaddar & De 2022 (github.com/sjdlabgroup/Neighborseq, R/functions.R, read 2026-11-10), re-implemented without the
+# package (its extra imports, multiROC/metap/ggraph, serve plots and the enrichment test, which the smoke does not use).
+DBL_NBS_TOPN       <- 50L    # top positive markers per type: FindAllMarkers(logfc.threshold 1, min.pct 0.25, max 200 cells/type)
+DBL_NBS_N_AM       <- 100L   # artificial barcodes per class: every pair type incl. homotypic, plus n cells of each type
+DBL_NBS_TRAIN_FRAC <- 0.8    # stratified training share; the remaining 20 % is the classifier's own test (Neighbor-seq f = 0.8)
+DBL_NBS_MIN_CELLS  <- 5L     # [SMOKE] a lineage type needs >= 5 training cells to become a class
+DBL_NBS_NULL_MAX   <- 0.10   # [SMOKE] shuffled-label classifier: held-out synthetic T-LEUK-lineage recall must stay <= this
