@@ -55,7 +55,7 @@ RT <- rbindlist(lapply(c("tune", "confirm"), function(m) fread(file.path(DBL_TAB
 RT <- RT[variant == DBL_OE_VARIANT & labels == DBL_OE_LABELS]
 blank <- function(z) is.na(z) | z == ""                               # fread reads a written NA string back as ""
 RT[, key := fifelse(kind == "singlet", paste0("singlet:", comp), paste0(type, ":", fifelse(blank(truth), "", truth)))]
-chk("calibration counts present for every tag x lane", TRUE, all(CJ(DBL_OE_CAL_TAGS, DBL_SMOKE_LANES)[, paste(V1, V2)] %in% RT[, paste(tag, lane)]))
+chk("calibration counts present for every tag x lane", TRUE, all(CJ(tg = DBL_OE_CAL_TAGS, ln = unname(DBL_SMOKE_LANES))[, paste(tg, ln)] %in% RT[, paste(tag, lane)]))
 counts_of <- function(tags, L) RT[tag %in% tags & lane == L, .(n = sum(n), k = sum(k)), by = key]
 make_tpl <- function(cb, d, pc, L) {        # composition weights of one donor, index of every rate in its lane's key vector
   cd <- cb$comp[donor == d]; f <- setNames(cd$N / sum(cd$N), cd$compartment)
