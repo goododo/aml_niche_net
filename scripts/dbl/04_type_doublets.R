@@ -48,6 +48,10 @@ ARGS  <- commandArgs(TRUE)
 argv  <- function(key, default) { v <- sub(paste0("^--", key, "="), "", grep(paste0("^--", key, "="), ARGS, value = TRUE)); if (length(v)) v else default }
 MODE  <- argv("scdbl", "main"); stopifnot(MODE %in% c("main", "devel"))
 CORES <- as.integer(argv("cores", Sys.getenv("SLURM_CPUS_PER_TASK", "8")))
+LABELS <- argv("labels", "knn"); stopifnot(LABELS %in% c("knn", "bmm"))   # recall lever 2: B/C labels from 02b
+FOLDS <- as.integer(strsplit(argv("folds", paste(DBL_FOLDS_RUN, collapse = ",")), ",")[[1]])   # fold 3 = untouched confirmation fold
+NOEXTRA <- "--heldout-only" %in% ARGS                                   # skip real, lodo and planted runs
+LINWIN <- as.numeric(strsplit(argv("linwin", paste(DBL_AMBIENT_WINDOW, collapse = ",")), ",")[[1]])   # recall lever 1, calibrated window
 la    <- argv("lanes", ""); LANES <- if (nzchar(la)) DBL_SMOKE_LANES[strsplit(la, ",")[[1]]] else DBL_SMOKE_LANES
 stopifnot(!anyNA(LANES))
 if (MODE == "devel") .libPaths(c(DBL_DEVEL_LIB, .libPaths()))   # before ANY package that the devel library also holds
@@ -102,7 +106,7 @@ for (L in LANES) {
   ts("[1] lane ", L)
   x   <- readRDS(file.path(DBL_LANE_DIR, paste0(L, ".rds")))
   M   <- x$counts
-  lab <- fread(file.path(DBL_LANE_DIR, paste0(L, "__labels.csv.gz")))[match(colnames(M), cell)]
+  lab <- fread(file.path(DBL_LANE_DIR, paste0(L, if (LABELS == "bmm") "__labels_bmm.csv.gz" else "__labels.csv.gz")))[match(colnames(M), cell)]
   stopifnot(identical(lab$cell, colnames(M)), !anyNA(lab$compartment))
   N     <- ncol(M)
   n_dep <- nrow(x$bc)
@@ -125,12 +129,12 @@ for (L in LANES) {
   BIG <- names(which.max(table(lab$compartment)))   # label of every injected KNOWN barcode: inert (never a parent), and an
                                                     # existing cluster, so no cluster is made only of discarded barcodes
   ## -- [3] run definitions ----
-  RUNS <- list(list(kind = "real", id = "real"))
-  for (f in DBL_FOLDS_RUN) for (b in seq_len(DBL_SYN_BATCHES)) RUNS[[length(RUNS) + 1]] <- list(kind = "heldout", id = sprintf("f%d_b%d", f, b), fold = f, batch = b)
-  if (length(donors) > 1) {   # leave-one-donor-out: the donor with the most T x LEUK material
+  RUNS <- if (NOEXTRA) list() else list(list(kind = "real", id = "real"))
+  for (f in FOLDS) for (b in seq_len(DBL_SYN_BATCHES)) RUNS[[length(RUNS) + 1]] <- list(kind = "heldout", id = sprintf("f%d_b%d", f, b), fold = f, batch = b)
+  if (length(donors) > 1 && !NOEXTRA) {   # leave-one-donor-out: the donor with the most T x LEUK material
     lodo <- A[, .(nT = sum(compartment == "T"), nL = sum(compartment %in% STATES)), by = donor][order(-pmin(nT, nL))][1, donor]
     RUNS[[length(RUNS) + 1]] <- list(kind = "lodo", id = paste0("lodo_", lodo), donor = lodo) }
-  for (r in seq_along(DBL_INJECT_RATES)) RUNS[[length(RUNS) + 1]] <- list(kind = "planted", id = sprintf("plant_%g", DBL_INJECT_RATES[r]), rate = DBL_INJECT_RATES[r], ri = r)
+  if (!NOEXTRA) for (r in seq_along(DBL_INJECT_RATES)) RUNS[[length(RUNS) + 1]] <- list(kind = "planted", id = sprintf("plant_%g", DBL_INJECT_RATES[r]), rate = DBL_INJECT_RATES[r], ri = r)
   HTO <- if (L == DBL_SMOKE_LANES[["pooled"]]) fread(file.path(DBL_LANE_DIR, paste0(L, "__hto_calls.csv.gz")))[in_counts == TRUE, .(cell, call)] else NULL
   CL28 <- x$ann[atlas_cl == DBL_ATLAS_HOMOTYPIC_CL, cell]
   ## -- [4] one run ----
@@ -191,6 +195,12 @@ for (L in LANES) {
       out[, reported := fifelse(called & !is.na(ambiguous) & !ambiguous & !is.na(st_raw), st_raw, "none")]
       out[, reported_win := fifelse(reported != "none" & !is.na(share) & share >= WIN[1] & share <= WIN[2], reported, "none")]
       out[, tleuk_any := reported_win != "none"]
+      ## lineage level (LEUK = five states + LEUK_other), pooled flag: kept for singlets too (allowed summary)
+      lin_ok <- vapply(strsplit(ifelse(is.na(out$origin), "", out$origin), "+", fixed = TRUE), function(z)
+        length(z) == 2 && "T" %in% z && sum(z %in% c(STATES, "LEUK_other")) == 1, TRUE)
+      out[, tlin_any := called & ambiguous %in% FALSE & lin_ok & !is.na(share) & share >= WIN[1] & share <= WIN[2]]
+      out[, tlin_nowin_any := called & ambiguous %in% FALSE & lin_ok]                                  # pooled flags, kept for
+      out[, tlin_linwin_any := tlin_nowin_any & !is.na(share) & share >= LINWIN[1] & share <= LINWIN[2]]   # singlets too
       ## MASKED [D2; user decision 2026-11-10 after review finding M-mask F1]: re-entered singlets are REAL held-out class-A
       ## cells, so only "reported as any T-LEUK" leaves this worker -- never their origin, score or typed state
       sg <- startsWith(out$type, "singlet:")
@@ -266,7 +276,7 @@ for (L in LANES) {
                    origin_has_T = sum(called & grepl("(^|\\+)T(\\+|$)", origin))), by = .(kind, true_state)]
     ALL$lost[[L]] <- lost[, lane := L]
     print(lost)
-    ALL$inj[[L]] <- SYN[, .(lane = L, run, kind, syn, type, true_state, called, score, origin, ambiguous, share, reported, reported_win, tleuk_any)]
+    ALL$inj[[L]] <- SYN[, .(lane = L, run, kind, syn, type, true_state, called, score, origin, ambiguous, share, reported, reported_win, tleuk_any, tlin_any, tlin_nowin_any, tlin_linwin_any)]
     summ[, `:=`(recall = correct / n, recall_given_retained = correct / retained, recall_nowin = correct_nowin / n,
                 precision_among_tleuk = correct / reported_from_tleuk, precision_injected_mix = correct / reported_all)]
     ALL$summ[[L]] <- summ[, lane := L]
