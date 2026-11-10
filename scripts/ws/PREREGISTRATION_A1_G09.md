@@ -1,7 +1,8 @@
 # PREREGISTRATION A1-G09, stage 1: is S8's replicated structure specific to AML?
 
-**Status: DRAFT v2 (2026-11-10), after review 1. Not approved, not tagged. Nothing declared in sections 3-6 has been
-computed.** Decisions 9.1-9.9 were fixed by the user on 2026-11-10. Items 9.10-9.12 are new and remain open.
+**Status: v1, APPROVED by the user 2026-11-10 ("可以，然后根据修改后的正确步骤再进行test": all section-9 decisions fixed,
+proceed with the corrected steps), after reviews 1 and 2 (section 10). Tag `prereg-a1-g09-v1`. Nothing declared in
+sections 3-6 was computed before the tag.** Decisions 9.1-9.9 were fixed by the user on 2026-11-10. Items 9.10-9.12 were fixed the same day.
 
 **Sources.** All are kept outside the repo, under `/FAST/gr10634/gaozy/reports/2026-11_a1_g09_prereg/`:
 - `inventory/`: a read-only inventory (lenses A obligations and blindness, B machinery and data, C design and power, plus
@@ -21,9 +22,10 @@ S8 showed two structural properties of the P370 axis in adult AML cohorts that p
 - **T2:** across patients, the up-half and down-half means move oppositely.
 - **T1:** within a patient's T cells, the axis genes co-vary more than matched random genes.
 
-Result: PASS in GSE289435, consistent in GSE227903, not reproduced on Seq-Well GSE116256. Those cohorts have no healthy
-donors. A gene set aligned with T-cell differentiation would pass T2 and T1 wherever T-subset composition varies, because
-subtype heterogeneity alone produces both (G01 review 4; assessment :97-98).
+Result: PASS in GSE289435, consistent in GSE227903, not reproduced on Seq-Well GSE116256. S8 tested AML patients only
+(GSE116256's two healthy samples were not scored). A gene set aligned with T-cell differentiation can pass T2 and T1
+wherever T-subset composition varies, because subtype heterogeneity alone can produce both (G01 review 4; assessment
+:97-98).
 
 **Stage 1 asks two things:**
 - **(a)** Do T2 and T1 also pass among healthy donors (Oetjen, 20 donors)?
@@ -35,8 +37,15 @@ The fixed sentences for each outcome are in section 7 only (decision 9.5).
 - `matched()` draws one random gene per imprint gene from the union of both halves and returns them ordered by stratum.
   `split_random` (`32_s8_replication.R`:60) and the T1 draw (:107) then take `head()` as the random "up" half and
   `tail()` as the random "down" half.
-- So the random halves are not exchangeable. For T1 the random "up" half is always the least-detected genes; for T2 the
-  halves follow the alphabetical order of the pasted bin labels.
+- So the random halves are not exchangeable.
+  - T1: the strata are a `cut()` factor (:105), so the random "up" half always takes the draws for the lowest detection
+    deciles of the combined imprint profile and the "down" half the highest (synthetic check, review 2: random-half
+    detection 0.17 vs 0.47, imprint halves 0.35 vs 0.33).
+  - T2: the strata are pasted character labels (:52), sorted by locale collation. Under S8's R build and locale the
+    random "up" half takes expression deciles 2 upward and the "down" half the top deciles plus decile 1 (synthetic: mean
+    decile 3.8 vs 7.1). The order depends on the R build and locale, which K0b pins.
+- S8's published T2 P5 values were positive (+0.38, +0.21), so its T2 passes rested on rho < 0. Whether the split changed
+  any pass is unknown until N1 runs.
 - S8's published nulls (`ws_s8_tests.csv`) are therefore not per-half matched. G09 adds a per-half null (N1) and reports
   what it does to S8's AML passes (3.2, 7.2).
 
@@ -155,37 +164,51 @@ Sources of L by run:
 Oetjen is 25 % of BoneMarrowMap, so its labels are in-sample; this is disclosed. Genes without L are outside the matched
 universe; coverage is reported.
 
-**Cohort naive-share spread.** The per-donor (CD4 + CD8 Naive) / kept T share is reported for every cohort from cell
-counts. T2 depends on this spread.
+**Cohort naive-share spread.** The per-donor share (CD4 + CD8 Naive) / kept T cells, from cell counts, is reported for
+every cohort as its SD and range. T2 depends on this spread.
 
 ## 3. Analyses
 
-Three nulls are used. Each draws the up half and the down half separately: `gu <- matched(U, up)`, then
-`gd <- matched(U[!gene %in% c(up, dn, gu)], dn)`.
+Four nulls are used. N1, N1-L and N2 draw the up half and the down half separately with `matched_x(U, target, excl)`:
+strata come from `target`; the pool of stratum s is `U[stratum == s & !gene %in% excl]`. Then
+`gu <- matched_x(U, up, c(up, dn))` and `gd <- matched_x(U, dn, c(up, dn, gu))`. There is no whole-universe fallback
+and no sampling with replacement.
 
 | null | strata, T2 | strata, T1 | role |
 |---|---|---|---|
 | N0 | S8's published null for the AML cohorts, taken from `ws_s8_tests.csv` as registered; for healthy cohorts, S8's code unchanged (head/tail split) | as T2 | context |
-| N1 | per-half, S8's bins: expression deciles × 4 detection bins | per-half, detection deciles | primary for (a) (9.11) |
-| N2 | per-half, S8's bins × L deciles | per-half, detection quintiles × L quintiles | (b) |
+| N1 | per-half, S8's bins on S8's universe: expression deciles × 4 detection bins | per-half, detection deciles on S8's per-cell universe (no blacklist) | primary for (a) (9.11); 7.2(iii) |
+| N1-L | as N1, on N2's universe | per-half, detection quintiles, on N2's universe | comparator for 7.2(i)/(ii) |
+| N2 | per-half, S8's bins × L deciles, on N2's universe | per-half, detection quintiles × L quintiles, on N2's universe | (b) |
 
-- **Pools.** Sampling is without replacement. If a stratum's pool is smaller than 3 × need, adjacent detection bins are
-  merged within the same L stratum until it is not. Fallbacks, merges and the mean Jaccard overlap between draws are
-  logged to the checks table.
-- **Draws.** 1,000 per test for T2; 200 per donor for T1.
+N2's universe = the run's (T2) or donor's (T1) universe minus S8's `black_for()` genes, intersected with the genes that
+have L. N1-L differs from N2 in L only, so 7.2(i)/(ii) contrasts N1-L with N2; N1 on S8's own universe isolates the
+per-half change from N0 for 7.2(iii).
+
+- **Strata.** L strata are `cut(rank(L, ties.method = "first"), k, labels = FALSE)` (G01's idiom, `39_a1_g01.R`:544),
+  computed over the run's or donor's matched universe including the imprint genes; stratum IDs are integers.
+- **Pools and merges.** need = n_up + n_dn of the stratum; pool = its genes excluding all imprint genes. If pool < 3 ×
+  need, the stratum is merged, in this order: (1) with the adjacent detection bin with the smaller pool, within the same
+  expression decile and L stratum; (2) for T2, with the adjacent expression decile; (3) with the adjacent L stratum
+  toward the median. Merges are fixed once per run (T2) or donor (T1) and shared by both halves. If a pool is still below
+  need, that is a deterministic FAIL (never replacement). Merges and the mean Jaccard overlap between draws are logged.
+- **Draws.** 1,000 per test for T2; 200 per donor for T1. Per-stratum pools are precomputed once per run with `split()`.
 
 ### 3.1 (a) Healthy donors
 - Run T2 and T1 on Oetjen with N1 and S8's pass rules (`32_s8_replication.R`:92 for T2, :109 for T1).
 - N0 and N2 are reported.
 - The supporting cohorts get T1 only.
-- Descriptive only: 500 draws of 8 of the 20 Oetjen donors (seed SEED + 902). Each draw is a full recompute (logz,
-  universe, bins) with 200 N1 sets. The pass share is reported with no threshold and is never compared with the AML
-  passes (7.3).
+- Descriptive only: 500 draws of 8 of the 20 Oetjen donors (seed SEED + 902). For T2 each draw is a full recompute
+  (logz, universe, bins, merges) with 200 per-half N1 sets. For T1, the per-donor N1 flags from the n = 20 run are reused
+  over the same draws (rule 6 of 8), because T1 does not depend on the other donors. The pass shares are reported with
+  no threshold and are never compared with the AML passes (7.3).
 
 ### 3.2 (b) AML cohorts
-- On GSE289435 and GSE227903 AML_Dx, run T2 and T1 with N1 and N2.
+- On GSE289435 and GSE227903 AML_Dx, run T2 and T1 with N1, N1-L and N2.
 - The published N0 result is quoted from `ws_s8_tests.csv`.
 - The re-run of S8's own null is a check only (K0b).
+- One GSE289435 patient has 543 T cells; its N1 result uses the G09 cap subsample, so its N0-versus-N1 comparison mixes a
+  cap-subsample change with the null change. This is disclosed beside its row.
 - Reading: 7.2.
 
 ### 3.3 Reported for every run
@@ -213,18 +236,18 @@ becomes "not readable").
 
 | id | check | bar | type |
 |---|---|---|---|
-| K0 | S8's code path reproduces the observed T2 rho on GSE289435 and GSE227903, and the observed T1 coherence (P370) of every patient with ≤ 500 T cells | exact (< 1e-12) | deterministic |
-| K0b | Re-run of S8's N0 null on the AML cohorts: pass flags equal those in `ws_s8_tests.csv` | equal | reported; if unequal, fixed sentence 7.2(iv) |
+| K0 | S8's code path reproduces the observed T2 rho on GSE289435 and GSE227903, and the observed T1 coherence (P370) of every patient with ≤ 500 T cells (7 of 8 GSE289435 patients; 7 of 7 GSE227903) | exact (< 1e-12 against the stored 15-digit values) | deterministic |
+| K0b | Re-run of S8's N0 null on the AML cohorts, with S8's R build (general_env R 4.4.3) and locale (en_US.UTF-8): pass flags equal those in `ws_s8_tests.csv` | equal | reported; if unequal, fixed sentence 7.2(iv) |
 | K1 | Rosters. Oetjen: 20 donors, S9's library map, per-donor kept T cells equal to `n_kept_T`, read with `fread(select = c("level", "id", "n_libraries", "n_kept_T"))` so that no score column is loaded. Griffin: 5 donors with 1250 / 820 / 349 / 2080 / 533 kept T cells | exact | deterministic |
-| K2 | L is G01's: recomputed all-Oetjen L, with G01's GSE185381 within-label shifts, reproduces `ws_a1_g01_axis.csv` `union_rho_number_only` and `n_union` | < 1e-12; integers equal | deterministic |
+| K2 | L is G01's. Inputs: `ws_pb_GSE120221.rds` `$fine` (5 labels); `ws_pb_GSE185381.rds` `$fine[["CD4 Naive"]]`, `$fine[["CD8 Effector Memory 2"]]`, `$cells` (kept, for cell counts) and `$genes` (G01's BLACK, `39_a1_g01.R`:75-76); `ws_s5_scores.csv` T rows (25 samples and status); `ws_a1_g02_fold_genes.csv` (the union); WS_S4_MIN_CELLS = 20; G01's `logz` (:91-94) and L block (:536-552), copied verbatim. The recomputation reproduces `ws_a1_g01_axis.csv` `statistic` and `union_rho_number_only`, and `n_genes` (9724, 10939) and `n_union` | < 1e-12; integers equal | deterministic |
 | K2b | Leave-one-donor-out with no donor left out equals all-Oetjen L; each leave-one-out run drops all of that donor's libraries (C 3, S 4) | exact | deterministic |
-| K3 | Null world for T2: Oetjen raw counts permuted across donors independently per gene, then logz re-run; 100 permutations; N1 | T2 passes in ≤ 10 of 100 (false alarm 0.011) | statistical ((a) T2 "not readable") |
+| K3 | Null world for T2: Oetjen CPM permuted across donors independently per gene and rescaled to each donor's own library size, then logz re-run; 100 permutations; N1 | T2 passes in ≤ 10 of 100 (false alarm 0.011) | statistical ((a) T2 "not readable") |
 | K4 | Machinery check, not power: on a K3 permutation, a donor factor f ~ N(0, 1) planted on raw counts before logz, up × 2^(0.3 f) and down × 2^(−0.3 f) on P370; 20 plants. Plants at 0.05 and 0.1 are reported as numbers | T2 passes in ≥ 16 of 20 | statistical ((a) T2 "not readable") |
-| K5 | Composition world for T2. Start from a K3 permutation (real marginals and noise kept); multiply each gene by (p_d·EM + (1 − p_d)·naive) / (p̄·EM + (1 − p̄)·naive), with p_d drawn uniformly over the observed Oetjen naive-share range; n = 20. Test set: genes drawn to match P370's L-decile profile (up = EM side, down = naive side); 20 worlds. The 100-extreme set is a reported stress case | N1: T2 passes in ≥ 16 of 20 (the confound is real). N2: T2 passes in ≤ 4 of 20 (matching works; false alarm 0.003 at 5 %) | statistical ((b) "not readable") |
-| K5b | The same composition world for T1 within one Oetjen donor (K, 500 cells): cells reweighted to mix naive-like and EM-like profiles, with L leave-one-donor-out; 20 worlds | N1 passes in ≥ 16 of 20; N2 in ≤ 4 of 20 | statistical ((b) T1 "not readable") |
+| K5 | Composition world for T2. Start from a K3 permutation; per donor draw s_d ~ U(observed min, max Oetjen naive share); multiply each gene by r = (s_d·naive + (1 − s_d)·EM) / (s̄·naive + (1 − s̄)·EM), using naive and EM CPM profiles from the GSE185381 healthy donors without Control1-5 (multiplier 1 for genes without a profile; non-integer counts kept); n = 20. Test set: a fresh set per world (SEED + 906), drawn from the universe minus P370 with P370's per-L-decile counts (up = EM side, down = naive side). N2 uses the all-Oetjen L; 1,000 null draws per world; 20 worlds. Reported, not gating: the 100-extreme set (top 50 and bottom 50 genes by L) and the same-source best case (profiles from Oetjen) | N1-L: T2 passes in ≥ 16 of 20 (the confound is real). N2: T2 passes in ≤ 4 of 20 (matching works; false alarm 0.003 at 5 %) | statistical (only the 7.2(i)/(ii) distinction for T2 becomes "not readable") |
+| K5b | Composition world for T1 in Oetjen donor K (500 cells): its raw counts permuted per gene across cells; per-cell multipliers r_gc as in K5 with weight w_c = 1 for EM-labelled cells, 0 for naive-labelled cells and the donor mean for the rest, applied by binomial thinning (r / max r); profiles from donor K's own naive and EM cells; N2 with the leave-one-donor-out L; S8's log-normalisation; 200 null draws per world; 20 worlds | N1-L passes in ≥ 16 of 20; N2 in ≤ 4 of 20 | statistical (only the 7.2(i)/(ii) distinction for T1 becomes "not readable") |
 | K6 | GSE227903 (verbatim v2 :237-238): "the sample list is exactly the 9 AML_Dx samples of the manifest; non-diagnosis columns are dropped right after loading, before any use; per-cell objects are loaded for AML_Dx samples only". MRD and relapse samples are not touched (WP-A2). z-scores and the universe come from the 7 eligible samples | exact | deterministic |
 | K7 | Null world for T1: log-normalised rows permuted across cells per gene, within Oetjen donor K (500 cells; library sizes kept); 20 permutations; N1 | coherence above P95 in ≤ 3 of 20 (false alarm 0.016) | statistical ((a) T1 "not readable") |
-| K8 | Balance: the per-stratum counts of every random half equal those of its imprint half; for N2, the mean over draws of \|mean L(random half) − mean L(imprint half)\| / SD(L) < 0.1 per half | exact; < 0.1 | deterministic (counts); statistical, (b) "not readable" (balance) |
+| K8 | Balance, on merged strata: the per-stratum counts of every random half equal those of its imprint half, and no draw is NA; for N2, the mean over draws of \|mean L(random half) − mean L(imprint half)\| / SD(L) < 0.1 per half, and for T1 N2 the same for detection. T2: per run; T1: per donor | counts and NA: exact; balance < 0.1 | deterministic (counts, NA); statistical for balance: a failing run, or any failing donor for T1, makes that cohort's 7.2(i)/(ii) distinction for that test "not readable" |
 
 Run-time blindness: no healthy T2 or T1 value and no N1 or N2 AML value is printed until K0-K8 have states.
 
@@ -235,30 +258,40 @@ Run-time blindness: no healthy T2 or T1 value and no N1 or N2 AML value is print
   protocol; T labels in-sample to BoneMarrowMap), the axis genes show the structure that S8 tested ([T2: the up-half and
   down-half means move oppositely across donors, rho r, random P5 p] / [T1: they co-vary within donors, k of n donors
   above their random P95]). S8 therefore shows that the axis's structure is reproducible on 10x Chromium cohorts, not
-  that it is specific to AML."
+  that it is specific to AML." If 7.2(iii) holds for the same test in GSE289435, the last sentence is replaced by: "This
+  structure is therefore not specific to AML; S8's AML pass for [test] did not survive the per-half null (7.2(iii))."
 - **(ii) Neither passes:** "Among 20 healthy Oetjen donors (one cohort, one protocol), this structure was not detected
   (T2 rho r, random P5 p; T1 k of n donors). This is not evidence that the structure is specific to AML: depth, cell
-  numbers, protocol, age and the spread of T-subset composition differ from the AML cohorts, and the power to detect T1
-  among healthy donors was not established."
+  numbers, protocol and age differ from the AML cohorts[, and the spread of T-subset composition is narrower among them],
+  and the power to detect T2 or T1 among healthy donors was not established." The bracketed clause is written only if
+  the Oetjen naive-share SD is below that of both AML cohorts.
 - Every (a) sentence adds: "Structure is covariance, not level: this does not change the A1-G02 numbers. It is not
   evidence for or against composition below the label level (A1-G01 11.5). The direction stays shown in one study
   (A1-G04)."
 
 **7.2 (b): GSE289435 and GSE227903, P370.** One sentence per test and cohort; the two cohorts are named together only if
 they agree.
-- **(i) Passes N1 and N2:** "S8's [T2 / T1] in [cohort] exceeds random gene sets matched separately for each half on
-  expression, detection and the naive-to-effector loading."
-- **(ii) Passes N1, fails N2:** "S8's [T2 / T1] in [cohort] is consistent with the naive-to-effector differentiation
+- **(i) Passes N1-L and N2:** T2: "S8's T2 in [cohort] exceeds random gene sets matched separately for each half on
+  expression, detection and the naive-to-effector loading." T1: "S8's T1 in [cohort] exceeds random gene sets matched
+  separately for each half on detection and the naive-to-effector loading."
+- **(ii) Passes N1-L, fails N2:** "S8's [T2 / T1] in [cohort] is consistent with the naive-to-effector differentiation
   axis."
+- **Not readable (K5, K5b or K8 balance failed):** "Whether S8's [T2 / T1] in [cohort] goes beyond the naive-to-effector
+  axis is not readable: the loading-matched null failed its known answer ([check])." 7.2(iii) is unaffected.
 - **(iii) Fails N1:** "Against random sets matched separately for each half, S8's [T2 / T1] in [cohort] does not pass;
   S8's published pass used a null that split the random halves by bin order." This case is also recorded as a dated
-  erratum note after GATES.md block A1-S8 (decision 9.12).
+  erratum note in GATES.md (decision 9.12), written by `--combine` after the "Reading" paragraph of block A1-S8 and
+  outside its `<!-- A1-S8 -->` markers, verbatim: "Erratum (A1-G09, [date]): S8's random-set null drew one gene per
+  imprint gene and split the list by bin order, so the random halves were not matched separately. Against a per-half
+  null (A1-G09 N1): [test, cohort, statistic, P5 or k of n] [pass / fail]. GATE_S8 under the per-half null: [PASS /
+  FAIL] (T2 and T1 on GSE289435)."
 - **(iv) K0b unequal:** "Re-running S8's own null changed its pass flag for [test, cohort] (published p, re-run p);
   Monte-Carlo error of the null." This sentence is reported only.
 - Every (b) sentence adds: "This concerns the covariance of S8's structure, not the within-label shift of A1-G01 (5.5 did
   not fire)."
 - **Joint case, (a)(ii) with (b)(ii):** add "The AML structure is consistent with the naive-to-effector axis, so its
-  absence among healthy donors may reflect a narrower spread of T-subset composition."
+  absence among healthy donors may reflect a narrower spread of T-subset composition." Only if the Oetjen naive-share SD
+  is below that of both AML cohorts.
 
 **7.3 Never written, under any outcome:**
 - "AML-specific" for S8's structure;
@@ -324,7 +357,7 @@ Fixed on 2026-11-10 ("可以，先按推荐继续"):
 - **9.8** The known-answer bars as in section 6.
 - **9.9** F402 is a sensitivity only.
 
-New after review 1 (open; recommendation first):
+Fixed on 2026-11-10 ("可以"), as recommended:
 - **9.10** The GSE185381 donors for the 9.7 loading. Use the 5 donors without Control1-5, because T-ALL ambient RNA in
   P02/P03 can distort T-lineage profiles; all 10 is a sensitivity. Alternative: all 10.
 - **9.11** The primary null for (a) is N1 (per-half), because S8's own null splits halves by bin order. Report N0 and
@@ -357,3 +390,9 @@ New after review 1 (open; recommendation first):
     - the T1 null is described as detection deciles;
     - the empty sensitivity is dropped;
     - K1 reads count columns only.
+- 2026-11-10: decisions 9.10-9.12 as recommended. Review 2 (one read-only agent: fix audit and implementability; 12
+  findings, 1 blocking). Fixed in v3: the per-half draw (`matched_x`, no fallback, no replacement, NA draws fail); the
+  head/tail description made concrete with its locale dependence; N1-L added so that N1-L vs N2 differs in L only; strata
+  and merge rules fixed; K3, K5 and K5b defaults; narrower consequences of K5/K8 failures and a not-readable sentence; the
+  joint case and the S8 erratum verbatim; test-specific 7.2(i); the spread clause made conditional; K2 inputs and K0
+  coverage; the 8-of-20 draws for T2 only.
