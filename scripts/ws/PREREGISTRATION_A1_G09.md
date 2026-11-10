@@ -396,3 +396,72 @@ Fixed on 2026-11-10 ("可以"), as recommended:
   and merge rules fixed; K3, K5 and K5b defaults; narrower consequences of K5/K8 failures and a not-readable sentence; the
   joint case and the S8 erratum verbatim; test-specific 7.2(i); the spread clause made conditional; K2 inputs and K0
   coverage; the 8-of-20 draws for T2 only.
+
+## 11. Dated note, 2026-11-10, before any real-data run (code and smoke runs)
+
+Written after the tag and before any real-data mode ran. No G09 statistic on real data had been computed. Sections 0-10
+are unchanged. Script: `scripts/ws/45_a1_g09.R`, run through `scripts/ws/submit_ws_a1_g09.sbatch`.
+
+**11.1 Changes found necessary in smoke runs** (synthetic counts on the real IDs; no real expression read):
+1. **Finer L strata.** With L deciles (T2) and L quintiles (T1), the K8 balance measure was 0.07-0.10 for T2 and
+   0.18-0.21 for T1 in every smoke run, failing or nearly failing the 0.1 bar for reasons of design: the imprint halves
+   sit at the extremes of L. The strata are now:
+   - T2 N2: S8's bins × L ventiles (20);
+   - T1 N1-L and N2: detection deciles; N2 adds L deciles.
+
+   The merge rule, the bar (0.1) and everything else are unchanged. The smoke balance became 0.03-0.06 (T2) and
+   0.09-0.10 for L and 0.04-0.06 for detection (T1).
+2. **Seeds.** N1-L draws use SEED + 908 and the smoke worlds SEED + 909. Every block seed is SEED + offset × 100000 plus
+   a deterministic hash of the block label, so seeds do not depend on the order of forked workers.
+3. **Outputs.** `--run` writes K8 to `ws_a1_g09_balance.csv` before any test table, plus `ws_a1_g09_draws8.csv`. Work
+   files under `/LARGE1/.../ws_a1_g09/`: `donor_values.csv`, `naive_share_spread.csv` and `k0b.csv`.
+4. **K5b test set.** Drawn like K5's: P370's per-L-quantile counts, from genes outside P370, fresh per world.
+
+**11.2 Two fixed sentences added for cases section 7 did not cover:**
+- (a) not readable: "Whether the healthy Oetjen donors show S8's [T2 / T1] is not readable: its known answer failed
+  ([K3/K4 / K7])."
+- (b) N1 passes but N1-L fails: "S8's [test] in [cohort] does not pass on the loading-matched universe even before
+  matching on the loading (N1-L); no (b) reading is made."
+
+**11.3 Smoke-run bugs fixed** (no design change):
+- the loading matrix lost its synthetic mark, so the smoke guard stopped the run;
+- an empty K0b table crashed `--combine` in smoke;
+- the smoke world first had one library column per donor and cohort-specific naive and EM biology; it was rebuilt with
+  one column per library and a shared biology, so that K2b and K5 test the code rather than the synthetic world.
+
+**11.4 Changes after the code review** (2026-11-10, still before any real-data run; a re-run smoke chain covers them):
+1. **Conformance fixes** (the code now does what sections 3, 6 and 7 say):
+   - Merge rule: a stratum with no neighbour left is a deterministic FAIL only when pool < need (section 3). The code
+     had failed it at pool < 3 × need.
+   - The 7.2(iii) erratum goes after the "Reading" paragraph of block A1-S8, as registered. The code had anchored it on
+     the `<!-- A1-S8 end -->` marker, above that paragraph. Smoke now applies the insert to a copy of GATES.md.
+   - K0b: the job script sets `LC_ALL=en_US.UTF-8`. R 4.4.3 and the collation locale are a deterministic check in
+     `--known`, and both are written to `k0b.csv`.
+   - The 7.2(iv) sentence quotes the published and re-run P5 (T2) or k of n (T1).
+   - 7.4 context now carries the A1-G01 category with its 11.5 sentence, G07 7.7's acute-illness sentence, the CMV
+     sentence, and "no P370/F402 difference is attributed to the 32".
+   - 3.3: the T1 rows carry the median coherence and median random P95 per null. T2 rows flag coverage < 0.8, which is
+     reported in the summary.
+   - K6: no AML per-label matrix is kept after loading.
+2. **Known-answer worlds.** A world that could not be computed (a stratum FAIL, or fewer than 20 genes per half) is a
+   deterministic FAIL. It is never counted as "did not pass", which would have helped the "at most" bars of K3, K5b
+   and K7.
+3. **Balance.** The SD in the K8 balance measure is taken over the matched universe the strata were built on, not over
+   every gene with L. A balance that cannot be computed is "not readable", not readable-by-default.
+4. **Reading precedence for (b)**, not stated in section 7:
+   - If N1 fails, only the (iii) sentence is written; N1-L and N2 stay in the tables.
+   - Next: N1-L not computable, then N1-L failing (11.2), then N2 not computable, then not readable, then (i)/(ii).
+   - "Not computable" uses the not-readable sentence with "the loading-matched null could not be computed ([reason])".
+   - The not-readable sentence names the check that failed (K5, K5b and/or K8 balance).
+5. **(a) edge cases:**
+   - The 7.1(i) replacement sentence uses only tests that passed and are readable.
+   - If one test is not readable and the other is readable but did not pass, the 7.1(ii) sentence is written for the
+     readable test only, with "the power to detect [that test]".
+6. **The erratum lists all four N1 results** (T2 and T1, both AML cohorts) with pass or fail, so it shows why GATE_S8
+   is PASS or FAIL under the per-half null.
+7. **Engineering** (no effect on any statistic):
+   - 16 workers, as in section 8 (the node had reported 32);
+   - K5b drops all-zero genes before permuting (memory; this changes which random world is drawn, not its design);
+   - K8's NA test no longer builds a 1e9-element vector (about 8 GB);
+   - `--combine` checks the md5 of every input table;
+   - the GATES block cites 7.3 instead of quoting the never-written phrases.
