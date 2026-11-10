@@ -10,7 +10,11 @@
 #   planted runs   T + LEUK_GMP contact doublets of one donor, NOT flagged, at 0.5 / 1 / 2 % of the lane -> recovery curve
 #   real run       the lane as it is. MASKED [D2]: the worker returns aggregates only -- the called fraction of atlas cluster-28
 #                  barcodes (homotypic doublets, positive control) and of hashtag cross-donor / same-donor-two-tag barcodes
-#                  (stage 03), plus format assertions and run time. No real barcode's typed call is written or printed.
+#                  (stage 03), plus format assertions and run time.
+#   Re-entered held-out singlets are REAL cells: since 2026-11-10 (review M-mask F1, user decision) only "reported as any
+#   T-LEUK" leaves the worker for them; their origin, score and typed state are blanked inside run_one(). Runs before that
+#   date (jobs 3687233/3687239 main, 3687240 devel) wrote singlet states; in devel 2 class-A barcodes of GSM5613785 were typed
+#   T-LEUK. Those files are kept and registered as a known exposure (SMOKE_REPORT section 8), never read by the analyst.
 # INPUT  : DBL_LANE_DIR/<lane>.rds (01), <lane>__labels.csv.gz (02), <pooled lane>__hto_calls.csv.gz (03)
 # OUTPUT : DBL_TAB_DIR/dbl_typing_confusion<SFX>.csv   lane x run kind x true state x reported label: injected T-LEUK doublets
 #          DBL_TAB_DIR/dbl_typing_summary<SFX>.csv     lane x state: n, retained, recall, recall given retention, precisions
@@ -22,12 +26,15 @@
 #          DBL_TAB_DIR/dbl_typing_ambient<SFX>.csv     lane x state: LEUK-marker share quantiles of injected T-LEUK doublets
 #          DBL_TAB_DIR/dbl_typing_runs<SFX>.csv        one row per scDblFinder call: kind, barcodes, injected, seconds, warnings
 #          DBL_TAB_DIR/dbl_typing_losses<SFX>.csv      lane x run kind x true state: where injected T-LEUK doublets are lost
-#          DBL_TAB_DIR/dbl_typing_injected<SFX>.csv.gz one row per INJECTED synthetic barcode (call, origin, share); no real barcode
+#          DBL_TAB_DIR/dbl_typing_injected<SFX>.csv.gz one row per INJECTED barcode: synthetic doublets with call, origin, share;
+#                                                      re-entered singlets with called / reported-as-any-T-LEUK only (masked)
 #          DBL_TAB_DIR/dbl_checks_04<SFX>.csv
 #          DBL_LANE_DIR/<lane>__calib<SFX>.rds          synthetic-derived calibration + singlet composition, read by stage 05
-#          (SFX = "_main_smoke" or "_devel_smoke")
-# Usage  : Rscript scripts/dbl/04_type_doublets.R [--scdbl=main|devel] [--lanes=single,pooled] [--cores=8]
-#          main  = installed scDblFinder 1.20.2 with adjustSize = 0 (issue #145 workaround) [D4]
+#          (SFX = "_<mode>[_<tag>]_smoke"; --tag keeps a verification rerun from overwriting earlier files)
+# Usage  : Rscript scripts/dbl/04_type_doublets.R [--scdbl=main|devel] [--lanes=single,pooled] [--cores=8] [--tag=name]
+#          main  = installed scDblFinder 1.20.2 with adjustSize = 0 (issue #145 workaround) [D4]. Its xgboost classifier never
+#                  trains under xgboost 3.2.1.1 (1.20.2 swallows the error), so every 'main' call is the pre-training
+#                  heuristic score (cxds + kNN ratio); recorded as an explicit check, not a silent fallback (review R-04 F1)
 #          devel = scDblFinder 1.27.12 (commit 1a0831bd) from DBL_DEVEL_LIB, its own defaults [D4], except one call-site
 #                  argument: its default processing hands a SparseArray to Bioc 3.20's scater::calculatePCA, which this
 #                  SparseArray (1.6.2) cannot divide ("arithmetic ... SparseArray object and a vector of length != 1");
@@ -45,7 +52,8 @@ la    <- argv("lanes", ""); LANES <- if (nzchar(la)) DBL_SMOKE_LANES[strsplit(la
 stopifnot(!anyNA(LANES))
 if (MODE == "devel") .libPaths(c(DBL_DEVEL_LIB, .libPaths()))   # before ANY package that the devel library also holds
 suppressPackageStartupMessages({ library(SingleCellExperiment); library(scDblFinder) })
-SFX <- paste0("_", MODE, "_smoke")
+TAG <- argv("tag", "")
+SFX <- paste0("_", MODE, if (nzchar(TAG)) paste0("_", TAG), "_smoke")
 ts  <- function(...) message(sprintf("[%s] ", format(Sys.time(), "%H:%M:%S")), ...)
 CHK <- list()
 chk <- function(name, expected, got) {
@@ -65,6 +73,7 @@ parse_state <- function(origin) {   # "LEUK_GMP+T" -> "LEUK_GMP" when the origin
   vapply(p, function(z) { s <- z[z %in% STATES]; if (length(z) == 2 && "T" %in% z && length(s) == 1) s else NA_character_ }, "") }
 proc_320 <- function(e, dims = NULL) {   # devel's default processing rebuilt with Bioc 3.20 functions (see header)
   e <- as(e, "dgCMatrix"); if (is.null(dims)) dims <- 20
+  stopifnot(ncol(e) <= 50000)              # devel skips normalisation above 50,000 barcodes (misc.R doNorm); not mirrored here
   sf <- Matrix::colSums(e); sf <- sf / mean(sf)
   le <- scuttle::normalizeCounts(e, size.factors = sf, center.size.factors = FALSE)
   pca <- scater::calculatePCA(le, ncomponents = dims, subset_row = seq_len(nrow(le)), ntop = nrow(le), BSPARAM = BiocSingular::IrlbaParam())
@@ -148,10 +157,10 @@ for (L in LANES) {
         ctrl[, `:=`(n_cross_donor = h[call == "cross_donor", .N], called_cross_donor = h[call == "cross_donor", mean(called)],
                     n_same_two_tags = h[call == "same_donor_two_tags", .N], called_same_two_tags = h[call == "same_donor_two_tags", mean(called)],
                     n_single_A = h[call == "single" & cell %in% A$cell, .N], called_single_A = h[call == "single" & cell %in% A$cell, mean(called)])] }
-      rm(res, st)   # MASKED [D2]: nothing per barcode leaves this function
-      return(list(kind = "real", id = "real", ok_format = ok_format, ctrl = ctrl,
-                  run = data.table(id = "real", kind = "real", n_real = N, n_injected = 0L, secs = cr$secs, threshold = cr$threshold,
-                                   n_warn = length(cr$warns), first_warn = substr(c(cr$warns, "")[1], 1, 150)))) }
+      run <- data.table(id = "real", kind = "real", n_real = N, n_injected = 0L, secs = cr$secs, threshold = cr$threshold,
+                        n_warn = length(cr$warns), first_warn = substr(c(cr$warns, "")[1], 1, 150))
+      rm(cr, res, st)   # MASKED [D2]: the return list below is the guarantee -- it holds no per-barcode object
+      return(list(kind = "real", id = "real", ok_format = ok_format, ctrl = ctrl, run = run)) }
     if (R$kind %in% c("heldout", "lodo")) {
       set.seed(DBL_SEED_SYN + if (R$kind == "lodo") 999L else R$fold * 10L + R$batch)
       held <- if (R$kind == "lodo") A[donor == R$donor, cell] else A[fold == R$fold, cell]
@@ -181,6 +190,12 @@ for (L in LANES) {
       out[, st_raw := parse_state(origin)]
       out[, reported := fifelse(called & !is.na(ambiguous) & !ambiguous & !is.na(st_raw), st_raw, "none")]
       out[, reported_win := fifelse(reported != "none" & !is.na(share) & share >= WIN[1] & share <= WIN[2], reported, "none")]
+      out[, tleuk_any := reported_win != "none"]
+      ## MASKED [D2; user decision 2026-11-10 after review finding M-mask F1]: re-entered singlets are REAL held-out class-A
+      ## cells, so only "reported as any T-LEUK" leaves this worker -- never their origin, score or typed state
+      sg <- startsWith(out$type, "singlet:")
+      out[sg, `:=`(score = NA_real_, origin = NA_character_, ambiguous = NA, st_raw = NA_character_,
+                   reported = NA_character_, reported_win = NA_character_)]
       return(list(kind = R$kind, id = R$id, out = out, pools_held = lengths(src),
                   run = data.table(id = R$id, kind = R$kind, n_real = length(keep), n_injected = nrow(inj), secs = cr$secs,
                                    threshold = cr$threshold, n_warn = length(cr$warns), first_warn = substr(c(cr$warns, "")[1], 1, 150)))) }
@@ -221,6 +236,10 @@ for (L in LANES) {
   RES <- Filter(function(r) is.null(r$error), RES)
   if (!length(RES)) { ts("    ** no run of this lane finished; nothing to summarise"); rm(x, M); gc(FALSE); next }   # empty-result branch
   RUNTAB <- rbindlist(lapply(RES, `[[`, "run"))[, lane := L]
+  xgb_fail <- RUNTAB[, grepl("invalid function arguments|have been removed", first_warn)]
+  chk(sprintf("%s: %s", L, if (MODE == "main") "main runs on the pre-training heuristic (xgboost 3.2 rejects 1.20.2's call) in every run"
+                           else "devel trains its classifier in every run (no xgboost warning)"),
+      MODE == "main", if (MODE == "main") all(xgb_fail) else any(xgb_fail))
   ALL$runs[[L]] <- RUNTAB
   print(RUNTAB[, .(id, kind, n_real, n_injected, secs = round(secs, 1), threshold = round(threshold, 3), n_warn)])
   ## -- [5] real run: format assertions + aggregate controls only ----
@@ -247,14 +266,15 @@ for (L in LANES) {
                    origin_has_T = sum(called & grepl("(^|\\+)T(\\+|$)", origin))), by = .(kind, true_state)]
     ALL$lost[[L]] <- lost[, lane := L]
     print(lost)
-    ALL$inj[[L]] <- SYN[, .(lane = L, run, kind, syn, type, true_state, called, score, origin, ambiguous, share, reported, reported_win)]
+    ALL$inj[[L]] <- SYN[, .(lane = L, run, kind, syn, type, true_state, called, score, origin, ambiguous, share, reported, reported_win, tleuk_any)]
     summ[, `:=`(recall = correct / n, recall_given_retained = correct / retained, recall_nowin = correct_nowin / n,
                 precision_among_tleuk = correct / reported_from_tleuk, precision_injected_mix = correct / reported_all)]
     ALL$summ[[L]] <- summ[, lane := L]
     print(summ[, .(kind, state, n, retained, correct, recall = round(recall, 2), rec_given_ret = round(recall_given_retained, 2),
                    prec_tleuk = round(precision_among_tleuk, 2), prec_mix = round(precision_injected_mix, 2))])
-    FP <- SYN[type != "T|LEUK" & kind == "heldout", .(n = .N, reported_any = sum(reported_win != "none"),
-               reported_by_state = paste(sprintf("%s:%d", STATES, vapply(STATES, function(s) sum(reported_win == s), 0L)), collapse = ";")), by = type]
+    FP <- SYN[type != "T|LEUK" & kind == "heldout", .(n = .N, reported_any = sum(tleuk_any),
+               reported_by_state = if (startsWith(.BY$type, "singlet:")) NA_character_ else   # singlets: masked by state
+                 paste(sprintf("%s:%d", STATES, vapply(STATES, function(s) sum(reported_win == s, na.rm = TRUE), 0L)), collapse = ";")), by = type]
     ALL$fp[[L]] <- FP[, lane := L]
     print(FP)
     AMB <- tl[, .(n = .N, q05 = quantile(share, 0.05, na.rm = TRUE), q50 = median(share, na.rm = TRUE), q95 = quantile(share, 0.95, na.rm = TRUE),
@@ -269,7 +289,7 @@ for (L in LANES) {
     Cz <- Cmat; Cz[is.na(Cz)] <- 0                                  # expectations: an unevaluable state contributes nothing
     p_pair <- SYN[kind == "heldout" & type != "T|LEUK" & !startsWith(type, "singlet:"),
                   setNames(lapply(STATES, function(s) mean(reported_win == s)), STATES), by = type]
-    p_sing <- SYN[kind == "heldout" & startsWith(type, "singlet:"), setNames(lapply(STATES, function(s) mean(reported_win == s)), STATES),
+    p_sing <- SYN[kind == "heldout" & startsWith(type, "singlet:"), .(p_any = mean(tleuk_any)),   # pooled over states (masked)
                   by = .(comp = sub("^singlet:", "", type))]
     EXP <- rbindlist(lapply(donors, function(d) {
       fd  <- A[donor == d, .N, by = compartment][, f := N / sum(N)]
@@ -283,7 +303,9 @@ for (L in LANES) {
                 "Tamb|LEUK*" = 2 * g("Tamb") * fL, "NK|LEUK*" = 2 * g("NK") * fL, "B|LEUK*" = 2 * g("B") * fL, "Ery|LEUK*" = 2 * g("Ery") * fL,
                 "MonoDC|LEUK*" = 2 * g("MonoDC") * fL, "LEUK*|LEUK*" = fL^2)
       fp_pair <- vapply(STATES, function(s) sum(vapply(names(pi_u), function(u) { r <- p_pair[type == u][[s]]; if (length(r)) pi_u[[u]] * r else 0 }, 0)), 0) * Nd_dbl
-      fp_sing <- vapply(STATES, function(s) sum(vapply(names(fv), function(cp) { r <- p_sing[comp == cp][[s]]; if (length(r)) fv[[cp]] * r else 0 }, 0)), 0) * (Nd - Nd_dbl)
+      ## singlet false positives are known only pooled over states (masked): spread them like the pair-type false positives
+      w_fp    <- if (sum(fp_pair) > 0) fp_pair / sum(fp_pair) else rep(1 / length(STATES), length(STATES))   # [SMOKE]
+      fp_sing <- (Nd - Nd_dbl) * sum(vapply(names(fv), function(cp) { r <- p_sing[comp == cp, p_any]; if (length(r)) fv[[cp]] * r else 0 }, 0)) * w_fp
       data.table(donor = d, state = STATES, f_state = vapply(STATES, g, 0), f_T = g("T"), exp_signal = sig,
                  exp_signal_correct = Nd_dbl * diag(Cz[STATES, , drop = FALSE]) * 2 * g("T") * vapply(STATES, g, 0),
                  exp_fp_pairs = fp_pair, exp_fp_singlets = fp_sing) }))
@@ -306,6 +328,6 @@ for (L in LANES) {
 w <- function(tab, nm) if (length(tab)) fwrite(rbindlist(tab, fill = TRUE), file.path(DBL_TAB_DIR, paste0("dbl_typing_", nm, SFX, ".csv")))
 w(ALL$conf, "confusion"); w(ALL$summ, "summary"); w(ALL$fp, "fp"); w(ALL$expd, "expected"); w(ALL$plant, "planted")
 w(ALL$ctrl, "controls"); w(ALL$amb, "ambient"); w(ALL$runs, "runs"); w(ALL$lost, "losses")
-if (length(ALL$inj)) fwrite(rbindlist(ALL$inj), file.path(DBL_TAB_DIR, paste0("dbl_typing_injected", SFX, ".csv.gz")))   # synthetic barcodes only
+if (length(ALL$inj)) fwrite(rbindlist(ALL$inj), file.path(DBL_TAB_DIR, paste0("dbl_typing_injected", SFX, ".csv.gz")))   # singlet rows masked
 CHK <- rbindlist(CHK); fwrite(CHK, file.path(DBL_TAB_DIR, paste0("dbl_checks_04", SFX, ".csv")))
 ts(sprintf("[done] %d checks, %d FAIL", nrow(CHK), sum(!CHK$pass)))

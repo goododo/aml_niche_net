@@ -9,7 +9,7 @@
 #          DBL_TAB_DIR/dbl_transfer_check_smoke.csv        held-out class-A transfer accuracy per compartment (known answer)
 #          DBL_TAB_DIR/dbl_checks_02_smoke.csv
 # Usage  : Rscript scripts/dbl/02_label_barcodes.R [--lanes=single,pooled] [--force]
-# Masking [D2]: nothing here types a doublet. Labels of B/C barcodes are written for stage 03 but their composition is not
+# Masking [D2]: nothing here types a doublet. Labels of B/C barcodes are written for stage 04 but their composition is not
 #   printed or tabulated (B/C barcodes are where removed doublets sit).
 
 suppressPackageStartupMessages({ library(data.table); library(Matrix); library(here); library(Seurat) })
