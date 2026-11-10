@@ -28,6 +28,13 @@
 #     else power(R 2) >= 0.8 -> "only a doubling is detectable with 16 patients"; else "underpowered even for a doubling; close".
 #   robustness (separate lines): rejection > 0.10 in null_dbr1.3_16 -> "the doublet rate needs a dbr-free normalisation (e.g.
 #     hashtag cross-donor doublets) before any real run"; in null_optimistic_16 -> "the calibration needs real doublets".
+# POST-RUN AMENDMENT 2026-11-10 (after job 3687498: machinery FAILED, null_16 rejection 0.31, mean R-hat 1.41; its numbers
+#   are not read; user decision "fix, add a world, rerun"): the singlet false-positive rate was drawn and estimated PER
+#   COMPARTMENT from ~40 re-entered singlets each. That Jeffreys posterior is prior-dominated (~1.2 % per compartment) and,
+#   times 3,000-10,000 singlets per patient, gave Fs 35-117 against S 23-70, with coarse, skewed analyst estimates (1/40
+#   steps). Now ONE singlet rate per lane, pooled over compartments, in the simulated truth and in the analysis (the known-
+#   answer check still uses stage 10's per-compartment form). Added worlds null_sing10x_16 and R1.5_sing10x_16: the analyst's
+#   singlet calibration has 10 x as many re-entered singlets (reported; not part of the verdict). Reading rule unchanged.
 # INPUT  : DBL_TAB_DIR/dbl_nbs_rates_{tune,confirm}_smoke.csv (stage 10 --rates-only); dbl_nbs_tune_smoke.csv (known answer);
 #          DBL_LANE_DIR/<lane>__calib_devel_<tag>_smoke.rds (stage 04)
 # OUTPUT : DBL_TAB_DIR/dbl_oe_templates_smoke.csv, dbl_oe_cohorts_smoke.csv, dbl_oe_summary_smoke.csv, dbl_oe_verdict_smoke.csv,
@@ -65,7 +72,8 @@ make_tpl <- function(cb, d, pc, L) {        # composition weights of one donor, 
   wF <- c(2 * gT * vapply(c("Tamb", "NK", "B", "Ery", "MonoDC"), g, 0), gT^2, 2 * fL * vapply(c("Tamb", "NK", "B", "Ery", "MonoDC"), g, 0), fL^2)
   list(lane = L, donor = d, Nd = Nd, Ns = cb$N * pd - Nd, wS = vapply(LIN, function(kk) 2 * gT * g(kk), 0), wF = setNames(wF, FPT), wSg = f,
        iS = match(ifelse(LIN %in% STATES, paste0("T|LEUK:", LIN), "T|LEUK_other:LEUK_other"), pc$key),
-       iF = match(paste0(FPT, ":"), pc$key), iSg = match(paste0("singlet:", names(f)), pc$key),
+       iF = match(paste0(FPT, ":"), pc$key),
+       iSg = if ("singlet:all" %in% pc$key) rep(match("singlet:all", pc$key), length(f)) else match(paste0("singlet:", names(f)), pc$key),   # [amendment] pooled singlet rate
        nT = cd[compartment == "T", sum(N)], nL = cd[compartment %in% STATES, sum(N)]) }
 SF <- function(tp, r) {                     # expected flagged counts (S at R = 1, Fp, Fs) for rates r aligned to the lane's keys
   rk <- r[tp$iS]; ok <- !is.na(rk); ru <- r[tp$iF]; ru[is.na(ru)] <- 0; rs <- r[tp$iSg]; rs[is.na(rs)] <- 0
@@ -84,8 +92,12 @@ for (L in DBL_SMOKE_LANES) {
   for (d in qual_donors(cb)) { t0 <- SF(make_tpl(cb, d, pc0, L), pc0$k / pc0$n); r <- ref10[tag == DBL_OE_CAL_TAGS[1] & lane == L & donor == d]
     chk(sprintf("%s %s: vector model reproduces stage 10's expected signal and false positives (1e-9)", sub("_.*", "", L), d), TRUE,
         nrow(r) == 1 && abs(t0[["S"]] - r$exp_signal) < 1e-9 && abs(t0[["Fp"]] + t0[["Fs"]] - r$exp_fp) < 1e-9) }
-  PC[[L]] <- counts_of(DBL_OE_CAL_TAGS, L)                                # pooled calibration: tuning folds 1-2 + fold 3
-  PC[[L]][, rec := startsWith(key, "T|LEUK:") | startsWith(key, "T|LEUK_other:")]
+  pcl <- counts_of(DBL_OE_CAL_TAGS, L)                                    # pooled calibration: tuning folds 1-2 + fold 3
+  sg  <- startsWith(pcl$key, "singlet:")                                  # [amendment] one singlet rate per lane
+  PC[[L]] <- rbind(pcl[!sg], pcl[sg, .(key = "singlet:all", n = sum(n), k = sum(k))])
+  chk(sprintf("%s: pooled singlet calibration keeps every re-entered singlet (n %d, k %d)", sub("_.*", "", L), sum(pcl$n[sg]), sum(pcl$k[sg])), TRUE,
+      PC[[L]][key == "singlet:all", n == sum(pcl$n[sg]) & k == sum(pcl$k[sg])])
+  PC[[L]][, `:=`(rec = startsWith(key, "T|LEUK:") | startsWith(key, "T|LEUK_other:"), sgl = key == "singlet:all")]
   for (d in qual_donors(cb)) TPL[[length(TPL) + 1]] <- make_tpl(cb, d, PC[[L]], L)
 }
 TT <- rbindlist(lapply(TPL, function(tp) { s <- SF(tp, PC[[tp$lane]]$k / PC[[tp$lane]]$n); rk <- (PC[[tp$lane]]$k / PC[[tp$lane]]$n)[tp$iS]; ok <- !is.na(rk)
@@ -118,10 +130,11 @@ chk("decide(): no reject + interval inside the band -> C", "C", decide(TRUE, 0.4
 chk("decide(): no reject + interval wider than the band -> D", "D", decide(TRUE, 0.4, 0.5, 2))
 
 ## -- [3] worlds ----
-w <- function(R, n, dbr = 1, rec = 1, fp = 1, coh = DBL_OE_COHORTS) list(R = R, n = n, dbr = dbr, rec = rec, fp = fp, coh = coh)
+w <- function(R, n, dbr = 1, rec = 1, fp = 1, sing = 1, coh = DBL_OE_COHORTS) list(R = R, n = n, dbr = dbr, rec = rec, fp = fp, sing = sing, coh = coh)
 WORLDS <- list(null_16 = w(1, 16), R1.25_16 = w(1.25, 16), R1.5_16 = w(1.5, 16), R2_16 = w(2, 16),
                null_10 = w(1, 10), R1.5_10 = w(1.5, 10), null_30 = w(1, 30), R1.5_30 = w(1.5, 30),
-               null_dbr1.3_16 = w(1, 16, dbr = 1.3), null_optimistic_16 = w(1, 16, rec = 0.85, fp = 1.5), empty = w(1, 8, coh = 10L))
+               null_dbr1.3_16 = w(1, 16, dbr = 1.3), null_optimistic_16 = w(1, 16, rec = 0.85, fp = 1.5), empty = w(1, 8, coh = 10L),
+               null_sing10x_16 = w(1, 16, sing = 10), R1.5_sing10x_16 = w(1.5, 16, sing = 10))   # [amendment] appended: seeds of the others unchanged
 one_cohort <- function(wn, ci) {
   W <- WORLDS[[wn]]; t0 <- proc.time()[["elapsed"]]
   set.seed(DBL_SEED_OE + match(wn, names(WORLDS)) * 1000L + ci)
@@ -132,7 +145,8 @@ one_cohort <- function(wn, ci) {
   P <- lapply(seq_len(W$n), function(i) { tp <- TPL[[tmpl[i]]]; pc <- PC[[tp$lane]]
     y <- exp(rnorm(1, 0, DBL_OE_SD_YIELD))
     r_syn <- rbeta(nrow(pc), pc$k + 0.5, pc$n - pc$k + 0.5)                # this library's synthetic-like rates
-    r_hat <- rbinom(nrow(pc), pc$n, r_syn) / pc$n                          # the analyst's calibration of it
+    nc <- pc$n * ifelse(pc$sgl, W$sing, 1)                                 # [amendment] calibration size (x10 singlets in *_sing10x)
+    r_hat <- rbinom(nrow(pc), nc, r_syn) / nc                              # the analyst's calibration of it
     r_real <- r_syn * ifelse(pc$rec, W$rec, W$fp); r_real <- pmin(r_real, 1)
     st <- SF(tp, r_real) * y; sh <- SF(tp, r_hat) * y
     Ri <- W$R * exp(rnorm(1, 0, DBL_OE_SD_HET) - DBL_OE_SD_HET^2 / 2)
@@ -177,6 +191,7 @@ rob_dbr <- g1("null_dbr1.3_16", "reject_rate"); rob_opt <- g1("null_optimistic_1
 VER <- data.table(verdict = verdict, machinery_ok = MACH, power_R1.25_16 = g1("R1.25_16", "reject_rate"), power_R1.5_16 = pw15, power_R2_16 = pw2,
                   power_R1.5_10 = g1("R1.5_10", "reject_rate"), power_R1.5_30 = g1("R1.5_30", "reject_rate"),
                   size_null_16 = g1("null_16", "reject_rate"), size_dbr1.3 = rob_dbr, size_optimistic = rob_opt,
+                  size_sing10x = g1("null_sing10x_16", "reject_rate"), power_R1.5_sing10x = g1("R1.5_sing10x_16", "reject_rate"),
                   robust_dbr = if (rob_dbr > 0.10) "the doublet rate needs a dbr-free normalisation before any real run" else "ok",
                   robust_calibration = if (rob_opt > 0.10) "the calibration needs real doublets before any real run" else "ok")
 print(t(VER))
