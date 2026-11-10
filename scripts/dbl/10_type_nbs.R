@@ -35,6 +35,12 @@
 #          confirm: DBL_TAB_DIR/dbl_nbs_confirm_smoke.csv, dbl_nbs_verdict_smoke.csv
 #          both:    dbl_nbs_classifier_<mode>_smoke.csv (per lane x fold x world: genes, classes, own-test accuracy, held-out
 #                   T-LEUK recall), dbl_nbs_confusion_<mode>_smoke.csv (synthetic doublet type -> predicted class), dbl_checks_10_<mode>_smoke.csv
+# POST-RUN AMENDMENT 2026-11-10 (after tuning job 3687461; user decision "declared exception, run fold 3"): the shuffled-label
+#   check failed once (pool fold 1: 0.212 > 0.10). The 0.10 bar assumed chance = 1/44, but a shuffled-label forest memorises
+#   the few cells of small types (Ery/NK/Tamb 12-25 training cells), so new cells fall into ~10 large-pool pair classes and
+#   chance is ~0.1 -- the bar was mis-specified (cf. stage 07). The check concerns the classifier only; M1 does not use it.
+#   Amended rule: classifier checks (CLF_CHECK) gate the classifier variants N1/N2/N2M only; M1's validity = every other check.
+#   Everything else (selection, bar, fold-3 one shot) is unchanged; any fold-3 result is labelled a post-hoc exception.
 # Usage  : Rscript scripts/dbl/10_type_nbs.R --mode=tune --runs=tune2_knn:knn,tune2_bmm:bmm
 #          Rscript scripts/dbl/10_type_nbs.R --mode=confirm --runs=f3_<labels>:<labels>
 
@@ -57,6 +63,7 @@ STATES <- DBL_LEUK_STATES; LIN <- c(STATES, "LEUK_other"); WIN <- DBL_AMBIENT_WI
 NEWV <- c("N1", "N2", "M1", "N2M")                 # selectable, in tie-break order
 VARS <- c("V5", NEWV)                              # V5 = stage 09 reference
 TL   <- "LEUK|T"                                   # the classifier's T+LEUK pair class (pair names are sorted)
+CLF_CHECK <- "shuffled-label classifier"           # [amendment 2026-11-10] checks that gate the classifier variants only
 ## -- copied verbatim from 09_recall_variants.R (lines 53-103): stage 04's construction, NNLS with merged LEUK lineage ----
 nz <- function(z) fifelse(z == "", NA_character_, z)
 lin_origin <- function(origin) vapply(strsplit(ifelse(is.na(origin), "", origin), "+", fixed = TRUE), function(z)
@@ -280,6 +287,7 @@ if (MODE == "tune") {                                                  # known a
       v5[, all(abs(recall_nat - recall_nat.09) < 1e-9 & abs(precision_nat - precision_nat.09) < 1e-9)])
 }
 VALID <- all(rbindlist(CHK)$pass)
+VALID_BASE <- rbindlist(CHK)[!grepl(CLF_CHECK, check), all(pass)]   # [amendment] M1's validity: every non-classifier check
 CAND <- NAT[variant %in% NEWV, .(lanes = uniqueN(lane), patients = .N, worst = min(score), worst_recall = min(recall_nat),
                                  worst_precision = min(precision_nat)), by = .(labels, variant)]
 CAND[, `:=`(vrank = match(variant, NEWV), lrank = match(labels, c("knn", "bmm")))]
@@ -298,11 +306,16 @@ if (MODE == "tune") {
              else "below 0.7 already on the tuning folds: the pair classifier does not reach the bar either; fold 3 is NOT run; stop"))
 } else {
   ch <- fread(file.path(DBL_TAB_DIR, "dbl_nbs_choice_smoke.csv"))
-  if (!isTRUE(ch$reaches_bar)) stop("the frozen choice did not reach 0.7 on the tuning folds: fold 3 must not be run")
+  tchk <- fread(file.path(DBL_TAB_DIR, "dbl_checks_10_tune_smoke.csv"))
+  exception <- !isTRUE(ch$reaches_bar) && ch$variant == "M1" && ch$worst >= 0.7 && tchk[!grepl(CLF_CHECK, check), all(pass)]
+  if (!isTRUE(ch$reaches_bar) && !exception) stop("the frozen choice did not reach 0.7 on the tuning folds: fold 3 must not be run")
+  if (exception) ts("[amendment 2026-11-10] tuning choice M1 reached ", round(ch$worst, 3), " with every non-classifier check passing: fold 3 runs as a POST-HOC EXCEPTION")
   if (!all(RUNSPEC$labels == ch$labels)) stop("--runs labels differ from the frozen choice (", ch$labels, ")")
   res <- NAT[labels == ch$labels & variant == ch$variant]
-  pass <- VALID && res[, uniqueN(lane) == length(DBL_SMOKE_LANES) && all(recall_nat >= 0.7 & precision_nat >= 0.7)]
-  verdict <- if (!VALID) "INVALID run: not read" else if (pass) "lineage-level typing is good enough to design the O/E test" else "stop (no further tuning)"
+  VAL_CH <- if (ch$variant == "M1") VALID_BASE else VALID                  # [amendment] classifier checks gate N1/N2/N2M only
+  pass <- VAL_CH && res[, uniqueN(lane) == length(DBL_SMOKE_LANES) && all(recall_nat >= 0.7 & precision_nat >= 0.7)]
+  verdict <- if (!VAL_CH) "INVALID run: not read" else if (pass) "lineage-level typing is good enough to design the O/E test" else "stop (no further tuning)"
+  if (exception) verdict <- paste0(verdict, " [post-hoc exception, amendment 2026-11-10]")
   print(res[, .(lane = sub("_.*", "", lane), donor, recall = round(recall_nat, 3), precision = round(precision_nat, 3))])
   ts("[3] VERDICT on fold 3 (", ch$labels, " labels, ", ch$variant, "): ", verdict)
   fwrite(NAT, file.path(DBL_TAB_DIR, "dbl_nbs_confirm_smoke.csv"))
