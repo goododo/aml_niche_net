@@ -43,6 +43,9 @@
 #   Everything else (selection, bar, fold-3 one shot) is unchanged; any fold-3 result is labelled a post-hoc exception.
 # Usage  : Rscript scripts/dbl/10_type_nbs.R --mode=tune --runs=tune2_knn:knn,tune2_bmm:bmm
 #          Rscript scripts/dbl/10_type_nbs.R --mode=confirm --runs=f3_<labels>:<labels>
+#          ... --rates-only  (added 2026-11-10 for stage 11) recompute a finished mode, require NAT == the stored table, and
+#          write ONLY DBL_TAB_DIR/dbl_nbs_rates_<mode>_smoke.csv: per variant, synthetic pair-type flag counts (k of n) and
+#          re-entered singlets' flag counts pooled per compartment (masking-safe). Choice and verdict files are not touched.
 
 suppressPackageStartupMessages({ library(data.table); library(Matrix); library(here); library(parallel); library(nnls)
   library(Seurat); library(SeuratObject); library(xgboost) })
@@ -50,6 +53,7 @@ source(here::here("scripts", "config", "config_paths.R")); source(here::here("sc
 ARGS <- commandArgs(TRUE)
 argv <- function(key, default) { v <- sub(paste0("^--", key, "="), "", grep(paste0("^--", key, "="), ARGS, value = TRUE)); if (length(v)) v else default }
 MODE <- argv("mode", ""); stopifnot(MODE %in% c("tune", "confirm"))
+RATES_ONLY <- "--rates-only" %in% ARGS
 RUNSPEC <- rbindlist(lapply(strsplit(strsplit(argv("runs", ""), ",")[[1]], ":"), function(z) data.table(tag = z[1], labels = z[2])))
 stopifnot(nrow(RUNSPEC) > 0, all(RUNSPEC$labels %in% c("knn", "bmm")))
 CORES <- as.integer(argv("cores", Sys.getenv("SLURM_CPUS_PER_TASK", "8")))
@@ -275,6 +279,24 @@ for (key in names(CAL)) { cb <- CAL[[key]]; TAG <- sub(" .*", "", key); L <- sub
       exp_signal = signal, exp_fp = fp) } }
 NAT <- rbindlist(NAT)
 NAT[, score := pmin(recall_nat, precision_nat)]
+if (RATES_ONLY) {   # recomputation for stage 11: must reproduce the stored table exactly; writes the calibration counts only
+  old <- fread(file.path(DBL_TAB_DIR, paste0("dbl_nbs_", MODE, "_smoke.csv")))
+  rp <- merge(NAT, old, by = c("tag", "labels", "lane", "variant", "donor"), suffixes = c("", ".old"))
+  chk(sprintf("rates-only %s: same rows as the stored table", MODE), nrow(old), nrow(rp))
+  chk(sprintf("rates-only %s: recall, precision, expected counts reproduce (1e-9, NA-aware)", MODE), TRUE, rp[, all(mapply(function(a, b)
+    (is.na(a) & is.na(b)) | (!is.na(a) & !is.na(b) & abs(a - b) < 1e-9), c(recall_nat, precision_nat, exp_signal, exp_fp),
+    c(recall_nat.old, precision_nat.old, exp_signal.old, exp_fp.old)))])
+  CNT <- rbind(melt(FL, id.vars = c("tag", "labels", "lane", "type", "truth"), measure.vars = VARS, variable.name = "variant", value.name = "flag")[
+                 , .(kind = "pair", comp = NA_character_, n = .N, k = sum(flag)), by = .(tag, labels, lane, variant, type, truth)],
+               SGP[, .(tag, labels, lane, variant, type = "singlet", truth = NA_character_, kind = "singlet", comp, n, k)], use.names = TRUE)
+  print(CNT[variant == "M1" & labels == "knn", .(rows = .N, n = sum(n), k = sum(k)), by = .(lane = sub("_.*", "", lane), kind)])
+  fwrite(CNT, file.path(DBL_TAB_DIR, paste0("dbl_nbs_rates_", MODE, "_smoke.csv")))
+  CHK <- rbindlist(CHK); fwrite(CHK, file.path(DBL_TAB_DIR, paste0("dbl_checks_10_", MODE, "_rates_smoke.csv")))
+  ts(sprintf("[done] rates-only: %d checks, %d FAIL", nrow(CHK), sum(!CHK$pass)))
+  # a non-reproducing recomputation must stop the stage-11 chain; the classifier's own null check (known to fail once in tune
+  # mode, amendment above) does not bear on M1's counts
+  if (!CHK[!grepl(CLF_CHECK, check), all(pass)]) quit(status = 1)
+  quit(status = 0) }
 ## -- [3] validity, then selection (tune) or the one-shot confirmation ----
 CLS <- rbindlist(CLS); CONF <- rbindlist(CONF)
 fwrite(CLS,  file.path(DBL_TAB_DIR, paste0("dbl_nbs_classifier_", MODE, "_smoke.csv")))

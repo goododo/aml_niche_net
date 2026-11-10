@@ -105,3 +105,13 @@ DBL_NBS_N_AM       <- 100L   # artificial barcodes per class: every pair type in
 DBL_NBS_TRAIN_FRAC <- 0.8    # stratified training share; the remaining 20 % is the classifier's own test (Neighbor-seq f = 0.8)
 DBL_NBS_MIN_CELLS  <- 5L     # [SMOKE] a lineage type needs >= 5 training cells to become a class
 DBL_NBS_NULL_MAX   <- 0.10   # [SMOKE] shuffled-label classifier: held-out synthetic T-LEUK-lineage recall must stay <= this
+## -- 10. lineage-level O/E power simulation, stage 11 (user decision 2026-11-10) ----
+DBL_OE_VARIANT   <- "M1"       # stage 10's confirmed typing (kNN labels, V5 AND T-identity gate; post-hoc exception)
+DBL_OE_LABELS    <- "knn"
+DBL_OE_CAL_TAGS  <- c("tune2_knn", "f3_knn")   # calibration counts pooled over tuning folds 1-2 and fold 3
+DBL_OE_SD_YIELD  <- 0.5        # [SMOKE] log-sd of a simulated patient's yield multiplier around its template
+DBL_OE_SD_HET    <- 0.3        # [SMOKE] log-sd of the true enrichment between patients (mean-centred: E[R_i] = R)
+DBL_OE_SD_DBR    <- 0.2        # [SMOKE] log-sd of the doublet-rate error per patient; the analysis knows this width
+DBL_OE_COHORTS   <- 200L       # [SMOKE] simulated cohorts per world
+DBL_OE_MIN_PAT   <- 10L        # [H 4.8] fewer qualifying patients -> descriptive only (outcome D)
+DBL_SEED_OE      <- SEED + 911L   # + world * 1000 + cohort
