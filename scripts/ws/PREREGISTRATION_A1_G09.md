@@ -465,3 +465,16 @@ are unchanged. Script: `scripts/ws/45_a1_g09.R`, run through `scripts/ws/submit_
    - K8's NA test no longer builds a 1e9-element vector (about 8 GB);
    - `--combine` checks the md5 of every input table;
    - the GATES block cites 7.3 instead of quoting the never-written phrases.
+
+**11.5 First real-data attempt stopped by a crash** (2026-11-11):
+- `--known` (job 3687714, script commit 021ffa2) completed with 28 checks, deterministic FAIL 0 and statistical
+  FAIL 0.
+- `--run` (job 3687715) crashed in the reported cohorts. One donor had fewer than 20 genes per half and returned S8's
+  short "skipped" row, and the per-donor tables were combined without filling the missing columns.
+- Nothing was written by `--run`, and no test value was printed. The log holds only step timestamps.
+- Fix: the two per-donor `rbindlist` calls fill missing columns. No design change; the skipped donor is excluded from
+  n_ok, as in S8.
+- Before the rerun, a structure-only check compared gene names and kept-T barcodes of the per-sample objects of the
+  reported healthy cohorts with their pseudobulks. No expression value was read.
+- Run 1's checks table is kept, not deleted, as `/LARGE1/.../ws_a1_g09/run1_superseded/ws_a1_g09_checks_run1_3687714.csv`.
+  All three modes are rerun from the fixed commit.

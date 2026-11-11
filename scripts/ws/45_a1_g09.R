@@ -258,7 +258,7 @@ t1_donor <- function(cl, up, dn, Lv, label, nulls = c("N0", "N1", "N1L", "N2"), 
 t1_pass <- function(x) { x <- x[!is.na(above)]; n_ok <- nrow(x); n_above <- sum(x$above); list(n_ok = n_ok, n_above = n_above, pass = isTRUE(n_ok >= 1 && n_above >= min(6L, n_ok) && n_above / n_ok >= 0.75)) }   # 32:109
 t1_cohort <- function(co, gsn, Lfun, label, nulls) {
   rbindlist(mcl(co$DON$donor, function(d) { j <- match(d, co$DON$donor); cl0 <- get_cells(co, d, SEED + OFF[["cap"]] + 1000L * match(co$key, names(COH)) + j)
-    cl <- norm_cells(cl0$X); r <- t1_donor(cl, UPDN[[gsn]]$up, UPDN[[gsn]]$dn, Lfun(d), paste(label, d), nulls); r[, `:=`(donor = d, n_cells = ncol(cl$X), n_all = cl0$n_all)] })) }
+    cl <- norm_cells(cl0$X); r <- t1_donor(cl, UPDN[[gsn]]$up, UPDN[[gsn]]$dn, Lfun(d), paste(label, d), nulls); r[, `:=`(donor = d, n_cells = ncol(cl$X), n_all = cl0$n_all)] }), fill = TRUE) }   # fill: a donor below 20 genes per half returns the short "skipped" table
 
 ## -- 8. --known: K0-K7 (section 6) --------------------------------------------------------------------------------------------------
 t1_obs <- function(cl, up, dn) { u <- intersect(up, rownames(cl$X)); d <- intersect(dn, rownames(cl$X)); if (length(u) < MIN_HALF || length(d) < MIN_HALF) return(NA_real_)
@@ -395,7 +395,7 @@ if (MODE == "run") {
   ll <- rbindlist(lapply(list(c("oetjen", "C"), c("oetjen", "S"), c("griffin", paste0("BM", 1:5))), function(v) { co <- CO[[v[1]]]
     rbindlist(lapply(v[-1], function(d) { lib <- co$mp[donor == d][order(-n_T)][1, sample]
       cl0 <- if (SMOKE) co$smoke_cells(d, 1L) else read_cells(co, d, SEED + OFF[["cap"]] + 7L, lib_only = lib)
-      t1_donor(norm_cells(cl0$X), up, dn, LD$aml, paste("largestlib", v[1], d), nulls = "N1")[, `:=`(donor = d, cohort = v[1], library = lib)] })) }))
+      t1_donor(norm_cells(cl0$X), up, dn, LD$aml, paste("largestlib", v[1], d), nulls = "N1")[, `:=`(donor = d, cohort = v[1], library = lib)] }), fill = TRUE) }), fill = TRUE)
   DONOR[[length(DONOR) + 1L]] <- ll[, `:=`(gene_set = "primary", view = "4.4 largest library only")]
   ts("[run] 8-of-20 draws (descriptive)")
   set.seed(SEED + OFF[["d8"]]); DD <- lapply(seq_len(N_D8), function(i) sort(sample(CO$oetjen$DON$donor, 8L)))
