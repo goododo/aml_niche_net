@@ -414,7 +414,7 @@ if (MODE == "run") {
   ag <- CO$oetjen$DON[match(colnames(ZOE), donor), age]; uz <- colMeans(ZOE[intersect(up, rownames(ZOE)), , drop = FALSE]); dz <- colMeans(ZOE[intersect(dn, rownames(ZOE)), , drop = FALSE])
   AGE <- data.table(cohort = "oetjen", test = "age", null = c("up half", "down half"), statistic = c(cor(uz, ag, method = "spearman"), cor(dz, ag, method = "spearman")), view = "3.3 descriptive", gene_set = "primary")
   S8T <- fread(file.path(TABWS, "ws_s8_tests.csv"))
-  K0B <- rbindlist(lapply(c("rep", "rep2"), function(k) {   # smoke: S8's published values against synthetic re-runs (exercises the code and 7.2(iv) only) tl <- c(T2 = "T2_opposite_movement", T1 = "T1_within_patient_coherence")
+  K0B <- rbindlist(lapply(c("rep", "rep2"), function(k) { tl <- c(T2 = "T2_opposite_movement", T1 = "T1_within_patient_coherence")   # smoke: S8's published values against synthetic re-runs (exercises the code and 7.2(iv) only)
     rbindlist(lapply(names(tl), function(tt) { s8 <- S8T[set == k & gene_set == "primary" & test == tl[[tt]]]; rr <- TT[cohort == k & gene_set == "primary" & view == "primary" & test == tt & null == "N0"]
       stopifnot(nrow(s8) == 1L, nrow(rr) == 1L)
       data.table(cohort = k, test = tt, published_pass = s8$pass, rerun_pass = rr$pass,   # 7.2(iv): "(published p, re-run p)" = P5 for T2, k of n for T1
