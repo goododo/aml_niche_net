@@ -478,3 +478,112 @@ are unchanged. Script: `scripts/ws/45_a1_g09.R`, run through `scripts/ws/submit_
   reported healthy cohorts with their pseudobulks. No expression value was read.
 - Run 1's checks table is kept, not deleted, as `/LARGE1/.../ws_a1_g09/run1_superseded/ws_a1_g09_checks_run1_3687714.csv`.
   All three modes are rerun from the fixed commit.
+
+## 12. Outcome (2026-11-11)
+
+**12.1 Runs.**
+- Script commit 516f9b4 (md5 d2b3782a88a1d322f7fcda13952658d5), run through `submit_ws_a1_g09.sbatch` from dated
+  read-only copies:
+  - `--known`: job 3687720, 3 min;
+  - `--run`: job 3687721, 7 min;
+  - `--combine`: job 3687722.
+- Locale en_US.UTF-8; R 4.4.3; 16 workers.
+- Tables: `results/tables/ws/ws_a1_g09_{checks,tests,balance,draws8,summary}.csv`. Work files: `/LARGE1/.../ws_a1_g09/`.
+- GATES.md block A1-G09. Commit 1b0987e.
+- Run 1's `--run` (job 3687715, 11.5) crashed before writing anything; its `--known` checks table (job 3687714) is in
+  `run1_superseded/`.
+
+**12.2 Known answers (section 6).** 28 rows: deterministic FAIL 0, statistical FAIL 0.
+
+| id | result | bar |
+|---|---|---|
+| K0 | S8's T2 rho on both AML cohorts and T1 coherence of the 7 + 7 patients with ≤ 500 T cells reproduced | < 1e-12 |
+| K0b | R 4.4.3 and en_US.UTF-8 confirmed; the four re-run N0 pass flags equal `ws_s8_tests.csv` (T2 P5: GSE289435 published 0.38, re-run 0.33; GSE227903 0.21, 0.21) | equal |
+| K1, K2, K2b, K6 | exact | exact |
+| K3 | T2 (N1) passed in 9 of 100 null worlds | ≤ 10 |
+| K4 | 20 of 20 at 0.3 log2 (reported: 20 of 20 at 0.1, 19 of 20 at 0.05) | ≥ 16 |
+| K5 | N1-L 20 of 20; N2 1 of 20 (reported: 100-extreme set N1-L 20, N2 0; the same-source N2 was not computed in at least one world, so its count is NA) | ≥ 16; ≤ 4 |
+| K5b | N1-L 18 of 20; N2 1 of 20 | ≥ 16; ≤ 4 |
+| K7 | 1 of 20 | ≤ 3 |
+
+The generated GATES row reads "statistical FAIL " with an empty list. That means none failed; the code printed an empty
+list instead of 0.
+
+**12.3 K8.**
+- Counts and NA draws: exact in every run.
+- Balance passes in all 8 T2 runs: L 0.02-0.08.
+- Balance fails in all 6 T1 N2 runs (primary and full, three cohorts). Primary values:
+  - L 0.29 (Oetjen), 0.30 (GSE289435), 0.17 (GSE227903);
+  - detection 0.13, 0.09, 0.04.
+
+  Within a donor's per-cell universe the imprint halves sit at the ends of L more than L deciles can match. So every
+  T1 7.2(i)/(ii) distinction is "not readable", as registered. The smoke worlds were already near the bar (11.1:
+  0.09-0.10; smoke rerun 3687675 after 11.4: 0.08-0.09); the real data are well above it.
+
+**12.4 (a) Oetjen, P370, N1: case (i), both tests.**
+- T2: rho -0.57, random P5 0.14.
+- T1: 18 of 20 donors above their random P95 (median coherence 0.015, median random P95 0.003).
+- N0 and N2 agree (T2 N0 P5 -0.19, N2 P5 -0.37; T1 N0 18 of 20). T1 N2 is not readable (12.3).
+- Sentence (GATES.md, block A1-G09): "Among the T cells of one healthy marrow cohort (Oetjen 2018, 20 donors, 10x 3' v2,
+  one protocol; T labels in-sample to BoneMarrowMap), the axis genes show the structure that S8 tested (T2: the up-half
+  and down-half means move oppositely across donors, rho -0.57, random P5 0.14; T1: they co-vary within donors, 18 of
+  20 donors above their random P95). S8 therefore shows that the axis's structure is reproducible on 10x Chromium
+  cohorts, not that it is specific to AML." It carries the 7.1 addition and the 7.4 context.
+- The joint sentence of 7.2 is not written, because it needs (a)(ii).
+
+**12.5 (b) AML cohorts, P370.**
+- N1 (the per-half null): both tests pass in both cohorts.
+  - GSE289435: T2 rho -0.55, P5 0.69; T1 8 of 8.
+  - GSE227903: T2 -0.43, P5 0.57; T1 7 of 7.
+
+  Case (iii) did not occur, so no erratum was written and GATE_S8 stands as published.
+- T2, N1-L / N2:
+
+  | cohort | N1-L rho | N1-L P5 | N2 P5 | case |
+  |---|---|---|---|---|
+  | GSE289435 | -0.50 | 0.67 | 0.00 | (i) |
+  | GSE227903 | -0.57 | 0.57 | -0.79 | (ii) |
+
+  The cohorts disagree and are named separately.
+  - GSE289435: "S8's T2 in GSE289435 exceeds random gene sets matched separately for each half on expression,
+    detection and the naive-to-effector loading."
+  - GSE227903: "S8's T2 in GSE227903 is consistent with the naive-to-effector differentiation axis."
+- T1: not readable in both cohorts (K8 balance). Their N2 counts stay in the tables and are not read.
+- Each (b) sentence carries "This concerns the covariance of S8's structure, not the within-label shift of A1-G01 (5.5
+  did not fire)" and the 7.4 context.
+
+**12.6 Reported (none changes a reading).**
+- **F402 (4.1):** in the tables only; same pattern as P370, and no difference is attributed to the 32.
+- **4.2:** Oetjen T2 under N2 with L from all 10 GSE185381 healthy donors: P5 -0.53, pass. With L from all 20 Oetjen
+  donors (circular): P5 -0.62, fail.
+- **4.3, GSE185381 healthy:**
+  - All 10: T2 rho -0.83, N1 P5 0.36, pass; T1 6 of 8, pass. Two donors (Control0082, Control5) were skipped: fewer
+    than 20 genes per half among 500 cells.
+  - Without Control1-5: T2 rho -0.90, N1 P5 -0.20, pass; T1 2 of 4, fail (n = 4).
+- **4.4, largest library only:** T1 above P95 for Oetjen C and S, and for Griffin BM1-BM5 (7 of 7 donors).
+- **Supporting cohorts, T1 under N1:**
+  - Griffin: 5 of 5;
+  - GSE276360: 4 of 4;
+  - Seq-Well GSE116256 healthy: 1 of 2, fail.
+- **3.3:**
+  - P370 coverage ≥ 0.96 in every T2 run (lowest 0.968, Oetjen).
+  - Naive-share SD: Oetjen 0.20, GSE289435 0.22, GSE227903 0.25.
+  - Oetjen age against the up half: rho 0.16; against the down half: -0.38 (descriptive).
+- **8-of-20 draws (descriptive; never compared with the AML passes, 7.3):** T2 passed in 489 of 500 draws, T1 in 500
+  of 500.
+
+**12.7 What this changes for the paper.**
+- Outline part 3 ("structure in independent cohorts"):
+  - S8's sentence stays: GSE289435 passes, GSE227903 is consistent (S8's reading), and Seq-Well does not reproduce it.
+  - It must now carry the 12.4 sentence: the structure S8 tested is present in one healthy cohort (Oetjen, one
+    protocol), so S8 shows that the structure is reproducible on 10x Chromium cohorts, not that it is specific to AML.
+- For T2, only GSE289435 exceeds the loading-matched null (7.2(i)); GSE227903 is consistent with the axis (7.2(ii)).
+  For T1, the loading-matched reading is not readable.
+- The per-half null did not overturn S8. The head/tail disclosure in section 0 stays as a methods note.
+- 7.3 still binds, together with every never-written item it lists. In particular, none of the following is written:
+  - "AML-specific" for S8's structure;
+  - any healthy-versus-AML strength comparison;
+  - the draw shares as power;
+  - "not explained by differentiation";
+  - "program".
+- Stage 2 (power, Seq-Well) remains a separate amendment, run only if the user asks.
