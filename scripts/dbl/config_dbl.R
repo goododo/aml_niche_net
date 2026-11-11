@@ -121,3 +121,19 @@ DBL_SEED_OE      <- SEED + 911L   # + world * 1000 + cohort
 DBL_P01_LANES <- c(p01_1 = "GSM5613744_2019-07-01-count-1", p01_2 = "GSM5613745_2019-07-01-count-2",
                    p01_3 = "GSM5613746_2019-07-01-count-3")
 stopifnot(identical(DBL_P01_LANES[["p01_1"]], DBL_SMOKE_LANES[["pooled"]]))   # never append P01 lanes to DBL_SMOKE_LANES (02-11 loop over it)
+# Stage 0a gates, worlds and seeds -- FROZEN with 03b_hto_desk.R (tag prereg-dbl-0a-v1); 03b refuses to run if this file's md5 changes
+DBL_0A_G1_MAX      <- 2                 # G1 fails iff sum X2 / (12 x lanes) of the tag-product Poisson fits > this
+DBL_0A_G2_MIN      <- 1.4               # G2 fails iff median nc (in-QC exactly-two-tag cross) / median nc (class-A single) < this
+DBL_0A_DL_Q        <- 0.75              # G3 doublet-like cut: nc >= this quantile (type 7) of the lane's class-A single calls
+DBL_0A_G3_BAND     <- c(0.67, 1.5)      # G3 fails iff doublet-like two-tag observed / predicted is outside (equality passes)
+DBL_0A_MIN_SINGLES <- 50L               # (b) a lane needs >= this many class-A single calls per tag
+DBL_0A_N_SIZE      <- 1e5               # random singlet pairs that size a pseudo-lane (share r_l called exactly-two-tag cross)
+DBL_0A_N_REP       <- 200L              # replicate pseudo-cohorts per known-answer world
+DBL_0A_BAR         <- 0.95              # every gating world's bar
+DBL_0A_BIAS_MAX    <- 0.05              # W1: abs(mean log G3) <= this
+DBL_0A_MULT        <- c(excess = 2, borrow = 1.75, subpool = 2)   # gating worlds W2, W3, W4
+DBL_0A_SUBPOOL     <- c("AML0160", "AML3133")                     # W4's donor pair (the smallest pair)
+DBL_0A_CONTAM      <- 0.7               # W5: share of cross calls whose nc is replaced by a random class-A single's nc
+DBL_0A_N_BOOT      <- 2000L             # Poisson redraws for G3's 95 % CI (reported, never deciding)
+DBL_0A_SELFTEST_N  <- 3900L             # --selftest: synthetic doublets per pseudo-lane (3 pseudo-lanes from count-1 singles)
+DBL_SEED_0A        <- SEED + 961L       # sizing; + i before gating world Wi; + 10 + k before reported world k; + 99 bootstrap
