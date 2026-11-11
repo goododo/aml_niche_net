@@ -7,13 +7,14 @@
 #          TAB_DIR/01_preprocess/03_qc_report__GSE185381.csv     per-donor effective QC thresholds and n_doublet
 #          LARGE1/02_seurat_objects/04_annotated/GSE185381/<donor>.rds   class A = these cells; their projection labels
 #          TAB_DIR/ws/ws_percell_labels.csv.gz                   ws atlas cluster (cl) of class-A cells
-#          GEO_RAW_DIR/GSE185381_RAW/<lane>_{matrix.mtx,features.tsv,barcodes.tsv}.gz   hashtag rows (pooled lane only)
+#          GEO_RAW_DIR/GSE185381_RAW/<lane>_{matrix.mtx,features.tsv,barcodes.tsv}.gz   hashtag rows (hashed lanes: pooled, P01)
 # OUTPUT : DBL_LANE_DIR/<lane>.rds  list(lane, counts = genes x analysis barcodes (A + line-QC-passing B and C),
 #                                        bc = one row per deposited barcode, ann = class-A labels, hto = hashtags x barcodes
 #                                        or NULL, thr = line-QC thresholds used)
 #          DBL_TAB_DIR/dbl_barcode_classes_smoke.csv   lane x donor x class: deposited, passing line QC
 #          DBL_TAB_DIR/dbl_checks_01_smoke.csv          known answers and invariants (PASS/FAIL)
-# Usage  : Rscript scripts/dbl/01_extract_barcodes.R [--lanes=single,pooled] [--force]
+#          --lanes=p01_2,p01_3 (stage 0a, P01 count-2/3): the same two tables with suffix _p01 instead of _smoke
+# Usage  : Rscript scripts/dbl/01_extract_barcodes.R [--lanes=single,pooled | --lanes=p01_2,p01_3] [--force]
 # Nothing here types a doublet, so nothing needs masking. Deletes nothing; refuses to overwrite a lane object without --force.
 
 suppressPackageStartupMessages({ library(data.table); library(Matrix); library(here) })
@@ -21,8 +22,12 @@ source(here::here("scripts", "config", "config_paths.R")); source(here::here("sc
 ARGS  <- commandArgs(TRUE)
 FORCE <- "--force" %in% ARGS
 la    <- sub("^--lanes=", "", grep("^--lanes=", ARGS, value = TRUE))
-LANES <- if (length(la)) DBL_SMOKE_LANES[strsplit(la, ",")[[1]]] else DBL_SMOKE_LANES
-stopifnot(!anyNA(LANES))
+KEYS  <- c(DBL_SMOKE_LANES, DBL_P01_LANES[c("p01_2", "p01_3")])   # p01_1 IS "pooled": never a key, never re-extracted
+LANES <- if (length(la)) KEYS[strsplit(la, ",")[[1]]] else DBL_SMOKE_LANES
+stopifnot(length(LANES) > 0, !anyNA(LANES))                        # an unknown key (e.g. p01_1) indexes to NA and stops here
+P01   <- !all(LANES %in% DBL_SMOKE_LANES)
+if (P01) stopifnot(setequal(names(LANES), c("p01_2", "p01_3")), length(LANES) == 2)   # P01 lanes only both, never mixed
+SFX   <- if (P01) "_p01" else "_smoke"                             # a P01 run never touches the _smoke tables
 for (d in c(DBL_LANE_DIR, DBL_TAB_DIR)) dir.create(d, recursive = TRUE, showWarnings = FALSE)
 ts <- function(...) message(sprintf("[%s] ", format(Sys.time(), "%H:%M:%S")), ...)
 CHK <- list()
@@ -140,6 +145,9 @@ for (L in LANES) {
   print(bc[, .(deposited = .N, pass_line_qc = sum(pass_line_qc)), by = class][order(class)])
   rm(M, bc, ANN, HTO); gc(FALSE)
 }
-if (length(CLASS_TAB)) fwrite(rbindlist(CLASS_TAB), file.path(DBL_TAB_DIR, "dbl_barcode_classes_smoke.csv"))
-CHK <- rbindlist(CHK); fwrite(CHK, file.path(DBL_TAB_DIR, "dbl_checks_01_smoke.csv"))
+CHK <- rbindlist(CHK)
+if (length(CLASS_TAB) == length(LANES)) {   # write only when every requested lane was extracted: a skip never shrinks a table
+  fwrite(rbindlist(CLASS_TAB), file.path(DBL_TAB_DIR, paste0("dbl_barcode_classes", SFX, ".csv")))
+  fwrite(CHK, file.path(DBL_TAB_DIR, paste0("dbl_checks_01", SFX, ".csv")))
+} else ts("    [no table written] ", length(LANES) - length(CLASS_TAB), " requested lane(s) skipped (use --force to redo all)")
 ts(sprintf("[done] %d checks, %d FAIL", nrow(CHK), sum(!CHK$pass)))

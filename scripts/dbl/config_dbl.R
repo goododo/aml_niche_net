@@ -115,3 +115,9 @@ DBL_OE_SD_DBR    <- 0.2        # [SMOKE] log-sd of the doublet-rate error per pa
 DBL_OE_COHORTS   <- 200L       # [SMOKE] simulated cohorts per world
 DBL_OE_MIN_PAT   <- 10L        # [H 4.8] fewer qualifying patients -> descriptive only (outcome D)
 DBL_SEED_OE      <- SEED + 911L   # + world * 1000 + cohort
+## -- 11a. Stage 0a, P01 hashtag desk check (reports/.../redesign_2026-11-11/STAGE0A_plan_v2.md; user decision 2026-11-11) ----
+# P01 = one pool of 5 adult AML donors, 7 hashtags, three 10x lanes. count-1 IS the smoke lane "pooled" (extracted 2026-11-09)
+# and is never re-extracted under a P01 key; count-2/3 come from `01 --lanes=p01_2,p01_3`, whose tables carry suffix _p01.
+DBL_P01_LANES <- c(p01_1 = "GSM5613744_2019-07-01-count-1", p01_2 = "GSM5613745_2019-07-01-count-2",
+                   p01_3 = "GSM5613746_2019-07-01-count-3")
+stopifnot(identical(DBL_P01_LANES[["p01_1"]], DBL_SMOKE_LANES[["pooled"]]))   # never append P01 lanes to DBL_SMOKE_LANES (02-11 loop over it)
