@@ -400,3 +400,23 @@ its words give camera's Direction only, and at p 0.77 and 0.86 there is no evide
 CMV sentence) is not applied: consensus tags are not readable, no set was flagged, and no "shared with NK" reading exists. Any later
 use of the tags table carries the 7.4 CMV sentence. Power beside the no-flag sentence: plants shifting 30 % of a set's genes by
 0.5 log2 were flagged in 2 of 20.
+
+<!-- A1-G09 start -->
+## Is S8's structure specific to AML? (A1-G09 stage 1, prereg-a1-g09-v1) -- 2026-11-11
+
+Script: scripts/ws/45_a1_g09.R (md5 d2b3782a88a1d322f7fcda13952658d5). P370; Oetjen GSE120221 (20 healthy donors) decides (a); GSE289435 and GSE227903 AML_Dx for (b).
+
+| item | reading |
+|---|---|
+| (a) healthy donors (7.1) | Among the T cells of one healthy marrow cohort (Oetjen 2018, 20 donors, 10x 3' v2, one protocol; T labels in-sample to BoneMarrowMap), the axis genes show the structure that S8 tested (T2: the up-half and down-half means move oppositely across donors, rho -0.57, random P5 0.14; T1: they co-vary within donors, 18 of 20 donors above their random P95). S8 therefore shows that the axis's structure is reproducible on 10x Chromium cohorts, not that it is specific to AML. Structure is covariance, not level: this does not change the A1-G02 numbers. It is not evidence for or against composition below the label level (A1-G01 11.5). The direction stays shown in one study (A1-G04). |
+| (b) GSE289435 T2 (7.2) | S8's T2 in GSE289435 exceeds random gene sets matched separately for each half on expression, detection and the naive-to-effector loading. This concerns the covariance of S8's structure, not the within-label shift of A1-G01 (5.5 did not fire). |
+| (b) GSE289435 T1 (7.2) | Whether S8's T1 in GSE289435 goes beyond the naive-to-effector axis is not readable: the loading-matched null failed its known answer (K8 balance). This concerns the covariance of S8's structure, not the within-label shift of A1-G01 (5.5 did not fire). |
+| (b) GSE227903 T2 (7.2) | S8's T2 in GSE227903 is consistent with the naive-to-effector differentiation axis. This concerns the covariance of S8's structure, not the within-label shift of A1-G01 (5.5 did not fire). |
+| (b) GSE227903 T1 (7.2) | Whether S8's T1 in GSE227903 goes beyond the naive-to-effector axis is not readable: the loading-matched null failed its known answer (K8 balance). This concerns the covariance of S8's structure, not the within-label shift of A1-G01 (5.5 did not fire). |
+| known answers | deterministic FAIL 0; statistical FAIL  |
+| coverage (3.3) | P370 coverage >= 0.8 in every T2 run (lowest 0.97) |
+| context (7.4) | The 32 ambient-prone genes stay excluded from every statement; F402 appears in tables only, and no P370/F402 difference is attributed to the 32. S8 is shown on 10x Chromium cohorts; not reproduced on Seq-Well GSE116256; its T3 is uninformative. Oetjen is one cohort and one protocol (10x 3' v2), with labels in-sample to BoneMarrowMap. GSE185381's Control1-5 are T-ALL lanes and Control4 is female by expression. A1-G01 category: "beyond T-subset composition, detected inside the main labels", with its 11.5 sentence: "In GSE185381 (15 adult AML, 10 healthy donors), the mix of BoneMarrowMap T subtypes accounts for about 5% of the cross-fitted T-imprint gap (C 0.045, 95% CI -0.100 to 0.191; C_H 0.051, -0.107 to 0.193; C_A 0.039, -0.104 to 0.196), and a shift is detected inside the four main T labels (S_w 0.664, 95% CI 0.497 to 0.772; a sign check, not a share of the gap). The intervals are descriptive, with the fold lists held fixed. With gamma-delta and MAIT cells as separate labels the composition share is 0.057 (the flags are lower bounds)." (and A1-G01's section-0 limits). "Samples were taken at diagnosis; acute illness, infection, transfusion and medication are unrecorded, and no non-AML patient comparator was run, so 'AML-associated' includes being acutely ill. The commercial-versus-biobank source of the arms is not separated from disease." (A1-G07 7.7) CMV status is unrecorded (CMV expands TEMRA-like cells inside the CD8 EM labels and rises with age). S9 bounds the age share (0.102, upper bound 0.463). |
+| 8-of-20 draws (descriptive; never compared with the AML passes) | T2 passed in 489 of 500 draws; T1 in 500 of 500 |
+
+**Reading: stage 1 of G09 (PREREGISTRATION_A1_G09.md section 7; its never-written list is section 7.3). Stage 2 (power, Seq-Well) is a separate amendment.**
+<!-- A1-G09 end -->

@@ -1,0 +1,29 @@
+id,kind,check,expected,got,state,script_md5
+K0b,deterministic,"R build and collation locale of S8's run (R 4.4.3, en_US.UTF-8; table() orders S8's bin labels by locale)",4.4.3      ;en_US.UTF-8,4.4.3      ;en_US.UTF-8,PASS,d2b3782a88a1d322f7fcda13952658d5
+K0,deterministic,rep: T2 rho equals ws_s8_tests.csv,-0.547619,-0.547619,PASS,d2b3782a88a1d322f7fcda13952658d5
+K0,deterministic,rep: T1 coherence of the 7 patients with <= 500 T cells equals ws_s8_scores,0.00821767;0.02416383;0.04217191;0.01811239;0.03986489;0.01137606;0.01819489,0.00821767;0.02416383;0.04217191;0.01811239;0.03986489;0.01137606;0.01819489,PASS,d2b3782a88a1d322f7fcda13952658d5
+K0,deterministic,rep2: T2 rho equals ws_s8_tests.csv,-0.4285714,-0.4285714,PASS,d2b3782a88a1d322f7fcda13952658d5
+K0,deterministic,rep2: T1 coherence of the 7 patients with <= 500 T cells equals ws_s8_scores,0.026566210;0.009550858;0.022944537;0.027395472;0.010454659;0.029308564;0.023873861,0.026566210;0.009550858;0.022944537;0.027395472;0.010454659;0.029308564;0.023873861,PASS,d2b3782a88a1d322f7fcda13952658d5
+K1,deterministic,Oetjen: 20 donors; libraries per donor and kept T cells equal S9's,TRUE,TRUE,PASS,d2b3782a88a1d322f7fcda13952658d5
+K1,deterministic,Griffin: donors BM1-BM5 with 1250 / 820 / 349 / 2080 / 533 kept T cells,1250; 820; 349;2080; 533,1250; 820; 349;2080; 533,PASS,d2b3782a88a1d322f7fcda13952658d5
+K2,deterministic,CD4 Naive: G01 5.5 statistic and union rho reproduced,0.1004852;0.3554811,0.1004852;0.3554811,PASS,d2b3782a88a1d322f7fcda13952658d5
+K2,deterministic,CD4 Naive: n_genes and n_union,9724;1339,9724;1339,PASS,d2b3782a88a1d322f7fcda13952658d5
+K2,deterministic,CD8 Effector Memory 2: G01 5.5 statistic and union rho reproduced,0.06416751;0.31320788,0.06416751;0.31320788,PASS,d2b3782a88a1d322f7fcda13952658d5
+K2,deterministic,CD8 Effector Memory 2: n_genes and n_union,10939; 1349,10939; 1349,PASS,d2b3782a88a1d322f7fcda13952658d5
+K2b,deterministic,leave-one-donor-out L with no donor left out equals the all-Oetjen L,TRUE,TRUE,PASS,d2b3782a88a1d322f7fcda13952658d5
+K2b,deterministic,"leave-one-donor-out drops all of a donor's libraries (C 3, S 4)",3;4,3;4,PASS,d2b3782a88a1d322f7fcda13952658d5
+K3,deterministic,null world: every world was computed (no stratum FAIL or gene shortfall),0,0,PASS,d2b3782a88a1d322f7fcda13952658d5
+K3,statistical,null world: T2 (N1) passes in at most 10 of 100 permutations,<= 10,9,PASS,d2b3782a88a1d322f7fcda13952658d5
+K4,deterministic,"planted worlds (0.3, 0.1, 0.05): every world was computed (no stratum FAIL or gene shortfall)",0,0,PASS,d2b3782a88a1d322f7fcda13952658d5
+K4,statistical,"machinery: 0.3 log2 plant, T2 (N1) passes in at least 16 of 20",>= 16,20,PASS,d2b3782a88a1d322f7fcda13952658d5
+K4,reported,plants at 0.1 and 0.05 log2: T2 (N1) passes,"",20;19,REPORTED,d2b3782a88a1d322f7fcda13952658d5
+K5,deterministic,composition worlds (gating set): every world was computed (no stratum FAIL or gene shortfall),0,0,PASS,d2b3782a88a1d322f7fcda13952658d5
+K5,statistical,"composition world, T2: N1-L passes in at least 16 of 20",>= 16,20,PASS,d2b3782a88a1d322f7fcda13952658d5
+K5,statistical,"composition world, T2: N2 passes in at most 4 of 20",<= 4,1,PASS,d2b3782a88a1d322f7fcda13952658d5
+K5,reported,reported: same-source profiles (N1-L; N2) and the 100-extreme set (N1-L; N2); NA = not computed,"",20;NA;20;0,REPORTED,d2b3782a88a1d322f7fcda13952658d5
+K5b,deterministic,T1 composition worlds: every world was computed (no stratum FAIL or gene shortfall),0,0,PASS,d2b3782a88a1d322f7fcda13952658d5
+K5b,statistical,"composition world, T1: N1-L above P95 in at least 16 of 20",>= 16,18,PASS,d2b3782a88a1d322f7fcda13952658d5
+K5b,statistical,"composition world, T1: N2 above P95 in at most 4 of 20",<= 4,1,PASS,d2b3782a88a1d322f7fcda13952658d5
+K6,deterministic,"GSE227903: exactly the 9 AML_Dx samples, 7 eligible, z-scores over those 7 only",9/7/7,9/7/7,PASS,d2b3782a88a1d322f7fcda13952658d5
+K7,deterministic,T1 null worlds: every world was computed (no stratum FAIL or gene shortfall),0,0,PASS,d2b3782a88a1d322f7fcda13952658d5
+K7,statistical,null world for T1 (N1): above P95 in at most 3 of 20,<= 3,1,PASS,d2b3782a88a1d322f7fcda13952658d5
