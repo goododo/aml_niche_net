@@ -191,3 +191,6 @@ DBL_SHARE_PS_PLT     <- "Megakaryocyte"   # T+platelet partner: a held-out class
 DBL_SHARE_PS_PLT_MIN <- 5L       # ... used only if the lane has >= this many such class-A cells (otherwise skipped and recorded)
 stopifnot(DBL_SHARE_ALLOC[["T_LEUK"]] == DBL_0B_CAL_N[["T|LEUK"]], DBL_SHARE_ALLOC[["X_LEUK"]] == DBL_0B_CAL_N[["X|LEUK"]],
           DBL_SHARE_ALLOC[["LEUK_LEUK"]] == DBL_0B_CAL_N[["LEUK|LEUK"]], DBL_SHARE_ALLOC[["T_X"]] == DBL_0B_CAL_N[["T|X"]])   # = 0b's design sizes
+DBL_SHARE_N_BOOT     <- 2000L    # 12 --gates: parent-cell (pigeonhole) bootstrap replicates of every synthetic rate (freeze section 4)
+DBL_SHARE_FLAGS      <- c("M1", "D", "DT", "Y_w")   # flags whose rates 12 --gates tabulates and bootstraps
+DBL_SEED_SHARE_BOOT  <- DBL_SEED_SHARE_CAL + 100000L   # 12 --gates: + lane index (outside every --calibrate seed: 100 x 47 + runs < 1e5)
