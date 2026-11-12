@@ -157,3 +157,22 @@ DBL_0B_CAL_BASIS   <- "design"         # calibration variance of the base rule: 
                                        #   "smoke" = the smoke's own counts (the other one is a reported row); user decision 2026-11-12: "design"
 DBL_0B_CAL_N       <- c("T|LEUK" = 150, "X|LEUK" = 250, "LEUK|LEUK" = 800, "T|X" = 100)   # redesign section 4 per donor-lane
                                        #   (T|LEUK per LEUK label; X|LEUK 1,500 and T|X 700 split over their types); halved in P01
+## -- 11c. Share design, freeze 1 (scripts/dbl/prereg_share/PREREGISTRATION_SHARE_F1.md; user decision 2026-11-12) ----
+DBL_SHARE_LANES_FILE <- "dbl_lanes_share.tsv"   # the lane table (00_share_lanes.R; metadata only)
+DBL_SHARE_MIN_T      <- 30L     # Stage 1: strict-T class-A cells per patient, summed over lanes
+DBL_SHARE_MIN_LEUK   <- 50L     # Stage 1: LEUK (5 states + LEUK_other) class-A cells per patient
+DBL_SHARE_MIN_N      <- 10L     # Stage 1 and final eligibility: fewer eligible patients -> BN-1
+DBL_SHARE_PREC_MIN   <- 0.70    # Stage 2 lane gate: natural M1 precision (decision 6)
+DBL_SHARE_REC_MIN    <- 0.50    # Stage 2 lane gate: natural M1 recall (decision 6)
+DBL_SHARE_DPUR_MIN   <- 0.50    # Stage 2 lane gate: D purity
+DBL_SHARE_SE_MAX     <- 0.10    # Stage 2 lane gate: SE(logit pi0)
+DBL_SHARE_THR_MAX    <- 0.05    # Stage 2 lane gate: |threshold(calibration run) - threshold(masked real run)|
+DBL_SHARE_WIN_RM     <- 0.90    # Stage 2 lane gate: window removes >= this share of flagged T+ambient / T+platelet pseudo-singlets
+DBL_SHARE_WIN_KEEP   <- 0.95    # ... and keeps >= this share of synthetic T|LEUK
+DBL_SHARE_MIN_PRED   <- 5       # final eligibility: predicted Y and predicted LEUK|X per patient
+DBL_SHARE_MIN_SLOPE  <- 0.2     # final eligibility: |d logit pi / d log psi|
+DBL_SHARE_TAU_MIN    <- 0.15    # tau floor in the reference distribution
+DBL_SHARE_BAND       <- c(2 / 3, 1.5)   # negligible band of psi
+DBL_SEED_SHARE_CAL   <- SEED + 1201L    # 12 --calibrate: + 100 x lane index + run
+DBL_SEED_SHARE_AUDIT <- SEED + 1301L    # 13 --audit: + 10000 x world + cohort
+DBL_SEED_SHARE_UNB   <- SEED + 1401L    # 14 unblinding

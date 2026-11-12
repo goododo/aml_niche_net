@@ -8,7 +8,10 @@
 #          DBL_TAB_DIR/dbl_class_a_composition_smoke.csv   lane x donor x compartment counts of CLASS-A cells only (= singlet f)
 #          DBL_TAB_DIR/dbl_transfer_check_smoke.csv        held-out class-A transfer accuracy per compartment (known answer)
 #          DBL_TAB_DIR/dbl_checks_02_smoke.csv
-# Usage  : Rscript scripts/dbl/02_label_barcodes.R [--lanes=single,pooled] [--force]
+# Usage  : Rscript scripts/dbl/02_label_barcodes.R [--lanes=single,pooled | --share --dataset=<ds>] [--force]
+#          --share --dataset=<ds> (share design Stage 1 S1d, only after the freeze-1 tag prereg-dbl-share-f1): every analysis lane
+#            of <ds> in dbl_lanes_share.tsv; tables suffixed _share_<ds>; a lane whose labels exist is not relabelled, and its
+#            class-A composition is read back from the stored label file.
 # Masking [D2]: nothing here types a doublet. Labels of B/C barcodes are written for stage 04 but their composition is not
 #   printed or tabulated (B/C barcodes are where removed doublets sit).
 
@@ -17,8 +20,12 @@ source(here::here("scripts", "config", "config_paths.R")); source(here::here("sc
 ARGS  <- commandArgs(TRUE)
 FORCE <- "--force" %in% ARGS
 la    <- sub("^--lanes=", "", grep("^--lanes=", ARGS, value = TRUE))
-LANES <- if (length(la)) DBL_SMOKE_LANES[strsplit(la, ",")[[1]]] else DBL_SMOKE_LANES
-stopifnot(!anyNA(LANES))
+SHARE <- "--share" %in% ARGS
+if (SHARE) { DS <- sub("^--dataset=", "", grep("^--dataset=", ARGS, value = TRUE)); stopifnot(length(DS) == 1, !length(la))
+  stopifnot(system2("git", c("-C", here::here(), "rev-parse", "-q", "--verify", "refs/tags/prereg-dbl-share-f1"), stdout = FALSE) == 0)   # freeze 1 first
+  LANES <- sort(unique(fread(here::here("scripts", "dbl", DBL_SHARE_LANES_FILE))[dataset == DS & role == "analysis", lane])); SFX <- paste0("_share_", DS)
+} else { LANES <- if (length(la)) DBL_SMOKE_LANES[strsplit(la, ",")[[1]]] else DBL_SMOKE_LANES; SFX <- "_smoke" }
+stopifnot(length(LANES) > 0, !anyNA(LANES))
 ts <- function(...) message(sprintf("[%s] ", format(Sys.time(), "%H:%M:%S")), ...)
 CHK <- list()
 chk <- function(name, expected, got) {
@@ -37,7 +44,9 @@ knn_vote <- function(ref_pc, ref_lab, qry_pc, k) {   # majority label among k ne
 COMP <- list(); TRANS <- list()
 for (L in LANES) {
   out <- file.path(DBL_LANE_DIR, paste0(L, "__labels.csv.gz"))
-  if (file.exists(out) && !FORCE) { ts("[skip] ", out, " exists (use --force)"); next }
+  if (file.exists(out) && !FORCE) { ts("[skip] ", out, " exists (use --force)")
+    if (SHARE) COMP[[L]] <- fread(out)[class == "A", .N, by = .(donor, compartment)][, lane := L][order(donor, compartment)]
+    next }
   ts("[1] lane ", L)
   x  <- readRDS(file.path(DBL_LANE_DIR, paste0(L, ".rds")))
   M  <- x$counts
@@ -122,7 +131,7 @@ for (L in LANES) {
   print(dcast(COMP[[L]], compartment ~ donor, value.var = "N", fill = 0L))
   rm(x, M, so, soA, D, DA); gc(FALSE)
 }
-if (length(COMP))  fwrite(rbindlist(COMP),  file.path(DBL_TAB_DIR, "dbl_class_a_composition_smoke.csv"))
-if (length(TRANS)) fwrite(rbindlist(TRANS), file.path(DBL_TAB_DIR, "dbl_transfer_check_smoke.csv"))
-CHK <- rbindlist(CHK); fwrite(CHK, file.path(DBL_TAB_DIR, "dbl_checks_02_smoke.csv"))
+if (length(COMP))  fwrite(rbindlist(COMP),  file.path(DBL_TAB_DIR, paste0("dbl_class_a_composition", SFX, ".csv")))
+if (length(TRANS)) fwrite(rbindlist(TRANS), file.path(DBL_TAB_DIR, paste0("dbl_transfer_check", SFX, ".csv")))
+CHK <- rbindlist(CHK); fwrite(CHK, file.path(DBL_TAB_DIR, paste0("dbl_checks_02", SFX, ".csv")))
 ts(sprintf("[done] %d checks, %d FAIL", nrow(CHK), sum(!CHK$pass)))

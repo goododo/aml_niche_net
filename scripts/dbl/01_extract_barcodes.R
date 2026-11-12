@@ -14,7 +14,11 @@
 #          DBL_TAB_DIR/dbl_barcode_classes_smoke.csv   lane x donor x class: deposited, passing line QC
 #          DBL_TAB_DIR/dbl_checks_01_smoke.csv          known answers and invariants (PASS/FAIL)
 #          --lanes=p01_2,p01_3 (stage 0a, P01 count-2/3): the same two tables with suffix _p01 instead of _smoke
-# Usage  : Rscript scripts/dbl/01_extract_barcodes.R [--lanes=single,pooled | --lanes=p01_2,p01_3] [--force]
+#          --share --dataset=<ds> (share design Stage 1 S1b): every analysis lane of <ds> in scripts/dbl/dbl_lanes_share.tsv;
+#            tables suffixed _share_<ds>; a lane object that exists is not re-extracted, its stored classes enter the table.
+#            GSE289435 / Petti2019: per-barcode metadata from the ingest object (one sample per lane, all author-deposited,
+#            so no class C), no hashtag rows.
+# Usage  : Rscript scripts/dbl/01_extract_barcodes.R [--lanes=single,pooled | --lanes=p01_2,p01_3 | --share --dataset=<ds>] [--force]
 # Nothing here types a doublet, so nothing needs masking. Deletes nothing; refuses to overwrite a lane object without --force.
 
 suppressPackageStartupMessages({ library(data.table); library(Matrix); library(here) })
@@ -22,12 +26,19 @@ source(here::here("scripts", "config", "config_paths.R")); source(here::here("sc
 ARGS  <- commandArgs(TRUE)
 FORCE <- "--force" %in% ARGS
 la    <- sub("^--lanes=", "", grep("^--lanes=", ARGS, value = TRUE))
+SHARE <- "--share" %in% ARGS
+DS    <- if (SHARE) sub("^--dataset=", "", grep("^--dataset=", ARGS, value = TRUE)) else DBL_DATASET
+if (SHARE) { stopifnot(length(DS) == 1, !length(la))
+  LT <- fread(here::here("scripts", "dbl", "dbl_lanes_share.tsv"))[dataset == DS & role == "analysis"]
+  LANES <- setNames(sort(unique(LT$lane)), sort(unique(LT$lane))); SFX <- paste0("_share_", DS)
+} else {
 KEYS  <- c(DBL_SMOKE_LANES, DBL_P01_LANES[c("p01_2", "p01_3")])   # p01_1 IS "pooled": never a key, never re-extracted
 LANES <- if (length(la)) KEYS[strsplit(la, ",")[[1]]] else DBL_SMOKE_LANES
-stopifnot(length(LANES) > 0, !anyNA(LANES))                        # an unknown key (e.g. p01_1) indexes to NA and stops here
 P01   <- !all(LANES %in% DBL_SMOKE_LANES)
 if (P01) stopifnot(setequal(names(LANES), c("p01_2", "p01_3")), length(LANES) == 2)   # P01 lanes only both, never mixed
-SFX   <- if (P01) "_p01" else "_smoke"                             # a P01 run never touches the _smoke tables
+SFX   <- if (P01) "_p01" else "_smoke" }                           # a P01 run never touches the _smoke tables
+stopifnot(length(LANES) > 0, !anyNA(LANES))                        # an unknown key (e.g. p01_1) indexes to NA and stops here
+G185  <- DS == "GSE185381"                                         # the only dataset with Library / Demuxed / hashtag rows
 for (d in c(DBL_LANE_DIR, DBL_TAB_DIR)) dir.create(d, recursive = TRUE, showWarnings = FALSE)
 ts <- function(...) message(sprintf("[%s] ", format(Sys.time(), "%H:%M:%S")), ...)
 CHK <- list()
@@ -38,23 +49,28 @@ chk <- function(name, expected, got) {   # record and print one check; a FAIL ne
 
 ## -- [1] per-barcode metadata and QC thresholds ----
 ts("[1] per-barcode metadata and QC thresholds")
-GSMS <- sub("_.*$", "", LANES)                                 # lane names start with the GSM accession
+GSMS <- sub("_.*$", "", LANES)                                 # lane names start with the GSM accession (Petti: the sample id)
+if (G185) {
 QCC <- fread(file.path(TAB_DIR, "00_ingest", "GSE185381_qc_percell.csv.gz"),
              select = c("cell_barcode", "Sample", "Demuxed", "GSM", "Library", "nCount_RNA", "nFeature_RNA", "percent.mt", "percent.hb"))
 setnames(QCC, c("cell", "donor", "demuxed", "gsm", "lane", "nc", "nf", "mt", "hb"))
-QCC <- QCC[gsm %in% GSMS]
-QCR <- fread(file.path(TAB_DIR, "01_preprocess", "03_qc_report__GSE185381.csv"))
+QCC <- QCC[gsm %in% GSMS] }
+QCR <- fread(file.path(TAB_DIR, "01_preprocess", paste0("03_qc_report__", DS, ".csv")))[, Sample := as.character(Sample)]   # Petti ids are numeric
 pass_full <- function(d, s) {   # 03_per_sample_qc thresholds of donor s (effective MAD + absolute bounds) -- copied from ws/38
   q <- QCR[Sample == s]; stopifnot(nrow(q) == 1)
   d$nc >= q$ncount_lo & d$nc <= q$ncount_hi & d$nf >= q$nfeat_lo & d$nf <= q$nfeat_hi & d$mt <= q$mt_hi & (is.na(q$hb_hi) | d$hb <= q$hb_hi) }
-for (L in LANES) chk(sprintf("%s: lane name agrees with the Library column", L), TRUE, all(QCC[gsm == sub("_.*$", "", L), unique(lane)] == L))
+if (G185) for (L in LANES) chk(sprintf("%s: lane name agrees with the Library column", L), TRUE, all(QCC[gsm == sub("_.*$", "", L), unique(lane)] == L))
 
 ## -- [2] ingest object: the lanes' counts layers ----
 ts("[2] loading the ingest object (all deposited barcodes)")
-obj   <- readRDS(file.path(RDS_INGEST_DIR, "GSE185381.rds"))
+obj   <- readRDS(file.path(RDS_INGEST_DIR, paste0(DS, ".rds")))
 assay <- obj[["RNA"]]
 LAY   <- SeuratObject::Layers(assay, search = "counts")
-META  <- as.data.table(obj@meta.data, keep.rownames = "cell")[, .(cell, Sample, Demuxed, Library)]
+if (G185) { META <- as.data.table(obj@meta.data, keep.rownames = "cell")[, .(cell, Sample, Demuxed, Library)]
+} else {   # one sample per lane, all barcodes author-deposited: per-barcode metadata straight from the ingest object
+  META <- as.data.table(obj@meta.data, keep.rownames = "cell")[, .(cell, Sample = as.character(Sample), Demuxed = TRUE, Library = as.character(Sample))]
+  QCC  <- as.data.table(obj@meta.data, keep.rownames = "cell")[, .(cell, donor = as.character(Sample), demuxed = TRUE, gsm = sub("_.*$", "", Sample),
+            lane = as.character(Sample), nc = nCount_RNA, nf = nFeature_RNA, mt = percent.mt, hb = percent.hb)][lane %in% LANES] }
 cell_layer <- rbindlist(lapply(LAY, function(l) data.table(cell = SeuratObject::Cells(assay, layer = l), layer = l)))
 GENES <- rownames(assay)
 ts(sprintf("    %d barcodes, %d genes, %d counts layers", ncol(obj), length(GENES), length(LAY)))
@@ -65,13 +81,16 @@ get_counts <- function(cells) {   # counts of these cells from whichever layer(s
 
 ## -- [3] class-A labels: 04_annotated meta + ws atlas cluster ----
 ts("[3] class-A cells and their labels (04_annotated) + ws atlas cluster")
-AN_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "04_annotated", DBL_DATASET)
+AN_DIR <- file.path(LARGE1_DIR, "02_seurat_objects", "04_annotated", DS)
 ATL <- fread(file.path(TAB_DIR, "ws", "ws_percell_labels.csv.gz"), select = c("cell", "cl"))
 ATL <- ATL[sub("_.*$", "", cell) %in% GSMS]
 CLASS_TAB <- list()
 for (L in LANES) {
   out <- file.path(DBL_LANE_DIR, paste0(L, ".rds"))
-  if (file.exists(out) && !FORCE) { ts("    [skip] ", out, " exists (use --force)"); next }
+  if (file.exists(out) && !FORCE) { ts("    [skip] ", out, " exists (use --force)")
+    if (SHARE) { b0 <- readRDS(out)$bc                              # share tables cover every analysis lane, extracted earlier or now
+      CLASS_TAB[[L]] <- b0[, .(deposited = .N, pass_line_qc = sum(pass_line_qc)), by = .(lane, donor, class)][order(donor, class)]; rm(b0) }
+    next }
   ts("[4] lane ", L)
   bc <- merge(META[Library == L, .(cell, donor_meta = Sample, demuxed_meta = Demuxed)], QCC[lane == L], by = "cell", all = TRUE)
   chk(sprintf("%s: ingest barcodes == qc_percell barcodes", L), TRUE, bc[, !anyNA(donor_meta) && !anyNA(donor)])
@@ -118,8 +137,9 @@ for (L in LANES) {
   ## hashtags: Antibody Capture rows of the raw GEO matrix (pooled lane); ingest dropped them
   HTO <- NULL
   pre <- file.path(GEO_RAW_DIR, "GSE185381_RAW", L)
-  ft <- fread(paste0(pre, "_features.tsv.gz"), header = FALSE)
-  hrows <- which(ft$V3 == "Antibody Capture" & grepl(DBL_HTO_PREFIX, ft$V1))
+  hrows <- integer(0)
+  if (G185) { ft <- fread(paste0(pre, "_features.tsv.gz"), header = FALSE)
+    hrows <- which(ft$V3 == "Antibody Capture" & grepl(DBL_HTO_PREFIX, ft$V1)) }
   if (length(hrows)) {
     rbc <- fread(paste0(pre, "_barcodes.tsv.gz"), header = FALSE)$V1
     m <- fread(cmd = paste("zcat", shQuote(paste0(pre, "_matrix.mtx.gz")), "| grep -v '^%'"), header = FALSE)

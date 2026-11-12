@@ -19,6 +19,10 @@
 #   donor-composition-weighted mean of the measured X|LEUK rates; T|Other = mean of the measured T|X rates (X in Tamb, NK,
 #   B, Ery, MonoDC); non-T non-LEUK pairs: D = that T|X mean, Y = 0. Tables are written and printed only if every known
 #   answer passes; otherwise only the checks and "NOT READ". Rerun: once, only for a demonstrated code bug, same seeds.
+# FREEZE 1 (tag prereg-dbl-share-f1): mode --audit (Stage 3) is not written yet. Its rules are fixed in
+#   scripts/dbl/prereg_share/PREREGISTRATION_SHARE_F1.md section 4 and REDESIGN_share_plan_2026-11-11.md sections 5-7: the binomial
+#   GLMM with Gauss-Hermite, the one-sided LRT with parametric reference draws, the binding variants, the world list, the bars
+#   and the power verdict at freeze 2; seeds DBL_SEED_SHARE_AUDIT.
 # Usage  : Rscript scripts/dbl/13_share_model.R --planning [--force] | --planning --mock (stage-10 M1 counts, D = 1.5 x M1;
 #          code test only, writes nothing)
 

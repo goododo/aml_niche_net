@@ -13,6 +13,10 @@
 #   minor >= DBL_SHARE_D_MINOR, gap >= DBL_SHARE_D_GAP)], P = DBL_SHARE_P; plus Y_w = M1 inside the lane's LEUK-share window.
 # MASKING: stage 04's tables also hold re-entered real singlets ("singlet:*"); those rows are dropped at read, and the rebuilt
 #   injection keeps synthetic doublets only, so no real barcode is ever flagged. No per-barcode file is written.
+# FREEZE 1 (tag prereg-dbl-share-f1): mode --calibrate (Stage 2) is not written yet. Its rules are fixed in
+#   scripts/dbl/prereg_share/PREREGISTRATION_SHARE_F1.md section 4 and REDESIGN_share_plan_2026-11-11.md section 4: per lane 20
+#   held-out discard-mode runs, the design allocation, rate tables with parent-cluster bootstrap, one masked real run, f_A / f_Q,
+#   hashtag maps, propensities and lambda-hat, the replica known answer, the lane gates; seeds DBL_SEED_SHARE_CAL.
 # Usage  : Rscript scripts/dbl/12_share_calibrate.R --reuse-smoke [--force] [--cores=8]
 
 suppressPackageStartupMessages({ library(data.table); library(Matrix); library(here); library(parallel); library(nnls) })
