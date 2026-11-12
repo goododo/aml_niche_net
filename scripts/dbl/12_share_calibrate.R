@@ -381,9 +381,9 @@ if (MODE == "calibrate") {
 #          kNN label, called, M1, D; the lane's discard-mode model terms; run facts; checks. 12 --replica-verdict reads these.
 if (MODE == "replica") {
   NR <- as.integer(argv("reps", DBL_SHARE_REP_N)); SFX <- if (QUICK) "_quick" else ""
-  G  <- fread(file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_gates", SFX, ".csv")), colClasses = list(character = c("lane", "donor", "patient")))
-  EE <- fread(file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_eligibility", SFX, ".csv")), colClasses = list(character = "patient"))
-  RTb <- fread(file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_rates", SFX, ".csv")), colClasses = list(character = c("lane", "donor")))
+  G  <- fread(file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_gates", if (DBL_SHARE_SE_METHOD == "dyadic") DBL_SHARE_STAGE2_SFX else "", SFX, ".csv")), colClasses = list(character = c("lane", "donor", "patient")))
+  EE <- fread(file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_eligibility", if (DBL_SHARE_SE_METHOD == "dyadic") DBL_SHARE_STAGE2_SFX else "", SFX, ".csv")), colClasses = list(character = "patient"))
+  RTb <- fread(file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_rates", if (DBL_SHARE_SE_METHOD == "dyadic") DBL_SHARE_STAGE2_SFX else "", SFX, ".csv")), colClasses = list(character = c("lane", "donor")))
   if (QUICK) { L <- argv("lane", ""); cand <- G[lane == L] } else {
     DS <- argv("dataset", ""); cand <- G[dataset == DS & pass == TRUE & patient %in% EE[eligible == TRUE, patient]]
     stopifnot(nrow(cand) > 0)
@@ -512,8 +512,9 @@ if (MODE == "replica-verdict") {
 ## == MODE --gates: Stage 2 step 2b, lane gates and final eligibility (freeze section 4; STAGE2_plan.md sections 1, 3, 3c) ====
 if (MODE == "gates") {
   SFX <- if (QUICK) "_quick" else ""
-  OUTG <- file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_", c("gates", "eligibility", "verdict", "rates", "checks"), SFX, ".csv"))
-  names(OUTG) <- c("gates", "elig", "verdict", "rates", "checks"); BOOTF <- file.path(DBL_SHARE_DIR, paste0("stage2_boot", SFX, ".rds"))
+  S2 <- if (DBL_SHARE_SE_METHOD == "dyadic") DBL_SHARE_STAGE2_SFX else ""   # amendment 1 writes beside the original outputs
+  OUTG <- file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_", c("gates", "eligibility", "verdict", "rates", "checks"), S2, SFX, ".csv"))
+  names(OUTG) <- c("gates", "elig", "verdict", "rates", "checks"); BOOTF <- file.path(DBL_SHARE_DIR, paste0("stage2_boot", S2, SFX, ".rds"))
   stopifnot(all(startsWith(c(OUTG, BOOTF), DBL_SMOKE_DIR))); if (any(file.exists(c(OUTG, BOOTF))) && !FORCE) stop("outputs exist (use --force)")
   CF <- setNames(file.path(DBL_SHARE_DIR, paste0(WORK, "__cal", SFX, ".rds")), WORK); have <- file.exists(CF)
   ts(sprintf("[g1] %d of %d lanes have a calibration file%s", sum(have), length(WORK), if (QUICK) " (QUICK: a code test, no verdict)" else ""))
@@ -531,6 +532,11 @@ if (MODE == "gates") {
     den <- as.matrix(Matrix::crossprod(Gm, Wb))                     # keys x B (crossprod = t(Gm) %*% Wb)
     lapply(setNames(DBL_SHARE_FLAGS, DBL_SHARE_FLAGS), function(fl) { r <- as.matrix(Matrix::crossprod(Gm, Wb * s[[fl]])) / den
       rownames(r) <- KEYS; r }) }
+  dyad_var <- function(phi, a, b) {   # AMENDMENT 1: dyadic cluster-robust variance = sum of phi_i phi_j over barcode pairs that share
+    stopifnot(all(a != b))                                         #   (a cell is never paired with itself; checked in 2a)
+    Sc <- tapply(c(phi, phi), c(a, b), sum)                       #   >= 1 parent cell; sum_c S_c^2 counts a pair once per shared cell,
+    Tg <- tapply(phi, paste(pmin(a, b), pmax(a, b)), sum)          #   so pairs with the same two parents (incl. i = j) are subtracted once
+    sum(Sc^2) - sum(Tg^2) }
   gate_q <- function(w, y, d) { EY <- colSums(w * y); ED <- colSums(w * d)   # w recycles down the rows: w_u x rate_u in every column
     rbind(recall = colSums(w[TL] * y[TL, , drop = FALSE]) / sum(w[TL]), precision = colSums(w[TL] * y[TL, , drop = FALSE]) / EY,
           dpur = colSums(w[c(TL, XL)] * d[c(TL, XL), , drop = FALSE]) / ED, pi0 = EY / ED) }
@@ -569,7 +575,10 @@ if (MODE == "gates") {
       direct <- sd_[, .(r = mean(M1)), by = ptype][match(KEYS, ptype), r]
       GT[[paste(L, d)]] <- data.table(lane = L, lane_index = z$lane_index, dataset = z$dataset, chemistry = z$chemistry, donor = d,
         Nd = Nd, Ns = Ns, runs = nrow(z$runs), lane_checks = all(z$checks$pass), recall = Q0[["recall"]], precision = Q0[["precision"]],
-        dpur = Q0[["dpur"]], pi0_dbl = Q0[["pi0"]], se_logit_pi0 = { lp <- qlogis(QB["pi0", ]); if (all(is.finite(lp))) sd(lp) else Inf },
+        dpur = Q0[["dpur"]], pi0_dbl = Q0[["pi0"]], se_logit_pi0_pigeonhole = { lp <- qlogis(QB["pi0", ]); if (all(is.finite(lp))) sd(lp) else Inf },
+        se_logit_pi0_dyadic = { k <- match(sd_$ptype, KEYS); nkk <- nk[k]; EY <- sum(w * fill$M1); ED <- sum(w * fill$D); p0 <- EY / ED
+          phi <- (w[k] * (sd_$M1 - fill$M1[k]) / nkk / EY - w[k] * (sd_$D - fill$D[k]) / nkk / ED) / (1 - p0)   # delta method, logit pi0
+          sqrt(max(dyad_var(phi, sd_$a, sd_$b), 0)) },
         thr_cal = thr_cal, thr_real = thr_real,
         thr_diff = abs(thr_cal - thr_real), n_ps_flag = nrow(ps), win_rm = win_rm, n_tl_flag = nrow(tl), win_keep = win_keep,
         keys_imputed = sum(nk == 0 & w > 0), w_imputed = sum(w[nk == 0]), pred_Y = Nd * (SYd + OYd), pred_LX = Nd * sum(w[XL] * fill$D[XL]),
@@ -580,6 +589,7 @@ if (MODE == "gates") {
       PB[[paste(L, d)]] <- list(Nd = Nd, EY = colSums(w * RB$M1), ED = colSums(w * RB$D)) }   # for the reported patient-level SE
     rm(z, s); gc(FALSE) }
   G <- rbindlist(GT)
+  G[, se_logit_pi0 := if (DBL_SHARE_SE_METHOD == "dyadic") se_logit_pi0_dyadic else se_logit_pi0_pigeonhole]   # the deciding SE
   G[, `:=`(g_prec = precision >= DBL_SHARE_PREC_MIN, g_rec = recall >= DBL_SHARE_REC_MIN, g_dpur = dpur >= DBL_SHARE_DPUR_MIN,
            g_se = se_logit_pi0 <= DBL_SHARE_SE_MAX, g_thr = thr_diff <= DBL_SHARE_THR_MAX,
            g_win = (is.na(win_rm) | win_rm >= DBL_SHARE_WIN_RM) & !is.na(win_keep) & win_keep >= DBL_SHARE_WIN_KEEP)]
@@ -596,13 +606,24 @@ if (MODE == "gates") {
   E[, eligible := lanes_pass > 0 & pred_Y >= DBL_SHARE_MIN_PRED & pred_LX >= DBL_SHARE_MIN_PRED & !is.na(slope) & abs(slope) >= DBL_SHARE_MIN_SLOPE]
   ## -- [g4] checks, tables, verdict ----
   chk("pair-type weights sum to 1 for every lane x donor (1e-9)", TRUE, G[, all(abs(wsum - 1) < 1e-9)])
+  set.seed(DBL_SEED_SHARE_BOOT); ph <- rnorm(200); ua <- paste0("a", 1:200); ub <- paste0("b", 1:200)   # dyadic unit tests (fixed toys)
+  chk("dyadic variance: unique parents -> sum phi^2 (1e-12)", TRUE, abs(dyad_var(ph, ua, ub) - sum(ph^2)) < 1e-12)
+  ta <- paste0("c", sample(30, 200, TRUE)); tb <- paste0("c", 30 + sample(30, 200, TRUE)); tb[1:20] <- ta[1:20 + 20]; tb[ta == tb] <- "c99"   # shared cells in both roles
+  brute <- sum(outer(seq_along(ph), seq_along(ph), Vectorize(function(i, j) length(intersect(c(ta[i], tb[i]), c(ta[j], tb[j]))) > 0)) * outer(ph, ph))
+  chk("dyadic variance == brute-force sum over barcode pairs sharing a parent (1e-9)", TRUE, abs(dyad_var(ph, ta, tb) - brute) < 1e-9)
+  O0 <- file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_gates", SFX, ".csv"))
+  if (nzchar(S2) && file.exists(O0)) { o <- fread(O0, colClasses = list(character = c("lane", "donor", "patient")))[match(paste(G$lane, G$donor), paste(lane, donor))]
+    cols <- c("recall", "precision", "dpur", "pi0_dbl", "thr_diff", "win_rm", "win_keep", "pred_Y", "pred_LX", "keys_imputed")
+    chk("amendment 1 regression: every 2b column but the SE equals the original run; its pigeonhole SE equals the original SE", TRUE,
+        nrow(o) == nrow(G) && isTRUE(all.equal(as.data.frame(o[, ..cols]), as.data.frame(G[, ..cols]), check.attributes = FALSE)) &&
+        isTRUE(all.equal(o$se_logit_pi0, G$se_logit_pi0_pigeonhole))) }
   chk("weighted-rate code with unit weights == k / n (M1, every key with barcodes)", TRUE, all(G$point_ok))
   chk("M1 rate <= D rate for every key, point and every bootstrap replicate", TRUE, all(G$m1_in_d))
   chk("analytic slope == numeric derivative of logit pi at psi 1 (1e-6)", TRUE, E[!is.na(slope), all(abs(slope - slope_num) < 1e-6)])
   chk(sprintf("bootstrap: %d replicates x %d keys for every lane x donor", DBL_SHARE_N_BOOT, length(KEYS)), TRUE,
       all(vapply(BOOT, function(b) all(vapply(b, function(m) identical(dim(m), c(length(KEYS), DBL_SHARE_N_BOOT)), TRUE)), TRUE)))
   print(G[, .(lane = substr(lane, 1, 24), donor = substr(donor, 1, 12), runs, rec = round(recall, 3), prec = round(precision, 3),
-              dpur = round(dpur, 3), se = round(se_logit_pi0, 3), thr_d = round(thr_diff, 3), ps = n_ps_flag, win_rm = round(win_rm, 2),
+              dpur = round(dpur, 3), se = round(se_logit_pi0, 3), se_pig = round(se_logit_pi0_pigeonhole, 3), thr_d = round(thr_diff, 3), ps = n_ps_flag, win_rm = round(win_rm, 2),
               win_keep = round(win_keep, 3), imp = keys_imputed, pass)], nrows = 200)
   print(E[, .(patient, dataset, lanes, lanes_pass, pred_Y = round(pred_Y, 1), pred_LX = round(pred_LX, 1), pi0 = round(pi0, 3),
               slope = round(slope, 3), se_pat = round(se_logit_pi0_all_lanes, 3), eligible)], nrows = 100)

@@ -202,3 +202,11 @@ DBL_SHARE_REP_N      <- 10L            # 12 --replica: replicas per lane and psi
 DBL_SHARE_REP_TOL    <- 1.2            # psi-hat within a factor of this of every planted psi, and monotone; a failure stops the line
 DBL_SHARE_REP_POOL   <- "all"          # psi-hat pooled over the datasets' replica lanes decides (user decision 2026-11-12, before any real replica run)
 DBL_SEED_SHARE_REP   <- DBL_SEED_SHARE_CAL + 300000L   # 12 --replica: + 1000 x lane index + 100 x psi index + replica
+## -- 11e. AMENDMENT 1 to Stage 2 (user decision 2026-11-12, AFTER the BN-1 of gates job 3688071 was seen; declared post-hoc) ----
+# The SE(logit pi0) gate used a pigeonhole bootstrap, which counts the barcode-level variance three times (Owen 2007; about 1.7x
+# the SE of a two-way cluster-robust estimate on 4 lanes). Treated as an implementation defect of the freeze's "parent-cluster"
+# SE: the gate now uses the dyadic cluster-robust variance (barcodes sharing a parent cell covary; Aronow, Samii & Assenova 2015)
+# of the delta-method influence of each synthetic barcode on logit pi0. Everything else in 2b is unchanged, seeds included; the
+# original outputs (no suffix, BN-1 n = 7) are kept and reported. Record: scripts/dbl/prereg_share/AMENDMENT_1_stage2_se.md.
+DBL_SHARE_SE_METHOD  <- "dyadic"    # "pigeonhole" = the original 2b rule (a2e0b47)
+DBL_SHARE_STAGE2_SFX <- "_amend1"   # suffix of the amended 2b outputs; 12 --replica reads these
