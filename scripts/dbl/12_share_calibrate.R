@@ -39,7 +39,7 @@ suppressPackageStartupMessages({ library(data.table); library(Matrix); library(h
 source(here::here("scripts", "config", "config_paths.R")); source(here::here("scripts", "dbl", "config_dbl.R"))
 SELF <- sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE))   # the dated copy that runs
 ARGS <- commandArgs(TRUE); FORCE <- "--force" %in% ARGS
-MODE <- c("reuse-smoke", "calibrate", "gates")[c("--reuse-smoke", "--calibrate", "--gates") %in% ARGS]; stopifnot(length(MODE) == 1)   # exactly one mode
+MODE <- c("reuse-smoke", "calibrate", "gates", "replica")[c("--reuse-smoke", "--calibrate", "--gates", "--replica") %in% ARGS]; stopifnot(length(MODE) == 1)   # exactly one mode
 argv <- function(key, default) { v <- sub(paste0("^--", key, "="), "", grep(paste0("^--", key, "="), ARGS, value = TRUE)); if (length(v)) v else default }
 CORES <- as.integer(argv("cores", Sys.getenv("SLURM_CPUS_PER_TASK", "8")))
 if (MODE == "reuse-smoke") {   # stage 0b (frozen): the configs as tagged, fixed outputs
@@ -138,7 +138,7 @@ nnls_tx <- function(X, B) {   # nnls_lx with T in LEUK's place
       min(gw[1:2]) >= DBL_SHARE_D_MINOR && (gw[2] - (if (length(gw) > 2) gw[3] else 0)) >= DBL_SHARE_D_GAP }, TRUE) }
 
 ## -- Stage 2 modes share: the freeze-1 tag, the lane table, the lanes to calibrate ----
-if (MODE %in% c("calibrate", "gates")) {
+if (MODE %in% c("calibrate", "gates", "replica")) {
   stopifnot(system2("git", c("-C", here::here(), "rev-parse", "-q", "--verify", "refs/tags/prereg-dbl-share-f1"), stdout = FALSE) == 0)
   QUICK <- "--quick" %in% ARGS
   LT <- fread(here::here("scripts", "dbl", DBL_SHARE_LANES_FILE), colClasses = list(character = c("patient", "lane")))[role == "analysis"]
@@ -148,8 +148,8 @@ if (MODE %in% c("calibrate", "gates")) {
   WORK <- LANES_ALL[LANES_ALL %in% LT[patient %in% EL, lane]]           # lanes of Stage-1-eligible patients, in table order
   NNP <- rbind(data.table(x1 = PZ, x2 = PZ), as.data.table(t(combn(PZ, 2)))[, .(x1 = V1, x2 = V2)]) }   # 21 pairs within P minus T
 
-## == MODE --calibrate: Stage 2 step 2a, one lane (STAGE2_plan.md; user approval 2026-11-12) ====
-if (MODE == "calibrate") {
+## -- Stage 2 modes that call scDblFinder (--calibrate, --replica): the caller ----
+if (MODE %in% c("calibrate", "replica")) {
   STUB <- "--stub" %in% ARGS
   SCDBL_MODE <- "devel"
   if (!STUB) { .libPaths(c(DBL_DEVEL_LIB, .libPaths()))             # devel 1.27.12 first, as stage 04 --scdbl=devel
@@ -158,9 +158,10 @@ if (MODE == "calibrate") {
   ## -- copied from 04_type_doublets.R (proc_320, call_scdbl; its MODE renamed SCDBL_MODE) ----
   proc_320 <- function(e, dims = NULL) {   # devel's default processing rebuilt with Bioc 3.20 functions (see 04's header)
     e <- as(e, "dgCMatrix"); if (is.null(dims)) dims <- 20
-    stopifnot(ncol(e) <= 50000)              # devel skips normalisation above 50,000 barcodes (misc.R doNorm); not mirrored here
-    sf <- Matrix::colSums(e); sf <- sf / mean(sf)
-    le <- scuttle::normalizeCounts(e, size.factors = sf, center.size.factors = FALSE)
+    if (ncol(e) <= 50000) { sf <- Matrix::colSums(e); sf <- sf / mean(sf)
+      le <- scuttle::normalizeCounts(e, size.factors = sf, center.size.factors = FALSE)
+    } else le <- e   # SHARE AMENDMENT (2026-11-12, lanes > ~25k barcodes): devel's .defaultProcessing (misc.R) skips normalisation
+                     #   above 50,000 columns (cells + artificial doublets) and runs the PCA on raw counts; mirrored here (04 stopped)
     pca <- scater::calculatePCA(le, ncomponents = dims, subset_row = seq_len(nrow(le)), ntop = nrow(le), BSPARAM = BiocSingular::IrlbaParam())
     if (is.list(pca)) pca <- pca$x
     row.names(pca) <- colnames(e); pca }
@@ -186,6 +187,10 @@ if (MODE == "calibrate") {
                           origin = vapply(seq_len(n), function(i) paste(sort(u[sample.int(length(u), 2L)]), collapse = "+"), ""),
                           ambiguous = runif(n) < 0.2), secs = 0, warns = character(0), threshold = 0.5) }
   CALL <- if (STUB) call_stub else call_scdbl
+}
+
+## == MODE --calibrate: Stage 2 step 2a, one lane (STAGE2_plan.md; user approval 2026-11-12) ====
+if (MODE == "calibrate") {
   ## -- [c1] lane, donors, weights ----
   L <- argv("lane", ""); if (identical(L, "array")) L <- WORK[as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID"))]
   stopifnot(length(L) == 1, !is.na(L), L %in% WORK); LI <- match(L, LANES_ALL)
@@ -321,6 +326,7 @@ if (MODE == "calibrate") {
   REAL <- if (!bad[1]) RES[[1]]$real else data.table()
   OK <- RES[-1][!bad[-1]]
   RUNTAB <- rbindlist(lapply(OK, `[[`, "run")); SYN <- rbindlist(lapply(OK, `[[`, "out"))
+  if (!nrow(RUNTAB)) { CK <- rbindlist(CHK); ts("    ** no held-out run finished; nothing is saved"); quit(status = 1L) }   # empty-result branch
   print(RUNTAB[, .(run, fold, n_real, n_injected, n_planned, secs = round(secs), threshold = round(threshold, 3), n_warn)], nrows = 12)
   print(REAL)
   ## -- [c5] window, labels of the parents, checks ----
