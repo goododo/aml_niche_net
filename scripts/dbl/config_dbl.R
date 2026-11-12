@@ -137,3 +137,23 @@ DBL_0A_CONTAM      <- 0.7               # W5: share of cross calls whose nc is r
 DBL_0A_N_BOOT      <- 2000L             # Poisson redraws for G3's 95 % CI (reported, never deciding)
 DBL_0A_SELFTEST_N  <- 3900L             # --selftest: synthetic doublets per pseudo-lane (3 pseudo-lanes from count-1 singles)
 DBL_SEED_0A        <- SEED + 961L       # sizing; + i before gating world Wi; + 10 + k before reported world k; + 99 bootstrap
+## -- 11b. Stage 0b, share re-scoring + planning power (reports/.../redesign_2026-11-11/STAGE0B_plan.md; user decision 2026-11-12) ----
+DBL_SHARE_P        <- c("T", "Tamb", "NK", "B", "Ery", "MonoDC", "Other")   # partner set P of the D flag
+DBL_SHARE_D_MINOR  <- 0.15             # D, NNLS top two {LEUK, X in P}: minor group weight >= this
+DBL_SHARE_D_GAP    <- 0.05             # ... and second minus third group weight >= this
+DBL_SHARE_WIN_Q    <- c(0.025, 0.975)  # Y_w: the lane's LEUK-share window from its synthetic T|LEUK (stored, not used in 0b)
+DBL_0B_A_S         <- 0.002            # planning singlet rate, Y flag (redesign power-verdict grid point)
+DBL_0B_B_S_EXTRA   <- 0.003            # planning singlet rate, D flag = DBL_0B_A_S + this
+DBL_0B_TRIPLET     <- 0.10             # within-donor triplets per doublet (rates = the lane's pooled synthetic rates)
+DBL_0B_TAU         <- 0.3              # between-patient sd of log psi
+DBL_0B_SC          <- 0.08             # shared relative bias, common sd
+DBL_0B_SDD         <- c(0.08, 0.12, 0.12)   # ... per-dataset sd (GSE185381, GSE289435, Petti)
+DBL_0B_N           <- 12L              # close rule: planning power at psi 2 with this many patients
+DBL_0B_BAR         <- 0.80             # ... below this -> BN-1
+DBL_0B_NSIM        <- 20000L           # simulated cohorts per power row (as redesign/power_share.R)
+DBL_0B_NDRAW       <- 2000L            # calibration posterior draws per template
+DBL_SEED_0B        <- SEED + 1071L     # 12: none needed (rebuild uses DBL_SEED_SYN); 13: + 0 draws, + 1 binomial check, + 10 + row power
+DBL_0B_CAL_BASIS   <- "design"         # calibration variance of the base rule: "design" = stage 12's planned synthetic sizes (below),
+                                       #   "smoke" = the smoke's own counts (the other one is a reported row); user decision 2026-11-12: "design"
+DBL_0B_CAL_N       <- c("T|LEUK" = 150, "X|LEUK" = 250, "LEUK|LEUK" = 800, "T|X" = 100)   # redesign section 4 per donor-lane
+                                       #   (T|LEUK per LEUK label; X|LEUK 1,500 and T|X 700 split over their types); halved in P01
