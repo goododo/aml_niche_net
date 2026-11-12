@@ -194,3 +194,6 @@ stopifnot(DBL_SHARE_ALLOC[["T_LEUK"]] == DBL_0B_CAL_N[["T|LEUK"]], DBL_SHARE_ALL
 DBL_SHARE_N_BOOT     <- 2000L    # 12 --gates: parent-cell (pigeonhole) bootstrap replicates of every synthetic rate (freeze section 4)
 DBL_SHARE_FLAGS      <- c("M1", "D", "DT", "Y_w")   # flags whose rates 12 --gates tabulates and bootstraps
 DBL_SEED_SHARE_BOOT  <- DBL_SEED_SHARE_CAL + 100000L   # 12 --gates: + lane index (outside every --calibrate seed: 100 x 47 + runs < 1e5)
+DBL_SEED_SHARE_HTO   <- DBL_SEED_SHARE_CAL + 200000L   # 03 --share: + lane index (Monte Carlo cross pairs with summed hashtag rows)
+DBL_SHARE_HTO_MC     <- 100000L  # 03 --share: random class-A cross-donor pairs per pool (escape and detection probabilities)
+DBL_SHARE_HTO_MIN_TOP <- 20L     # 03 --share: a tag mapped by author majority needs >= this many author-assigned top-tag barcodes
