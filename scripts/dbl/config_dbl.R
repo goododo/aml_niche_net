@@ -200,5 +200,5 @@ DBL_SHARE_HTO_MIN_TOP <- 20L     # 03 --share: a tag mapped by author majority n
 DBL_SHARE_REP_PSI    <- c(1, 1.5, 2)   # 12 --replica: planted psi (freeze section 4)
 DBL_SHARE_REP_N      <- 10L            # 12 --replica: replicas per lane and psi (pooled; STAGE2_plan.md section 3e)
 DBL_SHARE_REP_TOL    <- 1.2            # psi-hat within a factor of this of every planted psi, and monotone; a failure stops the line
-DBL_SHARE_REP_POOL   <- NA_character_  # which psi-hat decides: "lane" (every lane) or "all" (pooled over lanes); user decision pending
+DBL_SHARE_REP_POOL   <- "all"          # psi-hat pooled over the datasets' replica lanes decides (user decision 2026-11-12, before any real replica run)
 DBL_SEED_SHARE_REP   <- DBL_SEED_SHARE_CAL + 300000L   # 12 --replica: + 1000 x lane index + 100 x psi index + replica
