@@ -176,3 +176,18 @@ DBL_SHARE_BAND       <- c(2 / 3, 1.5)   # negligible band of psi
 DBL_SEED_SHARE_CAL   <- SEED + 1201L    # 12 --calibrate: + 100 x lane index + run
 DBL_SEED_SHARE_AUDIT <- SEED + 1301L    # 13 --audit: + 10000 x world + cohort
 DBL_SEED_SHARE_UNB   <- SEED + 1401L    # 14 unblinding
+## -- 11d. Stage 2 implementation details (reports/.../redesign_2026-11-11/STAGE2_plan.md section 3; user approval 2026-11-12) ----
+DBL_SHARE_DIR        <- file.path(DBL_SMOKE_DIR, "share")   # per-lane calibration files <lane>__cal.rds (outside the repo)
+DBL_SHARE_ALLOC      <- c(T_LEUK = 150, X_LEUK = 250, LEUK_LEUK = 800, T_X = 100, NN = 700, TRIPLET = 300, CROSS = 900,
+                          PS_AMB = 100, PS_PLT = 100)       # redesign section 4, per donor-lane: T_LEUK per LEUK label (5 states +
+                                                            #   LEUK_other); X_LEUK per X in P minus T; T_X per X in P (T|T included);
+                                                            #   NN split over the pairs within P minus T; CROSS in hashed pools only
+DBL_SHARE_HALF_LANES <- 3L       # the allocation is halved for a donor with >= this many analysis lanes
+DBL_SHARE_INJ_MAX    <- 0.025    # injected barcodes per run <= this share of the lane's analysis barcodes
+DBL_SHARE_MIN_BATCH  <- 4L       # batches per fold: max(this, the smallest number that respects DBL_SHARE_INJ_MAX)
+DBL_SHARE_PS_AMB     <- 0.10     # T+ambient pseudo-singlet: a multinomial draw from the lane's class-A LEUK pseudo-bulk, size = this
+                                 #   x the T cell's UMI
+DBL_SHARE_PS_PLT     <- "Megakaryocyte"   # T+platelet partner: a held-out class-A cell with this bmm_fine label ...
+DBL_SHARE_PS_PLT_MIN <- 5L       # ... used only if the lane has >= this many such class-A cells (otherwise skipped and recorded)
+stopifnot(DBL_SHARE_ALLOC[["T_LEUK"]] == DBL_0B_CAL_N[["T|LEUK"]], DBL_SHARE_ALLOC[["X_LEUK"]] == DBL_0B_CAL_N[["X|LEUK"]],
+          DBL_SHARE_ALLOC[["LEUK_LEUK"]] == DBL_0B_CAL_N[["LEUK|LEUK"]], DBL_SHARE_ALLOC[["T_X"]] == DBL_0B_CAL_N[["T|X"]])   # = 0b's design sizes
