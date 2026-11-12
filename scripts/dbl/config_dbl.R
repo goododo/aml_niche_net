@@ -197,3 +197,8 @@ DBL_SEED_SHARE_BOOT  <- DBL_SEED_SHARE_CAL + 100000L   # 12 --gates: + lane inde
 DBL_SEED_SHARE_HTO   <- DBL_SEED_SHARE_CAL + 200000L   # 03 --share: + lane index (Monte Carlo cross pairs with summed hashtag rows)
 DBL_SHARE_HTO_MC     <- 100000L  # 03 --share: random class-A cross-donor pairs per pool (escape and detection probabilities)
 DBL_SHARE_HTO_MIN_TOP <- 20L     # 03 --share: a tag mapped by author majority needs >= this many author-assigned top-tag barcodes
+DBL_SHARE_REP_PSI    <- c(1, 1.5, 2)   # 12 --replica: planted psi (freeze section 4)
+DBL_SHARE_REP_N      <- 10L            # 12 --replica: replicas per lane and psi (pooled; STAGE2_plan.md section 3e)
+DBL_SHARE_REP_TOL    <- 1.2            # psi-hat within a factor of this of every planted psi, and monotone; a failure stops the line
+DBL_SHARE_REP_POOL   <- NA_character_  # which psi-hat decides: "lane" (every lane) or "all" (pooled over lanes); user decision pending
+DBL_SEED_SHARE_REP   <- DBL_SEED_SHARE_CAL + 300000L   # 12 --replica: + 1000 x lane index + 100 x psi index + replica

@@ -39,7 +39,7 @@ suppressPackageStartupMessages({ library(data.table); library(Matrix); library(h
 source(here::here("scripts", "config", "config_paths.R")); source(here::here("scripts", "dbl", "config_dbl.R"))
 SELF <- sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE))   # the dated copy that runs
 ARGS <- commandArgs(TRUE); FORCE <- "--force" %in% ARGS
-MODE <- c("reuse-smoke", "calibrate", "gates", "replica")[c("--reuse-smoke", "--calibrate", "--gates", "--replica") %in% ARGS]; stopifnot(length(MODE) == 1)   # exactly one mode
+MODE <- c("reuse-smoke", "calibrate", "gates", "replica", "replica-verdict")[c("--reuse-smoke", "--calibrate", "--gates", "--replica", "--replica-verdict") %in% ARGS]; stopifnot(length(MODE) == 1)   # exactly one mode
 argv <- function(key, default) { v <- sub(paste0("^--", key, "="), "", grep(paste0("^--", key, "="), ARGS, value = TRUE)); if (length(v)) v else default }
 CORES <- as.integer(argv("cores", Sys.getenv("SLURM_CPUS_PER_TASK", "8")))
 if (MODE == "reuse-smoke") {   # stage 0b (frozen): the configs as tagged, fixed outputs
@@ -138,7 +138,7 @@ nnls_tx <- function(X, B) {   # nnls_lx with T in LEUK's place
       min(gw[1:2]) >= DBL_SHARE_D_MINOR && (gw[2] - (if (length(gw) > 2) gw[3] else 0)) >= DBL_SHARE_D_GAP }, TRUE) }
 
 ## -- Stage 2 modes share: the freeze-1 tag, the lane table, the lanes to calibrate ----
-if (MODE %in% c("calibrate", "gates", "replica")) {
+if (MODE %in% c("calibrate", "gates", "replica", "replica-verdict")) {
   stopifnot(system2("git", c("-C", here::here(), "rev-parse", "-q", "--verify", "refs/tags/prereg-dbl-share-f1"), stdout = FALSE) == 0)
   QUICK <- "--quick" %in% ARGS
   LT <- fread(here::here("scripts", "dbl", DBL_SHARE_LANES_FILE), colClasses = list(character = c("patient", "lane")))[role == "analysis"]
@@ -367,6 +367,147 @@ if (MODE == "calibrate") {
                              nnls, nnls_lx, nnls_tx, tid, share, M1, D, DT, Y_w)], checks = CK), OUTF)
   ts(sprintf("[done] %s; %d checks, %d FAIL", OUTF, nrow(CK), sum(!CK$pass)))
   quit(status = if (all(CK$pass)) 0L else 1L) }
+
+## == MODE --replica: Stage 2 step 2d, the replica known answer (freeze section 4; redesign section 4; STAGE2_plan.md 3e) ====
+# --replica --dataset=<ds> [--reps=10] [--stub] [--force]; --quick --lane=<lane> = code test on the quick gates (no pass needed).
+# Lane: the dataset's lane with the most strict-T class-A cells among donors that pass the gates and are finally eligible.
+# Replica: class-A cells only; every donor gets round(Nd) random same-donor doublets (Nd = dbr x N x p^2, stage 13), each cell used
+#   once as a parent; each counted donor also gets round((psi - 1) x Nd x 2 f_T f_L) planted T|LEUK (a T cell + a LEUK-lineage
+#   cell). Every class-A cell stays in the replica as a singlet (the redesign's "class-A cells only, plus synthetic doublets"; a
+#   first version removed the parents, which emptied the small T cluster -- 144 of AML3948's 192 T cells at psi 2 -- and with it
+#   scDblFinder's artificial T doublets). Doublets get kNN labels as stage 02 gives B/C barcodes; scDblFinder runs in ORDINARY mode. MASKING: the
+#   calls of the replica's real singlets never leave the worker; only synthetic doublets are flagged and counted.
+# OUTPUT : DBL_SHARE_DIR/<lane>__replica[_quick][_stub].rds   per synthetic doublet: psi, replica, donor, kind, parent labels,
+#          kNN label, called, M1, D; the lane's discard-mode model terms; run facts; checks. 12 --replica-verdict reads these.
+if (MODE == "replica") {
+  NR <- as.integer(argv("reps", DBL_SHARE_REP_N)); SFX <- if (QUICK) "_quick" else ""
+  G  <- fread(file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_gates", SFX, ".csv")), colClasses = list(character = c("lane", "donor", "patient")))
+  EE <- fread(file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_eligibility", SFX, ".csv")), colClasses = list(character = "patient"))
+  RTb <- fread(file.path(DBL_TAB_DIR, paste0("dbl_share_stage2_rates", SFX, ".csv")), colClasses = list(character = c("lane", "donor")))
+  if (QUICK) { L <- argv("lane", ""); cand <- G[lane == L] } else {
+    DS <- argv("dataset", ""); cand <- G[dataset == DS & pass == TRUE & patient %in% EE[eligible == TRUE, patient]]
+    stopifnot(nrow(cand) > 0)
+    nT <- rbindlist(lapply(unique(cand$lane), function(l) { lb <- fread(file.path(DBL_LANE_DIR, paste0(l, "__labels.csv.gz")),
+      select = c("class", "donor", "compartment"), colClasses = list(character = "donor"))
+      data.table(lane = l, nT = lb[class == "A" & compartment == "T" & donor %in% cand[lane == l, donor], .N]) }))
+    L <- nT[order(-nT, match(lane, LANES_ALL))][1, lane] }
+  stopifnot(L %in% WORK); LI <- match(L, LANES_ALL); DONS <- cand[lane == L, donor]
+  OUTF <- file.path(DBL_SHARE_DIR, paste0(L, "__replica", SFX, if (STUB) "_stub", ".rds"))
+  if (file.exists(OUTF) && !FORCE) stop("output exists (use --force)")
+  ts(sprintf("[r1] replica lane %s (index %d); counted donors %s; %d replicas x psi %s%s", L, LI, paste(DONS, collapse = ", "), NR,
+             paste(DBL_SHARE_REP_PSI, collapse = "/"), if (STUB) "; STUB CALLER" else ""))
+  x <- readRDS(file.path(DBL_LANE_DIR, paste0(L, ".rds"))); M <- x$counts
+  lab <- fread(file.path(DBL_LANE_DIR, paste0(L, "__labels.csv.gz")), colClasses = list(character = "donor"))[match(colnames(M), cell)]
+  A <- lab[class == "A", .(cell, donor, compartment)]
+  N <- ncol(M); dbr <- min(DBL_DBR_CAP, nrow(x$bc) * DBL_DBR_PER_BARCODE)
+  pdn <- A[, .N, by = donor][, p := N / sum(N)]; Nd <- setNames(dbr * N * pdn$p^2, pdn$donor)    # stage 13's Nd, every donor
+  fTL <- vapply(DONS, function(d) { f <- A[donor == d, mean(compartment == "T")]; 2 * f * A[donor == d, mean(compartment %in% LIN)] }, 0)
+  ## kNN labels for synthetic doublets: stage 02's transfer (class-A HVGs, PCA, projection, k-NN vote), copied
+  suppressPackageStartupMessages({ library(Seurat); library(SeuratObject) })
+  so <- NormalizeData(CreateSeuratObject(counts = M[, A$cell], min.cells = 0, min.features = 0), verbose = FALSE)
+  so <- FindVariableFeatures(so, nfeatures = DBL_TRANSFER_NHVG, verbose = FALSE); hv <- VariableFeatures(so)
+  so <- ScaleData(so, features = hv, verbose = FALSE); set.seed(DBL_SEED_TRANSFER)
+  so <- RunPCA(so, features = hv, npcs = DBL_TRANSFER_NPC, verbose = FALSE)
+  load <- Loadings(so, "pca")[hv, ]; DA <- LayerData(so, layer = "data")[hv, , drop = FALSE]
+  mu <- Matrix::rowMeans(DA); sdv <- sqrt(pmax(Matrix::rowMeans(DA^2) - mu^2, 0) * ncol(DA) / (ncol(DA) - 1))
+  pcA <- Embeddings(so, "pca")[A$cell, ]; rm(so, DA); gc(FALSE)
+  knn_lab <- function(Mx) {   # NormalizeData (log1p of 1e4 x share) -> scale with class-A mu / sd, clip at 10 -> PCs -> 15-NN vote
+    Dx <- log1p(sweep(as.matrix(Mx[hv, , drop = FALSE]), 2, Matrix::colSums(Mx), "/") * 1e4)
+    Z <- (Dx - mu) / sdv; Z[Z > 10] <- 10
+    nn <- RANN::nn2(data = pcA, query = t(Z) %*% load, k = DBL_TRANSFER_K)$nn.idx
+    vl <- apply(matrix(A$compartment[nn], nrow = nrow(nn)), 1, function(r) { t <- table(r); c(names(t)[which.max(t)], max(t) / DBL_TRANSFER_K) })
+    out <- fifelse(as.numeric(vl[2, ]) >= DBL_TRANSFER_MIN_VOTE, vl[1, ], "Unassigned")
+    tid <- Matrix::colSums(Mx[intersect(DBL_T_ID_GENES, rownames(Mx)), , drop = FALSE])
+    fifelse(out == "T" & tid < DBL_T_ID_MIN_UMI, "Tamb", out) }    # strict T needs T-identity UMI (stage 02)
+  ## -- [r2] one replica ----
+  rep_one <- function(pi_i, r) {
+    psi <- DBL_SHARE_REP_PSI[pi_i]; set.seed(DBL_SEED_SHARE_REP + 1000L * LI + 100L * pi_i + r)
+    used <- character(0); rows <- list(); reuse <- 0L
+    pick <- function(pool, k) { f <- setdiff(pool, used); if (length(f) >= k) f[sample.int(length(f), k)] else { reuse <<- reuse + 1L
+      pool[sample.int(length(pool), k, TRUE)] } }               # without replacement while free cells last (fallback recorded)
+    for (d in names(Nd)) { k <- round(Nd[[d]]); if (k < 1) next
+      s <- pick(A[donor == d, cell], 2L * k); used <- c(used, s)
+      rows[[length(rows) + 1L]] <- data.table(donor = d, kind = "random", a = s[seq_len(k)], b = s[k + seq_len(k)]) }
+    if (psi > 1) for (d in DONS) { kp <- round((psi - 1) * Nd[[d]] * fTL[[d]]); if (kp < 1) next
+      a <- pick(A[donor == d & compartment == "T", cell], kp); used <- c(used, a)
+      b <- pick(A[donor == d & compartment %in% LIN, cell], kp); used <- c(used, b)
+      rows[[length(rows) + 1L]] <- data.table(donor = d, kind = "planted", a = a, b = b) }
+    inj <- rbindlist(rows)[, syn := sprintf("REP_%d_%d_%05d", pi_i, r, .I)]
+    inj[, `:=`(la = A$compartment[match(a, A$cell)], lb = A$compartment[match(b, A$cell)])]
+    Mi <- M[, inj$a, drop = FALSE] + M[, inj$b, drop = FALSE]; colnames(Mi) <- inj$syn
+    inj[, knn := knn_lab(Mi)]
+    sing <- A$cell                                                   # every class-A cell stays a singlet
+    cr <- CALL(cbind(M[, sing, drop = FALSE], Mi), c(A$compartment[match(sing, A$cell)], inj$knn), rep(FALSE, length(sing) + ncol(Mi)), dbr)
+    out <- merge(inj, cr$res[cell %in% inj$syn], by.x = "syn", by.y = "cell")   # MASKING: the real singlets' calls stop here
+    BS <- make_basis(M, A[cell %in% sing, .(cell, compartment)]); Xg <- Mi[BS$G, out$syn, drop = FALSE]
+    out[, `:=`(nnls = nnls_lin(Xg, BS), nnls_lx = nnls_lx(Xg, BS))]
+    out[, tid := Matrix::colSums(Mi[intersect(DBL_T_ID_GENES, rownames(Mi)), out$syn, drop = FALSE]) >= DBL_T_ID_MIN_UMI]
+    out[, lin_o := lin_origin(origin)]                                                 # stage 10 verbatim from here ...
+    out[, `:=`(V1a = called %in% TRUE & ambiguous %in% FALSE & lin_o, V3 = called %in% TRUE & nnls)]
+    out[, V5 := V1a | V3]
+    out[, M1 := V5 & tid]                                                              # ... to here
+    out[, D  := M1 | (called %in% TRUE & ((ambiguous %in% FALSE & lx_origin(origin)) | nnls_lx))]
+    list(out = out[, .(psi = psi, rep = r, syn, donor, kind, la, lb, knn, called, M1, D)],
+         run = data.table(psi = psi, rep = r, n_singlets = length(sing), n_doublets = ncol(Mi), n_planted = inj[kind == "planted", .N],
+                          reuse = reuse, secs = cr$secs, threshold = cr$threshold, n_warn = length(cr$warns), first_warn = substr(c(cr$warns, "")[1], 1, 150))) }
+  JOBS <- CJ(pi_i = seq_along(DBL_SHARE_REP_PSI), r = seq_len(NR))
+  ts(sprintf("[r2] %d replica runs on %d cores", nrow(JOBS), min(CORES, nrow(JOBS))))
+  RES <- mclapply(seq_len(nrow(JOBS)), function(j) tryCatch(rep_one(JOBS$pi_i[j], JOBS$r[j]), error = function(e) list(error = conditionMessage(e))),
+                  mc.cores = min(CORES, nrow(JOBS)), mc.preschedule = FALSE)
+  bad <- vapply(RES, function(z) !is.list(z) || !is.null(z$error), TRUE)
+  for (j in which(bad)) ts("    ** run ", j, " failed: ", if (is.list(RES[[j]])) RES[[j]]$error else paste(as.character(RES[[j]]), collapse = " "))
+  chk(sprintf("%s: every replica run finished", L), 0L, sum(bad))
+  if (all(bad)) quit(status = 1L)
+  RUNS <- rbindlist(lapply(RES[!bad], `[[`, "run")); SYN <- rbindlist(lapply(RES[!bad], `[[`, "out"))
+  print(RUNS[, .(runs = .N, doublets = median(n_doublets), planted = median(n_planted), reuse = sum(reuse), secs = round(median(secs)),
+                 thr = round(median(threshold), 3)), by = psi])
+  if (!STUB) chk(sprintf("%s: devel trains its classifier in every replica run", L), FALSE, any(RUNS[, grepl("invalid function arguments|have been removed", first_warn)]))
+  chk(sprintf("%s: every flagged barcode is synthetic", L), TRUE, all(startsWith(SYN$syn, "REP_")))
+  chk(sprintf("%s: psi 1 plants nothing; planted doublets are T + LEUK lineage of a counted donor", L), TRUE,
+      RUNS[psi == 1, all(n_planted == 0)] && SYN[kind == "planted", all(la == "T" & lb %in% LIN & donor %in% DONS)])
+  chk(sprintf("%s: random doublets pair two cells of one donor", L), TRUE, SYN[kind == "random", all(!is.na(la) & !is.na(lb))])
+  ## discard-mode model terms of the counted donors (12 --gates point rates): pi(psi) = (psi SY + A) / (psi SD + B), Nd-weighted
+  TLk <- paste0("T|LEUK:", LIN)
+  TERMS <- rbindlist(lapply(DONS, function(d) { r <- RTb[lane == L & donor == d]; stopifnot(nrow(r) > 0); tl <- r$ptype %in% TLk
+    data.table(donor = d, Nd = Nd[[d]], SY = sum(r$weight[tl] * r$M1[tl]), A = sum(r$weight[!tl] * r$M1[!tl]),
+               SD = sum(r$weight[tl] * r$D[tl]), B = sum(r$weight[!tl] * r$D[!tl]), wTL = sum(r$weight[tl])) }))
+  CNT <- SYN[donor %in% DONS, .(Y = sum(M1), D = sum(D), n = .N), by = .(psi, rep, donor)]
+  print(CNT[, .(Y = sum(Y), D = sum(D), pi_hat = round(sum(Y) / sum(D), 4)), by = psi])
+  CK <- rbindlist(CHK)
+  saveRDS(list(lane = L, lane_index = LI, dataset = LT[lane == L, dataset[1]], chemistry = LT[lane == L, chemistry[1]], donors = DONS,
+               quick = QUICK, stub = STUB, Nd = Nd, terms = TERMS, counts = CNT, runs = RUNS, syn = SYN, checks = CK,
+               md5 = c(self = unname(tools::md5sum(SELF)))), OUTF)
+  ts(sprintf("[done] %s; %d checks, %d FAIL", OUTF, nrow(CK), sum(!CK$pass)))
+  quit(status = if (all(CK$pass)) 0L else 1L) }
+
+## == MODE --replica-verdict: psi-hat from the replica counts and the discard-mode rates; the stop rule (freeze section 4) ====
+# psi-hat solves pi-hat = (psi SY + A) / (psi SD + B) with Nd-weighted terms: psi-hat = (pi-hat B - A) / (SY - pi-hat SD); a
+#   non-positive denominator = not identified (fails). Reported for every lane and pooled over lanes; DBL_SHARE_REP_POOL says which
+#   decides ("lane": every lane must pass; "all": the pooled values). Transfer ratio = ordinary-mode M1 rate of the counted donors'
+#   T|LEUK doublets / the discard-mode natural-weighted rate.
+if (MODE == "replica-verdict") {
+  F <- list.files(DBL_SHARE_DIR, pattern = "__replica\\.rds$", full.names = TRUE)
+  RP <- lapply(F, readRDS); stopifnot(length(RP) > 0, !any(vapply(RP, function(z) z$stub || z$quick, TRUE)), all(vapply(RP, function(z) all(z$checks$pass), TRUE)))
+  solve_psi <- function(pih, tm) { den <- tm[["SY"]] - pih * tm[["SD"]]; if (den > 0) (pih * tm[["B"]] - tm[["A"]]) / den else NA_real_ }
+  tsum <- function(T) c(SY = sum(T$Nd * T$SY), A = sum(T$Nd * T$A), SD = sum(T$Nd * T$SD), B = sum(T$Nd * T$B))
+  tm0 <- tsum(RP[[1]]$terms); ok_solver <- all(vapply(DBL_SHARE_REP_PSI, function(p) abs(solve_psi((p * tm0[["SY"]] + tm0[["A"]]) / (p * tm0[["SD"]] + tm0[["B"]]), tm0) - p) < 1e-9, TRUE))
+  chk("solver: the expected pi at each planted psi gives that psi back (1e-9)", TRUE, ok_solver)
+  one <- function(cnt, tm, lbl) cnt[, .(Y = sum(Y), D = sum(D)), by = psi][order(psi)][, `:=`(unit = lbl, pi_hat = Y / D)][
+    , psi_hat := vapply(pi_hat, solve_psi, 0, tm = tm)][, ok := !is.na(psi_hat) & abs(log(psi_hat / psi)) <= log(DBL_SHARE_REP_TOL)]
+  PS <- rbind(rbindlist(lapply(RP, function(z) one(z$counts, tsum(z$terms), paste(z$dataset, z$lane)))),
+              one(rbindlist(lapply(RP, `[[`, "counts")), tsum(rbindlist(lapply(RP, `[[`, "terms"))), "pooled over lanes"))
+  UV <- PS[, .(monotone = !anyNA(psi_hat) && !is.unsorted(psi_hat, strictly = TRUE), within = all(ok)), by = unit][, pass := monotone & within]
+  TR <- rbindlist(lapply(RP, function(z) { s <- z$syn[donor %in% z$donors & ((la == "T" & lb %in% LIN) | (lb == "T" & la %in% LIN))]
+    data.table(unit = paste(z$dataset, z$lane), n_TL = nrow(s), ordinary = mean(s$M1), discard = sum(z$terms$Nd * z$terms$SY) / sum(z$terms$Nd * z$terms$wTL)) }))[
+    , transfer_ratio := ordinary / discard]
+  print(PS[, .(unit, psi, Y, D, pi_hat = round(pi_hat, 4), psi_hat = round(psi_hat, 3), ok)]); print(UV); print(TR)
+  dec <- if (identical(DBL_SHARE_REP_POOL, "lane")) UV[unit != "pooled over lanes", all(pass)] else if (identical(DBL_SHARE_REP_POOL, "all")) UV[unit == "pooled over lanes", pass] else NA
+  verdict <- if (is.na(dec)) "PENDING: DBL_SHARE_REP_POOL not set (user decision); both readings are reported" else if (dec)
+    "replica known answer passes -> Stage 3" else "replica known answer FAILS -> the line stops (freeze section 4)"
+  CK <- rbindlist(CHK); fwrite(CK, file.path(DBL_TAB_DIR, "dbl_checks_12_replica.csv"))
+  if (all(CK$pass)) { fwrite(PS, file.path(DBL_TAB_DIR, "dbl_share_stage2_replica.csv")); fwrite(TR, file.path(DBL_TAB_DIR, "dbl_share_stage2_transfer.csv"))
+    fwrite(UV[, verdict := verdict][, rule := DBL_SHARE_REP_POOL], file.path(DBL_TAB_DIR, "dbl_share_stage2_replica_verdict.csv")) }
+  message(verdict); quit(status = if (all(CK$pass)) 0L else 1L) }
 
 ## == MODE --gates: Stage 2 step 2b, lane gates and final eligibility (freeze section 4; STAGE2_plan.md sections 1, 3, 3c) ====
 if (MODE == "gates") {
