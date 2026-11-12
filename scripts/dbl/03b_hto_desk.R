@@ -43,8 +43,9 @@
 #   of all pairs of the lane's class-A singles of tags j, k with nc_a + nc_b >= t_l. Refit G1's model on doublet-like cross
 #   counts with offset log pi; P = exp(eta_d.1 + eta_d.2) pi_d; O = doublet-like two-tag count; G3 = sum O / sum P over lanes
 #   and both split donors, unrounded. Fail iff G3 < 0.67 or G3 > 1.5; equality passes every bar.
-# WORLDS (200 replicates each). Pseudo-lane per lane: N_l = round(n_l / r_l) doublets of two class-A single calls drawn uniformly
-#   with replacement (same-tag pairs kept); n_l = in-QC exactly-two-tag cross count, r_l = share of 1e5 random pairs called
+# WORLDS (200 replicates each; a pseudo-cohort is 3 pseudo-lanes, one per passing lane, cycling over the passing lanes if one
+#   was excluded, so every bar is judged at the 3-lane size). Pseudo-lane of lane l: N_l = round(n_l / r_l) doublets of two
+#   class-A single calls drawn uniformly with replacement (same-tag pairs kept); n_l = in-QC exactly-two-tag cross count, r_l = share of 1e5 random pairs called
 #   that way. HTO one-ambient: H_a, plus max(H_b[t_b] - m(t_b), 0) on b's tag, m(t) = mean count of t on class-A singles of
 #   other donors; nc = nc_a + nc_b; the real thresholds held fixed; reference (t_l, pi, G2 denominator) unmodified.
 #   Gating, bars >= 0.95: W1 random: all gates pass, and abs(mean log G3) <= 0.05. W2 + Poisson(n_d) extra (d.1, d.2) doublets
@@ -303,13 +304,14 @@ if (all(okA)) {
   set.seed(DBL_SEED_0A)
   rl <- vapply(RL, function(R) { e <- pseudo_lane(R, DBL_0A_N_SIZE); sum(e$code %in% CPc) / DBL_0A_N_SIZE }, 0)
   N  <- if (SELFTEST) rep(DBL_0A_SELFTEST_N, 3) else round(vapply(XL, function(X) sum(X$E$code %in% CPc), 0) / rl)
-  ts(sprintf("    share of random pairs called exactly-two-tag cross r = %s; pseudo-lane sizes N = %s", paste(round(rl, 4), collapse = ";"), paste(N, collapse = ";")))
-  krow <- function(nm, gating, off, s, met) as.data.table(c(list(world = nm, gating = gating, seed = DBL_SEED_0A + off, N = paste(N, collapse = ";")), as.list(s), list(bar_met = met)))
+  iw <- rep_len(seq_along(RL), 3); RLw <- RL[iw]; Nw <- N[iw]     # always 3 pseudo-lanes, cycling over the passing lanes
+  ts(sprintf("    share of random pairs called exactly-two-tag cross r = %s; pseudo-lane sizes N = %s", paste(round(rl, 4), collapse = ";"), paste(Nw, collapse = ";")))
+  krow <- function(nm, gating, off, s, met) as.data.table(c(list(world = nm, gating = gating, seed = DBL_SEED_0A + off, N = paste(Nw, collapse = ";")), as.list(s), list(bar_met = met)))
   okW <- logical(length(GW))
-  for (i in seq_along(GW)) { s <- summ(run_world(RL, N, DBL_SEED_0A + i, GW[[i]])); okW[i] <- BAR[[i]](s)
+  for (i in seq_along(GW)) { s <- summ(run_world(RLw, Nw, DBL_SEED_0A + i, GW[[i]])); okW[i] <- BAR[[i]](s)
     KN[[length(KN) + 1]] <- krow(names(GW)[i], TRUE, i, s, okW[i]); chk(sprintf("(c) gating world %s meets its bar", names(GW)[i]), TRUE, okW[i]) }
   okC <- all(okW)
-  if (!SELFTEST) for (k in seq_along(RW)) KN[[length(KN) + 1]] <- krow(names(RW)[k], FALSE, 10 + k, summ(run_world(RL, N, DBL_SEED_0A + 10 + k, RW[[k]])), NA)
+  if (!SELFTEST) for (k in seq_along(RW)) KN[[length(KN) + 1]] <- krow(names(RW)[k], FALSE, 10 + k, summ(run_world(RLw, Nw, DBL_SEED_0A + 10 + k, RW[[k]])), NA)
   KN <- rbindlist(KN); num <- setdiff(names(KN)[vapply(KN, is.numeric, TRUE)], "seed")
   print(KN[, c(list(world = world, bar_met = bar_met), lapply(.SD, round, 3)), .SDcols = num]) }
 VALID <- all(okA) && okC
@@ -348,21 +350,25 @@ kap <- unname(quantile(unlist(ncx), 0.75, type = 7)) / mixQ(0.75, RL, Wc); kapc 
 q25 <- vapply(RL, function(R) unname(quantile(R$nc, 0.25, type = 7)), 0)
 Fx <- vapply(seq_len(nl), function(l) mean(ncx[[l]] <= q25[l]), 0); Fs <- vapply(seq_len(nl), function(l) mixF(q25[l] / kapc, RL[l], Wc[l]), 0)
 fhat <- sum(lengths(ncx) * (Fx - Fs)) / sum(lengths(ncx) * (0.25 - Fs))
+sens <- verdict == "K1 usable" && (min(loo) < DBL_0A_G3_BAND[1] || max(loo) > DBL_0A_G3_BAND[2])
+note <- paste0(verdict, if (sens) "; pass, model-sensitive" else "",
+               if (G[["G2"]] < DBL_0A_G2_MIN) sprintf("; G2 %.3f, kappa_hat %.3f, f_hat %.3f", G[["G2"]], kap, fhat) else "",
+               if (grepl("G3", verdict)) sprintf("; G3 %.3f [%.3f, %.3f]", G[["G3"]], ci(seq_len(nl))[1], ci(seq_len(nl))[2]) else "")
+CORE <- data.table(item = c("G1", "G2", "G3", "G3_ci_lo", "G3_ci_hi", "raw_two_tag_OP", "df", "verdict"), subset = "pooled",
+                   value = c(unname(G[c("G1", "G2", "G3")]), ci(seq_len(nl)), unname(G[c("raw", "df")]), NA), note = c(rep("", 7), note))
+fwrite(rbindlist(CHK), OUT[["checks"]]); fwrite(KN, OUT[["known"]]); fwrite(CORE, OUT[["gates"]])   # verdict on disk before the reported items
+ts("[write] checks, known, core gates and verdict; the reported items follow")
 ext_ncs <- function(X) { i <- which((X$calls$class == "A" | (X$calls$class == "B_mad" & X$calls$in_counts)) & X$calls$n_pos == 1)
   lapply(split(X$bc$nc[i], factor(apply(X$POS[, i, drop = FALSE], 2, which), levels = seq_len(NT))), sort) }
 t90 <- lapply(RL, function(R) unname(quantile(R$nc, 0.9, type = 7)))
 G3v <- c(q90 = gates(EL, RL, t90, Map(function(R, t) pi_tab(R$ncs, t), RL, t90))[["G3"]],
          kappa_0.8 = gates(EL, RL, PIL = lapply(RL, function(R) pi_tab(R$ncs, R$t, 0.8)))[["G3"]],
          ref_A_plus_Bmad = gates(EL, RL, PIL = Map(function(X, R) pi_tab(ext_ncs(X), R$t), XL, RL))[["G3"]])
-sens <- verdict == "K1 usable" && (min(loo) < DBL_0A_G3_BAND[1] || max(loo) > DBL_0A_G3_BAND[2])
-note <- paste0(verdict, if (sens) "; pass, model-sensitive" else "",
-               if (G[["G2"]] < DBL_0A_G2_MIN) sprintf("; G2 %.3f, kappa_hat %.3f, f_hat %.3f", G[["G2"]], kap, fhat) else "",
-               if (grepl("G3", verdict)) sprintf("; G3 %.3f [%.3f, %.3f]", G[["G3"]], ci(seq_len(nl))[1], ci(seq_len(nl))[2]) else "")
 GT <- rbindlist(list(
   data.table(item = c("G1", "G2", "G3", "raw_two_tag_OP", "df", "lanes"), subset = "pooled", value = c(unname(G[c("G1", "G2", "G3", "raw", "df")]), nl), note = c("", "", "", "", "", paste(LN, collapse = ";"))),
   data.table(item = c("G3_ci_lo", "G3_ci_hi"), subset = "pooled", value = ci(seq_len(nl)), note = sprintf("%d/%d bootstrap refits failed", nrow(B) - nrow(Bk), nrow(B))),
   data.table(item = "G3", subset = "count-1", value = unname(gates(EL[1], RL[1])[["G3"]]), note = sprintf("CI %.3f-%.3f", ci(1)[1], ci(1)[2])),
-  if (nl > 1) data.table(item = "G3", subset = "count-2+3 (blind replicate)", value = unname(gates(EL[-1], RL[-1])[["G3"]]), note = sprintf("CI %.3f-%.3f", ci(2:nl)[1], ci(2:nl)[2])),
+  if (nl > 1) data.table(item = "G3", subset = paste(paste(sub("^.*-count-", "count-", LN[-1]), collapse = "+"), "(blind replicate)"), value = unname(gates(EL[-1], RL[-1])[["G3"]]), note = sprintf("CI %.3f-%.3f", ci(2:nl)[1], ci(2:nl)[2])),
   data.table(item = paste0("G3_", names(G3v)), subset = "pooled", value = unname(G3v), note = "reported variant"),
   data.table(item = c("G3_loo_min", "G3_loo_max"), subset = "pooled", value = range(loo), note = paste(sprintf("%s %.3f", vapply(DPAIRS, paste, "", collapse = "|"), loo), collapse = "; ")),
   data.table(item = c("G2_all_cross_donor", "kappa_hat", "f_hat", "restricted_X2_per_df"), subset = "pooled",
@@ -374,7 +380,7 @@ GT <- rbindlist(list(
   rbindlist(lapply(seq_len(nl), function(l) { X <- XL[[l]]
     data.table(nc = X$bc$nc, call = X$calls$call)[X$calls$in_counts][, .(item = "median_nc_by_call", value = as.numeric(median(nc)), note = paste("N", .N)), by = .(subset = paste(LN[l], call))] })),
   rbindlist(lapply(seq_len(nl), function(l) { X <- XL[[l]]; w <- X$E$w[X$E$code %in% TPc]
-    data.table(cls = X$calls$class[w])[, .(item = "two_tag_calls_by_class", value = .N, note = ""), by = .(subset = paste(LN[l], cls))] })),
+    data.table(cls = X$calls$class[w])[, .N, by = cls][, .(item = "two_tag_calls_by_class", subset = paste(LN[l], cls), value = N, note = "")] })),
   rbindlist(lapply(seq_len(nl), function(l) { e <- exp(per[[l]]$f$eta)
     data.table(item = "fitted_tag_share", subset = paste(LN[l], TAGS), value = e / sum(e), note = sprintf("class-A single share %.3f", tabulate(RL[[l]]$tag, NT) / length(RL[[l]]$tag))) })),
   data.table(item = "verdict", subset = "pooled", value = NA_real_, note = note)), fill = TRUE)
@@ -394,11 +400,12 @@ PT <- rbind(rbindlist(lapply(seq_len(nl), function(l) { p <- per[[l]]; R <- RL[[
 MAPT <- rbindlist(lapply(seq_len(nl), function(l) { X <- XL[[l]]; R <- RL[[l]]; tf <- tempfile(); writeLines(paste(X$calls$cell, X$calls$call), tf)
   m5 <- unname(tools::md5sum(tf)); unlink(tf)                      # md5 of the lane's "cell call" lines, in bc order
   X$MAP[, .(lane = X$L, hashtag, donor, threshold, own_top_share, n_single_A = tabulate(R$tag, NT), bg_mean = R$m, own_median = R$own, calls_md5 = m5)] }))
-print(GT[item %in% c("G1", "G2", "G3", "G3_ci_lo", "G3_ci_hi", "kappa_hat", "f_hat", "G3_loo_min", "G3_loo_max") | subset == "count-1" | grepl("count-2", subset),
+print(GT[item %in% c("G1", "G2", "G3", "G3_ci_lo", "G3_ci_hi", "kappa_hat", "f_hat", "G3_loo_min", "G3_loo_max") | subset == "count-1" | grepl("blind", subset),
          .(item, subset, value = signif(value, 4))])
 print(PT[lane == "pooled", .(tag_j, tag_k, y_all, fit_all = round(fit_all, 1), std_resid = round(std_resid, 2))])
 if (length(DRY)) invisible(chk(sprintf("dryrun %s: the verdict is the known answer", DRY), TRUE, startsWith(verdict, c(null = "K1 usable", excess = "BN-1b")[[DRY]])))
 TABS <- list(checks = rbindlist(CHK), known = KN, map = MAPT, pairs = PT, gates = GT)
 for (nm in names(TABS)) fwrite(TABS[[nm]], OUT[[nm]])
 ts("[write] ", paste(basename(OUT), collapse = ", "))
-ts(sprintf("[done] %d checks, %d FAIL. VERDICT: %s", length(CHK), sum(!vapply(CHK, `[[`, TRUE, "pass")), note))
+ts(sprintf("[done] %d checks, %d FAIL%s. VERDICT: %s", length(CHK), sum(!vapply(CHK, `[[`, TRUE, "pass")),
+           if (length(keep) < 3) " (incl. the (b) rows of the excluded lane(s))" else "", note))
