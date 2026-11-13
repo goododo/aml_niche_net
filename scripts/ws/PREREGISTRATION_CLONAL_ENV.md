@@ -149,3 +149,25 @@ covariates.
 - The eligibility rule was chosen after the counts were seen.
 - CloneTracer's model sets T cells as a separate prior class, so its T-cell control is weaker than Petti's.
 - A null result cannot separate "environmental" from "not AML-related" except in the van Galen S2 arm.
+
+## 2026-11-13 RESULT, Stage 0: GATE_S0 FAILED (2 of the 7 listed patients pass; >= 5 required)
+
+Counts only; no expression was read. Compartment exactly as in section 2 (CD14 Mono, CD16 Mono, cDC1/2; projection
+labels for Petti and van Galen, authors' ct labels for CloneTracer); driver locus only (NPM1 for Petti/van Galen).
+
+| patient | Mono/DC mutant | Mono/DC wild type (primary rule) | note |
+|---|---|---|---|
+| A.13 | 1,986 | 26 | passes (T 0.09, authors' T labels) |
+| B.4 | 1,660 | 995 | passes (T 0.035) |
+| B.1 | 19 | 173 | fails by one mutant cell |
+| AML556 | 37 | 2 (45 with >= 1 wt transcript) | fails |
+| AML419A | 16 | 1 (33) | fails |
+| 548327 | 2 | 4 (22) | fails |
+| 721214 | 0 | 0 (2) | fails: almost no mature monocytes after QC |
+
+Why the section 2 table was wrong: the feasibility counts behind it used a wider compartment (van Galen
+"ProMono-like" cells and, for Petti, all myeloid-lineage cells), most of which are blasts. That error was in the
+feasibility step, before this file was frozen; it is recorded here, not corrected in section 2.
+Also found: the BoneMarrowMap T_NK bin is not a valid T-cell floor in Petti (782328: 44 of 55 genotyped
+"T_NK" cells mutant versus 6 of 57 with the curated labels), consistent with blasts mis-binned as T_NK.
+Per section 5 the line stops here for discussion. Counts: code/stage0_recount.R in the report folder.
