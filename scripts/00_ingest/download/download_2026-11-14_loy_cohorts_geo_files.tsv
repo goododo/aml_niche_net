@@ -2,3 +2,17 @@
 GSE269669	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE269nnn/GSE269669/suppl/GSE269669_avm_aml.rds.gz
 GSE269669	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE269nnn/GSE269669/suppl/GSE269669_avm_tme.rds.gz
 GSE269669	series_matrix	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE269nnn/GSE269669/matrix/GSE269669_series_matrix.txt.gz
+GSE315856	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE315nnn/GSE315856/suppl/GSE315856_RAW.tar
+GSE315856	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE315nnn/GSE315856/suppl/filelist.txt
+GSE315856	series_matrix	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE315nnn/GSE315856/matrix/GSE315856_series_matrix.txt.gz
+GSE223844	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE223nnn/GSE223844/suppl/GSE223844_RAW.tar
+GSE223844	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE223nnn/GSE223844/suppl/filelist.txt
+GSE223844	series_matrix	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE223nnn/GSE223844/matrix/GSE223844_series_matrix.txt.gz
+GSE343017	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE343nnn/GSE343017/suppl/GSE343017_RAW.tar
+GSE343017	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE343nnn/GSE343017/suppl/filelist.txt
+GSE343017	series_matrix	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE343nnn/GSE343017/matrix/GSE343017_series_matrix.txt.gz
+GSE198681	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE198nnn/GSE198681/suppl/GSE198681_RAW.tar
+GSE198681	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE198nnn/GSE198681/suppl/filelist.txt
+GSE198681	series_matrix	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE198nnn/GSE198681/matrix/GSE198681_series_matrix.txt.gz
+GSE198681	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE198nnn/GSE198681/suppl/GSE198681_CMO_conditions.xlsx
+GSE343017	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE343nnn/GSE343017/suppl/GSE343017_feature_reference.csv.gz
