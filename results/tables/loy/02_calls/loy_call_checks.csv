@@ -1,0 +1,8 @@
+check,expected,observed,pass
+K1_female_zeroY_frac_deep_cells,>= 0.95,0.988,TRUE
+K2_GSM8791436_LEUK_fhat,>= 0.90,0.996,TRUE
+K3_AML1371_LEUK_fhat(3of20),0.05-0.40 if readable,NA n=23,
+K4_healthy_male_T_fhat_median,<= 0.03,0,TRUE
+K5_Control4_expression_sex,F,F,TRUE
+K6_sex_vs_karyotype_mismatches(after declared exclusions),0,0,TRUE
+K7_AML707B-D0_LEUK_fhat(19of20 metaphases lack Y),>= 0.85 if readable,0.945 n=583,TRUE

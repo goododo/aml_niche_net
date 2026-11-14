@@ -1,0 +1,9 @@
+dataset,Sample,sex_expr,sex_karyo,n_deep,xist_pos_frac,y_rate_all,n_T_cells,y_rate_T,reason
+E-MTAB-11536,A29-BMA,noY_noXIST,,1134,0.046,0,648,0,
+E-MTAB-11536,A37-BMA,noY_noXIST,,661,0.048,0,272,0,
+GSE120221,GSM3396164_Ck,noY_noXIST,,282,0.046,7.21e-07,465,1.03e-06,
+GSE185381,AML0612,mixed,F,7776,0.764,9.19e-05,1328,0.000192,
+GSE185381,PAUMTZ,excluded,M,3742,0.235,9.53e-06,40,1.59e-05,"suspected demux label swap in pool P06 (expression female, karyotype male)"
+GSE185381,PAXMIJ,excluded,F,197,0.005,0.000719,23,0.00161,"suspected demux label swap in pool P06 (expression male, karyotype female)"
+GSE201966,GSM6085179_AML02M5_P,mixed,,2599,0.198,0.000113,17,0.000361,
+GSE227903,6323_R2,mixed,F,3081,0.585,0.000144,1225,0.00106,

@@ -1,0 +1,4 @@
+check,expected,observed,pass
+K1_objects_with_rows,17,17,TRUE
+K2_ygenes_found,>=8 (10x) / report (Seq-Well),11,TRUE
+K3_rows_equal_ncol_sum,38391,38391,TRUE
