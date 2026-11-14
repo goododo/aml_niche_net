@@ -1,19 +1,28 @@
 fine,comp,N
-NK,NK,17094
-NK CD56high,NK,3943
-NK Proliferating,NK,117
-CD4 Naive,T,44967
-CD8 Effector Memory 2,T,33113
-CD4 Central Memory,T,18887
-CD8 Effector Memory 1,T,13688
-CD4 Effector Memory,T,10688
-CD8 Naive,T,9543
-CD8 Central Memory,T,4571
-CD8 Tissue Resident Memory,T,2710
-CD4 Regulatory,T,1134
-T Proliferating,T,266
+NK,NK,57535
+NK CD56high,NK,9428
+NK CD56+,NK,737
+NK Proliferating,NK,411
+CD4 Naive,T,125697
+CD8 Effector Memory 2,T,77121
+CD4 Central Memory,T,43055
+CD8 Effector_2,T,37202
+CD8 Effector Memory 1,T,27565
+CD8 Naive,T,27093
+CD4 Memory,T,27003
+CD4 Effector Memory,T,24388
+CD8 Central Memory,T,11066
+CD8 Memory,T,9980
+CD8 Tissue Resident Memory,T,7035
+CD8 Effector_1,T,6639
+CD4 Regulatory,T,3582
+T Proliferating,T,1537
+MAIT,T,659
+CD4 Effector,T,343
+CD8 Effector_3,T,71
+CLP,T_NK_other,25954
+MLP,T_NK_other,11915
 "",T_NK_other,5261
-CLP,T_NK_other,4818
-MLP,T_NK_other,2504
-MLP-II,T_NK_other,589
-Pre-ProB,T_NK_other,578
+Pre-ProB,T_NK_other,2054
+MLP-II,T_NK_other,2007
+ILC,T_NK_other,464

@@ -81,3 +81,71 @@ LOY_SAMPLE_EXCLUDE <- data.table::data.table(
   Sample  = c("PAUMTZ", "PAXMIJ"),
   reason  = c("suspected demux label swap in pool P06 (expression female, karyotype male)",
               "suspected demux label swap in pool P06 (expression male, karyotype female)"))
+
+## -- 7. external cohorts for the case search (user approval 2026-11-14 "批准，继续": Zeng pack + GSE269669) -------------
+# The on-disk 16 datasets gave 3 clonal -Y AML and 0 subclonal cases (report 2026-11-14). The search is extended to
+# the Zeng et al. 2025 pack (Zenodo 18528442: 21 studies, 22 RDS, BoneMarrowMap labels in the SAME vocabulary as
+# bmm_bin_map.tsv) and to GSE269669 (11 TP53-mutant AML, aza/ven/magrolimab, author Seurat objects).
+# Chemistry below is from the source papers as remembered, NOT verified against the pack (it has no chemistry
+# column); it only picks which reference zero-background is used, and the per-study calibration in 02 (section 7b)
+# corrects the Y-capture rate from each study's own male T cells, so a wrong guess shows up as a factor far from 1.
+# "on_disk" names the project dataset holding the same cells: those studies are reproduction checks, not new cases.
+LOY_EXT_STUDIES <- data.table::fread(text = "
+study,file_stem,chem_lit,on_disk,note
+Abbas_2021,scAML_Abbas_2021,5prime,,10x 5' + TCR; AML on PD-1 blockade
+Bailur_2020,scAML_Bailur_2020,5prime,,paediatric marrow T cells; 10x 5' (guess)
+BeneytoCalabuig_2023,scAML_BeneytoCalabuig_2023,3prime,,CloneTracer; 10x 3' v3
+Cobos_2023,scAML_Cobos_2023,unknown,,platform not recalled
+Dufva_2020,scAML_Dufva_2020,3prime,,immunogenomic landscape; 10x 3' v2
+Ennis_2023,scAML_Ennis_2023,3prime,GSE227903,on disk as GSE227903 (1216/1886/3904/40389/5750/6323 ids); 10x 3'
+Gawad_ScPCA,scAML_Gawad_ScPCA,3prime,,ScPCA paediatric AML; 10x 3' v3
+Granja_2019,scAML_Granja_2019,3prime,,MPAL; 10x 3' v2
+Kuusanmaki_2023,scAML_Kuusanmaki_2023,3prime,,venetoclax ex vivo; 10x 3' (guess)
+Lambo_2023,scAML_Lambo_2023,3prime,,paediatric AML; 10x 3' v3
+Lasry_2022,scAML_Lasry_2022,3prime,GSE185381,on disk; pooled/hashed libraries
+Li_2022,scAML_Li_2022,3prime,,relapsed/refractory AML; 10x 3' (guess)
+Montefiori_2021,scAML_Montefiori_2021,3prime,,MPAL/T-ALL only (SJMPAL011913 + SJTALL005006); 10x (guess)
+Mumme_2023_AML,scAML_Mumme_2023_AML,3prime,,paediatric AML (Emory); 10x 3' v3
+Mumme_2023_MPAL,scAML_Mumme_2023_MPAL,3prime,,paediatric MPAL (Emory); 10x 3' v3
+Naldini_2023,scAML_Naldini_2023,3prime,,longitudinal chemo response; 10x 3'
+Petti_2019,scAML_Petti_2019,5prime,Petti2019,on disk
+RodriguezMeira_2023,scAML_RodriguezMeira_2023,TARGETseq,,plate-based full-length (TARGET-seq); no 10x reference applies
+Wang_2024,scAML_Wang_2024,unknown,,platform not recalled
+Zeng_2025,scAML_Zeng_2025,5prime,GSE289435,PMH in-house = GSE289435 on disk (MLL_xxxxx ids; GSM8791436 = MLL_17844); 5' per manifest; 3' v3.1 for sorted fractions
+vanGalen_2019,scAML_vanGalen_2019,SeqWell,GSE116256,on disk; AML707B-D0 reproduction check
+")
+LOY_EXT_STUDIES[, dataset := paste0("ZENG_", study)]
+LOY_BMM_BIN_MAP   <- here::here("scripts", "03_hierarchy", "bmm_bin_map.tsv")   # CellType_Broad -> hierarchy_bin (same vocabulary)
+LOY_EXT_LIST      <- file.path(LOY_SCAN_DIR, "external_datasets.txt")           # one dataset id per line, for --task
+# 7b. calibration for external datasets (02, declared 2026-11-14 BEFORE any external sample is called):
+#   factor_study = (Y rate of the study's expression-male T cells) / r_ref(chem_lit, T); lambda_i uses r_ref x factor.
+#   E0_i = max(exp(-lambda_i), e0_emp(chem_lit, comp, depth bin)) -- conservative whichever way the guess is wrong.
+#   Studies with < LOY_EXT_CALIB_MIN_T male T cells keep factor 1 and are flagged "uncalibrated".
+#   On-disk datasets keep the frozen section-5 rule unchanged (so K1-K7 still reproduce).
+LOY_EXT_CALIB_MIN_T  <- 300L
+LOY_EXT_CALIB_RANGE  <- c(0.5, 2.0)   # a factor outside this range means the chemistry guess is wrong: report, do not call
+# 7c. GSE269669 (Daver 2025, PMID 40198272): 11 TP53-mutant AML/AEL on azacitidine + venetoclax + magrolimab, 27 sample
+#   libraries (PTnnA/B/C = patient x timepoint), author Seurat v4 objects: avm_aml (42,910 leukaemic cells, 20 libraries)
+#   and avm_tme (137,169 microenvironment cells, 27 libraries), raw counts, Azimuth-style labels (predicted.celltype.l2).
+#   The deposited .rds.gz is gzip of a gzip-compressed RDS (readRDS(gzcon(gzfile()))). Chemistry guessed 5' (VDJ columns).
+LOY_EXT_GEO <- data.table::data.table(
+  dataset = "GSE269669", chem_lit = "5prime", on_disk = NA_character_,
+  note = "TP53-mutant AML/AEL aza/ven/magrolimab; author objects avm_aml + avm_tme; 10x 5' (guess, VDJ columns present)")
+LOY_GSE269669_DIR <- file.path(LARGE1_DIR, "00_raw/public/GEO/GSE269669_RAW")
+LOY_EXT_ALL <- rbind(LOY_EXT_STUDIES[, .(dataset, chem_lit, on_disk)], LOY_EXT_GEO[, .(dataset, chem_lit, on_disk)])
+# Azimuth-style l2 labels -> hierarchy_bin, aligned to bmm_bin_map.tsv (CLP -> T_NK like Early Lymphoid; BaEoMa ->
+# LMPP_GMP like EoBasoMast Precursor; EMP -> Erythroid like MEP). Unlisted labels become NA (= not in any compartment).
+LOY_AZIMUTH_L2_TO_BIN <- c(
+  "HSC" = "HSC_MPP", "LMPP" = "LMPP_GMP", "GMP" = "LMPP_GMP", "BaEoMa" = "LMPP_GMP",
+  "EMP" = "Erythroid", "Early Eryth" = "Erythroid", "Late Eryth" = "Erythroid",
+  "Prog Mk" = "Megakaryocyte", "Platelet" = "Megakaryocyte",
+  "CD14 Mono" = "Mono_DC", "CD16 Mono" = "Mono_DC", "Macrophage" = "Mono_DC", "cDC1" = "Mono_DC", "cDC2" = "Mono_DC",
+  "pDC" = "Mono_DC", "pre-mDC" = "Mono_DC", "pre-pDC" = "Mono_DC", "ASDC" = "Mono_DC",
+  "CLP" = "T_NK", "CD4 Naive" = "T_NK", "CD4 Memory" = "T_NK", "CD4 Effector" = "T_NK", "CD8 Naive" = "T_NK",
+  "CD8 Memory" = "T_NK", "CD8 Effector_1" = "T_NK", "CD8 Effector_2" = "T_NK", "CD8 Effector_3" = "T_NK",
+  "T Proliferating" = "T_NK", "MAIT" = "T_NK", "ILC" = "T_NK", "NK" = "T_NK", "NK CD56+" = "T_NK", "NK Proliferating" = "T_NK",
+  "pro B" = "B_Plasma", "pre B" = "B_Plasma", "transitional B" = "B_Plasma", "Naive B" = "B_Plasma", "Memory B" = "B_Plasma",
+  "Plasma" = "B_Plasma", "Stromal" = "Stromal")
+# 7d. which Disease_state values count as AML for the patient table (pack vocabulary: AML, sAML, AEL, AMKL, MPAL, MPN,
+#   sAML_TP53, MPN_TP53_preAML, MPN_TP53_CP, AML_PDX, AML_Multiome, Healthy). MPAL and MPN stages are not AML.
+LOY_AML_DISEASE <- c("AML", "sAML", "sAML_TP53", "AEL", "AMKL", "AML_PDX", "AML_Multiome")

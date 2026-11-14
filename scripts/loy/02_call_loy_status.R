@@ -17,6 +17,11 @@
 #          Rscript scripts/loy/02_call_loy_status.R --partial  (whatever percell files exist)
 # WHY the reference is external: estimating the zero background from the sample being called would absorb its own
 #   LOY into the background and hide it; the same lesson as the inferCNV reference choice in 02_malignancy.
+# Revision 2026-11-14 (external cohorts, config section 7): per-cell files named in external_datasets.txt are loaded
+#   when present; their chemistry is chem_lit from LOY_EXT_STUDIES; they never enter the reference pool; lambda is
+#   scaled by a per-study factor from the study's own expression-male T cells (7b) and E0 = max(exp(-lambda), e0_emp).
+#   On-disk datasets are called exactly as before, so K1-K7 reproduce. New: K8 (vanGalen AML707B via the pack),
+#   loy_external_calibration.csv.
 # Revision 2026-11-14 (after run 1): (a) the objects' Chemistry column reads "unknown" for 13 of 16 datasets, so
 #   chemistry now comes from manifest platform_fine, then a per-dataset default; (b) sex calls use XIST >= 2 UMIs on
 #   cells with >= 2,000 UMIs because one XIST UMI is what a female pool-mate's ambient RNA delivers (GSE185381 pools);
@@ -36,7 +41,11 @@ files <- file.path(LOY_PERCELL_DIR, paste0(dsl, "__y_percell.csv.gz"))
 have  <- file.exists(files)
 if (!partial) stopifnot(all(have)) else files <- files[have]
 message(sprintf("[1] per-cell files: %d of %d datasets%s", sum(have), length(dsl), if (partial) " (partial)" else ""))
-cells <- rbindlist(lapply(files, fread), fill = TRUE)
+ext_dsl   <- if (file.exists(LOY_EXT_LIST)) readLines(LOY_EXT_LIST) else character()      # config section 7
+ext_files <- file.path(LOY_PERCELL_DIR, paste0(ext_dsl, "__y_percell.csv.gz")); ext_files <- ext_files[file.exists(ext_files)]
+message(sprintf("    external per-cell files present: %d of %d", length(ext_files), length(ext_dsl)))
+cells <- rbindlist(lapply(c(files, ext_files), fread), fill = TRUE)
+cells[, is_ext := dataset %in% ext_dsl]
 ycols <- setdiff(grep("^y_[A-Z0-9]+$", names(cells), value = TRUE), "y_umi")
 cells[, n_ygenes := rowSums(as.matrix(.SD) > 0, na.rm = TRUE), .SDcols = ycols]
 cells[, `:=`(nCount_RNA = as.numeric(nCount_RNA), y_umi = as.numeric(y_umi), xist_umi = as.numeric(xist_umi))]
@@ -57,6 +66,7 @@ ds_default <- c(Chen2023 = "3prime", "E-MTAB-11536" = "5prime", GSE116256 = "Seq
                 GSE227903 = "3prime", GSE239721 = "5prime", GSE253355 = "3prime", GSE289435 = "5prime",
                 Petti2019 = "5prime", GSE120221 = "3prime", GSE227690 = "3prime", GSE276360 = "3prime")
 cells[is.na(chem) & dataset %in% names(ds_default), chem := ds_default[dataset]]
+cells[is_ext == TRUE, chem := LOY_EXT_ALL$chem_lit[match(dataset, LOY_EXT_ALL$dataset)]]   # literature guess, calibrated in [6b]
 cells[is.na(chem), chem := "unknown"]
 message("[2] chemistry: ", paste(cells[, .N, by = .(dataset, chem)][order(dataset)][, paste0(dataset, "=", chem)], collapse = " "))
 
@@ -118,7 +128,8 @@ message("[4] sex calls: ", paste(names(table(sex$sex_expr)), table(sex$sex_expr)
 ## [5] reference background from clean healthy MALE donors ----------------------------------------------
 # reference donors: the project's healthy-control datasets (E-MTAB-11536 and GSE253355 are coded non_heme_condition in the
 # manifest) plus the healthy donors inside AML studies; clean "M" calls only (no ambient-XIST or no-XIST-gene calls)
-is_ref_sample <- sex[sex_expr == "M" & (Disease_state %in% LOY_REF_DISEASE | disease_man %in% c("healthy_donor", "Healthy", "healthy", "non_heme_condition")), .(dataset, Sample)]
+is_ref_sample <- sex[sex_expr == "M" & !(dataset %in% ext_dsl) &     # external healthy donors never enter the reference (7b)
+                     (Disease_state %in% LOY_REF_DISEASE | disease_man %in% c("healthy_donor", "Healthy", "healthy", "non_heme_condition")), .(dataset, Sample)]
 ref <- merge(cells, is_ref_sample, by = c("dataset", "Sample"))
 message(sprintf("[5] reference: %d male healthy samples, %d cells; chemistry x cells: %s", uniqueN(ref[, .(dataset, Sample)]), nrow(ref),
                 paste(ref[, .N, by = chem][, paste0(chem, "=", N)], collapse = ", ")))
@@ -133,11 +144,26 @@ cells <- merge(cells, r_ref[, .(chem, comp, r)], by = c("chem", "comp"), all.x =
 cells <- merge(cells, r_chem, by = "chem", all.x = TRUE)
 cells[is.na(r), r := r_chem]
 cells[is.na(r), r := median(r_ref$r)]                      # chemistry with no healthy male at all: pooled fallback, flagged below
-cells[, lambda := nCount_RNA * r]
+## [6b] per-study calibration for external datasets (config 7b): the study's own expression-male T cells set the scale
+r_T_assigned <- cells[comp == "T", .(r_T_ref = r[1]), by = dataset]
+calib <- cells[is_ext == TRUE & comp == "T" & sex_group == "M", .(n_T_male = .N, y_rate_T = sum(y_umi) / sum(nCount_RNA),
+                                                                  n_male_samples = uniqueN(Sample)), by = dataset]
+calib <- merge(calib, r_T_assigned, by = "dataset", all.x = TRUE)
+calib[, factor := fifelse(n_T_male >= LOY_EXT_CALIB_MIN_T, y_rate_T / r_T_ref, 1)]
+calib[, calib_status := fifelse(n_T_male < LOY_EXT_CALIB_MIN_T, "uncalibrated",
+                        fifelse(factor < LOY_EXT_CALIB_RANGE[1] | factor > LOY_EXT_CALIB_RANGE[2], "chem_mismatch", "calibrated"))]
+calib <- merge(data.table(dataset = unique(cells[is_ext == TRUE, dataset])), calib, by = "dataset", all.x = TRUE)
+calib[is.na(factor), `:=`(factor = 1, calib_status = "uncalibrated")]
+calib <- merge(calib, LOY_EXT_ALL[, .(dataset, chem_lit, on_disk)], by = "dataset", all.x = TRUE)
+if (nrow(calib)) { fwrite(calib[order(dataset)], file.path(LOY_CALL_DIR, "loy_external_calibration.csv")); message("[6b] external calibration:"); print(calib[, .(dataset, chem_lit, n_T_male, y_rate_T = signif(y_rate_T, 3), r_T_ref = signif(r_T_ref, 3), factor = round(factor, 2), calib_status)]) }
+cells <- merge(cells, calib[, .(dataset, factor, calib_status)], by = "dataset", all.x = TRUE)
+cells[is.na(factor), `:=`(factor = 1, calib_status = "on_disk")]
+cells[, lambda := nCount_RNA * r * factor]
 cells[, call := fifelse(y_umi == 0 & lambda >= LOY_LAMBDA_MIN, "suspected_LOY",
                fifelse((y_umi >= 2 & n_ygenes >= 2) | y_umi >= 3, "Y_retained", "uncertain"))]
 cells <- merge(cells, e0_emp[, .(chem, comp, depth_bin, e0_emp, n_bin)], by = c("chem", "comp", "depth_bin"), all.x = TRUE)
 cells[, e0 := fifelse(!is.na(e0_emp) & n_bin >= 30, e0_emp, exp(-lambda))]
+cells[is_ext == TRUE, e0 := pmax(e0, exp(-lambda))]        # 7b: conservative whichever way the chemistry guess is wrong
 no_ref_chem <- setdiff(unique(cells$chem), r_chem$chem)
 if (length(no_ref_chem)) message("[6] WARNING no healthy-male reference for chemistry: ", paste(no_ref_chem, collapse = ","), " -> pooled fallback rate")
 
@@ -149,6 +175,8 @@ comp_tab <- cells[sex_group == "M", .(n = .N, n_susp = sum(call == "suspected_LO
 comp_tab[, f_hat := pmax(0, pmin(1, (Z - E0) / (1 - E0)))]
 comp_tab[, readable := n >= LOY_MIN_CELLS & med_lambda >= 2]
 comp_tab[readable == FALSE, f_hat := NA_real_]
+comp_tab <- merge(comp_tab, unique(cells[, .(dataset, calib_status)]), by = "dataset", all.x = TRUE)
+comp_tab[calib_status == "chem_mismatch", f_hat := NA_real_]     # 7b: report, do not call
 # Pool-contamination guard (added 2026-11-14 after AML073 / AML051): in a MALE sample, Y-zero cells that express XIST are
 # female cells carrying another donor's label (GSE185381 pool P08: 930 of AML073's deep Mono_DC cells, 89 % XIST+; P19:
 # AML051's Mono_DC). Such a compartment's LOY fraction is not the patient's and is set to NA with the flag kept.
@@ -169,8 +197,13 @@ fwrite(comp_tab[order(dataset, Sample, comp)], file.path(LOY_CALL_DIR, "loy_comp
 wide <- dcast(comp_tab[comp %in% c("LEUK", "Mono_DC", "T", "NK", "B_Plasma", "Erythroid")],
               dataset + Sample ~ comp, value.var = c("n", "n_susp", "n_ret", "f_hat"), fill = NA)
 pt <- merge(sex[sex_group == "M"], wide, by = c("dataset", "Sample"), all.x = TRUE)
-pt <- merge(pt, unique(cells[, .(dataset, Sample, timepoint_man, driver_mutations, fusion, platform_fine, sorting_r, sample_state, blast_pct_clinical)]), by = c("dataset", "Sample"), all.x = TRUE)
-pt[, is_aml := disease_man == "AML" | Disease_state == "AML"]
+pt <- merge(pt, cells[, .(timepoint_man = timepoint_man[1], driver_mutations = driver_mutations[1], fusion = fusion[1], platform_fine = platform_fine[1],
+                          sorting_r = sorting_r[1], sample_state = sample_state[1], blast_pct_clinical = blast_pct_clinical[1],
+                          Timepoint = as.character(Timepoint[1]), AgeGroup = if ("AgeGroup" %in% names(cells)) as.character(AgeGroup[1]) else NA_character_,
+                          is_ext = is_ext[1], calib_status = calib_status[1], factor = factor[1]), by = .(dataset, Sample)],
+            by = c("dataset", "Sample"), all.x = TRUE)
+pt[is.na(timepoint_man) | timepoint_man == "", timepoint_man := Timepoint]
+pt[, is_aml := disease_man == "AML" | Disease_state %in% LOY_AML_DISEASE]   # config 7d
 pt[, karyo_minusY := grepl("-\\s*Y|−Y", karyotype)]
 pt[, leuk_class := fifelse(!is_aml %in% TRUE, NA_character_,
                    fifelse(is.na(f_hat_LEUK), "not_readable",
@@ -199,24 +232,37 @@ g36   <- comp_tab[Sample == "GSM8791436_MLL_17844" & comp == "LEUK", f_hat]
 a1371 <- comp_tab[Sample == "AML1371" & comp == "LEUK", .(f_hat, n)]
 a707  <- comp_tab[Sample == "AML707B-D0" & comp == "LEUK", .(f_hat, n)]
 hm_T  <- merge(comp_tab[comp == "T" & n >= 100], is_ref_sample, by = c("dataset", "Sample"))$f_hat
+z707  <- comp_tab[dataset == "ZENG_vanGalen_2019" & Sample == "AML_pvg2019_AML707B" & comp == "LEUK", .(f_hat, n)]   # same cells via the pack
+z36   <- comp_tab[dataset == "ZENG_Zeng_2025" & Sample == "scAML_AEL_MLL_17844" & comp == "LEUK", .(f_hat, n)]          # = GSM8791436 (K2) via the pack
+z025  <- comp_tab[dataset == "ZENG_Lasry_2022" & Sample == "AML_Lasry2022_pediatric_AML025" & comp == "LEUK", .(f_hat, n)]   # = AML025 clonal case via the pack
 c4    <- sex[Sample == "Control4", sex_expr]
 mism  <- sex[!is.na(sex_karyo) & sex_group != "other" & sex_group != sex_karyo & Sample != "Control4" & is.na(reason),
              .(dataset, Sample, sex_expr, sex_karyo, xist_pos_frac = round(xist_pos_frac, 3), y_rate_all = signif(y_rate_all, 3))]
 chk <- data.table(
   check    = c("K1_female_zeroY_frac_deep_cells", "K2_GSM8791436_LEUK_fhat", "K3_AML1371_LEUK_fhat(3of20)",
-               "K4_healthy_male_T_fhat_median", "K5_Control4_expression_sex", "K6_sex_vs_karyotype_mismatches(after declared exclusions)", "K7_AML707B-D0_LEUK_fhat(19of20 metaphases lack Y)"),
-  expected = c(">= 0.95", ">= 0.90", "0.05-0.40 if readable", "<= 0.03", "F", "0", ">= 0.85 if readable"),
+               "K4_healthy_male_T_fhat_median", "K5_Control4_expression_sex", "K6_sex_vs_karyotype_mismatches(after declared exclusions)", "K7_AML707B-D0_LEUK_fhat(19of20 metaphases lack Y)",
+               "K8_ZENG_vanGalen_AML707B_LEUK_fhat(pack copy of K7)", "K9_ZENG_Zeng2025_MLL_17844_LEUK_fhat(pack copy of K2)",
+               "K10_ZENG_Lasry_AML025_LEUK_fhat(pack copy of the clonal case)"),
+  expected = c(">= 0.95", ">= 0.90", "0.05-0.40 if readable", "<= 0.03", "F", "0", ">= 0.85 if readable", ">= 0.85 if scanned", ">= 0.90 if scanned", ">= 0.80 if scanned"),
   observed = c(fmt(fem_zero), fmt(g36), paste0(fmt(a1371$f_hat), " n=", if (nrow(a1371)) a1371$n else 0),
                fmt(if (length(hm_T)) median(hm_T, na.rm = TRUE) else NA), if (length(c4)) c4 else "NA", as.character(nrow(mism)),
-               paste0(fmt(a707$f_hat), " n=", if (nrow(a707)) a707$n else 0)),
+               paste0(fmt(a707$f_hat), " n=", if (nrow(a707)) a707$n else 0),
+               paste0(fmt(z707$f_hat), " n=", if (nrow(z707)) z707$n else 0),
+               paste0(fmt(z36$f_hat), " n=", if (nrow(z36)) z36$n else 0), paste0(fmt(z025$f_hat), " n=", if (nrow(z025)) z025$n else 0)),
   pass     = c(isTRUE(fem_zero >= 0.95), isTRUE(length(g36) > 0 && g36 >= 0.90),
                if (nrow(a1371) && !is.na(a1371$f_hat)) isTRUE(a1371$f_hat >= 0.05 && a1371$f_hat <= 0.40) else NA,
                isTRUE(length(hm_T) > 0 && median(hm_T, na.rm = TRUE) <= 0.03), isTRUE(length(c4) > 0 && c4 %in% c("F", "F_lowdepth")),
-               nrow(mism) == 0, if (nrow(a707) && !is.na(a707$f_hat)) isTRUE(a707$f_hat >= 0.85) else NA))
+               nrow(mism) == 0, if (nrow(a707) && !is.na(a707$f_hat)) isTRUE(a707$f_hat >= 0.85) else NA,
+               if (nrow(z707) && !is.na(z707$f_hat)) isTRUE(z707$f_hat >= 0.85) else NA,
+               if (nrow(z36) && !is.na(z36$f_hat)) isTRUE(z36$f_hat >= 0.90) else NA, if (nrow(z025) && !is.na(z025$f_hat)) isTRUE(z025$f_hat >= 0.80) else NA))
 fwrite(chk, file.path(LOY_CALL_DIR, "loy_call_checks.csv")); print(chk)
 if (nrow(mism)) { message("[K6] sex mismatches (metadata vs expression):"); print(mism) }
 message("[done] male samples: ", nrow(pt), " | male AML: ", sum(pt$is_aml %in% TRUE),
         " | LEUK classes: ", paste(names(table(pt$leuk_class)), table(pt$leuk_class), collapse = ", "),
         " | any leukaemic compartment: ", paste(names(table(pt[is_aml %in% TRUE, loy_any_leuk_comp])), table(pt[is_aml %in% TRUE, loy_any_leuk_comp]), collapse = ", "),
         " | H2 pairing candidates: ", sum(pt$h2_pairable))
+if (any(pt$is_ext %in% TRUE)) message("[done] external: datasets ", uniqueN(pt[is_ext %in% TRUE, dataset]), " | male samples ", sum(pt$is_ext %in% TRUE),
+        " | male AML ", sum(pt$is_ext %in% TRUE & pt$is_aml %in% TRUE),
+        " | LEUK classes: ", paste(names(table(pt[is_ext %in% TRUE, leuk_class])), table(pt[is_ext %in% TRUE, leuk_class]), collapse = ", "),
+        " | H2 pairing candidates: ", sum(pt[is_ext %in% TRUE, h2_pairable]))
 print(pt[h2_pairable == TRUE, .(dataset, Sample, timepoint_man, n_LEUK, f_hat_LEUK = round(f_hat_LEUK, 3), n_Mono_DC, f_hat_Mono_DC = round(f_hat_Mono_DC, 3), n_T, f_hat_T = round(f_hat_T, 3), pair_same_comp, pair_cross_comp)])

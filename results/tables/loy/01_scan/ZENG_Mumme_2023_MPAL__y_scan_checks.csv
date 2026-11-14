@@ -1,0 +1,5 @@
+check,expected,observed,pass
+K1_samples_with_rows,7,7,TRUE
+K2_ygenes_found,>=8,12,TRUE
+K3_rows_equal_ncol,27339,27339,TRUE
+K4_broad_labels_mapped,0 unmapped,0 unmapped,TRUE

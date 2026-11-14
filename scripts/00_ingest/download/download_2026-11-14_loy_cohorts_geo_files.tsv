@@ -1,0 +1,4 @@
+#GSE	dest_subdir	url
+GSE269669	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE269nnn/GSE269669/suppl/GSE269669_avm_aml.rds.gz
+GSE269669	.	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE269nnn/GSE269669/suppl/GSE269669_avm_tme.rds.gz
+GSE269669	series_matrix	https://ftp.ncbi.nlm.nih.gov/geo/series/GSE269nnn/GSE269669/matrix/GSE269669_series_matrix.txt.gz
