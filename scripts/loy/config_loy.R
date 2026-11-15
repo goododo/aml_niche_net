@@ -149,3 +149,42 @@ LOY_AZIMUTH_L2_TO_BIN <- c(
 # 7d. which Disease_state values count as AML for the patient table (pack vocabulary: AML, sAML, AEL, AMKL, MPAL, MPN,
 #   sAML_TP53, MPN_TP53_preAML, MPN_TP53_CP, AML_PDX, AML_Multiome, Healthy). MPAL and MPN stages are not AML.
 LOY_AML_DISEASE <- c("AML", "sAML", "sAML_TP53", "AEL", "AMKL", "AML_PDX", "AML_Multiome")
+
+## 8. H2: within-patient -Y vs Y+ leukaemic program (scripts/loy/PREREGISTRATION_H2.md; drafted 2026-11-14) ---------
+#   Stage 0 (04) reads counts only; 05 reads expression and runs after the tag prereg-loy-h2-v1.
+LOY_H2_DIR <- file.path(LOY_TAB_DIR, "04_h2")
+LOY_H2_CASES <- data.table::fread(text = "
+case,dataset,Sample,role,timepoint
+AML15,ZENG_Lambo_2023,AML_Lambo2023_AML15_DX,contrast,Diagnosis
+AML15,ZENG_Lambo_2023,AML_Lambo2023_AML15_REL,other,Relapse
+AML15,ZENG_Lambo_2023,AML_Lambo2023_AML15_REM,other,Remission
+AML13,ZENG_Lambo_2023,AML_Lambo2023_AML13_REL,contrast,Relapse
+AML13,ZENG_Lambo_2023,AML_Lambo2023_AML13_DX,other,Diagnosis
+AML13,ZENG_Lambo_2023,AML_Lambo2023_AML13_REM,other,Remission
+PT43,GSE269669,PT43A,contrast,Pre
+PT43,GSE269669,PT43B,other,Post
+AML5,ZENG_Lambo_2023,AML_Lambo2023_AML5_DX,selection_only,Diagnosis
+AML5,ZENG_Lambo_2023,AML_Lambo2023_AML5_REL,selection_only,Relapse
+AML5,ZENG_Lambo_2023,AML_Lambo2023_AML5_REM,selection_only,Remission
+MUMME20,ZENG_Mumme_2023_AML,AML_Mumme2023_Sample20D,selection_only,Diagnosis
+MUMME20,ZENG_Mumme_2023_AML,AML_Mumme2023_Sample20E,selection_only,End_of_Induction
+")
+# role: contrast = the library with the -Y subclone (the H2 unit); other = the patient's other timepoints (selection
+# readout); selection_only = too few cells for a within-library contrast (section 9 S4).
+LOY_H2_MIN_CELLS     <- 50L    # suspected AND retained leukaemic cells after matching, inside one fine label
+LOY_H2_MATCH_RATIO   <- 3L     # up to 3 Y_retained cells per suspected_LOY cell
+LOY_H2_CALIPER       <- 0.1    # |log10 nCount difference| allowed within a match
+LOY_H2_CONTROL_MAX_F <- 0.03   # a normal compartment can serve as technical-zero control only if its sample f_hat <= this
+LOY_H2_K3_MIN_AGREE  <- 0.95   # fine-label agreement with vs without chrY genes in the projection (GATE_H2_K3)
+LOY_H2_K3_SUBSAMPLE  <- 2000L  # cells per library re-projected for K3 when the reference's variable genes include chrY genes
+LOY_H2_SEED          <- 20261115L
+LOY_H2_GMT           <- file.path(dirname(LARGE1_DIR), "reference", "h.all.v2024.1.Hs.symbols.gmt")   # pinned, as config_ws.R
+LOY_H2_HALLMARK      <- c(F5_IFNA = "HALLMARK_INTERFERON_ALPHA_RESPONSE", F6_IFNG = "HALLMARK_INTERFERON_GAMMA_RESPONSE",
+                          F7_TNFA_NFKB = "HALLMARK_TNFA_SIGNALING_VIA_NFKB", F8_OXPHOS = "HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+                          F9_MYC_V1 = "HALLMARK_MYC_TARGETS_V1", F10_P53 = "HALLMARK_P53_PATHWAY")
+LOY_H2_STEMNESS      <- c(F1_LSC17 = "LSC17", F2_vanGalen_HSCprog_like = "vanGalen_HSCprog_like", F3_HSPC_core = "HSPC_core")
+LOY_H2_STEMNESS_TSV  <- here::here("scripts", "以前06_hierarchy", "stemness_signatures.tsv")
+LOY_H2_MP_TSV        <- file.path(TAB_DIR, "04_cnmf", "malignant_metaprograms.tsv")
+LOY_H2_MPS           <- c("MP5", "MP6", "MP9", "MP10")     # MP9 = dissociation stress, artefact control
+LOY_H2_GENESETS      <- here::here("scripts", "loy", "gene_sets_h2_v1.tsv")
+LOY_H2_GENE_ORDER    <- file.path(LARGE1_DIR, "reference", "gencode_GRCh38_gene_order.txt")   # chrY exclusion list (= inferCNV gene order)
