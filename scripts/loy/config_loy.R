@@ -132,7 +132,7 @@ LOY_EXT_GEO <- data.table::data.table(
   dataset = "GSE269669", chem_lit = "5prime", on_disk = NA_character_,
   note = "TP53-mutant AML/AEL aza/ven/magrolimab; author objects avm_aml + avm_tme; 10x 5' (guess, VDJ columns present)")
 LOY_GSE269669_DIR <- file.path(LARGE1_DIR, "00_raw/public/GEO/GSE269669_RAW")
-LOY_EXT_ALL <- rbind(LOY_EXT_STUDIES[, .(dataset, chem_lit, on_disk)], LOY_EXT_GEO[, .(dataset, chem_lit, on_disk)])
+LOY_EXT_ALL <- rbind(LOY_EXT_STUDIES[, .(dataset, chem_lit, on_disk)], LOY_EXT_GEO[, .(dataset, chem_lit, on_disk)])   # extended below (7e, 7f) once those tables exist
 # Azimuth-style l2 labels -> hierarchy_bin, aligned to bmm_bin_map.tsv (CLP -> T_NK like Early Lymphoid; BaEoMa ->
 # LMPP_GMP like EoBasoMast Precursor; EMP -> Erythroid like MEP). Unlisted labels become NA (= not in any compartment).
 LOY_AZIMUTH_L2_TO_BIN <- c(
@@ -241,3 +241,16 @@ LOY_GEO_QC_MIN_GENE <- 200
 LOY_GEO_QC_MAX_MT   <- 20
 LOY_GEO_CMO_MIN_UMI <- 10       # CMO demultiplexing: dominant CMO needs >= 10 UMIs and >= 3x the runner-up; else the cell is dropped
 LOY_GEO_CMO_RATIO   <- 3
+
+## 7f. ScPCA SCPCP000007 (Gawad, paediatric AML, 30 samples incl. 2 healthy and 2 T/myeloid MPAL; 10x v2 5' + CITE-seq) ------------
+#   Portal per-sample SingleCellExperiment download (ccdl-dataset 236cbf3a-f248-4b6d-81d9-9ac411f78fb5, 2026-11-15, token
+#   requested by the user). Counts assay = raw UMIs, rownames = Ensembl ids (rowData gene_symbol used); metadata.tsv carries
+#   sex, age, diagnosis, disease_timing per sample. Scanned by 03c_scan_scpca.R; the Zeng-pack copy (Gawad_ScPCA) stays
+#   unscanned because its counts are ambient-corrected.
+LOY_SCPCA_DIR     <- file.path(RAW_PUBLIC_DIR, "ScPCA", "SCPCP000007")
+LOY_SCPCA_DATASET <- "SCPCA_SCPCP000007"
+LOY_SCPCA_CHEM    <- "5prime"
+# every external dataset 02 may meet: chemistry guess per dataset (7b calibration scales it from the study's own male T cells)
+LOY_EXT_ALL <- rbind(LOY_EXT_ALL,
+                     LOY_GEO_MTX[, .(dataset, chem_lit, on_disk = NA_character_)],
+                     data.table::data.table(dataset = LOY_SCPCA_DATASET, chem_lit = LOY_SCPCA_CHEM, on_disk = NA_character_))
