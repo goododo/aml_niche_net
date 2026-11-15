@@ -222,3 +222,22 @@ PT43|del5q|chr5|q11.1|q35.3|TP53-AML usual lesion
 PT43|chr7|chr7|p22.3|q36.3|TP53-AML usual lesion
 PT43|del17p|chr17|p13.3|p11.1|TP53-AML usual lesion
 ")   # pipe-separated: the expectation text carries commas (job 3689459 lost the PT43 rows with sep = ",")
+
+## 7e. GEO series deposited as raw cellranger matrices (no depositor objects): scanned by 03b_scan_geo_mtx.R ----------------
+#   Second download batch, approved 2026-11-14 (manifest download_2026-11-14_loy_cohorts_geo_files.tsv). Labels come from this
+#   project's BoneMarrowMap projection; chemistry from the series (5' R2-only in GSE223844 web summaries; TCR profiling in
+#   GSE315856; CellPlex CMO = 3' in GSE198681; hashing CITE-seq assumed 3' in GSE343017 -- the 7b calibration guard catches a
+#   wrong guess). Layout one_donor: one matrix = one library of one donor; cmo: one matrix = one lane, donors by CMO features.
+LOY_GEO_MTX <- data.table::fread(sep = "|", text = "
+dataset|chem_lit|layout|note
+GSE315856|5prime|one_donor|HMA-venetoclax, 10 newly diagnosed adults x TP1 baseline / TP2 after cycle 1 (GEX GSMs only; TCR GSMs carry no matrix)
+GSE223844|5prime|one_donor|decitabine + ipilimumab (ETCTN 10026), MDS/AML and post-HSCT relapse, up to 5 timepoints per patient
+GSE343017|3prime|one_donor|Goel NK; hashed pools demultiplexed by the depositors into per-donor RNA matrices (WBM lanes used; NK-sorted lanes skipped); HD = healthy donor
+GSE198681|3prime|cmo|13 untreated de novo adult AML, CellPlex CMO multiplexed over 5 lanes; CMO sheet GSE198681_CMO_conditions.xlsx
+")
+LOY_GEO_EXTRACT_DIR <- file.path(LARGE1_DIR, "loy", "geo_extract")   # the RAW tars extracted once, per series
+LOY_GEO_QC_MIN_UMI  <- 500      # light cell QC on cellranger-filtered matrices (the depositor objects of 03 were already QC'd)
+LOY_GEO_QC_MIN_GENE <- 200
+LOY_GEO_QC_MAX_MT   <- 20
+LOY_GEO_CMO_MIN_UMI <- 10       # CMO demultiplexing: dominant CMO needs >= 10 UMIs and >= 3x the runner-up; else the cell is dropped
+LOY_GEO_CMO_RATIO   <- 3
