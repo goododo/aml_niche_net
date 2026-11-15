@@ -236,3 +236,14 @@ the pack objects / GSE269669 objects via the step-2 adapter (`03_scan_external.R
    when at least one leukaemic CNV has carrier frequency in -Y cells within [0.7, 1.3] of that in Y+ cells. chrY itself
    is scored as the machinery check of this arm (must separate the halves). Label permutation (1,000) within fine label
    gives the per-region p for the -Y vs Y+ difference of region scores.
+8. **Stage 0 findings that changed the procedure, before the tag (2026-11-15, job 3689458, counts only)**:
+   (a) the T cells of the contrast libraries hold too few Y-zero cells for the control floor (22 / 15 / 47 matched Y-zero
+   cells in AML15_DX / AML13_REL / PT43A). The technical-zero control therefore uses every non-leukaemic cell of the
+   compartments whose sample-level f_hat is <= 0.03 in 02's table (T, NK, B, erythroid, normal Mono/DC, megakaryocyte;
+   as section 2 already allowed), and when the contrast library still gives < 50 matched Y-zero cells, the patient's
+   other libraries join with library as a stratum (depth matching never crosses libraries; the library is a covariate
+   in the control model). (b) Greedy 1:3 matching inside the 0.1 log10 caliper leaves median depth gaps of up to 9 %
+   between the halves (PT43A HSC 0.91, AML15 Early GMP 1.07); the hard stop is set at half the caliper (0.05 log10) and
+   log depth stays in the model as pre-registered. (c) GATE_H2_K3 is computed over cells that received a label in both
+   projections; mapping-QC failures (1.2 % of PT43 cells) are reported, not counted as disagreement. (d) The scaffold's
+   variable genes contain one chrY gene (PCDH11Y), so the Lambo subsample re-projection runs (section 13.2).

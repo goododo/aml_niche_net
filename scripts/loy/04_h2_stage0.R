@@ -20,7 +20,8 @@
 #   [5] depth matching of suspected_LOY to Y_retained cells within fine label (greedy nearest neighbour on log10 nCount, up to
 #   LOY_H2_MATCH_RATIO per cell, caliper LOY_H2_CALIPER) and the eligibility floor (GATE_H2_0); [6] freezes the feature panel;
 #   [7] the denominator table.
-# Usage : sbatch scripts/loy/submit_loy_h2.sbatch 04 [--no_pt43] [--k3=auto|yes|no]
+# Usage : sbatch scripts/loy/submit_loy_h2.sbatch 04 [--no_pt43] [--k3=auto|yes|no] [--force]
+#   --force    redo the PT43 / Lambo projections even when stage0_pt43_bmm_percell.csv.gz / stage0_k3_lambo_subsample.csv.gz exist
 #   --no_pt43  skip the GSE269669 re-projection (Azimuth labels are then used for PT43; for a quick re-run of the counts)
 #   --k3=      auto (default): re-project Lambo subsamples only if the scaffold's variable genes contain a chrY gene
 # WHY: the prereg (sections 2, 4, 7) fixes the eligibility floor, the control and the gates before 05 reads expression;
@@ -32,6 +33,7 @@ source(here::here("scripts", "loy", "00_loy_common.R"))
 args    <- commandArgs(trailingOnly = TRUE)
 no_pt43 <- any(args == "--no_pt43")
 k3_mode <- sub("^--k3=", "", grep("^--k3=", args, value = TRUE)); if (!length(k3_mode)) k3_mode <- "auto"
+force   <- any(args == "--force")                                     # redo the projections even when their cached outputs exist
 stopifnot(k3_mode %in% c("auto", "yes", "no"))
 dir.create(LOY_H2_DIR, recursive = TRUE, showWarnings = FALSE)
 set.seed(LOY_H2_SEED)
@@ -81,8 +83,13 @@ if (!all(k0$pass, na.rm = TRUE)) stop("[K0] re-derived LEUK counts differ from 0
 cells[, leuk := loy_h2_is_leuk(dataset, object, anno_malignant)]
 cells[, fine_depositor := fifelse(is.na(bmm_fine) | bmm_fine == "", "unlabelled", as.character(bmm_fine))]
 cells[, fine := fine_depositor]
-cells[, ctrl := comp == "T" & !leuk]                                   # T cells: Y-zero there is dropout, not biology
-message("[3] leukaemic / control cells per library:"); print(cells[, .(n = .N, leuk = sum(leuk), ctrl_T = sum(ctrl), leuk_susp = sum(leuk & call == "suspected_LOY"),
+# technical-zero control (prereg section 2 / amendment 3, 8): non-leukaemic cells of compartments whose sample-level f_hat is
+# <= LOY_H2_CONTROL_MAX_F in 02's table (T, NK, B, erythroid, normal Mono/DC, megakaryocyte); Y-zero there is dropout, not biology.
+cc02 <- fread(file.path(LOY_CALL_DIR, "loy_compartment_calls.csv"))
+ctrl_ok_comps <- cc02[readable == TRUE & !is.na(f_hat) & f_hat <= LOY_H2_CONTROL_MAX_F &
+                      comp %in% c("T", "NK", "B_Plasma", "Erythroid", "Mono_DC", "Megakaryocyte"), paste(Sample, comp)]
+cells[, ctrl := !leuk & paste(Sample, comp) %in% ctrl_ok_comps]
+message("[3] leukaemic / control cells per library:"); print(cells[, .(n = .N, leuk = sum(leuk), ctrl = sum(ctrl), ctrl_y0 = sum(ctrl & y_umi == 0), leuk_susp = sum(leuk & call == "suspected_LOY"),
                                                                        leuk_ret = sum(leuk & call == "Y_retained")), by = .(case, Sample, role)][order(case, role)])
 
 ## [4] GATE_H2_K3 (labels independent of chrY) and the PT43 re-projection ------------------------------
@@ -118,7 +125,10 @@ if (need_proj || k3_mode != "no") {
   }
   bin_map <- fread(LOY_BMM_BIN_MAP)
   # 4a. PT43: project once with every gene (the label used downstream) and once without chrY genes (K3)
-  if (!no_pt43 && "GSE269669" %in% cells$dataset) {
+  pt_file <- file.path(LOY_H2_DIR, "stage0_pt43_bmm_percell.csv.gz")
+  if (!no_pt43 && "GSE269669" %in% cells$dataset && file.exists(pt_file) && !force) {
+    message("    PT43 projection cached: ", basename(pt_file)); pt <- fread(pt_file)
+  } else if (!no_pt43 && "GSE269669" %in% cells$dataset) {
     pt_cells <- cells[dataset == "GSE269669", cell]; mats <- list()
     for (obj in c("avm_aml", "avm_tme")) {
       s <- read_gse269669(obj); keep <- intersect(colnames(s), pt_cells)
@@ -138,35 +148,46 @@ if (need_proj || k3_mode != "no") {
     pb <- project(cnt[!rownames(cnt) %in% chrY_genes, , drop = FALSE], md, "_noY")
     pt <- merge(pa, pb, by = "cell"); pt <- merge(pt, cells[dataset == "GSE269669", .(cell, Sample, object, leuk, azimuth_l2 = fine_depositor)], by = "cell")
     pt <- merge(pt, bin_map[, .(bmm_broad = CellType_Broad, hierarchy_bin_bmm = hierarchy_bin)], by = "bmm_broad", all.x = TRUE)
-    fwrite(pt, file.path(LOY_H2_DIR, "stage0_pt43_bmm_percell.csv.gz"))
+    fwrite(pt, pt_file)
+    rm(cnt, pa, pb); invisible(gc())
+  }
+  if (exists("pt")) {
+    # agreement over cells that received a label in both runs (mapping-QC failures carry NA and are counted separately)
     for (lib in unique(pt$Sample)) for (sub in c("all", "leuk")) {
       d <- if (sub == "all") pt[Sample == lib] else pt[Sample == lib & leuk == TRUE]
-      k3[[paste(lib, sub)]] <- data.table(check = paste0("reprojection_", sub), library = lib, n = nrow(d), value = mean(d$bmm_fine == d$bmm_fine_noY),
-                                          detail = sprintf("broad agreement %.3f", mean(d$bmm_broad == d$bmm_broad_noY)), pass = mean(d$bmm_fine == d$bmm_fine_noY) >= LOY_H2_K3_MIN_AGREE)
+      ok <- !is.na(d$bmm_fine) & !is.na(d$bmm_fine_noY); agree <- mean(d$bmm_fine[ok] == d$bmm_fine_noY[ok])
+      k3[[paste(lib, sub)]] <- data.table(check = paste0("reprojection_", sub), library = lib, n = sum(ok), value = agree,
+                                          detail = sprintf("broad agreement %.4f; %d mapping-QC-fail cells excluded", mean(d$bmm_broad[ok] == d$bmm_broad_noY[ok]), sum(!ok)),
+                                          pass = agree >= LOY_H2_K3_MIN_AGREE)
     }
     message("    PT43 BMM fine label vs Azimuth l2 (leukaemic cells, PT43A):")
     print(pt[Sample == "PT43A" & leuk == TRUE, .N, by = .(bmm_fine, azimuth_l2)][order(-N)][1:15])
     # downstream fine label for PT43 = this project's BMM label (same system as the Lambo pack); Azimuth l2 stays as fine_depositor
-    cells[pt, on = "cell", fine := i.bmm_fine]
-    rm(cnt, pa, pb); invisible(gc())
+    cells[pt[!is.na(bmm_fine)], on = "cell", fine := i.bmm_fine]          # QC-fail cells keep the depositor label
   }
   # 4b. Lambo: by construction if the scaffold's variable genes hold no chrY gene; otherwise re-project a subsample of each contrast library
+  lam_file <- file.path(LOY_H2_DIR, "stage0_k3_lambo_subsample.csv.gz")
   if (k3_mode == "yes" || (k3_mode == "auto" && length(vg_y) > 0)) {
-    f <- file.path(LOY_ZENG_RDS_DIR, paste0(LOY_EXT_STUDIES[study == "Lambo_2023", file_stem], "_projected_cleaned.rds"))
-    message(sprintf("    Lambo re-projection needed; reading %s (%.1f GB)", basename(f), file.size(f) / 1e9))
-    s <- readRDS(f)
-    for (lib in cases[dataset == "ZENG_Lambo_2023" & role == "contrast", Sample]) {
-      cc <- intersect(colnames(s), cells[Sample == lib, cell]); cc <- sample(cc, min(LOY_H2_K3_SUBSAMPLE, length(cc)))
-      sub <- subset(s, cells = cc); cnt <- counts_of(sub); rm(sub)
-      md  <- data.frame(cell = cc, row.names = cc, stringsAsFactors = FALSE)
-      pa  <- project(cnt, md, ""); pb <- project(cnt[!rownames(cnt) %in% chrY_genes, , drop = FALSE], md, "_noY")
-      d   <- merge(merge(pa, pb, by = "cell"), cells[Sample == lib, .(cell, fine_depositor)], by = "cell")
-      k3[[paste(lib, "sub")]] <- data.table(check = "reprojection_subsample", library = lib, n = nrow(d), value = mean(d$bmm_fine == d$bmm_fine_noY),
-                                            detail = sprintf("agreement with the pack label %.3f", mean(d$bmm_fine == d$fine_depositor)),
-                                            pass = mean(d$bmm_fine == d$bmm_fine_noY) >= LOY_H2_K3_MIN_AGREE)
-      message(sprintf("    %s: %d cells, fine agreement with/without chrY %.3f, with the pack label %.3f", lib, nrow(d), mean(d$bmm_fine == d$bmm_fine_noY), mean(d$bmm_fine == d$fine_depositor)))
+    if (file.exists(lam_file) && !force) { message("    Lambo K3 subsample cached: ", basename(lam_file)); lam <- fread(lam_file) } else {
+      f <- file.path(LOY_ZENG_RDS_DIR, paste0(LOY_EXT_STUDIES[study == "Lambo_2023", file_stem], "_projected_cleaned.rds"))
+      message(sprintf("    Lambo re-projection needed; reading %s (%.1f GB)", basename(f), file.size(f) / 1e9))
+      s <- readRDS(f); lam <- list()
+      for (lib in cases[dataset == "ZENG_Lambo_2023" & role == "contrast", Sample]) {
+        cc <- intersect(colnames(s), cells[Sample == lib, cell]); cc <- sample(cc, min(LOY_H2_K3_SUBSAMPLE, length(cc)))
+        sub <- subset(s, cells = cc); cnt <- counts_of(sub); rm(sub)
+        md  <- data.frame(cell = cc, row.names = cc, stringsAsFactors = FALSE)
+        pa  <- project(cnt, md, ""); pb <- project(cnt[!rownames(cnt) %in% chrY_genes, , drop = FALSE], md, "_noY")
+        lam[[lib]] <- merge(merge(pa, pb, by = "cell"), cells[Sample == lib, .(cell, Sample, fine_depositor)], by = "cell")
+      }
+      rm(s); invisible(gc()); lam <- rbindlist(lam); fwrite(lam, lam_file)
     }
-    rm(s); invisible(gc())
+    for (lib in unique(lam$Sample)) {
+      d <- lam[Sample == lib]; ok <- !is.na(d$bmm_fine) & !is.na(d$bmm_fine_noY); agree <- mean(d$bmm_fine[ok] == d$bmm_fine_noY[ok])
+      k3[[paste(lib, "sub")]] <- data.table(check = "reprojection_subsample", library = lib, n = sum(ok), value = agree,
+                                            detail = sprintf("agreement with the pack label %.3f; %d mapping-QC-fail cells excluded", mean(d$bmm_fine[ok] == d$fine_depositor[ok]), sum(!ok)),
+                                            pass = agree >= LOY_H2_K3_MIN_AGREE)
+      message(sprintf("    %s: %d cells, fine agreement with/without chrY %.4f, with the pack label %.3f", lib, sum(ok), agree, mean(d$bmm_fine[ok] == d$fine_depositor[ok])))
+    }
   } else {
     for (lib in cases[dataset == "ZENG_Lambo_2023" & role == "contrast", Sample])
       k3[[paste(lib, "constr")]] <- data.table(check = "by_construction", library = lib, n = NA_integer_, value = NA_real_,
@@ -209,34 +230,51 @@ summarise_stratum <- function(d) d[, .(n_A = sum(group == "A"), n_B = sum(group 
                                         matched_A = sum(matched & group == "A"), matched_B = sum(matched & group == "B"),
                                         med_depth_A = as.numeric(median(nCount_RNA[group == "A"])), med_depth_B = as.numeric(median(nCount_RNA[group == "B"])),
                                         med_depth_A_m = as.numeric(median(nCount_RNA[matched & group == "A"])), med_depth_B_m = as.numeric(median(nCount_RNA[matched & group == "B"])))]
-counts <- list(); handoff <- list()
+counts <- list(); handoff <- list(); ctrl_note <- list()
+cols <- function(d, cs, arm_name, grpA) d[, .(case = cs, Sample, cell, object, fine, fine_depositor, comp, nCount_RNA, log_depth, lambda, y_umi, n_ygenes, call, arm = arm_name, group = fifelse(grpA, "A", "B"))]
+# control matching: strata = library x compartment, plus one pooled stratum per library ("ALL"; depth is library-specific, so pooling never crosses libraries)
+match_control <- function(Ct) {
+  if (!nrow(Ct)) return(Ct[, `:=`(matched = logical(0), match_id = integer(0))])
+  Ct <- copy(Ct)[, fine := comp]
+  per <- rbindlist(lapply(split(Ct, by = c("Sample", "fine"), drop = TRUE), match_stratum))
+  pooled <- rbindlist(lapply(split(Ct, by = "Sample", drop = TRUE), match_stratum)); pooled[, fine := "ALL"]
+  rbind(per, pooled)
+}
 for (lib in cases[role == "contrast", Sample]) {
   cs <- cases[Sample == lib, case]
   # leukaemic contrast: A = suspected_LOY, B = Y_retained, uncertain dropped; strata = fine label, plus the pooled "ALL"
-  L <- cells[Sample == lib & leuk & call != "uncertain", .(case = cs, Sample, cell, object, fine, fine_depositor, comp, nCount_RNA, log_depth, lambda, y_umi, n_ygenes, call,
-                                                           arm = "leukaemic", group = fifelse(call == "suspected_LOY", "A", "B"))]
-  # technical-zero control: the library's T cells, A = Y-zero at any depth, B = Y_retained (the pure-dropout version of the same split)
-  Ct <- cells[Sample == lib & ctrl & (y_umi == 0 | call == "Y_retained"), .(case = cs, Sample, cell, object, fine, fine_depositor, comp, nCount_RNA, log_depth, lambda, y_umi, n_ygenes, call,
-                                                                           arm = "control_T", group = fifelse(y_umi == 0, "A", "B"))]
-  both <- rbind(L, Ct)
-  res  <- rbindlist(lapply(split(both, by = c("arm", "fine"), drop = TRUE), match_stratum))
-  pooled <- rbindlist(lapply(split(both, by = "arm", drop = TRUE), match_stratum)); pooled[, fine := "ALL"]
-  res_all <- rbind(res, pooled)
+  L <- cols(cells[Sample == lib & leuk & call != "uncertain"], cs, "leukaemic", cells[Sample == lib & leuk & call != "uncertain", call == "suspected_LOY"])
+  resL <- rbindlist(lapply(split(L, by = "fine", drop = TRUE), match_stratum))
+  pooledL <- match_stratum(L); pooledL[, fine := "ALL"]
+  # technical-zero control: A = Y-zero at any depth, B = Y_retained, in the control compartments of the contrast library;
+  # when fewer than LOY_H2_MIN_CELLS Y-zero control cells find a match there, the patient's other libraries join (amendment 8)
+  sel <- cells$ctrl & (cells$y_umi == 0 | cells$call == "Y_retained")
+  Ct  <- cols(cells[Sample == lib & sel], cs, "control", cells[Sample == lib & sel, y_umi == 0])
+  resC <- match_control(Ct); src <- "contrast library"
+  if (resC[fine == "ALL", sum(matched & group == "A")] < LOY_H2_MIN_CELLS) {
+    Ct <- cols(cells[case == cs & sel], cs, "control", cells[case == cs & sel, y_umi == 0]); resC <- match_control(Ct); src <- "all libraries of the patient"
+  }
+  ctrl_note[[lib]] <- data.table(case = cs, control_source = src, control_libraries = paste(unique(resC$Sample), collapse = ";"),
+                                 matched_A = resC[fine == "ALL", sum(matched & group == "A")], matched_B = resC[fine == "ALL", sum(matched & group == "B")])
+  res_all <- rbind(resL, pooledL, resC)
   sm <- res_all[, summarise_stratum(.SD), by = .(case, Sample, arm, fine)]
   sm[, eligible := matched_A >= LOY_H2_MIN_CELLS & matched_B >= LOY_H2_MIN_CELLS]
   counts[[lib]] <- sm; handoff[[lib]] <- res_all
-  message(sprintf("[5] %s (%s): strata eligible leukaemic %d, control pooled A/B matched %d/%d", lib, cs, sum(sm[arm == "leukaemic" & fine != "ALL", eligible]),
-                  sm[arm == "control_T" & fine == "ALL", matched_A], sm[arm == "control_T" & fine == "ALL", matched_B]))
+  message(sprintf("[5] %s (%s): eligible leukaemic strata %d | control (%s): pooled A/B matched %d/%d", lib, cs, sum(sm[arm == "leukaemic" & fine != "ALL", eligible]),
+                  src, ctrl_note[[lib]]$matched_A, ctrl_note[[lib]]$matched_B))
   print(sm[arm == "leukaemic"][order(-n_A)][, .(fine, n_A, n_B, matched_A, matched_B, med_depth_A, med_depth_B, med_depth_A_m, med_depth_B_m, eligible)])
+  print(sm[arm == "control"][order(Sample, -n_A)][, .(Sample, fine, n_A, n_B, matched_A, matched_B, med_depth_A_m, med_depth_B_m)])
   fwrite(res_all, file.path(LOY_H2_DIR, sprintf("stage0_cells_%s.csv.gz", cs)))
 }
 counts <- rbindlist(counts); fwrite(counts, file.path(LOY_H2_DIR, "stage0_counts.csv"))
-# sanity: matched halves sit at the same depth (medians within 5 %), and no cell carries two groups
+ctrl_note <- rbindlist(ctrl_note); fwrite(ctrl_note, file.path(LOY_H2_DIR, "stage0_control_source.csv")); print(ctrl_note)
+# sanity: matched halves sit at the same depth. Greedy 1:3 matching inside a 0.1 log10 caliper leaves median gaps of a few per cent
+# (job 3689458: 0.91-1.07); the hard stop is half the caliper, and log depth stays a covariate in 05 (prereg section 4).
 chk <- counts[eligible == TRUE, .(case, Sample, arm, fine, depth_ratio = med_depth_A_m / med_depth_B_m)]
-message("[5] depth ratio A/B among eligible matched strata (should be within 0.95-1.05):"); print(chk)
-stopifnot(all(abs(log(chk$depth_ratio)) <= log(1.05)))
+message(sprintf("[5] depth ratio A/B among eligible matched strata (hard stop beyond 10^%.2f = %.2f-%.2f):", LOY_H2_CALIPER / 2, 10^(-LOY_H2_CALIPER / 2), 10^(LOY_H2_CALIPER / 2))); print(chk)
+stopifnot(all(abs(log10(chk$depth_ratio)) <= LOY_H2_CALIPER / 2))
 elig_cases <- counts[arm == "leukaemic" & fine != "ALL" & eligible == TRUE, unique(case)]
-ctrl_ok    <- counts[arm == "control_T" & fine == "ALL" & eligible == TRUE, unique(case)]
+ctrl_ok    <- ctrl_note[matched_A >= LOY_H2_MIN_CELLS & matched_B >= LOY_H2_MIN_CELLS, case]
 
 ## [6] feature panel, frozen ---------------------------------------------------------------------------
 st <- fread(text = grep("^#", readLines(LOY_H2_STEMNESS_TSV), value = TRUE, invert = TRUE))

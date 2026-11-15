@@ -39,7 +39,8 @@ stopifnot(nrow(lib) == 1)
 cl    <- fread(file.path(LOY_H2_DIR, sprintf("stage0_cells_%s.csv.gz", case)))
 elig  <- fread(file.path(LOY_H2_DIR, "stage0_counts.csv"))[case == get("case", envir = globalenv()) & eligible == TRUE]
 leukS <- cl[arm == "leukaemic" & fine != "ALL" & matched == TRUE & fine %in% elig[arm == "leukaemic", fine]]   # per-stratum matched set, eligible strata only
-ctrlS <- cl[arm == "control_T" & fine == "ALL" & matched == TRUE]                                              # pooled T-cell control
+ctrlS <- cl[arm == "control" & fine == "ALL" & matched == TRUE]                                                # pooled control, one "ALL" stratum per library
+ctrlS[, fine := Sample]                                                                                       # library = the control's stratum (depth is library-specific)
 stopifnot(nrow(leukS) > 0)
 if (world == "null") {   # the null world: the real -Y label destroyed inside fine x depth strata, before anything else is computed
   shuffle_within <- function(d) { d <- copy(d); d[, group := group[sample.int(.N)], by = .(fine, dbin = cut(log_depth, unique(quantile(log_depth, 0:LOY_H2_N_DEPTH_BINS / LOY_H2_N_DEPTH_BINS)), include.lowest = TRUE))]; d[, dbin := NULL]; d }
@@ -131,7 +132,7 @@ run_arm <- function(d, label) {
   list(res = r, S = S, d = d)
 }
 message("[3] leukaemic arm ..."); L <- run_arm(leukS, "leukaemic")
-message("[3] control arm ...");   C <- run_arm(ctrlS, "control_T")
+message("[3] control arm ...");   C <- run_arm(ctrlS, "control")
 # per-stratum d (leukaemic arm): the same residualised contrast inside each eligible fine label (log depth only)
 per <- rbindlist(lapply(split(seq_len(nrow(L$d)), L$d$fine), function(ix) {
   d <- L$d[ix]; if (sum(d$group == "A") < LOY_H2_MIN_CELLS || sum(d$group == "B") < LOY_H2_MIN_CELLS) return(NULL)
