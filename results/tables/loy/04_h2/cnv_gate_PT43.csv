@@ -1,0 +1,3 @@
+case,gate,value,detail,pass,decides
+PT43,CNV_machinery_chrY,-0.208783178094669,chrY_all delta -0.209 p 0.0010,TRUE,FALSE
+PT43,GATE_H2_CNV,3,"leukaemic CNVs: 5; shared: chr16p,chr1p,chr1q; Y+-only: chr10p; -Y-enriched: chr11p",TRUE,TRUE

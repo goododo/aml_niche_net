@@ -1,0 +1,3 @@
+case,gate,value,detail,pass,decides
+AML15,CNV_machinery_chrY,-0.11108663731911,chrY_all delta -0.111 p 0.0010,TRUE,FALSE
+AML15,GATE_H2_CNV,0,leukaemic CNVs: 0; shared: ; Y+-only: ; -Y-enriched: ,FALSE,FALSE
