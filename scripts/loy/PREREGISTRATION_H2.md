@@ -224,3 +224,15 @@ the pack objects / GSE269669 objects via the step-2 adapter (`03_scan_external.R
    `match_id`), `stage0_pt43_bmm_percell.csv.gz`, `stage0_k3_label_independence.csv`, `stage0_gates.csv`.
 6. **Daver Table S5** (section 2): the user downloads it by hand (PMID 40198272, PMC12165814; PMC lists 17 unnamed
    supplement PDFs); it is read from `reports/2026-11_loy/external_clinical/daver2025/` when present. Not blocking.
+7. **CNV co-segregation operationalised** (section 6; `06_h2_cnv.R`, constants config_loy.R 8c): inferCNV on the
+   library's leukaemic cells (suspected_LOY + Y_retained, one observation group so the clustering never sees the label)
+   against the library's own normal T / NK / B cells (>= 100, >= 20 per lineage group) or, when the library has too few,
+   the project's BoneMarrowMap external reference by lineage; project cutoff and denoising, HMM off and analysis mode
+   "samples" (region means need the residual matrix, not HMM states). Per-cell region score = mean residual over the
+   region's genes (>= 20 genes); regions = every chromosome arm from the UCSC hg38 cytoband table (fetched 2026-11-15
+   into `/LARGE1/gr10634/gaozy/reference/hg38/`, provenance recorded) plus the pre-specified cytoband ranges per case.
+   A cell carries a region's CNV when its score lies beyond 3 reference SDs in the direction of the Y+ leukaemic
+   mean; a region is a leukaemic CNV when >= 30 % of Y_retained leukaemic cells carry it. GATE_H2_CNV (PT43A) passes
+   when at least one leukaemic CNV has carrier frequency in -Y cells within [0.7, 1.3] of that in Y+ cells. chrY itself
+   is scored as the machinery check of this arm (must separate the halves). Label permutation (1,000) within fine label
+   gives the per-region p for the -Y vs Y+ difference of region scores.

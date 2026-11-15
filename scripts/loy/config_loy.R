@@ -188,3 +188,36 @@ LOY_H2_MP_TSV        <- file.path(TAB_DIR, "04_cnmf", "malignant_metaprograms.ts
 LOY_H2_MPS           <- c("MP5", "MP6", "MP9", "MP10")     # MP9 = dissociation stress, artefact control
 LOY_H2_GENESETS      <- here::here("scripts", "loy", "gene_sets_h2_v1.tsv")
 LOY_H2_GENE_ORDER    <- file.path(LARGE1_DIR, "reference", "gencode_GRCh38_gene_order.txt")   # chrY exclusion list (= inferCNV gene order)
+# 8b. 05_h2_contrast.R constants
+LOY_H2_N_PERM        <- 1000L   # label permutations within fine label x depth bin, per feature
+LOY_H2_N_DEPTH_BINS  <- 10L     # quantile bins of log10 depth inside the matched set (permutation strata, with fine label)
+LOY_H2_N_SHUFFLE     <- 200L    # GATE_N1: whole-pipeline label shuffles
+LOY_H2_N_PLANTS      <- 200L    # GATE_P: planted d = 0.3 into a random 60-gene set, repeated
+LOY_H2_PLANT_D       <- 0.3
+LOY_H2_PLANT_NGENES  <- 60L
+LOY_H2_MIN_DETECT    <- 0.05    # a gene enters the scores if detected in >= 5 % of the library's leukaemic cells (set before the label is looked at)
+LOY_H2_D_SMALL       <- 0.2     # |d| below this = "no difference" when the CI sits inside (-0.2, 0.2) and GATE_P passed
+LOY_H2_ALPHA         <- 0.05
+# ambient mislabelling bound c_amb (prereg section 3): Y_retained fraction among leukaemic cells of a clonal -Y leukaemia of
+# the same chemistry, read from 02's compartment table at run time (never typed in): 3' = Mumme Sample20D, 5' = GSM8791436.
+LOY_H2_C_AMB_REF     <- data.table::data.table(chem = c("3prime", "5prime"),
+                                               dataset = c("ZENG_Mumme_2023_AML", "GSE289435"),
+                                               Sample  = c("AML_Mumme2023_Sample20D", "GSM8791436_MLL_17844"))
+# 8c. 06_h2_cnv.R constants (CNV co-segregation, prereg section 6)
+LOY_H2_CYTOBAND      <- file.path(dirname(LARGE1_DIR), "reference", "hg38", "cytoBand_hg38.txt.gz")   # UCSC hg38 cytoBand (acen = centromere)
+LOY_H2_CNV_MIN_REF   <- 100L   # autologous normal cells (T / NK / B, >= 20 each) needed for a within-library reference; else BMM external reference
+LOY_H2_CNV_MIN_GENES <- 20L    # genes a region needs before it gets a per-cell score
+LOY_H2_CNV_CARRIER_SD <- 3     # a cell carries a region's CNV if its region score lies beyond 3 reference SDs in the leukaemic direction
+LOY_H2_CNV_MIN_FREQ  <- 0.30   # a region is a "leukaemic CNV" when >= 30 % of Y_retained leukaemic cells carry it
+LOY_H2_CNV_RATIO     <- c(0.7, 1.3)   # GATE_H2_CNV: carrier frequency in -Y cells / in Y+ cells, for at least one leukaemic CNV
+LOY_H2_CNV_N_PERM    <- 1000L
+# pre-specified regions per case (cytoband ranges; arms are always scored): from the TARGET diagnostic karyotypes (AML15) and the
+# usual TP53-AML lesions (PT43). AML13 has no relapse karyotype: arms only.
+LOY_H2_CNV_REGIONS <- data.table::fread(text = "
+case,region,chr,band_from,band_to,expectation
+AML15,del9q13q22,chr9,q13,q22.33,present in both halves (5/8 -Y and 8/16 Y+ metaphases): not discriminating
+AML15,dup1p31p36,chr1,p36.33,p31.1,absent in -Y cells (0/8), present in a Y+ subset (4/16): separates
+PT43,del5q,chr5,q11.1,q35.3,TP53-AML usual lesion
+PT43,chr7,chr7,p22.3,q36.3,TP53-AML usual lesion
+PT43,del17p,chr17,p13.3,p11.1,TP53-AML usual lesion
+")

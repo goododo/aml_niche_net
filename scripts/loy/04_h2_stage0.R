@@ -119,16 +119,20 @@ if (need_proj || k3_mode != "no") {
   bin_map <- fread(LOY_BMM_BIN_MAP)
   # 4a. PT43: project once with every gene (the label used downstream) and once without chrY genes (K3)
   if (!no_pt43 && "GSE269669" %in% cells$dataset) {
-    pt_cells <- cells[dataset == "GSE269669", cell]; mats <- list(); mds <- list()
+    pt_cells <- cells[dataset == "GSE269669", cell]; mats <- list()
     for (obj in c("avm_aml", "avm_tme")) {
       s <- read_gse269669(obj); keep <- intersect(colnames(s), pt_cells)
       message(sprintf("    %s: %d of %d cells belong to the H2 libraries", obj, length(keep), ncol(s)))
       s <- subset(s, cells = keep)
-      mats[[obj]] <- counts_of(s); mds[[obj]] <- data.frame(cell = colnames(s), object = obj, row.names = colnames(s), stringsAsFactors = FALSE)
+      mats[[obj]] <- counts_of(s)
       rm(s); invisible(gc())
     }
     g   <- Reduce(intersect, lapply(mats, rownames))
-    cnt <- do.call(cbind, lapply(mats, function(m) m[g, , drop = FALSE])); md <- do.call(rbind, mds); rm(mats)
+    cnt <- do.call(cbind, lapply(mats, function(m) m[g, , drop = FALSE])); rm(mats)
+    # metadata rownames must equal the cell names exactly: rbind() of a NAMED list prefixes row names ("avm_aml.<cell>"),
+    # which made map_Query fail with "Cannot add new cells" (job 3689457); build it from the matrix columns instead
+    md  <- data.frame(cell = colnames(cnt), row.names = colnames(cnt), stringsAsFactors = FALSE)
+    md$object <- cells$object[match(md$cell, cells$cell)]
     message(sprintf("    PT43 count matrix: %d genes x %d cells", nrow(cnt), ncol(cnt)))
     pa <- project(cnt, md, "")
     pb <- project(cnt[!rownames(cnt) %in% chrY_genes, , drop = FALSE], md, "_noY")
