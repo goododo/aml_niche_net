@@ -1,0 +1,6 @@
+check,value,pass
+K1_samples_ge50cells,63,TRUE
+K2_ygenes_found,12,TRUE
+K3_xist_present,1,TRUE
+K4_median_depth_gt1000,63,TRUE
+K5_bins_assigned,0.931301030651854,TRUE

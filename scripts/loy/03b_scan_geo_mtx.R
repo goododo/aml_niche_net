@@ -86,8 +86,11 @@ project <- function(cnt, md) {
              mapping_error_QC = as.character(qm[[pick_col(qm, c("mapping_error_QC", "mapping_QC"), "mapping.*QC")]]))
 }
 read_triplet <- function(f) {               # cellranger triplet -> list(gex = dgCMatrix genes x cells, cmo = CMO counts or NULL)
-  base <- sub("matrix\\.mtx\\.gz$", "", f)
-  feats <- fread(paste0(base, "features.tsv.gz"), header = FALSE); cells <- fread(paste0(base, "barcodes.tsv.gz"), header = FALSE)[[1]]
+  # sibling files are found by glob on the GSM stem: one GSE198681 lane is named "<GSM>_scAML2matrix.mtx.gz" (no underscore)
+  # while its features/barcodes files keep the underscore, so paste0(base, "features.tsv.gz") does not exist for it
+  sibling <- function(what) { hit <- list.files(dirname(f), paste0("^", stem_of(f), "_?", what, "\\.tsv\\.gz$"), full.names = TRUE)
+    if (length(hit) != 1L) stop("expected one ", what, " file for ", basename(f), ", found ", length(hit)); hit }
+  feats <- fread(sibling("features"), header = FALSE); cells <- fread(sibling("barcodes"), header = FALSE)[[1]]
   m <- Matrix::readMM(f); m <- as(m, "CsparseMatrix"); colnames(m) <- cells
   sym <- if (ncol(feats) >= 2) feats[[2]] else feats[[1]]; type <- if (ncol(feats) >= 3) feats[[3]] else rep("Gene Expression", nrow(feats))
   rownames(m) <- make.unique(sym)
