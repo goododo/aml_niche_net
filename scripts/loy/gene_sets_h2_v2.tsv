@@ -1,0 +1,1705 @@
+set	role	gene	weight	source
+F1_LSC17	primary	DNMT3B	0.0874	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	ZBTB46	-0.0347	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	NYNRIN	0.00865	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	ARHGAP22	-0.0138	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	LAPTM4B	0.00582	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	MMRN1	0.0258	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	DPYSL3	0.0284	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	KIAA0125	0.0196	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	CDK6	-0.0704	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	CPXM1	-0.0258	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	SOCS2	0.0271	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	SMIM24	-0.0226	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	EMP1	0.0146	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	NGFRAP1	0.0465	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	CD34	0.0338	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	AKR1C3	-0.0498	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F1_LSC17	primary	GPR56	0.0901	scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	SPINK2		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	ANGPT1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	GUCY1A3		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	FAM30A		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	MMRN1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	TPT1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	GAS5		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	RAB27B		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	TPM4		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	MSI2		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	GCSAML		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	SOCS2		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	EEF1A1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	NRIP1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	HOPX		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	CD34		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	TFPI		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	TPSD1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	PDZRN4		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	PCNP		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	PTPRCAP		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	FLT3		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	SMIM24		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	SELENOP		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	DAPK1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	SMYD3		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	ADGRG6		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	PIM1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	MECOM		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	CEP70		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	XIRP2		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	SPAG6		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	TAPT1-AS1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	GNA15		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	DSE		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	TPSAB1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	TPSB2		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	H2AFY		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	SCHIP1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	LINC02470		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	NPR3		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	KMT2A		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	CD200		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	MACF1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	GBP4		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	ABCC1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	PROM1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	TMEM70		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	FAM110A		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F2_vanGalen_HSCprog_like	primary	TMEM123		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	CD34		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	CRHBP		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	AVP		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	HLF		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	HOPX		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	MEIS1		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	MLLT3		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	MECOM		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	PRSS57		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	SPINK2		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	GATA2		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	KIT		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	NPR3		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F3_HSPC_core	primary	FAM30A		scripts/以前06_hierarchy/stemness_signatures.tsv (as frozen in PREREGISTRATION_CLONAL_ENV.md)
+F4_S	primary	MCM5		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	PCNA		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	TYMS		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	FEN1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	MCM7		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	MCM4		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	RRM1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	UNG		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	GINS2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	MCM6		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	CDCA7		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	DTL		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	PRIM1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	UHRF1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	CENPU		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	HELLS		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	RFC2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	POLR1B		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	NASP		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	RAD51AP1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	GMNN		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	WDR76		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	SLBP		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	CCNE2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	UBR7		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	POLD3		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	MSH2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	ATAD2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	RAD51		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	RRM2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	CDC45		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	CDC6		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	EXO1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	TIPIN		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	DSCC1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	BLM		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	CASP8AP2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	USP1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	CLSPN		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	POLA1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	CHAF1B		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	MRPL36		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_S	primary	E2F8		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	HMGB2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CDK1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	NUSAP1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	UBE2C		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	BIRC5		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	TPX2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	TOP2A		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	NDC80		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CKS2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	NUF2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CKS1B		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	MKI67		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	TMPO		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CENPF		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	TACC3		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	PIMREG		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	SMC4		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CCNB2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CKAP2L		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CKAP2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	AURKB		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	BUB1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	KIF11		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	ANP32E		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	TUBB4B		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	GTSE1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	KIF20B		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	HJURP		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CDCA3		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	JPT1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CDC20		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	TTK		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CDC25C		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	KIF2C		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	RANGAP1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	NCAPD2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	DLGAP5		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CDCA2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CDCA8		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	ECT2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	KIF23		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	HMMR		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	AURKA		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	PSRC1		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	ANLN		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	LBR		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CKAP5		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CENPE		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CTCF		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	NEK2		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	G2E3		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	GAS2L3		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CBX5		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F4_G2M	primary	CENPA		Seurat cc.genes.updated.2019 (Tirosh 2016)
+F5_IFNA	primary	ADAR		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	B2M		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	BATF2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	BST2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	C1S		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	CASP1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	CASP8		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	CCRL2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	CD47		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	CD74		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	CMPK2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	CMTR1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	CNP		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	CSF1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	CXCL10		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	CXCL11		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	DDX60		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	DHX58		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	EIF2AK2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	ELF1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	EPSTI1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	GBP2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	GBP4		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	GMPR		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	HELZ2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	HERC6		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	HLA-C		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IFI27		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IFI30		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IFI35		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IFI44		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IFI44L		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IFIH1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IFIT2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IFIT3		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IFITM1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IFITM2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IFITM3		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IL15		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IL4R		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IL7		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IRF1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IRF2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IRF7		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	IRF9		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	ISG15		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	ISG20		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	LAMP3		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	LAP3		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	LGALS3BP		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	LPAR6		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	LY6E		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	MOV10		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	MVB12A		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	MX1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	NCOA7		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	NMI		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	NUB1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	OAS1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	OASL		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	OGFR		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	PARP12		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	PARP14		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	PARP9		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	PLSCR1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	PNPT1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	PROCR		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	PSMA3		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	PSMB8		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	PSMB9		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	PSME1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	PSME2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	RIPK2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	RNF31		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	RSAD2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	RTP4		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	SAMD9		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	SAMD9L		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	SELL		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	SLC25A28		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	SP110		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	STAT2		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	TAP1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	TDRD7		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	TENT5A		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	TMEM140		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	TRAFD1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	TRIM14		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	TRIM21		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	TRIM25		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	TRIM26		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	TRIM5		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	TXNIP		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	UBA7		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	UBE2L6		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	USP18		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F5_IFNA	primary	WARS1		HALLMARK_INTERFERON_ALPHA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ADAR		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	APOL6		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ARID5B		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ARL4A		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	AUTS2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	B2M		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	BANK1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	BATF2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	BPGM		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	BST2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	BTG1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	C1R		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	C1S		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CASP1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CASP3		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CASP4		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CASP7		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CASP8		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CCL2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CCL5		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CCL7		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CD274		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CD38		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CD40		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CD69		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CD74		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CD86		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CDKN1A		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CFB		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CFH		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CIITA		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CMKLR1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CMPK2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CMTR1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CSF2RB		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CXCL10		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CXCL11		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	CXCL9		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	DDX60		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	DHX58		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	EIF2AK2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	EIF4E3		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	EPSTI1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	FAS		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	FCGR1A		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	FGL2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	FPR1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	GBP4		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	GBP6		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	GCH1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	GPR18		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	GZMA		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	HELZ2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	HERC6		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	HIF1A		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	HLA-A		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	HLA-B		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	HLA-DMA		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	HLA-DQA1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	HLA-DRB1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	HLA-G		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ICAM1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IDO1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFI27		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFI30		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFI35		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFI44		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFI44L		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFIH1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFIT1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFIT2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFIT3		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFITM2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFITM3		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IFNAR2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IL10RA		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IL15		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IL15RA		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IL18BP		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IL2RB		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IL4R		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IL6		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IL7		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IRF1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IRF2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IRF4		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IRF5		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IRF7		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IRF8		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	IRF9		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ISG15		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ISG20		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ISOC1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ITGB7		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	JAK2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	KLRK1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	LAP3		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	LATS2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	LCP2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	LGALS3BP		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	LY6E		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	LYSMD2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	MARCHF1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	MT2A		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	MTHFD2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	MVP		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	MX1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	MX2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	MYD88		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	NAMPT		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	NCOA3		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	NFKB1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	NFKBIA		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	NLRC5		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	NMI		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	NOD1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	NUP93		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	OAS2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	OAS3		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	OASL		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	OGFR		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	P2RY14		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PARP12		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PARP14		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PDE4B		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PELI1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PFKP		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PIM1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PLA2G4A		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PLSCR1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PML		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PNP		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PNPT1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PSMA2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PSMA3		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PSMB10		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PSMB2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PSMB8		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PSMB9		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PSME1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PSME2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PTGS2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PTPN1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PTPN2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	PTPN6		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	RAPGEF6		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	RBCK1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	RIGI		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	RIPK1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	RIPK2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	RNF213		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	RNF31		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	RSAD2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	RTP4		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SAMD9L		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SAMHD1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SECTM1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SELP		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SERPING1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SLAMF7		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SLC25A28		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SOCS1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SOCS3		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SOD2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SP110		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SPPL2A		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SRI		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	SSPN		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ST3GAL5		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ST8SIA4		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	STAT1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	STAT2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	STAT3		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	STAT4		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TAP1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TAPBP		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TDRD7		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TMT1B		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TNFAIP2		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TNFAIP3		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TNFAIP6		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TNFSF10		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TOR1B		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TRAFD1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TRIM14		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TRIM21		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TRIM25		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TRIM26		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	TXNIP		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	UBE2L6		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	UPP1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	USP18		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	VAMP5		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	VAMP8		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	VCAM1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	WARS1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	XAF1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	XCL1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ZBP1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F6_IFNG	primary	ZNFX1		HALLMARK_INTERFERON_GAMMA_RESPONSE h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	ABCA1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	ACKR3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	AREG		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	ATF3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	ATP2B1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	B4GALT1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	B4GALT5		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	BCL2A1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	BCL3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	BCL6		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	BHLHE40		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	BIRC2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	BIRC3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	BMP2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	BTG1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	BTG2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	BTG3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CCL2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CCL20		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CCL4		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CCL5		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CCN1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CCND1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CCNL1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CCRL2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CD44		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CD69		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CD80		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CD83		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CDKN1A		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CEBPB		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CEBPD		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CFLAR		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CLCF1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CSF1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CSF2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CXCL1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CXCL10		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CXCL11		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CXCL2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CXCL3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	CXCL6		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	DENND5A		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	DNAJB4		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	DRAM1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	DUSP1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	DUSP2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	DUSP4		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	DUSP5		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	EDN1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	EFNA1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	EGR1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	EGR2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	EGR3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	EHD1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	EIF1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	ETS2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	F2RL1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	F3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	FJX1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	FOS		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	FOSB		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	FOSL1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	FOSL2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	FUT4		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	G0S2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	GADD45A		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	GADD45B		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	GCH1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	GEM		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	GFPT2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	GPR183		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	HBEGF		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	HES1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	ICAM1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	ICOSLG		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	ID2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IER2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IER3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IER5		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IFIH1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IFIT2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IFNGR2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IL12B		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IL15RA		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IL18		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IL1A		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IL1B		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IL23A		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IL6		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IL6ST		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IL7R		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	INHBA		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IRF1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	IRS2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	JAG1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	JUN		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	JUNB		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	KDM6B		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	KLF10		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	KLF2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	KLF4		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	KLF6		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	KLF9		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	KYNU		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	LAMB3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	LDLR		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	LIF		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	LITAF		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	MAFF		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	MAP2K3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	MAP3K8		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	MARCKS		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	MCL1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	MSC		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	MXD1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	MYC		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NAMPT		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NFAT5		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NFE2L2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NFIL3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NFKB1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NFKB2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NFKBIA		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NFKBIE		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NINJ1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NR4A1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NR4A2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	NR4A3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	OLR1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PANX1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PDE4B		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PDLIM5		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PER1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PFKFB3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PHLDA1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PHLDA2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PLAU		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PLAUR		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PLEK		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PLK2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PLPP3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PMEPA1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PNRC1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PPP1R15A		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PTGER4		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PTGS2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PTPRE		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	PTX3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	RCAN1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	REL		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	RELA		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	RELB		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	RHOB		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	RIGI		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	RIPK2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	RNF19B		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SAT1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SDC4		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SERPINB2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SERPINB8		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SERPINE1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SGK1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SIK1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SLC16A6		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SLC2A3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SLC2A6		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SMAD3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SNN		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SOCS3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SOD2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SPHK1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SPSB1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	SQSTM1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	STAT5A		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TANK		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TAP1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TGIF1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TIPARP		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TLR2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TNC		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TNF		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TNFAIP2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TNFAIP3		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TNFAIP6		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TNFAIP8		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TNFRSF9		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TNFSF9		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TNIP1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TNIP2		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TRAF1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TRIB1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TRIP10		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TSC22D1		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	TUBB2A		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	VEGFA		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	YRDC		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	ZBTB10		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	ZC3H12A		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F7_TNFA_NFKB	primary	ZFP36		HALLMARK_TNFA_SIGNALING_VIA_NFKB h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ABCB7		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ACAA1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ACAA2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ACADM		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ACADSB		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ACADVL		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ACAT1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ACO2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	AFG3L2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	AIFM1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ALAS1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ALDH6A1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP1B1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5F1A		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5F1B		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5F1C		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5F1D		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5F1E		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5MC1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5MC2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5MC3		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5ME		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5MF		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5MG		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5PB		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5PD		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5PF		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP5PO		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP6AP1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP6V0B		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP6V0C		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP6V0E1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP6V1C1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP6V1D		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP6V1E1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP6V1F		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP6V1G1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ATP6V1H		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	BAX		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	BCKDHA		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	BDH2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	CASP7		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX10		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX11		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX15		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX17		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX4I1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX5A		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX5B		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX6A1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX6B1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX6C		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX7A2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX7A2L		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX7B		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX7C		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	COX8A		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	CPT1A		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	CS		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	CYB5A		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	CYB5R3		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	CYC1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	CYCS		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	DECR1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	DLAT		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	DLD		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	DLST		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ECH1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ECHS1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ECI1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ETFA		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ETFB		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ETFDH		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	FDX1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	FH		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	FXN		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	GLUD1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	GOT2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	GPI		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	GPX4		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	GRPEL1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	HADHA		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	HADHB		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	HCCS		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	HSD17B10		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	HSPA9		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	HTRA2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	IDH1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	IDH2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	IDH3A		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	IDH3B		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	IDH3G		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	IMMT		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ISCA1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	ISCU		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	LDHA		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	LDHB		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	LRPPRC		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MAOB		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MDH1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MDH2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MFN2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MGST3		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MPC1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MRPL11		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MRPL15		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MRPL34		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MRPL35		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MRPS11		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MRPS12		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MRPS15		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MRPS22		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MRPS30		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MTRF1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MTRR		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	MTX2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFA1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFA2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFA3		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFA4		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFA5		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFA6		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFA7		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFA8		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFA9		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFAB1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFB1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFB2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFB3		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFB4		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFB5		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFB6		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFB7		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFB8		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFC1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFC2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFS1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFS2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFS3		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFS4		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFS6		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFS7		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFS8		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFV1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NDUFV2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NNT		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	NQO2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	OAT		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	OGDH		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	OPA1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	OXA1L		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	PDHA1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	PDHB		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	PDHX		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	PDK4		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	PDP1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	PHB2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	PHYH		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	PMPCA		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	POLR2F		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	POR		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	PRDX3		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	RETSAT		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	RHOT1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	RHOT2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SDHA		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SDHB		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SDHC		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SDHD		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SLC25A11		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SLC25A12		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SLC25A20		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SLC25A3		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SLC25A4		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SLC25A5		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SUCLA2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SUCLG1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SUPV3L1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	SURF1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	TCIRG1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	TIMM10		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	TIMM13		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	TIMM17A		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	TIMM50		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	TIMM8B		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	TIMM9		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	TOMM22		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	TOMM70		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	UQCR10		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	UQCR11		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	UQCRB		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	UQCRC1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	UQCRC2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	UQCRFS1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	UQCRH		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	UQCRQ		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	VDAC1		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	VDAC2		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F8_OXPHOS	primary	VDAC3		HALLMARK_OXIDATIVE_PHOSPHORYLATION h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	ABCE1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	ACP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	AIMP2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	AP3S1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	APEX1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	BUB3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	C1QBP		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CAD		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CANX		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CBX3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CCNA2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CCT2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CCT3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CCT4		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CCT5		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CCT7		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CDC20		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CDC45		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CDK2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CDK4		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CLNS1A		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CNBP		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	COPS5		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	COX5A		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CSTF2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CTPS1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CUL1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	CYC1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	DDX18		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	DDX21		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	DEK		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	DHX15		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	DUT		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EEF1B2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EIF1AX		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EIF2S1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EIF2S2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EIF3B		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EIF3D		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EIF3J		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EIF4A1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EIF4E		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EIF4G2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EIF4H		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EPRS1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	ERH		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	ETF1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	EXOSC7		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	FAM120A		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	FBL		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	G3BP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	GLO1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	GNL3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	GOT2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	GSPT1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	H2AZ1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HDAC2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HDDC2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HDGF		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HNRNPA1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HNRNPA2B1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HNRNPA3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HNRNPC		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HNRNPD		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HNRNPR		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HNRNPU		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HPRT1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HSP90AB1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HSPD1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	HSPE1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	IARS1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	IFRD1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	ILF2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	IMPDH2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	KARS1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	KPNA2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	KPNB1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	LDHA		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	LSM2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	LSM7		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	MAD2L1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	MCM2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	MCM4		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	MCM5		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	MCM6		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	MCM7		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	MRPL23		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	MRPL9		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	MRPS18B		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	MYC		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	NAP1L1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	NCBP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	NCBP2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	NDUFAB1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	NHP2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	NME1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	NOLC1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	NOP16		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	NOP56		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	NPM1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	ODC1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	ORC2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PA2G4		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PABPC1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PABPC4		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PCBP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PCNA		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PGK1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PHB1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PHB2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	POLD2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	POLE3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PPIA		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PPM1G		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PRDX3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PRDX4		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PRPF31		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PRPS2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMA1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMA2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMA4		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMA6		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMA7		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMB2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMB3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMC4		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMC6		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMD1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMD14		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMD3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMD7		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PSMD8		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PTGES3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	PWP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RACK1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RAD23B		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RAN		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RANBP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RFC4		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RNPS1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RPL14		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RPL18		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RPL22		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RPL34		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RPL6		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RPLP0		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RPS10		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RPS2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RPS3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RPS5		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RPS6		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RRM1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RRP9		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RSL1D1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	RUVBL2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SERBP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SET		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SF3A1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SF3B3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SLC25A3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SMARCC1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SNRPA		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SNRPA1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SNRPB2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SNRPD1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SNRPD2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SNRPD3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SNRPG		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SRM		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SRPK1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SRSF1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SRSF2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SRSF3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SRSF7		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SSB		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SSBP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	STARD7		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	SYNCRIP		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	TARDBP		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	TCP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	TFDP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	TOMM70		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	TRA2B		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	TRIM28		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	TUFM		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	TXNL4A		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	TYMS		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	U2AF1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	UBA2		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	UBE2E1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	UBE2L3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	USP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	VBP1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	VDAC1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	VDAC3		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	XPO1		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	XPOT		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	XRCC6		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	YWHAE		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F9_MYC_V1	primary	YWHAQ		HALLMARK_MYC_TARGETS_V1 h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ABAT		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ABCC5		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ABHD4		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ACVR1B		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ADA		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	AEN		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	AK1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ALOX15B		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ANKRA2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	APAF1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	APP		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ATF3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	BAIAP2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	BAK1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	BAX		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	BLCAP		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	BMP2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	BTG1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	BTG2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CASP1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CCND2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CCND3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CCNG1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CCNK		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CCP110		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CD81		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CD82		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CDH13		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CDK5R1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CDKN1A		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CDKN2A		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CDKN2AIP		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CDKN2B		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CEBPA		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CGRRF1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CLCA2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	COQ8A		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CSRNP2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CTSD		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CTSF		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	CYFIP2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	DCXR		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	DDB2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	DDIT3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	DDIT4		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	DEF6		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	DGKA		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	DNTTIP2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	DRAM1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	EI24		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ELP1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	EPHA2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	EPHX1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	EPS8L2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ERCC5		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	F2R		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	FAM162A		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	FAS		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	FBXW7		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	FDXR		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	FGF13		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	FOS		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	FOXO3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	FUCA1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	GADD45A		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	GLS2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	GM2A		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	GPX2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	H1-2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	H2AC25		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	H2AJ		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	HBEGF		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	HDAC3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	HEXIM1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	HINT1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	HMOX1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	HRAS		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	HSPA4L		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	IER3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	IER5		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	IFI30		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	IL1A		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	INHBB		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	IP6K2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	IRAG2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	IRAK1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ISCU		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ITGB4		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	JAG2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	JUN		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	KIF13B		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	KLF4		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	KLK8		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	KRT17		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	LDHB		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	LIF		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	MAPKAPK3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	MDM2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	MKNK2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	MXD1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	MXD4		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	NDRG1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	NHLH2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	NINJ1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	NOL8		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	NOTCH1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	NUDT15		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	NUPR1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	OSGIN1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PCNA		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PDGFA		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PERP		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PHLDA3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PIDD1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PITPNC1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PLK2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PLK3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PLXNB2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PMM1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	POLH		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	POM121		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PPM1D		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PPP1R15A		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PRKAB1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PRMT2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PROCR		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PTPN14		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PTPRE		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	PVT1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RAB40C		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RACK1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RAD51C		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RAD9A		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RALGDS		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RAP2B		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RB1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RCHY1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RETSAT		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RGS16		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RHBDF2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RNF19B		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RPL18		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RPL36		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RPS12		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RPS27L		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RRAD		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RRP8		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	RXRA		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	S100A10		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	S100A4		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SAT1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SDC1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SEC61A1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SERPINB5		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SERTAD3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SESN1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SFN		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SLC19A2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SLC35D1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SLC3A2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SLC7A11		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SOCS1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SP1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	SPHK1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ST14		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	STEAP3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	STOM		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TAP1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TAX1BP3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TCHH		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TCN2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TGFA		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TGFB1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TM4SF1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TM7SF3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TNFSF9		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TNNI1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TOB1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TP53		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TP63		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TPD52L1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TPRKB		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TRAF4		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TRAFD1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TRIAP1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TRIB3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TSC22D1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TSPYL2		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	TXNIP		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	UPP1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	VAMP8		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	VDR		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	VWA5A		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	WRAP73		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	WWP1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	XPC		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ZBTB16		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ZFP36L1		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ZMAT3		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+F10_P53	primary	ZNF365		HALLMARK_P53_PATHWAY h.all.v2024.1.Hs.symbols.gmt
+MP5	primary	HLA-DQA1	0.13915	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	HLA-DQB1	0.09173	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	HLA-DPA1	0.07842	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	HLA-DPB1	0.07776	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	LGALS2	0.06641	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	HLA-DRB5	0.06554	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	HLA-DMA	0.04447	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	HLA-DRB1	0.04414	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	FCER1A	0.03454	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	HLA-DRA	0.03178	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CPVL	0.02979	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	HLA-DMB	0.02914	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	IFITM3	0.0168	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CIITA	0.0104	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	PLD4	0.00993	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CD74	0.00988	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	GPR183	0.00955	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	JAML	0.00839	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CXCL16	0.00732	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	VCAN	0.00714	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	LMNA	0.00703	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	TGFBI	0.00657	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	FGL2	0.00635	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	ARL4C	0.00626	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	MS4A7	0.00623	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	S100A8	0.00613	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CD300E	0.00586	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	IL13RA1	0.00586	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CRIP1	0.00557	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	IFI30	0.0054	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	MS4A6A	0.00536	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CDKN1A	0.00524	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CD86	0.00519	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	SERPINA1	0.00515	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CSF1R	0.0049	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	FOS	0.0047	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CLEC7A	0.00436	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	S100A10	0.00433	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	FCN1	0.00427	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CD36	0.00416	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	NCF1	0.00416	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	DDIT4	0.0041	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CD83	0.00406	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	PEA15	0.00396	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	LGALS3	0.00391	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CTSS	0.0039	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	SGK1	0.00388	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CD4	0.00378	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	IGSF6	0.00375	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	ALDH2	0.00368	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	SCIMP	0.00363	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	FCGR2A	0.00359	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	MARCH1	0.0035	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	MNDA	0.00335	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	NPC2	0.00329	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CFP	0.00323	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	TNFAIP2	0.00322	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	TIMP1	0.0032	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	CST3	0.00317	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	DUSP1	0.00317	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	TUBA1B	0.00316	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP5	primary	LY86	0.00313	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CDKN1C	0.05884	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	FCGR3A	0.04315	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	MS4A7	0.04055	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	APOBEC3A	0.02805	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	IFITM3	0.02802	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	HES4	0.02664	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	LGALS2	0.02634	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	TCF7L2	0.02473	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	SERPINA1	0.02427	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	RRAS	0.0238	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	SIGLEC10	0.02266	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	LILRB1	0.02263	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CKB	0.02189	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CD300E	0.01937	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	LILRA5	0.01744	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	HLA-DPA1	0.01687	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	HMOX1	0.0168	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	LILRB2	0.01676	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CTSL	0.01672	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	RHOC	0.01653	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CSF1R	0.01592	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	G0S2	0.01552	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	C5AR1	0.01454	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	SLC7A7	0.01309	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	FCN1	0.01275	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	MAFB	0.01249	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	LRRC25	0.01247	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	NAMPT	0.01189	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	IFI30	0.01185	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CXCL16	0.01163	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	S100A8	0.01141	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	HLA-DPB1	0.01125	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	BCL2A1	0.01114	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	WARS	0.011	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	MTSS1	0.01091	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CPVL	0.01078	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	TMEM176B	0.01032	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	PILRA	0.00943	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CLEC7A	0.00867	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	HLA-DRB1	0.00867	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	VCAN	0.00845	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	OAS1	0.00817	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	HLA-DQA1	0.00794	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	HLA-DRB5	0.0077	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	NR4A1	0.00755	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	FCGR2A	0.00722	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	FGL2	0.00716	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	SLC2A6	0.00712	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	POU2F2	0.00711	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	HLA-DRA	0.00707	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CD79B	0.00707	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	TMEM176A	0.00693	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CDKN1A	0.00691	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	NAAA	0.00669	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CX3CR1	0.00666	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	TNFRSF1B	0.00665	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CYBB	0.00649	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	HLA-DQB1	0.00643	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	LGALS3	0.0064	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	LST1	0.00639	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	ABI3	0.00628	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	SLC11A1	0.00618	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	MYOF	0.00616	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CRIP1	0.0061	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CD83	0.00583	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	MNDA	0.00576	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	SCIMP	0.00574	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	PECAM1	0.00562	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CD14	0.00561	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	RNF144B	0.00538	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	MARCKS	0.00529	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	LRRK2	0.00526	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	LY6E	0.00475	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CD86	0.00467	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	IGSF6	0.00466	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	TIMP1	0.00464	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	PLAUR	0.00462	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	ZFP36L1	0.00453	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	MT2A	0.00448	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	IFI6	0.00433	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP6	primary	CTSS	0.00422	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	JUN	0.13337	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	EGR1	0.0809	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	FOSB	0.07211	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	HSPA1A	0.06355	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	FOS	0.05576	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	HSPA1B	0.04977	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	ATF3	0.0354	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	DNAJB1	0.0309	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	RHOB	0.028	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	CXCL8	0.02679	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	IER2	0.01939	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	NFKBIZ	0.01921	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	DUSP1	0.01896	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	HEXIM1	0.01834	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	KLF2	0.01829	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	PTCH2	0.01803	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	GADD45B	0.01766	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	WDR74	0.01733	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	NR4A2	0.01723	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	NR4A1	0.01666	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	PPP1R15A	0.01566	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	ZFP36	0.0155	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	KLF4	0.01427	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	TMEM107	0.01372	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	DUSP2	0.01291	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	HSPH1	0.01181	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	JUNB	0.01129	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	CITED2	0.01016	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	EGR3	0.01012	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	NFKBIA	0.01005	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	RGS2	0.00976	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	INTS6	0.00871	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	IFRD1	0.00868	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	IER5	0.00818	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	NEU1	0.00815	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	DNAJB4	0.00807	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	PMAIP1	0.00794	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	TNFAIP3	0.00778	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	KLF6	0.00769	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	CCL3	0.00761	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	TRIB1	0.00749	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	COQ7	0.00688	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	PTGS2	0.00667	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	IL1B	0.00666	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP9	artefact_control	DDIT3	0.00659	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CD300E	0.03896	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	IL1B	0.03771	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CTSL	0.03511	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	LUCAT1	0.0336	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	AQP9	0.03243	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	THBS1	0.02952	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	IL1RN	0.02339	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CXCL2	0.02326	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	S100A12	0.02296	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	SERPINB2	0.02289	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	LHFPL2	0.02121	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CXCL8	0.021	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	S100A8	0.02079	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	PHLDA1	0.01917	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	G0S2	0.01906	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CYP1B1	0.01753	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CCL3	0.0173	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CCL4	0.01651	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	EMP1	0.01621	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	THBD	0.0161	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CXCL3	0.01423	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	HMOX1	0.01406	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CD93	0.01386	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	EREG	0.01375	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	SLC11A1	0.01337	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	MAFB	0.01296	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	ANPEP	0.01198	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	ASPH	0.01138	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	VCAN	0.01113	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	C5AR1	0.01082	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	ICAM1	0.01053	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	FCN1	0.01042	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CLEC7A	0.01019	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	LGALS3	0.01009	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	MARCKS	0.01008	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	BASP1	0.00985	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	GPAT3	0.00899	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	B3GNT5	0.00894	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	SERPINA1	0.00887	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	FNIP2	0.00871	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CKAP4	0.00871	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	IER3	0.00862	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CXCL16	0.0085	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	BCL2A1	0.00849	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CD14	0.00828	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	KLF4	0.00817	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	NRIP3	0.00804	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	GPR183	0.00795	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	SGK1	0.00792	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	DSE	0.00785	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	PLBD1	0.00765	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	JUN	0.00731	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	ITGAX	0.00727	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	FPR1	0.00711	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	NLRP3	0.00691	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	DUSP6	0.0069	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	ACSL1	0.00685	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	RGCC	0.00681	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	ABCA1	0.00655	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CCR1	0.00632	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	SOD2	0.0063	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	SLC43A2	0.00607	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	SLC15A3	0.00592	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	TLR2	0.00587	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	MS4A7	0.0058	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	MTSS1	0.00577	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	ATP13A3	0.00567	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	KYNU	0.00558	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	PPIF	0.00549	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	FOSB	0.00548	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	VEGFA	0.00545	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	TNFAIP3	0.00541	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	IFI30	0.00526	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	NAMPT	0.00506	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	PTAFR	0.00504	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	HLA-DRA	0.00492	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	RAB31	0.00482	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	IFNGR2	0.00477	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CD68	0.00475	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	NCF2	0.00463	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	TREM1	0.0046	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	NINJ1	0.00459	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	EHD1	0.00445	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	TIMP1	0.00434	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	IL6R	0.00434	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	NFKBIZ	0.00431	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+MP10	primary	CDC42EP3	0.00419	this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)
+F12_chrY	machinery	RPS4Y1		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	DDX3Y		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	EIF1AY		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	KDM5D		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	UTY		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	USP9Y		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	ZFY		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	TXLNGY		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	NLGN4Y		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	PRKY		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	TMSB4Y		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	LINC00278		config_loy.R LOY_YGENES (the counted chrY genes)
+F12_chrY	machinery	TTTY15		config_loy.R LOY_YGENES (the counted chrY genes)
+chrY_exclude	exclude	RPS4Y1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	DDX3Y		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	EIF1AY		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	KDM5D		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	UTY		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	USP9Y		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	ZFY		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TXLNGY		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	NLGN4Y		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	PRKY		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TMSB4Y		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	LINC00278		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY15		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	SRY		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC006040.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC006157.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	ZFY-AS1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TGIF2LY		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC012078.2		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC010737.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC010722.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	PCDH11Y		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TSPY2		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	LINC00280		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY1B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY2B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY21B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY7		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY8B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AMELY		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TBL1Y		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC011297.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY12		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC064829.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY18		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY19		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY20		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TSPY4		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TSPY8		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	FAM197Y7		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	FAM197Y6		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TSPY3		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TSPY1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TSPY9P		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TSPY10		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY8		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY7B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY21		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY2		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY22		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC010891.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY23		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC244213.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	VCY		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	VCY1B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC010723.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	NLGN4Y-AS1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC011751.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	FAM41AY1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	FAM224B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	CDY2B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	CDY2A		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	FAM224A		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	FAM41AY2		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC022486.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	HSFY1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY9B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	HSFY2		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY14		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC007244.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC010889.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC010889.2		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY10		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC009494.2		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	RPS4Y2		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC007876.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	PRORY		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC010086.3		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	RBMY1B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	RBMY1A1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY13		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC024236.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	RBMY1D		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	RBMY1E		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	PRY2		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC007359.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY6B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	RBMY1F		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY5		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	RBMY1J		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	AC008175.1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY6		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	PRY		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY17A		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY4		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	BPY2		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	DAZ1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	DAZ2		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	PRYP3		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY3B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	CDY1B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY17B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY4B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	BPY2B		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	DAZ3		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	DAZ4		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	BPY2C		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY4C		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY17C		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	LINC00266-4P		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	CDY1		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+chrY_exclude	exclude	TTTY3		gencode_GRCh38_gene_order.txt chrY + LOY_YGENES
+PAR_exclude	exclude	PLCXD1		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	GTPBP6		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	LINC00685		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	PPP2R3B		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	AL732314.6		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	AL732314.4		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	SHOX		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	AL672277.1		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	CRLF2		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	CSF2RA		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	IL3RA		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	SLC25A6		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	LINC00106		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	ASMTL-AS1		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	ASMTL		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	P2RY8		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	AKAP17A		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	ASMT		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	AL683807.1		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	AL683807.2		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	DHRSX		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	DHRSX-IT1		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	ZBED1		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	LINC00102		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	CD99		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	SPRY3		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	VAMP7		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	IL9R		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)
+PAR_exclude	exclude	WASIR1		gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)

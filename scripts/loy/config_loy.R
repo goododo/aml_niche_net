@@ -186,7 +186,8 @@ LOY_H2_STEMNESS      <- c(F1_LSC17 = "LSC17", F2_vanGalen_HSCprog_like = "vanGal
 LOY_H2_STEMNESS_TSV  <- here::here("scripts", "以前06_hierarchy", "stemness_signatures.tsv")
 LOY_H2_MP_TSV        <- file.path(TAB_DIR, "04_cnmf", "malignant_metaprograms.tsv")
 LOY_H2_MPS           <- c("MP5", "MP6", "MP9", "MP10")     # MP9 = dissociation stress, artefact control
-LOY_H2_GENESETS      <- here::here("scripts", "loy", "gene_sets_h2_v1.tsv")
+LOY_H2_GENESETS      <- here::here("scripts", "loy", "gene_sets_h2_v2.tsv")   # v2 (2026-11-15): PAR1/PAR2 genes excluded from feature sets; v1 kept in git (tag prereg-loy-h2-v1)
+LOY_H2_PAR_GRCH38    <- list(PAR1 = c(10001, 2781479), PAR2 = c(155701383, 156030895))   # chrX pseudoautosomal regions, GRCh38 (NCBI); a -Y cell has one copy
 LOY_H2_GENE_ORDER    <- file.path(LARGE1_DIR, "reference", "gencode_GRCh38_gene_order.txt")   # chrY exclusion list (= inferCNV gene order)
 # 8b. 05_h2_contrast.R constants
 LOY_H2_N_PERM        <- 1000L   # label permutations within fine label x depth bin, per feature

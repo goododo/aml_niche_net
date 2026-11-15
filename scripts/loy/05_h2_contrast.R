@@ -65,14 +65,17 @@ if (lib$dataset == "GSE269669") {
 stopifnot(all(need %in% colnames(cnt)))
 message(sprintf("[2] counts: %d genes x %d cells (%.1f min)", nrow(cnt), ncol(cnt), as.numeric(difftime(Sys.time(), t0, units = "mins"))))
 gs    <- fread(LOY_H2_GENESETS)
-chrY  <- gs[role == "exclude", gene]
+chrY  <- gs[set == "chrY_exclude", gene]
+par   <- gs[set == "PAR_exclude", gene]                                                    # v2: PAR genes leave the feature scores, stay in S1 flagged
 det   <- Matrix::rowMeans(cnt[, all_leuk_cells, drop = FALSE] > 0)                         # detection among ALL leukaemic cells, label not looked at
-keep  <- names(det)[det >= LOY_H2_MIN_DETECT & !names(det) %in% chrY]
+keep_s1 <- names(det)[det >= LOY_H2_MIN_DETECT & !names(det) %in% chrY]
+keep  <- setdiff(keep_s1, par)
 chrY_present <- intersect(rownames(cnt), gs[set == "F12_chrY", gene])
 message(sprintf("    genes kept: %d of %d (detected >= %.0f%% of %d leukaemic cells, chrY removed); chrY genes present for F12: %d",
                 length(keep), nrow(cnt), 100 * LOY_H2_MIN_DETECT, length(all_leuk_cells), length(chrY_present)))
 lognorm <- function(m) { sf <- 1e4 / Matrix::colSums(m); m@x <- log1p(m@x * rep.int(sf, diff(m@p))); m }   # log1p(counts / depth * 1e4), per column
 X <- lognorm(cnt[, need, drop = FALSE]); rm(cnt); invisible(gc())
+message(sprintf("    v2: %d PAR genes kept out of the feature scores (%d of them expressed here)", length(par), sum(par %in% keep_s1)))
 
 ## [3] feature scores and the OLS contrast by residualisation --------------------------------------------------
 # score_sets(): z-score each gene over the given cells, mean over the set's genes present; sets with < 5 genes present are dropped
@@ -195,11 +198,11 @@ message("    control arm (K1):"); print(C$res[, .(feature, d = round(d, 3), p_pe
 
 ## [6] S1 genome-wide Wilcoxon on the matched set, calibrated by the control arm (real world only) -------------------
 if (world == "real") {
-  wil <- function(d) { Xd <- X[keep, d$cell, drop = FALSE]; a <- d$group == "A"
+  wil <- function(d) { Xd <- X[keep_s1, d$cell, drop = FALSE]; a <- d$group == "A"
     p <- apply(as.matrix(Xd), 1, function(v) suppressWarnings(wilcox.test(v[a], v[!a])$p.value))
     data.table(gene = rownames(Xd), mean_A = Matrix::rowMeans(Xd[, a, drop = FALSE]), mean_B = Matrix::rowMeans(Xd[, !a, drop = FALSE]), p = p) }
   de_l <- wil(L$d); de_c <- wil(C$d)
-  de_l[, diff := mean_A - mean_B]
+  de_l[, diff := mean_A - mean_B]; de_l[, par := gene %in% par]                      # PAR genes: the dosage known answer, not a program
   pc <- de_c$p[!is.na(de_c$p)]; pl <- de_l$p[!is.na(de_l$p)]            # genes constant in one arm give NA from wilcox.test; dropped from the null
   de_l[, p_ctrl_le := vapply(p, function(x) if (is.na(x)) NA_real_ else mean(pc <= x), 0)]               # fraction of control genes at least as extreme
   de_l[, efdr := pmin(1, p_ctrl_le / pmax(1 / length(pl), vapply(p, function(x) if (is.na(x)) NA_real_ else mean(pl <= x), 0)))]   # empirical FDR = control rate / observed rate

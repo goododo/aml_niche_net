@@ -12,7 +12,7 @@
 #           stage0_k3_label_independence.csv GATE_H2_K3: fine labels with vs without chrY genes in the projection
 #           stage0_gates.csv                 GATE_H2_0 and GATE_H2_K3 verdicts
 #           h2_denominator.csv               male AML patients with >= 2 readable leukaemic timepoints, -Y class per timepoint
-#         scripts/loy/gene_sets_h2_v1.tsv    the frozen feature panel (md5 printed; it goes into the tag message)
+#         scripts/loy/gene_sets_h2_v2.tsv    the frozen feature panel (md5 printed; it goes into the tag message); v1 lacked the PAR exclusion
 # what it does: Stage 0 of the H2 pre-registration -- counts and labels only; no expression value is read for the contrast.
 #   [1] loads the per-cell tables of the H2 libraries; [2] re-derives the frozen three-state call and checks it against 02 (K0);
 #   [3] leukaemic cells = the depositors' call, technical-zero control = the library's own T cells; [4] GATE_H2_K3 and the PT43
@@ -294,9 +294,16 @@ for (m in LOY_H2_MPS) gs[[m]] <- mp[MP == m, .(set = m, role = fifelse(m == "MP9
                                                source = "this project cNMF results/tables/04_cnmf/malignant_metaprograms.tsv (2026-07-17)")]
 gs[["F12_chrY"]]   <- data.table(set = "F12_chrY", role = "machinery", gene = LOY_YGENES, weight = NA_real_, source = "config_loy.R LOY_YGENES (the counted chrY genes)")
 gs[["chrY_excl"]]  <- data.table(set = "chrY_exclude", role = "exclude", gene = chrY_genes, weight = NA_real_, source = "gencode_GRCh38_gene_order.txt chrY + LOY_YGENES")
+# v2: pseudoautosomal genes sit on chrX in the gene order but have one copy in a -Y cell (SLC25A6 and CD99 were the top two S1
+# genes in every case of the v1 run); excluded from feature sets, kept in S1 as the dosage known answer (05 flags them)
+par_genes <- gene_order[chr == "chrX" & ((start >= LOY_H2_PAR_GRCH38$PAR1[1] & end <= LOY_H2_PAR_GRCH38$PAR1[2]) |
+                                        (start >= LOY_H2_PAR_GRCH38$PAR2[1] & end <= LOY_H2_PAR_GRCH38$PAR2[2])), gene]
+message(sprintf("[6] PAR genes (GRCh38 chrX PAR1/PAR2): %d: %s", length(par_genes), paste(par_genes, collapse = ",")))
+gs[["par_excl"]]   <- data.table(set = "PAR_exclude", role = "exclude", gene = par_genes, weight = NA_real_, source = "gencode_GRCh38_gene_order.txt chrX inside PAR1/PAR2 (GRCh38 coordinates)")
 gs <- rbindlist(gs)
-leak <- gs[role %in% c("primary", "artefact_control") & gene %in% chrY_genes]
-if (nrow(leak)) { message("[6] chrY genes removed from feature sets: "); print(leak); gs <- gs[!(role %in% c("primary", "artefact_control") & gene %in% chrY_genes)] }
+excl_genes <- union(chrY_genes, par_genes)
+leak <- gs[role %in% c("primary", "artefact_control") & gene %in% excl_genes]
+if (nrow(leak)) { message("[6] chrY / PAR genes removed from feature sets: "); print(leak); gs <- gs[!(role %in% c("primary", "artefact_control") & gene %in% excl_genes)] }
 sizes <- gs[, .N, by = .(set, role)]; print(sizes); stopifnot(all(sizes$N >= 5))
 fwrite(gs, LOY_H2_GENESETS, sep = "\t")
 md5 <- tools::md5sum(LOY_H2_GENESETS)

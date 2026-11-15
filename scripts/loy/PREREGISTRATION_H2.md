@@ -264,3 +264,20 @@ the pack objects / GSE269669 objects via the step-2 adapter (`03_scan_external.R
    per-feature row is kept and a pooled row with the binomial band is reported beside it; neither stops the line.
 11. Mechanical: the one-level fine factor in per-stratum fits, the zero-permutation branch, and a stray `dbin := NULL`
    warning were fixed; no statistic changed.
+
+## 15. Freeze v2 (2026-11-15, after the v1 results; tag prereg-loy-h2-v2)
+
+The v1 run (tag prereg-loy-h2-v1, results in reports/2026-11_loy/REPORT_h2_results_2026-11-15.md) is complete and stands as
+reported. v2 re-runs the contrast of section 5 with three stated changes and nothing else; the v1 tables stay in git history.
+
+1. **Pseudoautosomal genes leave the feature sets.** The v1 genome-wide list ranked SLC25A6 and CD99 first and second in every
+   case, lower in -Y cells: PAR1 genes have one copy in a -Y cell. Genes inside GRCh38 chrX PAR1 (10,001-2,781,479) and PAR2
+   (155,701,383-156,030,895) are now excluded from every feature set (`gene_sets_h2_v2.tsv`; v1 had one, SLC25A6 in F8) and
+   kept in S1 with a `par` flag as the dosage known answer. User approved 2026-11-15.
+2. **Control floor as executed.** The technical-zero control is every non-leukaemic cell of compartments with sample f_hat
+   <= 0.03, pooled over the patient's libraries with library as stratum (amendment 8a); AML15 and PT43 controls hold 68 and
+   54 matched Y-zero cells, so K1 there has power against large dropout artefacts only.
+3. **GATE_N1 per feature** is read against the binomial band for 200 shuffles (0.020-0.080) with the pooled rate in 0.03-0.07
+   (amendment 10); the v1 band is reported alongside.
+Everything else (cases, labels, matching, model, permutations, Holm family, wording of section 8, CNV arm) is unchanged. The
+planted smoke runs are repeated per case before the real v2 runs, as in v1.
