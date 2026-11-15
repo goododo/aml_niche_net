@@ -17,7 +17,9 @@
 #   arm runs the identical pipeline; wording per section 8.
 # Usage : sbatch scripts/loy/submit_loy_h2.sbatch 05 --case=AML15 --world=real|null|planted
 #   --world=null     labels shuffled within strata once, then the full pipeline (must traverse the no-result branches)
-#   --world=planted  real labels; LOY_H2_N_PLANTS random 60-gene sets each shifted by d = LOY_H2_PLANT_D in -Y cells -> power (GATE_P)
+#   --world=planted  labels shuffled as in the null world, then LOY_H2_N_PLANTS random 60-gene sets each shifted by d = LOY_H2_PLANT_D
+#                    in the (shuffled) -Y cells -> power (GATE_P). The first planted run (job 3689462) used the REAL labels and so
+#                    wrote the real AML15 panel into a smoke file before the real run; disclosed in PREREGISTRATION_H2.md amendment 9.
 # WHY: the tag prereg-loy-h2-v1 precedes the first run of this script on any world; the smoke worlds exist because the G07 and
 #   dbl lines each hid a bug in the branch the planted signal never visits.
 suppressPackageStartupMessages({ library(data.table); library(here); library(Matrix); library(Seurat); library(SeuratObject) })
@@ -42,8 +44,8 @@ leukS <- cl[arm == "leukaemic" & fine != "ALL" & matched == TRUE & fine %in% eli
 ctrlS <- cl[arm == "control" & fine == "ALL" & matched == TRUE]                                                # pooled control, one "ALL" stratum per library
 ctrlS[, fine := Sample]                                                                                       # library = the control's stratum (depth is library-specific)
 stopifnot(nrow(leukS) > 0)
-if (world == "null") {   # the null world: the real -Y label destroyed inside fine x depth strata, before anything else is computed
-  shuffle_within <- function(d) { d <- copy(d); d[, group := group[sample.int(.N)], by = .(fine, dbin = cut(log_depth, unique(quantile(log_depth, 0:LOY_H2_N_DEPTH_BINS / LOY_H2_N_DEPTH_BINS)), include.lowest = TRUE))]; d[, dbin := NULL]; d }
+if (world != "real") {   # null and planted worlds: the real -Y label destroyed inside fine x depth strata, before anything else is computed
+  shuffle_within <- function(d) { d <- copy(d); d[, group := group[sample.int(.N)], by = .(fine, dbin = cut(log_depth, unique(quantile(log_depth, 0:LOY_H2_N_DEPTH_BINS / LOY_H2_N_DEPTH_BINS)), include.lowest = TRUE))]; d }
   leukS <- shuffle_within(leukS); ctrlS <- shuffle_within(ctrlS)
 }
 message(sprintf("[1] leukaemic matched set: %d cells (A %d, B %d) in %d strata | control: %d cells (A %d, B %d)",
@@ -103,7 +105,7 @@ fit_arm <- function(d, S, n_perm) {
     gpr <- as.numeric(resid(gp)); cp <- as.numeric(crossprod(gpr, Sr)) / sum(gpr^2)
     perm_d[p, ] <- cp / sqrt(colSums((Sr - outer(gpr, cp))^2) / dfr)
   }
-  p_perm <- (1 + colSums(abs(perm_d) >= matrix(abs(d_hat), n_perm, ncol(S), byrow = TRUE))) / (n_perm + 1)
+  p_perm <- if (n_perm > 0) (1 + colSums(abs(perm_d) >= matrix(abs(d_hat), n_perm, ncol(S), byrow = TRUE))) / (n_perm + 1) else rep(NA_real_, ncol(S))
   data.table(feature = colnames(S), n_A = sum(g == 1), n_B = sum(g == 0), coef = coef, sigma = sigma, d = d_hat,
              ci_lo = (coef - 1.96 * se) / sigma, ci_hi = (coef + 1.96 * se) / sigma, p_perm = p_perm)
 }
@@ -155,6 +157,12 @@ n1 <- sapply(seq_len(LOY_H2_N_SHUFFLE), function(i) {
 n1_rate <- rowMeans(n1); names(n1_rate) <- colnames(L$S)
 checks[["N1"]] <- data.table(gate = "GATE_N1", value = mean(n1_rate), detail = paste(sprintf("%s=%.3f", names(n1_rate), n1_rate), collapse = " "),
                              pass = all(n1_rate >= 0.03 & n1_rate <= 0.07))
+# the pre-registered 0.03-0.07 band per feature is tighter than 200 shuffles can resolve (binomial 95 % interval for a true
+# 0.05 rate at n = 200 is 0.020-0.080); the pooled rate and the binomial band are reported next to it, not instead of it
+bin_lo <- LOY_H2_ALPHA - 1.96 * sqrt(LOY_H2_ALPHA * (1 - LOY_H2_ALPHA) / LOY_H2_N_SHUFFLE); bin_hi <- LOY_H2_ALPHA + 1.96 * sqrt(LOY_H2_ALPHA * (1 - LOY_H2_ALPHA) / LOY_H2_N_SHUFFLE)
+checks[["N1b"]] <- data.table(gate = "GATE_N1_pooled", value = mean(n1_rate), detail = sprintf("pooled rate over %d features; per-feature range %.3f-%.3f; binomial band for %d shuffles %.3f-%.3f",
+                              length(n1_rate), min(n1_rate), max(n1_rate), LOY_H2_N_SHUFFLE, bin_lo, bin_hi),
+                              pass = mean(n1_rate) >= 0.03 & mean(n1_rate) <= 0.07 & all(n1_rate >= bin_lo & n1_rate <= bin_hi))
 if (world == "planted") {   # GATE_P: plant d = LOY_H2_PLANT_D into a random gene set's score for the A cells; Holm within panel + planted set
   Sz <- L$S[, setdiff(colnames(L$S), "F12_chrY"), drop = FALSE]; gpool <- setdiff(keep, unlist(sets)); hits <- logical(LOY_H2_N_PLANTS)
   for (i in seq_len(LOY_H2_N_PLANTS)) {
@@ -162,7 +170,7 @@ if (world == "planted") {   # GATE_P: plant d = LOY_H2_PLANT_D into a random gen
     s60 <- score_sets(X[g60, L$d$cell, drop = FALSE], list(planted = g60))
     Qw <- qr.Q(qr(design_of(L$d))); rs <- as.numeric(s60 - Qw %*% crossprod(Qw, s60))
     s60[L$d$group == "A"] <- s60[L$d$group == "A"] + LOY_H2_PLANT_D * sd(rs)          # shift of d residual SDs in the -Y cells
-    r <- fit_arm(L$d, cbind(Sz, planted = as.numeric(s60)), 199L)
+    r <- fit_arm(L$d, cbind(Sz, planted = as.numeric(s60)), LOY_H2_N_PERM)     # 199 permutations cannot reach Holm 0.05 over 17 features (min p 0.005 x 17)
     hits[i] <- p.adjust(r$p_perm, "holm")[r$feature == "planted"] < LOY_H2_ALPHA
     if (i %% 50 == 0) message(sprintf("    plant %d/%d: power so far %.2f", i, LOY_H2_N_PLANTS, mean(hits[1:i])))
   }

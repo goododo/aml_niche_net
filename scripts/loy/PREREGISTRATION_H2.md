@@ -247,3 +247,20 @@ the pack objects / GSE269669 objects via the step-2 adapter (`03_scan_external.R
    log depth stays in the model as pre-registered. (c) GATE_H2_K3 is computed over cells that received a label in both
    projections; mapping-QC failures (1.2 % of PT43 cells) are reported, not counted as disagreement. (d) The scaffold's
    variable genes contain one chrY gene (PCDH11Y), so the Lambo subsample re-projection runs (section 13.2).
+
+## 14. Post-tag procedural amendments (do not change any rule of sections 1-9)
+
+9. **Planted-world leak, disclosed** (2026-11-15 ~11:45 JST, after the tag, before any real run). The first planted
+   smoke run (05, job 3689462) planted signal on top of the REAL labels and therefore computed and wrote the real AML15
+   panel contrast and the real control-arm (K1) result into `contrast_AML15_smoke_planted.csv` /
+   `control_AML15_smoke_planted.csv`; the author read both tables while diagnosing a power of 0.00 (cause: 199
+   permutations cannot reach Holm 0.05 over 17 features). The verdict rules of section 8 were frozen before this and
+   are applied unchanged; the real AML15 run is therefore pre-empted in content but not in procedure. Fix: the planted
+   world now shuffles the labels exactly as the null world does and then plants (power measured on a null background),
+   and the planted permutation count equals LOY_H2_N_PERM. The two leaked smoke files are kept until the real run
+   reproduces them, then deleted with the other smoke outputs as the smoke rule prescribes.
+10. **GATE_N1 band**: the per-feature 0.03-0.07 band is tighter than 200 shuffles resolve (binomial 95 % band for a true
+   0.05 rate at n = 200 is 0.020-0.080; the null smoke gave 0.015-0.075 per feature, pooled 0.045). The pre-registered
+   per-feature row is kept and a pooled row with the binomial band is reported beside it; neither stops the line.
+11. Mechanical: the one-level fine factor in per-stratum fits, the zero-permutation branch, and a stray `dbin := NULL`
+   warning were fixed; no statistic changed.
