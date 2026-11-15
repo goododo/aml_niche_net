@@ -1,5 +1,5 @@
 gate,value,detail,pass,case,world
 GATE_H2_K1,1,MP6,TRUE,PT43,real
 GATE_H2_K2,-3.20175027477931,"chrY score d -3.20, p 0.0010",TRUE,PT43,real
-GATE_N1,0.0403125,F1_LSC17=0.045 F10_P53=0.030 F2_vanGalen_HSCprog_like=0.025 F3_HSPC_core=0.035 F4_G2M=0.035 F4_S=0.025 F5_IFNA=0.050 F6_IFNG=0.050 F7_TNFA_NFKB=0.070 F8_OXPHOS=0.030 F9_MYC_V1=0.050 MP10=0.025 MP5=0.050 MP6=0.030 MP9=0.050 F12_chrY=0.045,FALSE,PT43,real
-GATE_N1_pooled,0.0403125,pooled rate over 16 features; per-feature range 0.025-0.070; binomial band for 200 shuffles 0.020-0.080,TRUE,PT43,real
+GATE_N1,0.040625,F1_LSC17=0.045 F10_P53=0.030 F2_vanGalen_HSCprog_like=0.025 F3_HSPC_core=0.035 F4_G2M=0.035 F4_S=0.025 F5_IFNA=0.050 F6_IFNG=0.050 F7_TNFA_NFKB=0.070 F8_OXPHOS=0.035 F9_MYC_V1=0.050 MP10=0.025 MP5=0.050 MP6=0.030 MP9=0.050 F12_chrY=0.045,FALSE,PT43,real
+GATE_N1_pooled,0.040625,pooled rate over 16 features; per-feature range 0.025-0.070; binomial band for 200 shuffles 0.020-0.080,TRUE,PT43,real
