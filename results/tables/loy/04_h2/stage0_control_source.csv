@@ -1,0 +1,4 @@
+case,control_source,control_libraries,matched_A,matched_B
+AML15,all libraries of the patient,AML_Lambo2023_AML15_DX;AML_Lambo2023_AML15_REL;AML_Lambo2023_AML15_REM,68,203
+AML13,all libraries of the patient,AML_Lambo2023_AML13_DX;AML_Lambo2023_AML13_REM;AML_Lambo2023_AML13_REL,322,958
+PT43,all libraries of the patient,PT43B;PT43A,53,157

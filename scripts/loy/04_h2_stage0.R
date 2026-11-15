@@ -107,8 +107,9 @@ if (need_proj || k3_mode != "no") {
   vg  <- if (is.data.frame(vg)) as.character(vg[[intersect(c("symbol", "gene", names(vg)), names(vg))[1]]]) else as.character(vg)
   vg_y <- intersect(vg, chrY_genes)
   message(sprintf("    scaffold variable genes: %d; chrY among them: %d (%s)", length(vg), length(vg_y), paste(vg_y, collapse = ",")))
+  # informational row: a chrY gene among the variable genes only decides whether the Lambo subsample is re-projected (pass = NA)
   k3[["scaffold_vargenes"]] <- data.table(check = "scaffold_vargenes_chrY", library = "BoneMarrowMap", n = length(vg), value = length(vg_y),
-                                          detail = paste(vg_y, collapse = ","), pass = length(vg_y) == 0)
+                                          detail = paste0(paste(vg_y, collapse = ","), if (length(vg_y)) " -> Lambo subsample re-projected" else " -> labels chrY-free by construction"), pass = NA)
   pick_col <- function(df, exact, pattern) { for (e in exact) if (e %in% names(df)) return(e); h <- grep(pattern, names(df), value = TRUE, ignore.case = TRUE); if (length(h)) h[1] else NA_character_ }
   project <- function(cnt, md, tag) {
     q <- map_Query(exp_query = cnt, metadata_query = md, ref_obj = ref, do_normalize = TRUE, do_umap = FALSE, verbose = FALSE)
@@ -331,10 +332,11 @@ message(sprintf("[7] denominator: %d patients with >= 2 readable leukaemic timep
 print(den[status_change == TRUE, .(dataset, patient, timepoints, f_hat_LEUK, leuk_class)])
 
 ## [8] gates -----------------------------------------------------------------------------------------
+k3g <- k3[!is.na(pass)]                                   # the gate is the label-agreement rows only
 gates <- data.table(gate = c("GATE_H2_0", "GATE_H2_K3"),
-                    value = c(length(elig_cases), if (nrow(k3)) mean(k3$pass) else NA_real_),
+                    value = c(length(elig_cases), if (nrow(k3g)) min(k3g$value) else NA_real_),
                     detail = c(sprintf("eligible cases: %s | control ok: %s", paste(elig_cases, collapse = ","), paste(ctrl_ok, collapse = ",")),
-                               if (nrow(k3)) paste(k3[, sprintf("%s:%s=%s", library, check, ifelse(pass, "pass", "FAIL"))], collapse = " | ") else "not run"),
-                    pass = c(length(elig_cases) >= 2, if (nrow(k3)) all(k3$pass) else NA))
+                               if (nrow(k3g)) paste(k3g[, sprintf("%s:%s=%.4f", library, check, value)], collapse = " | ") else "not run"),
+                    pass = c(length(elig_cases) >= 2, if (nrow(k3g)) all(k3g$pass) else NA))
 fwrite(gates, file.path(LOY_H2_DIR, "stage0_gates.csv")); print(gates)
 message(sprintf("[done] Stage 0 in %.1f min; gene-set md5 %s", as.numeric(difftime(Sys.time(), t0, units = "mins")), md5))

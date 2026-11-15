@@ -1,0 +1,51 @@
+dataset,patient,age,n_readable_leuk_timepoints,libraries,timepoints,f_hat_LEUK,n_LEUK,leuk_class,status_change
+GSE147989,009,"",2,009C1D1BL;009SCRBL,On_treatment;Diagnosis,0.000;0.000,702;951,none;none,FALSE
+GSE207356,TS173,"",3,GSM6284912_TS173_04_Sample_D;GSM6284913_TS173_05_Sample_E;GSM6284914_TS173_06_Sample_F,Refractory;On_treatment;On_treatment,0.000;0.000;0.000,4574;2823;2963,none;none;none,FALSE
+GSE227903,1886,"",3,1886_Dg;1886_MRD;1886_R,Diagnosis;Post_treatment_unspecified;Relapse,0.000;0.000;0.000,1344;220;871,none;none;none,FALSE
+GSE227903,3904,"",3,3904_Dg;3904_MRD;3904_R,Diagnosis;Post_treatment_unspecified;Relapse,0.000;0.000;0.000,2618;306;6805,none;none;none,FALSE
+GSE227903,4978,"",3,4978_Dg;4978_MRD;4978_R,Diagnosis;Post_treatment_unspecified;Relapse,0.000;0.000;0.000,2086;69;1746,none;none;none,FALSE
+GSE227903,5143,"",2,5143_Dg;5143_R,Diagnosis;Relapse,0.000;0.000,319;967,none;none,FALSE
+GSE227903,5750,"",3,5750_Dg;5750_MRD;5750_R,Diagnosis;Post_treatment_unspecified;Relapse,0.000;0.000;0.000,3108;288;2603,none;none;none,FALSE
+GSE269669,PT34,Adult,2,PT34A;PT34B,Pre;Post,0.000;0.000,1444;747,none;none,FALSE
+GSE269669,PT35,Adult,3,PT35A;PT35B;PT35C,Pre;NA;Post,0.008;0.207;0.000,4605;154;1309,none;none;none,FALSE
+GSE269669,PT38,Adult,2,PT38A;PT38B,Pre;Post,0.000;0.056,1346;89,none;none,FALSE
+GSE269669,PT40,Adult,2,PT40A;PT40B,Pre;Post,0.006;0.024,224;50,none;none,FALSE
+GSE269669,PT43,Adult,2,PT43A;PT43B,Pre;Post,0.288;0.000,3885;3319,subclonal_LOY;none,TRUE
+ZENG_Abbas_2021,Abbas_2021__PT1,Adult,3,Abbas2021_PT1A;Abbas2021_PT1B;Abbas2021_PT1C,Relapse Pre-ICB;Relapse Post-ICB;Relapse Post-ICB,0.000;0.000;0.000,2534;591;745,none;none;none,FALSE
+ZENG_Abbas_2021,Abbas_2021__PT2,Adult,3,Abbas2021_PT2A;Abbas2021_PT2B;Abbas2021_PT2C,Relapse Pre-ICB;Relapse Post-ICB;Relapse Post-ICB,0.000;0.000;0.000,154;244;2166,none;none;none,FALSE
+ZENG_Abbas_2021,Abbas_2021__PT3,Adult,3,Abbas2021_PT3A;Abbas2021_PT3B;Abbas2021_PT3C,Relapse Pre-ICB;Relapse Post-ICB;Relapse Post-ICB,0.000;0.000;0.000,164;65;2738,none;none;none,FALSE
+ZENG_Abbas_2021,Abbas_2021__PT4,Adult,2,Abbas2021_PT4A;Abbas2021_PT4B,Relapse Pre-ICB;Relapse Post-ICB,0.000;0.000,3634;1985,none;none,FALSE
+ZENG_Abbas_2021,Abbas_2021__PT5,Adult,3,Abbas2021_PT5A;Abbas2021_PT5B;Abbas2021_PT5C,Relapse Pre-ICB;Relapse Post-ICB;Relapse Post-ICB,0.000;0.000;0.000,3928;4080;1852,none;none;none,FALSE
+ZENG_Abbas_2021,Abbas_2021__PT7,Adult,3,Abbas2021_PT7A;Abbas2021_PT7B;Abbas2021_PT7C,Relapse Pre-ICB;Relapse Post-ICB;Relapse Post-ICB,0.000;0.000;0.000,2471;1380;2418,none;none;none,FALSE
+ZENG_Abbas_2021,Abbas_2021__PT8,Adult,3,Abbas2021_PT8A;Abbas2021_PT8B;Abbas2021_PT8C,Relapse Pre-ICB;Relapse Post-ICB;Relapse Post-ICB,0.000;0.000;0.000,484;1094;1243,none;none;none,FALSE
+ZENG_Cobos_2023,Cobos_2023__TCH1,Pediatric,2,AML_Cobos2023_TCH1.diagnosis;AML_Cobos2023_TCH1.relapse,Diagnosis;Relapse,0.030;0.028,957;478,none;none,FALSE
+ZENG_Cobos_2023,Cobos_2023__TCH2,Pediatric,2,AML_Cobos2023_TCH2.diagnosis;AML_Cobos2023_TCH2.relapse,Diagnosis;Relapse,0.026;0.003,565;1666,none;none,FALSE
+ZENG_Cobos_2023,Cobos_2023__TCH5,Pediatric,2,AML_Cobos2023_TCH5.diagnosis;AML_Cobos2023_TCH5.relapse,Diagnosis;Relapse,0.190;0.066,227;317,none;none,FALSE
+ZENG_Cobos_2023,Cobos_2023__TCH6,Pediatric,2,AML_Cobos2023_TCH6.diagnosis;AML_Cobos2023_TCH6.relapse,Diagnosis;Relapse,0.036;0.067,337;57,none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML10,Pediatric,3,AML_Lambo2023_AML10_DX;AML_Lambo2023_AML10_REL;AML_Lambo2023_AML10_REM,Diagnosis;Relapse;Remission,0.008;0.000;0.000,1181;682;71,none;none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML11,Pediatric,2,AML_Lambo2023_AML11_DX;AML_Lambo2023_AML11_REM,Diagnosis;Remission,0.000;0.000,864;485,none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML12,Pediatric,3,AML_Lambo2023_AML12_DX;AML_Lambo2023_AML12_REL;AML_Lambo2023_AML12_REM,Diagnosis;Relapse;Remission,0.000;0.000;0.000,3365;3365;324,none;none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML13,Pediatric,3,AML_Lambo2023_AML13_DX;AML_Lambo2023_AML13_REL;AML_Lambo2023_AML13_REM,Diagnosis;Relapse;Remission,0.000;0.132;0.019,1878;4728;387,none;subclonal_LOY;none,TRUE
+ZENG_Lambo_2023,Lambo_2023__AML15,Pediatric,3,AML_Lambo2023_AML15_DX;AML_Lambo2023_AML15_REL;AML_Lambo2023_AML15_REM,Diagnosis;Relapse;Remission,0.169;0.000;0.000,4819;3700;297,subclonal_LOY;none;none,TRUE
+ZENG_Lambo_2023,Lambo_2023__AML17,Pediatric,2,AML_Lambo2023_AML17_DX;AML_Lambo2023_AML17_REL,Diagnosis;Relapse,0.000;0.000,3188;511,none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML18,Pediatric,2,AML_Lambo2023_AML18_DX;AML_Lambo2023_AML18_REL,Diagnosis;Relapse,0.000;0.000,2113;935,none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML19,Pediatric,2,AML_Lambo2023_AML19_DX;AML_Lambo2023_AML19_REL,Diagnosis;Relapse,0.000;0.000,3286;681,none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML20,Pediatric,2,AML_Lambo2023_AML20_DX;AML_Lambo2023_AML20_REM,Diagnosis;Remission,0.000;0.000,2124;98,none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML21,Pediatric,3,AML_Lambo2023_AML21_DX;AML_Lambo2023_AML21_REL;AML_Lambo2023_AML21_REM,Diagnosis;Relapse;Remission,0.000;0.000;0.000,1426;2965;795,none;none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML22,Pediatric,3,AML_Lambo2023_AML22_DX;AML_Lambo2023_AML22_REL;AML_Lambo2023_AML22_REM,Diagnosis;Relapse;Remission,0.000;0.000;0.000,3613;1643;260,none;none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML23,Pediatric,3,AML_Lambo2023_AML23_DX;AML_Lambo2023_AML23_REL;AML_Lambo2023_AML23_REM,Diagnosis;Relapse;Remission,0.000;0.000;0.000,325;5267;202,none;none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML3,Pediatric,2,AML_Lambo2023_AML3_DX;AML_Lambo2023_AML3_REM,Diagnosis;Remission,0.000;0.000,1433;50,none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML5,Pediatric,3,AML_Lambo2023_AML5_DX;AML_Lambo2023_AML5_REL;AML_Lambo2023_AML5_REM,Diagnosis;Relapse;Remission,0.016;0.858;0.000,353;141;465,none;clonal_LOY;none,TRUE
+ZENG_Lambo_2023,Lambo_2023__AML7,Pediatric,2,AML_Lambo2023_AML7_REL;AML_Lambo2023_AML7_REM,Relapse;Remission,0.069;0.000,845;92,none;none,FALSE
+ZENG_Lambo_2023,Lambo_2023__AML8,Pediatric,3,AML_Lambo2023_AML8_DX;AML_Lambo2023_AML8_REL;AML_Lambo2023_AML8_REM,Diagnosis;Relapse;Remission,0.000;0.000;0.000,1960;1229;257,none;none;none,FALSE
+ZENG_Li_2022,Li_2022__Pt3,Adult,2,AML_Li2022_Pt3_D;AML_Li2022_Pt3_R,Diagnosis;Relapse,0.000;0.000,3117;2867,none;none,FALSE
+ZENG_Mumme_2023_AML,Mumme_2023_AML__Sample20,Pediatric,2,AML_Mumme2023_Sample20D;AML_Mumme2023_Sample20E,Diagnosis;End of Induction,0.950;0.330,2352;51,clonal_LOY;none,TRUE
+ZENG_Mumme_2023_AML,Mumme_2023_AML__Sample5,Pediatric,3,AML_Mumme2023_Sample5D;AML_Mumme2023_Sample5E;AML_Mumme2023_Sample5R,Diagnosis;End of Induction;Relapse,0.120;0.000;0.030,216;147;231,none;none;none,FALSE
+ZENG_Naldini_2023,Naldini_2023__PT01,Adult,2,AML_Naldini2023_PT01_D14;AML_Naldini2023_PT01_DX,D14;Diagnosis,0.000;0.000,308;2404,none;none,FALSE
+ZENG_Naldini_2023,Naldini_2023__PT07,Adult,2,AML_Naldini2023_PT07_D14;AML_Naldini2023_PT07_DX,D14;Diagnosis,0.000;0.000,412;531,none;none,FALSE
+ZENG_Naldini_2023,Naldini_2023__PT08,Adult,3,AML_Naldini2023_PT08_D30;AML_Naldini2023_PT08_DX;AML_Naldini2023_PT08_REL,D30;Diagnosis;Relapse,0.000;0.000;0.000,99;2151;4875,none;none;none,FALSE
+ZENG_Naldini_2023,Naldini_2023__PT11,Adult,2,AML_Naldini2023_PT11_D30;AML_Naldini2023_PT11_DX,D30;Diagnosis,0.000;0.000,1659;6179,none;none,FALSE
+ZENG_Naldini_2023,Naldini_2023__PT12,Adult,2,AML_Naldini2023_PT12_D30;AML_Naldini2023_PT12_DX,D30;Diagnosis,0.000;0.000,407;2022,none;none,FALSE
+ZENG_Naldini_2023,Naldini_2023__PT13,Adult,2,AML_Naldini2023_PT13_D30;AML_Naldini2023_PT13_DX,D30;Diagnosis,0.000;0.000,188;2930,none;none,FALSE
+ZENG_Naldini_2023,Naldini_2023__PT17,Adult,3,AML_Naldini2023_PT17_D14;AML_Naldini2023_PT17_D30;AML_Naldini2023_PT17_DX,D14;D30;Diagnosis,0.000;0.000;0.000,751;1274;6127,none;none;none,FALSE
+ZENG_Naldini_2023,Naldini_2023__PT18,Adult,2,AML_Naldini2023_PT18_D14;AML_Naldini2023_PT18_DX,D14;Diagnosis,0.000;0.000,2307;4122,none;none,FALSE

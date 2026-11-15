@@ -213,11 +213,11 @@ LOY_H2_CNV_RATIO     <- c(0.7, 1.3)   # GATE_H2_CNV: carrier frequency in -Y cel
 LOY_H2_CNV_N_PERM    <- 1000L
 # pre-specified regions per case (cytoband ranges; arms are always scored): from the TARGET diagnostic karyotypes (AML15) and the
 # usual TP53-AML lesions (PT43). AML13 has no relapse karyotype: arms only.
-LOY_H2_CNV_REGIONS <- data.table::fread(text = "
-case,region,chr,band_from,band_to,expectation
-AML15,del9q13q22,chr9,q13,q22.33,present in both halves (5/8 -Y and 8/16 Y+ metaphases): not discriminating
-AML15,dup1p31p36,chr1,p36.33,p31.1,absent in -Y cells (0/8), present in a Y+ subset (4/16): separates
-PT43,del5q,chr5,q11.1,q35.3,TP53-AML usual lesion
-PT43,chr7,chr7,p22.3,q36.3,TP53-AML usual lesion
-PT43,del17p,chr17,p13.3,p11.1,TP53-AML usual lesion
-")
+LOY_H2_CNV_REGIONS <- data.table::fread(sep = "|", text = "
+case|region|chr|band_from|band_to|expectation
+AML15|del9q13q22|chr9|q13|q22.33|present in both halves (5/8 -Y and 8/16 Y+ metaphases): not discriminating
+AML15|dup1p31p36|chr1|p36.33|p31.1|absent in -Y cells (0/8), present in a Y+ subset (4/16): separates
+PT43|del5q|chr5|q11.1|q35.3|TP53-AML usual lesion
+PT43|chr7|chr7|p22.3|q36.3|TP53-AML usual lesion
+PT43|del17p|chr17|p13.3|p11.1|TP53-AML usual lesion
+")   # pipe-separated: the expectation text carries commas (job 3689459 lost the PT43 rows with sep = ",")

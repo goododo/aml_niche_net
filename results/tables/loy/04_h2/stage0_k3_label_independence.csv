@@ -1,0 +1,8 @@
+check,library,n,value,detail,pass
+scaffold_vargenes_chrY,BoneMarrowMap,2386,1,PCDH11Y -> Lambo subsample re-projected,
+reprojection_all,PT43A,7004,0.999143346659052,broad agreement 0.9994; 0 mapping-QC-fail cells excluded,TRUE
+reprojection_leuk,PT43A,5591,0.998926846717939,broad agreement 0.9993; 0 mapping-QC-fail cells excluded,TRUE
+reprojection_all,PT43B,6310,0.997781299524564,broad agreement 0.9984; 0 mapping-QC-fail cells excluded,TRUE
+reprojection_leuk,PT43B,5709,0.997547731651778,broad agreement 0.9982; 0 mapping-QC-fail cells excluded,TRUE
+reprojection_subsample,AML_Lambo2023_AML15_DX,2000,0.9985,agreement with the pack label 0.182; 0 mapping-QC-fail cells excluded,TRUE
+reprojection_subsample,AML_Lambo2023_AML13_REL,2000,0.999,agreement with the pack label 0.162; 0 mapping-QC-fail cells excluded,TRUE
