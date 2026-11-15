@@ -106,6 +106,10 @@ regions[, n_genes := lengths(reg_genes)]
 keep_r <- regions$n_genes >= LOY_H2_CNV_MIN_GENES
 message(sprintf("[4] %d regions scored (%d dropped with < %d genes: %s)", sum(keep_r), sum(!keep_r), LOY_H2_CNV_MIN_GENES, paste(regions$region[!keep_r], collapse = ",")))
 regions <- regions[keep_r]; reg_genes <- reg_genes[keep_r]
+# chrY as a whole, with a 5-gene floor: only a handful of chrY genes pass inferCNV's expression cutoff, yet this row is the arm's
+# machinery check (prereg amendment 7), so it is scored separately from the 20-gene rule that governs every other region
+y_genes <- go[chr == "chrY", gene]
+if (length(y_genes) >= 5) { regions <- rbind(regions, data.table(region = "chrY_all", chr = "chrY", start = 0, end = max(go[chr == "chrY", stop]), n_genes = length(y_genes))); reg_genes <- c(reg_genes, list(y_genes)); message(sprintf("    chrY_all added with %d genes", length(y_genes))) } else message(sprintf("    chrY_all NOT scored: only %d chrY genes in the residual matrix", length(y_genes)))
 S <- sapply(reg_genes, function(g) colMeans(E[g, , drop = FALSE])); colnames(S) <- regions$region      # cells x regions
 cell_tab <- data.table(cell = rownames(S))
 cell_tab[obs, on = "cell", `:=`(group = i.group, fine = i.fine)]
@@ -134,8 +138,8 @@ p_perm <- (1 + colSums(abs(perm) >= matrix(abs(delta), nrow(perm), ncol(perm), b
 res <- data.table(case = case, region = regions$region, chr = regions$chr, n_genes = regions$n_genes,
                   mean_ref = mean_ref, sd_ref = sd_ref, mean_A_minusY = mean_A, mean_B_Yplus = mean_B, delta_A_minus_B = delta,
                   p_perm = p_perm, p_holm = p.adjust(p_perm, "holm"),
-                  freq_ref = freq_R, freq_A_minusY = freq_A, freq_B_Yplus = freq_B, ratio_A_over_B = freq_A / freq_B,
-                  leukaemic_cnv = freq_B >= LOY_H2_CNV_MIN_FREQ & !chr %in% c("chrX", "chrY"))
+                  freq_ref = freq_R, freq_A_minusY = freq_A, freq_B_Yplus = freq_B, ratio_A_over_B = freq_A / freq_B)
+res[, leukaemic_cnv := freq_B_Yplus >= LOY_H2_CNV_MIN_FREQ & !chr %in% c("chrX", "chrY")]   # set after construction: a data.table() argument cannot see its siblings (job 3689465)
 res[, cosegregation := fifelse(!leukaemic_cnv, "not_a_leukaemic_cnv",
                        fifelse(ratio_A_over_B >= LOY_H2_CNV_RATIO[1] & ratio_A_over_B <= LOY_H2_CNV_RATIO[2], "shared_by_both_halves",
                        fifelse(ratio_A_over_B < LOY_H2_CNV_RATIO[1], "Yplus_only_or_enriched", "minusY_enriched")))]

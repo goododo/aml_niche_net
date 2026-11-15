@@ -1,0 +1,5 @@
+gate,value,detail,pass,case,world
+GATE_H2_K1,2,"F4_G2M,F9_MYC_V1",TRUE,AML13,real
+GATE_H2_K2,-4.62080484010972,"chrY score d -4.62, p 0.0010",TRUE,AML13,real
+GATE_N1,0.035625,F1_LSC17=0.045 F10_P53=0.030 F2_vanGalen_HSCprog_like=0.035 F3_HSPC_core=0.030 F4_G2M=0.030 F4_S=0.060 F5_IFNA=0.025 F6_IFNG=0.015 F7_TNFA_NFKB=0.025 F8_OXPHOS=0.055 F9_MYC_V1=0.030 MP10=0.050 MP5=0.025 MP6=0.020 MP9=0.055 F12_chrY=0.040,FALSE,AML13,real
+GATE_N1_pooled,0.035625,pooled rate over 16 features; per-feature range 0.015-0.060; binomial band for 200 shuffles 0.020-0.080,FALSE,AML13,real

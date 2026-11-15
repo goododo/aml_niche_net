@@ -199,9 +199,11 @@ if (world == "real") {
     p <- apply(as.matrix(Xd), 1, function(v) suppressWarnings(wilcox.test(v[a], v[!a])$p.value))
     data.table(gene = rownames(Xd), mean_A = Matrix::rowMeans(Xd[, a, drop = FALSE]), mean_B = Matrix::rowMeans(Xd[, !a, drop = FALSE]), p = p) }
   de_l <- wil(L$d); de_c <- wil(C$d)
-  de_l[, diff := mean_A - mean_B]; de_l[, p_ctrl_le := vapply(p, function(x) mean(de_c$p <= x), 0)]       # fraction of control genes at least as extreme
-  de_l[, efdr := pmin(1, p_ctrl_le / pmax(1 / .N, vapply(p, function(x) mean(de_l$p <= x), 0)))]        # empirical FDR = control rate / observed rate
+  de_l[, diff := mean_A - mean_B]
+  pc <- de_c$p[!is.na(de_c$p)]; pl <- de_l$p[!is.na(de_l$p)]            # genes constant in one arm give NA from wilcox.test; dropped from the null
+  de_l[, p_ctrl_le := vapply(p, function(x) if (is.na(x)) NA_real_ else mean(pc <= x), 0)]               # fraction of control genes at least as extreme
+  de_l[, efdr := pmin(1, p_ctrl_le / pmax(1 / length(pl), vapply(p, function(x) if (is.na(x)) NA_real_ else mean(pl <= x), 0)))]   # empirical FDR = control rate / observed rate
   fwrite(de_l[order(p)], paste0(out("de"), ".gz"))
-  message(sprintf("[6] S1: %d genes; %d with empirical FDR < 0.05", nrow(de_l), sum(de_l$efdr < 0.05)))
+  message(sprintf("[6] S1: %d genes (%d with a p value); %d with empirical FDR < 0.05; control genes in the null: %d", nrow(de_l), length(pl), sum(de_l$efdr < 0.05, na.rm = TRUE), length(pc)))
 }
 message(sprintf("[done] %s %s in %.1f min", case, world, as.numeric(difftime(Sys.time(), t0, units = "mins"))))

@@ -257,8 +257,8 @@ the pack objects / GSE269669 objects via the step-2 adapter (`03_scan_external.R
    permutations cannot reach Holm 0.05 over 17 features). The verdict rules of section 8 were frozen before this and
    are applied unchanged; the real AML15 run is therefore pre-empted in content but not in procedure. Fix: the planted
    world now shuffles the labels exactly as the null world does and then plants (power measured on a null background),
-   and the planted permutation count equals LOY_H2_N_PERM. The two leaked smoke files are kept until the real run
-   reproduces them, then deleted with the other smoke outputs as the smoke rule prescribes.
+   and the planted permutation count equals LOY_H2_N_PERM. The two leaked smoke files were overwritten by the corrected
+   planted run (job 3689464, same file names) before any further reading; the real AML15 run reproduces their content.
 10. **GATE_N1 band**: the per-feature 0.03-0.07 band is tighter than 200 shuffles resolve (binomial 95 % band for a true
    0.05 rate at n = 200 is 0.020-0.080; the null smoke gave 0.015-0.075 per feature, pooled 0.045). The pre-registered
    per-feature row is kept and a pooled row with the binomial band is reported beside it; neither stops the line.
