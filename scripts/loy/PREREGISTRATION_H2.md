@@ -281,3 +281,15 @@ reported. v2 re-runs the contrast of section 5 with three stated changes and not
    (amendment 10); the v1 band is reported alongside.
 Everything else (cases, labels, matching, model, permutations, Holm family, wording of section 8, CNV arm) is unchanged. The
 planted smoke runs are repeated per case before the real v2 runs, as in v1.
+
+## 16. Post-v2 amendments to the descriptive layer (2026-11-15, second data batch; no rule of sections 1-9 changes)
+
+12. **Recorded sex breaks the single-X tie in the census (02).** A sample with no XIST and no Y has one X chromosome: either a
+   male whose every cell lost Y (GSM8791436, recorded male) or a 45,X female. ScPCA SCPCS000233 (recorded female, age 9.9,
+   XIST+ 0.004, Y absent in 99.8 % of its T cells) is the second kind and had been grouped "M_LOY_all", which would have
+   counted a false clonal -Y AML. Where the per-cell table carries a recorded sex, the two undecidable classes
+   (`M_LOY_all`, `noY_noXIST`) with recorded F become `F_singleX_recorded` (group F) and recorded-vs-expression
+   disagreements join the review table. No other class is touched; the three H2 cases are recorded male and unaffected.
+13. **Denominator patient key for the raw-matrix series (04 step 7).** GSE315856, GSE223844, GSE343017, GSE198681 and ScPCA
+   SCPCP000007 carry their patient id and timepoint in the 03b/03c scan summaries, not in a sample-name rule; step 7 now
+   takes them from there by an update-join. Step 7 is descriptive (the denominator of section 9), not a gate.

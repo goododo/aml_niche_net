@@ -81,7 +81,9 @@ fwrite(cells[bin == "T_NK", .N, by = .(fine, comp)][order(comp, -N)], file.path(
 cells[, depth_bin := cut(nCount_RNA, LOY_DEPTH_BREAKS, right = FALSE)]
 
 ## [4] expression sex per sample ----------------------------------------------------------------------
-sex <- cells[, .(n = .N, n_deep = sum(nCount_RNA >= 2000),
+# recorded sex, when the per-cell table carries one ("M"/"F" from ScPCA metadata, "male"/"female" from GSE185381; blank elsewhere)
+rec_sex_of <- function(x) { r <- toupper(substr(as.character(x), 1, 1)); r <- r[r %in% c("M", "F")]; if (length(r)) names(which.max(table(r))) else NA_character_ }
+sex <- cells[, .(n = .N, n_deep = sum(nCount_RNA >= 2000), sex_rec = rec_sex_of(anno_sex),
                  xist_pos_frac = mean(xist_umi[nCount_RNA >= 2000] >= 2, na.rm = TRUE),   # >= 2 UMIs: above pool-mate ambient
                  xist_any_frac = mean(xist_umi > 0, na.rm = TRUE),
                  y_rate_all = sum(y_umi) / sum(nCount_RNA), med_ncount = as.numeric(median(nCount_RNA)),
@@ -108,16 +110,21 @@ sex[, sex_expr := fifelse(n_deep < 30, "too_shallow",
                   fifelse(y_absent & xist_pos_frac <= LOY_XIST_MALE, "noY_noXIST",             # too few deep cells to decide
                   fifelse(y_absent, "F_lowdepth",                                               # XIST under-detected, Y absent
                   fifelse(y_rate_all >= 0.50 * r_c, "M_xist_ambient", "mixed"))))))))]        # Y at the male rate, XIST from pool-mates
+# Recorded sex breaks the one tie expression cannot: no XIST and no Y means ONE X chromosome, which is either a
+# male whose every cell lost Y (GSM8791436, recorded M) or a 45,X female (ScPCA SCPCS000233: recorded F, age 9.9,
+# XIST+ 0.004, Y absent in 99.8 % of T cells). Only the two undecidable classes are touched (2026-11-15).
+sex[sex_expr %in% c("M_LOY_all", "noY_noXIST") & sex_rec == "F", sex_expr := "F_singleX_recorded"]
 sex[, sex_karyo := fifelse(grepl("XX", gsub(" ", "", karyotype)), "F", fifelse(grepl("XY|,-Y|X,-Y", gsub(" ", "", karyotype)), "M", NA_character_))]
 # declared exclusions (config section 6): the cells are kept in the per-cell files, the sample leaves every call table
 sex <- merge(sex, LOY_SAMPLE_EXCLUDE, by = c("dataset", "Sample"), all.x = TRUE)
 sex[!is.na(reason), sex_expr := "excluded"]
 sex[, sex_group := fifelse(sex_expr %in% c("M", "M_xist_ambient", "M_noXISTgene", "M_LOY_all"), "M",
-                   fifelse(sex_expr %in% c("F", "F_lowdepth", "F_noXISTgene"), "F", "other"))]
+                   fifelse(sex_expr %in% c("F", "F_lowdepth", "F_noXISTgene", "F_singleX_recorded"), "F", "other"))]
 s3 <- tryCatch(fread(file.path(TAB_DIR, "ws", "ws_s3_samples.csv"))[, .(Sample = sample, sex_s3 = sex, age_group, paediatric)], error = function(e) NULL)
 if (!is.null(s3)) sex <- merge(sex, s3, by = "Sample", all.x = TRUE)
 fwrite(sex, file.path(LOY_CALL_DIR, "loy_sample_sex.csv"))
-review <- sex[(sex_group == "other") | (!is.na(sex_karyo) & sex_group != "other" & sex_group != sex_karyo) | !is.na(reason),
+review <- sex[(sex_group == "other") | (!is.na(sex_karyo) & sex_group != "other" & sex_group != sex_karyo) | !is.na(reason) |
+              (!is.na(sex_rec) & sex_group != "other" & sex_group != sex_rec),           # recorded-vs-expression disagreement
               .(dataset, Sample, sex_expr, sex_karyo, n_deep, xist_pos_frac = round(xist_pos_frac, 3), y_rate_all = signif(y_rate_all, 3),
                 n_T_cells, y_rate_T = signif(y_rate_T, 3), reason)]
 fwrite(review[order(dataset, Sample)], file.path(LOY_CALL_DIR, "loy_sex_review.csv"))

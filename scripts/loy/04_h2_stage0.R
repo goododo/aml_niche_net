@@ -326,6 +326,14 @@ den <- merge(cc02[, .(dataset, Sample, n_LEUK = n, f_hat_LEUK = f_hat)],
              pt[sex_group == "M" & is_aml == TRUE, .(dataset, Sample, leuk_class, timepoint_man, age_group, AgeGroup)], by = c("dataset", "Sample"))
 den[, patient := patient_key(dataset, Sample)]
 den[, timepoint := fifelse(!is.na(timepoint_man) & timepoint_man != "", timepoint_man, pack$Timepoint[match(Sample, pack$SampleID_Unique)])]
+# raw-matrix series and ScPCA (config 7e/7f): patient and timepoint come from the 03b/03c scan summaries (2026-11-15)
+scan_sum <- rbindlist(lapply(c(LOY_GEO_MTX$dataset, LOY_SCPCA_DATASET), function(ds) {
+  f <- file.path(LOY_SCAN_DIR, paste0(ds, "__y_sample_summary.csv"))
+  if (file.exists(f)) fread(f, select = c("dataset", "Sample", "Patient_ID", "Timepoint"), colClasses = "character") }), fill = TRUE)
+if (nrow(scan_sum)) {
+  den[scan_sum, on = .(dataset, Sample), `:=`(patient = i.Patient_ID, timepoint_scan = i.Timepoint)]   # update-join: only matching rows change
+  den[is.na(timepoint) & !is.na(timepoint_scan), timepoint := timepoint_scan]; den[, timepoint_scan := NULL]
+}
 den[, age := fifelse(!is.na(age_group) & age_group != "", age_group, AgeGroup)]
 dup_studies <- c("ZENG_Ennis_2023", "ZENG_Zeng_2025", "ZENG_vanGalen_2019", "ZENG_Petti_2019")   # pack copies of on-disk datasets
 den <- den[!dataset %in% dup_studies]
