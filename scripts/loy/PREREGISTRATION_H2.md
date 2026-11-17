@@ -293,3 +293,11 @@ planted smoke runs are repeated per case before the real v2 runs, as in v1.
 13. **Denominator patient key for the raw-matrix series (04 step 7).** GSE315856, GSE223844, GSE343017, GSE198681 and ScPCA
    SCPCP000007 carry their patient id and timepoint in the 03b/03c scan summaries, not in a sample-name rule; step 7 now
    takes them from there by an update-join. Step 7 is descriptive (the denominator of section 9), not a gate.
+14. **Record (2026-11-17, user review): GATE_N1 did not pass as pre-registered.** `checks_<case>.csv` holds GATE_N1 (section 7
+   rule, every feature 0.03-0.07) pass = FALSE for AML15, AML13 and PT43, and GATE_N1_pooled (amendment 10) pass = TRUE for
+   AML15 and PT43, FALSE for AML13 (F6_IFNG 0.015). Ten of 48 feature x case rates lie below 0.03, none above 0.07; pooled,
+   381 of 9,600 shuffle-features reject at alpha 0.05 (0.040, 95 % CI 0.036-0.044). Part of the deficit is design: each
+   shuffle's p is (b + 1) / 200 over 199 permutations, so the attainable null rate is 0.045, which section 7 overlooked. The
+   null is therefore conservative, not anti-conservative; amendment 10 declared N1 non-stopping before the real runs, so the
+   results stand, but the statement "all calibration checks pass" (REPORT_h2_results section 2) is withdrawn; see its
+   section 10. No rule changes; no table changes.
