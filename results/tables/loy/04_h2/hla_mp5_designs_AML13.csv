@@ -1,0 +1,5 @@
+feature,d,p_perm,design,case,mp5_ifn_gene_overlap
+MP5,-0.175940441898011,0.001,baseline,AML13,11
+MP5,-0.154062278143868,0.001,plus_IFN,AML13,11
+MP5,-0.187979679550417,0.001,plus_pseudotime,AML13,11
+MP5,-0.160285725621504,0.001,plus_both,AML13,11
