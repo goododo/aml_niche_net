@@ -254,3 +254,23 @@ LOY_SCPCA_CHEM    <- "5prime"
 LOY_EXT_ALL <- rbind(LOY_EXT_ALL,
                      LOY_GEO_MTX[, .(dataset, chem_lit, on_disk = NA_character_)],
                      data.table::data.table(dataset = LOY_SCPCA_DATASET, chem_lit = LOY_SCPCA_CHEM, on_disk = NA_character_))
+
+## 9. LOX-1: within-patient -X vs X-retained leukaemic program (scripts/loy/PREREGISTRATION_LOX.md; frozen 2026-11-26) ---------
+#   XIST is expressed only from the inactive X, so a female leukaemic cell that lost that X has no XIST. One case in the
+#   public data: GSE185381 pool P06, the cells labelled PAUMTZ (= donor PAXMIJ, section 6). Constants only; 07 does the work.
+LOY_LOX_DIR              <- file.path(LOY_TAB_DIR, "05_lox")
+LOY_LOX_DATASET          <- "GSE185381"
+LOY_LOX_CASE_SAMPLE      <- "PAUMTZ"            # label carried by donor PAXMIJ's cells
+LOY_LOX_CTRL_SAMPLES     <- c("AML3948", "AML012")   # X-intact female AML, same dataset: XIST-zero excess < 0.03 in LEUK and Mono_DC
+LOY_LOX_AMB_SAMPLE       <- "AML005"            # clonal -X leukaemia of the same dataset: bound on ambient XIST
+LOY_LOX_DEPTH            <- c(3000, 12000)      # nCount window [3000, 12000)
+LOY_LOX_XIST_RET         <- 2L                  # X-retained: >= 2 XIST UMIs; -X: 0 UMIs; exactly 1 UMI: dropped
+LOY_LOX_CTRL_MIN_ZERO    <- 50L                 # a control sample needs this many XIST-zero cells in the eligible labels and window
+LOY_LOX_CTRL_STRATUM_MIN <- 10L                 # a control stratum (sample x fine label) needs this many matched XIST-zero cells
+LOY_LOX_MIN_RET          <- 300L                # GATE_LX_0: matched X-retained cells over the eligible labels
+LOY_LOX_HLA2      <- c("HLA-DRA", "HLA-DRB1", "HLA-DRB5", "HLA-DPA1", "HLA-DPB1", "HLA-DQA1", "HLA-DQB1", "HLA-DMA", "HLA-DMB", "HLA-DOA", "CD74")   # as 05c
+LOY_LOX_NFKB_CORE <- c("NFKB1", "NFKB2", "REL", "RELA", "RELB", "NFKBIE", "TNIP1", "BIRC2", "BIRC3", "TRAF1", "CD83", "ICAM1", "CXCL2", "CXCL3",
+                       "SOD2", "BCL2A1", "TNFAIP2", "TNFAIP8", "BCL3")                                                                             # as 05e
+LOY_LOX_MHC1      <- c("HLA-A", "HLA-B", "HLA-C", "HLA-E", "HLA-F", "B2M")
+LOY_LOX_DOSE_GENES <- c("KDM6A", "KDM5C", "DDX3X", "EIF1AX", "ZFX", "CSF2RA", "IL3RA", "CD99", "SLC25A6")
+LOY_LOX_EXPECT    <- c(P1_HLA2 = 1, P2_F7 = -1, F7_noMP9 = -1)   # expected sign of d (d > 0 = higher in -X)
